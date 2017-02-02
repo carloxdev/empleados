@@ -16,7 +16,7 @@ class ViaticoLista(View):
         ]
 
         contexto = {
-            'mivariable': lista_compras
+            'mivariable': lista_compras,
         }
 
         return render(request, 'viatico_lista.html', contexto)
