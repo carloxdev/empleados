@@ -6,19 +6,51 @@
 </head>
 <body>
 	
-	<form action="" method="POST"> {% csrf_token %}
-		{% for valor in mivariable %}
-			<p>Mensaje: {{ valor }}</p>
-		{% endfor %}
+	{% if registros %}
 
-		<input type="text" name="perro" value="mi mama">
-
-		<button type="submit">Aceptar</button>
-
-		{{ user.first_name }}
-		{{ user.username }}		
-
-	</form>
+		<table style="width:100%">
+		  <tr>
+		    <th>ID</th>
+			<th>Descripcion</th>
+			<th>Persona</th>
+			<th>Autorizador</th>
+			<th>Fecha_partida</th>
+			<th>Empresa</th>
+			<th>Un</th>
+			<th>Ciudad_destino</th>
+			<th>Status</th>
+			<th>Vehiculo_requerido</th>
+			<th>Vehiculo_numero</th>
+			<th>Proposito</th>
+			<th>Created_by</th>
+			<th>Created_date</th>
+			<th>Updated_by</th>
+			<th>Updated_date</th>
+		  </tr>
+		  {% for registro in registros %}
+		  <tr>
+		  		<td>{{ registro.pk }}</td>
+				<td>{{ registro.descripcion }}</td>
+				<td>{{ registro.empleado }}</td>
+				<td>{{ registro.autorizador }}</td>
+				<td>{{ registro.fecha_partida }}</td>
+				<td>{{ registro.empresa }}</td>
+				<td>{{ registro.un }}</td>
+				<td>{{ registro.ciudad_destino }}</td>
+				<td>{{ registro.status }}</td>
+				<td>{{ registro.vehiculo_requerido }}</td>
+				<td>{{ registro.vehiculo_numero }}</td>
+				<td>{{ registro.proposito }}</td>
+				<td>{{ registro.created_by }}</td>
+				<td>{{ registro.created_date }}</td>
+				<td>{{ registro.updated_by }}</td>
+				<td>{{ registro.updated_date }}</td>
+		  </tr>
+		  {% endfor %}
+		</table>
+	{% else %}
+		<h1>No se encontraron Registros</h1>
+	{% endif %}
 
 
 </body>

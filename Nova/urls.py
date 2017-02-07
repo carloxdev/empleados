@@ -5,5 +5,7 @@ from django.conf.urls import include
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'', include('finanzas.urls', namespace="finanzas"))
+    url(r'', include('finanzas.urls', namespace="finanzas")),
+    url(r'', include('home.urls', namespace="home")),
+    url(r'', include('seguridad.urls', namespace="seguridad")),
 ]
