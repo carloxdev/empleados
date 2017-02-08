@@ -6,6 +6,10 @@
 </head>
 <body>
 	
+	<h1>Lista de viaticos</h1>
+
+	<a href="{% url 'finanzas:viatico_nuevo' %}">Nuevo Viatico</a>
+
 	{% if registros %}
 
 		<table style="width:100%">
@@ -49,7 +53,7 @@
 		  {% endfor %}
 		</table>
 	{% else %}
-		<h1>No se encontraron Registros</h1>
+		<h3>No se encontraron Registros</h3>
 	{% endif %}
 
 

@@ -7,6 +7,8 @@ from django.views.generic.base import View
 
 from .models import ViaticoCabecera
 
+from .forms import ViaticoCabeceraForm
+
 
 class ViaticoLista(View):
 
@@ -41,3 +43,40 @@ class ViaticoAutoriacion(View):
         return redirect(
             reverse('finanzas:viatico_lista')
         )
+
+
+class ViaticoNuevo(View):
+
+    def __init__(self):
+        self.template = 'viatico_nuevo.html'
+
+    def get(self, request):
+
+        formulario = ViaticoCabeceraForm()
+
+        contexto = {
+            'form': formulario
+        }
+
+        return render(request, self.template, contexto)
+
+    def post(self, request):
+
+        error = ""
+        formulario = ViaticoCabeceraForm(request.POST)
+
+        if formulario.is_valid():
+            formulario.save()
+
+            return redirect(
+                reverse('finanzas:viatico_lista')
+            )
+        else:
+            error = "El formulario no es valido"
+
+        contexto = {
+            'mensaje': error,
+            'form': formulario
+        }
+
+        return render(request, self.template, contexto)
