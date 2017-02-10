@@ -1,0 +1,73 @@
+{% load static from staticfiles %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+
+	<title>{% block titulo %} {% endblock titulo %}</title>
+
+	<!-- Pace -->
+	<link rel="stylesheet" href="{% static 'libs/pace/1.0.0/pace.ball.theme.css' %}" />
+	
+	<!-- Bootstrap -->
+	<link rel="stylesheet" href="{% static 'libs/bootstrap/3.3.7/css/bootstrap.min.css' %}" />
+
+	<!-- Awesome Icons -->
+	<link rel="stylesheet" href="{% static 'libs/awesome-icons/4.7.0/css/font-awesome.min.css' %}" />
+
+</head>
+<body>
+
+<div class="container-fluid">
+	
+	<nav class="navbar navbar-default" role="navigation">
+	  <!-- El logotipo y el icono que despliega el menú se agrupan
+	       para mostrarlos mejor en los dispositivos móviles -->
+	  <div class="navbar-header">
+	    <button type="button" class="navbar-toggle" data-toggle="collapse"
+	            data-target=".navbar-ex1-collapse">
+	      <span class="sr-only">Desplegar navegación</span>
+	      <span class="icon-bar"></span>
+	      <span class="icon-bar"></span>
+	      <span class="icon-bar"></span>
+	    </button>
+	    <a class="navbar-brand" href="#">Nova</a>
+	  </div>
+	 
+	  <!-- Agrupar los enlaces de navegación, los formularios y cualquier
+	       otro elemento que se pueda ocultar al minimizar la barra -->
+	  <div class="collapse navbar-collapse navbar-ex1-collapse">
+
+		 
+	    <ul class="nav navbar-nav navbar-right">
+	      <li><a href="{% url 'finanzas:viatico_lista' %}">Viaticos</a></li>
+	    </ul>
+	  </div>
+	</nav>	
+
+</div>
+	
+
+
+
+	<div class="container">
+		{% block contenido %}
+
+
+		{% endblock contenido %}		
+	</div>
+
+
+	<!-- jquery -->
+	<script src="{% static 'libs/jquery/3.1.1/jquery.min.js' %}"></script>
+
+	<!-- Bootstrap -->
+	<script src="{% static 'libs/bootstrap/3.3.7/js/bootstrap.min.js' %}"></script>
+
+	<!-- Pace -->
+	<script src="{% static 'libs/pace/1.0.0/pace.min.js' %}"></script>
+
+</body>
+</html>

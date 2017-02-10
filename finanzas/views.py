@@ -24,7 +24,7 @@ class ViaticoLista(View):
             'registros': lista_viaticos,
         }
 
-        return render(request, 'viatico_lista.html', contexto)
+        return render(request, 'viatico/viatico_lista.html', contexto)
 
     def post(self, request):
 
@@ -33,14 +33,14 @@ class ViaticoLista(View):
 
         print "entro al POST"
 
-        return render(request, 'viatico_lista.html', {})
+        return render(request, 'viatico/viatico_lista.html', {})
 
 
 class ViaticoAutoriacion(View):
 
     def get(self, request):
 
-        return render(request, 'viatico_autorizacion.html', {})
+        return render(request, 'viatico/viatico_autorizacion.html', {})
 
     def post(self, request):
 
@@ -52,7 +52,7 @@ class ViaticoAutoriacion(View):
 class ViaticoNuevo(View):
 
     def __init__(self):
-        self.template = 'viatico_nuevo.html'
+        self.template = 'viatico/viatico_nuevo.html'
 
     def get(self, request):
 
@@ -89,18 +89,11 @@ class ViaticoNuevo(View):
 class ViaticoEditar(View):
 
     def __init__(self):
-        self.template = 'viatico_editar.html'
+        self.template = 'viatico/viatico_editar.html'
 
     def get(self, request, clave):
 
         registro = get_object_or_404(ViaticoCabecera, pk=clave)
-
-        # formulario = ViaticoCabeceraForm(
-        #     initial={
-        #         'descripcion': registro.descripcion,
-        #         'empleado': registro.empleado
-        #     }
-        # )
 
         formulario = ViaticoCabeceraForm(
             instance=registro
@@ -137,17 +130,7 @@ class ViaticoEditar(View):
 
 
 class ViaticoEliminar(DeleteView):
-    template_name = 'viatico_eliminar.html'
+    template_name = 'viatico/viatico_eliminar.html'
     model = ViaticoCabecera
     success_url = reverse_lazy('finanzas:viatico_lista')
 
-    # def get_context_data(self, **kwargs):
-    #     context = super(ViaticoEliminar, self).get_context_data(**kwargs)
-
-    #     datos = {
-    #         "mensaje": "Se va eliminar"
-    #     }
-
-    #     context.update(datos)
-
-    #     return context

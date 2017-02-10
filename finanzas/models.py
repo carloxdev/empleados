@@ -55,8 +55,9 @@ class ViaticoCabecera(models.Model):
     )
 
     def __str__(self):
-        cadena = "{} - {}".format(self.pk, self.descripcion)
-        return cadena
+        cadena = "Clave: {} , Descripcion: {}".format(
+            self.pk, self.descripcion)
+        return cadena.encode('utf-8')
 
     class Meta:
         verbose_name_plural = "Viaticos Cabecera"

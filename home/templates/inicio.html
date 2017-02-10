@@ -1,14 +1,9 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-	<meta charset="utf-8">
-	<title>Nova - Inicio</title>
-</head>
-<body>
-	
+{% extends 'master.html' %}
+
+{% block titulo %} Lista de Viaticos {% endblock titulo %}
+
+{% block contenido %}
+
 	<h1>Bienvienidos a sitio NOVA</h1>
 
-
-	<a href="{% url 'finanzas:viatico_lista' %}">Ir a viaticos</a>
-</body>
-</html>
+{% endblock contenido %}	

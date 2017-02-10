@@ -1,0 +1,64 @@
+{% extends 'master.html' %}
+
+{% block titulo %} Lista de Viaticos {% endblock titulo %}
+
+{% block contenido %}
+
+	<h1>Lista de viaticos</h1>
+
+		<a href="{% url 'finanzas:viatico_nuevo' %}">Nuevo Viatico</a>
+
+		{% if registros %}
+
+			<table style="width:100%">
+			  <tr>
+			    <th>ID</th>
+				<th>Descripcion</th>
+				<th>Persona</th>
+				<th>Autorizador</th>
+				<th>Fecha_partida</th>
+				<th>Empresa</th>
+				<th>Un</th>
+				<th>Ciudad_destino</th>
+				<th>Status</th>
+				<th>Vehiculo_requerido</th>
+				<th>Vehiculo_numero</th>
+				<th>Proposito</th>
+				<th>Created_by</th>
+				<th>Created_date</th>
+				<th>Updated_by</th>
+				<th>Updated_date</th>
+			  </tr>
+			  {% for registro in registros %}
+			  <tr>
+			  		<td>
+			  			<a href="{% url 'finanzas:viatico_editar' clave=registro.pk %}">
+			  				{{ registro.pk }}	
+			  			</a>
+			  		</td>
+					<td>{{ registro.descripcion }}</td>
+					<td>{{ registro.empleado }}</td>
+					<td>{{ registro.autorizador }}</td>
+					<td>{{ registro.fecha_partida }}</td>
+					<td>{{ registro.empresa }}</td>
+					<td>{{ registro.un }}</td>
+					<td>{{ registro.ciudad_destino }}</td>
+					<td>{{ registro.status }}</td>
+					<td>{{ registro.vehiculo_requerido }}</td>
+					<td>{{ registro.vehiculo_numero }}</td>
+					<td>{{ registro.proposito }}</td>
+					<td>{{ registro.created_by }}</td>
+					<td>{{ registro.created_date }}</td>
+					<td>{{ registro.updated_by }}</td>
+					<td>{{ registro.updated_date }}</td>
+					<td>
+						<a href="{% url 'finanzas:viatico_eliminar' registro.pk %}">Eliminar</a>
+					</td>
+			  </tr>
+			  {% endfor %}
+			</table>
+		{% else %}
+			<h3>No se encontraron Registros</h3>
+		{% endif %}
+
+{% endblock contenido %}		

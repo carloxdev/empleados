@@ -14,11 +14,11 @@ urlpatterns = [
         ViaticoEditar.as_view(),
         name='viatico_editar'
     ),
-    url(r'^viaticos/eliminar/(?P<pk>\d+)$',
+    url(
+        r'^viaticos/eliminar/(?P<pk>\d+)$',
         ViaticoEliminar.as_view(),
         name='viatico_eliminar'
-        ),
-
+    ),
     url(
         r'^viaticos/autoriza/$',
         ViaticoAutoriacion.as_view(),
