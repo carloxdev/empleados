@@ -33,7 +33,11 @@
 		  </tr>
 		  {% for registro in registros %}
 		  <tr>
-		  		<td>{{ registro.pk }}</td>
+		  		<td>
+		  			<a href="{% url 'finanzas:viatico_editar' clave=registro.pk %}">
+		  				{{ registro.pk }}	
+		  			</a>
+		  		</td>
 				<td>{{ registro.descripcion }}</td>
 				<td>{{ registro.empleado }}</td>
 				<td>{{ registro.autorizador }}</td>
@@ -49,6 +53,9 @@
 				<td>{{ registro.created_date }}</td>
 				<td>{{ registro.updated_by }}</td>
 				<td>{{ registro.updated_date }}</td>
+				<td>
+					<a href="{% url 'finanzas:viatico_eliminar' registro.pk %}">Eliminar</a>
+				</td>
 		  </tr>
 		  {% endfor %}
 		</table>

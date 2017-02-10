@@ -54,5 +54,9 @@ class ViaticoCabecera(models.Model):
         blank=True
     )
 
+    def __str__(self):
+        cadena = "{} - {}".format(self.pk, self.descripcion)
+        return cadena
+
     class Meta:
         verbose_name_plural = "Viaticos Cabecera"
