@@ -12,6 +12,7 @@ from django.views.generic.edit import DeleteView
 from .models import ViaticoCabecera
 
 from .forms import ViaticoCabeceraForm
+from .forms import ViaticoCabeceraFormEdit
 
 
 class ViaticoLista(View):
@@ -70,7 +71,26 @@ class ViaticoNuevo(View):
         formulario = ViaticoCabeceraForm(request.POST)
 
         if formulario.is_valid():
-            formulario.save()
+
+            datos = formulario.cleaned_data
+
+            viatico = ViaticoCabecera()
+            viatico.descripcion = datos.get('descripcion')
+            viatico.empleado = datos.get('empleado')
+            viatico.autorizador = datos.get('autorizador')
+            viatico.fecha_partida = datos.get('fecha_partida')
+            viatico.empresa = datos.get('empresa')
+            viatico.un = datos.get('un')
+            viatico.ciudad_destino = datos.get('ciudad_destino')
+            viatico.status = datos.get('status')
+            viatico.vehiculo_requerido = datos.get('vehiculo_requerido')
+            viatico.vehiculo_numero = datos.get('vehiculo_numero')
+            viatico.proposito = datos.get('proposito')
+
+            viatico.created_by = request.user
+            viatico.updated_by = request.user
+
+            viatico.save()
 
             return redirect(
                 reverse('finanzas:viatico_lista')
@@ -95,7 +115,7 @@ class ViaticoEditar(View):
 
         registro = get_object_or_404(ViaticoCabecera, pk=clave)
 
-        formulario = ViaticoCabeceraForm(
+        formulario = ViaticoCabeceraFormEdit(
             instance=registro
         )
 
@@ -110,7 +130,7 @@ class ViaticoEditar(View):
         registro = get_object_or_404(ViaticoCabecera, pk=clave)
 
         error = ""
-        formulario = ViaticoCabeceraForm(request.POST, instance=registro)
+        formulario = ViaticoCabeceraFormEdit(request.POST, instance=registro)
 
         if formulario.is_valid():
             formulario.save()

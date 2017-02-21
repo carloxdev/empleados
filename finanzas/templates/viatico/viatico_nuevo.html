@@ -1,18 +1,24 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-	<meta charset="utf-8">
-	<title>Nuevo Viatico</title>
-</head>
-<body>
-	<form action="" method="POST"> {% csrf_token %}
-		{{ form.as_p }}
+{% extends 'master.html' %}
 
-		<button type="submit">Guardar</button>
-	</form>
+{% block titulo %} Lista de Viaticos {% endblock titulo %}
 
-	{{ mensaje }}
-</body>
-</html>
+{% block contenido %}
+
+	<div class="container">
+		<p> Usuario: {{ user }}</p>
+		<form action="" method="POST"> {% csrf_token %}
+			{{ form.as_p }}
+
+			<button type="submit">Guardar</button>
+		</form>
+
+		{{ mensaje }}
+
+	</div>
+
+
+
+{% endblock contenido %}
+
 
 

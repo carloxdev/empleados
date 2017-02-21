@@ -9,11 +9,17 @@ from django.contrib.auth.models import User
 
 class ViaticoCabecera(models.Model):
 
-    VIATICO_ESTADO = (
+    VIATICO_ESTADOS = (
         ('CAP', 'CAPTURA'),
         ('AUT', 'AUTORIZADA'),
         ('REC', 'RECHAZADA'),
         ('FIN', 'FINALIZADA'),
+    )
+
+    VEHICULO_OPCIONES = (
+        ('SI', 'SI'),
+        ('NO', 'NO'),
+        ('PA', 'SOY PASAJERO')
     )
 
     descripcion = models.CharField(max_length=140)
@@ -24,11 +30,14 @@ class ViaticoCabecera(models.Model):
     un = models.CharField(max_length=140)
     ciudad_destino = models.CharField(max_length=140)
     status = models.CharField(
-        choices=VIATICO_ESTADO,
+        choices=VIATICO_ESTADOS,
         max_length=4,
         default="CAP"
     )
-    vehiculo_requerido = models.BooleanField(default=False)
+    vehiculo_requerido = models.CharField(
+        choices=VEHICULO_OPCIONES,
+        max_length=4,
+    )
     vehiculo_numero = models.CharField(max_length=140, blank=True)
 
     proposito = models.TextField()

@@ -4,13 +4,16 @@
 
 {% block contenido %}
 
+	<div class="container-fluid">
+		
+
 	<h1>Lista de viaticos</h1>
 
 		<a href="{% url 'finanzas:viatico_nuevo' %}">Nuevo Viatico</a>
 
 		{% if registros %}
 
-			<table style="width:100%">
+			<table class="table-bordered table-hover">
 			  <tr>
 			    <th>ID</th>
 				<th>Descripcion</th>
@@ -60,5 +63,8 @@
 		{% else %}
 			<h3>No se encontraron Registros</h3>
 		{% endif %}
+
+	</div>
+
 
 {% endblock contenido %}		

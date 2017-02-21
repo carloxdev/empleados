@@ -1,10 +1,9 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-	<meta charset="utf-8">
-	<title>Nuevo Viatico</title>
-</head>
-<body>
+{% extends 'master.html' %}
+
+{% block titulo %} Lista de Viaticos {% endblock titulo %}
+
+{% block contenido %}
+
 	<form action="" method="POST"> {% csrf_token %}
 		{{ form.as_p }}
 
@@ -12,7 +11,6 @@
 	</form>
 
 	{{ mensaje }}
-</body>
-</html>
 
+{% endblock contenido %}
 
