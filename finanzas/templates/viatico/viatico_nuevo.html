@@ -1,10 +1,24 @@
 {% extends 'master.html' %}
 
-{% block titulo %} Lista de Viaticos {% endblock titulo %}
+{% block titulo %} Viaticos {% endblock titulo %}
+
+{% block title-page %} Nuevo Viatico  {% endblock title-page %}
 
 {% block contenido %}
 
-	<div class="container">
+<div class="be-content">
+    <div class="page-head">
+        <h2 class="page-head-title">Nuevo Viatico</h2>
+        <ol class="breadcrumb page-head-nav">
+            <li><a href="#">Inicio</a></li>
+            <li><a href="#">Viaticos</a></li>
+            <li class="active">Nuevo</li>
+        </ol>
+
+
+    </div>
+    <div class="main-content container-fluid">  
+
 		<p> Usuario: {{ user }}</p>
 		<form action="" method="POST"> {% csrf_token %}
 			{{ form.as_p }}
@@ -14,11 +28,9 @@
 
 		{{ mensaje }}
 
-	</div>
-
-
+    </div>
+</div>
 
 {% endblock contenido %}
-
 
 

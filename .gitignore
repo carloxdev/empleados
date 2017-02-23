@@ -25,3 +25,6 @@ Nova/settings.py
 # Migraciones
 finanzas/migrations/*
 home/migrations/*
+seguridad/migrations/*
+jde/migrations/*
+ebs/migrations/*
