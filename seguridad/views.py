@@ -14,6 +14,10 @@ from django.contrib.auth import login
 from django.contrib.auth.models import User
 
 
+from rest_framework import viewsets
+from serializers import UserSerializer
+
+
 class Login(View):
 
     def __init__(self):
@@ -53,3 +57,8 @@ class Login(View):
         }
 
         return render(request, self.template_name, contexto)
+
+
+class UsuariosAPI(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer

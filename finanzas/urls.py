@@ -5,6 +5,7 @@ from .views import ViaticoAutoriacion
 from .views import ViaticoNuevo
 from .views import ViaticoEditar
 from .views import ViaticoEliminar
+from .views import ViaticoAPI
 
 urlpatterns = [
     url(r'^viaticos/$', ViaticoLista.as_view(), name="viatico_lista"),
@@ -23,5 +24,10 @@ urlpatterns = [
         r'^viaticos/autoriza/$',
         ViaticoAutoriacion.as_view(),
         name="viatico_autoriza"
+    ),
+    url(
+        r'^viaticos/api/$',
+        ViaticoAPI.as_view(),
+        name="viatico_api"
     ),
 ]

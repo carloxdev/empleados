@@ -4,6 +4,9 @@ from django.core.urlresolvers import reverse
 from django.core.urlresolvers import reverse_lazy
 from django.shortcuts import get_object_or_404
 
+from django.http import HttpResponse
+import json
+
 # Create your views here.
 from django.views.generic.base import View
 
@@ -13,6 +16,9 @@ from .models import ViaticoCabecera
 
 from .forms import ViaticoCabeceraForm
 from .forms import ViaticoCabeceraFormEdit
+
+from rest_framework import viewsets
+from serializadores import ViaticoCabeceraSerializer
 
 
 class ViaticoLista(View):
@@ -154,3 +160,29 @@ class ViaticoEliminar(DeleteView):
     model = ViaticoCabecera
     success_url = reverse_lazy('finanzas:viatico_lista')
 
+
+class ViaticoAPI(View):
+
+    def get(self, request):
+
+        registros = ViaticoCabecera.objects.all()
+
+        lista = []
+
+        for r in registros:
+
+            mensaje = {
+                'empleado': r.empleado,
+                'descripcion': r.descripcion
+            }
+
+            lista.append(mensaje)
+
+        data = json.dumps(lista)
+
+        return HttpResponse(data, content_type='application/json')
+
+
+class ViaticoAPI2(viewsets.ModelViewSet):
+    queryset = ViaticoCabecera.objects.all()
+    serializer_class = ViaticoCabeceraSerializer
