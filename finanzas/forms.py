@@ -2,11 +2,6 @@
 from django import forms
 from .models import ViaticoCabecera, ViaticoLinea
 
-# from django.forms import ModelForm
-from finanzas.models import VEHICULO_OPCIONES
-
-# from django.utils.timezone import datetime
-
 
 class ViaticoCabeceraForm(forms.ModelForm):
 
@@ -44,7 +39,7 @@ class ViaticoCabeceraForm(forms.ModelForm):
                    'unidad_negocio': forms.TextInput(attrs={'class': 'form-control input-sm'}),
                    'ciudad_destino': forms.TextInput(attrs={'class': 'form-control input-sm'}),
                    'proposito_viaje': forms.Textarea(attrs={'class': 'form-control input-sm'}),
-                   'requiere_vehiculo': forms.Select(choices=VEHICULO_OPCIONES),
+                   'requiere_vehiculo': forms.Select(choices=ViaticoCabecera.VEHICULO_OPCIONES),
                    'no_vehiculo': forms.TextInput(attrs={'class': 'form-control input-sm'}),
                    'nombre_empresa': forms.TextInput(attrs={'class': 'form-control input-sm'}),
                    'rfc': forms.TextInput(attrs={'class': 'form-control input-sm'}),

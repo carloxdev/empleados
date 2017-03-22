@@ -2,14 +2,23 @@ from __future__ import unicode_literals
 
 from django.db import models
 
-# Opciones
-VIATICO_ESTADOS = (('CAP', 'CAPTURA'), ('AUT', 'AUTORIZADA'), ('REC', 'RECHAZADA'), ('FIN', 'FINALIZADA'),)
-VEHICULO_OPCIONES = (('SI', 'SI'), ('NO', 'NO'), ('PA', 'SOY PASAJERO'))
-
-# Create your models here.
-
 
 class ViaticoCabecera(models.Model):
+
+    VIATICO_ESTADOS = (
+        ('CAP', 'EN EDICION'),
+        ('AUT', 'AUTORIZADO'),
+        ('REC', 'RECHAZADO'),
+        ('FIN', 'FINALIZADO'),
+        ('CAN', 'CANCELADO'),
+    )
+
+    VEHICULO_OPCIONES = (
+        ('SI', 'SI'),
+        ('NO', 'NO'),
+        ('PA', 'SOY PASAJERO')
+    )
+
     empleado = models.CharField(max_length=60)
     fecha_partida = models.DateField()
     fecha_regreso = models.DateField()
@@ -22,7 +31,7 @@ class ViaticoCabecera(models.Model):
     no_vehiculo = models.CharField(max_length=15, blank=True)
     nombre_empresa = models.CharField(max_length=80)
     rfc = models.CharField(max_length=13)
-    direccion = models.CharField(max_length=60)
+    direccion = models.CharField(max_length=60, blank=True)
     grupo = models.CharField(max_length=40)
     autorizador = models.CharField(max_length=60, blank=False)
     estado_solicitud = models.CharField(
@@ -50,11 +59,20 @@ class ViaticoCabecera(models.Model):
     )
 
     class Meta:
-        verbose_name_plural = "Viaticos"
+        verbose_name_plural = "Viaticos Cabeceras"
+
+    def __str__(self):
+        return "%s - %s" % (self.pk, self.empleado)
 
 
 class ViaticoLinea(models.Model):
-    no_solicitud = models.ForeignKey(ViaticoCabecera)
+    cabecera = models.ForeignKey(ViaticoCabecera)
     concepto = models.CharField(max_length=60, blank=False, null=False)
     observaciones = models.CharField(max_length=140, blank=False, null=False)
     importe = models.IntegerField(blank=False, null=False)
+
+    class Meta:
+        verbose_name_plural = "Viaticos Lineas"
+
+    def __str__(self):
+        return "%s : %s" % (self.pk, self.cabecera, self.concepto)
