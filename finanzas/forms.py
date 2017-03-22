@@ -1,79 +1,62 @@
-# Django:
-from django.forms import ModelForm
-
-from .models import ViaticoCabecera
-
+# -*- coding: utf-8 -*-
 from django import forms
+from .models import ViaticoCabecera, ViaticoLinea
+from django.forms import ModelForm
+from finanzas.models import VEHICULO_OPCIONES
 
-from jde.models import F0101
-from jde.models import VIEW_UNIDADES
+#from django.utils.timezone import datetime
 
-
-class ViaticoCabeceraFormEdit(ModelForm):
-
+class ViaticoCabeceraForm(forms.ModelForm):
     class Meta:
-        model = ViaticoCabecera
+        model = ViaticoCabecera        
+        
         fields = '__all__'
+        
+        labels = {  'empleado' : 'Empleado',
+                    'fecha_partida' : 'Fecha de partida',
+                    'fecha_regreso' : 'Fecha de regreso',
+                    'unidad_negocio' : 'Unidad de negocio',
+                    'ciudad_destino' : 'Ciudad de destino',
+                    'proposito_viaje' : 'Proposito del viaje',
+                    'requiere_vehiculo' : '¿requiere vehículo?',
+                    'no_vehiculo' : 'No. del vehículo',
+                    'nombre_empresa' : 'Nombre de la empresa',
+                    'rfc' : 'RFC',
+                    'direccion' : 'Dirección',
+                    'grupo' : 'Grupo',
+                    'autorizador' : 'Autorizador',
+                    'estado_solicitud' : 'Estado de la solicitud',
+                    
+        }
+        
+        widgets = { 'empleado' : forms.TextInput(attrs={'class':'form-control input-sm'}),
+                    'fecha_partida' : forms.TextInput(attrs={'class':'form-control input-sm', 'data-date-format': 'yyyy-mm-dd'}),
+                    'fecha_regreso' : forms.TextInput(attrs={'class':'form-control input-sm', 'data-date-format': 'yyyy-mm-dd'}),
+                    'unidad_negocio' : forms.TextInput(attrs={'class':'form-control input-sm'}),
+                    'ciudad_destino' : forms.TextInput(attrs={'class':'form-control input-sm'}),
+                    'proposito_viaje' : forms.Textarea(attrs={'class':'form-control input-sm'}),
+                    'requiere_vehiculo' : forms.Select(choices= VEHICULO_OPCIONES),
+                    'no_vehiculo' : forms.TextInput(attrs={'class':'form-control input-sm'}),
+                    'nombre_empresa' : forms.TextInput(attrs={'class':'form-control input-sm'}),
+                    'rfc' : forms.TextInput(attrs={'class':'form-control input-sm'}),
+                    'direccion' : forms.TextInput(attrs={'class':'form-control input-sm'}),
+                    'grupo' : forms.TextInput(attrs={'class':'form-control input-sm'}),
+                    'autorizador' : forms.TextInput(attrs={'class':'form-control input-sm'}),
+                    'estado_solicitud' : forms.TextInput(attrs={'class':'form-control input-sm'}),
+                    
+        }
 
-
-class ViaticoCabeceraForm(forms.Form):
-
-    descripcion = forms.CharField(max_length=140)
-    empleado = forms.ChoiceField(
-        # widget=forms.Select()
-    )
-    autorizador = forms.CharField(max_length=140)
-    fecha_partida = forms.DateField()
-    empresa = forms.CharField(max_length=140)
-    un = forms.ChoiceField()
-    ciudad_destino = forms.CharField(max_length=140)
-    status = forms.ChoiceField()
-    vehiculo_requerido = forms.ChoiceField()
-    vehiculo_numero = forms.CharField(max_length=140, required=False)
-    proposito = forms.CharField(widget=forms.Textarea())
-
-    def __init__(self, *args, **kwargs):
-        super(ViaticoCabeceraForm, self).__init__(*args, **kwargs)
-        self.fields['empleado'].choices = self.get_Empleados()
-        self.fields['status'].choices = ViaticoCabecera.VIATICO_ESTADOS
-        self.fields['vehiculo_requerido'].choices = self.get_VehiculoOpciones()
-        self.fields['un'].choices = self.get_Unidades()
-
-    def get_VehiculoOpciones(self):
-
-        opciones = [('', 'Selecciona'), ]
-
-        for opt in ViaticoCabecera.VEHICULO_OPCIONES:
-            opciones.append(
-                opt
-            )
-
-        return opciones
-
-    def get_Empleados(self):
-        empleados = [('', 'Todas'), ]
-        registros = F0101.objects.using('jde_d').filter(
-            tipo='E  ').order_by('clave')
-
-        for registro in registros:
-            nombre = registro.nombre.encode('utf-8')
-            descripcion = "({}) {}".format(registro.clave, nombre)
-
-            empleados.append(
-                (registro.clave, descripcion)
-            )
-        return empleados
-
-    def get_Unidades(self):
-        unidades = [('', 'Todas'), ]
-        registros = VIEW_UNIDADES.objects.using('jde_p').filter(
-            tipo__in=['F1', 'F2', 'DP', 'DR', 'ST', 'PA', 'GE'],
-        ).exclude(reclass='HST').order_by("clave")
-
-        for registro in registros:
-            descripcion = registro.desc_larga.encode('utf-8')
-            unidades.append(
-                (registro.clave, descripcion)
-            )
-
-        return unidades
+class ViaticoLineaForm(forms.ModelForm):
+    class Meta:
+        model = ViaticoLinea
+        fields = '__all__'
+        
+        labels = {  'concepto' : 'Concepto',
+                    'observaciones' : 'Observaciones',
+                    'importe' : 'Importe',
+        }
+        
+        widgets = { 'concepto' : forms.TextInput(attrs={'class':'form-control input-sm'}),
+                    'observaciones' : forms.Textarea(attrs={'class':'form-control input-sm'}),
+                    'importe' : forms.NumberInput(attrs={'class':'form-control input-sm'}),
+        }
