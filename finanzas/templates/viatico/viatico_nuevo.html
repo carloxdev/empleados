@@ -1,10 +1,17 @@
 {% extends 'master.html' %}
 
+{% load static from staticfiles %}
+
 {% block titulo %} Viaticos {% endblock titulo %}
 
-{% block title-page %} Nuevo Viatico  {% endblock title-page %}
+{% block title-page %} Nuevo Viatico {% endblock title-page %}
+
+{% block css %}
+{% endblock css %}
+
 
 {% block contenido %}
+
 
 <div class="be-content">
     <div class="page-head">
@@ -18,19 +25,435 @@
 
     </div>
     <div class="main-content container-fluid">  
+			 
+		<div class="col-sm-12">  
+            <div class="panel panel-border panel-contrast">
+                <div class="panel-heading panel-heading-contrast">Solicitud de viaticos: 
+                	<div class="tools" data-toggle="collapse" href="#collapseExample"><span class="icon mdi mdi-caret-down-circle"></span></div>
+                </div>
+                <div class="panel-body collapse" id="collapseExample">
+                	<form action="" method="POST"> {% csrf_token %}	
 
-		<p> Usuario: {{ user }}</p>
-		<form action="" method="POST"> {% csrf_token %}
-			{{ form.as_p }}
+						<div class="row">
+												
+							<!-- Empleado -->
+							<div class="col-sm-4">
 
-			<button type="submit">Guardar</button>
-		</form>
+								<div class="form-group {% if form.empleado.field.required %} has-warning {% endif %} {% if form.empleado.errors %} has-error {% endif %}">
 
-		{{ mensaje }}
+								<label class="control-label">
+								<i class="fa {% if form.empleado.field.required %} fa-asterisk {% endif %} {% if form.empleado.errors %} fa-asterisk {% endif %}"></i> 
+									{{ form.empleado.label }} 
+								</label>
+								<p>
+									{{ form.empleado }}	
+								</p>
+								{% for error in form.empleado.errors %}
+									<span class="help-block">{{ error }}</span>
+								{% endfor %}
+								</div>
+							</div>
+
+							<!-- Fecha Partida -->
+							<div class="col-sm-4">
+								<div class="form-group {% if form.fecha_partida.field.required %} has-warning {% endif %} {% if form.fecha_partida.errors %} has-error {% endif %}">
+
+								<label class="control-label">
+								<i class="fa {% if form.fecha_partida.field.required %} fa-asterisk {% endif %} {% if form.fecha_partida.errors %} fa-asterisk {% endif %}"></i> 
+									{{ form.fecha_partida.label }} 
+								</label>
+									{{ form.fecha_partida }}
+
+								{% for error in form.fecha_partida.errors %}
+									<span class="help-block">{{ error }}</span>
+								{% endfor %}
+								</div>
+							</div>
+
+							<!-- Fecha fecha_regreso -->
+							<div class="col-sm-4">
+								<div class="form-group {% if form.fecha_regreso.field.required %} has-warning {% endif %} {% if form.fecha_regreso.errors %} has-error {% endif %}">
+
+								<label class="control-label">
+								<i class="fa {% if form.fecha_regreso.field.required %} fa-asterisk {% endif %} {% if form.fecha_regreso.errors %} fa-asterisk {% endif %}"></i> 
+									{{ form.fecha_regreso.label }} 
+								</label>
+									{{ form.fecha_regreso }}
+
+								{% for error in form.fecha_regreso.errors %}
+									<span class="help-block">{{ error }}</span>
+								{% endfor %}
+								</div>
+
+							</div>
+						</div>
+
+						<div class="row">
+
+							<!-- Unidad de negocio -->
+							<div class="col-sm-6">
+
+								<div class="form-group {% if form.unidad_negocio.field.required %} has-warning {% endif %} {% if form.unidad_negocio.errors %} has-error {% endif %}">
+
+								<label class="control-label">
+								<i class="fa {% if form.unidad_negocio.field.required %} fa-asterisk {% endif %} {% if form.unidad_negocio.errors %} fa-asterisk {% endif %}"></i> 
+									{{ form.unidad_negocio.label }} 
+								</label>
+								<p>
+									{{ form.unidad_negocio }}	
+								</p>
+								{% for error in form.unidad_negocio.errors %}
+									<span class="help-block">{{ error }}</span>
+								{% endfor %}
+								</div>
+							</div>
+
+							<!-- Ciudad de destino -->
+							<div class="col-sm-6">
+
+								<div class="form-group {% if form.ciudad_destino.field.required %} has-warning {% endif %} {% if form.ciudad_destino.errors %} has-error {% endif %}">
+
+								<label class="control-label">
+								<i class="fa {% if form.ciudad_destino.field.required %} fa-asterisk {% endif %} {% if form.ciudad_destino.errors %} fa-asterisk {% endif %}"></i> 
+									{{ form.ciudad_destino.label }} 
+								</label>
+								<p>
+									{{ form.ciudad_destino }}	
+								</p>
+								{% for error in form.ciudad_destino.errors %}
+									<span class="help-block">{{ error }}</span>
+								{% endfor %}
+								</div>
+							</div>
+
+						</div>
+
+						<div class="row">
+
+							<!-- Proposito del viaje -->
+							<div class="col-sm-12">
+
+								<div class="form-group {% if form.proposito_viaje.field.required %} has-warning {% endif %} {% if form.proposito_viaje.errors %} has-error {% endif %}">
+
+								<label class="control-label">
+								<i class="fa {% if form.proposito_viaje.field.required %} fa-asterisk {% endif %} {% if form.proposito_viaje.errors %} fa-asterisk {% endif %}"></i> 
+									{{ form.proposito_viaje.label }} 
+								</label>
+									{{ form.proposito_viaje }}
+													  
+								{% for error in form.proposito_viaje.errors %}
+									<span class="help-block">{{ error }}</span>
+								{% endfor %}
+								</div>
+							</div>
+							
+						</div>
+
+						<div class="row">
+
+							<!-- Requiere vehiculo -->
+							<div class="col-sm-6">
+
+								<div class="form-group {% if form.requiere_vehiculo.field.required %} has-warning {% endif %} {% if form.requiere_vehiculo.errors %} has-error {% endif %}">
+
+							  	<label class="control-label">
+								<i class="fa {% if form.requiere_vehiculo.field.required %} fa-asterisk {% endif %} {% if form.requiere_vehiculo.errors %} fa-asterisk {% endif %}"></i> 
+									{{ form.requiere_vehiculo.label }} 
+								</label>
+									{{ form.requiere_vehiculo }}
+													  
+								{% for error in form.requiere_vehiculo.errors %}
+									<span class="help-block">{{ error }}</span>
+								{% endfor %}
+								</div>
+							</div>
+
+							<!-- No de vehiculo -->
+							<div class="col-sm-6">
+
+								<div class="form-group {% if form.no_vehiculo.field.required %} has-warning {% endif %} {% if form.no_vehiculo.errors %} has-error {% endif %}">
+
+								<label class="control-label">
+								<i class="fa {% if form.no_vehiculo.field.required %} fa-asterisk {% endif %} {% if form.no_vehiculo.errors %} fa-asterisk {% endif %}"></i> 
+									{{ form.no_vehiculo.label }} 
+								</label>
+								<p>
+									{{ form.no_vehiculo }}	
+								</p>
+								{% for error in form.no_vehiculo.errors %}
+									<span class="help-block">{{ error }}</span>
+								{% endfor %}
+								</div>
+							</div>
+						</div>
+
+						<div class="row">
+							<!-- Nombre empresa -->
+							<div class="col-sm-4">
+
+								<div class="form-group {% if form.nombre_empresa.field.required %} has-warning {% endif %} {% if form.nombre_empresa.errors %} has-error {% endif %}">
+
+								<label class="control-label">
+								<i class="fa {% if form.nombre_empresa.field.required %} fa-asterisk {% endif %} {% if form.nombre_empresa.errors %} fa-asterisk {% endif %}"></i> 
+									{{ form.nombre_empresa.label }} 
+								</label>
+								<p>
+									{{ form.nombre_empresa }}	
+								</p>
+								{% for error in form.nombre_empresa.errors %}
+									<span class="help-block">{{ error }}</span>
+								{% endfor %}
+								</div>
+							</div>
+
+							<!-- RFC -->
+							<div class="col-sm-4">
+
+								<div class="form-group {% if form.rfc.field.required %} has-warning {% endif %} {% if form.rfc.errors %} has-error {% endif %}">
+
+								<label class="control-label">
+								<i class="fa {% if form.rfc.field.required %} fa-asterisk {% endif %} {% if form.rfc.errors %} fa-asterisk {% endif %}"></i> 
+									{{ form.rfc.label }} 
+								</label>
+								<p>
+									{{ form.rfc }}	
+								</p>
+								{% for error in form.rfc.errors %}
+									<span class="help-block">{{ error }}</span>
+								{% endfor %}
+								</div>
+							</div>
+
+							<!-- Direccion -->
+							<div class="col-sm-4">
+
+								<div class="form-group {% if form.direccion.field.required %} has-warning {% endif %} {% if form.direccion.errors %} has-error {% endif %}">
+
+								<label class="control-label">
+								<i class="fa {% if form.direccion.field.required %} fa-asterisk {% endif %} {% if form.direccion.errors %} fa-asterisk {% endif %}"></i> 
+									{{ form.direccion.label }} 
+								</label>
+								<p>
+									{{ form.direccion }}	
+								</p>
+								{% for error in form.direccion.errors %}
+									<span class="help-block">{{ error }}</span>
+								{% endfor %}
+								</div>
+							</div>
+						</div>
+
+
+						<div class="row">
+							<!-- Grupo -->
+							<div class="col-sm-3">
+
+								<div class="form-group {% if form.grupo.field.required %} has-warning {% endif %} {% if form.grupo.errors %} has-error {% endif %}">
+
+								<label class="control-label">
+								<i class="fa {% if form.grupo.field.required %} fa-asterisk {% endif %} {% if form.grupo.errors %} fa-asterisk {% endif %}"></i> 
+									{{ form.grupo.label }} 
+								</label>
+								<p>
+									{{ form.grupo }}	
+								</p>
+								{% for error in form.grupo.errors %}
+									<span class="help-block">{{ error }}</span>
+								{% endfor %}
+								</div>
+							</div>
+
+							<!-- Autorizador -->
+							<div class="col-sm-3">
+
+								<div class="form-group {% if form.autorizador.field.required %} has-warning {% endif %} {% if form.autorizador.errors %} has-error {% endif %}">
+
+								<label class="control-label">
+								<i class="fa {% if form.autorizador.field.required %} fa-asterisk {% endif %} {% if form.autorizador.errors %} fa-asterisk {% endif %}"></i> 
+									{{ form.autorizador.label }} 
+								</label>
+								<p>
+									{{ form.autorizador }}	
+								</p>
+								{% for error in form.autorizador.errors %}
+									<span class="help-block">{{ error }}</span>
+								{% endfor %}
+								</div>
+							</div>
+
+							<!-- Estado de la solicitud -->
+							<div class="col-sm-3">
+
+								<div class="form-group {% if form.estado_solicitud.field.required %} has-warning {% endif %} {% if form.estado_solicitud.errors %} has-error {% endif %}">
+
+								<label class="control-label">
+								<i class="fa {% if form.estado_solicitud.field.required %} fa-asterisk {% endif %} {% if form.estado_solicitud.errors %} fa-asterisk {% endif %}"></i> 
+									{{ form.estado_solicitud.label }} 
+								</label>
+								<p>
+									{{ form.estado_solicitud }}	
+								</p>
+								{% for error in form.estado_solicitud.errors %}
+									<span class="help-block">{{ error }}</span>
+								{% endfor %}
+								</div>
+							</div>
+
+							<!-- Fecha de autorizacion -->
+							<div class="col-sm-3">
+
+								<div class="form-group">
+
+								<label class="control-label">
+									Fecha de autorización
+								</label>
+								<p>
+									<input class="form-control input-sm" id="id_fecha_autorizacion" type="text" name="fecha_autorizacion" readonly="True">
+								</p>
+								</div>
+							</div>
+
+						</div> <!-- Row -->
+
+
+						<div class="col-sm-offset-8 col-sm-4">
+							<button type="submit" class="btn btn-primary" >Guardar encabezado</button>
+						</div>
+						
+					</form>
+
+                </div>
+            </div>	<!-- Panel -->
+           
+		</div>	<!-- col-sm-12 -->
+		<div class="col-sm-12">  
+            <div class="panel panel-border panel-contrast">
+                <div class="panel-heading panel-heading-contrast">Partidas de la solicitud:
+                	<div class="tools" data-toggle="collapse" href="#collapsePartidas"><span class="icon mdi mdi-caret-down-circle"></span></div>
+                </div>
+                <div class="panel-body collapse" id="collapsePartidas">
+                	
+                <div class="col-sm-12">
+		            <div class="panel panel-default panel-table">
+		                <div class="panel-body">
+		                	<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Agregar concepto</button>
+		                  	<table class="table table-striped table-borderless">
+		                    <thead>
+		                      <tr>
+		                        <th>Unidad negocio</th>
+		                        <th>Concepto</th>
+		                        <th>Observaciones</th>
+		                        <th class="number">Importe estimado</th>
+		                        <th class="number">Importe</th>
+		                        <th class="actions">Detalles</th>
+		                        <th class="actions">Borrar</th>
+		                      </tr>
+		                    </thead>
+		                    <tbody class="no-border-x">
+		                      <tr>
+		                        <td>C01DF</td>
+		                        <td>Gasto</td>
+		                        <td>Automatico</td>
+		                        <td class="number">639</td>
+		                        <td class="number">111</td>
+		                        <td class="actions"><a href="#" class="icon"><i class="mdi mdi-eye"></i></a></td>
+		                        <td class="actions"><a href="#" class="icon"><i class="mdi mdi-delete"></i></a></td>
+		                      </tr>  
+		                    </tbody>
+		                  </table>
+		                </div>
+              		</div>
+		        </div>  <!-- col-sm-12 -->
+                </div>
+            </div> <!-- Panel -->
+           
+		</div> <!-- col-sm-12 -->
+          
 
     </div>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  		<div class="modal-dialog" role="document">
+    		<div class="modal-content">
+      			<div class="modal-header">
+		        	<h5 class="modal-title" id="exampleModalLabel">New message</h5>
+			        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			          <span aria-hidden="true">&times;</span>
+			        </button>
+      			</div>
+		      	<div class="modal-body">
+		        	<form action="" method="POST"> {% csrf_token %}	
+		          		
+		            	
+		            		<!-- Concepto -->
+		          			<div class="col-sm-12">
+
+								<div class="form-group {% if form2.concepto.field.required %} has-warning {% endif %} {% if form2.concepto.errors %} has-error {% endif %}">
+
+								<label class="control-label">
+								<i class="fa {% if form2.concepto.field.required %} fa-asterisk {% endif %} {% if form2.concepto.errors %} fa-asterisk {% endif %}"></i> 
+									{{ form2.concepto.label }} 
+								</label>
+								<p>
+									{{ form2.concepto }}	
+								</p>
+								{% for error in form2.concepto.errors %}
+									<span class="help-block">{{ error }}</span>
+								{% endfor %}
+								</div>
+							</div>
+
+							<!-- Observaciones -->
+		          			<div class="col-sm-12">
+
+								<div class="form-group {% if form2.observaciones.field.required %} has-warning {% endif %} {% if form2.observaciones.errors %} has-error {% endif %}">
+
+								<label class="control-label">
+								<i class="fa {% if form2.observaciones.field.required %} fa-asterisk {% endif %} {% if form2.observaciones.errors %} fa-asterisk {% endif %}"></i> 
+									{{ form2.observaciones.label }} 
+								</label>
+								<p>
+									{{ form2.observaciones }}	
+								</p>
+								{% for error in form2.observaciones.errors %}
+									<span class="help-block">{{ error }}</span>
+								{% endfor %}
+								</div>
+							</div>
+
+							<!-- Importe -->
+		          			<div class="col-sm-12">
+
+								<div class="form-group {% if form2.importe.field.required %} has-warning {% endif %} {% if form2.importe.errors %} has-error {% endif %}">
+
+								<label class="control-label">
+								<i class="fa {% if form2.importe.field.required %} fa-asterisk {% endif %} {% if form2.importe.errors %} fa-asterisk {% endif %}"></i> 
+									{{ form2.importe.label }} 
+								</label>
+								<p>
+									{{ form2.importe }}	
+								</p>
+								{% for error in form2.importe.errors %}
+									<span class="help-block">{{ error }}</span>
+								{% endfor %}
+								</div>
+							</div>
+						
+
+		        	</form>
+		      	</div>
+		      	<div class="modal-footer">
+		        	<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+		        	<button type="button" class="btn btn-primary">Send message</button>
+		     	</div>
+    		</div>
+  		</div>
+	</div>
 </div>
 
 {% endblock contenido %}
 
+{% block scripts %}
+	<script src="{% static 'solicitudes/solicitar.js' %}"></script>
+{% endblock scripts %}
 
