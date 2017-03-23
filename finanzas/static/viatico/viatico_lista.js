@@ -51,7 +51,7 @@ ToolBar.prototype.click_BotonResultados = function (e) {
 
     e.preventDefault()
 
-    grid.mostrar()
+    grid.buscar()
 }
 
 
@@ -135,6 +135,7 @@ Grid.prototype.get_Configuracion = function () {
 
     return {
         dataSource: this.kfuente_datos,
+        autoBind: false,
         columnMenu: false,
         groupable: false,
         sortable: false,
@@ -155,8 +156,8 @@ Grid.prototype.get_Columnas = function () {
 
     return [
         { field: "empleado", title: "empleado", width:"100px" },
-        { field: "fecha_partida", title: "fecha_partida", width:"100px" },
-        { field: "fecha_regreso", title: "fecha_regreso", width:"100px" },
+        { field: "fecha_partida", title: "Fecha Partida", width:"100px", format: "{0:MM/dd/yyyy}" },
+        { field: "fecha_regreso", title: "Fecha Regreso", width:"100px", format: "{0:MM/dd/yyyy}" },
         { field: "unidad_negocio", title: "unidad_negocio", width:"100px" },
         { field: "ciudad_destino", title: "ciudad_destino", width:"100px" },
         { field: "proposito_viaje", title: "proposito_viaje", width:"100px" },
