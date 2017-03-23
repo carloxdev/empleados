@@ -7,6 +7,7 @@ from django.views.generic import ListView
 # Librerias de Terceros:
 # API Rest:
 from rest_framework import viewsets
+from django_filters.rest_framework import DjangoFilterBackend
 
 # Modelos:
 from .models import ViaticoCabecera
@@ -20,11 +21,25 @@ from .forms import ViaticoLineaForm
 from .serializers import ViaticoCabeceraSerializer
 from .serializers import ViaticoLineaSerializer
 
+# Filtros:
+from .filters import ViaticoCabeceraFilter
+
+# Paginacion
+from .pagination import GenericPagination
+
+# -------------- VIATICO -------------- #
+
+
+class ViaticoLista(ListView):
+    model = ViaticoCabecera
+    template_name = 'viatico/viatico_lista.html'
+    context_object_name = 'viaticos_solicitudes'
+
 
 class ViaticoNuevo(CreateView):
     model = ViaticoCabecera
     second_model = ViaticoLinea
-    template_name = 'viatico/viatico_nuevo.html'
+    template_name = 'viatico/viatico_formulario.html'
     form_class = ViaticoCabeceraForm
     second_form_class = ViaticoLineaForm
 
@@ -37,19 +52,14 @@ class ViaticoNuevo(CreateView):
         return context
 
 
-class ViaticoSolicitud(ListView):
-    model = ViaticoCabecera
-    template_name = 'viatico/viatico_solicitudes.html'
-    context_object_name = 'viaticos_solicitudes'
-
+# -------------- VIATICO - API REST -------------- #
 
 class ViaticoCabeceraAPI(viewsets.ModelViewSet):
     queryset = ViaticoCabecera.objects.all()
     serializer_class = ViaticoCabeceraSerializer
-    # pagination_class = GenericPagination
-
-    # filter_backends = (DjangoFilterBackend,)
-    # filter_class = EquipoFilter
+    filter_backends = (DjangoFilterBackend,)
+    filter_class = ViaticoCabeceraFilter
+    pagination_class = GenericPagination
 
 
 class ViaticoLineaAPI(viewsets.ModelViewSet):

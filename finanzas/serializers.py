@@ -14,13 +14,29 @@ class ViaticoCabeceraSerializer(serializers.HyperlinkedModelSerializer):
         fields = (
             'url',
             'pk',
-            'empleado'
+            'empleado',
+            'fecha_partida',
+            'fecha_regreso',
+            'unidad_negocio',
+            'ciudad_destino',
+            'proposito_viaje',
+            'requiere_vehiculo',
+            'no_vehiculo',
+            'nombre_empresa',
+            'rfc',
+            'direccion',
+            'grupo',
+            'autorizador',
+            'estado_solicitud',
+            'fecha_autorizacion',
+            'created_date',
+            'updated_date',
         )
 
 
 class ViaticoLineaSerializer(serializers.HyperlinkedModelSerializer):
 
-    cabecera = serializers.SerializerMethodField()
+    # cabecera = serializers.SerializerMethodField()
 
     class Meta:
         model = ViaticoLinea
@@ -32,11 +48,11 @@ class ViaticoLineaSerializer(serializers.HyperlinkedModelSerializer):
             'importe',
         )
 
-    def get_cabecera(self, obj):
+    # def get_cabecera(self, obj):
 
-        try:
-            empleado = obj.empleado
-            return empleado
+    #     try:
+    #         empleado = obj.cabecera.empleado
+    #         return empleado
 
-        except Exception as e:
-            return str(e)
+    #     except Exception as e:
+    #         return str(e)

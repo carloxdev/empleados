@@ -136,20 +136,11 @@
 
                   <li class="divider">Menu</li>
 
-                  
-                  <li class="parent"><a href="#"><i class="icon mdi mdi-airplane"></i><span>Viaticos</span></a>
-                    <ul class="sub-menu">
-                      <li>
-                        <a href="{% url 'finanzas:viatico_nuevo' %}">
-                          <i class="icon mdi mdi-loupe"></i>
-                          <span>Solicitar</span>
-                        </a>
-                        <a href="{% url 'finanzas:viatico_solicitud' %}">
-                          <i class="icon mdi mdi-archive"></i>
-                          <span>Solicitudes</span>
-                        </a>
-                      </li>
-                    </ul>
+                  <li class="active">
+                      <a href="{% url 'finanzas:viatico_lista' %}">
+                          <i class="icon mdi mdi-airplane"></i>
+                          <span>Viaticos</span>
+                      </a>
                   </li>
 
                 </ul>

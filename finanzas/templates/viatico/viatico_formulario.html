@@ -18,7 +18,7 @@
         <h2 class="page-head-title">Nuevo Viatico</h2>
         <ol class="breadcrumb page-head-nav">
             <li><a href="#">Inicio</a></li>
-            <li><a href="#">Viaticos</a></li>
+            <li><a href="{% url 'finanzas:viatico_lista' %}">Viaticos</a></li>
             <li class="active">Nuevo</li>
         </ol>
 
@@ -454,6 +454,6 @@
 {% endblock contenido %}
 
 {% block scripts %}
-	<script src="{% static 'solicitudes/solicitar.js' %}"></script>
+
 {% endblock scripts %}
 
