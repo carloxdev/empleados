@@ -21,6 +21,12 @@ class ViaticoNuevo(CreateView):
 
 
 class ViaticoLinea(ListView):
+    model = ViaticoLinea
+    template_name = 'viatico/viatico_nuevo.html'
+    context_object_name = 'viaticos_lineas'
+
+
+class ViaticoSolicitud(ListView):
     model = ViaticoCabecera
     template_name = 'viatico/viatico_solicitudes.html'
     context_object_name = 'viaticos_solicitudes'
