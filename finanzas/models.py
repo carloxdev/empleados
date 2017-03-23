@@ -75,4 +75,4 @@ class ViaticoLinea(models.Model):
         verbose_name_plural = "Viaticos Lineas"
 
     def __str__(self):
-        return "%s : %s" % (self.pk, self.cabecera, self.concepto)
+        return "%s : %s" % (self.cabecera, self.concepto)
