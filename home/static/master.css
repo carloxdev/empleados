@@ -11,3 +11,7 @@
    
     background-color: #f5f5f5 !important;
 }
+
+.be-left-sidebar .sidebar-elements > li ul { 
+    background-color: #f5f5f5 !important;
+}
