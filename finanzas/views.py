@@ -59,7 +59,6 @@ class ViaticoCabeceraAPI(viewsets.ModelViewSet):
     serializer_class = ViaticoCabeceraSerializer
     filter_backends = (DjangoFilterBackend,)
     filter_class = ViaticoCabeceraFilter
-    pagination_class = GenericPagination
 
 
 class ViaticoLineaAPI(viewsets.ModelViewSet):
