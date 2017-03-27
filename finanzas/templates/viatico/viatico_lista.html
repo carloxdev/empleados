@@ -13,84 +13,39 @@
 	<link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.common-bootstrap.min.css' %}"/>
 	<link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.bootstrap.min.css' %}"/>
 
+    <!-- Nova -->
+    <link rel="stylesheet" href="{% static 'grid.css' %}"/>
+    <link rel="stylesheet" href="{% static 'header.css' %}"/>
+
 {% endblock css %}
 
 {% block contenido %}
+
 <div class="be-content">
 	<div class="page-head">
-		<h2 class="page-head-title">Solicitudes Viatico</h2>
+		<h2 class="page-head-title">Solicitudes</h2>
 		<ol class="breadcrumb page-head-nav">
-			<li><a href="#">Inicio</a></li>
-			<li><a href="#">Viaticos</a></li>
+			<li><a href="{% url 'home:inicio' %}">Inicio</a></li>
 			<li class="active">Solicitudes</li>
-		</ol>
-
+		</ol>	
 	</div>
+
 	<div class="main-content container-fluid">  
-
-		<div>
-				
-			<p> Usuario: {{ user }}</p>
-			
-			{% if viaticos_solicitudes %}
-
-			<div class="table-responsive">          
-				<table class="table">
-					<thead>
-						<tr>
-							<th>#</th>
-							<th>Empleado</th>
-							<th>Fecha de partida</th>
-							<th>Fecha de regreso</th>
-							<th>Unidad de negocio</th>
-							<th>Ciudad de destino</th>
-							<th>Proposito del viaje</th>
-							<th>Vehículo</th>
-							<th>No. de vehículo</th>
-							<th>Empresa</th>
-							<th>RFC</th>
-							<th>Dirección</th>
-						</tr>
-					</thead>
-					<tbody>
-						{% for solicitudes in viaticos_solicitudes %}
-
-						<tr>
-							<td>{{ solicitudes.id }}</td>
-							<td>{{ solicitudes.empleado }}</td>
-							<td>{{ solicitudes.fecha_partida }}</td>
-							<td>{{ solicitudes.fecha_regreso }}</td>
-							<td>{{ solicitudes.unidad_negocio }}</td>
-							<td>{{ solicitudes.ciudad_destino }}</td>
-							<td>{{ solicitudes.proposito_viaje }}</td>
-							<td>{{ solicitudes.requiere_vehiculo }}</td>
-							<td>{{ solicitudes.no_vehiculo }}</td>
-							<td>{{ solicitudes.nombre_empresa }}</td>
-							<td>{{ solicitudes.rfc }}</td>
-							<td>{{ solicitudes.direccion }}</td>
-						</tr>
-
-						{% endfor %}
-					</tbody>
-			  </table>
-			  </div>
-			{% else %}
-				<h2>No hay datos</h2>
-			{% endif %}
-
-		</div>
-
-
-		<div id="toolbar">
-			
-			<button class="btn" id="boton_resultados">Mostar resultados</button>
-		
-		</div>
-
-		<div id="grid_resultados">
-			
-		</div>
-
+		<div class="col-md-12">
+              <div class="panel panel-default panel-table">
+                <div class="panel-heading"> 
+                  <div class="pull-right" id="toolbar">
+                  	<button class="btn" id="boton_resultados">
+                    <i class="fa fa-search"></i> Filtrar</button>
+		            <button class="btn btn-space btn-success" id="boton_agregar">
+                    <i class="fa fa-file-excel-o"></i> Excel</button>
+                  </div>
+                  <div class="title">Registros</div>
+                </div>
+                <div id="grid_resultados">      
+                </div>
+              </div>
+        </div>
 	</div>
 </div>
 {% endblock contenido %}

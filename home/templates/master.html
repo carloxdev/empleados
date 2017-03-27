@@ -28,12 +28,17 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
     
+    <!-- Theme -->
     <link rel="stylesheet" href="{% static 'theme/css/style.css' %}" type="text/css"/>
+
+    <!-- Nova -->
+    <link rel="stylesheet" href="{% static 'master.css' %}"/>
     {% block css %}
     {% endblock css %}
+
   </head>
   <body>
-    <div class="be-wrapper be-collapsible-sidebar">
+    <div class="be-wrapper be-collapsible-sidebar be-fixed-sidebar">
       <nav class="navbar navbar-default navbar-fixed-top be-top-header">
         <div class="container-fluid">
           <div class="navbar-header"><a href="index.html" class="navbar-brand"></a><a href="#" class="be-toggle-left-sidebar"><span class="icon mdi mdi-menu"></span></a>
@@ -141,6 +146,22 @@
                           <i class="icon mdi mdi-airplane"></i>
                           <span>Viaticos</span>
                       </a>
+                  </li>
+                  <li class="parent"><a href="#"><i class="icon mdi mdi-dot-circle"></i><span>Forms</span></a>
+                    <ul class="sub-menu">
+                      <li><a href="form-elements.html">Elements</a>
+                      </li>
+                      <li><a href="form-validation.html">Validation</a>
+                      </li>
+                      <li><a href="form-wizard.html">Wizard</a>
+                      </li>
+                      <li><a href="form-masks.html">Input Masks</a>
+                      </li>
+                      <li><a href="form-wysiwyg.html">WYSIWYG Editor</a>
+                      </li>
+                      <li><a href="form-upload.html">Multi Upload</a>
+                      </li>
+                    </ul>
                   </li>
 
                 </ul>

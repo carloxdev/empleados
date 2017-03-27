@@ -20,7 +20,7 @@ var url_viaticocabecera = window.location.origin + "/api/viaticocabecera/"
 // OBJS
 var toolbar = null
 var grid = null
-
+var tarjeta_resultados = null
 
 /*-----------------------------------------------*\
             LOAD
@@ -28,10 +28,22 @@ var grid = null
 
 $(document).ready(function () {
 
-    toolbar = new ToolBar()
-    grid = new Grid()
-    
+    tarjeta_resultados = new Tarjeta_resultados()
+
 })
+
+/*-----------------------------------------------*\
+            OBJETO: ToolBar
+\*-----------------------------------------------*/
+
+function Tarjeta_resultados(){
+
+    this.toolbar = new ToolBar()
+    this.grid = new Grid()
+}
+
+
+
 
 /*-----------------------------------------------*\
             OBJETO: ToolBar
@@ -39,19 +51,19 @@ $(document).ready(function () {
 
 function ToolBar() {
 
-    this.$boton_resultados = $('#boton_resultados')
+    //this.$boton_resultados = $('#boton_resultados')
 
-    this.init()
+    //this.init()
 }
 ToolBar.prototype.init = function () {
 
-    this.$boton_resultados.on("click", this, this.click_BotonResultados)
+    //this.$boton_resultados.on("click", this, this.click_BotonResultados)
 }
 ToolBar.prototype.click_BotonResultados = function (e) {
 
-    e.preventDefault()
+    //e.preventDefault()
 
-    grid.buscar()
+    //grid.buscar()
 }
 
 
@@ -64,11 +76,11 @@ function Grid() {
     this.$id = $("#grid_resultados")
     this.kfuente_datos = null
     this.kgrid = null
-
+    
     this.init()
-
 }
 Grid.prototype.init = function () {
+
 
     // Definicion del pais, formato modena, etc..
     kendo.culture("es-MX")
@@ -135,7 +147,6 @@ Grid.prototype.get_Configuracion = function () {
 
     return {
         dataSource: this.kfuente_datos,
-        autoBind: false,
         columnMenu: false,
         groupable: false,
         sortable: false,
@@ -155,20 +166,20 @@ Grid.prototype.get_Configuracion = function () {
 Grid.prototype.get_Columnas = function () {
 
     return [
-        { field: "empleado", title: "empleado", width:"100px" },
+        { field: "empleado", title: "Empleado", width:"100px" },
         { field: "fecha_partida", title: "Fecha Partida", width:"100px", format: "{0:MM/dd/yyyy}" },
         { field: "fecha_regreso", title: "Fecha Regreso", width:"100px", format: "{0:MM/dd/yyyy}" },
-        { field: "unidad_negocio", title: "unidad_negocio", width:"100px" },
-        { field: "ciudad_destino", title: "ciudad_destino", width:"100px" },
-        { field: "proposito_viaje", title: "proposito_viaje", width:"100px" },
-        { field: "requiere_vehiculo", title: "requiere_vehiculo", width:"100px" },
-        { field: "no_vehiculo", title: "no_vehiculo", width:"100px" },
-        { field: "nombre_empresa", title: "nombre_empresa", width:"100px" },
-        { field: "rfc", title: "rfc", width:"100px" },
-        { field: "direccion", title: "direccion", width:"100px" },
-        { field: "grupo", title: "grupo", width:"100px" },
-        { field: "autorizador", title: "autorizador", width:"100px" },
-        { field: "estado_solicitud", title: "estado_solicitud", width:"100px" },
+        { field: "unidad_negocio", title: "Unidad Negocio", width:"100px" },
+        { field: "ciudad_destino", title: "Ciudad Destino", width:"100px" },
+        { field: "proposito_viaje", title: "Proposito Viaje", width:"100px" },
+        { field: "requiere_vehiculo", title: "Requiere Vehiculo", width:"100px" },
+        { field: "no_vehiculo", title: "No Vehículo", width:"100px" },
+        { field: "nombre_empresa", title: "Nombre Empresa", width:"100px" },
+        { field: "rfc", title: "RFC", width:"100px" },
+        { field: "direccion", title: "Dirección", width:"100px" },
+        { field: "grupo", title: "Grupo", width:"100px" },
+        { field: "autorizador", title: "Autorizador", width:"100px" },
+        { field: "estado_solicitud", title: "Estado Solicitud", width:"100px" },
     ]
 }
 Grid.prototype.mostrar = function () {
@@ -220,5 +231,5 @@ Grid.prototype.mostrar = function () {
 
 }
 Grid.prototype.buscar = function() {
-    this.kfuente_datos.page(1)    
+    this.kfuente_datos.page(1)
 }

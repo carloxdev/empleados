@@ -64,3 +64,17 @@ class ViaticoCabeceraAPI(viewsets.ModelViewSet):
 class ViaticoLineaAPI(viewsets.ModelViewSet):
     queryset = ViaticoLinea.objects.all()
     serializer_class = ViaticoLineaSerializer
+
+
+class ViaticoCabeceraPaginado(viewsets.ModelViewSet):
+    queryset = ViaticoCabecera.objects.all()
+    serializer_class = ViaticoCabeceraSerializer
+    filter_backends = (DjangoFilterBackend,)
+    filter_class = ViaticoCabeceraFilter
+    pagination_class = GenericPagination
+
+
+class ViaticoLineaPaginado(viewsets.ModelViewSet):
+    queryset = ViaticoLinea.objects.all()
+    serializer_class = ViaticoLineaSerializer
+    pagination_class = GenericPagination

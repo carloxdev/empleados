@@ -10,6 +10,8 @@ from rest_framework import routers
 # API Rest Vistas:
 from finanzas.views import ViaticoCabeceraAPI
 from finanzas.views import ViaticoLineaAPI
+from finanzas.views import ViaticoCabeceraPaginado
+from finanzas.views import ViaticoLineaPaginado
 
 
 router = routers.DefaultRouter()
@@ -24,6 +26,18 @@ router.register(
     r'viaticolinea',
     ViaticoLineaAPI,
     'viaticolinea'
+)
+
+router.register(
+    r'viaticocabecerapaginado',
+    ViaticoCabeceraPaginado,
+    'viaticocabecerapaginado'
+)
+
+router.register(
+    r'viaticolineapaginado',
+    ViaticoLineaPaginado,
+    'viaticolineapaginado'
 )
 
 urlpatterns = [
