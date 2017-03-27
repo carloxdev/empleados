@@ -2,21 +2,21 @@
 	font-size: 12px;
 	border-radius: 0 !important;
 }
-.k-reset{
+/* .k-reset{
 	line-height: 2.0em !important;
 }
-/*    .k-grid .k-grid-header {
+    .k-grid .k-grid-header {
     	font-family: Helvetica Neue !important;
     	font-size: 11px;
 	}
-
+ */
 .grid-empy {
 	font-size: 32px;
 	text-align: center;
-	font-family: Helvetica Neue !important;
+	font-family: Helvetica Neue !important, Sans serif;
 }
 
-.grid-header {
+/* .grid-header {
 	font-family: Helvetica Neue;
 	font-size: 12px;
 }
@@ -115,4 +115,4 @@
 
 .item-foto {
 	margin-right: 1em;
-}*/
+} */
