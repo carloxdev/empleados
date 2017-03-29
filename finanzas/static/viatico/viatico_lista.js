@@ -15,12 +15,13 @@
 \*-----------------------------------------------*/
 
 // URLS:
-var url_viaticocabecera = window.location.origin + "/api/viaticocabecera/"
+var url_viaticocabecera = window.location.origin + "/api/viaticocabecerapaginado/"
 
 // OBJS
 var toolbar = null
 var grid = null
 var tarjeta_resultados = null
+var ventana_filtros = null
 
 /*-----------------------------------------------*\
             LOAD
@@ -29,11 +30,12 @@ var tarjeta_resultados = null
 $(document).ready(function () {
 
     tarjeta_resultados = new Tarjeta_resultados()
+    ventana_filtros = new VentanaFiltro()
 
 })
 
 /*-----------------------------------------------*\
-            OBJETO: ToolBar
+            OBJETO: Tarjeta resultados
 \*-----------------------------------------------*/
 
 function Tarjeta_resultados(){
@@ -50,22 +52,85 @@ function Tarjeta_resultados(){
 \*-----------------------------------------------*/
 
 function ToolBar() {
+    //Boton filtro
+    this.$boton_filtro = $('#boton_filtro')
 
-    //this.$boton_resultados = $('#boton_resultados')
 
-    //this.init()
+    //this.modal_filtro = new VentanaFiltro()
+
+    this.init()
 }
 ToolBar.prototype.init = function () {
 
-    //this.$boton_resultados.on("click", this, this.click_BotonResultados)
+    //Se genera el escucha del evento
+    this.$boton_filtro.on("click", this, this.click_BotonFiltro)
 }
-ToolBar.prototype.click_BotonResultados = function (e) {
+ToolBar.prototype.click_BotonFiltro = function (e) {
+    //Cuando se de click al boton fe filttro se activa el evento
 
     //e.preventDefault()
-
+    //alert('Se ha activado el boton de filtro')
+    
     //grid.buscar()
 }
 
+/*-----------------------------------------------*\
+            OBJETO: Ventana filtro
+\*-----------------------------------------------*/
+
+function VentanaFiltro() {
+
+    this.$empleado = $('#id_empleado')
+    this.$fecha_partida = $('fecha_partida')
+    this.$fecha_regreso_inicio = $('#fecha_regreso_inicio')
+    this.$fecha_regreso_fin = $('#fecha_regreso_fin')
+    this.$unidad_negocio = $('#unidad_negocio')
+    this.$ciudad_destino = $('#id_ciudad_destino')
+    this.$autorizador = $('#id_autorizador')
+
+    this.$boton_buscar =  $('#boton_buscar')
+    this.$boton_limpiar =  $('#boton_limpiar')
+
+    this.init()
+}
+
+VentanaFiltro.prototype.init = function () {
+    this.$boton_buscar.on("click", this, this.click_BotonBuscar)
+    this.$boton_limpiar.on("click", this, this.click_BotonLimpiar)
+
+}
+
+VentanaFiltro.prototype.get_Filtros = function (_page) {
+    return {
+        page: _page,
+
+        empleado: this.$empleado.val(),
+        fecha_partida: this.$fecha_partida.val(),
+        fecha_regreso_inicio: this.$fecha_regreso_inicio.val(),
+        fecha_regreso_fin: this.$fecha_regreso_fin.val(),
+        unidad_negocio: this.$unidad_negocio.val(),
+        ciudad_destino: this.$ciudad_destino.val(),
+        autorizador: this.$autorizador.val(),
+    }
+}
+
+VentanaFiltro.prototype.click_BotonBuscar = function (e) {
+    e.preventDefault()
+    tarjeta_resultados.grid.buscar()
+}
+
+VentanaFiltro.prototype.click_BotonLimpiar = function (e) {
+    e.preventDefault()
+
+    e.data.$empleado.val("")
+    e.data.$fecha_partida = $('fecha_partida')
+    e.data.$fecha_regreso_inicio = $('#fecha_regreso_inicio')
+    e.data.$fecha_regreso_fin = $('#fecha_regreso_fin')
+    e.data.$unidad_negocio = $('#unidad_negocio')
+    e.data.$ciudad_destino = $('#id_ciudad_destino')
+    e.data.$autorizador = $('#id_autorizador')
+
+}
 
 /*-----------------------------------------------*\
             OBJETO: Grid
@@ -141,6 +206,9 @@ Grid.prototype.get_Campos = function () {
         grupo : { type: "string" },
         autorizador : { type: "string" },
         estado_solicitud : { type: "string" },
+        fecha_autorizacion : { type: "date" },
+        fecha_creacion : { type: "date" },
+        fecha_actualizacion : { type: "date" },
     }
 }
 Grid.prototype.get_Configuracion = function () {
@@ -180,6 +248,9 @@ Grid.prototype.get_Columnas = function () {
         { field: "grupo", title: "Grupo", width:"100px" },
         { field: "autorizador", title: "Autorizador", width:"100px" },
         { field: "estado_solicitud", title: "Estado Solicitud", width:"100px" },
+        { field: "fecha_autorizacion", title: "Fecha autorizacion", width:"100px", format: "{0:MM/dd/yyyy}" },
+        { field: "fecha_creacion", title: "Fecha creación", width:"100px", format: "{0:MM/dd/yyyy}" },
+        { field: "fecha_actualizacion", title: "Fecha actualización", width:"100px", format: "{0:MM/dd/yyyy}" },
     ]
 }
 Grid.prototype.mostrar = function () {
@@ -209,6 +280,12 @@ Grid.prototype.mostrar = function () {
                         "    <td> nombre_empresa </td> " +
                         "    <td> rfc </td> " +
                         "    <td> direccion </td> " +
+                        "    <td> grupo </td> " +
+                        "    <td> autorizador </td> " +
+                        "    <td> estado_solicitud </td> " +
+                        "    <td> fecha_autorizacion </td> " +
+                        "    <td> fecha_creacion </td> " +
+                        "    <td> fecha_actualizacion </td> " +
                         "</tr> " 
 
                 fila = fila.replace("id", elemento.pk)
@@ -218,7 +295,16 @@ Grid.prototype.mostrar = function () {
                 fila = fila.replace("unidad_negocio", elemento.unidad_negocio)
                 fila = fila.replace("ciudad_destino", elemento.ciudad_destino)
                 fila = fila.replace("proposito_viaje", elemento.proposito_viaje)
-                fila = fila.replace("nombre_empresa", elemento.nombre_empresa)
+                fila = fila.replace("requiere_vehiculo", elemento.requiere_vehiculo)
+                fila = fila.replace("no_vehiculo", elemento.no_vehiculo)
+                fila = fila.replace("rfc", elemento.rfc)
+                fila = fila.replace("direccion", elemento.direccion)
+                fila = fila.replace("grupo", elemento.grupo)
+                fila = fila.replace("autorizador", elemento.autorizador)
+                fila = fila.replace("estado_solicitud", elemento.estado_solicitud)
+                fila = fila.replace("fecha_autorizacion", elemento.fecha_autorizacion)
+                fila = fila.replace("fecha_creacion", elemento.fecha_creacion)
+                fila = fila.replace("fecha_actualizacion", elemento.fecha_actualizacion)
 
                 tabla_body.append(fila)
                 

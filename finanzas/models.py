@@ -44,14 +44,14 @@ class ViaticoCabecera(models.Model):
         null=True,
         blank=True)
 
-    created_date = models.DateTimeField(
+    fecha_creacion = models.DateTimeField(
         auto_now=False,
         auto_now_add=True,
         null=True,
         blank=True
     )
 
-    updated_date = models.DateTimeField(
+    fecha_actualizacion = models.DateTimeField(
         auto_now=True,
         auto_now_add=False,
         null=True,

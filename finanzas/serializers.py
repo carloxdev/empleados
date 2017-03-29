@@ -29,8 +29,8 @@ class ViaticoCabeceraSerializer(serializers.HyperlinkedModelSerializer):
             'autorizador',
             'estado_solicitud',
             'fecha_autorizacion',
-            'created_date',
-            'updated_date',
+            'fecha_creacion',
+            'fecha_actualizacion',
         )
 
 

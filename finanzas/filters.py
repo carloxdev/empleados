@@ -9,8 +9,8 @@ from .models import ViaticoCabecera
 
 class ViaticoCabeceraFilter(filters.FilterSet):
 
-    autorizador = CharFilter(
-        name="autorizador",
+    empleado = CharFilter(
+        name="empleado",
         lookup_expr="icontains"
     )
 
@@ -24,6 +24,21 @@ class ViaticoCabeceraFilter(filters.FilterSet):
         lookup_expr="lte"
     )
 
+    unidad_negocio = CharFilter(
+        name="ciudad_destino",
+        lookup_expr="icontains"
+    )
+
+    ciudad_destino = CharFilter(
+        name="ciudad_destino",
+        lookup_expr="icontains"
+    )
+
+    autorizador = CharFilter(
+        name="autorizador",
+        lookup_expr="icontains"
+    )
+
     class Meta:
         model = ViaticoCabecera
         fields = [
@@ -33,6 +48,5 @@ class ViaticoCabeceraFilter(filters.FilterSet):
             'fecha_regreso_fin',
             'unidad_negocio',
             'ciudad_destino',
-            'proposito_viaje',
             'autorizador',
         ]
