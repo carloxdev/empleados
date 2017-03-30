@@ -1,9 +1,17 @@
 # -*- coding: utf-8 -*-
-from django import forms
+# Django:
+from django.forms import ModelForm
+from django.forms import TextInput
+from django.forms import Textarea
+from django.forms import NumberInput
+from django.forms import Select
+from django.forms import Form
+from django.forms import CharField
+
 from .models import ViaticoCabecera, ViaticoLinea
 
 
-class ViaticoCabeceraForm(forms.ModelForm):
+class ViaticoCabeceraForm(ModelForm):
 
     class Meta:
         model = ViaticoCabecera
@@ -27,31 +35,32 @@ class ViaticoCabeceraForm(forms.ModelForm):
 
                   }
 
-        widgets = {'empleado': forms.TextInput(attrs={'class': 'form-control input-sm'}),
-                   'fecha_partida': forms.TextInput(attrs={
+        widgets = {'empleado': TextInput(attrs={'class': 'form-control input-sm'}),
+                   'fecha_partida': TextInput(attrs={
                        'class': 'form-control input-sm',
                        'data-date-format': 'yyyy-mm-dd'
                    }),
-                   'fecha_regreso': forms.TextInput(attrs={
+                   'fecha_regreso': TextInput(attrs={
                        'class': 'form-control input-sm',
                        'data-date-format': 'yyyy-mm-dd'
                    }),
-                   'unidad_negocio': forms.TextInput(attrs={'class': 'form-control input-sm'}),
-                   'ciudad_destino': forms.TextInput(attrs={'class': 'form-control input-sm'}),
-                   'proposito_viaje': forms.Textarea(attrs={'class': 'form-control input-sm'}),
-                   'requiere_vehiculo': forms.Select(choices=ViaticoCabecera.VEHICULO_OPCIONES),
-                   'no_vehiculo': forms.TextInput(attrs={'class': 'form-control input-sm'}),
-                   'nombre_empresa': forms.TextInput(attrs={'class': 'form-control input-sm'}),
-                   'rfc': forms.TextInput(attrs={'class': 'form-control input-sm'}),
-                   'direccion': forms.TextInput(attrs={'class': 'form-control input-sm'}),
-                   'grupo': forms.TextInput(attrs={'class': 'form-control input-sm'}),
-                   'autorizador': forms.TextInput(attrs={'class': 'form-control input-sm'}),
-                   'estado_solicitud': forms.TextInput(attrs={'class': 'form-control input-sm'}),
+                   'unidad_negocio': TextInput(attrs={'class': 'form-control input-sm'}),
+                   'ciudad_destino': TextInput(attrs={'class': 'form-control input-sm'}),
+                   'proposito_viaje': Textarea(attrs={'class': 'form-control input-sm'}),
+                   'requiere_vehiculo': Select(choices=ViaticoCabecera.VEHICULO_OPCIONES),
+                   'no_vehiculo': TextInput(attrs={'class': 'form-control input-sm'}),
+                   'nombre_empresa': TextInput(attrs={'class': 'form-control input-sm'}),
+                   'rfc': TextInput(attrs={'class': 'form-control input-sm'}),
+                   'direccion': TextInput(attrs={'class': 'form-control input-sm'}),
+                   'grupo': TextInput(attrs={'class': 'form-control input-sm'}),
+                   'autorizador': TextInput(attrs={'class': 'form-control input-sm'}),
+                   'estado_solicitud': TextInput(attrs={'class': 'form-control input-sm'}),
 
                    }
 
 
-class ViaticoLineaForm(forms.ModelForm):
+class ViaticoLineaForm(ModelForm):
+
     class Meta:
         model = ViaticoLinea
         fields = '__all__'
@@ -61,13 +70,41 @@ class ViaticoLineaForm(forms.ModelForm):
                   'importe': 'Importe',
                   }
 
-        widgets = {'concepto': forms.TextInput(attrs={
+        widgets = {'concepto': TextInput(attrs={
             'class': 'form-control input-sm'
         }),
-            'observaciones': forms.Textarea(attrs={
+            'observaciones': Textarea(attrs={
                 'class': 'form-control input-sm'
             }),
-            'importe': forms.NumberInput(attrs={
+            'importe': NumberInput(attrs={
                 'class': 'form-control input-sm'
             }),
         }
+
+
+class ViaticoFilterForm(Form):
+
+    empleado = CharField(
+        widget=TextInput(attrs={'class': 'form-control input-sm'})
+    )
+    fecha_partida = CharField(
+        widget=TextInput(attrs={'class': 'form-control pull-right input-sm',
+                                'data-date-format': 'yyyy-mm-dd'})
+    )
+    fecha_regreso_inicio = CharField(
+        widget=TextInput(attrs={'class': 'form-control pull-right input-sm',
+                                'data-date-format': 'yyyy-mm-dd'})
+    )
+    fecha_regreso_fin = CharField(
+        widget=TextInput(attrs={'class': 'form-control pull-right input-sm',
+                                'data-date-format': 'yyyy-mm-dd'})
+    )
+    unidad_negocio = CharField(
+        widget=TextInput(attrs={'class': 'form-control input-sm'})
+    )
+    ciudad_destino = CharField(
+        widget=TextInput(attrs={'class': 'form-control input-sm'})
+    )
+    autorizador = CharField(
+        widget=TextInput(attrs={'class': 'form-control input-sm'})
+    )

@@ -1,6 +1,9 @@
+# Django Atajos:
+from django.shortcuts import render
+
 # Librerias de Django
+from django.views.generic.base import View
 from django.views.generic import CreateView
-from django.views.generic import ListView
 
 # Librerias Python
 
@@ -16,6 +19,7 @@ from .models import ViaticoLinea
 # Formularios
 from .forms import ViaticoCabeceraForm
 from .forms import ViaticoLineaForm
+from .forms import ViaticoFilterForm
 
 # Serializadores:
 from .serializers import ViaticoCabeceraSerializer
@@ -30,10 +34,22 @@ from .pagination import GenericPagination
 # -------------- VIATICO -------------- #
 
 
-class ViaticoLista(ListView):
-    model = ViaticoCabecera
-    template_name = 'viatico/viatico_lista.html'
-    context_object_name = 'viaticos_solicitudes'
+class ViaticoLista(View):
+    def __init__(self):
+        self.template_name = 'viatico/viatico_lista.html'
+
+    def get(self, request):
+
+        formulario = ViaticoFilterForm()
+
+        contexto = {
+            'form': formulario
+        }
+
+        return render(request, self.template_name, contexto)
+
+    def post(self, request):
+        return render(request, self.template_name, {})
 
 
 class ViaticoNuevo(CreateView):

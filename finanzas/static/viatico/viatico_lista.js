@@ -21,6 +21,7 @@ var url_viaticocabecera = window.location.origin + "/api/viaticocabecerapaginado
 var toolbar = null
 var grid = null
 var tarjeta_resultados = null
+var dato = 'Inicial null'
 var ventana_filtros = null
 
 /*-----------------------------------------------*\
@@ -28,10 +29,10 @@ var ventana_filtros = null
 \*-----------------------------------------------*/
 
 $(document).ready(function () {
+    
 
+    ventana_filtros = new VentanaFiltros()
     tarjeta_resultados = new Tarjeta_resultados()
-    ventana_filtros = new VentanaFiltro()
-
 })
 
 /*-----------------------------------------------*\
@@ -39,13 +40,12 @@ $(document).ready(function () {
 \*-----------------------------------------------*/
 
 function Tarjeta_resultados(){
-
+    
     this.toolbar = new ToolBar()
     this.grid = new Grid()
+    
+
 }
-
-
-
 
 /*-----------------------------------------------*\
             OBJETO: ToolBar
@@ -53,17 +53,17 @@ function Tarjeta_resultados(){
 
 function ToolBar() {
     //Boton filtro
-    this.$boton_filtro = $('#boton_filtro')
+    //this.$boton_filtro = $('#boton_filtro')
 
 
     //this.modal_filtro = new VentanaFiltro()
 
-    this.init()
+    //this.init()
 }
 ToolBar.prototype.init = function () {
 
     //Se genera el escucha del evento
-    this.$boton_filtro.on("click", this, this.click_BotonFiltro)
+    //this.$boton_filtro.on("click", this, this.click_BotonFiltro)
 }
 ToolBar.prototype.click_BotonFiltro = function (e) {
     //Cuando se de click al boton fe filttro se activa el evento
@@ -78,7 +78,7 @@ ToolBar.prototype.click_BotonFiltro = function (e) {
             OBJETO: Ventana filtro
 \*-----------------------------------------------*/
 
-function VentanaFiltro() {
+function VentanaFiltros() {
 
     this.$empleado = $('#id_empleado')
     this.$fecha_partida = $('fecha_partida')
@@ -94,13 +94,13 @@ function VentanaFiltro() {
     this.init()
 }
 
-VentanaFiltro.prototype.init = function () {
+VentanaFiltros.prototype.init = function () {
     this.$boton_buscar.on("click", this, this.click_BotonBuscar)
     this.$boton_limpiar.on("click", this, this.click_BotonLimpiar)
 
 }
 
-VentanaFiltro.prototype.get_Filtros = function (_page) {
+VentanaFiltros.prototype.get_Filtros = function (_page) {
     return {
         page: _page,
 
@@ -114,12 +114,12 @@ VentanaFiltro.prototype.get_Filtros = function (_page) {
     }
 }
 
-VentanaFiltro.prototype.click_BotonBuscar = function (e) {
+VentanaFiltros.prototype.click_BotonBuscar = function (e) {
     e.preventDefault()
     tarjeta_resultados.grid.buscar()
 }
 
-VentanaFiltro.prototype.click_BotonLimpiar = function (e) {
+VentanaFiltros.prototype.click_BotonLimpiar = function (e) {
     e.preventDefault()
 
     e.data.$empleado.val("")
@@ -170,12 +170,11 @@ Grid.prototype.get_DataSourceConfig = function () {
                 type: "GET",
                 dataType: "json",
             },
-            // parameterMap: function (data, action) {
-            //     if (action === "read") {
-
-            //         return targeta_filtros.get_Filtros(data.page, data.pageSize)
-            //     }
-            // }
+            parameterMap: function (data, action) {
+                if (action === "read"){  
+                    return ventana_filtros.get_Filtros(data.page)
+                }
+            }
         },
         schema: {
             data: "results",
