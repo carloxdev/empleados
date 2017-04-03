@@ -67,35 +67,24 @@
 
 							<!-- Fecha Partida -->
 							<div class="col-sm-4">
-								<div class="form-group {% if form.fecha_partida.field.required %} has-warning {% endif %} {% if form.fecha_partida.errors %} has-error {% endif %}">
-
-								<label class="control-label">
-								<i class="fa {% if form.fecha_partida.field.required %} fa-asterisk {% endif %} {% if form.fecha_partida.errors %} fa-asterisk {% endif %}"></i> 
-									{{ form.fecha_partida.label }} 
-								</label>
-									{{ form.fecha_partida }}
-
-								{% for error in form.fecha_partida.errors %}
-									<span class="help-block">{{ error }}</span>
-								{% endfor %}
-								</div>
+								
+		                            <label for="{{ form.fecha_partida.id_for_label }}"> Fecha de partida inicio: </label>
+		                                <div data-min-view="2" data-date-format="yyyy-mm-dd" class="input-group date datetimepicker">
+		                                    {{ form.fecha_partida }}
+		                                <span class="input-group-addon btn btn-primary"><i class="icon-th mdi mdi-calendar"></i></span>
+		                                </div>
+		                        
 							</div>
 
 							<!-- Fecha fecha_regreso -->
 							<div class="col-sm-4">
-								<div class="form-group {% if form.fecha_regreso.field.required %} has-warning {% endif %} {% if form.fecha_regreso.errors %} has-error {% endif %}">
-
-								<label class="control-label">
-								<i class="fa {% if form.fecha_regreso.field.required %} fa-asterisk {% endif %} {% if form.fecha_regreso.errors %} fa-asterisk {% endif %}"></i> 
-									{{ form.fecha_regreso.label }} 
-								</label>
-									{{ form.fecha_regreso }}
-
-								{% for error in form.fecha_regreso.errors %}
-									<span class="help-block">{{ error }}</span>
-								{% endfor %}
-								</div>
-
+								
+		                            <label for="{{ form.fecha_regreso.id_for_label }}"> Fecha de partida inicio: </label>
+		                                <div data-min-view="2" data-date-format="yyyy-mm-dd" class="input-group date datetimepicker">
+		                                    {{ form.fecha_regreso }}
+		                                <span class="input-group-addon btn btn-primary"><i class="icon-th mdi mdi-calendar"></i></span>
+		                                </div>
+		                        
 							</div>
 						</div>
 
