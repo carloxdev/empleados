@@ -4,6 +4,7 @@
 
 // URLS:
 var url_viaticocabecera = window.location.origin + "/api/viaticocabecerapaginado/"
+var url_viaticocabeceraeditar = window.location.origin + "/viaticos/editar/"
 
 // OBJS
 var toolbar = null
@@ -276,7 +277,9 @@ Grid.prototype.get_Columnas = function () {
     ]
 }
 Grid.prototype.click_BotonEditar = function (e) {
-    alert('Creo edicion')
+    var fila = this.dataItem($(e.currentTarget).closest('tr'))
+    window.location.href = url_viaticocabeceraeditar + fila.pk;
+    
 }
 Grid.prototype.set_Icons = function (e) {
 

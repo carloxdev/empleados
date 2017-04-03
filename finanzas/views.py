@@ -1,5 +1,12 @@
 # Django Atajos:
 from django.shortcuts import render
+from django.shortcuts import get_object_or_404
+from django.shortcuts import redirect
+
+# Django Urls:
+from django.core.urlresolvers import reverse
+#from django.core.urlresolvers import reverse_lazy
+#from django.http import HttpResponse
 
 # Librerias de Django
 from django.views.generic.base import View
@@ -106,7 +113,41 @@ class ViaticoNuevo(CreateView):
             return render(request, self.template_name, contexto)
 
 
+class ViaticoEditar(View):
+
+    def __init__(self):
+        self.template_name = 'viatico/viatico_formulario.html'
+
+    def get(self, request, pk):
+        viatico = get_object_or_404(ViaticoCabecera, pk=pk)
+
+        formulario = ViaticoCabeceraForm(instance=viatico)
+
+        contexto = {
+            'form': formulario,
+            'operation': "Editar",
+            'id_cabecera': viatico.id,
+        }
+        return render(request, self.template_name, contexto)
+
+    def post(self, request, pk):
+
+        viatico = get_object_or_404(ViaticoCabecera, pk=pk)
+        formulario = ViaticoCabeceraForm(request.POST, instance=viatico)
+
+        if formulario.is_valid():
+            viatico = formulario.save()
+            return redirect(reverse('finanzas:viatico_lista'))
+
+        contexto = {
+            'form': formulario,
+            'operation': "Editar",
+            'id_cabecera': viatico.id,
+        }
+        return render(request, self.template_name, contexto)
+
 # -------------- VIATICO - API REST -------------- #
+
 
 class ViaticoCabeceraAPI(viewsets.ModelViewSet):
     queryset = ViaticoCabecera.objects.all()
