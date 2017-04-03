@@ -35,6 +35,10 @@
     color: darkgreen !important;
 }
 
-.fa-file-excel-o {
-    color: cadetblue !important;
+.fa-file-excel-o:before {
+    color: cadetblue;
+}
+
+.border-bottom {
+    border-bottom: 1px solid #d4d4d4;
 }

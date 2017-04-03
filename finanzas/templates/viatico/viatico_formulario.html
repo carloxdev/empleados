@@ -34,17 +34,15 @@
             <li><a href="{% url 'finanzas:viatico_lista' %}">Viaticos</a></li>
             <li class="active">Nuevo</li>
         </ol>
-
-
     </div>
     <div class="main-content container-fluid">  
 			 
-		<div class="col-sm-12">  
-            <div class="panel panel-border panel-contrast">
-                <div class="panel-heading panel-heading-contrast">Solicitud de viaticos:
-                	<div class="tools" data-toggle="collapse" href="#collapseExample"><span class="icon mdi mdi-caret-down-circle"></span></div>
-                </div>
-                <div class="panel-body collapse" id="collapseExample">
+		<div class="col-sm-12">
+			<div class="panel panel-border panel-contrast">
+	                <div class="panel-heading panel-heading-default border-bottom">Solicitud de viaticos:{% if id_cabecera != ''  %}<strong value="{{ id_cabecera }}" id="id_cabecera">{{ id_cabecera }}</strong>{% endif %}
+	                	<div class="tools" data-toggle="collapse" href="#collapseCabecera"><span class="icon mdi mdi-caret-down-circle"></span></div>
+	                </div> 
+                <div class="panel-body collapse" id="collapseCabecera">
                 	<form action="" method="POST"> {% csrf_token %}	
 
 						<div class="row">
@@ -339,23 +337,13 @@
             </div>	<!-- Panel -->
            
 		</div>	<!-- col-sm-12 -->
+		
+		{% if id_cabecera != ''  %}
 		<div class="col-sm-12">
-            <div class="panel panel-border panel-contrast">
-                <div class="panel-heading panel-heading-contrast">Partidas de la solicitud: {% if id_cabecera != ''  %}<strong value="{{ id_cabecera }}" id="id_cabecera">{{ id_cabecera }}</strong>{% endif %}
-                	<div class="tools" data-toggle="collapse" href="#collapsePartidas"><span class="icon mdi mdi-caret-down-circle"></span></div>
-                </div>
-                <div class="panel-body collapse" id="collapsePartidas">
-                	
-
-
-                	<div class="col-md-12">
 			              <div class="panel panel-default panel-table">
 			                <div class="panel-heading panel-border"> 
 			                  <div class="tools pull-right" id="toolbar">
 			                    
-
-								
-
 			                    <a href="#lineasModal" data-toggle="modal">
 			                        <button class="btn btn-rounded btn-space btn-default" id="boton_nueva_linea"><i class="icon icon-left mdi mdi-plus-circle"></i> Linea </button>
 			                    </a>    			                  
@@ -366,12 +354,8 @@
 			                <div id="grid_resultados">      
 			                </div>
 			              </div>
-			        </div>
-                </div>
-            </div> <!-- Panel -->
-           
-		</div> <!-- col-sm-12 -->
-          
+		</div><!-- col sm 12-->
+        {% endif %}  
 
     </div>
 

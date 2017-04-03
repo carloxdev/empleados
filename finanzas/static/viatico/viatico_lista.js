@@ -237,6 +237,7 @@ Grid.prototype.get_Configuracion = function () {
         noRecords: {
             template: "<div class='grid-empy'> No se encontraron registros </div>"
         },
+        dataBound: this.set_Icons,
         // dataBound: this.apply_Estilos
     }
 }
@@ -260,8 +261,31 @@ Grid.prototype.get_Columnas = function () {
         { field: "fecha_autorizacion", title: "Fecha autorizacion", width:"100px", format: "{0:dd-MM-yyyy}" },
         { field: "fecha_creacion", title: "Fecha creación", width:"100px", format: "{0:dd-MM-yyyy}" },
         { field: "fecha_actualizacion", title: "Fecha actualización", width:"100px", format: "{0:dd-MM-yyyy}" },
+        {
+           command: [ 
+                {
+                   text: " Editar",
+                   click: this.click_BotonEditar,
+                   className: "boton_editar fa fa-pencil-square-o"
+                },   
+                             
+            ],           
+           title: " ",
+           width: "120px"
+        },
     ]
 }
+Grid.prototype.click_BotonEditar = function (e) {
+    alert('Creo edicion')
+}
+Grid.prototype.set_Icons = function (e) {
+
+    e.sender.tbody.find(".k-button.fa.fa-pencil-square-o").each(function(idx, element){
+        $(element).removeClass("fa fa-pencil-square-o").find("span").addClass("fa fa-pencil-square-o")
+    })
+    
+}
+
 Grid.prototype.mostrar = function () {
 
     var obj = this

@@ -37,6 +37,7 @@ function TarjetaResultados(){
 
 function VentanaLinea() {
     this.$cabecera = $('#id_cabecera')
+    alert(this.$cabecera.val()=='')
     this.$concepto = $('#id_concepto')
     this.$observaciones = $('#id_observaciones')
     this.$importe = $('#id_importe')
@@ -141,7 +142,7 @@ Grid.prototype.get_Config = function () {
         noRecords: {
             template: "<div class='grid-empy'> No se encontraron registros </div>"
         },  
-        dataBound: this.set_Icons,      
+        dataBound: this.set_Icons,
     }
 }
 Grid.prototype.get_Campos = function (e) {
@@ -175,7 +176,7 @@ Grid.prototype.get_Columnas = function (e) {
     ]
 }
 Grid.prototype.click_BotonEliminar = function (e) {
-    
+    var token = $("[name=csrfmiddlewaretoken]").val()
     var fila = this.dataItem($(e.currentTarget).closest('tr'))
     
     //alertify.confirm(
