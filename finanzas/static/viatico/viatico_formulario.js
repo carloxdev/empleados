@@ -54,13 +54,12 @@ VentanaLinea.prototype.init = function () {
 }
 
 VentanaLinea.prototype.click_BotonGuardar = function (e) {
-    var token = $("[name=csrfmiddlewaretoken]").val()
     
     e.preventDefault()
     
     $.ajax({
             url: url_viaticolinea,
-            headers: { "X-CSRFToken": token },
+            headers: { "X-CSRFToken": $.cookie('csrftoken') },
             method: "POST",
             data: {
                 
@@ -188,7 +187,7 @@ Grid.prototype.click_BotonEliminar = function (e) {
 
             $.ajax({
                 url: url,
-                
+                headers: { "X-CSRFToken": $.cookie('csrftoken') },
                 method: "DELETE",
                 success: function () {
                 alert("Se eliminó registro correctamente")
