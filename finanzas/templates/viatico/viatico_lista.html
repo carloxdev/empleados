@@ -13,11 +13,12 @@
 	<link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.common-bootstrap.min.css' %}"/>
 	<link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.bootstrap.min.css' %}"/>
 
-    <!-- Theme -->
-    <link rel="stylesheet" href="{% static 'theme/lib/datetimepicker/css/bootstrap-datetimepicker.min.css' %}"/>
+  <!-- Theme -->
+  <link rel="stylesheet" href="{% static 'theme/lib/datetimepicker/css/bootstrap-datetimepicker.min.css' %}"/>
 
-    <!-- Nova -->
-    <link rel="stylesheet" href="{% static 'grid.css' %}"/>
+  <!-- Nova -->
+  <link rel="stylesheet" href="{% static 'grid.css' %}"/>
+
 
 {% endblock css %}
 
@@ -32,7 +33,7 @@
 		</ol>	
 	</div>
 
-	<div class="main-content container-fluid">  
+  <div class="main-content container-fluid">  
 		<div class="col-md-12">
               <div class="panel panel-default panel-table">
                 <div class="panel-heading panel-border"> 
@@ -136,7 +137,9 @@
                 </div> <!-- Modal content-->
               </div> <!-- Modal dialog -->
     </div><!-- Modal -->
+
 </div>
+
 {% endblock contenido %}
 
 {% block scripts %}
@@ -145,15 +148,13 @@
 	<script src="{% static 'libs/kendo/2015.2.624/js/cultures/kendo.culture.es-MX.min.js' %}"></script>
 	<script src="{% static 'libs/kendo/2015.2.624/js/kendo.web.min.js' %}"></script>
 
-    <!-- Theme -->
-    <script src="{% static 'theme/lib/datetimepicker/js/bootstrap-datetimepicker.min.js' %}"></script>
-    <script src="{% static 'theme/lib/jquery-ui/jquery-ui.min.js' %}"></script>
-    <script src="{% static 'theme/lib/moment.js/min/moment.min.js' %}"></script>
+
+  <!-- Theme -->
+  <script src="{% static 'theme/lib/datetimepicker/js/bootstrap-datetimepicker.min.js' %}"></script>
+  <script src="{% static 'theme/lib/jquery-ui/jquery-ui.min.js' %}"></script>
+  <script src="{% static 'theme/lib/moment.js/min/moment.min.js' %}"></script>
 
 	<!-- NOVA -->
 	<script src="{% static 'viatico/viatico_lista.js' %}"></script>
-    
-
-
-
+  
 {% endblock scripts %}
