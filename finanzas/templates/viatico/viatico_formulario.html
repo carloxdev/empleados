@@ -7,6 +7,19 @@
 {% block title-page %} Nuevo Viatico {% endblock title-page %}
 
 {% block css %}
+	<!-- Kendo -->
+	<link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.rtl.min.css' %}"/>
+	<link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.common-bootstrap.min.css' %}"/>
+	<link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.bootstrap.min.css' %}"/>
+
+    <!-- Theme -->
+    <link rel="stylesheet" href="{% static 'theme/lib/datetimepicker/css/bootstrap-datetimepicker.min.css' %}"/>
+
+    <!-- Nova -->
+    <link rel="stylesheet" href="{% static 'grid.css' %}"/>
+
+
+
 {% endblock css %}
 
 
@@ -28,7 +41,7 @@
 			 
 		<div class="col-sm-12">  
             <div class="panel panel-border panel-contrast">
-                <div class="panel-heading panel-heading-contrast">Solicitud de viaticos: 
+                <div class="panel-heading panel-heading-contrast">Solicitud de viaticos:
                 	<div class="tools" data-toggle="collapse" href="#collapseExample"><span class="icon mdi mdi-caret-down-circle"></span></div>
                 </div>
                 <div class="panel-body collapse" id="collapseExample">
@@ -308,7 +321,7 @@
 									Fecha de autorización
 								</label>
 								<p>
-									<input class="form-control input-sm" id="id_fecha_autorizacion" type="text" name="fecha_autorizacion" readonly="True">
+									<input class="form-control input-xs" id="id_fecha_autorizacion" type="text" name="fecha_autorizacion" readonly="True">
 								</p>
 								</div>
 							</div>
@@ -316,7 +329,7 @@
 						</div> <!-- Row -->
 
 
-						<div class="col-sm-offset-8 col-sm-4">
+						<div class="pull-right">
 							<button type="submit" class="btn btn-primary" >Guardar encabezado</button>
 						</div>
 						
@@ -326,44 +339,34 @@
             </div>	<!-- Panel -->
            
 		</div>	<!-- col-sm-12 -->
-		<div class="col-sm-12">  
+		<div class="col-sm-12">
             <div class="panel panel-border panel-contrast">
-                <div class="panel-heading panel-heading-contrast">Partidas de la solicitud:
+                <div class="panel-heading panel-heading-contrast">Partidas de la solicitud: {% if id_cabecera != ''  %}<strong value="{{ id_cabecera }}" id="id_cabecera">{{ id_cabecera }}</strong>{% endif %}
                 	<div class="tools" data-toggle="collapse" href="#collapsePartidas"><span class="icon mdi mdi-caret-down-circle"></span></div>
                 </div>
                 <div class="panel-body collapse" id="collapsePartidas">
                 	
-                <div class="col-sm-12">
-		            <div class="panel panel-default panel-table">
-		                <div class="panel-body">
-		                	<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#lineasModal">Agregar concepto</button>
-		                  	<table class="table table-striped table-borderless">
-		                    <thead>
-		                      <tr>
-		                        <th>Unidad negocio</th>
-		                        <th>Concepto</th>
-		                        <th>Observaciones</th>
-		                        <th class="number">Importe estimado</th>
-		                        <th class="number">Importe</th>
-		                        <th class="actions">Detalles</th>
-		                        <th class="actions">Borrar</th>
-		                      </tr>
-		                    </thead>
-		                    <tbody class="no-border-x">
-		                      <tr>
-		                        <td>C01DF</td>
-		                        <td>Gasto</td>
-		                        <td>Automatico</td>
-		                        <td class="number">639</td>
-		                        <td class="number">111</td>
-		                        <td class="actions"><a href="#" class="icon"><i class="mdi mdi-eye"></i></a></td>
-		                        <td class="actions"><a href="#" class="icon"><i class="mdi mdi-delete"></i></a></td>
-		                      </tr>  
-		                    </tbody>
-		                  </table>
-		                </div>
-              		</div>
-		        </div>  <!-- col-sm-12 -->
+
+
+                	<div class="col-md-12">
+			              <div class="panel panel-default panel-table">
+			                <div class="panel-heading panel-border"> 
+			                  <div class="tools pull-right" id="toolbar">
+			                    
+
+								
+
+			                    <a href="#lineasModal" data-toggle="modal">
+			                        <button class="btn btn-rounded btn-space btn-default" id="boton_nueva_linea"><i class="icon icon-left mdi mdi-plus-circle"></i> Linea </button>
+			                    </a>    			                  
+
+			                  </div>
+			                  <div class="title"> Registros </div>
+			                </div>
+			                <div id="grid_resultados">      
+			                </div>
+			              </div>
+			        </div>
                 </div>
             </div> <!-- Panel -->
            
@@ -372,80 +375,55 @@
 
     </div>
 
-    <div class="modal fade" id="lineasModal" tabindex="-1" role="dialog" aria-labelledby="lineasModalLabel" aria-hidden="true">
-  		<div class="modal-dialog" role="document">
-    		<div class="modal-content">
-      			<div class="modal-header">
-		        	<h5 class="modal-title" id="lineasModalLabel"></h5>
-			        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-			          <span aria-hidden="true">&times;</span>
-			        </button>
-      			</div>
-		      	<div class="modal-body">
-		        	<form action="" method="POST"> {% csrf_token %}	
-		          		
-		            	
-		            		<!-- Concepto -->
-		          			<div class="col-sm-12">
+	<!-- PopUp -->
+    <div id="lineasModal" tabindex="-1" role="dialog" class="modal fade colored-header colored-header-primary in">
+          <div class="modal-dialog custom-width">
+            <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close"></span></button>
+                        <h3 class="modal-title">Captura de lineas</h3>
+                    </div>
+                    
+                    <div class="modal-body">
 
-								<div class="form-group {% if form2.concepto.field.required %} has-warning {% endif %} {% if form2.concepto.errors %} has-error {% endif %}">
+                        <form role="form" action=""> {% csrf_token %}                            
+                            <!-- Concepto -->
+		          			<div class="form-group col-sx-12 col-sm-12 col-md-12">
+                                <label for="{{ form2.concepto.id_for_label }}">Concepto</label>
+                                {{ form2.concepto }}
+                            </div>
+                               
+                            <!-- Observaciones -->
+		          			<div class="form-group col-sx-12 col-sm-12 col-md-12">
+                                <label for="{{ form2.observaciones.id_for_label }}">Observaciones</label>
+                                {{ form2.observaciones }}
+                            </div>
 
-								<label class="control-label">
-								<i class="fa {% if form2.concepto.field.required %} fa-asterisk {% endif %} {% if form2.concepto.errors %} fa-asterisk {% endif %}"></i> 
-									{{ form2.concepto.label }} 
-								</label>
-								<p>
-									{{ form2.concepto }}	
-								</p>
-								{% for error in form2.concepto.errors %}
-									<span class="help-block">{{ error }}</span>
-								{% endfor %}
-								</div>
-							</div>
+                            <!-- Importe -->
+		          			<div class="form-group col-sx-12 col-sm-12 col-md-12">
+                                <label for="{{ form2.importe.id_for_label }}">Importe</label>
+                                {{ form2.importe }}
+                            </div>
 
-							<!-- Observaciones -->
-		          			<div class="col-sm-12">
+                        </form>       
+                    </div><!-- Modal body-->
 
-								<div class="form-group {% if form2.observaciones.field.required %} has-warning {% endif %} {% if form2.observaciones.errors %} has-error {% endif %}">
+                    <div class="modal-footer">
+                        <div class="row col-sm-12">
+                            <button type="submit" data-dismiss="modal" id="boton_guardar" class="btn btn-default">
+                                <i class="fa fa-floppy-o"></i>
+                                Guardar
+                            </button>
+                            <button type="button" data-dismiss="modal" id="boton_cancelar" class="btn btn-default">
+                            	<i class="fa fa-window-close"></i>
+                            	Cancelar
+                            </button>
+                       </div> 
+                    </div>
+                </div> <!-- Modal content-->
+              </div> <!-- Modal dialog -->
+    </div><!-- Modal -->
 
-								<label class="control-label">
-								<i class="fa {% if form2.observaciones.field.required %} fa-asterisk {% endif %} {% if form2.observaciones.errors %} fa-asterisk {% endif %}"></i> 
-									{{ form2.observaciones.label }} 
-								</label>
-								<p>
-									{{ form2.observaciones }}	
-								</p>
-								{% for error in form2.observaciones.errors %}
-									<span class="help-block">{{ error }}</span>
-								{% endfor %}
-								</div>
-							</div>
-
-							<!-- Importe -->
-		          			<div class="col-sm-12">
-
-								<div class="form-group {% if form2.importe.field.required %} has-warning {% endif %} {% if form2.importe.errors %} has-error {% endif %}">
-
-								<label class="control-label">
-								<i class="fa {% if form2.importe.field.required %} fa-asterisk {% endif %} {% if form2.importe.errors %} fa-asterisk {% endif %}"></i> 
-									{{ form2.importe.label }} 
-								</label>
-								<p>
-									{{ form2.importe }}	
-								</p>
-								{% for error in form2.importe.errors %}
-									<span class="help-block">{{ error }}</span>
-								{% endfor %}
-								</div>
-							</div>
-						
-
-		        	</form>
-		      	</div>
-		      	<div class="modal-footer">
-		        	<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-		        	<button type="button" class="btn btn-primary">Send message</button>
-		     	</div>
     		</div>
   		</div>
 	</div>
@@ -454,6 +432,17 @@
 {% endblock contenido %}
 
 {% block scripts %}
+	<!-- Kendo Js -->
+	<script src="{% static 'libs/kendo/2015.2.624/js/cultures/kendo.culture.es-MX.min.js' %}"></script>
+	<script src="{% static 'libs/kendo/2015.2.624/js/kendo.web.min.js' %}"></script>
+
+    <!-- Theme -->
+    <script src="{% static 'theme/lib/datetimepicker/js/bootstrap-datetimepicker.min.js' %}"></script>
+    <script src="{% static 'theme/lib/jquery-ui/jquery-ui.min.js' %}"></script>
+    <script src="{% static 'theme/lib/moment.js/min/moment.min.js' %}"></script>
+
+	<!-- NOVA -->
+	<script src="{% static 'viatico/viatico_formulario.js' %}"></script>      
 
 {% endblock scripts %}
 

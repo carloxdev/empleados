@@ -34,7 +34,7 @@ class ViaticoCabeceraSerializer(serializers.HyperlinkedModelSerializer):
         )
 
 
-class ViaticoLineaSerializer(serializers.HyperlinkedModelSerializer):
+class ViaticoLineaSerializer(serializers.ModelSerializer):
 
     # cabecera = serializers.SerializerMethodField()
 
@@ -42,6 +42,7 @@ class ViaticoLineaSerializer(serializers.HyperlinkedModelSerializer):
         model = ViaticoLinea
         fields = (
             'url',
+            'pk',
             'cabecera',
             'concepto',
             'observaciones',

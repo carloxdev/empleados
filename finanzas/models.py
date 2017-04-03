@@ -31,7 +31,7 @@ class ViaticoCabecera(models.Model):
     no_vehiculo = models.CharField(max_length=15, blank=True)
     nombre_empresa = models.CharField(max_length=80)
     rfc = models.CharField(max_length=13)
-    direccion = models.CharField(max_length=60, blank=True)
+    direccion = models.CharField(max_length=60, blank=False)
     grupo = models.CharField(max_length=40)
     autorizador = models.CharField(max_length=60, blank=False)
     estado_solicitud = models.CharField(

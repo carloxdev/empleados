@@ -13,6 +13,9 @@
 	<link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.common-bootstrap.min.css' %}"/>
 	<link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.bootstrap.min.css' %}"/>
 
+    <!-- Theme -->
+    <link rel="stylesheet" href="{% static 'theme/lib/datetimepicker/css/bootstrap-datetimepicker.min.css' %}"/>
+
     <!-- Nova -->
     <link rel="stylesheet" href="{% static 'grid.css' %}"/>
 
@@ -35,7 +38,9 @@
                 <div class="panel-heading panel-border"> 
                   <div class="tools pull-right" id="toolbar">
                     
-                    <span class="icon fa fa-plus-circle" data-toggle="tooltip" data-placement="top" data-original-title="Nuevo viático" id="boton_nuevo"></span>                   
+                    <a href="{% url 'finanzas:viatico_nuevo' %}">
+                        <span class="icon fa fa-plus-circle" data-toggle="tooltip" data-placement="top" data-original-title="Nuevo viático" id="boton_nuevo"></span>                   
+                    </a>
 
                     <a href="#ventana_filtro" data-toggle="modal">
                         <span class="icon fa fa-search" data-toggle="tooltip" data-placement="top" data-original-title="Filtros de búsqueda" id="boton_filtro"></span>
@@ -68,21 +73,39 @@
                                 <label for="{{ form.empleado.id_for_label }}">Empleado</label>
                                 {{ form.empleado }}
                             </div>
-                             
+
                             <div class="form-group col-sx-12 col-sm-6 col-md-6">
-                                <label for="{{ form.fecha_partida.id_for_label }}">Fecha de partida</label>
-                                {{ form.fecha_partida }}
-                            </div>                        
-                                
-                            <div class="form-group col-sx-12 col-sm-6 col-md-6">
-                                <label for="{{ form.fecha_regreso_inicio.id_for_label }}">Fecha de regreso inicio</label>
-                                {{ form.fecha_regreso_inicio }}
+                            <label for="{{ form.fecha_partida_inicio.id_for_label }}"> Fecha de partida inicio: </label>
+                                <div data-min-view="2" data-date-format="yyyy-mm-dd" class="input-group date datetimepicker">
+                                    {{ form.fecha_partida_inicio }}
+                                <span class="input-group-addon btn btn-primary"><i class="icon-th mdi mdi-calendar"></i></span>
+                                </div>
                             </div>
 
                             <div class="form-group col-sx-12 col-sm-6 col-md-6">
-                                <label for="{{ form.fecha_regreso_fin.id_for_label }}">Fecha de regreso fin</label>
-                                {{ form.fecha_regreso_fin }}
+                            <label for="{{ form.fecha_partida_fin.id_for_label }}"> Fecha de partida Fin: </label>
+                                <div data-min-view="2" data-date-format="yyyy-mm-dd" class="input-group date datetimepicker">
+                                    {{ form.fecha_partida_fin }}
+                                <span class="input-group-addon btn btn-primary"><i class="icon-th mdi mdi-calendar"></i></span>
+                                </div>
                             </div>
+ 
+                            <div class="form-group col-sx-12 col-sm-6 col-md-6">
+                            <label for="{{ form.fecha_regreso_inicio.id_for_label }}"> Fecha de regreso inicio: </label>
+                                <div data-min-view="2" data-date-format="yyyy-mm-dd" class="input-group date datetimepicker">
+                                    {{ form.fecha_regreso_inicio }}
+                                <span class="input-group-addon btn btn-primary"><i class="icon-th mdi mdi-calendar"></i></span>
+                                </div>
+                            </div>
+ 
+                            <div class="form-group col-sx-12 col-sm-6 col-md-6">
+                            <label for="{{ form.fecha_regreso_fin.id_for_label }}"> Fecha de regreso fin: </label>
+                                <div data-min-view="2" data-date-format="yyyy-mm-dd" class="input-group date datetimepicker">
+                                    {{ form.fecha_regreso_fin }}
+                                <span class="input-group-addon btn btn-primary"><i class="icon-th mdi mdi-calendar"></i></span>
+                                </div>
+                            </div>
+ 
                                
                             <div class="form-group col-sx-12 col-sm-12 col-md-12">
                                 <label for="{{ form.unidad_negocio.id_for_label }}">Unidad de negocio</label>
@@ -103,8 +126,8 @@
 
                     <div class="modal-footer">
                         <div class="row col-sm-12">
-                            <button type="button" data-dismiss="modal" class="btn btn-default md-close">Cancelar</button>
-                            <button type="submit" id="boton_buscar" class="btn btn-default pull-right">
+                            <button type="button" data-dismiss="modal" class="btn btn-default">Cancelar</button>
+                            <button type="submit" id="boton_buscar" class="btn btn-default">
                                 <i class="fa fa-search"></i>
                                 Buscar
                             </button>
@@ -122,9 +145,15 @@
 	<script src="{% static 'libs/kendo/2015.2.624/js/cultures/kendo.culture.es-MX.min.js' %}"></script>
 	<script src="{% static 'libs/kendo/2015.2.624/js/kendo.web.min.js' %}"></script>
 
+    <!-- Theme -->
+    <script src="{% static 'theme/lib/datetimepicker/js/bootstrap-datetimepicker.min.js' %}"></script>
+    <script src="{% static 'theme/lib/jquery-ui/jquery-ui.min.js' %}"></script>
+    <script src="{% static 'theme/lib/moment.js/min/moment.min.js' %}"></script>
 
 	<!-- NOVA -->
-	<script src="{% static 'viatico/viatico_lista.js' %}"></script>      
+	<script src="{% static 'viatico/viatico_lista.js' %}"></script>
+    
+
 
 
 {% endblock scripts %}

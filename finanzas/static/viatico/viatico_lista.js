@@ -1,15 +1,3 @@
-// $('#lineasModal').on('show.bs.modal', function (event) {
-//   var button = $(event.relatedTarget) // Button that triggered the modal
-//   // Extract info from data-* attributes
-//   // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-//   // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-//   var modal = $(this)
-//   // modal.find('.modal-title').text('New message to ' + recipient)
-//   modal.find('.modal-body input').val(recipient)
-// })
-
-
-
 /*-----------------------------------------------*\
             GLOBAL VARIABLES
 \*-----------------------------------------------*/
@@ -21,7 +9,6 @@ var url_viaticocabecera = window.location.origin + "/api/viaticocabecerapaginado
 var toolbar = null
 var grid = null
 var tarjeta_resultados = null
-var dato = 'Inicial null'
 var ventana_filtros = null
 
 /*-----------------------------------------------*\
@@ -30,7 +17,6 @@ var ventana_filtros = null
 
 $(document).ready(function () {
     
-
     ventana_filtros = new VentanaFiltros()
     tarjeta_resultados = new Tarjeta_resultados()
 })
@@ -79,12 +65,12 @@ ToolBar.prototype.click_BotonFiltro = function (e) {
 \*-----------------------------------------------*/
 
 function VentanaFiltros() {
-
     this.$empleado = $('#id_empleado')
-    this.$fecha_partida = $('fecha_partida')
-    this.$fecha_regreso_inicio = $('#fecha_regreso_inicio')
-    this.$fecha_regreso_fin = $('#fecha_regreso_fin')
-    this.$unidad_negocio = $('#unidad_negocio')
+    this.$fecha_partida_inicio = $('#id_fecha_partida_inicio')
+    this.$fecha_partida_fin = $('#id_fecha_partida_fin')
+    this.$fecha_regreso_inicio = $('#id_fecha_regreso_inicio')
+    this.$fecha_regreso_fin = $('#id_fecha_regreso_fin')
+    this.$unidad_negocio = $('#id_unidad_negocio')
     this.$ciudad_destino = $('#id_ciudad_destino')
     this.$autorizador = $('#id_autorizador')
 
@@ -97,7 +83,26 @@ function VentanaFiltros() {
 VentanaFiltros.prototype.init = function () {
     this.$boton_buscar.on("click", this, this.click_BotonBuscar)
     this.$boton_limpiar.on("click", this, this.click_BotonLimpiar)
-
+    this.$fecha_partida_inicio.datetimepicker(
+            {
+                autoclose: true,
+            }
+        )
+    this.$fecha_partida_fin.datetimepicker(
+            {
+                autoclose: true,
+            }
+        )
+    this.$fecha_regreso_inicio.datetimepicker(
+            {
+                autoclose: true,
+            }
+        )
+    this.$fecha_regreso_fin.datetimepicker(
+            {
+                autoclose: true,
+            }
+        )
 }
 
 VentanaFiltros.prototype.get_Filtros = function (_page) {
@@ -105,7 +110,8 @@ VentanaFiltros.prototype.get_Filtros = function (_page) {
         page: _page,
 
         empleado: this.$empleado.val(),
-        fecha_partida: this.$fecha_partida.val(),
+        fecha_partida_inicio: this.$fecha_partida_inicio.val(),
+        fecha_partida_fin: this.$fecha_partida_fin.val(),
         fecha_regreso_inicio: this.$fecha_regreso_inicio.val(),
         fecha_regreso_fin: this.$fecha_regreso_fin.val(),
         unidad_negocio: this.$unidad_negocio.val(),
@@ -116,19 +122,23 @@ VentanaFiltros.prototype.get_Filtros = function (_page) {
 
 VentanaFiltros.prototype.click_BotonBuscar = function (e) {
     e.preventDefault()
+    //alert(e.data.$empleado.val())
+    
     tarjeta_resultados.grid.buscar()
+
 }
 
 VentanaFiltros.prototype.click_BotonLimpiar = function (e) {
     e.preventDefault()
 
     e.data.$empleado.val("")
-    e.data.$fecha_partida = $('fecha_partida')
-    e.data.$fecha_regreso_inicio = $('#fecha_regreso_inicio')
-    e.data.$fecha_regreso_fin = $('#fecha_regreso_fin')
-    e.data.$unidad_negocio = $('#unidad_negocio')
-    e.data.$ciudad_destino = $('#id_ciudad_destino')
-    e.data.$autorizador = $('#id_autorizador')
+    e.data.$fecha_partida_inicio.val("")
+    e.data.$fecha_partida_fin.val("")
+    e.data.$fecha_regreso_inicio.val("")
+    e.data.$fecha_regreso_fin.val("")
+    e.data.$unidad_negocio.val("")
+    e.data.$ciudad_destino.val("")
+    e.data.$autorizador.val("")
 
 }
 
@@ -234,8 +244,8 @@ Grid.prototype.get_Columnas = function () {
 
     return [
         { field: "empleado", title: "Empleado", width:"100px" },
-        { field: "fecha_partida", title: "Fecha Partida", width:"100px", format: "{0:MM/dd/yyyy}" },
-        { field: "fecha_regreso", title: "Fecha Regreso", width:"100px", format: "{0:MM/dd/yyyy}" },
+        { field: "fecha_partida", title: "Fecha Partida", width:"100px", format: "{0:dd-MM-yyyy}" },
+        { field: "fecha_regreso", title: "Fecha Regreso", width:"100px", format: "{0:dd-MM-yyyy}" },
         { field: "unidad_negocio", title: "Unidad Negocio", width:"100px" },
         { field: "ciudad_destino", title: "Ciudad Destino", width:"100px" },
         { field: "proposito_viaje", title: "Proposito Viaje", width:"100px" },
@@ -247,9 +257,9 @@ Grid.prototype.get_Columnas = function () {
         { field: "grupo", title: "Grupo", width:"100px" },
         { field: "autorizador", title: "Autorizador", width:"100px" },
         { field: "estado_solicitud", title: "Estado Solicitud", width:"100px" },
-        { field: "fecha_autorizacion", title: "Fecha autorizacion", width:"100px", format: "{0:MM/dd/yyyy}" },
-        { field: "fecha_creacion", title: "Fecha creación", width:"100px", format: "{0:MM/dd/yyyy}" },
-        { field: "fecha_actualizacion", title: "Fecha actualización", width:"100px", format: "{0:MM/dd/yyyy}" },
+        { field: "fecha_autorizacion", title: "Fecha autorizacion", width:"100px", format: "{0:dd-MM-yyyy}" },
+        { field: "fecha_creacion", title: "Fecha creación", width:"100px", format: "{0:dd-MM-yyyy}" },
+        { field: "fecha_actualizacion", title: "Fecha actualización", width:"100px", format: "{0:dd-MM-yyyy}" },
     ]
 }
 Grid.prototype.mostrar = function () {
@@ -316,5 +326,6 @@ Grid.prototype.mostrar = function () {
 
 }
 Grid.prototype.buscar = function() {
+    
     this.kfuente_datos.page(1)
 }
