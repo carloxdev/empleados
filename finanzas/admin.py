@@ -8,6 +8,7 @@ from .models import ViaticoLinea
 @admin.register(ViaticoCabecera)
 class ViaticoCabeceraAdmin(admin.ModelAdmin):
     list_display = (
+        'pk',
         'empleado',
         'fecha_partida',
         'fecha_regreso',
@@ -21,8 +22,12 @@ class ViaticoCabeceraAdmin(admin.ModelAdmin):
         'direccion',
         'grupo',
         'autorizador',
-        'estado_solicitud',
         'fecha_autorizacion',
+        'status',
+        'created_by',
+        'created_date',
+        'updated_by',
+        'updated_date',
     )
 
 
@@ -30,7 +35,12 @@ class ViaticoCabeceraAdmin(admin.ModelAdmin):
 class ViaticoLineaAdmin(admin.ModelAdmin):
     list_display = (
         'cabecera',
+        'pk',
         'concepto',
         'observaciones',
         'importe',
+        'created_by',
+        'created_date',
+        'updated_by',
+        'updated_date',
     )

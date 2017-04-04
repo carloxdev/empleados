@@ -1,6 +1,13 @@
-from __future__ import unicode_literals
 
+# Librerias Django
+from __future__ import unicode_literals
 from django.db import models
+
+# Librerias Terceros:
+from simple_history.models import HistoricalRecords
+
+# Otros Modelos:
+from seguridad.models import Profile
 
 
 class ViaticoCabecera(models.Model):
@@ -34,34 +41,37 @@ class ViaticoCabecera(models.Model):
     direccion = models.CharField(max_length=60, blank=False)
     grupo = models.CharField(max_length=40)
     autorizador = models.CharField(max_length=60, blank=False)
-    estado_solicitud = models.CharField(
+    status = models.CharField(
         choices=VIATICO_ESTADOS,
         default="CAP",
         max_length=3)
-    fecha_autorizacion = models.DateField(
-        auto_now=False,
-        auto_now_add=True,
+    fecha_autorizacion = models.DateTimeField(
         null=True,
-        blank=True)
-
-    fecha_creacion = models.DateTimeField(
+        blank=True
+    )
+    created_by = models.ForeignKey(Profile, related_name='via_created_by', null=True)
+    created_date = models.DateTimeField(
         auto_now=False,
         auto_now_add=True,
         null=True,
         blank=True
     )
-
-    fecha_actualizacion = models.DateTimeField(
+    updated_by = models.ForeignKey(Profile, related_name='via_updated_by', null=True)
+    updated_date = models.DateTimeField(
         auto_now=True,
         auto_now_add=False,
         null=True,
         blank=True
     )
+    history = HistoricalRecords()
 
     class Meta:
         verbose_name_plural = "Viaticos Cabeceras"
 
     def __str__(self):
+        return "%s - %s" % (self.pk, self.empleado)
+
+    def __unicode__(self):
         return "%s - %s" % (self.pk, self.empleado)
 
 
@@ -71,8 +81,27 @@ class ViaticoLinea(models.Model):
     observaciones = models.CharField(max_length=140, blank=False, null=False)
     importe = models.IntegerField(blank=False, null=False)
 
+    created_by = models.ForeignKey(Profile, related_name='vialinea_created_by', null=True)
+    created_date = models.DateTimeField(
+        auto_now=False,
+        auto_now_add=True,
+        null=True,
+        blank=True
+    )
+    updated_by = models.ForeignKey(Profile, related_name='vialinea_updated_by', null=True)
+    updated_date = models.DateTimeField(
+        auto_now=True,
+        auto_now_add=False,
+        null=True,
+        blank=True
+    )
+    history = HistoricalRecords()
+
     class Meta:
         verbose_name_plural = "Viaticos Lineas"
 
     def __str__(self):
+        return "%s : %s" % (self.cabecera, self.concepto)
+
+    def __unicode__(self):
         return "%s : %s" % (self.cabecera, self.concepto)

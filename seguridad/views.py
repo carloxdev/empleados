@@ -1,21 +1,28 @@
 # -*- coding: utf-8 -*-
 
-from django.shortcuts import render
 
+# Django Generic Views
+from django.shortcuts import render
 from django.shortcuts import redirect
 from django.core.urlresolvers import reverse
 
-# Django Generic Views
+# Django Seguridad
 from django.views.generic.base import View
-
-# Model:
 from django.contrib.auth import authenticate
 from django.contrib.auth import login
+
+# Modelos
+from .models import Profile
+
+# Otros Modelos
 from django.contrib.auth.models import User
 
-
+# Django API Rest
 from rest_framework import viewsets
-from serializers import UserSerializer
+
+# Serializadores:
+from .serializers import UserSerializer
+from .serializers import ProfileSerializer
 
 
 class Login(View):
@@ -59,6 +66,11 @@ class Login(View):
         return render(request, self.template_name, contexto)
 
 
-class UsuariosAPI(viewsets.ModelViewSet):
+class UserAPI(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+
+
+class ProfileAPI(viewsets.ModelViewSet):
+    queryset = Profile.objects.all()
+    serializer_class = ProfileSerializer

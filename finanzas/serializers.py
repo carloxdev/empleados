@@ -9,6 +9,8 @@ from .models import ViaticoLinea
 
 class ViaticoCabeceraSerializer(serializers.HyperlinkedModelSerializer):
 
+    status = serializers.SerializerMethodField()
+
     class Meta:
         model = ViaticoCabecera
         fields = (
@@ -27,16 +29,23 @@ class ViaticoCabeceraSerializer(serializers.HyperlinkedModelSerializer):
             'direccion',
             'grupo',
             'autorizador',
-            'estado_solicitud',
-            'fecha_autorizacion',
-            'fecha_creacion',
-            'fecha_actualizacion',
+            'status',
+            'created_date',
+            'created_by',
+            'updated_date',
+            'updated_by',
         )
+
+    def get_status(self, obj):
+
+        try:
+            return obj.get_status_display()
+
+        except Exception as e:
+            return str(e)
 
 
 class ViaticoLineaSerializer(serializers.ModelSerializer):
-
-    # cabecera = serializers.SerializerMethodField()
 
     class Meta:
         model = ViaticoLinea
@@ -47,13 +56,8 @@ class ViaticoLineaSerializer(serializers.ModelSerializer):
             'concepto',
             'observaciones',
             'importe',
+            'created_date',
+            'created_by',
+            'updated_date',
+            'updated_by',
         )
-
-    # def get_cabecera(self, obj):
-
-    #     try:
-    #         empleado = obj.cabecera.empleado
-    #         return empleado
-
-    #     except Exception as e:
-    #         return str(e)

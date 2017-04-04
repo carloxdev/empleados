@@ -10,7 +10,7 @@ var url_viaticocabeceraeditar = window.location.origin + "/viaticos/editar/"
 var toolbar = null
 var grid = null
 var tarjeta_resultados = null
-var ventana_filtros = null
+var popup_filtros = null
 
 /*-----------------------------------------------*\
             LOAD
@@ -18,54 +18,17 @@ var ventana_filtros = null
 
 $(document).ready(function () {
     
-    ventana_filtros = new VentanaFiltros()
-    tarjeta_resultados = new Tarjeta_resultados()
+    popup_filtros = new PopupFiltros()
+    tarjeta_resultados = new TarjetaResultados()
 })
 
-/*-----------------------------------------------*\
-            OBJETO: Tarjeta resultados
-\*-----------------------------------------------*/
 
-function Tarjeta_resultados(){
-    
-    this.toolbar = new ToolBar()
-    this.grid = new Grid()
-    
-
-}
 
 /*-----------------------------------------------*\
-            OBJETO: ToolBar
+            OBJETO: Popup filtro
 \*-----------------------------------------------*/
 
-function ToolBar() {
-    //Boton filtro
-    //this.$boton_filtro = $('#boton_filtro')
-
-
-    //this.modal_filtro = new VentanaFiltro()
-
-    //this.init()
-}
-ToolBar.prototype.init = function () {
-
-    //Se genera el escucha del evento
-    //this.$boton_filtro.on("click", this, this.click_BotonFiltro)
-}
-ToolBar.prototype.click_BotonFiltro = function (e) {
-    //Cuando se de click al boton fe filttro se activa el evento
-
-    //e.preventDefault()
-    //alert('Se ha activado el boton de filtro')
-    
-    //grid.buscar()
-}
-
-/*-----------------------------------------------*\
-            OBJETO: Ventana filtro
-\*-----------------------------------------------*/
-
-function VentanaFiltros() {
+function PopupFiltros() {
     this.$empleado = $('#id_empleado')
     this.$fecha_partida_inicio = $('#id_fecha_partida_inicio')
     this.$fecha_partida_fin = $('#id_fecha_partida_fin')
@@ -74,21 +37,30 @@ function VentanaFiltros() {
     this.$unidad_negocio = $('#id_unidad_negocio')
     this.$ciudad_destino = $('#id_ciudad_destino')
     this.$autorizador = $('#id_autorizador')
+    this.$cajita = $('#cajita')
 
     this.$boton_buscar =  $('#boton_buscar')
     this.$boton_limpiar =  $('#boton_limpiar')
 
     this.init()
 }
-
-VentanaFiltros.prototype.init = function () {
+PopupFiltros.prototype.init = function () {
     this.$boton_buscar.on("click", this, this.click_BotonBuscar)
     this.$boton_limpiar.on("click", this, this.click_BotonLimpiar)
+    this.$cajita.datetimepicker(
+        {
+            autoclose: true,
+            minView: 2,
+            maxView: 2,
+        }
+    )
+
     this.$fecha_partida_inicio.datetimepicker(
-            {
-                autoclose: true,
-            }
-        )
+        {
+            autoclose: true,
+        }
+    )
+
     this.$fecha_partida_fin.datetimepicker(
             {
                 autoclose: true,
@@ -105,8 +77,7 @@ VentanaFiltros.prototype.init = function () {
             }
         )
 }
-
-VentanaFiltros.prototype.get_Filtros = function (_page) {
+PopupFiltros.prototype.get_Filtros = function (_page) {
     return {
         page: _page,
 
@@ -120,15 +91,12 @@ VentanaFiltros.prototype.get_Filtros = function (_page) {
         autorizador: this.$autorizador.val(),
     }
 }
-
-VentanaFiltros.prototype.click_BotonBuscar = function (e) {
+PopupFiltros.prototype.click_BotonBuscar = function (e) {
     e.preventDefault()
     
     tarjeta_resultados.grid.buscar()
-
 }
-
-VentanaFiltros.prototype.click_BotonLimpiar = function (e) {
+PopupFiltros.prototype.click_BotonLimpiar = function (e) {
     e.preventDefault()
 
     e.data.$empleado.val("")
@@ -139,7 +107,24 @@ VentanaFiltros.prototype.click_BotonLimpiar = function (e) {
     e.data.$unidad_negocio.val("")
     e.data.$ciudad_destino.val("")
     e.data.$autorizador.val("")
+}
 
+/*-----------------------------------------------*\
+            OBJETO: Tarjeta resultados
+\*-----------------------------------------------*/
+
+function TarjetaResultados(){
+    
+    this.toolbar = new ToolBar()
+    this.grid = new Grid()
+}
+
+/*-----------------------------------------------*\
+            OBJETO: ToolBar
+\*-----------------------------------------------*/
+
+function ToolBar() {
+    return null;
 }
 
 /*-----------------------------------------------*\
@@ -165,7 +150,6 @@ Grid.prototype.init = function () {
 
     // Se inicializa y configura el grid:
     this.kgrid = this.$id.kendoGrid(this.get_Configuracion())
-
 }
 Grid.prototype.get_DataSourceConfig = function () {
 
@@ -182,7 +166,7 @@ Grid.prototype.get_DataSourceConfig = function () {
             },
             parameterMap: function (data, action) {
                 if (action === "read"){  
-                    return ventana_filtros.get_Filtros(data.page)
+                    return poppup_filtros.get_Filtros(data.page)
                 }
             }
         },
@@ -244,20 +228,21 @@ Grid.prototype.get_Configuracion = function () {
 Grid.prototype.get_Columnas = function () {
 
     return [
+        { field: "pk", title: "Numero", width:"100px" },
         { field: "empleado", title: "Empleado", width:"100px" },
+        { field: "estado_solicitud", title: "Estado Solicitud", width:"100px" },
         { field: "fecha_partida", title: "Fecha Partida", width:"100px", format: "{0:dd-MM-yyyy}" },
         { field: "fecha_regreso", title: "Fecha Regreso", width:"100px", format: "{0:dd-MM-yyyy}" },
-        { field: "unidad_negocio", title: "Unidad Negocio", width:"100px" },
-        { field: "ciudad_destino", title: "Ciudad Destino", width:"100px" },
-        { field: "proposito_viaje", title: "Proposito Viaje", width:"100px" },
-        { field: "requiere_vehiculo", title: "Requiere Vehiculo", width:"100px" },
+        { field: "unidad_negocio", title: "Unidad Negocio", width:"150px" },
+        { field: "ciudad_destino", title: "Ciudad Destino", width:"200px" },
+        { field: "proposito_viaje", title: "Proposito Viaje", width:"200px" },
+        { field: "requiere_vehiculo", title: "Requiere Vehiculo", width:"120px" },
         { field: "no_vehiculo", title: "No Vehículo", width:"100px" },
-        { field: "nombre_empresa", title: "Nombre Empresa", width:"100px" },
+        { field: "nombre_empresa", title: "Nombre Empresa", width:"150px" },
         { field: "rfc", title: "RFC", width:"100px" },
-        { field: "direccion", title: "Dirección", width:"100px" },
-        { field: "grupo", title: "Grupo", width:"100px" },
-        { field: "autorizador", title: "Autorizador", width:"100px" },
-        { field: "estado_solicitud", title: "Estado Solicitud", width:"100px" },
+        { field: "direccion", title: "Dirección", width:"200px" },
+        { field: "grupo", title: "Grupo", width:"200px" },
+        { field: "autorizador", title: "Autorizador", width:"200px" },
         { field: "fecha_autorizacion", title: "Fecha autorizacion", width:"100px", format: "{0:dd-MM-yyyy}" },
         { field: "fecha_creacion", title: "Fecha creación", width:"100px", format: "{0:dd-MM-yyyy}" },
         { field: "fecha_actualizacion", title: "Fecha actualización", width:"100px", format: "{0:dd-MM-yyyy}" },
@@ -278,78 +263,12 @@ Grid.prototype.get_Columnas = function () {
 Grid.prototype.click_BotonEditar = function (e) {
     var fila = this.dataItem($(e.currentTarget).closest('tr'))
     window.location.href = url_viaticocabeceraeditar + fila.pk;
-    
 }
 Grid.prototype.set_Icons = function (e) {
 
     e.sender.tbody.find(".k-button.fa.fa-pencil-square-o").each(function(idx, element){
         $(element).removeClass("fa fa-pencil-square-o").find("span").addClass("fa fa-pencil-square-o")
-    })
-    
-}
-
-Grid.prototype.mostrar = function () {
-
-    var obj = this
-
-    $.ajax({
-        url: url_viaticocabecera,
-        method: "GET",
-        success: function (response) {
-            obj.$id.append(obj.contenido)
-
-            var tabla_body = $("#tabla_body")
-
-            $(response).each(function (indice, elemento) {
-                
-                var fila =  "<tr> " +
-                        "    <td> id </td> " +
-                        "    <td> empleado </td> " +
-                        "    <td> fecha_partida </td> " +
-                        "    <td> fecha_regreso </td> " +
-                        "    <td> unidad_negocio </td> " +
-                        "    <td> ciudad_destino </td> " +
-                        "    <td> proposito_viaje </td> " +
-                        "    <td> requiere_vehiculo </td> " +
-                        "    <td> no_vehiculo </td> " +
-                        "    <td> nombre_empresa </td> " +
-                        "    <td> rfc </td> " +
-                        "    <td> direccion </td> " +
-                        "    <td> grupo </td> " +
-                        "    <td> autorizador </td> " +
-                        "    <td> estado_solicitud </td> " +
-                        "    <td> fecha_autorizacion </td> " +
-                        "    <td> fecha_creacion </td> " +
-                        "    <td> fecha_actualizacion </td> " +
-                        "</tr> " 
-
-                fila = fila.replace("id", elemento.pk)
-                fila = fila.replace("empleado", elemento.empleado)
-                fila = fila.replace("fecha_partida", elemento.fecha_partida)
-                fila = fila.replace("fecha_regreso", elemento.fecha_regreso)
-                fila = fila.replace("unidad_negocio", elemento.unidad_negocio)
-                fila = fila.replace("ciudad_destino", elemento.ciudad_destino)
-                fila = fila.replace("proposito_viaje", elemento.proposito_viaje)
-                fila = fila.replace("requiere_vehiculo", elemento.requiere_vehiculo)
-                fila = fila.replace("no_vehiculo", elemento.no_vehiculo)
-                fila = fila.replace("rfc", elemento.rfc)
-                fila = fila.replace("direccion", elemento.direccion)
-                fila = fila.replace("grupo", elemento.grupo)
-                fila = fila.replace("autorizador", elemento.autorizador)
-                fila = fila.replace("estado_solicitud", elemento.estado_solicitud)
-                fila = fila.replace("fecha_autorizacion", elemento.fecha_autorizacion)
-                fila = fila.replace("fecha_creacion", elemento.fecha_creacion)
-                fila = fila.replace("fecha_actualizacion", elemento.fecha_actualizacion)
-
-                tabla_body.append(fila)
-                
-            })
-        },
-        error: function (response) {
-            alert(response)
-        }
-    })
-
+    })   
 }
 Grid.prototype.buscar = function() {
     

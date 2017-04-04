@@ -8,7 +8,7 @@ from .models import Profile
 class AdminProfile(admin.ModelAdmin):
     list_display = (
         'usuario',
-        'clave_empleado',
+        'clave_rh',
         'clave_jde',
         'foto',
     )

@@ -51,7 +51,6 @@ VentanaLinea.prototype.init = function () {
     this.$boton_cancelar.on("click", this, this.click_BotonCancelar)
     
 }
-
 VentanaLinea.prototype.click_BotonGuardar = function (e) {
     
     e.preventDefault()
