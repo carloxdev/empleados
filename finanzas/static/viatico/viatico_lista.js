@@ -123,7 +123,6 @@ VentanaFiltros.prototype.get_Filtros = function (_page) {
 
 VentanaFiltros.prototype.click_BotonBuscar = function (e) {
     e.preventDefault()
-    //alert(e.data.$empleado.val())
     
     tarjeta_resultados.grid.buscar()
 
@@ -267,7 +266,7 @@ Grid.prototype.get_Columnas = function () {
                 {
                    text: " Editar",
                    click: this.click_BotonEditar,
-                   className: "boton_editar fa fa-pencil-square-o"
+                   className: "boton_editar fa fa-pencil-square-o",
                 },   
                              
             ],           

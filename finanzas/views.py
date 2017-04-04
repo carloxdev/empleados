@@ -2,6 +2,7 @@
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
+from django.shortcuts import render_to_response
 
 # Django Urls:
 from django.core.urlresolvers import reverse
@@ -62,7 +63,7 @@ class ViaticoLista(View):
 class ViaticoNuevo(CreateView):
     model = ViaticoCabecera
     second_model = ViaticoLinea
-    template_name = 'viatico/viatico_formulario.html'
+    template_name = 'viatico/viatico_nuevo.html'
     form_class = ViaticoCabeceraForm
     second_form_class = ViaticoLineaForm
 
@@ -104,7 +105,8 @@ class ViaticoNuevo(CreateView):
                 'form2': form2,
                 'id_cabecera': viatico.id
             }
-            return render(request, self.template_name, contexto)
+            return render_to_response('viatico/viatico_editar.html', contexto)
+            #render(request, self.template_name, contexto)
         else:
             contexto = {
                 'form': form,
@@ -116,7 +118,7 @@ class ViaticoNuevo(CreateView):
 class ViaticoEditar(View):
 
     def __init__(self):
-        self.template_name = 'viatico/viatico_formulario.html'
+        self.template_name = 'viatico/viatico_editar.html'
 
     def get(self, request, pk):
         viatico = get_object_or_404(ViaticoCabecera, pk=pk)

@@ -84,11 +84,11 @@
 		                                    {{ form.fecha_regreso }}
 		                                <span class="input-group-addon btn btn-primary"><i class="icon-th mdi mdi-calendar"></i></span>
 		                                </div>
-		                        
+			                        
+								</div>
 							</div>
-						</div>
 
-						<div class="row">
+							<div class="row">
 
 							<!-- Unidad de negocio -->
 							<div class="col-sm-6">
@@ -326,26 +326,11 @@
             </div>	<!-- Panel -->
            
 		</div>	<!-- col-sm-12 -->
+
+		{% block EditarViatico %}
+
+		{% endblock EditarViatico %}
 		
-		{% if id_cabecera != ''  %}
-		<div class="col-sm-12">
-			              <div class="panel panel-default panel-table">
-			                <div class="panel-heading panel-border"> 
-			                  <div class="tools pull-right" id="toolbar">
-			                    
-			                    <a href="#lineasModal" data-toggle="modal">
-			                        <button class="btn btn-rounded btn-space btn-default" id="boton_nueva_linea"><i class="icon icon-left mdi mdi-plus-circle"></i> Linea </button>
-			                    </a>    			                  
-
-			                  </div>
-			                  <div class="title"> Registros </div>
-			                </div>
-			                <div id="grid_resultados">      
-			                </div>
-			              </div>
-		</div><!-- col sm 12-->
-        {% endif %}  
-
     </div>
 
 	<!-- PopUp -->
@@ -395,7 +380,7 @@
                     </div>
                 </div> <!-- Modal content-->
               </div> <!-- Modal dialog -->
-    </div><!-- Modal -->
+    		</div><!-- Modal -->
 
     		</div>
   		</div>

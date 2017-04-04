@@ -37,13 +37,11 @@ function TarjetaResultados(){
 
 function VentanaLinea() {
     this.$cabecera = $('#id_cabecera')
-    alert(this.$cabecera.val()=='')
     this.$concepto = $('#id_concepto')
     this.$observaciones = $('#id_observaciones')
     this.$importe = $('#id_importe')
     this.$boton_guardar =  $('#boton_guardar')
     this.$boton_cancelar =  $('#boton_cancelar')
-
     this.init()
 }
 
@@ -70,7 +68,6 @@ VentanaLinea.prototype.click_BotonGuardar = function (e) {
                 importe : e.data.$importe.val(),
             },
             success: function (response) {
-
                 tarjeta_resultados.grid.buscar()
                 //e.data.$id.modal('hide')
                 //cuando se inserta la linea, recarga
@@ -85,7 +82,6 @@ VentanaLinea.prototype.click_BotonGuardar = function (e) {
 
 VentanaLinea.prototype.click_BotonCancelar = function (e) {
     e.preventDefault()
-    alert('Cierro el modal')
 }
 
 VentanaLinea.prototype.guardar = function () {
@@ -128,7 +124,7 @@ Grid.prototype.get_Config = function () {
 
     return {
         dataSource: this.kfuente_datos,
-        autoBind: false,
+        //autoBind: false,
         columnMenu: false,
         groupable: false,
         sortable: false,
