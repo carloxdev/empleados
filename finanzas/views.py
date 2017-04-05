@@ -2,7 +2,6 @@
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
-from django.shortcuts import render_to_response
 
 # Django Urls:
 from django.core.urlresolvers import reverse
@@ -80,6 +79,12 @@ class ViaticoNuevo(CreateView):
         form = self.form_class(request.POST)
         form2 = self.second_form_class()
 
+        
+        print(form.is_valid())
+
+        print(form)
+
+
         if form.is_valid():
             formulario = form.cleaned_data
             viatico = ViaticoCabecera()
@@ -96,24 +101,18 @@ class ViaticoNuevo(CreateView):
             viatico.direccion = formulario.get('direccion')
             viatico.grupo = formulario.get('grupo')
             viatico.autorizador = formulario.get('autorizador')
-            viatico.estado_solicitud = formulario.get('estado_solicitud')
+            viatico.status = formulario.get('status')
 
             viatico.save()
 
-            contexto = {
-                'form': form,
-                'form2': form2,
-                'id_cabecera': viatico.id
-            }
-            return render_to_response('viatico/viatico_editar.html', contexto)
-            #render(request, self.template_name, contexto)
+            return redirect(reverse('finanzas:viatico_editar', kwargs={'pk': viatico.id}))
+
         else:
             contexto = {
                 'form': form,
                 'form2': form2,
             }
             return render(request, self.template_name, contexto)
-
 
 class ViaticoEditar(View):
 
@@ -124,9 +123,11 @@ class ViaticoEditar(View):
         viatico = get_object_or_404(ViaticoCabecera, pk=pk)
 
         formulario = ViaticoCabeceraForm(instance=viatico)
+        formulario2 = ViaticoLineaForm()
 
         contexto = {
             'form': formulario,
+            'form2': formulario2,
             'operation': "Editar",
             'id_cabecera': viatico.id,
         }

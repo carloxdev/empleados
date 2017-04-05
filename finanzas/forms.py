@@ -15,7 +15,20 @@ class ViaticoCabeceraForm(ModelForm):
     class Meta:
         model = ViaticoCabecera
 
-        fields = '__all__'
+        fields = ['empleado',
+                  'fecha_partida',
+                  'fecha_regreso',
+                  'unidad_negocio',
+                  'ciudad_destino',
+                  'proposito_viaje',
+                  'requiere_vehiculo',
+                  'no_vehiculo',
+                  'nombre_empresa',
+                  'rfc',
+                  'direccion',
+                  'grupo',
+                  'autorizador',
+                  'status', ]
 
         labels = {'empleado': 'Empleado',
                   'fecha_partida': 'Fecha de partida',
@@ -30,7 +43,7 @@ class ViaticoCabeceraForm(ModelForm):
                   'direccion': 'Dirección',
                   'grupo': 'Grupo',
                   'autorizador': 'Autorizador',
-                  'estado_solicitud': 'Estado de la solicitud',
+                  'status': 'Estado de la solicitud',
 
                   }
 
@@ -54,8 +67,7 @@ class ViaticoCabeceraForm(ModelForm):
                    'direccion': TextInput(attrs={'class': 'form-control input-xs'}),
                    'grupo': TextInput(attrs={'class': 'form-control input-xs'}),
                    'autorizador': TextInput(attrs={'class': 'form-control input-xs'}),
-                   'estado_solicitud': TextInput(attrs={'class': 'form-control input-xs'}),
-
+                   'status': TextInput(attrs={'class': 'form-control input-xs'}),
                    }
 
 

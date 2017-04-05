@@ -4,7 +4,7 @@
 
 // URLS:
 //var url_viaticolinea = window.location.origin + "/api/viaticolineapaginado/"
-var url_viaticolinea = window.location.origin + "/api/viaticolineapaginado/"
+var url_viaticolinea = window.location.origin + "/api/viaticolinea_bypage/"
 //var url_viaticocabecera = window.location.origin + "/api/viaticocabecera/52/"
 
 // OBJS

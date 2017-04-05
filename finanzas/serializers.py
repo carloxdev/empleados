@@ -30,6 +30,7 @@ class ViaticoCabeceraSerializer(serializers.HyperlinkedModelSerializer):
             'grupo',
             'autorizador',
             'status',
+            'fecha_autorizacion',
             'created_date',
             'created_by',
             'updated_date',

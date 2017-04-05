@@ -3,7 +3,7 @@
 \*-----------------------------------------------*/
 
 // URLS:
-var url_viaticocabecera = window.location.origin + "/api/viaticocabecerapaginado/"
+var url_viaticocabecera = window.location.origin + "/api/viaticocabecera_bypage/"
 var url_viaticocabeceraeditar = window.location.origin + "/viaticos/editar/"
 
 // OBJS
@@ -165,8 +165,8 @@ Grid.prototype.get_DataSourceConfig = function () {
                 dataType: "json",
             },
             parameterMap: function (data, action) {
-                if (action === "read"){  
-                    return poppup_filtros.get_Filtros(data.page)
+                if (action === "read"){
+                    return popup_filtros.get_Filtros(data.page)
                 }
             }
         },
@@ -198,10 +198,10 @@ Grid.prototype.get_Campos = function () {
         direccion : { type: "string" },
         grupo : { type: "string" },
         autorizador : { type: "string" },
-        estado_solicitud : { type: "string" },
+        status : { type: "string" },
         fecha_autorizacion : { type: "date" },
-        fecha_creacion : { type: "date" },
-        fecha_actualizacion : { type: "date" },
+        created_date : { type: "date" },
+        updated_date : { type: "date" },
     }
 }
 Grid.prototype.get_Configuracion = function () {
@@ -230,7 +230,7 @@ Grid.prototype.get_Columnas = function () {
     return [
         { field: "pk", title: "Numero", width:"100px" },
         { field: "empleado", title: "Empleado", width:"100px" },
-        { field: "estado_solicitud", title: "Estado Solicitud", width:"100px" },
+        { field: "status", title: "Estado Solicitud", width:"100px" },
         { field: "fecha_partida", title: "Fecha Partida", width:"100px", format: "{0:dd-MM-yyyy}" },
         { field: "fecha_regreso", title: "Fecha Regreso", width:"100px", format: "{0:dd-MM-yyyy}" },
         { field: "unidad_negocio", title: "Unidad Negocio", width:"150px" },
@@ -244,8 +244,8 @@ Grid.prototype.get_Columnas = function () {
         { field: "grupo", title: "Grupo", width:"200px" },
         { field: "autorizador", title: "Autorizador", width:"200px" },
         { field: "fecha_autorizacion", title: "Fecha autorizacion", width:"100px", format: "{0:dd-MM-yyyy}" },
-        { field: "fecha_creacion", title: "Fecha creación", width:"100px", format: "{0:dd-MM-yyyy}" },
-        { field: "fecha_actualizacion", title: "Fecha actualización", width:"100px", format: "{0:dd-MM-yyyy}" },
+        { field: "created_date", title: "Fecha creación", width:"100px", format: "{0:dd-MM-yyyy}" },
+        { field: "updated_date", title: "Fecha actualización", width:"100px", format: "{0:dd-MM-yyyy}" },
         {
            command: [ 
                 {

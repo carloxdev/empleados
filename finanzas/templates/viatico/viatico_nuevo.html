@@ -39,281 +39,281 @@
 			 
 		<div class="col-sm-12">
 			<div class="panel panel-border panel-contrast">
-	                <div class="panel-heading panel-heading-default border-bottom">Solicitud de viaticos:{% if id_cabecera != ''  %}<strong value="{{ id_cabecera }}" id="id_cabecera">{{ id_cabecera }}</strong>{% endif %}
-	                	<div class="tools" data-toggle="collapse" href="#collapseCabecera"><span class="icon mdi mdi-caret-down-circle"></span></div>
+	            <div class="panel-heading panel-heading-default border-bottom">Solicitud de viaticos:{% if id_cabecera != ''  %}<strong value="{{ id_cabecera }}" id="id_cabecera">{{ id_cabecera }}</strong>{% endif %}
+	               	<div class="tools" data-toggle="collapse" href="#collapseCabecera"><span class="icon mdi mdi-caret-down-circle"></span></div>
 	                </div> 
-                <div class="panel-body collapse" id="collapseCabecera">
-                	<form action="" method="POST"> {% csrf_token %}	
+	                <div class="panel-body collapse" id="collapseCabecera">
+	                	<form action="" method="POST"> {% csrf_token %}	
 
-						<div class="row">
-												
-							<!-- Empleado -->
-							<div class="col-sm-4">
+							<div class="row">
+													
+								<!-- Empleado -->
+								<div class="col-sm-4">
 
-								<div class="form-group {% if form.empleado.field.required %} has-warning {% endif %} {% if form.empleado.errors %} has-error {% endif %}">
+									<div class="form-group {% if form.empleado.field.required %} has-warning {% endif %} {% if form.empleado.errors %} has-error {% endif %}">
 
-								<label class="control-label">
-								<i class="fa {% if form.empleado.field.required %} fa-asterisk {% endif %} {% if form.empleado.errors %} fa-asterisk {% endif %}"></i> 
-									{{ form.empleado.label }} 
-								</label>
-								<p>
-									{{ form.empleado }}	
-								</p>
-								{% for error in form.empleado.errors %}
-									<span class="help-block">{{ error }}</span>
-								{% endfor %}
+									<label class="control-label">
+									<i class="fa {% if form.empleado.field.required %} fa-asterisk {% endif %} {% if form.empleado.errors %} fa-asterisk {% endif %}"></i> 
+										{{ form.empleado.label }} 
+									</label>
+									<p>
+										{{ form.empleado }}	
+									</p>
+									{% for error in form.empleado.errors %}
+										<span class="help-block">{{ error }}</span>
+									{% endfor %}
+									</div>
 								</div>
-							</div>
 
-							<!-- Fecha Partida -->
-							<div class="col-sm-4">
-								
-		                            <label for="{{ form.fecha_partida.id_for_label }}"> Fecha de partida inicio: </label>
-		                                <div data-min-view="2" data-date-format="yyyy-mm-dd" class="input-group date datetimepicker">
-		                                    {{ form.fecha_partida }}
-		                                <span class="input-group-addon btn btn-primary"><i class="icon-th mdi mdi-calendar"></i></span>
-		                                </div>
-		                        
-							</div>
-
-							<!-- Fecha fecha_regreso -->
-							<div class="col-sm-4">
-								
-		                            <label for="{{ form.fecha_regreso.id_for_label }}"> Fecha de partida inicio: </label>
-		                                <div data-min-view="2" data-date-format="yyyy-mm-dd" class="input-group date datetimepicker">
-		                                    {{ form.fecha_regreso }}
-		                                <span class="input-group-addon btn btn-primary"><i class="icon-th mdi mdi-calendar"></i></span>
-		                                </div>
+								<!-- Fecha Partida -->
+								<div class="col-sm-4">
+									
+			                            <label for="{{ form.fecha_partida.id_for_label }}"> Fecha de partida inicio: </label>
+			                                <div data-min-view="2" data-date-format="yyyy-mm-dd" class="input-group date datetimepicker">
+			                                    {{ form.fecha_partida }}
+			                                <span class="input-group-addon btn btn-primary"><i class="icon-th mdi mdi-calendar"></i></span>
+			                                </div>
 			                        
 								</div>
+
+								<!-- Fecha fecha_regreso -->
+								<div class="col-sm-4">
+									
+			                            <label for="{{ form.fecha_regreso.id_for_label }}"> Fecha de partida inicio: </label>
+			                                <div data-min-view="2" data-date-format="yyyy-mm-dd" class="input-group date datetimepicker">
+			                                    {{ form.fecha_regreso }}
+			                                <span class="input-group-addon btn btn-primary"><i class="icon-th mdi mdi-calendar"></i></span>
+			                                </div>
+				                        
+									</div>
+								</div>
+
+								<div class="row">
+
+								<!-- Unidad de negocio -->
+								<div class="col-sm-6">
+
+									<div class="form-group {% if form.unidad_negocio.field.required %} has-warning {% endif %} {% if form.unidad_negocio.errors %} has-error {% endif %}">
+
+									<label class="control-label">
+									<i class="fa {% if form.unidad_negocio.field.required %} fa-asterisk {% endif %} {% if form.unidad_negocio.errors %} fa-asterisk {% endif %}"></i> 
+										{{ form.unidad_negocio.label }} 
+									</label>
+									<p>
+										{{ form.unidad_negocio }}	
+									</p>
+									{% for error in form.unidad_negocio.errors %}
+										<span class="help-block">{{ error }}</span>
+									{% endfor %}
+									</div>
+								</div>
+
+								<!-- Ciudad de destino -->
+								<div class="col-sm-6">
+
+									<div class="form-group {% if form.ciudad_destino.field.required %} has-warning {% endif %} {% if form.ciudad_destino.errors %} has-error {% endif %}">
+
+									<label class="control-label">
+									<i class="fa {% if form.ciudad_destino.field.required %} fa-asterisk {% endif %} {% if form.ciudad_destino.errors %} fa-asterisk {% endif %}"></i> 
+										{{ form.ciudad_destino.label }} 
+									</label>
+									<p>
+										{{ form.ciudad_destino }}	
+									</p>
+									{% for error in form.ciudad_destino.errors %}
+										<span class="help-block">{{ error }}</span>
+									{% endfor %}
+									</div>
+								</div>
+
 							</div>
 
 							<div class="row">
 
-							<!-- Unidad de negocio -->
-							<div class="col-sm-6">
+								<!-- Proposito del viaje -->
+								<div class="col-sm-12">
 
-								<div class="form-group {% if form.unidad_negocio.field.required %} has-warning {% endif %} {% if form.unidad_negocio.errors %} has-error {% endif %}">
+									<div class="form-group {% if form.proposito_viaje.field.required %} has-warning {% endif %} {% if form.proposito_viaje.errors %} has-error {% endif %}">
 
-								<label class="control-label">
-								<i class="fa {% if form.unidad_negocio.field.required %} fa-asterisk {% endif %} {% if form.unidad_negocio.errors %} fa-asterisk {% endif %}"></i> 
-									{{ form.unidad_negocio.label }} 
-								</label>
-								<p>
-									{{ form.unidad_negocio }}	
-								</p>
-								{% for error in form.unidad_negocio.errors %}
-									<span class="help-block">{{ error }}</span>
-								{% endfor %}
+									<label class="control-label">
+									<i class="fa {% if form.proposito_viaje.field.required %} fa-asterisk {% endif %} {% if form.proposito_viaje.errors %} fa-asterisk {% endif %}"></i> 
+										{{ form.proposito_viaje.label }} 
+									</label>
+										{{ form.proposito_viaje }}
+														  
+									{% for error in form.proposito_viaje.errors %}
+										<span class="help-block">{{ error }}</span>
+									{% endfor %}
+									</div>
+								</div>
+								
+							</div>
+
+							<div class="row">
+
+								<!-- Requiere vehiculo -->
+								<div class="col-sm-6">
+
+									<div class="form-group {% if form.requiere_vehiculo.field.required %} has-warning {% endif %} {% if form.requiere_vehiculo.errors %} has-error {% endif %}">
+
+								  	<label class="control-label">
+									<i class="fa {% if form.requiere_vehiculo.field.required %} fa-asterisk {% endif %} {% if form.requiere_vehiculo.errors %} fa-asterisk {% endif %}"></i> 
+										{{ form.requiere_vehiculo.label }} 
+									</label>
+										{{ form.requiere_vehiculo }}
+														  
+									{% for error in form.requiere_vehiculo.errors %}
+										<span class="help-block">{{ error }}</span>
+									{% endfor %}
+									</div>
+								</div>
+
+								<!-- No de vehiculo -->
+								<div class="col-sm-6">
+
+									<div class="form-group {% if form.no_vehiculo.field.required %} has-warning {% endif %} {% if form.no_vehiculo.errors %} has-error {% endif %}">
+
+									<label class="control-label">
+									<i class="fa {% if form.no_vehiculo.field.required %} fa-asterisk {% endif %} {% if form.no_vehiculo.errors %} fa-asterisk {% endif %}"></i> 
+										{{ form.no_vehiculo.label }} 
+									</label>
+									<p>
+										{{ form.no_vehiculo }}	
+									</p>
+									{% for error in form.no_vehiculo.errors %}
+										<span class="help-block">{{ error }}</span>
+									{% endfor %}
+									</div>
 								</div>
 							</div>
 
-							<!-- Ciudad de destino -->
-							<div class="col-sm-6">
+							<div class="row">
+								<!-- Nombre empresa -->
+								<div class="col-sm-4">
 
-								<div class="form-group {% if form.ciudad_destino.field.required %} has-warning {% endif %} {% if form.ciudad_destino.errors %} has-error {% endif %}">
+									<div class="form-group {% if form.nombre_empresa.field.required %} has-warning {% endif %} {% if form.nombre_empresa.errors %} has-error {% endif %}">
 
-								<label class="control-label">
-								<i class="fa {% if form.ciudad_destino.field.required %} fa-asterisk {% endif %} {% if form.ciudad_destino.errors %} fa-asterisk {% endif %}"></i> 
-									{{ form.ciudad_destino.label }} 
-								</label>
-								<p>
-									{{ form.ciudad_destino }}	
-								</p>
-								{% for error in form.ciudad_destino.errors %}
-									<span class="help-block">{{ error }}</span>
-								{% endfor %}
+									<label class="control-label">
+									<i class="fa {% if form.nombre_empresa.field.required %} fa-asterisk {% endif %} {% if form.nombre_empresa.errors %} fa-asterisk {% endif %}"></i> 
+										{{ form.nombre_empresa.label }} 
+									</label>
+									<p>
+										{{ form.nombre_empresa }}	
+									</p>
+									{% for error in form.nombre_empresa.errors %}
+										<span class="help-block">{{ error }}</span>
+									{% endfor %}
+									</div>
+								</div>
+
+								<!-- RFC -->
+								<div class="col-sm-4">
+
+									<div class="form-group {% if form.rfc.field.required %} has-warning {% endif %} {% if form.rfc.errors %} has-error {% endif %}">
+
+									<label class="control-label">
+									<i class="fa {% if form.rfc.field.required %} fa-asterisk {% endif %} {% if form.rfc.errors %} fa-asterisk {% endif %}"></i> 
+										{{ form.rfc.label }} 
+									</label>
+									<p>
+										{{ form.rfc }}	
+									</p>
+									{% for error in form.rfc.errors %}
+										<span class="help-block">{{ error }}</span>
+									{% endfor %}
+									</div>
+								</div>
+
+								<!-- Direccion -->
+								<div class="col-sm-4">
+
+									<div class="form-group {% if form.direccion.field.required %} has-warning {% endif %} {% if form.direccion.errors %} has-error {% endif %}">
+
+									<label class="control-label">
+									<i class="fa {% if form.direccion.field.required %} fa-asterisk {% endif %} {% if form.direccion.errors %} fa-asterisk {% endif %}"></i> 
+										{{ form.direccion.label }} 
+									</label>
+									<p>
+										{{ form.direccion }}	
+									</p>
+									{% for error in form.direccion.errors %}
+										<span class="help-block">{{ error }}</span>
+									{% endfor %}
+									</div>
 								</div>
 							</div>
 
-						</div>
 
-						<div class="row">
+							<div class="row">
+								<!-- Grupo -->
+								<div class="col-sm-3">
 
-							<!-- Proposito del viaje -->
-							<div class="col-sm-12">
+									<div class="form-group {% if form.grupo.field.required %} has-warning {% endif %} {% if form.grupo.errors %} has-error {% endif %}">
 
-								<div class="form-group {% if form.proposito_viaje.field.required %} has-warning {% endif %} {% if form.proposito_viaje.errors %} has-error {% endif %}">
-
-								<label class="control-label">
-								<i class="fa {% if form.proposito_viaje.field.required %} fa-asterisk {% endif %} {% if form.proposito_viaje.errors %} fa-asterisk {% endif %}"></i> 
-									{{ form.proposito_viaje.label }} 
-								</label>
-									{{ form.proposito_viaje }}
-													  
-								{% for error in form.proposito_viaje.errors %}
-									<span class="help-block">{{ error }}</span>
-								{% endfor %}
+									<label class="control-label">
+									<i class="fa {% if form.grupo.field.required %} fa-asterisk {% endif %} {% if form.grupo.errors %} fa-asterisk {% endif %}"></i> 
+										{{ form.grupo.label }} 
+									</label>
+									<p>
+										{{ form.grupo }}	
+									</p>
+									{% for error in form.grupo.errors %}
+										<span class="help-block">{{ error }}</span>
+									{% endfor %}
+									</div>
 								</div>
-							</div>
-							
-						</div>
 
-						<div class="row">
+								<!-- Autorizador -->
+								<div class="col-sm-3">
 
-							<!-- Requiere vehiculo -->
-							<div class="col-sm-6">
+									<div class="form-group {% if form.autorizador.field.required %} has-warning {% endif %} {% if form.autorizador.errors %} has-error {% endif %}">
 
-								<div class="form-group {% if form.requiere_vehiculo.field.required %} has-warning {% endif %} {% if form.requiere_vehiculo.errors %} has-error {% endif %}">
-
-							  	<label class="control-label">
-								<i class="fa {% if form.requiere_vehiculo.field.required %} fa-asterisk {% endif %} {% if form.requiere_vehiculo.errors %} fa-asterisk {% endif %}"></i> 
-									{{ form.requiere_vehiculo.label }} 
-								</label>
-									{{ form.requiere_vehiculo }}
-													  
-								{% for error in form.requiere_vehiculo.errors %}
-									<span class="help-block">{{ error }}</span>
-								{% endfor %}
+									<label class="control-label">
+									<i class="fa {% if form.autorizador.field.required %} fa-asterisk {% endif %} {% if form.autorizador.errors %} fa-asterisk {% endif %}"></i> 
+										{{ form.autorizador.label }} 
+									</label>
+									<p>
+										{{ form.autorizador }}	
+									</p>
+									{% for error in form.autorizador.errors %}
+										<span class="help-block">{{ error }}</span>
+									{% endfor %}
+									</div>
 								</div>
-							</div>
 
-							<!-- No de vehiculo -->
-							<div class="col-sm-6">
+								<!-- Estado de la solicitud -->
+								<div class="col-sm-3">
 
-								<div class="form-group {% if form.no_vehiculo.field.required %} has-warning {% endif %} {% if form.no_vehiculo.errors %} has-error {% endif %}">
+									<div class="form-group {% if form.status.field.required %} has-warning {% endif %} {% if form.status.errors %} has-error {% endif %}">
 
-								<label class="control-label">
-								<i class="fa {% if form.no_vehiculo.field.required %} fa-asterisk {% endif %} {% if form.no_vehiculo.errors %} fa-asterisk {% endif %}"></i> 
-									{{ form.no_vehiculo.label }} 
-								</label>
-								<p>
-									{{ form.no_vehiculo }}	
-								</p>
-								{% for error in form.no_vehiculo.errors %}
-									<span class="help-block">{{ error }}</span>
-								{% endfor %}
+									<label class="control-label">
+									<i class="fa {% if form.status.field.required %} fa-asterisk {% endif %} {% if form.status.errors %} fa-asterisk {% endif %}"></i> 
+										{{ form.status.label }} 
+									</label>
+									<p>
+										{{ form.status }}	
+									</p>
+									{% for error in form.status.errors %}
+										<span class="help-block">{{ error }}</span>
+									{% endfor %}
+									</div>
 								</div>
-							</div>
-						</div>
 
-						<div class="row">
-							<!-- Nombre empresa -->
-							<div class="col-sm-4">
+								<!-- Fecha de autorizacion -->
+								<div class="col-sm-3">
 
-								<div class="form-group {% if form.nombre_empresa.field.required %} has-warning {% endif %} {% if form.nombre_empresa.errors %} has-error {% endif %}">
+									<div class="form-group">
 
-								<label class="control-label">
-								<i class="fa {% if form.nombre_empresa.field.required %} fa-asterisk {% endif %} {% if form.nombre_empresa.errors %} fa-asterisk {% endif %}"></i> 
-									{{ form.nombre_empresa.label }} 
-								</label>
-								<p>
-									{{ form.nombre_empresa }}	
-								</p>
-								{% for error in form.nombre_empresa.errors %}
-									<span class="help-block">{{ error }}</span>
-								{% endfor %}
+									<label class="control-label">
+										Fecha de autorización
+									</label>
+									<p>
+										<input class="form-control input-xs" id="id_fecha_autorizacion" type="text" name="fecha_autorizacion" readonly="True">
+									</p>
+									</div>
 								</div>
-							</div>
 
-							<!-- RFC -->
-							<div class="col-sm-4">
-
-								<div class="form-group {% if form.rfc.field.required %} has-warning {% endif %} {% if form.rfc.errors %} has-error {% endif %}">
-
-								<label class="control-label">
-								<i class="fa {% if form.rfc.field.required %} fa-asterisk {% endif %} {% if form.rfc.errors %} fa-asterisk {% endif %}"></i> 
-									{{ form.rfc.label }} 
-								</label>
-								<p>
-									{{ form.rfc }}	
-								</p>
-								{% for error in form.rfc.errors %}
-									<span class="help-block">{{ error }}</span>
-								{% endfor %}
-								</div>
-							</div>
-
-							<!-- Direccion -->
-							<div class="col-sm-4">
-
-								<div class="form-group {% if form.direccion.field.required %} has-warning {% endif %} {% if form.direccion.errors %} has-error {% endif %}">
-
-								<label class="control-label">
-								<i class="fa {% if form.direccion.field.required %} fa-asterisk {% endif %} {% if form.direccion.errors %} fa-asterisk {% endif %}"></i> 
-									{{ form.direccion.label }} 
-								</label>
-								<p>
-									{{ form.direccion }}	
-								</p>
-								{% for error in form.direccion.errors %}
-									<span class="help-block">{{ error }}</span>
-								{% endfor %}
-								</div>
-							</div>
-						</div>
-
-
-						<div class="row">
-							<!-- Grupo -->
-							<div class="col-sm-3">
-
-								<div class="form-group {% if form.grupo.field.required %} has-warning {% endif %} {% if form.grupo.errors %} has-error {% endif %}">
-
-								<label class="control-label">
-								<i class="fa {% if form.grupo.field.required %} fa-asterisk {% endif %} {% if form.grupo.errors %} fa-asterisk {% endif %}"></i> 
-									{{ form.grupo.label }} 
-								</label>
-								<p>
-									{{ form.grupo }}	
-								</p>
-								{% for error in form.grupo.errors %}
-									<span class="help-block">{{ error }}</span>
-								{% endfor %}
-								</div>
-							</div>
-
-							<!-- Autorizador -->
-							<div class="col-sm-3">
-
-								<div class="form-group {% if form.autorizador.field.required %} has-warning {% endif %} {% if form.autorizador.errors %} has-error {% endif %}">
-
-								<label class="control-label">
-								<i class="fa {% if form.autorizador.field.required %} fa-asterisk {% endif %} {% if form.autorizador.errors %} fa-asterisk {% endif %}"></i> 
-									{{ form.autorizador.label }} 
-								</label>
-								<p>
-									{{ form.autorizador }}	
-								</p>
-								{% for error in form.autorizador.errors %}
-									<span class="help-block">{{ error }}</span>
-								{% endfor %}
-								</div>
-							</div>
-
-							<!-- Estado de la solicitud -->
-							<div class="col-sm-3">
-
-								<div class="form-group {% if form.estado_solicitud.field.required %} has-warning {% endif %} {% if form.estado_solicitud.errors %} has-error {% endif %}">
-
-								<label class="control-label">
-								<i class="fa {% if form.estado_solicitud.field.required %} fa-asterisk {% endif %} {% if form.estado_solicitud.errors %} fa-asterisk {% endif %}"></i> 
-									{{ form.estado_solicitud.label }} 
-								</label>
-								<p>
-									{{ form.estado_solicitud }}	
-								</p>
-								{% for error in form.estado_solicitud.errors %}
-									<span class="help-block">{{ error }}</span>
-								{% endfor %}
-								</div>
-							</div>
-
-							<!-- Fecha de autorizacion -->
-							<div class="col-sm-3">
-
-								<div class="form-group">
-
-								<label class="control-label">
-									Fecha de autorización
-								</label>
-								<p>
-									<input class="form-control input-xs" id="id_fecha_autorizacion" type="text" name="fecha_autorizacion" readonly="True">
-								</p>
-								</div>
-							</div>
-
-						</div> <!-- Row -->
+							</div> <!-- Row -->
 
 
 						<div class="pull-right">
@@ -322,7 +322,7 @@
 						
 					</form>
 
-                </div>
+                </div> <!-- Panel heading -->
             </div>	<!-- Panel -->
            
 		</div>	<!-- col-sm-12 -->
