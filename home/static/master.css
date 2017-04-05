@@ -23,7 +23,7 @@
     margin-right: 10px;
 }
 
-#toolbar{
+.tools{
     margin-right: 20px;
 }
 
@@ -41,4 +41,8 @@
 
 .border-bottom {
     border-bottom: 1px solid #d4d4d4;
+}
+
+.btn{
+    font-weight: 500;
 }

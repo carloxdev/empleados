@@ -35,24 +35,26 @@
 
   <div class="main-content container-fluid">  
 		<div class="col-md-12">
-              <div class="panel panel-default panel-table">
-                <div class="panel-heading panel-border"> 
-                  <div class="tools pull-right" id="toolbar">
-                    
-                    <a href="{% url 'finanzas:viatico_nuevo' %}">
-                        <span class="icon fa fa-plus-circle" data-toggle="tooltip" data-placement="top" data-original-title="Nuevo viático" id="boton_nuevo"></span>                   
-                    </a>
+                <div class="panel panel-default panel-table">
+                    <div class="panel-heading panel-border"> 
+                        <div class="tools pull-right" id="toolbar">
 
-                    <a href="#ventana_filtro" data-toggle="modal">
-                        <span class="icon fa fa-search" data-toggle="tooltip" data-placement="top" data-original-title="Filtros de búsqueda" id="boton_filtro"></span>
-                    </a>    
-                    
-		            <span class="icon fa fa-file-excel-o" data-toggle="tooltip" data-placement="top" data-original-title="Exportar a Excel" id="boton_excel"></span>
+                            <a href="{% url 'finanzas:viatico_nuevo' %}">
+                                <button class="btn btn-rounded btn-space btn-default" id="boton_nuevo"><i class="icon icon-left fa fa-plus-circle"></i> Nuevo </button>
+                            </a>
 
-                  </div>
-                  <div class="title">  Registros</div>
-                </div>
-                <div id="grid_resultados">      
+                            <a href="#ventana_filtro" data-toggle="modal">
+                                <button class="btn btn-rounded btn-space btn-default" id="boton_filtro"><i class="icon icon-left fa fa-search"></i> Búscar </button>
+                            </a>
+                            
+                            <a href="#">
+                                <button class="btn btn-rounded btn-space btn-default" id="boton_excel"><i class="icon icon-left fa fa-file-excel-o"></i> Exportar </button>
+                            </a>
+                            
+                        </div>
+                        <div class="title">  Registros</div>
+                    </div>
+                <div id="grid_resultados">
                 </div>
               </div>
         </div>
