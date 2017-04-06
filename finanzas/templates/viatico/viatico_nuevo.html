@@ -39,9 +39,10 @@
 			 
 		<div class="col-sm-12">
 			<div class="panel panel-border panel-contrast">
-	            <div class="panel-heading panel-heading-default border-bottom">Solicitud de viaticos:{% if id_cabecera != ''  %}<strong value="{{ id_cabecera }}" id="id_cabecera">{{ id_cabecera }}</strong>{% endif %}
+	            <div class="panel-heading panel-heading-default border-bottom">Solicitud de viaticos: {% if id_cabecera != ''  %}<strong value="{{ id_cabecera }}" id="id_cabecera">{{ id_cabecera }}</strong>{% endif %}
+	               	{% if operation != '' %} <span class="label label-primary labelCentrado">{{ operation }}</span> {% endif %}
 	               	<div class="tools" data-toggle="collapse" href="#collapseCabecera"><span class="icon mdi mdi-caret-down-circle"></span></div>
-	                </div> 
+	            </div> 
 	                <div class="panel-body collapse" id="collapseCabecera">
 	                	<form action="" method="POST"> {% csrf_token %}	
 

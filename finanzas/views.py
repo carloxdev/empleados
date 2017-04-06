@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # Django Atajos:
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
@@ -65,6 +66,7 @@ class ViaticoNuevo(CreateView):
     template_name = 'viatico/viatico_nuevo.html'
     form_class = ViaticoCabeceraForm
     second_form_class = ViaticoLineaForm
+    operation = 'EN EDICIÓN'
 
     def get_context_data(self, **kwargs):
         context = super(ViaticoNuevo, self).get_context_data(**kwargs)
@@ -72,18 +74,15 @@ class ViaticoNuevo(CreateView):
             context['form'] = self.form_class(self.request.GET)
         if 'form2' not in context:
             context['form2'] = self.second_form_class(self.request.GET)
+        if 'operation' not in context:
+            context['operation'] = self.operation
         return context
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object
         form = self.form_class(request.POST)
         form2 = self.second_form_class()
-
-        
-        print(form.is_valid())
-
-        print(form)
-
+        operation = self.operation
 
         if form.is_valid():
             formulario = form.cleaned_data
@@ -111,8 +110,10 @@ class ViaticoNuevo(CreateView):
             contexto = {
                 'form': form,
                 'form2': form2,
+                'operation': operation
             }
             return render(request, self.template_name, contexto)
+
 
 class ViaticoEditar(View):
 
@@ -121,14 +122,14 @@ class ViaticoEditar(View):
 
     def get(self, request, pk):
         viatico = get_object_or_404(ViaticoCabecera, pk=pk)
-
         formulario = ViaticoCabeceraForm(instance=viatico)
         formulario2 = ViaticoLineaForm()
+        operation = viatico.get_status_display()
 
         contexto = {
             'form': formulario,
             'form2': formulario2,
-            'operation': "Editar",
+            'operation': operation,
             'id_cabecera': viatico.id,
         }
         return render(request, self.template_name, contexto)
@@ -137,6 +138,7 @@ class ViaticoEditar(View):
 
         viatico = get_object_or_404(ViaticoCabecera, pk=pk)
         formulario = ViaticoCabeceraForm(request.POST, instance=viatico)
+        operation = viatico.get_status_display()
 
         if formulario.is_valid():
             viatico = formulario.save()
@@ -144,7 +146,7 @@ class ViaticoEditar(View):
 
         contexto = {
             'form': formulario,
-            'operation': "Editar",
+            'operation': operation,
             'id_cabecera': viatico.id,
         }
         return render(request, self.template_name, contexto)

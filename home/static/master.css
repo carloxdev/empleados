@@ -46,3 +46,10 @@
 .btn{
     font-weight: 500;
 }
+
+.labelCentrado{
+    padding: 2px 7px;
+    font-size: 18px;
+    font-weight: 300;
+    margin-left: 2em;
+}

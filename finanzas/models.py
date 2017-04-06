@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 
 # Librerias Django
 from __future__ import unicode_literals
@@ -13,7 +14,8 @@ from seguridad.models import Profile
 class ViaticoCabecera(models.Model):
 
     VIATICO_ESTADOS = (
-        ('CAP', 'EN EDICION'),
+        ('CAP', 'EN EDICIÓN'),
+        ('SAU', 'SIN AUTORIZAR'),
         ('AUT', 'AUTORIZADO'),
         ('REC', 'RECHAZADO'),
         ('FIN', 'FINALIZADO'),
