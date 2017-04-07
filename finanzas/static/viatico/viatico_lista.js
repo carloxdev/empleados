@@ -142,7 +142,6 @@ function Grid() {
 }
 Grid.prototype.init = function () {
 
-
     // Definicion del pais, formato modena, etc..
     kendo.culture("es-MX")
 
@@ -228,15 +227,15 @@ Grid.prototype.get_Configuracion = function () {
 }
 Grid.prototype.get_Columnas = function () {
 
-    return [
-        { field: "pk", title: "Numero", width:"100px" },
-        { field: "empleado", title: "Empleado", width:"100px" },
+    return [    
+        { field: "pk", title: "Numero", width:"70px" },
+        { field: "empleado", title: "Empleado", width:"300px" },
         { field: "status", title: "Estado Solicitud", width:"100px" },
         { field: "fecha_partida", title: "Fecha Partida", width:"100px", format: "{0:dd-MM-yyyy}" },
         { field: "fecha_regreso", title: "Fecha Regreso", width:"100px", format: "{0:dd-MM-yyyy}" },
         { field: "unidad_negocio", title: "Unidad Negocio", width:"150px" },
         { field: "ciudad_destino", title: "Ciudad Destino", width:"200px" },
-        { field: "proposito_viaje", title: "Proposito Viaje", width:"200px" },
+        { field: "proposito_viaje", title: "Proposito Viaje", width:"200px", hidden:true },
         { field: "requiere_vehiculo", title: "Requiere Vehiculo", width:"120px" },
         { field: "no_vehiculo", title: "No Vehículo", width:"100px" },
         { field: "nombre_empresa", title: "Nombre Empresa", width:"150px" },
@@ -250,15 +249,15 @@ Grid.prototype.get_Columnas = function () {
         {
            command: [ 
                 {
-                   text: " Editar",
+                   text: " ",
                    click: this.click_BotonEditar,
-                   className: "boton_editar fa fa-pencil-square-o",
+                   className: "fa fa-pencil nova-k-btn-editar",
                 },   
                              
             ],           
            title: " ",
-           width: "120px"
-        },
+           width: "95px",
+        },        
     ]
 }
 Grid.prototype.click_BotonEditar = function (e) {
@@ -267,8 +266,8 @@ Grid.prototype.click_BotonEditar = function (e) {
 }
 Grid.prototype.set_Icons = function (e) {
 
-    e.sender.tbody.find(".k-button.fa.fa-pencil-square-o").each(function(idx, element){
-        $(element).removeClass("fa fa-pencil-square-o").find("span").addClass("fa fa-pencil-square-o")
+    e.sender.tbody.find(".k-button.fa.fa-pencil").each(function(idx, element){
+        $(element).removeClass("fa fa-pencil").find("span").addClass("fa fa-pencil")
     })   
 }
 Grid.prototype.buscar = function() {
