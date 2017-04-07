@@ -16,6 +16,12 @@
     min-height: 55px;
 }
 
+.nova-panel-footer{
+    margin: 0px;
+    padding: 15px 20px 15px !important;
+    min-height: 55px;
+}
+
 .nova-white {
     color: white !important;
 }

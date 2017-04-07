@@ -3,16 +3,23 @@
 {% block EditarViatico %}
 <div class="col-sm-12">
     <div class="panel panel-default panel-table">
-        <div class="panel-heading panel-border">
+        <div class="panel-heading panel-border nova-panel-heading">
             <div class="tools pull-right" id="toolbar">
                 <a href="#lineasModal" data-toggle="modal">
                     <button class="btn btn-rounded btn-space btn-default" id="boton_nueva_linea"><i class="icon icon-left mdi mdi-plus-circle"></i> Linea </button>
                 </a>
             </div>
-            <div class="title"> Registros </div>
-        </div>
+            <div class="title hidden-xs">Registros</div>
+        </div><!-- Panel Heading -->
         <div id="grid_resultados">
         </div>
-    </div>
+        <div class="panel-footer panel-border nova-panel-footer panel-border">
+            {% if id_cabecera %}    
+                <a href="" class="btn btn-rounded btn-space btn-warning pull-right btn-margen-der" id="btn_finalizar_captura">
+                    <i class="icon icon-left mdi mdi-alert-triangle"></i> Finalizar captura
+                </a>
+            {% endif %}
+        </div><!-- Panel Footer -->
+    </div> <!-- Panel -->
 </div><!-- col sm 12-->
 {% endblock EditarViatico %}

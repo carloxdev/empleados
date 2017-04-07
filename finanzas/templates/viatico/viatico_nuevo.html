@@ -40,8 +40,8 @@
 	               	{% if operation != '' %} <span class="label label-primary labelCentrado">{{ operation }}</span> {% endif %}
 	               	<div class="tools" data-toggle="collapse" href="#collapseCabecera"><span class="icon mdi mdi-caret-down-circle"></span></div>
 	            </div> 
-	                <div class="panel-body collapse" id="collapseCabecera">
-	                	<form action="" method="POST"> {% csrf_token %}	
+	            <div class="panel-body collapse" id="collapseCabecera">
+	                <form action="" method="POST"> {% csrf_token %}	
 
 							<div class="row">
 													
@@ -314,25 +314,19 @@
 							</div> <!-- Row -->
 
 
-						<div class="pull-right">
-							<button type="submit" class="btn btn-primary" >Guardar encabezado</button>
-						</div>
+					<div class="pull-right">
+						<button type="submit" class="btn btn-primary" >Guardar encabezado</button>
+					</div>
 						
 					</form>
 
-                </div> <!-- Panel heading -->
+              	</div> <!-- Panel Body -->
             </div>	<!-- Panel -->
-           
 		</div>	<!-- col-sm-12 -->
 
 		{% block EditarViatico %}
 
 		{% endblock EditarViatico %}
-		{% if id_cabecera %}	
-			<a href="" class="btn btn-rounded btn-space btn-warning pull-right btn-margen-der" id="btn_finalizar_captura">
-		        <i class="icon icon-left mdi mdi-alert-triangle"></i> Finalizar captura
-			</a>
-		{% endif %}
     </div>
 
 	<!-- PopUp -->
