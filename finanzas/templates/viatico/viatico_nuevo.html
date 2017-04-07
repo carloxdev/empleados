@@ -7,6 +7,7 @@
 {% block title-page %} Nuevo Viatico {% endblock title-page %}
 
 {% block css %}
+
 	<!-- Kendo -->
 	<link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.rtl.min.css' %}"/>
 	<link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.common-bootstrap.min.css' %}"/>
@@ -18,13 +19,9 @@
     <!-- Nova -->
     <link rel="stylesheet" href="{% static 'grid.css' %}"/>
 
-
-
 {% endblock css %}
 
-
 {% block contenido %}
-
 
 <div class="be-content">
     <div class="page-head">
@@ -39,7 +36,7 @@
 			 
 		<div class="col-sm-12">
 			<div class="panel panel-border panel-contrast">
-	            <div class="panel-heading panel-heading-default border-bottom">Solicitud de viaticos: {% if id_cabecera != ''  %}<strong value="{{ id_cabecera }}" id="id_cabecera">{{ id_cabecera }}</strong>{% endif %}
+	            <div class="panel-heading panel-heading-default border-bottom">Solicitud de viaticos: {% if id_cabecera %}<strong value="{{ id_cabecera }}" id="id_cabecera">{{ id_cabecera }}</strong>{% endif %}
 	               	{% if operation != '' %} <span class="label label-primary labelCentrado">{{ operation }}</span> {% endif %}
 	               	<div class="tools" data-toggle="collapse" href="#collapseCabecera"><span class="icon mdi mdi-caret-down-circle"></span></div>
 	            </div> 
@@ -331,7 +328,11 @@
 		{% block EditarViatico %}
 
 		{% endblock EditarViatico %}
-		
+		{% if id_cabecera %}	
+			<a href="" class="btn btn-rounded btn-space btn-warning pull-right btn-margen-der" id="btn_finalizar_captura">
+		        <i class="icon icon-left mdi mdi-alert-triangle"></i> Finalizar captura
+			</a>
+		{% endif %}
     </div>
 
 	<!-- PopUp -->

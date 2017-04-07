@@ -3,21 +3,20 @@
 \*-----------------------------------------------*/
 
 // URLS:
-//var url_viaticolinea = window.location.origin + "/api/viaticolineapaginado/"
 var url_viaticolinea = window.location.origin + "/api/viaticolinea_bypage/"
-//var url_viaticocabecera = window.location.origin + "/api/viaticocabecera/52/"
 
 // OBJS
+var toolbar = null
 var grid = null
 var tarjeta_resultados = null
 var ventana_linea = null
-
 
 /*-----------------------------------------------*\
             LOAD
 \*-----------------------------------------------*/
 
 $(document).ready(function () {
+
     ventana_linea = new VentanaLinea()
     tarjeta_resultados = new TarjetaResultados()
 })
@@ -27,8 +26,27 @@ $(document).ready(function () {
 \*-----------------------------------------------*/
 
 function TarjetaResultados(){
+    
+    this.toolbar = new ToolBar()
     this.grid = new Grid()
+}
+/*-----------------------------------------------*\
+            OBJETO: ToolBar
+\*-----------------------------------------------*/
 
+function ToolBar() {
+
+    this.$btn_finalizar_captura = $("#btn_finalizar_captura")
+    this.init()
+}
+ToolBar.prototype.init = function (e) {
+
+    this.$btn_finalizar_captura.on("click", this, this.click_BotonFinalizarCaptura)   
+}
+ToolBar.prototype.click_BotonFinalizarCaptura = function (e) {
+    
+    e.preventDefault()
+    alert(tarjeta_resultados.grid.kfuente_datos.total())
 }
 
 /*-----------------------------------------------*\
@@ -36,6 +54,7 @@ function TarjetaResultados(){
 \*-----------------------------------------------*/
 
 function VentanaLinea() {
+
     this.$cabecera = $('#id_cabecera')
     this.$concepto = $('#id_concepto')
     this.$observaciones = $('#id_observaciones')
@@ -44,15 +63,12 @@ function VentanaLinea() {
     this.$boton_cancelar =  $('#boton_cancelar')
     this.init()
 }
-
 VentanaLinea.prototype.init = function () {
 
     this.$boton_guardar.on("click", this, this.click_BotonGuardar)
-    this.$boton_cancelar.on("click", this, this.click_BotonCancelar)
-    
+    this.$boton_cancelar.on("click", this, this.click_BotonCancelar)   
 }
 VentanaLinea.prototype.click_BotonGuardar = function (e) {
-    
     e.preventDefault()
     
     $.ajax({
@@ -68,6 +84,8 @@ VentanaLinea.prototype.click_BotonGuardar = function (e) {
             },
             success: function (response) {
                 tarjeta_resultados.grid.buscar()
+                //tarjeta_resultados.grid.checar()
+                //toolbar.btn_finalizar_captura.disabled = false
                 //e.data.$id.modal('hide')
                 //cuando se inserta la linea, recarga
                 
@@ -77,16 +95,13 @@ VentanaLinea.prototype.click_BotonGuardar = function (e) {
             //    alertify.error("Ocurrio error al insertar datos")
             //}
         })
-}
 
+}
 VentanaLinea.prototype.click_BotonCancelar = function (e) {
     e.preventDefault()
-}
 
-VentanaLinea.prototype.guardar = function () {
-        
 }
-VentanaLinea.prototype.get_Filtros = function (_page, _pageSize) {
+VentanaLinea.prototype.get_Filtros = function (_page, _pageSize) {   
     return {
         page: _page,
         pageSize: _pageSize,
@@ -99,31 +114,26 @@ VentanaLinea.prototype.get_Filtros = function (_page, _pageSize) {
 \*-----------------------------------------------*/
 
 function Grid() {
-
     this.$id = $("#grid_resultados")
     this.kfuente_datos = null
     this.kgrid = null
-    
     this.init()
+
 }
 Grid.prototype.init = function () {
-
     kendo.culture("es-MX")
     this.kfuente_datos = new kendo.data.DataSource(this.get_FuenteDatosConfig())
-
     this.kGrid = this.$id.kendoGrid(this.get_Config())
 
 }
 Grid.prototype.ocultar_Botones = function () {
-
     var grid = this.kGrid.data("kendoGrid")
     grid.hideColumn(3)
+
 }
 Grid.prototype.get_Config = function () {
-
     return {
         dataSource: this.kfuente_datos,
-        //autoBind: false,
         columnMenu: false,
         groupable: false,
         sortable: false,
@@ -137,20 +147,20 @@ Grid.prototype.get_Config = function () {
         noRecords: {
             template: "<div class='grid-empy'> No se encontraron registros </div>"
         },  
-        dataBound: this.set_Icons,
+        dataBound: this.set_Functions,
     }
+
 }
 Grid.prototype.get_Campos = function (e) {
-
     return {
         concepto: { type: "string" },
         observaciones: { type: "string" },
         importe: { type: "number" },
         
     }
+
 }
 Grid.prototype.get_Columnas = function (e) {
-
     return [
         { field: "concepto" , title: "Concepto"},
         { field: "observaciones" , title: "Observaciones" },
@@ -169,6 +179,7 @@ Grid.prototype.get_Columnas = function (e) {
            width: "120px"
         },
     ]
+
 }
 Grid.prototype.click_BotonEliminar = function (e) {
     var token = $("[name=csrfmiddlewaretoken]").val()
@@ -186,9 +197,9 @@ Grid.prototype.click_BotonEliminar = function (e) {
                 headers: { "X-CSRFToken": $.cookie('csrftoken') },
                 method: "DELETE",
                 success: function () {
-                alert("Se eliminó registro correctamente")
-
-                tarjeta_resultados.grid.kfuente_datos.remove(fila)
+                    alert("Se eliminó registro correctamente")
+                    tarjeta_resultados.grid.kfuente_datos.remove(fila)
+                    //tarjeta_resultados.grid.checar()
                         
                 },
                 error: function () {
@@ -199,16 +210,20 @@ Grid.prototype.click_BotonEliminar = function (e) {
     //    }   , 
     //    null
     //)  
+
+}
+Grid.prototype.set_Functions = function (e) {
+    tarjeta_resultados.grid.set_Icons(e)
+    tarjeta_resultados.grid.checar()
+
 }
 Grid.prototype.set_Icons = function (e) {
-
     e.sender.tbody.find(".k-button.fa.fa-trash-o").each(function(idx, element){
         $(element).removeClass("fa fa-trash-o").find("span").addClass("fa fa-trash-o")
     })
-    
+
 }
 Grid.prototype.get_FuenteDatosConfig = function (e) {
-
     return {
 
         serverPaging: true,
@@ -239,10 +254,20 @@ Grid.prototype.get_FuenteDatosConfig = function (e) {
             alert("Status: " + e.status + "; Error message: " + e.errorThrown)
         },
     }
+
 }
-
 Grid.prototype.buscar = function() {
-    
-
     this.kfuente_datos.page(1)
+
+}
+Grid.prototype.checar = function() {
+    if ( this.kfuente_datos.total() > 0 ) {
+        document.getElementById('btn_finalizar_captura').removeAttribute('disabled')
+        
+    }
+    else if ( this.kfuente_datos.total() == 0 ) {
+        document.getElementById('btn_finalizar_captura').setAttribute('disabled', 'disabled')
+        
+    }
+
 }

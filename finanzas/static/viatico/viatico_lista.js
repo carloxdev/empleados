@@ -46,6 +46,7 @@ function PopupFiltros() {
     this.init()
 }
 PopupFiltros.prototype.init = function () {
+    
     this.$boton_buscar.on("click", this, this.click_BotonBuscar)
     this.$boton_limpiar.on("click", this, this.click_BotonLimpiar)
     this.$cajita.datetimepicker(
@@ -79,6 +80,7 @@ PopupFiltros.prototype.init = function () {
         )
 }
 PopupFiltros.prototype.get_Filtros = function (_page) {
+    
     return {
         page: _page,
 
@@ -93,11 +95,13 @@ PopupFiltros.prototype.get_Filtros = function (_page) {
     }
 }
 PopupFiltros.prototype.click_BotonBuscar = function (e) {
+    
     e.preventDefault()
     
     tarjeta_resultados.grid.buscar()
 }
 PopupFiltros.prototype.click_BotonLimpiar = function (e) {
+    
     e.preventDefault()
 
     e.data.$empleado.val("")
@@ -261,6 +265,7 @@ Grid.prototype.get_Columnas = function () {
     ]
 }
 Grid.prototype.click_BotonEditar = function (e) {
+    
     var fila = this.dataItem($(e.currentTarget).closest('tr'))
     window.location.href = url_viaticocabeceraeditar + fila.pk;
 }
