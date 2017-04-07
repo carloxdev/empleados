@@ -19,7 +19,6 @@
   <!-- Nova -->
   <link rel="stylesheet" href="{% static 'grid.css' %}"/>
 
-
 {% endblock css %}
 
 {% block contenido %}
@@ -36,23 +35,25 @@
   <div class="main-content container-fluid">  
 		<div class="col-md-12">
                 <div class="panel panel-default panel-table">
-                    <div class="panel-heading panel-border"> 
-                        <div class="tools pull-right" id="toolbar">
+                    <div class="panel-heading panel-border nova-panel-heading"> 
+                        <div class="tools pull-right nova-tools" id="toolbar">
 
-                            <a href="{% url 'finanzas:viatico_nuevo' %}">
-                                <button class="btn btn-rounded btn-space btn-default" id="boton_nuevo"><i class="icon icon-left fa fa-plus-circle"></i> Nuevo </button>
+                            <a href="{% url 'finanzas:viatico_nuevo' %}" 
+                                class="btn btn-rounded btn-space btn-default" id="boton_nuevo">
+                                <i class="icon icon-left mdi mdi-plus-circle nova-black"></i> Nuevo 
                             </a>
 
-                            <a href="#ventana_filtro" data-toggle="modal">
-                                <button class="btn btn-rounded btn-space btn-default" id="boton_filtro"><i class="icon icon-left fa fa-search"></i> Búscar </button>
+                            <a href="#ventana_filtro" 
+                                class="btn btn-rounded btn-space btn-primary" data-toggle="modal" id="boton_filtro">
+                                <i class="icon icon-left mdi mdi-search nova-white"></i>Búscar
                             </a>
                             
-                            <a href="#">
-                                <button class="btn btn-rounded btn-space btn-default" id="boton_excel"><i class="icon icon-left fa fa-file-excel-o"></i> Exportar </button>
-                            </a>
-                            
+                            <button class="btn btn-rounded btn-space btn-success" id="boton_excel">
+                                <i class="icon icon-left mdi mdi-download nova-white"></i>
+                                Exportar
+                            </button>
                         </div>
-                        <div class="title">  Registros</div>
+                        <div class="title hidden-xs">Registros</div>
                     </div>
                 <div id="grid_resultados">
                 </div>
@@ -149,17 +150,17 @@
 
 {% block scripts %}
 
-	<!-- Kendo Js -->
-	<script src="{% static 'libs/kendo/2015.2.624/js/cultures/kendo.culture.es-MX.min.js' %}"></script>
-	<script src="{% static 'libs/kendo/2015.2.624/js/kendo.web.min.js' %}"></script>
+    <!-- Kendo Js -->
+    <script src="{% static 'libs/kendo/2015.2.624/js/cultures/kendo.culture.es-MX.min.js' %}"></script>
+    <script src="{% static 'libs/kendo/2015.2.624/js/kendo.web.min.js' %}"></script>
 
 
-  <!-- Theme -->
-  <script src="{% static 'theme/lib/datetimepicker/js/bootstrap-datetimepicker.min.js' %}"></script>
-  <script src="{% static 'theme/lib/jquery-ui/jquery-ui.min.js' %}"></script>
-  <script src="{% static 'theme/lib/moment.js/min/moment.min.js' %}"></script>
+    <!-- Theme -->
+    <script src="{% static 'theme/lib/datetimepicker/js/bootstrap-datetimepicker.min.js' %}"></script>
+    <script src="{% static 'theme/lib/jquery-ui/jquery-ui.min.js' %}"></script>
+    <script src="{% static 'theme/lib/moment.js/min/moment.min.js' %}"></script>
 
-	<!-- NOVA -->
-	<script src="{% static 'viatico/viatico_lista.js' %}"></script>
+    <!-- NOVA -->
+    <script src="{% static 'viatico/viatico_lista.js' %}"></script>
   
 {% endblock scripts %}

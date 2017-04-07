@@ -1,6 +1,5 @@
 .be-left-sidebar{
     background-color: #eee;
-    
 }
 
 .be-wrapper{
@@ -11,32 +10,23 @@
     background-color: #f5f5f5 !important;
 }
 
-.panel-heading{
+.nova-panel-heading {
     margin: 0px;
+    padding: 15px 20px 15px !important;
+    min-height: 55px;
 }
 
-.title {
-    margin-left: 20px;
+.nova-white {
+    color: white !important;
 }
 
-.icon{
-    margin-right: 10px;
+.nova-black {
+    color: #404040 !important;
 }
 
-.tools{
+
+.nova-tools {
     margin-right: 20px;
-}
-
-.fa-plus-circle {
-    color: cornflowerblue !important;
-}
-
-.fa-search {
-    color: darkgreen !important;
-}
-
-.fa-file-excel-o:before {
-    color: cadetblue;
 }
 
 .border-bottom {
@@ -53,3 +43,6 @@
     font-weight: 300;
     margin-left: 2em;
 }
+
+@media (max-width: @screen-xs-max) { ...
+ }

@@ -29,6 +29,7 @@ $(document).ready(function () {
 \*-----------------------------------------------*/
 
 function PopupFiltros() {
+    
     this.$empleado = $('#id_empleado')
     this.$fecha_partida_inicio = $('#id_fecha_partida_inicio')
     this.$fecha_partida_fin = $('#id_fecha_partida_fin')
