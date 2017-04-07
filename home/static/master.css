@@ -24,25 +24,10 @@
     color: #404040 !important;
 }
 
-
 .nova-tools {
     margin-right: 20px;
 }
 
-.border-bottom {
-    border-bottom: 1px solid #d4d4d4;
-}
-
-.btn{
+.nova-btn{
     font-weight: 500;
 }
-
-.labelCentrado{
-    padding: 2px 7px;
-    font-size: 18px;
-    font-weight: 300;
-    margin-left: 2em;
-}
-
-@media (max-width: @screen-xs-max) { ...
- }
