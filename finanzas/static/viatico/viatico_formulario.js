@@ -68,6 +68,7 @@ ToolBar.prototype.init = function (e) {
 ToolBar.prototype.click_BotonFinalizarCaptura = function (e) {
     
     e.preventDefault()
+    
 }
 
 /*-----------------------------------------------*\
