@@ -10,6 +10,7 @@ var toolbar = null
 var grid = null
 var tarjeta_resultados = null
 var ventana_linea = null
+var viatico_cabecera = null
 
 /*-----------------------------------------------*\
             LOAD
@@ -17,9 +18,30 @@ var ventana_linea = null
 
 $(document).ready(function () {
 
+    viatico_cabecera = new ViaticoCabecera()
     ventana_linea = new VentanaLinea()
     tarjeta_resultados = new TarjetaResultados()
 })
+
+/*-----------------------------------------------*\
+            OBJETO: viatico_cabecera
+\*-----------------------------------------------*/
+
+function ViaticoCabecera(){
+
+    this.$boton_colapsible = $("#boton_colapsible")
+    this.init()
+}
+
+ViaticoCabecera.prototype.init = function (e) {
+
+    this.$boton_colapsible.on("click", this, this.click_BotonColapsible)
+}
+
+ViaticoCabecera.prototype.click_BotonColapsible = function (e){
+    e.preventDefault()
+
+}
 
 /*-----------------------------------------------*\
             OBJETO: Tarjeta resultados
@@ -46,7 +68,6 @@ ToolBar.prototype.init = function (e) {
 ToolBar.prototype.click_BotonFinalizarCaptura = function (e) {
     
     e.preventDefault()
-    alert(tarjeta_resultados.grid.kfuente_datos.total())
 }
 
 /*-----------------------------------------------*\

@@ -41,7 +41,7 @@
 			<div class="panel panel-border panel-contrast">
 	            <div class="panel-heading panel-heading-default border-bottom">Solicitud de viaticos: {% if id_cabecera %}<strong value="{{ id_cabecera }}" id="id_cabecera">{{ id_cabecera }}</strong>{% endif %}
 	               	{% if operation != '' %} <span class="label label-primary labelCentrado">{{ operation }}</span> {% endif %}
-	               	<div class="tools" data-toggle="collapse" href="#collapseCabecera">{% if id_cabecera %}<span class="icon mdi mdi-caret-down-circle"></span>{% endif %}</div>
+	               	<div class="tools" data-toggle="collapse" href="#collapseCabecera">{% if id_cabecera %}<span class="icon mdi mdi-caret-down-circle" id="boton_colapsible"></span>{% endif %}</div>
 	            </div> 
 	            <div class="panel-body collapse {% if not id_cabecera %}in{% endif %}" id="collapseCabecera">
 
