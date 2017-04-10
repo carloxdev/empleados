@@ -247,14 +247,11 @@ Grid.prototype.get_Columnas = function () {
         { field: "created_date", title: "Fecha creación", width:"100px", format: "{0:dd-MM-yyyy}" },
         { field: "updated_date", title: "Fecha actualización", width:"100px", format: "{0:dd-MM-yyyy}" },
         { field: "importe_total", title: "Importe total", width:"100px" },
-        {
-           command: [ 
-                {
-                   text: " ",
+        { command: [ 
+                {  text: " ",
                    click: this.click_BotonEditar,
                    className: "fa fa-pencil nova-k-btn-editar",
                 },   
-                             
             ],           
            title: " ",
            width: "95px",

@@ -47,3 +47,24 @@
     margin-left: 2em;
     border-radius: 3px;
 }
+
+.nova-label-margin-bottom{
+    margin-bottom: 4px;
+}
+
+.nova-input-group-padding{
+    padding: 0px !important;
+}
+
+.nova-modal-body-padding {
+    padding:  15px 60px 0px 60px !important;
+}
+
+.nova-modal-footer{
+    border-top: 1px solid #d4d4d4;;
+    padding: 15px !important;
+}
+
+.nova-modal-header{
+    padding: 15px 20px !important;
+}
