@@ -141,7 +141,6 @@ function Grid() {
     this.$id = $("#grid_resultados")
     this.kfuente_datos = null
     this.kgrid = null
-    
     this.init()
 }
 Grid.prototype.init = function () {
@@ -195,8 +194,6 @@ Grid.prototype.get_Campos = function () {
         unidad_negocio : { type: "string" },
         ciudad_destino : { type: "string" },
         proposito_viaje : { type: "string" },
-        requiere_vehiculo : { type: "string" },
-        no_vehiculo : { type: "string" },
         nombre_empresa : { type: "string" },
         rfc : { type: "string" },
         direccion : { type: "string" },
@@ -206,6 +203,7 @@ Grid.prototype.get_Campos = function () {
         fecha_autorizacion : { type: "date" },
         created_date : { type: "date" },
         updated_date : { type: "date" },
+        importe_total : { type: "decimal" },
     }
 }
 Grid.prototype.get_Configuracion = function () {
@@ -240,8 +238,6 @@ Grid.prototype.get_Columnas = function () {
         { field: "unidad_negocio", title: "Unidad Negocio", width:"150px" },
         { field: "ciudad_destino", title: "Ciudad Destino", width:"200px" },
         { field: "proposito_viaje", title: "Proposito Viaje", width:"200px", hidden:true },
-        { field: "requiere_vehiculo", title: "Requiere Vehiculo", width:"120px" },
-        { field: "no_vehiculo", title: "No Vehículo", width:"100px" },
         { field: "nombre_empresa", title: "Nombre Empresa", width:"150px" },
         { field: "rfc", title: "RFC", width:"100px" },
         { field: "direccion", title: "Dirección", width:"200px" },
@@ -250,6 +246,7 @@ Grid.prototype.get_Columnas = function () {
         { field: "fecha_autorizacion", title: "Fecha autorizacion", width:"100px", format: "{0:dd-MM-yyyy}" },
         { field: "created_date", title: "Fecha creación", width:"100px", format: "{0:dd-MM-yyyy}" },
         { field: "updated_date", title: "Fecha actualización", width:"100px", format: "{0:dd-MM-yyyy}" },
+        { field: "importe_total", title: "Importe total", width:"100px" },
         {
            command: [ 
                 {

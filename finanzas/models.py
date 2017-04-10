@@ -33,6 +33,7 @@ class ViaticoCabecera(models.Model):
     direccion = models.CharField(max_length=60, blank=False)
     grupo = models.CharField(max_length=40)
     autorizador = models.CharField(max_length=60, blank=False)
+    importe_total = models.DecimalField(max_digits=7, decimal_places=2, blank=False, null=False)
     status = models.CharField(
         choices=VIATICO_ESTADOS,
         default="cap",
@@ -71,7 +72,7 @@ class ViaticoLinea(models.Model):
     cabecera = models.ForeignKey(ViaticoCabecera)
     concepto = models.CharField(max_length=60, blank=False, null=False)
     observaciones = models.CharField(max_length=140, blank=False, null=False)
-    importe = models.IntegerField(blank=False, null=False)
+    importe = models.DecimalField(max_digits=7, decimal_places=2, blank=False, null=False)
 
     created_by = models.ForeignKey(Profile, related_name='vialinea_created_by', null=True)
     created_date = models.DateTimeField(

@@ -32,12 +32,10 @@ function ViaticoCabecera(){
     this.$boton_colapsible = $("#boton_colapsible")
     this.init()
 }
-
 ViaticoCabecera.prototype.init = function (e) {
 
     this.$boton_colapsible.on("click", this, this.click_BotonColapsible)
 }
-
 ViaticoCabecera.prototype.click_BotonColapsible = function (e){
 
     if ($("#boton_colapsible").hasClass('mdi-caret-down-circle')){
@@ -181,15 +179,15 @@ Grid.prototype.get_Config = function () {
 
 }
 Grid.prototype.get_Campos = function (e) {
+    
     return {
         concepto: { type: "string" },
         observaciones: { type: "string" },
-        importe: { type: "number" },
-        
+        importe: { type: "number" },    
     }
-
 }
 Grid.prototype.get_Columnas = function (e) {
+    
     return [
         { field: "concepto" , title: "Concepto"},
         { field: "observaciones" , title: "Observaciones" },
@@ -201,58 +199,52 @@ Grid.prototype.get_Columnas = function (e) {
                    text: " Eliminar",
                    click: this.click_BotonEliminar,
                    className: "boton_eliminar fa fa-trash-o"
-                },   
-                             
+                },              
             ],           
            title: " ",
            width: "120px"
         },
     ]
-
 }
 Grid.prototype.click_BotonEliminar = function (e) {
+
     var token = $("[name=csrfmiddlewaretoken]").val()
     var fila = this.dataItem($(e.currentTarget).closest('tr'))
-    
-    //alertify.confirm(
-    //    'Eliminar Registro',
-    //    '¿Desea eliminar esta fila?',
+    var url = url_viaticolinea + fila.pk + "/"
+    alertify.confirm(
+        'Eliminar Registro',
+        '¿Desea eliminar esta fila?',
 
-    //    function () {
-            var url = url_viaticolinea + fila.pk + "/"
-
+        function () {
             $.ajax({
                 url: url,
                 headers: { "X-CSRFToken": $.cookie('csrftoken') },
                 method: "DELETE",
                 success: function () {
-                    alert("Se eliminó registro correctamente")
                     tarjeta_resultados.grid.kfuente_datos.remove(fila)
-                    //tarjeta_resultados.grid.checar()
-                        
                 },
                 error: function () {
-                        
                     alert("Ocurrió un error al eliminar")
                 }
             })
-    //    }   , 
-    //    null
-    //)  
+        }   , 
+        null
+    )  
 
 }
 Grid.prototype.set_Functions = function (e) {
+
     tarjeta_resultados.grid.set_Icons(e)
     tarjeta_resultados.grid.checar_Estado()
-
 }
 Grid.prototype.set_Icons = function (e) {
+
     e.sender.tbody.find(".k-button.fa.fa-trash-o").each(function(idx, element){
         $(element).removeClass("fa fa-trash-o").find("span").addClass("fa fa-trash-o")
     })
-
 }
 Grid.prototype.get_FuenteDatosConfig = function (e) {
+
     return {
 
         serverPaging: true,
@@ -283,20 +275,17 @@ Grid.prototype.get_FuenteDatosConfig = function (e) {
             alert("Status: " + e.status + "; Error message: " + e.errorThrown)
         },
     }
-
 }
 Grid.prototype.buscar = function() {
+    
     this.kfuente_datos.page(1)
-
 }
 Grid.prototype.checar_Estado = function() {
+    
     if ( this.kfuente_datos.total() > 0 ) {
-        document.getElementById('btn_finalizar_captura').removeAttribute('disabled')
-        
+        document.getElementById('btn_finalizar_captura').removeAttribute('disabled')   
     }
     else if ( this.kfuente_datos.total() == 0 ) {
         document.getElementById('btn_finalizar_captura').setAttribute('disabled', 'disabled')
-        
     }
-
 }
