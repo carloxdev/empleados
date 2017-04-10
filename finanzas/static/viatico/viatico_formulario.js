@@ -39,8 +39,15 @@ ViaticoCabecera.prototype.init = function (e) {
 }
 
 ViaticoCabecera.prototype.click_BotonColapsible = function (e){
-    e.preventDefault()
 
+    if ($("#boton_colapsible").hasClass('mdi-caret-down-circle')){
+
+        $("#boton_colapsible").removeClass('mdi-caret-down-circle').addClass('mdi-caret-up-circle')
+    }
+    else if($("#boton_colapsible").hasClass('mdi-caret-up-circle')){
+
+        $("#boton_colapsible").removeClass('mdi-caret-up-circle').addClass('mdi-caret-down-circle')
+    }   
 }
 
 /*-----------------------------------------------*\
@@ -63,7 +70,7 @@ function ToolBar() {
 }
 ToolBar.prototype.init = function (e) {
 
-    this.$btn_finalizar_captura.on("click", this, this.click_BotonFinalizarCaptura)   
+    this.$btn_finalizar_captura.on("click", this, this.click_BotonFinalizarCaptura)
 }
 ToolBar.prototype.click_BotonFinalizarCaptura = function (e) {
     
@@ -236,7 +243,7 @@ Grid.prototype.click_BotonEliminar = function (e) {
 }
 Grid.prototype.set_Functions = function (e) {
     tarjeta_resultados.grid.set_Icons(e)
-    tarjeta_resultados.grid.checar()
+    tarjeta_resultados.grid.checar_Estado()
 
 }
 Grid.prototype.set_Icons = function (e) {
@@ -282,7 +289,7 @@ Grid.prototype.buscar = function() {
     this.kfuente_datos.page(1)
 
 }
-Grid.prototype.checar = function() {
+Grid.prototype.checar_Estado = function() {
     if ( this.kfuente_datos.total() > 0 ) {
         document.getElementById('btn_finalizar_captura').removeAttribute('disabled')
         

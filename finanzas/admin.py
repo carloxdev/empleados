@@ -15,8 +15,6 @@ class ViaticoCabeceraAdmin(admin.ModelAdmin):
         'unidad_negocio',
         'ciudad_destino',
         'proposito_viaje',
-        'requiere_vehiculo',
-        'no_vehiculo',
         'nombre_empresa',
         'rfc',
         'direccion',
