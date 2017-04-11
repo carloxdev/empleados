@@ -336,36 +336,36 @@
     <div id="lineasModal" tabindex="-1" role="dialog" class="modal fade colored-header colored-header-primary in">
           <div class="modal-dialog custom-width">
             <div class="modal-content">
-                    <div class="modal-header">
+                    <div class="modal-header nova-modal-header">
                         <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close"></span></button>
                         <h3 class="modal-title">Captura de lineas</h3>
                     </div>
                     
-                    <div class="modal-body">
+                    <div class="modal-body nova-modal-body-padding">
 
                         <form role="form" action=""> {% csrf_token %}                            
                             <!-- Concepto -->
-		          			<div class="form-group col-sx-12 col-sm-12 col-md-12">
-                                <label for="{{ form2.concepto.id_for_label }}">Concepto</label>
+		          			<div class="form-group">
+                                <label for="{{ form2.concepto.id_for_label }}" class="nova-label-margin-bottom">Concepto</label>
                                 {{ form2.concepto }}
                             </div>
                                
                             <!-- Observaciones -->
-		          			<div class="form-group col-sx-12 col-sm-12 col-md-12">
-                                <label for="{{ form2.observaciones.id_for_label }}">Observaciones</label>
+		          			<div class="form-group">
+                                <label for="{{ form2.observaciones.id_for_label }}" class="nova-label-margin-bottom">Observaciones</label>
                                 {{ form2.observaciones }}
                             </div>
 
                             <!-- Importe -->
-		          			<div class="form-group col-sx-12 col-sm-12 col-md-12">
-                                <label for="{{ form2.importe.id_for_label }}">Importe</label>
+		          			<div class="form-group">
+                                <label for="{{ form2.importe.id_for_label }}" class="nova-label-margin-bottom">Importe</label>
                                 {{ form2.importe }}
                             </div>
 
                         </form>       
                     </div><!-- Modal body-->
 
-                    <div class="modal-footer">
+                    <div class="modal-footer nova-modal-footer">
                         <div class="row col-sm-12">
                             <button type="submit" data-dismiss="modal" id="boton_guardar" class="btn btn-default">
                                 <i class="mdi mdi-floppy"></i>
