@@ -281,11 +281,13 @@ Grid.prototype.buscar = function() {
     this.kfuente_datos.page(1)
 }
 Grid.prototype.checar_Estado = function() {
-    
+
     if ( this.kfuente_datos.total() > 0 ) {
-        document.getElementById('btn_finalizar_captura').removeAttribute('disabled')   
+        tarjeta_resultados.toolbar.$btn_finalizar_captura.removeAttr('disabled')
+
     }
     else if ( this.kfuente_datos.total() == 0 ) {
-        document.getElementById('btn_finalizar_captura').setAttribute('disabled', 'disabled')
+        tarjeta_resultados.toolbar.$btn_finalizar_captura.attr('disabled', 'disabled')
+
     }
 }

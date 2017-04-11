@@ -83,19 +83,20 @@ class ViaticoFilterForm(Form):
         widget=TextInput(attrs={'class': 'form-control input-xs'})
     )
     fecha_partida_inicio = CharField(
-        widget=TextInput(attrs={'class': 'form-control input-xs'})
+        widget=TextInput(attrs={'class': 'form-control input-xs',
+                                'readonly': ''})
     )
     fecha_partida_fin = CharField(
         widget=TextInput(attrs={'class': 'form-control input-xs',
-                                'data-date-format': 'yyyy-mm-dd'})
+                                'readonly': ''})
     )
     fecha_regreso_inicio = CharField(
         widget=TextInput(attrs={'class': 'form-control input-xs',
-                                'data-date-format': 'yyyy-mm-dd'})
+                                'readonly': ''})
     )
     fecha_regreso_fin = CharField(
         widget=TextInput(attrs={'class': 'form-control input-xs',
-                                'data-date-format': 'yyyy-mm-dd'})
+                                'readonly': ''})
     )
     unidad_negocio = CharField(
         widget=TextInput(attrs={'class': 'form-control input-xs'})

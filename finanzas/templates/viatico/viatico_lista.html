@@ -47,6 +47,10 @@
                                 class="btn nova-btn btn-rounded btn-space btn-primary" data-toggle="modal" id="boton_filtro">
                                 <i class="icon icon-left mdi mdi-search nova-white"></i>Búscar
                             </a>
+
+                            <button class="btn nova-btn btn-rounded btn-space btn-primary" id="boton_restablecer">
+                                <i class="icon icon-left fa fa-recycle nova-white"></i>Restablecer
+                            </button>
                             
                             <button class="btn nova-btn btn-rounded btn-space btn-success" id="boton_excel">
                                 <i class="icon icon-left mdi mdi-download nova-white"></i>Exportar
@@ -70,7 +74,7 @@
                 </div>
                     
                 <div class="modal-body nova-modal-body-padding">
-                    <div class="">
+                    <form id="formulario_filtro">
                                 <div class="form-group">
                                     <label for="{{ form.empleado.id_for_label }}" class="nova-label-margin-bottom">Empleado</label>
                                     {{ form.empleado }}
@@ -79,14 +83,14 @@
                                 <div class="row no-margin-y">
                                   <div class="form-group col-xs-6">
                                     <label for="{{ form.fecha_partida_inicio.id_for_label }}" class="nova-label-margin-bottom"> Fecha de partida inicio </label>
-                                    <div data-min-view="2" data-date-format="yyyy-mm-dd" class="input-group date datetimepicker nova-input-group-padding">
+                                    <div class="input-group datetimepicker nova-input-group-padding">
                                         {{ form.fecha_partida_inicio }}
                                     <span class="input-group-addon btn btn-primary"><i class="icon-th mdi mdi-calendar"></i></span>
                                     </div>
                                   </div>
                                   <div class="form-group col-xs-6">
                                     <label for="{{ form.fecha_partida_fin.id_for_label }}" class="nova-label-margin-bottom"> Fecha de partida fin </label>
-                                    <div data-min-view="2" data-date-format="yyyy-mm-dd" class="input-group date datetimepicker nova-input-group-padding">
+                                    <div class="input-group datetimepicker nova-input-group-padding">
                                         {{ form.fecha_partida_fin }}
                                     <span class="input-group-addon btn btn-primary"><i class="icon-th mdi mdi-calendar"></i></span>
                                     </div>
@@ -96,14 +100,14 @@
                                 <div class="row no-margin-y">
                                   <div class="form-group col-xs-6">
                                     <label for="{{ form.fecha_regreso_inicio.id_for_label }}" class="nova-label-margin-bottom"> Fecha de regreso inicio </label>
-                                    <div data-min-view="2" data-date-format="yyyy-mm-dd" class="input-group date datetimepicker nova-input-group-padding">
+                                    <div class="input-group datetimepicker nova-input-group-padding">
                                         {{ form.fecha_regreso_inicio }}
                                     <span class="input-group-addon btn btn-primary"><i class="icon-th mdi mdi-calendar"></i></span>
                                     </div>
                                   </div>
                                   <div class="form-group col-xs-6">
                                     <label for="{{ form.fecha_regreso_fin.id_for_label }}" class="nova-label-margin-bottom"> Fecha de regreso fin </label>
-                                    <div data-min-view="2" data-date-format="yyyy-mm-dd" class="input-group date datetimepicker nova-input-group-padding">
+                                    <div class="input-group datetimepicker nova-input-group-padding">
                                         {{ form.fecha_regreso_fin }}
                                     <span class="input-group-addon btn btn-primary"><i class="icon-th mdi mdi-calendar"></i></span>
                                     </div>
@@ -124,7 +128,7 @@
                                     <label for="{{ form.autorizador.id_for_label }}" class="nova-label-margin-bottom">Autorizador</label>
                                     {{ form.autorizador }}
                                 </div>
-                    </div>
+                    </form>
                 </div><!-- Modal body-->
                 <div class="modal-footer nova-modal-footer">
                     
@@ -136,7 +140,7 @@
                             <i class="mdi mdi-close-circle"></i>
                             Cancelar
                         </button>
-                        <button type="submit" id="boton_buscar" class="btn nova-btn btn-space btn-primary pull-right">
+                        <button type="submit" data-dismiss="modal" id="boton_buscar" class="btn nova-btn btn-space btn-primary pull-right">
                             <i class="mdi mdi-search"></i>
                             Buscar
                         </button>
@@ -158,9 +162,9 @@
 
 
     <!-- Theme -->
-    <script src="{% static 'theme/lib/datetimepicker/js/bootstrap-datetimepicker.min.js' %}"></script>
     <script src="{% static 'theme/lib/jquery-ui/jquery-ui.min.js' %}"></script>
-    <script src="{% static 'theme/lib/moment.js/min/moment.min.js' %}"></script>
+    <script src="{% static 'theme/lib/datetimepicker/js/bootstrap-datetimepicker.min.js' %}"></script>
+    <script src="{% static 'theme/lib/datetimepicker/js/locales/bootstrap-datetimepicker.es.js' %}"></script>
 
     <!-- NOVA -->
     <script src="{% static 'viatico/viatico_lista.js' %}"></script>

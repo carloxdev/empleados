@@ -22,14 +22,12 @@ $(document).ready(function () {
     tarjeta_resultados = new TarjetaResultados()
 })
 
-
-
 /*-----------------------------------------------*\
             OBJETO: Popup filtro
 \*-----------------------------------------------*/
 
 function PopupFiltros() {
-    
+    this.$formulario_filtro = $('#formulario_filtro')
     this.$empleado = $('#id_empleado')
     this.$fecha_partida_inicio = $('#id_fecha_partida_inicio')
     this.$fecha_partida_fin = $('#id_fecha_partida_fin')
@@ -38,46 +36,27 @@ function PopupFiltros() {
     this.$unidad_negocio = $('#id_unidad_negocio')
     this.$ciudad_destino = $('#id_ciudad_destino')
     this.$autorizador = $('#id_autorizador')
-    this.$cajita = $('#cajita')
-
     this.$boton_buscar =  $('#boton_buscar')
     this.$boton_limpiar =  $('#boton_limpiar')
-
     this.init()
 }
 PopupFiltros.prototype.init = function () {
     
     this.$boton_buscar.on("click", this, this.click_BotonBuscar)
     this.$boton_limpiar.on("click", this, this.click_BotonLimpiar)
-    this.$cajita.datetimepicker(
-        {
-            autoclose: true,
-            minView: 2,
-            maxView: 2,
-        }
-    )
-
-    this.$fecha_partida_inicio.datetimepicker(
-        {
-            autoclose: true,
-        }
-    )
-
-    this.$fecha_partida_fin.datetimepicker(
-            {
-                autoclose: true,
-            }
-        )
-    this.$fecha_regreso_inicio.datetimepicker(
-            {
-                autoclose: true,
-            }
-        )
-    this.$fecha_regreso_fin.datetimepicker(
-            {
-                autoclose: true,
-            }
-        )
+    this.$fecha_partida_inicio.datetimepicker(this.get_ConfiguracionCalendario())
+    this.$fecha_partida_fin.datetimepicker(this.get_ConfiguracionCalendario())
+    this.$fecha_regreso_inicio.datetimepicker(this.get_ConfiguracionCalendario())
+    this.$fecha_regreso_fin.datetimepicker(this.get_ConfiguracionCalendario())
+}
+PopupFiltros.prototype.get_ConfiguracionCalendario = function(){
+    
+    return{
+        language: 'es',
+        autoclose: true,
+        minView: 2,
+        format: 'yyyy-mm-dd'
+    }
 }
 PopupFiltros.prototype.get_Filtros = function (_page) {
     
@@ -97,13 +76,11 @@ PopupFiltros.prototype.get_Filtros = function (_page) {
 PopupFiltros.prototype.click_BotonBuscar = function (e) {
     
     e.preventDefault()
-    
     tarjeta_resultados.grid.buscar()
 }
 PopupFiltros.prototype.click_BotonLimpiar = function (e) {
     
     e.preventDefault()
-
     e.data.$empleado.val("")
     e.data.$fecha_partida_inicio.val("")
     e.data.$fecha_partida_fin.val("")
@@ -129,9 +106,20 @@ function TarjetaResultados(){
 \*-----------------------------------------------*/
 
 function ToolBar() {
-    return null;
-}
 
+    this.$boton_restablecer =  $('#boton_restablecer')
+    this.init()
+}
+ToolBar.prototype.init = function () {
+
+    this.$boton_restablecer.on("click", this, this.click_BotonRestablecer)
+}
+ToolBar.prototype.click_BotonRestablecer = function (e) {
+    
+    e.preventDefault()
+    popup_filtros.$formulario_filtro[0].reset()
+    tarjeta_resultados.grid.buscar()
+}
 /*-----------------------------------------------*\
             OBJETO: Grid
 \*-----------------------------------------------*/
@@ -224,7 +212,6 @@ Grid.prototype.get_Configuracion = function () {
             template: "<div class='grid-empy'> No se encontraron registros </div>"
         },
         dataBound: this.set_Icons,
-        // dataBound: this.apply_Estilos
     }
 }
 Grid.prototype.get_Columnas = function () {
