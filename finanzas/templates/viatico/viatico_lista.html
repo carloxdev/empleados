@@ -8,22 +8,23 @@
 
 {% block css %}
 
-	<!-- Kendo -->
-	<link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.rtl.min.css' %}"/>
-	<link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.common-bootstrap.min.css' %}"/>
-	<link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.bootstrap.min.css' %}"/>
+    <!-- Kendo -->
+    <link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.rtl.min.css' %}"/>
+    <link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.common-bootstrap.min.css' %}"/>
+    <link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.bootstrap.min.css' %}"/>
 
-  <!-- Theme -->
-  <link rel="stylesheet" href="{% static 'theme/lib/datetimepicker/css/bootstrap-datetimepicker.min.css' %}"/>
+    <!-- Theme -->
+    <link rel="stylesheet" href="{% static 'theme/lib/datetimepicker/css/bootstrap-datetimepicker.min.css' %}"/>
 
-  <!-- Nova -->
-  <link rel="stylesheet" href="{% static 'grid.css' %}"/>
+    <!-- Nova -->
+    <link rel="stylesheet" href="{% static 'grid.css' %}"/>
 
 {% endblock css %}
 
 {% block contenido %}
 
 <div class="be-content">
+
 	<div class="page-head">
 		<h2 class="page-head-title">Solicitudes</h2>
 		<ol class="breadcrumb page-head-nav">
@@ -32,7 +33,7 @@
 		</ol>	
 	</div>
 
-  <div class="main-content container-fluid">  
+    <div class="main-content container-fluid">  
 		<div class="col-md-12">
                 <div class="panel panel-default panel-table">
                     <div class="panel-heading panel-border nova-panel-heading"> 
@@ -45,7 +46,7 @@
 
                             <a href="#ventana_filtro" 
                                 class="btn nova-btn btn-rounded btn-space btn-primary" data-toggle="modal" id="boton_filtro">
-                                <i class="icon icon-left mdi mdi-search nova-white"></i>Búscar
+                                <i class="icon icon-left mdi mdi-search nova-white"></i>Filtros
                             </a>
                             
                             <button class="btn nova-btn btn-rounded btn-space btn-success" id="boton_excel">
@@ -71,70 +72,76 @@
                     
                     <div class="modal-body">
 
-                        <form role="form" action=""> {% csrf_token %}                            
-                            <div class="form-group col-sx-12 col-sm-12 col-md-12">
+                        <form role="form" action=""> {% csrf_token %}
+
+                            <div class="form-group col-sx-12">
                                 <label for="{{ form.empleado.id_for_label }}">Empleado</label>
                                 {{ form.empleado }}
-                            </div>
-
-                            <div class="form-group col-sx-12 col-sm-6 col-md-6">
-                            <label for="{{ form.fecha_partida_inicio.id_for_label }}"> Fecha de partida inicio: </label>
-                                <div data-min-view="2" data-date-format="yyyy-mm-dd" class="input-group date datetimepicker">
-                                    {{ form.fecha_partida_inicio }}
-                                <span class="input-group-addon btn btn-primary"><i class="icon-th mdi mdi-calendar"></i></span>
-
-                                </div>
-                            </div>
-
-                            <input type="text" id="cajita" data-date-format="yyyy-mm-dd">
-
-                            <div class="form-group col-sx-12 col-sm-6 col-md-6">
-                            <label for="{{ form.fecha_partida_fin.id_for_label }}"> Fecha de partida Fin: </label>
-                                <div data-min-view="2" data-date-format="yyyy-mm-dd" class="input-group date datetimepicker">
-                                    {{ form.fecha_partida_fin }}
-                                <span class="input-group-addon btn btn-primary"><i class="icon-th mdi mdi-calendar"></i></span>
-                                </div>
-                            </div>
- 
-                            <div class="form-group col-sx-12 col-sm-6 col-md-6">
-                            <label for="{{ form.fecha_regreso_inicio.id_for_label }}"> Fecha de regreso inicio: </label>
-                                <div data-min-view="2" data-date-format="yyyy-mm-dd" class="input-group date datetimepicker">
-                                    {{ form.fecha_regreso_inicio }}
-                                <span class="input-group-addon btn btn-primary"><i class="icon-th mdi mdi-calendar"></i></span>
-                                </div>
-                            </div>
- 
-                            <div class="form-group col-sx-12 col-sm-6 col-md-6">
-                            <label for="{{ form.fecha_regreso_fin.id_for_label }}"> Fecha de regreso fin: </label>
-                                <div data-min-view="2" data-date-format="yyyy-mm-dd" class="input-group date datetimepicker">
-                                    {{ form.fecha_regreso_fin }}
-                                <span class="input-group-addon btn btn-primary"><i class="icon-th mdi mdi-calendar"></i></span>
-                                </div>
-                            </div>
- 
+                            </div> 
                                
-                            <div class="form-group col-sx-12 col-sm-12 col-md-12">
+                            <div class="form-group col-sx-12">
                                 <label for="{{ form.unidad_negocio.id_for_label }}">Unidad de negocio</label>
                                 {{ form.unidad_negocio }}
                             </div>
 
-                            <div class="form-group col-sx-12 col-sm-12 col-md-12">
+                            <div class="form-group col-sx-12">
                                 <label for="{{ form.ciudad_destino.id_for_label }}">Ciudad de destino</label>
                                 {{ form.ciudad_destino }}
                             </div>
 
-                            <div class="form-group col-sx-12 col-sm-12 col-md-12">
+                            <div class="form-group col-sx-12">
                                 <label for="{{ form.autorizador.id_for_label }}">Autorizador</label>
                                 {{ form.autorizador }}
                             </div>
+                            
+                            <div class="form-group col-sx-12 col-sm-6 col-md-6">
+                                <label for="{{ form.fecha_partida_inicio.id_for_label }}">Fecha de partida inicio: </label>
+                                <div data-date-format="yyyy-mm-dd" class="input-group date datetimepicker">
+                                    {{ form.fecha_partida_inicio }}
+                                    <span class="input-group-addon btn btn-primary">
+                                        <i class="icon-th mdi mdi-calendar"></i>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="form-group col-sx-12 col-sm-6 col-md-6">
+                                <label for="{{ form.fecha_partida_fin.id_for_label }}">Fecha de partida Fin: </label>
+                                <div data-min-view="2" data-date-format="yyyy-mm-dd" class="input-group date datetimepicker">
+                                    {{ form.fecha_partida_fin }}
+                                    <span class="input-group-addon btn btn-primary">
+                                        <i class="icon-th mdi mdi-calendar"></i>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="form-group col-sx-12 col-sm-6 col-md-6">
+                                <label for="{{ form.fecha_regreso_inicio.id_for_label }}">Fecha de regreso inicio: </label>
+                                <div data-min-view="2" data-date-format="yyyy-mm-dd" class="input-group date datetimepicker">
+                                    {{ form.fecha_regreso_inicio }}
+                                    <span class="input-group-addon btn btn-primary">
+                                        <i class="icon-th mdi mdi-calendar"></i>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="form-group col-sx-12 col-sm-6 col-md-6">
+                                <label for="{{ form.fecha_regreso_fin.id_for_label }}">Fecha de regreso fin: </label>
+                                <div data-min-view="2" data-date-format="yyyy-mm-dd" class="input-group date datetimepicker">
+                                    {{ form.fecha_regreso_fin }}
+                                    <span class="input-group-addon btn btn-primary">
+                                        <i class="icon-th mdi mdi-calendar"></i>
+                                    </span>
+                                </div>
+                            </div>
+
                         </form>       
                     </div><!-- Modal body-->
 
                     <div class="modal-footer">
                         <div class="row col-sm-12">
-                            <button type="button" data-dismiss="modal" class="btn btn-default">Cancelar</button>
-                            <button type="submit" id="boton_buscar" class="btn btn-default">
-                                <i class="fa fa-search"></i>
+                            <button type="button" data-dismiss="modal" class="btn nova-btn btn-default">Cancelar</button>
+                            <button type="submit" id="boton_buscar" class="btn nova-btn btn-primary btn-lg">
+                                <i class="icon icon-left mdi mdi-search nova-white"></i>
                                 Buscar
                             </button>
                        </div> 

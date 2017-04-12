@@ -3,8 +3,8 @@
 \*-----------------------------------------------*/
 
 // URLS:
-var url_viaticocabecera = window.location.origin + "/api/viaticocabecera_bypage/"
-var url_viaticocabeceraeditar = window.location.origin + "/viaticos/editar/"
+var url_viaticocabecera_bypage = window.location.origin + "/api/viaticocabecera_bypage/"
+var url_viaticocabecera_editar = window.location.origin + "/viaticos/editar/"
 
 // OBJS
 var toolbar = null
@@ -164,7 +164,7 @@ Grid.prototype.get_DataSourceConfig = function () {
         transport: {
             read: {
 
-                url: url_viaticocabecera,
+                url: url_viaticocabecera_bypage,
                 type: "GET",
                 dataType: "json",
             },
@@ -212,7 +212,7 @@ Grid.prototype.get_Configuracion = function () {
 
     return {
         dataSource: this.kfuente_datos,
-        columnMenu: false,
+        columnMenu: true,
         groupable: false,
         sortable: false,
         editable: false,
@@ -232,42 +232,30 @@ Grid.prototype.get_Configuracion = function () {
 Grid.prototype.get_Columnas = function () {
 
     return [    
-        { field: "pk", title: "Numero", width:"70px" },
+        { 
+            field: "pk",
+            title: "Numero",
+            width: "85px",
+            template: '<a class="btn btn-default" href="#=url_viaticocabecera_editar + pk#">#=pk#</a>',
+        },
         { field: "empleado", title: "Empleado", width:"300px" },
-        { field: "status", title: "Estado Solicitud", width:"100px" },
-        { field: "fecha_partida", title: "Fecha Partida", width:"100px", format: "{0:dd-MM-yyyy}" },
-        { field: "fecha_regreso", title: "Fecha Regreso", width:"100px", format: "{0:dd-MM-yyyy}" },
+        { field: "status", title: "Estado Solicitud", width:"120px" },
+        { field: "fecha_partida", title: "Fecha Partida", width:"135px", format: "{0:dd-MM-yyyy}" },
+        { field: "fecha_regreso", title: "Fecha Regreso", width:"135px", format: "{0:dd-MM-yyyy}" },
+        { field: "fecha_autorizacion", title: "Fecha autorizacion", width:"135px", format: "{0:dd-MM-yyyy}" },
+        { field: "autorizador", title: "Autorizador", width:"300px" },
+        { field: "nombre_empresa", title: "Nombre Empresa", width:"150px" },
         { field: "unidad_negocio", title: "Unidad Negocio", width:"150px" },
         { field: "ciudad_destino", title: "Ciudad Destino", width:"200px" },
-        { field: "proposito_viaje", title: "Proposito Viaje", width:"200px", hidden:true },
-        { field: "requiere_vehiculo", title: "Requiere Vehiculo", width:"120px" },
-        { field: "no_vehiculo", title: "No Vehículo", width:"100px" },
-        { field: "nombre_empresa", title: "Nombre Empresa", width:"150px" },
-        { field: "rfc", title: "RFC", width:"100px" },
-        { field: "direccion", title: "Dirección", width:"200px" },
-        { field: "grupo", title: "Grupo", width:"200px" },
-        { field: "autorizador", title: "Autorizador", width:"200px" },
-        { field: "fecha_autorizacion", title: "Fecha autorizacion", width:"100px", format: "{0:dd-MM-yyyy}" },
-        { field: "created_date", title: "Fecha creación", width:"100px", format: "{0:dd-MM-yyyy}" },
-        { field: "updated_date", title: "Fecha actualización", width:"100px", format: "{0:dd-MM-yyyy}" },
-        {
-           command: [ 
-                {
-                   text: " ",
-                   click: this.click_BotonEditar,
-                   className: "fa fa-pencil nova-k-btn-editar",
-                },   
-                             
-            ],           
-           title: " ",
-           width: "95px",
-        },        
+        { field: "created_date", title: "Fecha creación", width:"120px", format: "{0:dd-MM-yyyy}" },
+
+
     ]
 }
 Grid.prototype.click_BotonEditar = function (e) {
     
     var fila = this.dataItem($(e.currentTarget).closest('tr'))
-    window.location.href = url_viaticocabeceraeditar + fila.pk;
+    window.location.href = url_viaticocabecera_editar + fila.pk;
 }
 Grid.prototype.set_Icons = function (e) {
 
