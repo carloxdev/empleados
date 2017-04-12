@@ -16,6 +16,12 @@
     min-height: 55px;
 }
 
+.nova-panel-footer{
+    margin: 0px;
+    padding: 15px 20px 15px !important;
+    min-height: 55px;
+}
+
 .nova-white {
     color: white !important;
 }
@@ -30,3 +36,35 @@
 
 .nova-btn {
     font-weight: 500;
+}
+
+.nova-border-bottom {
+    border-bottom: 1px solid #d4d4d4;
+}
+
+.nova-label-centrado{
+    font-weight: 300;
+    margin-left: 2em;
+    border-radius: 3px;
+}
+
+.nova-label-margin-bottom{
+    margin-bottom: 4px;
+}
+
+.nova-input-group-padding{
+    padding: 0px !important;
+}
+
+.nova-modal-body-padding {
+    padding:  15px 60px 0px 60px !important;
+}
+
+.nova-modal-footer{
+    border-top: 1px solid #d4d4d4;;
+    padding: 15px !important;
+}
+
+.nova-modal-header{
+    padding: 15px 20px !important;
+}

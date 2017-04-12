@@ -4,6 +4,7 @@ from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 
+
 # Django Urls:
 from django.core.urlresolvers import reverse
 #from django.core.urlresolvers import reverse_lazy
@@ -66,7 +67,7 @@ class ViaticoNuevo(CreateView):
     template_name = 'viatico/viatico_nuevo.html'
     form_class = ViaticoCabeceraForm
     second_form_class = ViaticoLineaForm
-    operation = 'EN EDICIÓN'
+    operation = 'En edición'
 
     def get_context_data(self, **kwargs):
         context = super(ViaticoNuevo, self).get_context_data(**kwargs)
@@ -93,8 +94,6 @@ class ViaticoNuevo(CreateView):
             viatico.unidad_negocio = formulario.get('unidad_negocio')
             viatico.ciudad_destino = formulario.get('ciudad_destino')
             viatico.proposito_viaje = formulario.get('proposito_viaje')
-            viatico.requiere_vehiculo = formulario.get('requiere_vehiculo')
-            viatico.no_vehiculo = formulario.get('no_vehiculo')
             viatico.nombre_empresa = formulario.get('nombre_empresa')
             viatico.rfc = formulario.get('rfc')
             viatico.direccion = formulario.get('direccion')

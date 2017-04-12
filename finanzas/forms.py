@@ -21,8 +21,6 @@ class ViaticoCabeceraForm(ModelForm):
                   'unidad_negocio',
                   'ciudad_destino',
                   'proposito_viaje',
-                  'requiere_vehiculo',
-                  'no_vehiculo',
                   'nombre_empresa',
                   'rfc',
                   'direccion',
@@ -36,8 +34,6 @@ class ViaticoCabeceraForm(ModelForm):
                   'unidad_negocio': 'Unidad de negocio',
                   'ciudad_destino': 'Ciudad de destino',
                   'proposito_viaje': 'Proposito del viaje',
-                  'requiere_vehiculo': '¿requiere vehículo?',
-                  'no_vehiculo': 'No. del vehículo',
                   'nombre_empresa': 'Nombre de la empresa',
                   'rfc': 'RFC',
                   'direccion': 'Dirección',
@@ -59,9 +55,6 @@ class ViaticoCabeceraForm(ModelForm):
                    'unidad_negocio': TextInput(attrs={'class': 'form-control input-xs'}),
                    'ciudad_destino': TextInput(attrs={'class': 'form-control input-xs'}),
                    'proposito_viaje': Textarea(attrs={'class': 'form-control input-xs'}),
-                   'requiere_vehiculo': Select(attrs={'class': 'form-control input-xs'},
-                                               choices=ViaticoCabecera.VEHICULO_OPCIONES),
-                   'no_vehiculo': TextInput(attrs={'class': 'form-control input-xs'}),
                    'nombre_empresa': TextInput(attrs={'class': 'form-control input-xs'}),
                    'rfc': TextInput(attrs={'class': 'form-control input-xs'}),
                    'direccion': TextInput(attrs={'class': 'form-control input-xs'}),
@@ -90,19 +83,20 @@ class ViaticoFilterForm(Form):
         widget=TextInput(attrs={'class': 'form-control input-xs'})
     )
     fecha_partida_inicio = CharField(
-        widget=TextInput(attrs={'class': 'form-control input-xs'})
+        widget=TextInput(attrs={'class': 'form-control input-xs',
+                                'readonly': ''})
     )
     fecha_partida_fin = CharField(
         widget=TextInput(attrs={'class': 'form-control input-xs',
-                                'data-date-format': 'yyyy-mm-dd'})
+                                'readonly': ''})
     )
     fecha_regreso_inicio = CharField(
         widget=TextInput(attrs={'class': 'form-control input-xs',
-                                'data-date-format': 'yyyy-mm-dd'})
+                                'readonly': ''})
     )
     fecha_regreso_fin = CharField(
         widget=TextInput(attrs={'class': 'form-control input-xs',
-                                'data-date-format': 'yyyy-mm-dd'})
+                                'readonly': ''})
     )
     unidad_negocio = CharField(
         widget=TextInput(attrs={'class': 'form-control input-xs'})

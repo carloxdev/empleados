@@ -7,7 +7,6 @@
 {% block title-page %} Nuevo Viatico {% endblock title-page %}
 
 {% block css %}
-
 	<!-- Kendo -->
 	<link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.rtl.min.css' %}"/>
 	<link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.common-bootstrap.min.css' %}"/>
@@ -19,9 +18,13 @@
     <!-- Nova -->
     <link rel="stylesheet" href="{% static 'grid.css' %}"/>
 
+
+
 {% endblock css %}
 
+
 {% block contenido %}
+
 
 <div class="be-content">
     <div class="page-head">
@@ -29,19 +32,20 @@
         <ol class="breadcrumb page-head-nav">
             <li><a href="#">Inicio</a></li>
             <li><a href="{% url 'finanzas:viatico_lista' %}">Viaticos</a></li>
-            <li class="active">Nuevo</li>
+            <li class="active">{% if id_cabecera %}Edición {% else %} Nuevo {% endif %}</li>
         </ol>
     </div>
     <div class="main-content container-fluid">  
 			 
 		<div class="col-sm-12">
 			<div class="panel panel-border panel-contrast">
-	            <div class="panel-heading panel-heading-default border-bottom">Solicitud de viaticos: {% if id_cabecera %}<strong value="{{ id_cabecera }}" id="id_cabecera">{{ id_cabecera }}</strong>{% endif %}
-	               	{% if operation != '' %} <span class="label label-primary labelCentrado">{{ operation }}</span> {% endif %}
-	               	<div class="tools" data-toggle="collapse" href="#collapseCabecera"><span class="icon mdi mdi-caret-down-circle"></span></div>
+	            <div class="panel-heading panel-heading-default nova-border-bottom">Solicitud de viaticos: {% if id_cabecera %}<strong value="{{ id_cabecera }}" id="id_cabecera">{{ id_cabecera }}</strong>{% endif %}
+	               	{% if operation != '' %} <span class="label label-primary nova-label-centrado">{{ operation }}</span> {% endif %}
+	               	<div class="tools" data-toggle="collapse" href="#cabecera_colapsible">{% if id_cabecera %}<span class="icon mdi mdi-caret-down-circle" id="boton_colapsible"></span>{% endif %}</div>
 	            </div> 
-	                <div class="panel-body collapse" id="collapseCabecera">
-	                	<form action="" method="POST"> {% csrf_token %}	
+	            <div class="panel-body collapse {% if not id_cabecera %}in{% endif %}" id="cabecera_colapsible">
+
+	                <form action="" method="POST"> {% csrf_token %}	
 
 							<div class="row">
 													
@@ -71,7 +75,6 @@
 			                                    {{ form.fecha_partida }}
 			                                <span class="input-group-addon btn btn-primary"><i class="icon-th mdi mdi-calendar"></i></span>
 			                                </div>
-			                        
 								</div>
 
 								<!-- Fecha fecha_regreso -->
@@ -314,68 +317,62 @@
 							</div> <!-- Row -->
 
 
-						<div class="pull-right">
-							<button type="submit" class="btn btn-primary" >Guardar encabezado</button>
-						</div>
+					<div class="pull-right">
+						<button type="submit" class="btn btn-primary" >Guardar encabezado</button>
+					</div>
 						
 					</form>
 
-                </div> <!-- Panel heading -->
+              	</div> <!-- Panel Body -->
             </div>	<!-- Panel -->
-           
 		</div>	<!-- col-sm-12 -->
 
 		{% block EditarViatico %}
 
 		{% endblock EditarViatico %}
-		{% if id_cabecera %}	
-			<a href="" class="btn btn-rounded btn-space btn-warning pull-right btn-margen-der" id="btn_finalizar_captura">
-		        <i class="icon icon-left mdi mdi-alert-triangle"></i> Finalizar captura
-			</a>
-		{% endif %}
     </div>
 
 	<!-- PopUp -->
     <div id="lineasModal" tabindex="-1" role="dialog" class="modal fade colored-header colored-header-primary in">
           <div class="modal-dialog custom-width">
             <div class="modal-content">
-                    <div class="modal-header">
+                    <div class="modal-header nova-modal-header">
                         <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close"></span></button>
                         <h3 class="modal-title">Captura de lineas</h3>
                     </div>
                     
-                    <div class="modal-body">
+                    <div class="modal-body nova-modal-body-padding">
 
                         <form role="form" action=""> {% csrf_token %}                            
                             <!-- Concepto -->
-		          			<div class="form-group col-sx-12 col-sm-12 col-md-12">
-                                <label for="{{ form2.concepto.id_for_label }}">Concepto</label>
+		          			<div class="form-group">
+                                <label for="{{ form2.concepto.id_for_label }}" class="nova-label-margin-bottom">Concepto</label>
                                 {{ form2.concepto }}
                             </div>
                                
                             <!-- Observaciones -->
-		          			<div class="form-group col-sx-12 col-sm-12 col-md-12">
-                                <label for="{{ form2.observaciones.id_for_label }}">Observaciones</label>
+		          			<div class="form-group">
+                                <label for="{{ form2.observaciones.id_for_label }}" class="nova-label-margin-bottom">Observaciones</label>
                                 {{ form2.observaciones }}
                             </div>
 
                             <!-- Importe -->
-		          			<div class="form-group col-sx-12 col-sm-12 col-md-12">
-                                <label for="{{ form2.importe.id_for_label }}">Importe</label>
+		          			<div class="form-group">
+                                <label for="{{ form2.importe.id_for_label }}" class="nova-label-margin-bottom">Importe</label>
                                 {{ form2.importe }}
                             </div>
 
                         </form>       
                     </div><!-- Modal body-->
 
-                    <div class="modal-footer">
+                    <div class="modal-footer nova-modal-footer">
                         <div class="row col-sm-12">
                             <button type="submit" data-dismiss="modal" id="boton_guardar" class="btn btn-default">
-                                <i class="fa fa-floppy-o"></i>
+                                <i class="mdi mdi-floppy"></i>
                                 Guardar
                             </button>
                             <button type="button" data-dismiss="modal" id="boton_cancelar" class="btn btn-default">
-                            	<i class="fa fa-window-close"></i>
+                            	<i class="mdi mdi-close"></i>
                             	Cancelar
                             </button>
                        </div> 

@@ -22,8 +22,6 @@ class ViaticoCabeceraSerializer(serializers.HyperlinkedModelSerializer):
             'unidad_negocio',
             'ciudad_destino',
             'proposito_viaje',
-            'requiere_vehiculo',
-            'no_vehiculo',
             'nombre_empresa',
             'rfc',
             'direccion',
@@ -35,6 +33,7 @@ class ViaticoCabeceraSerializer(serializers.HyperlinkedModelSerializer):
             'created_by',
             'updated_date',
             'updated_by',
+            'importe_total'
         )
 
     def get_status(self, obj):
