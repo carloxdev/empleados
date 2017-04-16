@@ -9,29 +9,18 @@ from .models import ViaticoCabecera
 
 class ViaticoCabeceraFilter(filters.FilterSet):
 
+    created_date_inicio = DateFilter(
+        name="created_date",
+        lookup_expr="gte"
+    )
+    created_date_fin = DateFilter(
+        name="created_date",
+        lookup_expr="lte"
+    )
+
     empleado = CharFilter(
         name="empleado",
         lookup_expr="icontains"
-    )
-
-    fecha_partida_inicio = DateFilter(
-        name="fecha_partida",
-        lookup_expr="gte"
-    )
-
-    fecha_partida_fin = DateFilter(
-        name="fecha_partida",
-        lookup_expr="lte"
-    )
-
-    fecha_regreso_inicio = DateFilter(
-        name="fecha_regreso",
-        lookup_expr="gte"
-    )
-
-    fecha_regreso_fin = DateFilter(
-        name="fecha_regreso",
-        lookup_expr="lte"
     )
 
     unidad_negocio = CharFilter(
@@ -53,11 +42,9 @@ class ViaticoCabeceraFilter(filters.FilterSet):
         model = ViaticoCabecera
         fields = [
             'empleado',
-            'fecha_partida_inicio',
-            'fecha_partida_fin',
-            'fecha_regreso_inicio',
-            'fecha_regreso_fin',
             'unidad_negocio',
             'ciudad_destino',
             'autorizador',
+            'created_date_inicio',
+            'created_date_fin',
         ]
