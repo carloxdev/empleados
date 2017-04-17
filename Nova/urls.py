@@ -13,6 +13,9 @@ from finanzas.views import ViaticoLineaAPI
 from finanzas.views import ViaticoCabeceraByPageAPI
 from finanzas.views import ViaticoLineaByPageAPI
 
+from usuarios.views import UsuarioAPI
+from usuarios.views import UsuarioByPageAPI
+
 from seguridad.views import UserAPI
 from seguridad.views import ProfileAPI
 
@@ -55,7 +58,18 @@ router.register(
     'viaticolinea_bypage'
 )
 
+# -------------- Usuarios -------------- #
 
+router.register(
+    r'usuario',
+    UsuarioAPI,
+    'usuario'
+)
+router.register(
+    r'usuario_bypage',
+    UsuarioByPageAPI,
+    'usuario_bypage'
+)
 
 # -------------- URLS -------------- #
 
@@ -64,6 +78,7 @@ urlpatterns = [
     url(r'^api/', include(router.urls)),
 
     url(r'', include('finanzas.urls', namespace="finanzas")),
+    url(r'', include('usuarios.urls', namespace="usuarios")),
     url(r'', include('home.urls', namespace="home")),
     url(r'', include('seguridad.urls', namespace="seguridad")),
 ]

@@ -33,7 +33,7 @@ class ViaticoCabecera(models.Model):
     direccion = models.CharField(max_length=60, blank=False)
     grupo = models.CharField(max_length=40)
     autorizador = models.CharField(max_length=60, blank=False)
-    importe_total = models.DecimalField(max_digits=7, decimal_places=2, blank=False, null=False)
+    importe_total = models.DecimalField(max_digits=7, decimal_places=2, blank=False, null=False, default=0.0)
     status = models.CharField(
         choices=VIATICO_ESTADOS,
         default="cap",
