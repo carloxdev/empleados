@@ -40,6 +40,9 @@
 	                <form action="" method="POST"> {% csrf_token %}	
 	                  {{ form.as_p }}
 	                  <div class="pull-right">
+						<a href="{% url 'usuarios:usuario_lista' %}" 
+	                        class="btn nova-btn btn-rounded btn-space btn-default" id="boton_nuevo">Regresar 
+	                    </a>
 						<button type="submit" class="btn btn-primary" id="id_boton_guardar" >Guardar usuario</button>
 					</div>
 	                </form>

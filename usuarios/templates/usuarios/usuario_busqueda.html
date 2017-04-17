@@ -47,22 +47,10 @@
 	                                <i class="icon icon-left mdi mdi-plus-circle nova-black"></i>Nuevo 
 	                            </a>
 
-	                            <button class="btn nova-btn btn-rounded btn-space btn-primary" id="boton_restablecer">
-	                                <i class="icon icon-left mdi mdi-replay nova-white"></i>Restablecer
-	                            </button>
-	                            
-	                            <button class="btn nova-btn btn-rounded btn-space btn-success" id="boton_excel">
-	                                <i class="icon icon-left mdi mdi-download nova-white"></i>Exportar
-	                            </button>
 	                        </div>
 	                        <div class="title hidden-xs">Busqueda de usuario</div>
 	                    </div><!-- Panel Heading -->
-	                    <form action="" method="POST"> {% csrf_token %}	
-		                  	{{ form.as_p }}
-		                  	<div class="pull-right">
-							     <button type="submit" class="btn btn-primary" id="id_boton_guardar" >Buscar usuario</button>
-							</div>
-		                </form>
+	                    
 	              </div> <!-- Panel -->
 	        </div><!-- col md 12 -->
 	</div>     
