@@ -62,11 +62,11 @@ Grid.prototype.get_DataSourceConfig = function () {
                 type: "GET",
                 dataType: "json",
             },
-            parameterMap: function (data, action) {
-                if (action === "read"){
+            //parameterMap: function (data, action) {
+            //    if (action === "read"){
                 	//return popup_filtros.get_Filtros(data.page)
-                }
-            }
+            //    }
+            //}
         },
         schema: {
             data: "results",
@@ -149,5 +149,5 @@ Grid.prototype.get_Columnas = function (e) {
 Grid.prototype.click_BotonEditar = function (e) {
     
     var fila = this.dataItem($(e.currentTarget).closest('tr'))
-    window.location.href = url_usuario_editar_bypage + fila.pk;
+    window.location.href = url_usuario_editar_bypage + fila.pk
 }

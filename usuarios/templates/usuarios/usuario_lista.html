@@ -44,10 +44,14 @@
 	                                <i class="icon icon-left mdi mdi-plus-circle nova-black"></i>Nuevo 
 	                            </a>
 
-	                            <a href="#" 
+	                            <a href="{% url 'usuarios:usuario_busqueda' %}" 
 	                                class="btn nova-btn btn-rounded btn-space btn-primary" data-toggle="modal" id="boton_filtro">
-	                                <i class="icon icon-left mdi mdi-search nova-white"></i>Buscar
+	                                <i class="icon icon-left mdi mdi-search nova-white"></i>Filtrado
 	                            </a>
+
+	                            <button class="btn nova-btn btn-rounded btn-space btn-success" id="boton_restablecer">
+                                	<i class="icon icon-left mdi mdi-replay nova-white"></i>Restablecer
+                            	</button>
 	                          
 	                        </div>
 	                        <div class="title hidden-xs">Usuarios registrados</div>
@@ -67,7 +71,6 @@
 	<script src="{% static 'libs/kendo/2015.2.624/js/kendo.web.min.js' %}"></script>
 
     <!-- Theme -->
-    <script src="{% static 'theme/lib/datetimepicker/js/bootstrap-datetimepicker.min.js' %}"></script>
     <script src="{% static 'theme/lib/jquery-ui/jquery-ui.min.js' %}"></script>
     <script src="{% static 'theme/lib/moment.js/min/moment.min.js' %}"></script>
 

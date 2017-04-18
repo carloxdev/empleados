@@ -12,9 +12,6 @@
 	<link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.common-bootstrap.min.css' %}"/>
 	<link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.bootstrap.min.css' %}"/>
 
-    <!-- Theme -->
-    <link rel="stylesheet" href="{% static 'theme/lib/datetimepicker/css/bootstrap-datetimepicker.min.css' %}"/>
-
     <!-- Nova -->
     <link rel="stylesheet" href="{% static 'grid.css' %}"/>
 
@@ -25,13 +22,7 @@
 
 {% block contenido %}
 	<div class="be-content">
-	    <div class="page-head">
-	        <h2 class="page-head-title">Nuevo usuario</h2>
-	        <ol class="breadcrumb page-head-nav">
-	            <li><a href="#">Inicio</a></li>
-	            <li><a href="{% url 'usuarios:usuario_busqueda' %}">Usuarios</a></li>
-	        </ol>
-	    </div>
+	{% block formulario %}
 	    <div class="col-md-10">
               <div class="panel panel-default panel-contrast">
                 <div class="panel-heading">Nuevo registro
@@ -48,7 +39,8 @@
 	                </form>
                 </div>
               </div>
-            </div>
+        </div>
+    {% endblock formulario %}
     </div>
 {% endblock contenido %}
 
@@ -58,7 +50,6 @@
 	<script src="{% static 'libs/kendo/2015.2.624/js/kendo.web.min.js' %}"></script>
 
     <!-- Theme -->
-    <script src="{% static 'theme/lib/datetimepicker/js/bootstrap-datetimepicker.min.js' %}"></script>
     <script src="{% static 'theme/lib/jquery-ui/jquery-ui.min.js' %}"></script>
     <script src="{% static 'theme/lib/moment.js/min/moment.min.js' %}"></script>
 

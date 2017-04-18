@@ -43,12 +43,18 @@ class UsuarioFormulario(CreateView):
     model = Usuario
     form_class = UsuarioFormularioForm
     template_name = 'usuarios/usuario_formulario.html'
-    #success_url = reverse_lazy('usuarios:usuario_lista')
+    success_url = reverse_lazy('usuarios:usuario_lista')
+
+# class UsuarioEditar(UpdateView):
+#     model = Usuario
+#     form_class = UsuarioFormularioForm
+#     template_name = 'usuarios/usuario_formulario.html'
+#     success_url = reverse_lazy ('usuarios:usuario_lista')
 
 class UsuarioEditar(UpdateView):
     model = Usuario
     form_class = UsuarioFormularioForm
-    template_name = 'usuarios/usuario_formulario.html'
+    template_name = 'usuarios/usuario_editar.html'
     success_url = reverse_lazy ('usuarios:usuario_lista')
 
 class UsuarioBusqueda(TemplateView):
