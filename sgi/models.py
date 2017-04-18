@@ -23,7 +23,7 @@ class CentroAtencion(models.Model):
         auto_now=False,
         auto_now_add=True,
     )
-    updated_by = models.ForeignKey(Profile, related_name='cta_updated_by', null=True)
+    updated_by = models.ForeignKey(Profile, related_name='cta_updated_by', null=True, blank=True)
     updated_date = models.DateTimeField(
         auto_now=True,
         auto_now_add=False,
@@ -31,6 +31,9 @@ class CentroAtencion(models.Model):
         blank=True
     )
     history = HistoricalRecords()
+
+    class Meta:
+        verbose_name_plural = "Centros de Atencion"
 
 
 class IncidenciaTipos(models.Model):
@@ -42,7 +45,7 @@ class IncidenciaTipos(models.Model):
         auto_now=False,
         auto_now_add=True,
     )
-    updated_by = models.ForeignKey(Profile, related_name='tpi_updated_by', null=True)
+    updated_by = models.ForeignKey(Profile, related_name='tpi_updated_by', null=True, blank=True)
     updated_date = models.DateTimeField(
         auto_now=True,
         auto_now_add=False,
@@ -50,6 +53,9 @@ class IncidenciaTipos(models.Model):
         blank=True
     )
     history = HistoricalRecords()
+
+    class Meta:
+        verbose_name_plural = "Tipos de Incidencia"
 
 
 class IncidenciaDocumento(models.Model):
@@ -91,7 +97,7 @@ class IncidenciaDocumento(models.Model):
         auto_now=False,
         auto_now_add=True
     )
-    updated_by = models.ForeignKey(Profile, related_name='dci_updated_by', null=True)
+    updated_by = models.ForeignKey(Profile, related_name='dci_updated_by', null=True, blank=True)
     updated_date = models.DateTimeField(
         auto_now=True,
         auto_now_add=False,
@@ -99,6 +105,9 @@ class IncidenciaDocumento(models.Model):
         blank=True
     )
     history = HistoricalRecords()
+
+    class Meta:
+        verbose_name_plural = "Documentos de Incidencia"
 
 
 class IncidenciaArchivo(models.Model):
@@ -126,13 +135,16 @@ class IncidenciaArchivo(models.Model):
         auto_now=False,
         auto_now_add=True
     )
-    updated_by = models.ForeignKey(Profile, related_name='iar_updated_by', null=True)
+    updated_by = models.ForeignKey(Profile, related_name='iar_updated_by', null=True, blank=True)
     updated_date = models.DateTimeField(
         auto_now=True,
         auto_now_add=False,
         null=True,
         blank=True
     )
+
+    class Meta:
+        verbose_name_plural = "Archivos de Incidencia"
 
 
 class ResolucionTipo(models.Model):
@@ -144,7 +156,7 @@ class ResolucionTipo(models.Model):
         auto_now=False,
         auto_now_add=True,
     )
-    updated_by = models.ForeignKey(Profile, related_name='ret_updated_by', null=True)
+    updated_by = models.ForeignKey(Profile, related_name='ret_updated_by', null=True, blank=True)
     updated_date = models.DateTimeField(
         auto_now=True,
         auto_now_add=False,
@@ -152,6 +164,9 @@ class ResolucionTipo(models.Model):
         blank=True
     )
     history = HistoricalRecords()
+
+    class Meta:
+        verbose_name_plural = "Tipos de Resolucion"
 
 
 class IncidenciaResolucion(models.Model):
@@ -165,7 +180,7 @@ class IncidenciaResolucion(models.Model):
         auto_now=False,
         auto_now_add=True,
     )
-    updated_by = models.ForeignKey(Profile, related_name='ire_updated_by', null=True)
+    updated_by = models.ForeignKey(Profile, related_name='ire_updated_by', null=True, blank=True)
     updated_date = models.DateTimeField(
         auto_now=True,
         auto_now_add=False,
@@ -173,6 +188,9 @@ class IncidenciaResolucion(models.Model):
         blank=True
     )
     history = HistoricalRecords()
+
+    class Meta:
+        verbose_name_plural = "Resoluciones"
 
 
 class ResolucionArchivo(models.Model):
@@ -188,10 +206,13 @@ class ResolucionArchivo(models.Model):
         auto_now=False,
         auto_now_add=True
     )
-    updated_by = models.ForeignKey(Profile, related_name='rar_updated_by', null=True)
+    updated_by = models.ForeignKey(Profile, related_name='rar_updated_by', null=True, blank=True)
     updated_date = models.DateTimeField(
         auto_now=True,
         auto_now_add=False,
         null=True,
         blank=True
     )
+
+    class Meta:
+        verbose_name_plural = "Archivos de resolucion"

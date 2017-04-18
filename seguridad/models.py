@@ -30,10 +30,18 @@ class Profile(models.Model):
 
     def __unicode__(self):
         nombre_completo = self.usuario.get_full_name()
+
+        if nombre_completo == "":
+            nombre_completo = self.usuario.username
+
         return nombre_completo
 
     def __str__(self):
         nombre_completo = self.usuario.get_full_name()
+
+        if nombre_completo == "":
+            nombre_completo = self.usuario.username
+
         return nombre_completo
 
 
