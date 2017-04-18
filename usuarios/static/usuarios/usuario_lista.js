@@ -75,6 +75,7 @@ PopupFiltros.prototype.click_BotonBuscar = function (e) {
     
     e.preventDefault()
     tarjeta_resultados.grid.buscar()
+
 }
 
 
