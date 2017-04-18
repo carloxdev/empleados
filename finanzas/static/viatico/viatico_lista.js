@@ -7,10 +7,11 @@ var url_viaticocabecera_bypage = window.location.origin + "/api/viaticocabecera_
 var url_viaticocabecera_editar = window.location.origin + "/viaticos/editar/"
 
 // OBJS
+var tarjeta_filtros = null
+var tarjeta_resultados = null
 var toolbar = null
 var grid = null
-var tarjeta_resultados = null
-var popup_filtros = null
+
 
 /*-----------------------------------------------*\
             LOAD
@@ -18,7 +19,7 @@ var popup_filtros = null
 
 $(document).ready(function () {
     
-    popup_filtros = new PopupFiltros()
+    tarjeta_filtros = new PopupFiltros()
     tarjeta_resultados = new TarjetaResultados()
 })
 
@@ -27,27 +28,34 @@ $(document).ready(function () {
 \*-----------------------------------------------*/
 
 function PopupFiltros() {
-    this.$formulario_filtro = $('#formulario_filtro')
-    this.$empleado = $('#id_empleado')
-    this.$fecha_partida_inicio = $('#id_fecha_partida_inicio')
-    this.$fecha_partida_fin = $('#id_fecha_partida_fin')
-    this.$fecha_regreso_inicio = $('#id_fecha_regreso_inicio')
-    this.$fecha_regreso_fin = $('#id_fecha_regreso_fin')
-    this.$unidad_negocio = $('#id_unidad_negocio')
-    this.$ciudad_destino = $('#id_ciudad_destino')
-    this.$autorizador = $('#id_autorizador')
-    this.$boton_buscar =  $('#boton_buscar')
-    this.$boton_limpiar =  $('#boton_limpiar')
-    this.init()
+    this.$id = $('#tarjeta_filtros')
+    this.$fecha_creacion = $('#fecha_creacion')
+
+    this.$boton_buscar = $('#boton_buscar')
+    this.$boton_limpiar = $('#boton_limpiar')
+
+    this.filtros_aplicados = false
+
+    this.init_Components()
+    this.init_Events()
 }
-PopupFiltros.prototype.init = function () {
-    
+PopupFiltros.prototype.init_Components = function () {
+
+    this.$fecha_creacion.daterangepicker(this.get_ConfDateRangePicker())    
+}
+PopupFiltros.prototype.init_Events = function () {
+
+    this.$id.on("hidden.bs.modal", this, this.hide)
+
     this.$boton_buscar.on("click", this, this.click_BotonBuscar)
     this.$boton_limpiar.on("click", this, this.click_BotonLimpiar)
-    this.$fecha_partida_inicio.datetimepicker(this.get_ConfiguracionCalendario())
-    this.$fecha_partida_fin.datetimepicker(this.get_ConfiguracionCalendario())
-    this.$fecha_regreso_inicio.datetimepicker(this.get_ConfiguracionCalendario())
-    this.$fecha_regreso_fin.datetimepicker(this.get_ConfiguracionCalendario())
+}
+PopupFiltros.prototype.hide = function (e) {
+    e.data.$fecha_creacion.data('daterangepicker').hide()
+
+    if (e.data.filtros_aplicados == false) {
+        tarjeta_resultados.toolbar.restart_BotonFiltros()
+    }
 }
 PopupFiltros.prototype.get_ConfiguracionCalendario = function(){
     
@@ -58,37 +66,76 @@ PopupFiltros.prototype.get_ConfiguracionCalendario = function(){
         format: 'yyyy-mm-dd'
     }
 }
-PopupFiltros.prototype.get_Filtros = function (_page) {
+PopupFiltros.prototype.get_ConfDateRangePicker = function () {
+
+    return {
+        locale: {
+            format: 'YYYY-MM-DD',
+            applyLabel: "Aplicar",
+            cancelLabel: "Cancelar",
+            fromLabel: "Del",
+            separator: " al ",
+            toLabel: "Al",            
+            weekLabel: "S",
+            daysOfWeek: [
+                "Do",
+                "Lu",
+                "Ma",
+                "Mi",
+                "Ju",
+                "Vi",
+                "Sa"
+            ],
+            monthNames: [
+                "Enero",
+                "Febrero",
+                "Marzo",
+                "Abril",
+                "Mayo",
+                "Junio",
+                "Julio",
+                "Agosto",
+                "Septiembre",
+                "Octubre",
+                "Noviembre",
+                "Diciembre"
+            ],          
+        },
+        startDate: '2017-01-01'
+    }    
+}
+PopupFiltros.prototype.get_Values = function (_page) {
     
     return {
         page: _page,
 
-        empleado: this.$empleado.val(),
-        fecha_partida_inicio: this.$fecha_partida_inicio.val(),
-        fecha_partida_fin: this.$fecha_partida_fin.val(),
-        fecha_regreso_inicio: this.$fecha_regreso_inicio.val(),
-        fecha_regreso_fin: this.$fecha_regreso_fin.val(),
-        unidad_negocio: this.$unidad_negocio.val(),
-        ciudad_destino: this.$ciudad_destino.val(),
-        autorizador: this.$autorizador.val(),
+        // empleado: this.$empleado.val(),
+        // fecha_partida_inicio: this.$fecha_partida_inicio.val(),
+        // fecha_partida_fin: this.$fecha_partida_fin.val(),
+        // fecha_regreso_inicio: this.$fecha_regreso_inicio.val(),
+        // fecha_regreso_fin: this.$fecha_regreso_fin.val(),
+        // unidad_negocio: this.$unidad_negocio.val(),
+        // ciudad_destino: this.$ciudad_destino.val(),
+        // autorizador: this.$autorizador.val(),
     }
 }
 PopupFiltros.prototype.click_BotonBuscar = function (e) {
     
     e.preventDefault()
     tarjeta_resultados.grid.buscar()
+    tarjeta_resultados.toolbar.change_BotonFiltros()
+    e.data.filtros_aplicados = true
+    e.data.$id.modal('hide')
 }
 PopupFiltros.prototype.click_BotonLimpiar = function (e) {
     
     e.preventDefault()
-    e.data.$empleado.val("")
-    e.data.$fecha_partida_inicio.val("")
-    e.data.$fecha_partida_fin.val("")
-    e.data.$fecha_regreso_inicio.val("")
-    e.data.$fecha_regreso_fin.val("")
-    e.data.$unidad_negocio.val("")
-    e.data.$ciudad_destino.val("")
-    e.data.$autorizador.val("")
+    // e.data.$empleado.val("")
+    e.data.$fecha_creacion.data('daterangepicker').setStartDate('2017-01-01')
+    e.data.$fecha_creacion.data('daterangepicker').setEndDate(
+        moment().format('YYYY-MM-dd')
+    )
+    e.data.filtros_aplicados = false
 }
 
 /*-----------------------------------------------*\
@@ -107,17 +154,25 @@ function TarjetaResultados(){
 
 function ToolBar() {
 
-    this.$boton_restablecer =  $('#boton_restablecer')
-    this.init()
+    this.$boton_filtros = $('#boton_filtros')
+    // this.$boton_restablecer =  $('#boton_restablecer')
+    this.init_Events()
 }
-ToolBar.prototype.init = function () {
+ToolBar.prototype.init_Events = function () {
 
-    this.$boton_restablecer.on("click", this, this.click_BotonRestablecer)
+    // this.$boton_restablecer.on("click", this, this.click_BotonRestablecer)
+}
+ToolBar.prototype.change_BotonFiltros = function () {
+
+    this.$boton_filtros.html("<i class='icon icon-left mdi mdi-search nova-white'></i>Ver Filtros")
+}
+ToolBar.prototype.restart_BotonFiltros = function () {
+    this.$boton_filtros.html("<i class='icon icon-left mdi mdi-search nova-white'></i>Filtros")   
 }
 ToolBar.prototype.click_BotonRestablecer = function (e) {
     
     e.preventDefault()
-    popup_filtros.$formulario_filtro[0].reset()
+    tarjeta_filtros.$formulario_filtro[0].reset()
     tarjeta_resultados.grid.buscar()
 }
 /*-----------------------------------------------*\
@@ -157,7 +212,7 @@ Grid.prototype.get_DataSourceConfig = function () {
             },
             parameterMap: function (data, action) {
                 if (action === "read"){
-                    return popup_filtros.get_Filtros(data.page)
+                    return tarjeta_filtros.get_Values(data.page)
                 }
             }
         },
@@ -221,7 +276,7 @@ Grid.prototype.get_Columnas = function () {
             field: "pk",
             title: "Numero",
             width: "85px",
-            template: '<a class="btn btn-default" href="#=url_viaticocabecera_editar + pk#">#=pk#</a>',
+            template: '<a class="nova-url" href="#=url_viaticocabecera_editar + pk#">#="VIA-" + pk#</a>',
         },
         { field: "empleado", title: "Empleado", width:"300px" },
         { field: "status", title: "Estado Solicitud", width:"120px" },
