@@ -13,7 +13,6 @@ from finanzas.views import ViaticoLineaAPI
 from finanzas.views import ViaticoCabeceraByPageAPI
 from finanzas.views import ViaticoLineaByPageAPI
 
-
 from seguridad.views import UserAPI
 from seguridad.views import ProfileAPI
 
@@ -56,7 +55,10 @@ router.register(
     'viaticolinea_bypage'
 )
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/master
 # -------------- URLS -------------- #
 
 urlpatterns = [
