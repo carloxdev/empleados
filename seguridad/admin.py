@@ -11,4 +11,5 @@ class AdminProfile(admin.ModelAdmin):
         'clave_rh',
         'clave_jde',
         'foto',
+        'fecha_nacimiento',
     )
