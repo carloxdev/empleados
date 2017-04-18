@@ -55,10 +55,6 @@ router.register(
     'viaticolinea_bypage'
 )
 
-<<<<<<< HEAD
-
-=======
->>>>>>> origin/master
 # -------------- URLS -------------- #
 
 urlpatterns = [
