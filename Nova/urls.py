@@ -62,6 +62,7 @@ urlpatterns = [
     url(r'^api/', include(router.urls)),
 
     url(r'', include('finanzas.urls', namespace="finanzas")),
+    url(r'', include('compras.urls', namespace="compras")),
     url(r'', include('home.urls', namespace="home")),
     url(r'', include('seguridad.urls', namespace="seguridad")),
 ]
