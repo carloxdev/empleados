@@ -35,21 +35,11 @@ from .pagination import GenericPagination
 
 # -------------- USUARIOS -------------- #
 
-#class UsuarioBusqueda(View):
- #   model = Usuario
-    
-
 class UsuarioFormulario(CreateView):
     model = Usuario
     form_class = UsuarioFormularioForm
     template_name = 'usuarios/usuario_formulario.html'
     success_url = reverse_lazy('usuarios:usuario_lista')
-
-# class UsuarioEditar(UpdateView):
-#     model = Usuario
-#     form_class = UsuarioFormularioForm
-#     template_name = 'usuarios/usuario_formulario.html'
-#     success_url = reverse_lazy ('usuarios:usuario_lista')
 
 class UsuarioEditar(UpdateView):
     model = Usuario
@@ -60,9 +50,22 @@ class UsuarioEditar(UpdateView):
 class UsuarioBusqueda(TemplateView):
     template_name = 'usuarios/usuario_busqueda.html'
 
-class UsuarioLista(ListView):
-    model = Usuario
-    template_name = 'usuarios/usuario_lista.html'
+#class UsuarioLista(ListView):
+#    model = Usuario
+#    template_name = 'usuarios/usuario_lista.html'
+
+class UsuarioLista(View):
+    def __init__(self):
+        self.model = Usuario()
+        self.template_name = 'usuarios/usuario_lista.html'
+
+    def get(self, request):
+        form = UsuarioFormularioForm()
+        contexto = { 'form': form }
+        return render(request, self.template_name, contexto)
+
+    def post(self, request):
+        return render(request, self.template_name, {})
 
 
 # -------------- USUARIOS API REST -------------- #

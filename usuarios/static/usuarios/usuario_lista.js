@@ -8,6 +8,7 @@ var url_usuario_editar_bypage = window.location + "/editar/"
 
 // OBJS
 var grid = null
+var toolbar = null
 var tarjeta_resultados = null
 
 /*-----------------------------------------------*\
@@ -15,17 +16,96 @@ var tarjeta_resultados = null
 \*-----------------------------------------------*/
 
 $(document).ready(function () {
+	//toolbar = new Toolbar()
     tarjeta_resultados = new TarjetaResultados()
 })
+
+/*-----------------------------------------------*\
+            OBJETO: Popup filtro
+\*-----------------------------------------------*/
+
+function PopupFiltros() {
+    this.$primer_nombre = $('#id_primer_nombre')
+	this.$segundo_nombre = $('#id_segundo_nombre')
+	this.$apellido_paterno = $('#id_apellido_paterno')
+	this.$apellido_materno = $('#id_apellido_materno')
+	this.$genero = $('#id_genero')
+	this.$numero = $('#id_numero')
+	this.$tipo = $('#id_tipo')
+	this.$puesto = $('#id_puesto')
+	this.$organizacion = $('#id_organizacion')
+	this.$fecha_inicio_contratacion = $('#id_fecha_inicio_contratacion')
+	this.$fecha_fin_contratacion = $('#id_fecha_fin_contratacion')
+	this.$compania = $('#id_compania')
+	this.$zona = $('#id_zona')
+	this.$centro_costos = $('#id_centro_costos')
+	this.$nomina = $('#id_nomina')
+    this.$boton_buscar =  $('#boton_buscar')
+    this.$boton_limpiar =  $('#boton_limpiar')
+    this.init()
+}
+PopupFiltros.prototype.init = function () {
+    
+    this.$boton_buscar.on("click", this, this.click_BotonBuscar)
+    this.$boton_limpiar.on("click", this, this.click_BotonLimpiar)
+}
+PopupFiltros.prototype.get_Filtros = function (_page) {
+    
+    return {
+        page: _page,
+
+        primer_nombre: this.$primer_nombre.val(),
+        segundo_nombre: this.$segundo_nombre.val(),
+        apellido_paterno: this.$apellido_paterno.val(),
+        apellido_materno: this.$apellido_materno.val(),
+        genero: this.$genero.val(),
+        numero: this.$numero.val(),
+        tipo: this.$tipo.val(),
+        puesto: this.$puesto.val(),
+        organizacion: this.$organizacion.val(),
+        fecha_inicio_contratacion: this.$fecha_inicio_contratacion.val(),
+        fecha_fin_contratacion: this.$fecha_fin_contratacion.val(),
+        compania: this.$compania.val(),
+        zona: this.$zona.val(),
+        centro_costos: this.$centro_costos.val(),
+        nomina: this.$nomina.val(),
+    }
+}
+PopupFiltros.prototype.click_BotonBuscar = function (e) {
+    
+    e.preventDefault()
+    tarjeta_resultados.grid.buscar()
+}
+
 
 /*-----------------------------------------------*\
             OBJETO: Tarjeta resultados
 \*-----------------------------------------------*/
 
 function TarjetaResultados(){
-    
+   // this.toolbar = new Toolbar()
     this.grid = new Grid()
 }
+
+/*
+
+
+function ToolBar() {
+
+    this.$boton_restablecer =  $('#boton_restablecer')
+    this.init()
+}
+ToolBar.prototype.init = function () {
+
+    this.$boton_restablecer.on("click", this, this.click_BotonRestablecer)
+}
+ToolBar.prototype.click_BotonRestablecer = function (e) {
+    
+    e.preventDefault()
+    popup_filtros.$formulario_filtro[0].reset()
+    tarjeta_resultados.grid.buscar()
+}
+*/
 
 /*-----------------------------------------------*\
             OBJETO: Grid
@@ -151,3 +231,8 @@ Grid.prototype.click_BotonEditar = function (e) {
     var fila = this.dataItem($(e.currentTarget).closest('tr'))
     window.location.href = url_usuario_editar_bypage + fila.pk
 }
+/*Grid.prototype.buscar = function() {
+    
+    this.kfuente_datos.page(1)
+}
+*/
