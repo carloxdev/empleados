@@ -102,8 +102,13 @@ DATABASES = {
         'NAME': '10.10.3.218:1521/PDBDVJDE91',
         'USER': 'system',
         'PASSWORD': 'Nuv01l2015',
+    },
+    'ebs_d': {
+        'ENGINE': 'django.db.backends.oracle',
+        'NAME': '10.10.3.216/DEV',
+        'USER': 'APPS',
+        'PASSWORD': 'APPS',
     }
-
 }
 
 REST_FRAMEWORK = {
