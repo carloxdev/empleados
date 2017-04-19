@@ -11,7 +11,8 @@ from simple_history.models import HistoricalRecords
 
 # Librerias/Clases propias
 from seguridad.models import Profile
-from home.utilidades import get_FilePath
+from .utilities import get_FilePath_Incidencia
+from .utilities import get_FilePath_Resolucion
 
 
 class CentroAtencion(models.Model):
@@ -127,7 +128,7 @@ class IncidenciaArchivo(models.Model):
     )
 
     archivo = models.FileField(
-        upload_to=get_FilePath
+        upload_to=get_FilePath_Incidencia
     )
 
     created_by = models.ForeignKey(Profile, related_name='iar_created_by')
@@ -198,7 +199,7 @@ class ResolucionArchivo(models.Model):
     resolucion = models.ForeignKey(IncidenciaResolucion)
 
     archivo = models.FileField(
-        upload_to=get_FilePath
+        upload_to=get_FilePath_Resolucion
     )
 
     created_by = models.ForeignKey(Profile, related_name='rar_created_by')
