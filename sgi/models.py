@@ -107,6 +107,14 @@ class IncidenciaDocumento(models.Model):
     )
     history = HistoricalRecords()
 
+    def __unicode__(self):
+        cadena = "%s - %s" % (self.id, self.descripcion)
+        return cadena
+
+    def __str__(self):
+        cadena = "%s - %s" % (self.id, self.descripcion)
+        return cadena
+
     class Meta:
         verbose_name_plural = "Documentos de Incidencia"
 
