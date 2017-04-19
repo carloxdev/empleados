@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 
-# Librerias Django:
+# Librerias Python
 from __future__ import unicode_literals
+
+# Librerias Django:
 from django.db import models
 from django.conf import settings
 
@@ -21,7 +23,12 @@ class F0101(models.Model):
             db_table = u'"PRODDTA"."F0101"'
 
     def __str__(self):
-        return "{} - {}".format(self.clave, self.nombre)
+        value = "%s - %s" % (self.clave, self.nombre)
+        return value
+
+    def __unicode__(self):
+        value = "%s - %s" % (self.clave, self.nombre)
+        return value
 
 
 class VIEW_UNIDADES(models.Model):
@@ -38,7 +45,12 @@ class VIEW_UNIDADES(models.Model):
         db_table = u'"NUVPD"."VIEW_UNIDADES"'
 
     def __str__(self):
-        return self.desc_larga
+        value = "%s - %s" % (self.clave, self.desc_larga)
+        return value
+
+    def __unicode__(self):
+        value = "%s - %s" % (self.clave, self.desc_larga)
+        return value
 
 
 class F5903000(models.Model):
@@ -94,7 +106,10 @@ class F5903000(models.Model):
             db_table = u'"PRODDTA"."F5903000"'
 
     def __str__(self):
-        return self.FTGENKEY
+        return self.ftgenkey
+
+    def __unicode__(self):
+        return self.ftgenkey
 
 
 class VIEW_SCOMPRAS(models.Model):
@@ -178,12 +193,22 @@ class VIEW_SCOMPRAS(models.Model):
         db_table = u'"NUVPD"."VIEW_SCOMPRAS"'
 
     def __str__(self):
-        return "{} - {} - {} - {}".format(
+        value = "%s - %s - %s - %s" % (
             self.req_compania,
             self.req_tipo,
             self.req,
             self.req_linea
         )
+        return value
+
+    def __unicode__(self):
+        value = "%s - %s - %s - %s" % (
+            self.req_compania,
+            self.req_tipo,
+            self.req,
+            self.req_linea
+        )
+        return value
 
 
 class VIEW_INVENTARIO(models.Model):
@@ -205,12 +230,22 @@ class VIEW_INVENTARIO(models.Model):
         db_table = u'"NUVPD"."VIEW_INVENTARIO"'
 
     def __str__(self):
-        return "{} - {} - {} - {}".format(
+        value = "%s - %s - %s - %s" % (
             self.proyecto_cve,
             self.proyecto_desc,
             self.articulo_cve,
             self.articulo_desc
         )
+        return value
+
+    def __unicode__(self):
+        value = "%s - %s - %s - %s" % (
+            self.proyecto_cve,
+            self.proyecto_desc,
+            self.articulo_cve,
+            self.articulo_desc
+        )
+        return value
 
 
 class VIEW_INVENTARIO_UN(models.Model):
@@ -226,10 +261,18 @@ class VIEW_INVENTARIO_UN(models.Model):
         db_table = u'"NUVPD"."VIEW_INVENTARIOUN"'
 
     def __str__(self):
-        return "{} - {} - {} - {}".format(
+        value = "%s - %s" % (
             self.proyecto_cve,
             self.proyecto_desc,
         )
+        return value
+
+    def __unicode__(self):
+        value = "%s - %s" % (
+            self.proyecto_cve,
+            self.proyecto_desc,
+        )
+        return value
 
 
 class VM_PORF_COMPRAS(models.Model):
@@ -280,11 +323,20 @@ class VM_PORF_COMPRAS(models.Model):
         db_table = u'"NUVPD"."VM_PORF_COMPRAS"'
 
     def __str__(self):
-        return "{} - {} - {}".format(
+        value = "%s - %s - %s" % (
             self.doc_compania,
             self.doc_tipo,
             self.doc_numero
         )
+        return value
+
+    def __unicode__(self):
+        value = "%s - %s - %s" % (
+            self.doc_compania,
+            self.doc_tipo,
+            self.doc_numero
+        )
+        return value
 
 
 class VM_PORF_CXC(models.Model):
@@ -334,11 +386,20 @@ class VM_PORF_CXC(models.Model):
         db_table = u'"NUVPD"."VM_PORF_CXC"'
 
     def __str__(self):
-        return "{} - {} - {}".format(
+        value = "%s - %s - %s" % (
             self.doc_compania,
             self.doc_tipo,
             self.doc_numero
         )
+        return value
+
+    def __unicode__(self):
+        value = "%s - %s - %s" % (
+            self.doc_compania,
+            self.doc_tipo,
+            self.doc_numero
+        )
+        return value
 
 
 class VM_PORF_CXP(models.Model):
@@ -388,11 +449,20 @@ class VM_PORF_CXP(models.Model):
         db_table = u'"NUVPD"."VM_PORF_CXP"'
 
     def __str__(self):
-        return "{} - {} - {}".format(
+        value = "%s - %s - %s" % (
             self.doc_compania,
             self.doc_tipo,
             self.doc_numero
         )
+        return value
+
+    def __unicode__(self):
+        value = "%s - %s - %s" % (
+            self.doc_compania,
+            self.doc_tipo,
+            self.doc_numero
+        )
+        return value
 
 
 class VM_PORF_NOMINA(models.Model):
@@ -442,11 +512,20 @@ class VM_PORF_NOMINA(models.Model):
         db_table = u'"NUVPD"."VM_PORF_NOMINA"'
 
     def __str__(self):
-        return "{} - {} - {}".format(
+        value = "%s - %s - %s" % (
             self.doc_compania,
             self.doc_tipo,
             self.doc_numero
         )
+        return value
+
+    def __unicode__(self):
+        value = "%s - %s - %s" % (
+            self.doc_compania,
+            self.doc_tipo,
+            self.doc_numero
+        )
+        return value
 
 
 class VIEW_RECEPSINCOTEJO(models.Model):
@@ -525,9 +604,45 @@ class VIEW_RECEPSINCOTEJO(models.Model):
         db_table = u'"NUVPD"."VIEW_RECEPSINCOTEJO"'
 
     def __str__(self):
-        return "{} - {} - {}".format(
-            self.doc_compania,
+        value = "%s - %s - %s - %s" % (
+            self.oc_compania,
             self.oc_tipo,
             self.oc_numero,
             self.oc_linea,
         )
+        return value
+
+    def __unicode__(self):
+        value = "%s - %s - %s - %s" % (
+            self.oc_compania,
+            self.oc_tipo,
+            self.oc_numero,
+            self.oc_linea,
+        )
+        return value
+
+
+class VIEW_COMPANIAS(models.Model):
+
+    comp_code = models.CharField(max_length=5, primary_key=True)
+    comp_desc = models.CharField(max_length=30)
+    comp_book_code = models.IntegerField()
+    book_desc = models.CharField(max_length=80)
+
+    class Meta:
+        managed = False
+        db_table = u'"NUVPD"."VIEW_COMPANIAS"'
+
+    def __str__(self):
+        value = "%s - %s" % (
+            self.comp_code,
+            self.book_desc,
+        )
+        return value
+
+    def __unicode__(self):
+        value = "%s - %s" % (
+            self.comp_code,
+            self.book_desc,
+        )
+        return value
