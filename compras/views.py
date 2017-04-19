@@ -12,23 +12,44 @@ from django.views.generic.base import View
 
 # Librerias de Terceros:
 # API Rest:
+from rest_framework import viewsets
+from django_filters.rest_framework import DjangoFilterBackend
 
 # Modelos:
+from jde.models import VIEW_SCOMPRAS
 
 # Formularios
+from .forms import ComprasSeguimientoForm
 
 # Serializadores:
+from .serializers import CompraSeguimientoSerializer
 
 # Filtros:
+from .filters import CompraSeguimientoFilter
 
 # Paginacion
+from .pagination import GenericPagination
 
 # -------------- COMPRAS -------------- #
 
 class Seguimiento(View):
-     def get(self, request):
+    def __init__(self):
+        self.template_name = 'seguimiento/seguimiento_filtro.html'
 
-        return render(request, 'compra/seguimiento.html', {})
+    def get(self, request):
+        formulario = ComprasSeguimientoForm()
+        contexto = {
+            'form': formulario
+        }
+
+        return render(request, self.template_name, contexto)
 
 # -------------- COMPRAS - API REST -------------- #
 
+class CompraSeguimientoByPageAPI(viewsets.ModelViewSet):
+    queryset = VIEW_SCOMPRAS.objects.using('jde_p').all()
+    serializer_class = CompraSeguimientoSerializer
+    pagination_class = GenericPagination
+
+    filter_backends = (DjangoFilterBackend,)
+    filter_class = CompraSeguimientoFilter

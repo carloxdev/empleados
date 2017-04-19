@@ -13,6 +13,8 @@ from finanzas.views import ViaticoLineaAPI
 from finanzas.views import ViaticoCabeceraByPageAPI
 from finanzas.views import ViaticoLineaByPageAPI
 
+from compras.views import CompraSeguimientoByPageAPI
+
 from seguridad.views import UserAPI
 from seguridad.views import ProfileAPI
 
@@ -53,6 +55,13 @@ router.register(
     r'viaticolinea_bypage',
     ViaticoLineaByPageAPI,
     'viaticolinea_bypage'
+)
+
+# -------------- Compras -------------- #
+router.register(
+    r'compraSeguimiento_bypage',
+    CompraSeguimientoByPageAPI,
+    'compraSeguimiento_bypage'
 )
 
 # -------------- URLS -------------- #
