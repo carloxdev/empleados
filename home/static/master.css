@@ -22,6 +22,15 @@
     min-height: 55px;
 }
 
+.nova-main-content {
+    padding: 15px 10px 25px;   
+}
+
+.nova-title {
+    display: inline-block;
+    line-height: 0px;
+}
+
 .nova-white {
     color: white !important;
 }

@@ -107,7 +107,7 @@
                         </div>
                       </div>
                     </div>
-                    <div class="footer"> <a href="#">View all notifications</a></div>
+                    <div class="footer"> <a href="#">Ver notificaciones</a></div>
                   </li>
                 </ul>
               </li>
@@ -128,7 +128,7 @@
                         </div>
                       </div>
                     </div>
-                    <div class="footer"> <a href="#">More</a></div>
+                    <div class="footer"> <a href="#">Mas</a></div>
                   </li>
                 </ul>
               </li>
@@ -144,18 +144,34 @@
                 <ul class="sidebar-elements">
 
                   <li class="divider">Menu</li>
-
                   <li class="active">
-                      <a href="{% url 'finanzas:viatico_lista' %}">
-                          <i class="icon mdi mdi-airplane"></i>
-                          <span>Viaticos</span>
-                      </a>
+                    <a href="{% url 'home:inicio' %}">
+                        <i class="icon mdi mdi-home"></i>
+                        <span>Inicio</span>
+                    </a>
                   </li>
-                  <li>
-                      <a href="{% url 'compras:seguimiento' %}">
-                          <i class="icon mdi mdi-money"></i>
-                          <span>Compras</span>
-                      </a>
+
+                  <li class="parent"><a href="#"><i class="icon mdi mdi-airplane"></i></i><span>Viaticos</span></a>
+                    <ul class="sub-menu">
+                      <li>
+                        <a href="{% url 'finanzas:viatico_lista' %}">
+                            <span>Solicitudes</span>
+                        </a>
+                      </li>
+                      <li>
+                        <a href="#">Autorizacion</a>
+                      </li>
+                    </ul>
+                  </li>
+
+                  <li class="parent"><a href="#"><i class="icon mdi mdi-money"></i></i><span>Compras</span></a>
+                    <ul class="sub-menu">
+                      <li>
+                        <a href="{% url 'compras:seguimiento' %}">
+                            <span>Seguimiento</span>
+                        </a>
+                      </li>
+                    </ul>
                   </li>
                 </ul>
               </div>
