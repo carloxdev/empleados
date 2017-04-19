@@ -5,7 +5,10 @@ from django.forms import TextInput
 from django.forms import Textarea
 from django.forms import Select
 from django.forms import Form
+from django.forms import DateField
 from django.forms import CharField
+from django.forms import IntegerField
+from django.forms import NumberInput
 
 class ComprasSeguimientoForm(Form):
     COMPANIAS = (
@@ -30,14 +33,14 @@ class ComprasSeguimientoForm(Form):
         widget=Select(attrs={'class': 'form-control input-xs'}, choices=COMPANIAS)
     )
     sucursal = CharField(
-        widget=TextInput(attrs={'class': 'form-control input-xs'})
+        widget=Select(attrs={'class': 'form-control input-xs'})
     )
     comprador = CharField(
         widget=TextInput(attrs={'class': 'form-control input-xs'})
     )
 
-    requisicion = CharField(
-        widget=TextInput(attrs={'class': 'form-control input-xs'})
+    requisicion = IntegerField(
+        widget=NumberInput(attrs={'class': 'form-control input-xs', 'min': '1'})
     )
     requisicion_tipo = CharField(
         widget=Select(attrs={'class': 'form-control input-xs'}, choices=TIPOS)
@@ -49,8 +52,8 @@ class ComprasSeguimientoForm(Form):
         widget=Select(attrs={'class': 'form-control input-xs'}, choices=CANCELADAS)
     )
 
-    cotizacion = CharField(
-        widget=TextInput(attrs={'class': 'form-control input-xs'})
+    cotizacion = IntegerField(
+        widget=NumberInput(attrs={'class': 'form-control input-xs', 'min': '1' })
     )
     cotizacion_tipo = CharField(
         widget=Select(attrs={'class': 'form-control input-xs'}, choices=TIPOS)
@@ -62,22 +65,19 @@ class ComprasSeguimientoForm(Form):
         widget=Select(attrs={'class': 'form-control input-xs'}, choices=CANCELADAS)
     )
 
-    oc = CharField(
-        widget=TextInput(attrs={'class': 'form-control input-xs'})
+    oc = IntegerField(
+        widget=NumberInput(attrs={'class': 'form-control input-xs', 'min': '1'})
     )
     oc_tipo = CharField(
         widget=Select(attrs={'class': 'form-control input-xs'}, choices=TIPOS)
     )
-    oc_originador = CharField(
-        widget=TextInput(attrs={'class': 'form-control input-xs'})
-    )
     oc_canceladas = CharField(
         widget=Select(attrs={'class': 'form-control input-xs'}, choices=CANCELADAS)
     )
-    oc_desde = CharField(
+    oc_desde = DateField(
         widget=TextInput(attrs={'class': 'form-control input-xs'})
     )
-    oc_hasta = CharField(
+    oc_hasta = DateField(
         widget=TextInput(attrs={'class': 'form-control input-xs'})
     )
 

@@ -17,19 +17,80 @@ var grid = null
 \*-----------------------------------------------*/
 
 $(document).ready(function () {
-    
     tarjeta_filtros = new TarjetaFiltros()
     tarjeta_resultados = new TarjetaResultados()
 })
 
 /*-----------------------------------------------*\
-            OBJETO: Popup filtro
+            OBJETO: Tarjeta filtros
 \*-----------------------------------------------*/
 
 function TarjetaFiltros() {
-
+    this.$fecha_oc_desde_hasta = $("#fecha_oc_desde_hasta")
+    this.$boton_colapsible = $("#boton_colapsible")
     this.$boton_buscar = $('#boton_buscar')
     this.$boton_limpiar = $('#boton_limpiar')
+    this.init_Components()
+    this.init_Events()
+}
+TarjetaFiltros.prototype.init_Components = function () {
+
+    this.$fecha_oc_desde_hasta.daterangepicker(this.get_ConfDateRangePicker())    
+}
+TarjetaFiltros.prototype.get_ConfDateRangePicker = function () {
+
+    return {
+        locale: {
+            format: 'YYYY-MM-DD',
+            applyLabel: "Aplicar",
+            cancelLabel: "Cancelar",
+            fromLabel: "Del",
+            separator: " al ",
+            toLabel: "Al",            
+            weekLabel: "S",
+            daysOfWeek: [
+                "Do",
+                "Lu",
+                "Ma",
+                "Mi",
+                "Ju",
+                "Vi",
+                "Sa"
+            ],
+            monthNames: [
+                "Enero",
+                "Febrero",
+                "Marzo",
+                "Abril",
+                "Mayo",
+                "Junio",
+                "Julio",
+                "Agosto",
+                "Septiembre",
+                "Octubre",
+                "Noviembre",
+                "Diciembre"
+            ],          
+        },
+        startDate: '2017-01-01'
+    }    
+}
+TarjetaFiltros.prototype.init_Events = function () {
+
+    this.$boton_colapsible.on("click", this, this.click_BotonColapsible)
+    this.$boton_buscar.on("click", this, this.click_BotonBuscar)
+    this.$boton_limpiar.on("click", this, this.click_BotonLimpiar)
+}
+TarjetaFiltros.prototype.click_BotonColapsible = function (e){
+
+    if ($("#boton_colapsible").hasClass('mdi-caret-down-circle')){
+
+        $("#boton_colapsible").removeClass('mdi-caret-down-circle').addClass('mdi-caret-up-circle')
+    }
+    else if($("#boton_colapsible").hasClass('mdi-caret-up-circle')){
+
+        $("#boton_colapsible").removeClass('mdi-caret-up-circle').addClass('mdi-caret-down-circle')
+    }
 }
 TarjetaFiltros.prototype.get_Values = function (_page) {
     
@@ -238,11 +299,6 @@ Grid.prototype.get_Configuracion = function () {
 Grid.prototype.get_Columnas = function () {
 
     return [    
-        { 
-            field: "pk",
-            title: "Numero",
-            width: "85px",
-        },
         { field: "req_compania", title: "Requisión compañia", width:"150px"},
         { field: "req_compania_desc", title: "Requisión compañia desc", width:"150px"},
         { field: "req_un", title: "Requisión un", width:"150px"},

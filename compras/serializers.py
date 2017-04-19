@@ -10,7 +10,6 @@ class CompraSeguimientoSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = VIEW_SCOMPRAS
         fields = (
-            'pk',
             'req_compania',
             'req_compania_desc',
             'req_un',
