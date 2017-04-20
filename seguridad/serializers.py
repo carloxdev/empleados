@@ -38,33 +38,39 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 class ProfileSerializer(serializers.HyperlinkedModelSerializer):
 
     usuario = serializers.SerializerMethodField()
+    first_name =serializers.SerializerMethodField()
+    last_name =serializers.SerializerMethodField()
+    email =serializers.SerializerMethodField()
+    is_active =serializers.SerializerMethodField()
+
 
     class Meta:
         model = Profile
         fields = (
             'usuario',
+            'first_name',
+            'last_name',
+            'email',
+            'is_active',
             'clave_rh',
             'clave_jde',
             'foto',
             'fecha_nacimiento',
+
         )
+
 
     def get_usuario(self, obj):
+         return obj.usuario.username
 
-        try:
-            return obj.usuario.username
-        except Exception as e:
-            return str(e)
+    def get_first_name(self, obj):
+        return obj.usuario.first_name
 
-class UserProfileSerializer(serializers.HyperlinkedModelSerializer):
+    def get_last_name(self, obj):
+        return obj.usuario.last_name
 
-    usuario = UserSerializer()
-    class Meta:
-        model = Profile
-        fields = (
-            'usuario',
-            'clave_rh',
-            'clave_jde',
-            'foto',
-            'fecha_nacimiento',
-        )
+    def get_email(self, obj):
+        return obj.usuario.email
+
+    def get_is_active(self, obj):
+        return obj.usuario.is_active

@@ -30,7 +30,6 @@ from django_filters.rest_framework import DjangoFilterBackend
 # Serializadores:
 from .serializers import UserSerializer
 from .serializers import ProfileSerializer
-from .serializers import UserProfileSerializer
 
 # Paginacion
 from .pagination import GenericPagination
@@ -148,14 +147,11 @@ class UsuarioNuevo(CreateView):
 class UserAPI(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    filter_backends = (DjangoFilterBackend,)
-    filter_fields = ('username', 'is_active')
 
 
 class ProfileAPI(viewsets.ModelViewSet):
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
-    filter_backends = (DjangoFilterBackend,)
 
 class UserByPageAPI(viewsets.ModelViewSet):
     queryset = User.objects.all()
@@ -167,11 +163,5 @@ class UserByPageAPI(viewsets.ModelViewSet):
 class ProfileByPageAPI(viewsets.ModelViewSet):
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
-    filter_backends = (DjangoFilterBackend,)
-    pagination_class = GenericPagination
-
-class UserProfileByPageAPI(viewsets.ModelViewSet):
-    queryset = Profile.objects.all()
-    serializer_class = UserProfileSerializer
     filter_backends = (DjangoFilterBackend,)
     pagination_class = GenericPagination
