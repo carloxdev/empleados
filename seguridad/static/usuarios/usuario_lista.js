@@ -81,7 +81,6 @@ Grid.prototype.get_DataSourceConfig = function () {
 Grid.prototype.get_Campos = function () {
 
     return {
-        username : { type: "string"},
         first_name : { type: "string"},
         last_name : { type: "string" },
         email : { type: "string" },
@@ -115,7 +114,6 @@ Grid.prototype.get_Configuracion = function () {
 Grid.prototype.get_Columnas = function () {
 
     return [    
-        { field: "username", title: "Usuario", width:"200px" },
         { field: "first_name", title: "Primer nombre", width:"200px" },
         { field: "last_name", title: "Apellidos", width:"200px" },
         { field: "email", title: "Email", width:"200px" },
@@ -123,6 +121,6 @@ Grid.prototype.get_Columnas = function () {
         { field: "clave_rh", title: "Clave rh", width:"100px" },
         { field: "clave_jde", title: "Clave jde", width:"100px" },
         { field: "foto", title: "Foto", width:"100px" },
-        { field: "fecha_nacimiento", title: "Fecha de nacimiento", width:"200px", format: "{0:dd-MM-yyyy}" },
+        { field: "fecha_nacimiento", title: "Fecha de nacimiento", width:"150px", format: "{0:dd-MM-yyyy}" },
     ]
 }
