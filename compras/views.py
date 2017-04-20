@@ -12,12 +12,14 @@ from django_filters.rest_framework import DjangoFilterBackend
 
 # Modelos:
 from jde.models import VIEW_SCOMPRAS
+from jde.models import VIEW_UNIDADES
 
 # Formularios
 from .forms import ComprasSeguimientoForm
 
 # Serializadores:
 from .serializers import CompraSeguimientoSerializer
+from .serializers import CompraSeguimientoSucursalSerializer
 
 # Filtros:
 from .filters import CompraSeguimientoFilter
@@ -58,3 +60,10 @@ class CompraSeguimientoByPageAPI(viewsets.ModelViewSet):
 
     filter_backends = (DjangoFilterBackend,)
     filter_class = CompraSeguimientoFilter
+<<<<<<< Updated upstream
+=======
+
+class CompraSeguimientoSucursalAPI(viewsets.ModelViewSet):
+    queryset = VIEW_UNIDADES.objects.using('jde_p').all()
+    serializer_class = CompraSeguimientoSucursalSerializer
+>>>>>>> Stashed changes

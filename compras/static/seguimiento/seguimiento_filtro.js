@@ -3,7 +3,8 @@
 \*-----------------------------------------------*/
 
 // URLS:
-var url_seguimientos_bypage = window.location.origin + "/api/compraSeguimiento_bypage/"
+var url_seguimiento_bypage = window.location.origin + "/api/compraseguimiento_bypage/"
+var url_seguimiento_sucursal = window.location.origin + "/api/compraseguimientosucursal/"
 
 // OBJS
 var tarjeta_filtros = null
@@ -26,6 +27,7 @@ $(document).ready(function () {
 \*-----------------------------------------------*/
 
 function TarjetaFiltros() {
+    this.$id_sucursal = $("#id_sucursal")
     this.$fecha_oc_desde_hasta = $("#fecha_oc_desde_hasta")
     this.$boton_colapsible = $("#boton_colapsible")
     this.$boton_buscar = $('#boton_buscar')
@@ -35,7 +37,9 @@ function TarjetaFiltros() {
 }
 TarjetaFiltros.prototype.init_Components = function () {
 
-    this.$fecha_oc_desde_hasta.daterangepicker(this.get_ConfDateRangePicker())    
+    this.$fecha_oc_desde_hasta.daterangepicker(this.get_ConfDateRangePicker())
+    this.$id_sucursal.select2(this.get_ConfSelect2())
+    this.init_DataSourceIdSucursal()
 }
 TarjetaFiltros.prototype.get_ConfDateRangePicker = function () {
 
@@ -75,9 +79,35 @@ TarjetaFiltros.prototype.get_ConfDateRangePicker = function () {
         startDate: '2017-01-01'
     }    
 }
+TarjetaFiltros.prototype.get_ConfSelect2 = function () {
+    return {
+        width: '100%'
+    }
+}
+TarjetaFiltros.prototype.init_DataSourceIdSucursal = function () {
+
+    $.ajax({
+    url: url_seguimiento_sucursal,
+    dataType: "json",
+    success: function( data ) {
+        var objetos=[];  
+        for (var i in data) {
+            datos = data[i];
+
+                objetos.push(datos.make);
+
+                $('#id_sucursal').append($('<option>', {
+                    value: datos.clave,
+                    text: '( ' + datos.clave + ' )' + ' ' + datos.desc_corta
+                }));
+            }
+        }
+    });
+}
 TarjetaFiltros.prototype.init_Events = function () {
 
     this.$boton_colapsible.on("click", this, this.click_BotonColapsible)
+    this.$id_sucursal.on("click", this, this.click_Select)
     this.$boton_buscar.on("click", this, this.click_BotonBuscar)
     this.$boton_limpiar.on("click", this, this.click_BotonLimpiar)
 }
@@ -91,6 +121,10 @@ TarjetaFiltros.prototype.click_BotonColapsible = function (e){
 
         $("#boton_colapsible").removeClass('mdi-caret-up-circle').addClass('mdi-caret-down-circle')
     }
+}
+TarjetaFiltros.prototype.click_Select = function (e){
+
+    
 }
 TarjetaFiltros.prototype.get_Values = function (_page) {
     
@@ -176,7 +210,7 @@ Grid.prototype.get_DataSourceConfig = function () {
         transport: {
             read: {
 
-                url: url_seguimientos_bypage,
+                url: url_seguimiento_bypage,
                 type: "GET",
                 dataType: "json",
             },

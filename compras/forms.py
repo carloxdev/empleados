@@ -20,12 +20,12 @@ class ComprasSeguimientoForm(Form):
         ('QS - Cotizacion', 'QS - Cotizacion')
     )
     CANCELADAS = (
-        ('si', 'Si mostrar'),
-        ('no', 'No mostrar')
+        ('SI', 'Si mostrar'),
+        ('NO', 'No mostrar')
     )
     RECEPCION = (
-        ('si', 'Con recepción'),
-        ('no', 'Sin recepción')
+        ('SI', 'Con recepción'),
+        ('NO', 'Sin recepción')
     )
 
 
@@ -33,7 +33,7 @@ class ComprasSeguimientoForm(Form):
         widget=Select(attrs={'class': 'form-control input-xs'}, choices=COMPANIAS)
     )
     sucursal = CharField(
-        widget=Select(attrs={'class': 'form-control input-xs'})
+        widget=Select(attrs={'class': 'select2 nova-select2'})
     )
     comprador = CharField(
         widget=TextInput(attrs={'class': 'form-control input-xs'})

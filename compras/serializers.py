@@ -4,6 +4,7 @@ from rest_framework import serializers
 
 # Modelos:
 from jde.models import VIEW_SCOMPRAS
+from jde.models import VIEW_UNIDADES
 
 
 class CompraSeguimientoSerializer(serializers.HyperlinkedModelSerializer):
@@ -83,4 +84,12 @@ class CompraSeguimientoSerializer(serializers.HyperlinkedModelSerializer):
             'ord_termino_pago_desc',
             'ord_updated_by',
             'ord_updated_by_desc',
-        )
+      )
+
+class CompraSeguimientoSucursalSerializer(serializers.HyperlinkedModelSerializer):
+      class Meta:
+            model = VIEW_UNIDADES
+            fields = (
+                  'clave',
+                  'desc_corta'
+      )

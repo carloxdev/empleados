@@ -15,6 +15,7 @@ from finanzas.views import ViaticoLineaByPageAPI
 
 from compras.views import CompraSeguimientoAPI
 from compras.views import CompraSeguimientoByPageAPI
+from compras.views import CompraSeguimientoSucursalAPI
 
 from sgi.views import IncidenciaDocumentoAPI
 from sgi.views import IncidenciaTipoAPI
@@ -76,17 +77,18 @@ router.register(
 # -------------- Compras -------------- #
 
 router.register(
-    r'compraSeguimiento',
+    r'compraseguimiento',
     CompraSeguimientoAPI,
-    'compraSeguimiento'
+    'compraseguimiento'
 )
 
 router.register(
-    r'compraSeguimiento_bypage',
+    r'compraseguimiento_bypage',
     CompraSeguimientoByPageAPI,
-    'compraSeguimiento_bypage'
+    'compraseguimiento_bypage'
 )
 
+<<<<<<< Updated upstream
 # -------------- SGI -------------- #
 
 router.register(
@@ -108,6 +110,13 @@ router.register(
 )
 
 
+=======
+router.register(
+    r'compraseguimientosucursal',
+    CompraSeguimientoSucursalAPI,
+    'compraseguimientosucursal',
+)
+>>>>>>> Stashed changes
 # -------------- URLS -------------- #
 
 urlpatterns = [

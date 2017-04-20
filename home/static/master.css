@@ -102,3 +102,25 @@
         width: 25%;
     }
 }
+
+.select2-container--default .select2-selection--single {
+  height: 30px !important;
+}
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+  padding: 0 15px !important;
+  height: 30px !important;
+  font-size: 14px !important;
+  color: #404040 !important;
+}
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+  height: 46px !important;
+  width: 30px !important;
+}
+.select2-container--default .select2-selection--single .select2-selection__arrow b {
+  border: 0 !important;
+  left: 10px !important;
+  top: -7px !important;
+  width: 100% !important;
+  height: 100% !important;
+  margin: 0 !important;
+}

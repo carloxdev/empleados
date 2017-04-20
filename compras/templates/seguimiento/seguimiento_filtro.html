@@ -15,7 +15,8 @@
     <!-- Theme -->
     <link rel="stylesheet" href="{% static 'theme/lib/datetimepicker/css/bootstrap-datetimepicker.min.css' %}"/>
     <link rel="stylesheet" href="{% static 'theme/lib/daterangepicker/css/daterangepicker.css' %}"/>
-
+    <link rel="stylesheet" href="{% static 'theme/lib/select2/css/select2.min.css' %}">
+    
     <!-- Nova -->
     <link rel="stylesheet" href="{% static 'grid.css' %}"/>
 {% endblock css %}
@@ -41,59 +42,61 @@
                     <form action="" method="POST"> {% csrf_token %} 
 
                         <div class="row">
-                                                    
-                            <!-- compañia -->
-                            <div class="col-sm-3">
-                                <div class="form-group {% if form.compania.errors %} has-error {% endif %}">
+                             
+                            <div class="row nova-padding-row">
+                                <!-- compañia -->
+                                <div class="col-sm-3">
+                                    <div class="form-group {% if form.compania.errors %} has-error {% endif %}">
 
-                                <label class="control-label">
-                                <i class="fa {% if form.compania.errors %} fa-asterisk {% endif %}"></i> 
-                                    {{ form.compania.label }} 
-                                </label>
-                                <p>
-                                    {{ form.compania }} 
-                                </p>
-                                {% for error in form.compania.errors %}
-                                    <span class="help-block">{{ error }}</span>
-                                {% endfor %}
+                                    <label class="control-label">
+                                    <i class="fa {% if form.compania.errors %} fa-asterisk {% endif %}"></i> 
+                                        {{ form.compania.label }} 
+                                    </label>
+                                    <p>
+                                        {{ form.compania }} 
+                                    </p>
+                                    {% for error in form.compania.errors %}
+                                        <span class="help-block">{{ error }}</span>
+                                    {% endfor %}
+                                    </div>
                                 </div>
-                            </div>
 
-                            <!-- sucursal -->
-                            <div class="col-sm-3">
-                                <div class="form-group {% if form.sucursal.errors %} has-error {% endif %}">
+                                 <!-- sucursal -->
+                                <div class="col-sm-3">
+                                    <div class="form-group {% if form.sucursal.errors %} has-error {% endif %}">
+                                        <label class="control-label">
+                                            <i class="fa {% if form.sucursal.errors %} fa-asterisk {% endif %}"></i> 
+                                            {{ form.sucursal.label }} 
+                                        </label>
+                                        <p>
+                                            {{ form.sucursal }}
+                                        </p>
+                                            {% for error in form.sucursal.errors %}
+                                                <span class="help-block">{{ error }}</span>
+                                            {% endfor %}                  
+                                    </div>
+                                </div>   
+                                
+                                <!-- comprador -->
+                                <div class="col-sm-6">
+                                    <div class="form-group {% if form.comprador.errors %} has-error {% endif %}">
 
-                                <label class="control-label">
-                                <i class="fa {% if form.sucursal.errors %} fa-asterisk {% endif %}"></i> 
-                                    {{ form.sucursal.label }} 
-                                </label>
-                                <p>
-                                    {{ form.sucursal }} 
-                                </p>
-                                {% for error in form.sucursal.errors %}
-                                    <span class="help-block">{{ error }}</span>
-                                {% endfor %}
+                                    <label class="control-label">
+                                    <i class="fa {% if form.comprador.errors %} fa-asterisk {% endif %}"></i> 
+                                        {{ form.comprador.label }} 
+                                    </label>
+                                    <p>
+                                        {{ form.comprador }} 
+                                    </p>
+                                    {% for error in form.comprador.errors %}
+                                        <span class="help-block">{{ error }}</span>
+                                    {% endfor %}
+                                    </div>
                                 </div>
-                            </div>
-                            
-                            <!-- comprador -->
-                            <div class="col-sm-6">
-                                <div class="form-group {% if form.comprador.errors %} has-error {% endif %}">
-
-                                <label class="control-label">
-                                <i class="fa {% if form.comprador.errors %} fa-asterisk {% endif %}"></i> 
-                                    {{ form.comprador.label }} 
-                                </label>
-                                <p>
-                                    {{ form.comprador }} 
-                                </p>
-                                {% for error in form.comprador.errors %}
-                                    <span class="help-block">{{ error }}</span>
-                                {% endfor %}
-                                </div>
-                            </div>
+                            </div>                       
 
                             <!-- requisición -->
+                            <div class="row nova-padding-row">
                             <div class="col-sm-3">
                                 <div class="form-group {% if form.requisicion.errors %} has-error {% endif %}">
 
@@ -160,6 +163,7 @@
                                 {% endfor %}
                                 </div>
                             </div>
+                            </div>
                             
                             <div class="row nova-padding-row">
                             <!-- cotizacion -->
@@ -217,72 +221,74 @@
                                 </div>
                             </div>
                             </div>
+                                    
+                            <div class="row nova-padding-row">
+                                <!-- oc -->
+                                <div class="col-sm-3">
+                                    <div class="form-group {% if form.oc.errors %} has-error {% endif %}">
 
-                            <!-- oc -->
-                            <div class="col-sm-3">
-                                <div class="form-group {% if form.oc.errors %} has-error {% endif %}">
-
-                                <label class="control-label">
-                                <i class="fa {% if form.oc.errors %} fa-asterisk {% endif %}"></i> 
-                                    {{ form.oc.label }} 
-                                </label>
-                                <p>
-                                    {{ form.oc }} 
-                                </p>
-                                {% for error in form.oc.errors %}
-                                    <span class="help-block">{{ error }}</span>
-                                {% endfor %}
+                                    <label class="control-label">
+                                    <i class="fa {% if form.oc.errors %} fa-asterisk {% endif %}"></i> 
+                                        {{ form.oc.label }} 
+                                    </label>
+                                    <p>
+                                        {{ form.oc }} 
+                                    </p>
+                                    {% for error in form.oc.errors %}
+                                        <span class="help-block">{{ error }}</span>
+                                    {% endfor %}
+                                    </div>
                                 </div>
-                            </div>
 
-                            <!-- oc_tipo -->
-                            <div class="col-sm-3">
-                                <div class="form-group {% if form.oc_tipo.errors %} has-error {% endif %}">
+                                <!-- oc_tipo -->
+                                <div class="col-sm-3">
+                                    <div class="form-group {% if form.oc_tipo.errors %} has-error {% endif %}">
 
-                                <label class="control-label">
-                                <i class="fa {% if form.oc_tipo.errors %} fa-asterisk {% endif %}"></i> 
-                                    {{ form.oc_tipo.label }} 
-                                </label>
-                                <p>
-                                    {{ form.oc_tipo }} 
-                                </p>
-                                {% for error in form.oc_tipo.errors %}
-                                    <span class="help-block">{{ error }}</span>
-                                {% endfor %}
+                                    <label class="control-label">
+                                    <i class="fa {% if form.oc_tipo.errors %} fa-asterisk {% endif %}"></i> 
+                                        {{ form.oc_tipo.label }} 
+                                    </label>
+                                    <p>
+                                        {{ form.oc_tipo }} 
+                                    </p>
+                                    {% for error in form.oc_tipo.errors %}
+                                        <span class="help-block">{{ error }}</span>
+                                    {% endfor %}
+                                    </div>
                                 </div>
-                            </div>
 
-                            <!-- oc_originador -->
-                            <div class="col-sm-3">
-                                <div class="form-group {% if form.oc_originador.errors %} has-error {% endif %}">
+                                <!-- oc_originador -->
+                                <div class="col-sm-3">
+                                    <div class="form-group {% if form.oc_originador.errors %} has-error {% endif %}">
 
-                                <label class="control-label">
-                                <i class="fa {% if form.oc_originador.errors %} fa-asterisk {% endif %}"></i> 
-                                    {{ form.oc_originador.label }} 
-                                </label>
-                                <p>
-                                    {{ form.oc_originador }} 
-                                </p>
-                                {% for error in form.oc_originador.errors %}
-                                    <span class="help-block">{{ error }}</span>
-                                {% endfor %}
+                                    <label class="control-label">
+                                    <i class="fa {% if form.oc_originador.errors %} fa-asterisk {% endif %}"></i> 
+                                        {{ form.oc_originador.label }} 
+                                    </label>
+                                    <p>
+                                        {{ form.oc_originador }} 
+                                    </p>
+                                    {% for error in form.oc_originador.errors %}
+                                        <span class="help-block">{{ error }}</span>
+                                    {% endfor %}
+                                    </div>
                                 </div>
-                            </div>
 
-                            <!-- oc_canceladas -->
-                            <div class="col-sm-3">
-                                <div class="form-group {% if form.oc_canceladas.errors %} has-error {% endif %}">
+                                <!-- oc_canceladas -->
+                                <div class="col-sm-3">
+                                    <div class="form-group {% if form.oc_canceladas.errors %} has-error {% endif %}">
 
-                                <label class="control-label">
-                                <i class="fa {% if form.oc_canceladas.errors %} fa-asterisk {% endif %}"></i> 
-                                    {{ form.oc_canceladas.label }} 
-                                </label>
-                                <p>
-                                    {{ form.oc_canceladas }} 
-                                </p>
-                                {% for error in form.oc_canceladas.errors %}
-                                    <span class="help-block">{{ error }}</span>
-                                {% endfor %}
+                                    <label class="control-label">
+                                    <i class="fa {% if form.oc_canceladas.errors %} fa-asterisk {% endif %}"></i> 
+                                        {{ form.oc_canceladas.label }} 
+                                    </label>
+                                    <p>
+                                        {{ form.oc_canceladas }} 
+                                    </p>
+                                    {% for error in form.oc_canceladas.errors %}
+                                        <span class="help-block">{{ error }}</span>
+                                    {% endfor %}
+                                    </div>
                                 </div>
                             </div>
                             
@@ -304,6 +310,7 @@
 
                             </div><!-- class row -->
 
+                            <div>
                              <!-- proveedor -->
                             <div class="col-sm-4">
                                 <div class="form-group {% if form.proveedor.errors %} has-error {% endif %}">
@@ -353,6 +360,7 @@
                                     <span class="help-block">{{ error }}</span>
                                 {% endfor %}
                                 </div>
+                            </div>
                             </div>
 
                         </div>
@@ -410,6 +418,8 @@
     <script src="{% static 'theme/lib/datetimepicker/js/bootstrap-datetimepicker.min.js' %}"></script>
     <script src="{% static 'theme/lib/datetimepicker/js/locales/bootstrap-datetimepicker.es.js' %}"></script>
     <script src="{% static 'theme/lib/daterangepicker/js/daterangepicker.js' %}"></script>
+    <script src="{% static 'theme/lib/select2/js/select2.min.js' %}"></script>
+    <script src="{% static 'theme/lib/select2/js/select2.full.min.js' %}"></script>id_sucursal
 
     <!-- NOVA -->
     <script src="{% static 'seguimiento/seguimiento_filtro.js' %}"></script>
