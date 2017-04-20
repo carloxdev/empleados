@@ -17,7 +17,9 @@ from compras.views import CompraSeguimientoAPI
 from compras.views import CompraSeguimientoByPageAPI
 
 from seguridad.views import UserAPI
+from seguridad.views import UserByPageAPI
 from seguridad.views import ProfileAPI
+from seguridad.views import ProfileByPageAPI
 
 router = routers.DefaultRouter()
 
@@ -32,6 +34,16 @@ router.register(
     r'profile',
     ProfileAPI,
     'profile'
+)
+router.register(
+    r'user_bypage',
+    UserByPageAPI,
+    'user_bypage'
+)
+router.register(
+    r'profile_bypage',
+    ProfileByPageAPI,
+    'profile_bypage'
 )
 
 # -------------- Finanzas -------------- #

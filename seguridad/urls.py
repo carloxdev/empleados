@@ -1,6 +1,9 @@
 from django.conf.urls import url
 
+#from . import views
 from .views import Login
+from .views import UsuarioLista
+from .views import UsuarioNuevo
 
 from django.conf import settings
 
@@ -23,4 +26,6 @@ urlpatterns = [
         {'next_page': settings.LOGIN_URL},
         name='logout'
     ),
+    url(r'^usuarios$', UsuarioLista.as_view(), name="usuario_lista"),
+    url(r'^usuarios/nuevo$', UsuarioNuevo.as_view(), name="usuario_nuevo"),
 ]

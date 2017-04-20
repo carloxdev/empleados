@@ -46,6 +46,7 @@ class ProfileSerializer(serializers.HyperlinkedModelSerializer):
             'clave_rh',
             'clave_jde',
             'foto',
+            'fecha_nacimiento',
         )
 
     def get_usuario(self, obj):
