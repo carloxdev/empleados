@@ -13,6 +13,7 @@ from rest_framework import viewsets
 
 from .serializers import IncidenciaDocumentoSerializer
 from .serializers import IncidenciaTipoSerializer
+from .serializers import CentroAtencionSerializer
 
 # # Librerias de Django
 from django.views.generic.base import View
@@ -21,6 +22,7 @@ from django.views.generic import CreateView
 # Modelos:
 from .models import IncidenciaDocumento
 from .models import IncidenciaTipo
+from .models import CentroAtencion
 
 # Formularios
 from .forms import IncidenciaDocumentoForm
@@ -97,3 +99,7 @@ class IncidenciaDocumentoAPI(viewsets.ModelViewSet):
 class IncidenciaTipoAPI(viewsets.ModelViewSet):
     queryset = IncidenciaTipo.objects.all()
     serializer_class = IncidenciaTipoSerializer
+
+class CentroAtencionAPI(viewsets.ModelViewSet):
+    queryset = CentroAtencion.objects.all()
+    serializer_class = CentroAtencionSerializer    
