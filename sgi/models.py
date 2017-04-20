@@ -33,6 +33,14 @@ class CentroAtencion(models.Model):
     )
     history = HistoricalRecords()
 
+    def __unicode__(self):
+        cadena = "%s - %s" % (self.id, self.descripcion)
+        return cadena
+
+    def __str__(self):
+        cadena = "%s - %s" % (self.id, self.descripcion)
+        return cadena
+
     class Meta:
         verbose_name_plural = "Centros de Atencion"
 
@@ -55,6 +63,16 @@ class IncidenciaTipos(models.Model):
     )
     history = HistoricalRecords()
 
+    def __unicode__(self):
+       cadena = "%s - %s" % (self.id, self.descripcion)
+       return cadena
+
+    def __str__(self):
+       cadena = "%s - %s" % (self.id, self.descripcion)
+       return cadena
+    
+   
+
     class Meta:
         verbose_name_plural = "Tipos de Incidencia"
 
@@ -69,6 +87,7 @@ class IncidenciaDocumento(models.Model):
     )
 
     tipo = models.ForeignKey(IncidenciaTipos)
+    #descripcion = models.ForeignKey(IncidenciaTipos.descripcion)
     descripcion = models.CharField(max_length=144)
     registrable = models.BooleanField(default=False)
     fecha = models.DateTimeField()
@@ -84,7 +103,7 @@ class IncidenciaDocumento(models.Model):
     area_id = models.IntegerField(default=0)
     area_descripcion = models.CharField(max_length=144)
     lugar = models.CharField(max_length=144)
-    dias_incapcidad = models.IntegerField(default=0)
+    dias_incapcidad = models.IntegerField(default=0, blank=True)
     centro_atencion = models.ForeignKey(CentroAtencion, blank=True, null=True)
     acr = models.BooleanField(default=False, blank=True)
     status = models.CharField(
@@ -173,6 +192,14 @@ class ResolucionTipo(models.Model):
         blank=True
     )
     history = HistoricalRecords()
+    
+    def __unicode__(self):
+        cadena2 = "%s - %s" % (self.id, self.descripcion)
+        return cadena2
+
+    def __str__(self):
+        cadena2 = "%s - %s" % (self.id, self.descripcion)
+        return cadena2
 
     class Meta:
         verbose_name_plural = "Tipos de Resolucion"
@@ -198,8 +225,18 @@ class IncidenciaResolucion(models.Model):
     )
     history = HistoricalRecords()
 
+    def __unicode__(self):
+        cadena3 = "%s" % (self.tipo)
+        return cadena3
+
+    def __str__(self):
+        cadena2 = "%s" % (self.tipo)
+        return cadena3
+    
+   
     class Meta:
         verbose_name_plural = "Resoluciones"
+
 
 
 class ResolucionArchivo(models.Model):
@@ -225,3 +262,6 @@ class ResolucionArchivo(models.Model):
 
     class Meta:
         verbose_name_plural = "Archivos de resolucion"
+
+
+   

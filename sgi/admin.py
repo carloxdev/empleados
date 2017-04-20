@@ -37,7 +37,7 @@ class IncidenciaDocumentoAdmin(admin.ModelAdmin):
     list_display = (
         'pk',
         'tipo',
-        'descripcion',
+        #'descripcion',
         'registrable',
         'empleado_id',
         'empleado_nombre',
