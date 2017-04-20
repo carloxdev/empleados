@@ -1,30 +1,49 @@
 # -*- coding: utf-8 -*-
 # Django Atajos:
-from django.shortcuts import render
-from django.shortcuts import get_object_or_404
-from django.shortcuts import redirect
+# from django.shortcuts import render
+# from django.shortcuts import get_object_or_404
+# from django.shortcuts import redirect
 
-# Django Urls:
-from django.core.urlresolvers import reverse
-#from django.core.urlresolvers import reverse_lazy
-#from django.http import HttpResponse
+# # Django Urls:
+# from django.core.urlresolvers import reverse
+# #from django.core.urlresolvers import reverse_lazy
+# #from django.http import HttpResponse
 
-# Librerias de Django
+from rest_framework import viewsets
+
+from .serializers import IncidenciaDocumentoSerializer
+from .serializers import IncidenciaTipoSerializer
+
+# # Librerias de Django
 from django.views.generic.base import View
 from django.views.generic import CreateView
 
 # Modelos:
 from .models import IncidenciaDocumento
+from .models import IncidenciaTipo
 
 # Formularios
 from .forms import IncidenciaDocumentoForm
 
-# Create your views here.
+
+class IncidenciaDocumentoLista(View):
+    def __init__(self):
+        self.template_name = 'incidencia/incidencia_lista.html'
+
+    def get(self, request):
+
+        # formulario = ViaticoFilterForm()
+
+        # contexto = {
+        #     'form': formulario
+        # }
+
+        return render(request, self.template_name, {})
 
 
 class IncidenciaDocumentoNuevo(CreateView):
     model = IncidenciaDocumento
-   
+
     template_name = 'incidencia/incidencia_nuevo.html'
     form_class = IncidenciaDocumentoForm
 
@@ -32,7 +51,7 @@ class IncidenciaDocumentoNuevo(CreateView):
         context = super(IncidenciaDocumentoNuevo, self).get_context_data(**kwargs)
         if 'form' not in context:
             context['form'] = self.form_class(self.request.GET)
-       
+
     def post(self, request, *args, **kwargs):
         self.object = self.get_object
         form = self.form_class(request.POST)
@@ -57,10 +76,24 @@ class IncidenciaDocumentoNuevo(CreateView):
 
             incidencia.save()
 
-            #return redirect(reverse('finanzas:viatico_editar', kwargs={'pk': incidencia.id}))
+            # return redirect(reverse('finanzas:viatico_editar', kwargs={'pk': incidencia.id}))
 
         else:
             contexto = {
                 'form': form
             }
             return render(request, self.template_name, contexto)
+
+
+# -------------- API REST -------------- #
+
+class IncidenciaDocumentoAPI(viewsets.ModelViewSet):
+    queryset = IncidenciaDocumento.objects.all()
+    serializer_class = IncidenciaDocumentoSerializer
+    # filter_backends = (DjangoFilterBackend,)
+    # filter_class = ViaticoCabeceraFilter
+
+
+class IncidenciaTipoAPI(viewsets.ModelViewSet):
+    queryset = IncidenciaTipo.objects.all()
+    serializer_class = IncidenciaTipoSerializer

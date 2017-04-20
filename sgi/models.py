@@ -45,7 +45,7 @@ class CentroAtencion(models.Model):
         verbose_name_plural = "Centros de Atencion"
 
 
-class IncidenciaTipos(models.Model):
+class IncidenciaTipo(models.Model):
 
     descripcion = models.CharField(max_length=144)
 
@@ -64,14 +64,12 @@ class IncidenciaTipos(models.Model):
     history = HistoricalRecords()
 
     def __unicode__(self):
-       cadena = "%s - %s" % (self.id, self.descripcion)
-       return cadena
+        cadena = "%s - %s" % (self.id, self.descripcion)
+        return cadena
 
     def __str__(self):
-       cadena = "%s - %s" % (self.id, self.descripcion)
-       return cadena
-    
-   
+        cadena = "%s - %s" % (self.id, self.descripcion)
+        return cadena
 
     class Meta:
         verbose_name_plural = "Tipos de Incidencia"
@@ -86,9 +84,7 @@ class IncidenciaDocumento(models.Model):
         ('can', 'Cancelado'),
     )
 
-    tipo = models.ForeignKey(IncidenciaTipos)
-    #descripcion = models.ForeignKey(IncidenciaTipos.descripcion)
-    descripcion = models.CharField(max_length=144)
+    tipo = models.ForeignKey(IncidenciaTipo, on_delete=models.PROTECT)
     registrable = models.BooleanField(default=False)
     fecha = models.DateTimeField()
     empleado_id = models.IntegerField(default=0)
@@ -124,14 +120,14 @@ class IncidenciaDocumento(models.Model):
         null=True,
         blank=True
     )
-    history = HistoricalRecords()
+    # history = HistoricalRecords()
 
     def __unicode__(self):
-        cadena = "%s - %s" % (self.id, self.descripcion)
+        cadena = "%s" % (self.id)
         return cadena
 
     def __str__(self):
-        cadena = "%s - %s" % (self.id, self.descripcion)
+        cadena = "%s" % (self.id)
         return cadena
 
     class Meta:
@@ -192,7 +188,7 @@ class ResolucionTipo(models.Model):
         blank=True
     )
     history = HistoricalRecords()
-    
+
     def __unicode__(self):
         cadena2 = "%s - %s" % (self.id, self.descripcion)
         return cadena2
@@ -232,11 +228,9 @@ class IncidenciaResolucion(models.Model):
     def __str__(self):
         cadena2 = "%s" % (self.tipo)
         return cadena3
-    
-   
+
     class Meta:
         verbose_name_plural = "Resoluciones"
-
 
 
 class ResolucionArchivo(models.Model):
@@ -262,6 +256,3 @@ class ResolucionArchivo(models.Model):
 
     class Meta:
         verbose_name_plural = "Archivos de resolucion"
-
-
-   

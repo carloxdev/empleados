@@ -16,6 +16,9 @@ from finanzas.views import ViaticoLineaByPageAPI
 from compras.views import CompraSeguimientoAPI
 from compras.views import CompraSeguimientoByPageAPI
 
+from sgi.views import IncidenciaDocumentoAPI
+from sgi.views import IncidenciaTipoAPI
+
 from seguridad.views import UserAPI
 from seguridad.views import UserByPageAPI
 from seguridad.views import ProfileAPI
@@ -77,6 +80,7 @@ router.register(
 )
 
 # -------------- Compras -------------- #
+
 router.register(
     r'compraSeguimiento',
     CompraSeguimientoAPI,
@@ -88,6 +92,21 @@ router.register(
     CompraSeguimientoByPageAPI,
     'compraSeguimiento_bypage'
 )
+
+# -------------- SGI -------------- #
+
+router.register(
+    r'incidenciadocumento',
+    IncidenciaDocumentoAPI,
+    'incidenciadocumento'
+)
+
+router.register(
+    r'incidenciatipo',
+    IncidenciaTipoAPI,
+    'incidenciatipo'
+)
+
 
 # -------------- URLS -------------- #
 

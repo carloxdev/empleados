@@ -2,7 +2,7 @@ from django.contrib import admin
 
 # Register your models here.
 from .models import CentroAtencion
-from .models import IncidenciaTipos
+from .models import IncidenciaTipo
 from .models import IncidenciaDocumento
 from .models import IncidenciaArchivo
 from .models import ResolucionTipo
@@ -21,8 +21,9 @@ class CentroAtencionAdmin(admin.ModelAdmin):
         'updated_date',
     )
 
-@admin.register(IncidenciaTipos)
-class IncidenciaTiposAdmin(admin.ModelAdmin):
+
+@admin.register(IncidenciaTipo)
+class IncidenciaTipoAdmin(admin.ModelAdmin):
     list_display = (
         'pk',
         'descripcion',
@@ -30,14 +31,14 @@ class IncidenciaTiposAdmin(admin.ModelAdmin):
         'created_date',
         'updated_by',
         'updated_date',
-    )    
+    )
+
 
 @admin.register(IncidenciaDocumento)
 class IncidenciaDocumentoAdmin(admin.ModelAdmin):
     list_display = (
         'pk',
         'tipo',
-        #'descripcion',
         'registrable',
         'empleado_id',
         'empleado_nombre',
@@ -59,7 +60,8 @@ class IncidenciaDocumentoAdmin(admin.ModelAdmin):
         'created_date',
         'updated_by',
         'updated_date',
-    )    
+    )
+
 
 @admin.register(IncidenciaArchivo)
 class IncidenciaArchivoAdmin(admin.ModelAdmin):
@@ -72,7 +74,8 @@ class IncidenciaArchivoAdmin(admin.ModelAdmin):
         'created_date',
         'updated_by',
         'updated_date',
-    )  
+    )
+
 
 @admin.register(ResolucionTipo)
 class ResolucionTipoAdmin(admin.ModelAdmin):
@@ -83,7 +86,8 @@ class ResolucionTipoAdmin(admin.ModelAdmin):
         'created_date',
         'updated_by',
         'updated_date',
-    ) 
+    )
+
 
 @admin.register(IncidenciaResolucion)
 class IncidenciaResolucionAdmin(admin.ModelAdmin):
@@ -96,7 +100,8 @@ class IncidenciaResolucionAdmin(admin.ModelAdmin):
         'created_date',
         'updated_by',
         'updated_date',
-    )              
+    )
+
 
 @admin.register(ResolucionArchivo)
 class ResolucionArchivoAdmin(admin.ModelAdmin):
@@ -107,6 +112,4 @@ class ResolucionArchivoAdmin(admin.ModelAdmin):
         'created_date',
         'updated_by',
         'updated_date',
-    )              
-
-    
+    )
