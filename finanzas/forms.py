@@ -15,33 +15,35 @@ class ViaticoCabeceraForm(ModelForm):
     class Meta:
         model = ViaticoCabecera
 
-        fields = ['empleado',
-                  'fecha_partida',
-                  'fecha_regreso',
-                  'unidad_negocio',
-                  'ciudad_destino',
-                  'proposito_viaje',
-                  'nombre_empresa',
-                  'rfc',
-                  'direccion',
-                  'grupo',
-                  'autorizador',
-                  'status', ]
+        fields = [
+            'empleado',
+            'fecha_partida',
+            'fecha_regreso',
+            'unidad_negocio',
+            'ciudad_destino',
+            'proposito_viaje',
+            'nombre_empresa',
+            'rfc',
+            'direccion',
+            'grupo',
+            'autorizador',
+            'status',
+        ]
 
-        labels = {'empleado': 'Empleado',
-                  'fecha_partida': 'Fecha de partida',
-                  'fecha_regreso': 'Fecha de regreso',
-                  'unidad_negocio': 'Unidad de negocio',
-                  'ciudad_destino': 'Ciudad de destino',
-                  'proposito_viaje': 'Proposito del viaje',
-                  'nombre_empresa': 'Nombre de la empresa',
-                  'rfc': 'RFC',
-                  'direccion': 'Dirección',
-                  'grupo': 'Grupo',
-                  'autorizador': 'Autorizador',
-                  'status': 'Estado de la solicitud',
-
-                  }
+        labels = {
+            'empleado': 'Empleado',
+            'fecha_partida': 'Fecha de partida',
+            'fecha_regreso': 'Fecha de regreso',
+            'unidad_negocio': 'Unidad de negocio',
+            'ciudad_destino': 'Ciudad de destino',
+            'proposito_viaje': 'Proposito del viaje',
+            'nombre_empresa': 'Empresa',
+            'rfc': 'RFC',
+            'direccion': 'Dirección',
+            'grupo': 'Grupo',
+            'autorizador': 'Autorizador',
+            'status': 'Estado',
+        }
 
         widgets = {'empleado': TextInput(attrs={'class': 'form-control input-xs'}),
                    'fecha_partida': TextInput(attrs={

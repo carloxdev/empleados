@@ -25,6 +25,7 @@ from .filters import CompraSeguimientoFilter
 # Paginacion
 from .pagination import GenericPagination
 
+
 # -------------- COMPRAS -------------- #
 
 class Seguimiento(View):
@@ -40,12 +41,15 @@ class Seguimiento(View):
         return render(request, self.template_name, contexto)
 
 # -------------- COMPRAS - API REST -------------- #
+
+
 class CompraSeguimientoAPI(viewsets.ModelViewSet):
     queryset = VIEW_SCOMPRAS.objects.using('jde_p').all()
     serializer_class = CompraSeguimientoSerializer
 
     filter_backends = (DjangoFilterBackend,)
     filter_class = CompraSeguimientoFilter
+
 
 class CompraSeguimientoByPageAPI(viewsets.ModelViewSet):
     queryset = VIEW_SCOMPRAS.objects.using('jde_p').all()
@@ -54,5 +58,3 @@ class CompraSeguimientoByPageAPI(viewsets.ModelViewSet):
 
     filter_backends = (DjangoFilterBackend,)
     filter_class = CompraSeguimientoFilter
-
-

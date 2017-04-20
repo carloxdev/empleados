@@ -4,5 +4,5 @@ from .views import Seguimiento
 
 
 urlpatterns = [
-    url(r'^seguimiento$', Seguimiento.as_view(), name="seguimiento"),
+    url(r'^compras/seguimiento/$', Seguimiento.as_view(), name="seguimiento"),
 ]
