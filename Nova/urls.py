@@ -88,7 +88,12 @@ router.register(
     'compraseguimiento_bypage'
 )
 
-<<<<<<< Updated upstream
+router.register(
+    r'compraseguimientosucursal',
+    CompraSeguimientoSucursalAPI,
+    'compraseguimientosucursal',
+)
+
 # -------------- SGI -------------- #
 
 router.register(
@@ -108,15 +113,6 @@ router.register(
     CentroAtencionAPI,
     'incidenciacentroatencion'
 )
-
-
-=======
-router.register(
-    r'compraseguimientosucursal',
-    CompraSeguimientoSucursalAPI,
-    'compraseguimientosucursal',
-)
->>>>>>> Stashed changes
 # -------------- URLS -------------- #
 
 urlpatterns = [

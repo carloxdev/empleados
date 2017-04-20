@@ -60,10 +60,7 @@ class CompraSeguimientoByPageAPI(viewsets.ModelViewSet):
 
     filter_backends = (DjangoFilterBackend,)
     filter_class = CompraSeguimientoFilter
-<<<<<<< Updated upstream
-=======
 
 class CompraSeguimientoSucursalAPI(viewsets.ModelViewSet):
     queryset = VIEW_UNIDADES.objects.using('jde_p').all()
     serializer_class = CompraSeguimientoSucursalSerializer
->>>>>>> Stashed changes
