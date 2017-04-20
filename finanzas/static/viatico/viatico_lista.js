@@ -34,6 +34,8 @@ function PopupFiltros() {
     this.$boton_buscar = $('#boton_buscar')
     this.$boton_limpiar = $('#boton_limpiar')
 
+    this.$combo = $('#combox')
+
     this.filtros_aplicados = false
 
     this.init_Components()
@@ -42,13 +44,20 @@ function PopupFiltros() {
 PopupFiltros.prototype.init_Components = function () {
 
     this.$fecha_creacion.daterangepicker(this.get_ConfDateRangePicker())    
+    this.$combo.select2()
+    
 }
 PopupFiltros.prototype.init_Events = function () {
 
     this.$id.on("hidden.bs.modal", this, this.hide)
+    this.$id.on("shown.bs.modal", this, this.show)
 
     this.$boton_buscar.on("click", this, this.click_BotonBuscar)
     this.$boton_limpiar.on("click", this, this.click_BotonLimpiar)
+}
+PopupFiltros.prototype.show = function (e) {
+
+
 }
 PopupFiltros.prototype.hide = function (e) {
     e.data.$fecha_creacion.data('daterangepicker').hide()
