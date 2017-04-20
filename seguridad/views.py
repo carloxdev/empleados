@@ -30,6 +30,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 # Serializadores:
 from .serializers import UserSerializer
 from .serializers import ProfileSerializer
+from .serializers import UserProfileSerializer
 
 # Paginacion
 from .pagination import GenericPagination
@@ -166,5 +167,11 @@ class UserByPageAPI(viewsets.ModelViewSet):
 class ProfileByPageAPI(viewsets.ModelViewSet):
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
+    filter_backends = (DjangoFilterBackend,)
+    pagination_class = GenericPagination
+
+class UserProfileByPageAPI(viewsets.ModelViewSet):
+    queryset = Profile.objects.all()
+    serializer_class = UserProfileSerializer
     filter_backends = (DjangoFilterBackend,)
     pagination_class = GenericPagination

@@ -55,3 +55,16 @@ class ProfileSerializer(serializers.HyperlinkedModelSerializer):
             return obj.usuario.username
         except Exception as e:
             return str(e)
+
+class UserProfileSerializer(serializers.HyperlinkedModelSerializer):
+
+    usuario = UserSerializer()
+    class Meta:
+        model = Profile
+        fields = (
+            'usuario',
+            'clave_rh',
+            'clave_jde',
+            'foto',
+            'fecha_nacimiento',
+        )

@@ -20,6 +20,7 @@ from seguridad.views import UserAPI
 from seguridad.views import UserByPageAPI
 from seguridad.views import ProfileAPI
 from seguridad.views import ProfileByPageAPI
+from seguridad.views import UserProfileByPageAPI
 
 router = routers.DefaultRouter()
 
@@ -44,6 +45,12 @@ router.register(
     r'profile_bypage',
     ProfileByPageAPI,
     'profile_bypage'
+)
+
+router.register(
+    r'userProfile_bypage',
+    UserProfileByPageAPI,
+    'userProfile_bypage'
 )
 
 # -------------- Finanzas -------------- #
