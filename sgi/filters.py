@@ -48,13 +48,8 @@ class IncidenciaDocumentoFilter(filters.FilterSet):
         lookup_expr="icontains"
     )
 
-    empleado_organizacion  = CharFilter(
+    empleado_organizacion = CharFilter(
         name="empleado_organizacion",
-        lookup_expr="icontains"
-    )
-
-    centro_atencion = CharFilter(
-        name="centro_atencion",
         lookup_expr="icontains"
     )
 
