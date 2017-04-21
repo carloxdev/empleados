@@ -18,6 +18,7 @@ from compras.views import CompraSeguimientoByPageAPI
 from compras.views import CompraSeguimientoSucursalAPI
 
 from sgi.views import IncidenciaDocumentoAPI
+from sgi.views import IncidenciaDocumentoByPageAPI
 from sgi.views import IncidenciaTipoAPI
 from sgi.views import CentroAtencionAPI
 
@@ -100,6 +101,12 @@ router.register(
     r'incidenciadocumento',
     IncidenciaDocumentoAPI,
     'incidenciadocumento'
+)
+
+router.register(
+    r'incidenciadocumento_bypage',
+    IncidenciaDocumentoByPageAPI,
+    'incidenciadocumento_bypage'
 )
 
 router.register(

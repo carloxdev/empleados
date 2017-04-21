@@ -23,6 +23,11 @@ class IncidenciaDocumentoFilter(filters.FilterSet):
         lookup_expr="icontains"
     )
 
+    # fecha_anio = CharFilter(
+    #     name="fecha_anio",
+    #     method='get_fecha_byanio'
+    # )
+
     fecha_mayorque = CharFilter(
         name='fecha_mayorque',
         method='filter_fecha_mayorque'
@@ -69,6 +74,14 @@ class IncidenciaDocumentoFilter(filters.FilterSet):
             'empleado_organizacion',
             'centro_atencion',
         ]
+
+    # def get_fecha_byanio(self, queryset, name, value):
+
+    #     if not value:
+    #         return queryset
+    #     else:
+    #         consulta = queryset.filter(fecha__year=value)
+    #         return consulta
 
     def filter_fecha_mayorque(self, queryset, name, value):
 
