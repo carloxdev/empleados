@@ -32,6 +32,7 @@ class UserForm(ModelForm):
                   'email',
                   'is_active',
                   'is_staff',
+                  'last_login',
                   ]
 
         labels = {'password': 'Contraseña',
@@ -41,6 +42,7 @@ class UserForm(ModelForm):
                   'email': 'Email',
                   'is_active':'Estado',
                   'is_staff': 'Administrador',
+                  'last_login': 'Ultima sesion',
                   }
 
         widgets = {'password': TextInput(attrs={'class': 'form-control input-xs', 'type':'password'}),

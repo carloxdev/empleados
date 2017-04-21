@@ -93,20 +93,12 @@ class Login(View):
 
 class UsuarioLista(View):
     def __init__(self):
-        #self.model = User()
-        #self.second_model = Profile()
         self.template_name = 'usuarios/usuario_lista.html'
 
     def get(self, request):
         form_buscar = UserFormFilter()
-        #form = UserForm()
-        #second_form = UsuarioForm()
         contexto = {'form': form_buscar}
         return render(request, self.template_name, contexto)
-
-    #def post(self, request):
-    #    return render(request, self.template_name, {})
-
 
 class UsuarioNuevo(CreateView):
     model = User
@@ -136,7 +128,7 @@ class UsuarioNuevo(CreateView):
             usuario.first_name = form.cleaned_data.get('first_name')
             usuario.last_name = form.cleaned_data.get('last_name')
             usuario.email = form.cleaned_data.get('email')
-            usuario.is_active = form.cleaned_data.get('is_active')
+            usuario.is_active = True
             usuario.is_staff = form.cleaned_data.get('is_staff')
             usuario.save()
             usuario.profile.fecha_nacimiento = form2.cleaned_data.get('fecha_nacimiento')

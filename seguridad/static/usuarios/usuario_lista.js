@@ -28,10 +28,11 @@ $(document).ready(function () {
 
 function TargetaFiltros () {
 
-    this.$usuario = $('#id_usuario')
+    this.$usuario__username = $('#id_usuario')
     this.$usuario__first_name = $('#id_usuario__first_name')
     this.$usuario__last_name = $('#id_usuario__last_name')
     this.$clave_rh = $('#id_clave_rh')
+
     this.$boton_buscar = $('#boton_buscar')
 
     this.init_Components()
@@ -46,8 +47,21 @@ TargetaFiltros.prototype.init_Events = function () {
     this.$boton_buscar.on("click", this, this.click_BotonBuscar)
 }
 TargetaFiltros.prototype.click_BotonBuscar = function (e) {
+    //alert(e.data.$usuario__first_name.val())
+    e.preventDefault()
+    tarjeta_resultados.grid.buscar()
+}
+TargetaFiltros.prototype.get_Values = function (_page) {
 
-    alert(e.data.$usuario__first_name.val())
+    return {
+        page: _page,
+        usuario__username: this.$usuario__username.val(),
+        usuario__first_name: this.$usuario__first_name.val(),
+        usuario__last_name: this.$usuario__last_name.val(),
+        clave_rh: this.$clave_rh.val(),
+
+    }
+
 }
 
 /*-----------------------------------------------*\
@@ -94,6 +108,11 @@ Grid.prototype.get_DataSourceConfig = function () {
                 type: "GET",
                 dataType: "json",
             },
+            parameterMap: function (data, action) {
+                if (action === "read"){
+                    return filtros.get_Values(data.page)
+                }
+            }
         },
         schema: {
             data: "results",
@@ -110,7 +129,6 @@ Grid.prototype.get_DataSourceConfig = function () {
 Grid.prototype.get_Campos = function () {
 
     return {
-       // pk : { type: "int" },
         username : { type: "string" },
         first_name : { type: "string"},
         last_name : { type: "string" },
@@ -146,13 +164,8 @@ Grid.prototype.get_Configuracion = function () {
 Grid.prototype.get_Columnas = function () {
 
     return [   
-        /*{ field: "pk",
-          title: "Id",
-          width:"80px",
-          template: '<a class="btn btn-default" href="#=url_profile_editar_bypage + pk#">#=pk#</a>',
-         },*/ 
-        { field: "username", 
-          title: "Usuario", 
+        { field: "cuenta", 
+          title: "Cuenta", 
           width:"150px" ,
           //template: '<a class="btn btn-default" href="#=url_profile_editar_bypage + pk#">#=pk#</a>',
         },
@@ -168,10 +181,14 @@ Grid.prototype.get_Columnas = function () {
     ]
 }
 Grid.prototype.buscar = function() {
-    //this.kfuente_datos.page(1)
+    this.kfuente_datos.page(1)
 }
-Grid.prototype.click_BotonEditar = function (e) {
+
+
+
+
+/*Grid.prototype.click_BotonEditar = function (e) {
     
     var fila = this.dataItem($(e.currentTarget).closest('tr'))
     window.location.href = url_usuario_editar_bypage + fila.pk
-}
+}*/
