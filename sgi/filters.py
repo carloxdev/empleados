@@ -3,8 +3,8 @@
 # Django API REST
 from rest_framework import filters
 from django_filters import CharFilter
-from django_filters import DateFilter
-from django_filters import NumberFilter
+# from django_filters import DateFilter
+# from django_filters import NumberFilter
 
 
 # Modelos:
@@ -31,6 +31,7 @@ class IncidenciaDocumentoFilter(filters.FilterSet):
     class Meta:
         model = IncidenciaDocumento
         fields = [
+            'id',
             'tipo',
             'fecha_mayorque',
             'fecha_menorque',

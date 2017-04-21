@@ -15,6 +15,7 @@ class IncidenciaDocumentoSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = IncidenciaDocumento
         fields = (
+            'pk',
             'tipo',
             'es_registrable',
             'fecha',
