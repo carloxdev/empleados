@@ -28,13 +28,6 @@ class Profile(models.Model):
     )
     fecha_nacimiento = models.DateField(null=True, blank=True)
 
-    ultima_sesion = models.DateTimeField(
-        auto_now=True,
-        auto_now_add=False,
-        null=True,
-        blank=True
-     )
-
     def __unicode__(self):
         nombre_completo = self.usuario.get_full_name()
 

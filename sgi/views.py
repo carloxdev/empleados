@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # Django Atajos:
-# from django.shortcuts import render
+from django.shortcuts import render
 # from django.shortcuts import get_object_or_404
 # from django.shortcuts import redirect
 
@@ -15,9 +15,11 @@ from .serializers import IncidenciaDocumentoSerializer
 from .serializers import IncidenciaTipoSerializer
 from .serializers import CentroAtencionSerializer
 
+from .filters import IncidenciaDocumentoFilter
 # # Librerias de Django
 from django.views.generic.base import View
 from django.views.generic import CreateView
+from django_filters.rest_framework import DjangoFilterBackend
 
 # Modelos:
 from .models import IncidenciaDocumento
@@ -92,14 +94,15 @@ class IncidenciaDocumentoNuevo(CreateView):
 class IncidenciaDocumentoAPI(viewsets.ModelViewSet):
     queryset = IncidenciaDocumento.objects.all()
     serializer_class = IncidenciaDocumentoSerializer
-    # filter_backends = (DjangoFilterBackend,)
-    # filter_class = ViaticoCabeceraFilter
+    filter_backends = (DjangoFilterBackend,)
+    filter_class = IncidenciaDocumentoFilter
 
 
 class IncidenciaTipoAPI(viewsets.ModelViewSet):
     queryset = IncidenciaTipo.objects.all()
     serializer_class = IncidenciaTipoSerializer
 
+
 class CentroAtencionAPI(viewsets.ModelViewSet):
     queryset = CentroAtencion.objects.all()
-    serializer_class = CentroAtencionSerializer    
+    serializer_class = CentroAtencionSerializer

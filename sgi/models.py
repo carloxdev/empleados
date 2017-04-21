@@ -85,7 +85,7 @@ class IncidenciaDocumento(models.Model):
     )
 
     tipo = models.ForeignKey(IncidenciaTipo, on_delete=models.PROTECT)
-    registrable = models.BooleanField(default=False)
+    es_registrable = models.BooleanField(default=False)
     fecha = models.DateTimeField()
     empleado_id = models.IntegerField(default=0)
     empleado_nombre = models.CharField(max_length=144)
@@ -101,7 +101,7 @@ class IncidenciaDocumento(models.Model):
     lugar = models.CharField(max_length=144)
     dias_incapcidad = models.IntegerField(default=0, blank=True)
     centro_atencion = models.ForeignKey(CentroAtencion, blank=True, null=True)
-    acr = models.BooleanField(default=False, blank=True)
+    tiene_acr = models.BooleanField(default=False, blank=True)
     status = models.CharField(
         choices=STATUS_OPCIONES,
         default="abi",

@@ -7,7 +7,6 @@ from .models import IncidenciaTipo
 from .models import CentroAtencion
 
 
-
 class IncidenciaDocumentoSerializer(serializers.HyperlinkedModelSerializer):
 
     tipo = serializers.SerializerMethodField()
@@ -47,7 +46,12 @@ class IncidenciaDocumentoSerializer(serializers.HyperlinkedModelSerializer):
 
     def get_centro_atencion(self, obj):
 
-        return obj.centro_atencion.descripcion    
+        try:
+            return obj.centro_atencion.descripcion
+
+        except Exception as e:
+            print str(e)
+            return " "
 
 
 class IncidenciaTipoSerializer(serializers.HyperlinkedModelSerializer):
