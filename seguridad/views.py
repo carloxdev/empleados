@@ -4,6 +4,7 @@
 from django.views.generic.base import View
 from django.views.generic import TemplateView
 from django.views.generic import CreateView
+from django.views.generic import UpdateView
 
 # Django shortcuts
 from django.shortcuts import render
@@ -140,6 +141,41 @@ class UsuarioNuevo(CreateView):
             return redirect(reverse('seguridad:usuario_lista'))
         else:
             return self.render_to_response(self.get_context_data(form=form,form2=form2))
+
+class UsuarioEditar(UpdateView):
+    model = User
+    second_model = Profile
+    form_class = UserForm
+    second_form_class = UsuarioForm
+    template_name = 'usuarios/usuario_editar.html'
+    success_url = reverse_lazy('seguridad:usuario_lista')
+
+    def get_context_data(self,**kwargs):
+        context = super(UsuarioEditar,self).get_context_data(**kwargs)
+        pk = self.kwargs.get('pk',0)
+        usuario = self.model.objects.get(id=pk)
+        profile = self.second_model.objects.get(id=usuario.id)
+        if 'form' not in context:
+            context['form'] = self.form_class()
+        if 'form2' not in context:
+            context['form2'] = self.second_form_class(instance = profile)
+        context['id'] = pk
+        return context
+
+    def post(self,request,*args,**kwargs):
+        self.object = self.get_object
+        id_usuario = kwargs['pk']
+        usuario = self.model.objects.get(id=id_usuario)
+        profile = self.second_model.objects.get(id=profile.id_usuario)
+        form = self.form_class(request.POST, instance=profile)
+        form2 = self.second_form_class(request.POST,instance=usuario)
+        if form.is_valid() and form2.is_valid():
+            form.save()
+            form2.save()
+            return HttpResponseRedirect(self.get_success_url())
+        else:
+            return HttpResponseRedirect(self.get_success_url())
+
 
 
 # -------------- SEGURIDAD API REST -------------- #

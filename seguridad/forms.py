@@ -40,6 +40,7 @@ class UserForm(ModelForm):
                    'first_name': TextInput(attrs={'class': 'form-control input-xs'}),
                    'last_name': TextInput(attrs={'class': 'form-control input-xs'}),
                    'email': TextInput(attrs={'class': 'form-control input-xs'}),
+                   'is_active': RadioSelect(attrs={'class': 'form-control input-xs'}),
                    }
 
 

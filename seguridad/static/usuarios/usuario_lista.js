@@ -4,8 +4,7 @@
 
 // URLS:
 var url_profile_bypage = window.location.origin + "/api/profile_bypage/"
-
-//var url_user_profile_bypage = window.location.origin + "/api/userProfile_bypage/"
+var url_profile_editar_bypage = window.location + "/editar/"
 
 // OBJS
 var grid = null
@@ -81,6 +80,8 @@ Grid.prototype.get_DataSourceConfig = function () {
 Grid.prototype.get_Campos = function () {
 
     return {
+        pk : { type: "int" },
+        username : { type: "string" },
         first_name : { type: "string"},
         last_name : { type: "string" },
         email : { type: "string" },
@@ -89,6 +90,7 @@ Grid.prototype.get_Campos = function () {
         clave_jde : { type: "string" },
         foto : { type: "file" },
         fecha_nacimiento : { type: "date" },
+        ultima_sesion : { type: "date" },
     }
 }
 Grid.prototype.get_Configuracion = function () {
@@ -113,7 +115,13 @@ Grid.prototype.get_Configuracion = function () {
 }
 Grid.prototype.get_Columnas = function () {
 
-    return [    
+    return [   
+        { field: "pk",
+          title: "Id",
+          width:"80px",
+          template: '<a class="btn btn-default" href="#=url_profile_editar_bypage + pk#">#=pk#</a>',
+         }, 
+        { field: "usuario", title: "Usuario", width:"150px" },
         { field: "first_name", title: "Primer nombre", width:"200px" },
         { field: "last_name", title: "Apellidos", width:"200px" },
         { field: "email", title: "Email", width:"200px" },
@@ -122,5 +130,11 @@ Grid.prototype.get_Columnas = function () {
         { field: "clave_jde", title: "Clave jde", width:"100px" },
         { field: "foto", title: "Foto", width:"100px" },
         { field: "fecha_nacimiento", title: "Fecha de nacimiento", width:"150px", format: "{0:dd-MM-yyyy}" },
+        { field: "ultima_sesion", title: "Ultima sesion", width:"150px", format: "{0:dd-MM-yyyy}" },
     ]
+}
+Grid.prototype.click_BotonEditar = function (e) {
+    
+    var fila = this.dataItem($(e.currentTarget).closest('tr'))
+    window.location.href = url_usuario_editar_bypage + fila.pk
 }

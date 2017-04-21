@@ -36,7 +36,7 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class ProfileSerializer(serializers.HyperlinkedModelSerializer):
-
+    pk = serializers.SerializerMethodField()
     usuario = serializers.SerializerMethodField()
     first_name =serializers.SerializerMethodField()
     last_name =serializers.SerializerMethodField()
@@ -47,6 +47,7 @@ class ProfileSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Profile
         fields = (
+            'pk',
             'usuario',
             'first_name',
             'last_name',
@@ -56,9 +57,12 @@ class ProfileSerializer(serializers.HyperlinkedModelSerializer):
             'clave_jde',
             'foto',
             'fecha_nacimiento',
+            'ultima_sesion'
 
         )
 
+    def get_pk(self, obj):
+         return obj.usuario.pk
 
     def get_usuario(self, obj):
          return obj.usuario.username

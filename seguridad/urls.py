@@ -4,6 +4,7 @@ from django.conf.urls import url
 from .views import Login
 from .views import UsuarioLista
 from .views import UsuarioNuevo
+from .views import UsuarioEditar
 
 from django.conf import settings
 
@@ -28,4 +29,5 @@ urlpatterns = [
     ),
     url(r'^usuarios$', UsuarioLista.as_view(), name="usuario_lista"),
     url(r'^usuarios/nuevo$', UsuarioNuevo.as_view(), name="usuario_nuevo"),
+    url(r'^usuarios/editar/(?P<pk>\d+)/$', UsuarioEditar.as_view(), name="usuario_nuevo"),
 ]
