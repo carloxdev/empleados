@@ -18,6 +18,11 @@ class IncidenciaDocumentoFilter(filters.FilterSet):
         lookup_expr="icontains"
     )
 
+    status = CharFilter(
+        name="status",
+        lookup_expr="icontains"
+    )
+
     fecha_mayorque = CharFilter(
         name='fecha_mayorque',
         method='filter_fecha_mayorque'
@@ -26,6 +31,31 @@ class IncidenciaDocumentoFilter(filters.FilterSet):
     fecha_menorque = CharFilter(
         name='fecha_menorque',
         method='filter_fecha_menorque'
+    )
+
+    empleado_nombre = CharFilter(
+        name="empleado_nombre",
+        lookup_expr="icontains"
+    )
+
+    empleado_proyecto_desc = CharFilter(
+        name="empleado_proyecto_desc",
+        lookup_expr="icontains"
+    )
+
+    empleado_puesto_desc = CharFilter(
+        name="empleado_proyecto_desc",
+        lookup_expr="icontains"
+    )
+
+    empleado_organizacion  = CharFilter(
+        name="empleado_organizacion",
+        lookup_expr="icontains"
+    )
+
+    centro_atencion = CharFilter(
+        name="centro_atencion",
+        lookup_expr="icontains"
     )
 
     class Meta:
@@ -37,6 +67,12 @@ class IncidenciaDocumentoFilter(filters.FilterSet):
             'fecha_menorque',
             'es_registrable',
             'empleado_zona',
+            'status',
+            'empleado_nombre',
+            'empleado_proyecto_desc',
+            'empleado_puesto_desc',
+            'empleado_organizacion',
+            'centro_atencion',
         ]
 
     def filter_fecha_mayorque(self, queryset, name, value):
