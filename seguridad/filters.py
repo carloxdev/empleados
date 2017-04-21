@@ -3,19 +3,18 @@ from rest_framework import filters
 from django_filters import CharFilter
 
 # Modelos:
-from .models import User
 from .models import Profile
 
 
 class ProfileFilter(filters.FilterSet):
 
-    first_name = CharFilter(
-        name="first_name",
+    usuario__first_name = CharFilter(
+        name="usuario__first_name",
         lookup_expr="icontains"
     )
 
-    last_name = CharFilter(
-        name="last_name",
+    usuario__last_name = CharFilter(
+        name="usuario__last_name",
         lookup_expr="icontains"
     )
 
@@ -23,7 +22,7 @@ class ProfileFilter(filters.FilterSet):
         model = Profile
         fields = [
             'usuario',
-            'first_name',
-            'last_name',
+            'usuario__first_name',
+            'usuario__last_name',
             'clave_rh',
         ]

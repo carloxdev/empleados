@@ -32,7 +32,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from .serializers import UserSerializer
 from .serializers import ProfileSerializer
 
-#Filters:
+# Filters:
 from .filters import ProfileFilter
 
 # Paginacion
@@ -89,6 +89,7 @@ class Login(View):
 
 # --------------  PROFILE VIEWS -------------- #
 
+
 class UsuarioLista(View):
     def __init__(self):
         self.model = User()
@@ -98,11 +99,12 @@ class UsuarioLista(View):
     def get(self, request):
         form = UserForm()
         second_form = UsuarioForm()
-        contexto = { 'form': form }
+        contexto = {'form': form}
         return render(request, self.template_name, contexto)
 
     def post(self, request):
         return render(request, self.template_name, {})
+
 
 class UsuarioNuevo(CreateView):
     model = User
@@ -112,23 +114,23 @@ class UsuarioNuevo(CreateView):
     template_name = 'usuarios/usuario_nuevo.html'
     success_url = reverse_lazy('seguridad:usuario_lista')
 
-    def get_context_data(self,**kwargs):
-        context = super(UsuarioNuevo,self).get_context_data(**kwargs)
+    def get_context_data(self, **kwargs):
+        context = super(UsuarioNuevo, self).get_context_data(**kwargs)
         if 'form' not in context:
             context['form'] = self.form_class(self.request.GET)
         if 'form2' not in context:
             context['form2'] = self.second_form_class(self.request.GET)
         return context
 
-    def post(self,request,*args,**kwargs):
+    def post(self, request, *args, **kwargs):
         self.object = self.get_object
         form = self.form_class(request.POST)
         form2 = self.second_form_class(request.POST, request.FILES)
         if form.is_valid() and form2.is_valid():
             usuario = User.objects.create_user(
-                username = form.cleaned_data.get('username'),
-                password = form.cleaned_data.get('password')
-                )
+                username=form.cleaned_data.get('username'),
+                password=form.cleaned_data.get('password')
+            )
             usuario.first_name = form.cleaned_data.get('first_name')
             usuario.last_name = form.cleaned_data.get('last_name')
             usuario.email = form.cleaned_data.get('email')
@@ -143,7 +145,8 @@ class UsuarioNuevo(CreateView):
 
             return redirect(reverse('seguridad:usuario_lista'))
         else:
-            return self.render_to_response(self.get_context_data(form=form,form2=form2))
+            return self.render_to_response(self.get_context_data(form=form, form2=form2))
+
 
 class UsuarioEditar(UpdateView):
     model = User
@@ -153,32 +156,31 @@ class UsuarioEditar(UpdateView):
     template_name = 'usuarios/usuario_editar.html'
     success_url = reverse_lazy('seguridad:usuario_lista')
 
-    def get_context_data(self,**kwargs):
-        context = super(UsuarioEditar,self).get_context_data(**kwargs)
-        pk = self.kwargs.get('pk',0)
+    def get_context_data(self, **kwargs):
+        context = super(UsuarioEditar, self).get_context_data(**kwargs)
+        pk = self.kwargs.get('pk', 0)
         usuario = self.model.objects.get(id=pk)
         profile = self.second_model.objects.get(id=usuario.id)
         if 'form' not in context:
             context['form'] = self.form_class()
         if 'form2' not in context:
-            context['form2'] = self.second_form_class(instance = profile)
+            context['form2'] = self.second_form_class(instance=profile)
         context['id'] = pk
         return context
 
-    def post(self,request,*args,**kwargs):
+    def post(self, request, *args, **kwargs):
         self.object = self.get_object
         id_usuario = kwargs['pk']
         usuario = self.model.objects.get(id=id_usuario)
         profile = self.second_model.objects.get(id=profile.id_usuario)
         form = self.form_class(request.POST, instance=profile)
-        form2 = self.second_form_class(request.POST,instance=usuario)
+        form2 = self.second_form_class(request.POST, instance=usuario)
         if form.is_valid() and form2.is_valid():
             form.save()
             form2.save()
             return HttpResponseRedirect(self.get_success_url())
         else:
             return HttpResponseRedirect(self.get_success_url())
-
 
 
 # -------------- SEGURIDAD API REST -------------- #
@@ -191,8 +193,9 @@ class UserAPI(viewsets.ModelViewSet):
 class ProfileAPI(viewsets.ModelViewSet):
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
-    filter_backends = (DjangoFilterBackend)
+    filter_backends = (DjangoFilterBackend,)
     filter_class = ProfileFilter
+
 
 class UserByPageAPI(viewsets.ModelViewSet):
     queryset = User.objects.all()
@@ -201,9 +204,10 @@ class UserByPageAPI(viewsets.ModelViewSet):
     filter_fields = ('username', 'is_active')
     pagination_class = GenericPagination
 
+
 class ProfileByPageAPI(viewsets.ModelViewSet):
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
-    filter_backends = (DjangoFilterBackend)
+    filter_backends = (DjangoFilterBackend,)
     filter_class = ProfileFilter
     pagination_class = GenericPagination

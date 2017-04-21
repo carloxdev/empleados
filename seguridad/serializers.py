@@ -36,19 +36,17 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class ProfileSerializer(serializers.HyperlinkedModelSerializer):
-    pk = serializers.SerializerMethodField()
-    usuario = serializers.SerializerMethodField()
-    first_name =serializers.SerializerMethodField()
-    last_name =serializers.SerializerMethodField()
-    email =serializers.SerializerMethodField()
-    is_active =serializers.SerializerMethodField()
 
+    cuenta = serializers.SerializerMethodField()
+    first_name = serializers.SerializerMethodField()
+    last_name = serializers.SerializerMethodField()
+    email = serializers.SerializerMethodField()
+    is_active = serializers.SerializerMethodField()
 
     class Meta:
         model = Profile
         fields = (
-            'pk',
-            'usuario',
+            'cuenta',
             'first_name',
             'last_name',
             'email',
@@ -59,11 +57,8 @@ class ProfileSerializer(serializers.HyperlinkedModelSerializer):
             'fecha_nacimiento',
         )
 
-    def get_pk(self, obj):
-         return obj.usuario.pk
-
-    def get_usuario(self, obj):
-         return obj.usuario.username
+    def get_cuenta(self, obj):
+        return obj.usuario.username
 
     def get_first_name(self, obj):
         return obj.usuario.first_name
