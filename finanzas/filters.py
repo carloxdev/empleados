@@ -9,15 +9,6 @@ from .models import ViaticoCabecera
 
 class ViaticoCabeceraFilter(filters.FilterSet):
 
-    created_date_inicio = DateFilter(
-        name="created_date",
-        lookup_expr="gte"
-    )
-    created_date_fin = DateFilter(
-        name="created_date",
-        lookup_expr="lte"
-    )
-
     empleado = CharFilter(
         name="empleado",
         lookup_expr="icontains"
@@ -38,6 +29,15 @@ class ViaticoCabeceraFilter(filters.FilterSet):
         lookup_expr="icontains"
     )
 
+    created_date_mayorque = DateFilter(
+        name="created_date",
+        lookup_expr="gte"
+    )
+    created_date_menorque = DateFilter(
+        name="created_date",
+        lookup_expr="lte"
+    )
+
     class Meta:
         model = ViaticoCabecera
         fields = [
@@ -45,6 +45,4 @@ class ViaticoCabeceraFilter(filters.FilterSet):
             'unidad_negocio',
             'ciudad_destino',
             'autorizador',
-            'created_date_inicio',
-            'created_date_fin',
         ]
