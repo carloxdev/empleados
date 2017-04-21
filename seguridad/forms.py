@@ -1,13 +1,21 @@
 # -*- coding: utf-8 -*-
 # Django:
 from django.forms import ModelForm
+from django import forms
+
 from django.forms import TextInput
 from django.forms import RadioSelect
 from django.forms import FileInput
+from django.forms import CharField
 
-# -*- coding: utf-8 -*-
 from .models import User
 from .models import Profile
+
+class UserFormFilter(forms.Form):
+    usuario = CharField(label="Nombre de usuario:")
+    usuario__first_name = CharField(label="Nombre:")
+    usuario__last_name = CharField(label="Apellidos:")
+    clave_rh = CharField(label="Clave RH:")
 
 class UserForm(ModelForm):
     def __init__(self, *args, **kwargs):

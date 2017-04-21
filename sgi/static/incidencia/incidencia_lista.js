@@ -22,10 +22,6 @@ $(document).ready(function () {
     resultados = new TargetaResultados()
 })
 
-
-
-
-
 /*-----------------------------------------------*\
             OBJETO: Targeta Filtros
 \*-----------------------------------------------*/

@@ -8,6 +8,7 @@ var url_profile_editar_bypage = window.location + "/editar/"
 
 // OBJS
 var grid = null
+var filtros = null
 var tarjeta_resultados = null
 
 /*-----------------------------------------------*\
@@ -16,15 +17,44 @@ var tarjeta_resultados = null
 
 $(document).ready(function () {
 	//toolbar = new Toolbar()
-    tarjeta_resultados = new TarjetaResultados()
+    filtros = new TargetaFiltros()
+    tarjeta_resultados = new TargetaResultados()
 })
 
+
+/*-----------------------------------------------*\
+            OBJETO: Targeta Filtros
+\*-----------------------------------------------*/
+
+function TargetaFiltros () {
+
+    this.$usuario = $('#id_usuario')
+    this.$usuario__first_name = $('#id_usuario__first_name')
+    this.$usuario__last_name = $('#id_usuario__last_name')
+    this.$clave_rh = $('#id_clave_rh')
+    this.$boton_buscar = $('#boton_buscar')
+
+    this.init_Components()
+    this.init_Events()
+
+}
+TargetaFiltros.prototype.init_Components = function () {
+    // Estilos, Liberias
+}
+TargetaFiltros.prototype.init_Events = function () {
+    // Asosciar Eventos
+    this.$boton_buscar.on("click", this, this.click_BotonBuscar)
+}
+TargetaFiltros.prototype.click_BotonBuscar = function (e) {
+
+    alert(e.data.$usuario__first_name.val())
+}
 
 /*-----------------------------------------------*\
             OBJETO: Tarjeta resultados
 \*-----------------------------------------------*/
 
-function TarjetaResultados(){
+function TargetaResultados(){
    // this.toolbar = new Toolbar()
     this.grid = new Grid()
 }
@@ -80,7 +110,7 @@ Grid.prototype.get_DataSourceConfig = function () {
 Grid.prototype.get_Campos = function () {
 
     return {
-        pk : { type: "int" },
+       // pk : { type: "int" },
         username : { type: "string" },
         first_name : { type: "string"},
         last_name : { type: "string" },
@@ -116,12 +146,16 @@ Grid.prototype.get_Configuracion = function () {
 Grid.prototype.get_Columnas = function () {
 
     return [   
-        { field: "pk",
+        /*{ field: "pk",
           title: "Id",
           width:"80px",
           template: '<a class="btn btn-default" href="#=url_profile_editar_bypage + pk#">#=pk#</a>',
-         }, 
-        { field: "usuario", title: "Usuario", width:"150px" },
+         },*/ 
+        { field: "username", 
+          title: "Usuario", 
+          width:"150px" ,
+          //template: '<a class="btn btn-default" href="#=url_profile_editar_bypage + pk#">#=pk#</a>',
+        },
         { field: "first_name", title: "Primer nombre", width:"200px" },
         { field: "last_name", title: "Apellidos", width:"200px" },
         { field: "email", title: "Email", width:"200px" },
@@ -132,6 +166,9 @@ Grid.prototype.get_Columnas = function () {
         { field: "fecha_nacimiento", title: "Fecha de nacimiento", width:"150px", format: "{0:dd-MM-yyyy}" },
         { field: "ultima_sesion", title: "Ultima sesion", width:"150px", format: "{0:dd-MM-yyyy}" },
     ]
+}
+Grid.prototype.buscar = function() {
+    //this.kfuente_datos.page(1)
 }
 Grid.prototype.click_BotonEditar = function (e) {
     

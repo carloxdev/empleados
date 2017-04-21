@@ -33,7 +33,15 @@
 	        </ol>
 	    </div>
 	    <div class="col-md-12">
-         	<div class="main-content container-fluid">  
+         	<div class="main-content container-fluid">
+         	<div>
+	            <h3> Busqueda de usuarios</h3>
+	                <form action="">
+						{{ form.as_p }}
+					</form>
+
+        			<button type="button" id="boton_buscar"> Buscar </button>
+	        </div>  
 			<div class="col-md-12">
 	                <div class="panel panel-default panel-table">
 	                    <div class="panel-heading panel-border nova-panel-heading"> 
@@ -54,7 +62,8 @@
                             	</button>
 	                          
 	                        </div>
-	                        <div class="title hidden-xs">Usuarios registrados</div>
+	                        <div class="title hidden-xs">Usuarios registrados
+	                        </div>
 	                    </div><!-- Panel Heading -->
 	                    <div class="panel panel-default panel-table">
 				             <div id="grid_resultados">

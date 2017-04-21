@@ -45,6 +45,7 @@ from .models import Profile
 # Formularios:
 from .forms import UserForm
 from .forms import UsuarioForm
+from .forms import UserFormFilter
 
 
 class Login(View):
@@ -92,18 +93,19 @@ class Login(View):
 
 class UsuarioLista(View):
     def __init__(self):
-        self.model = User()
-        self.second_model = Profile()
+        #self.model = User()
+        #self.second_model = Profile()
         self.template_name = 'usuarios/usuario_lista.html'
 
     def get(self, request):
-        form = UserForm()
-        second_form = UsuarioForm()
-        contexto = {'form': form}
+        form_buscar = UserFormFilter()
+        #form = UserForm()
+        #second_form = UsuarioForm()
+        contexto = {'form': form_buscar}
         return render(request, self.template_name, contexto)
 
-    def post(self, request):
-        return render(request, self.template_name, {})
+    #def post(self, request):
+    #    return render(request, self.template_name, {})
 
 
 class UsuarioNuevo(CreateView):
@@ -172,7 +174,7 @@ class UsuarioEditar(UpdateView):
         self.object = self.get_object
         id_usuario = kwargs['pk']
         usuario = self.model.objects.get(id=id_usuario)
-        profile = self.second_model.objects.get(id=profile.id_usuario)
+        profile = self.second_model.objects.get(usuario = usuario.id)
         form = self.form_class(request.POST, instance=profile)
         form2 = self.second_form_class(request.POST, instance=usuario)
         if form.is_valid() and form2.is_valid():
