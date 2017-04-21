@@ -16,7 +16,7 @@ class IncidenciaDocumentoSerializer(serializers.HyperlinkedModelSerializer):
         model = IncidenciaDocumento
         fields = (
             'tipo',
-            'registrable',
+            'es_registrable',
             'fecha',
             'empleado_id',
             'empleado_nombre',
@@ -32,7 +32,7 @@ class IncidenciaDocumentoSerializer(serializers.HyperlinkedModelSerializer):
             'lugar',
             'dias_incapcidad',
             'centro_atencion',
-            'acr',
+            'tiene_acr',
             'status',
             'created_by',
             'created_date',

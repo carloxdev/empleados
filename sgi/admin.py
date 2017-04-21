@@ -39,7 +39,7 @@ class IncidenciaDocumentoAdmin(admin.ModelAdmin):
     list_display = (
         'pk',
         'tipo',
-        'registrable',
+        'es_registrable',
         'empleado_id',
         'empleado_nombre',
         'empleado_zona',
@@ -54,7 +54,7 @@ class IncidenciaDocumentoAdmin(admin.ModelAdmin):
         'lugar',
         'dias_incapcidad',
         'centro_atencion',
-        'acr',
+        'tiene_acr',
         'status',
         'created_by',
         'created_date',
