@@ -1,6 +1,40 @@
 # -*- coding: utf-8 -*-
-# Django Atajos:
+
+# Librerias/Clases Python
+
+# Librerias/Clases Django
 from django.shortcuts import render
+from django.views.generic.base import View
+from django.views.generic import CreateView
+
+# Librerias/Clases de Terceros
+from rest_framework import viewsets
+from django_filters.rest_framework import DjangoFilterBackend
+
+
+# Librerias/Clases propias
+
+# Modelos:
+from .models import IncidenciaDocumento
+from .models import IncidenciaTipo
+from .models import CentroAtencion
+
+# Formularios:
+from .forms import IncidenciaDocumentoForm
+from .forms import IncidenciaDocumentoFilterForm
+
+# Serializadores:
+from .serializers import IncidenciaDocumentoSerializer
+from .serializers import IncidenciaTipoSerializer
+from .serializers import CentroAtencionSerializer
+
+# Filtros:
+from home.pagination import GenericPagination
+
+# Paginacion:
+from .filters import IncidenciaDocumentoFilter
+
+
 # from django.shortcuts import get_object_or_404
 # from django.shortcuts import redirect
 
@@ -9,29 +43,8 @@ from django.shortcuts import render
 # #from django.core.urlresolvers import reverse_lazy
 # #from django.http import HttpResponse
 
-from rest_framework import viewsets
 
-from .serializers import IncidenciaDocumentoSerializer
-from .serializers import IncidenciaTipoSerializer
-from .serializers import CentroAtencionSerializer
-
-from home.pagination import PaginationGeneric
-
-from .filters import IncidenciaDocumentoFilter
-# # Librerias de Django
-from django.views.generic.base import View
-from django.views.generic import CreateView
-from django_filters.rest_framework import DjangoFilterBackend
-
-# Modelos:
-from .models import IncidenciaDocumento
-from .models import IncidenciaTipo
-from .models import CentroAtencion
-
-# Formularios
-from .forms import IncidenciaDocumentoForm
-from .forms import IncidenciaDocumentoFormFilter
-
+# -------------- INCIDENCIA DOCUMENTO  -------------- #
 
 class IncidenciaDocumentoLista(View):
     def __init__(self):
@@ -39,7 +52,7 @@ class IncidenciaDocumentoLista(View):
 
     def get(self, request):
 
-        formulario = IncidenciaDocumentoFormFilter()
+        formulario = IncidenciaDocumentoFilterForm()
 
         contexto = {
             'form': formulario
@@ -92,7 +105,7 @@ class IncidenciaDocumentoNuevo(CreateView):
             return render(request, self.template_name, contexto)
 
 
-# -------------- API REST -------------- #
+# -------------- INCIDENCIA DOCUMENTO - API REST -------------- #
 
 class IncidenciaDocumentoAPI(viewsets.ModelViewSet):
     queryset = IncidenciaDocumento.objects.all()
@@ -106,8 +119,10 @@ class IncidenciaDocumentoByPageAPI(viewsets.ModelViewSet):
     serializer_class = IncidenciaDocumentoSerializer
     filter_backends = (DjangoFilterBackend,)
     filter_class = IncidenciaDocumentoFilter
-    pagination_class = PaginationGeneric
+    pagination_class = GenericPagination
 
+
+# -------------- INCIDENCIA TIPO - API REST -------------- #
 
 class IncidenciaTipoAPI(viewsets.ModelViewSet):
     queryset = IncidenciaTipo.objects.all()

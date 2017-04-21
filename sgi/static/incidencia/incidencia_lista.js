@@ -7,6 +7,7 @@
 // URLS:
 var url_incidenciadocumento = window.location.origin + "/api/incidenciadocumento/"
 var url_incidenciadocumento_bypage = window.location.origin + "/api/incidenciadocumento_bypage/"
+var url_viaticocabecera_editar = window.location.origin + "/viaticos/editar/"
 
 // OBJS
 var filtros = null
@@ -53,8 +54,21 @@ TargetaFiltros.prototype.init_Events = function () {
 }
 TargetaFiltros.prototype.click_BotonBuscar = function (e) {
 
-    alert("")
+    e.preventDefault()
+
+    resultados.grid.buscar()
 }
+TargetaFiltros.prototype.get_Values = function (_page) {
+
+    return {
+        page: _page,
+        id: this.$numero.val(),
+        tipo: this.$tipo.val(),
+
+    }
+
+}
+
 
 
 /*-----------------------------------------------*\
@@ -113,11 +127,11 @@ Grid.prototype.get_DataSourceConfig = function () {
                 type: "GET",
                 dataType: "json",
             },
-            // parameterMap: function (data, action) {
-            //     if (action === "read"){
-            //         return tarjeta_filtros.get_Values(data.page)
-            //     }
-            // }
+            parameterMap: function (data, action) {
+                if (action === "read"){
+                    return filtros.get_Values(data.page)
+                }
+            }
         },
         schema: {
             data: "results",
@@ -178,7 +192,12 @@ Grid.prototype.get_Configuracion = function () {
 Grid.prototype.get_Columnas = function () {
 
     return [
-        { field: "pk", title: "pk", width:"200px" },
+        { 
+            field: "pk", 
+            title: "Numero", 
+            width:"200px",
+            template: '<a class="nova-url" href="#=url_viaticocabecera_editar + pk#">#=tipo#</a>',
+        },
         { field: "tipo", title: "tipo", width:"200px" },
         { field: "es_registrable", title: "es_registrable", width:"200px" },
         { field: "fecha", title: "fecha", width:"200px" },

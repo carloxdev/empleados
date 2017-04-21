@@ -16,7 +16,7 @@ from .models import IncidenciaTipo
 from django import forms
 
 
-class IncidenciaDocumentoFormFilter(forms.Form):
+class IncidenciaDocumentoFilterForm(forms.Form):
 
     numero = IntegerField(label="No. Documento")
     tipo = ChoiceField(widget=Select())
@@ -26,7 +26,7 @@ class IncidenciaDocumentoFormFilter(forms.Form):
     empleado_zona = CharField()
 
     def __init__(self, *args, **kwargs):
-        super(IncidenciaDocumentoFormFilter, self).__init__(
+        super(IncidenciaDocumentoFilterForm, self).__init__(
             *args, **kwargs)
         self.fields['tipo'].choices = self.get_Tipos()
 

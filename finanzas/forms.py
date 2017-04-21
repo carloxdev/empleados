@@ -10,6 +10,44 @@ from django.forms import CharField
 from .models import ViaticoCabecera
 
 
+class ViaticoFilterForm(Form):
+
+    empleado = CharField(
+        widget=TextInput(attrs={'class': 'form-control input-xs'})
+    )
+    fecha_partida_inicio = CharField(
+        widget=TextInput(attrs={'class': 'form-control input-xs',
+                                'readonly': ''})
+    )
+    fecha_partida_fin = CharField(
+        widget=TextInput(attrs={'class': 'form-control input-xs',
+                                'readonly': ''})
+    )
+    fecha_regreso_inicio = CharField(
+        widget=TextInput(attrs={'class': 'form-control input-xs',
+                                'readonly': ''})
+    )
+    fecha_regreso_fin = CharField(
+        widget=TextInput(attrs={'class': 'form-control input-xs',
+                                'readonly': ''})
+    )
+    unidad_negocio = CharField(
+        widget=TextInput(attrs={'class': 'form-control input-xs'})
+    )
+    ciudad_destino = CharField(
+        widget=TextInput(attrs={'class': 'form-control input-xs'})
+    )
+    autorizador = CharField(
+        widget=TextInput(attrs={'class': 'form-control input-xs'})
+    )
+
+    def __init__(self, *args, **kwargs):
+        super(ViaticoFilterForm, self).__init__(
+            *args,
+            **kwargs
+        )
+
+
 class ViaticoCabeceraForm(ModelForm):
 
     class Meta:
@@ -75,37 +113,5 @@ class ViaticoLineaForm(Form):
         widget=Textarea(attrs={'class': 'form-control input-xs'})
     )
     importe = CharField(
-        widget=TextInput(attrs={'class': 'form-control input-xs'})
-    )
-
-
-class ViaticoFilterForm(Form):
-
-    empleado = CharField(
-        widget=TextInput(attrs={'class': 'form-control input-xs'})
-    )
-    fecha_partida_inicio = CharField(
-        widget=TextInput(attrs={'class': 'form-control input-xs',
-                                'readonly': ''})
-    )
-    fecha_partida_fin = CharField(
-        widget=TextInput(attrs={'class': 'form-control input-xs',
-                                'readonly': ''})
-    )
-    fecha_regreso_inicio = CharField(
-        widget=TextInput(attrs={'class': 'form-control input-xs',
-                                'readonly': ''})
-    )
-    fecha_regreso_fin = CharField(
-        widget=TextInput(attrs={'class': 'form-control input-xs',
-                                'readonly': ''})
-    )
-    unidad_negocio = CharField(
-        widget=TextInput(attrs={'class': 'form-control input-xs'})
-    )
-    ciudad_destino = CharField(
-        widget=TextInput(attrs={'class': 'form-control input-xs'})
-    )
-    autorizador = CharField(
         widget=TextInput(attrs={'class': 'form-control input-xs'})
     )

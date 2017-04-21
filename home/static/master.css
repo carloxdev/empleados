@@ -95,14 +95,6 @@
     padding: 0 15px;
 }
 
-
-@media (min-width: 768px) {
-    
-    .nova-col-filter {
-        width: 25%;
-    }
-}
-
 .select2-container--default .select2-selection--single {
   height: 30px !important;
 }
@@ -123,4 +115,11 @@
   width: 100% !important;
   height: 100% !important;
   margin: 0 !important;
+}
+
+@media (min-width: 768px) {
+    
+    .nova-col-filter {
+        width: 25%;
+    }
 }

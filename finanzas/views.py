@@ -1,31 +1,26 @@
 # -*- coding: utf-8 -*-
-# Django Atajos:
+
+# Librerias/Clases Python
+
+# Librerias/Clases Django
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
-
-
-# Django Urls:
 from django.core.urlresolvers import reverse
-#from django.core.urlresolvers import reverse_lazy
-#from django.http import HttpResponse
-
-# Librerias de Django
 from django.views.generic.base import View
 from django.views.generic import CreateView
 
-# Librerias Python
-
-# Librerias de Terceros:
-# API Rest:
+# Librerias/Clases de Terceros
 from rest_framework import viewsets
 from django_filters.rest_framework import DjangoFilterBackend
+
+# Librerias/Clases propias
 
 # Modelos:
 from .models import ViaticoCabecera
 from .models import ViaticoLinea
 
-# Formularios
+# Formularios:
 from .forms import ViaticoCabeceraForm
 from .forms import ViaticoLineaForm
 from .forms import ViaticoFilterForm
@@ -37,11 +32,14 @@ from .serializers import ViaticoLineaSerializer
 # Filtros:
 from .filters import ViaticoCabeceraFilter
 
-# Paginacion
-from .pagination import GenericPagination
+# Paginacion:
+from home.pagination import GenericPagination
+
+# from django.core.urlresolvers import reverse_lazy
+# from django.http import HttpResponse
+
 
 # -------------- VIATICO -------------- #
-
 
 class ViaticoLista(View):
     def __init__(self):
@@ -150,8 +148,8 @@ class ViaticoEditar(View):
         }
         return render(request, self.template_name, contexto)
 
-# -------------- VIATICO - API REST -------------- #
 
+# -------------- VIATICO - API REST -------------- #
 
 class ViaticoCabeceraAPI(viewsets.ModelViewSet):
     queryset = ViaticoCabecera.objects.all()
