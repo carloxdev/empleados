@@ -109,7 +109,7 @@
 .select2-container--default .select2-selection--single .select2-selection__rendered {
   padding: 0 15px !important;
   height: 30px !important;
-  font-size: 14px !important;
+  font-size: 12px !important;
   color: #404040 !important;
 }
 .select2-container--default .select2-selection--single .select2-selection__arrow {

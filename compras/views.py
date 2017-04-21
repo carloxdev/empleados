@@ -13,6 +13,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 # Modelos:
 from jde.models import VIEW_SCOMPRAS
 from jde.models import VIEW_UNIDADES
+from jde.models import VIEW_COMPANIAS
 
 # Formularios
 from .forms import ComprasSeguimientoForm
@@ -20,6 +21,7 @@ from .forms import ComprasSeguimientoForm
 # Serializadores:
 from .serializers import CompraSeguimientoSerializer
 from .serializers import CompraSeguimientoSucursalSerializer
+from .serializers import CompraSeguimientoCompaniaSerializer
 
 # Filtros:
 from .filters import CompraSeguimientoFilter
@@ -64,3 +66,7 @@ class CompraSeguimientoByPageAPI(viewsets.ModelViewSet):
 class CompraSeguimientoSucursalAPI(viewsets.ModelViewSet):
     queryset = VIEW_UNIDADES.objects.using('jde_p').all()
     serializer_class = CompraSeguimientoSucursalSerializer
+
+class CompraSeguimientoCompaniaAPI(viewsets.ModelViewSet):
+    queryset = VIEW_COMPANIAS.objects.using('jde_p').all()
+    serializer_class = CompraSeguimientoCompaniaSerializer

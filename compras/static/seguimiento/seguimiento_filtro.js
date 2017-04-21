@@ -107,7 +107,6 @@ TarjetaFiltros.prototype.init_DataSourceIdSucursal = function () {
 TarjetaFiltros.prototype.init_Events = function () {
 
     this.$boton_colapsible.on("click", this, this.click_BotonColapsible)
-    this.$id_sucursal.on("click", this, this.click_Select)
     this.$boton_buscar.on("click", this, this.click_BotonBuscar)
     this.$boton_limpiar.on("click", this, this.click_BotonLimpiar)
 }
@@ -121,10 +120,6 @@ TarjetaFiltros.prototype.click_BotonColapsible = function (e){
 
         $("#boton_colapsible").removeClass('mdi-caret-up-circle').addClass('mdi-caret-down-circle')
     }
-}
-TarjetaFiltros.prototype.click_Select = function (e){
-
-    
 }
 TarjetaFiltros.prototype.get_Values = function (_page) {
     

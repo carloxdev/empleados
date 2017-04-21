@@ -5,6 +5,7 @@ from rest_framework import serializers
 # Modelos:
 from jde.models import VIEW_SCOMPRAS
 from jde.models import VIEW_UNIDADES
+from jde.models import VIEW_COMPANIAS
 
 
 class CompraSeguimientoSerializer(serializers.HyperlinkedModelSerializer):
@@ -92,4 +93,14 @@ class CompraSeguimientoSucursalSerializer(serializers.HyperlinkedModelSerializer
             fields = (
                   'clave',
                   'desc_corta'
+      )
+
+class CompraSeguimientoCompaniaSerializer(serializers.HyperlinkedModelSerializer):
+      class Meta:
+            model = VIEW_COMPANIAS
+            fields = (
+                  'comp_code',
+                  'comp_desc',
+                  'comp_book_code',
+                  'book_desc',
       )

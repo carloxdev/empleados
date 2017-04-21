@@ -200,12 +200,8 @@
                                 </div>
                             </div>
 
-                            <div class="col-sm-3">
-                                
-                            </div>
-
                             <!-- cotizacion_canceladas -->
-                            <div class="col-sm-3">
+                            <div class="col-sm-3 pull-right">
                                 <div class="form-group {% if form.cotizacion_canceladas.errors %} has-error {% endif %}">
 
                                 <label class="control-label">
@@ -275,7 +271,7 @@
                                 </div>
 
                                 <!-- oc_canceladas -->
-                                <div class="col-sm-3">
+                                <div class="col-sm-3 pull-right">
                                     <div class="form-group {% if form.oc_canceladas.errors %} has-error {% endif %}">
 
                                     <label class="control-label">
@@ -346,7 +342,7 @@
                             </div>
 
                              <!-- recepcion -->
-                            <div class="col-sm-3">
+                            <div class="col-sm-3 pull-right">
                                 <div class="form-group {% if form.recepcion.errors %} has-error {% endif %}">
 
                                 <label class="control-label">
@@ -369,7 +365,7 @@
                             Limpiar
                         </button>
 
-                        <button type="button" id="boton_buscar" class="btn nova-btn btn-primary btn-lg pull-right">
+                        <button type="button" id="boton_buscar" class="btn nova-btn btn-primary btn-lg pull-right" method='POST'>
                             <i class="icon icon-left mdi mdi-search nova-white"></i>
                             Buscar
                         </button>
