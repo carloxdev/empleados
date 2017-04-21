@@ -57,8 +57,6 @@ class ProfileSerializer(serializers.HyperlinkedModelSerializer):
             'clave_jde',
             'foto',
             'fecha_nacimiento',
-            'ultima_sesion'
-
         )
 
     def get_pk(self, obj):
