@@ -129,6 +129,7 @@ Grid.prototype.get_DataSourceConfig = function () {
 Grid.prototype.get_Campos = function () {
 
     return {
+        pk : { type: "string" },
         username : { type: "string" },
         first_name : { type: "string"},
         last_name : { type: "string" },
@@ -164,10 +165,10 @@ Grid.prototype.get_Configuracion = function () {
 Grid.prototype.get_Columnas = function () {
 
     return [   
-        { field: "cuenta", 
+        { field: "pk", 
           title: "Cuenta", 
           width:"150px" ,
-          //template: '<a class="btn btn-default" href="#=url_profile_editar_bypage + pk#">#=pk#</a>',
+          template: '<a class="btn btn-default" href="#=url_profile_editar_bypage + pk#">#=cuenta#</a>',
         },
         { field: "first_name", title: "Primer nombre", width:"200px" },
         { field: "last_name", title: "Apellidos", width:"200px" },
