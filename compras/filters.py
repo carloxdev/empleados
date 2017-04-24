@@ -13,7 +13,7 @@ class CompraSeguimientoFilter(filters.FilterSet):
 
     req_compania = CharFilter(
         name="req_compania",
-        lookup_expr="icontains"
+        lookup_expr="contains"
     )
     req_un = CharFilter(
         name="req_un",
@@ -59,27 +59,30 @@ class CompraSeguimientoFilter(filters.FilterSet):
         name="ord_tipo",
         lookup_expr="contains"
     )
-    ord_generador_desc = CharFilter(
-        name="ord_generador_desc",
-        lookup_expr="icontains"
-    )
     ord_estado_last = CharFilter(
         name="ord_estado_last",
         lookup_expr="contains"
     )
-    ord_fecha_creacion = DateFilter(
-        name = "ord_fecha_creacion",
+    ord_fecha_creacion_desde = DateFilter(
+        name="ord_fecha_creacion",
         lookup_expr="gte"
     )
-    ord_fecha_entrega = DateFilter(
-        name = "ord_fecha_entrega",
+    ord_fecha_creacion_hasta = DateFilter(
+        name="ord_fecha_creacion",
         lookup_expr="lte"
     )
     ord_proveedor_desc = CharFilter(
         name="ord_proveedor_desc",
         lookup_expr="icontains"
     )
-
+    req_item_desc = CharFilter(
+        name="req_item_desc",
+        lookup_expr="icontains"
+    )
+    ord_recepcion = CharFilter(
+        name="ord_recepcion",
+        lookup_expr="icontains"
+    )
     class Meta:
         model = VIEW_SCOMPRAS
         fields = [
@@ -95,9 +98,10 @@ class CompraSeguimientoFilter(filters.FilterSet):
             'cot_estado_last',
             'ord',
             'ord_tipo',
-            'ord_generador_desc',
             'ord_estado_last',
-            'ord_fecha_creacion',
-            'ord_fecha_entrega',
+            'ord_fecha_creacion_desde',
+            'ord_fecha_creacion_hasta',
             'ord_proveedor_desc',
+            'req_item_desc',
+            'ord_recepcion'
         ]

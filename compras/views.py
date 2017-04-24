@@ -16,7 +16,7 @@ from jde.models import VIEW_UNIDADES
 from jde.models import VIEW_COMPANIAS
 
 # Formularios
-from .forms import ComprasSeguimientoForm
+from .forms import ComprasSeguimientoFilterForm
 
 # Serializadores:
 from .serializers import CompraSeguimientoSerializer
@@ -37,7 +37,9 @@ class Seguimiento(View):
         self.template_name = 'seguimiento/seguimiento_filtro.html'
 
     def get(self, request):
-        formulario = ComprasSeguimientoForm()
+        
+        formulario = ComprasSeguimientoFilterForm()
+
         contexto = {
             'form': formulario
         }

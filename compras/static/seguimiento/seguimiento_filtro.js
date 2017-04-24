@@ -4,6 +4,7 @@
 
 // URLS:
 var url_seguimiento_bypage = window.location.origin + "/api/compraseguimiento_bypage/"
+var url_seguimiento_compania = window.location.origin + "/api/compraseguimientocompania/"
 var url_seguimiento_sucursal = window.location.origin + "/api/compraseguimientosucursal/"
 
 // OBJS
@@ -27,7 +28,23 @@ $(document).ready(function () {
 \*-----------------------------------------------*/
 
 function TarjetaFiltros() {
+
+    this.$id_compania = $("#id_compania")
     this.$id_sucursal = $("#id_sucursal")
+    this.$id_comprador = $("#id_comprador")
+    this.$id_requisicion = $("#id_requisicion")
+    this.$id_requisicion_tipo = $("#id_requisicion_tipo")
+    this.$id_requisicion_originador = $("#id_requisicion_originador")
+    this.$id_requisicion_canceladas = $("#id_requisicion_canceladas")
+    this.$id_cotizacion = $("#id_cotizacion")
+    this.$id_cotizacion_tipo = $("#id_cotizacion_tipo")
+    this.$id_cotizacion_canceladas = $("#id_cotizacion_canceladas")
+    this.$id_oc = $("#id_oc")
+    this.$id_oc_tipo = $("#id_oc_tipo")
+    this.$id_oc_canceladas = $("#id_oc_canceladas")
+    this.$id_proveedor = $("#id_proveedor")
+    this.$id_item = $("#id_item")
+    this.$id_recepcion = $("#id_recepcion")
     this.$fecha_oc_desde_hasta = $("#fecha_oc_desde_hasta")
     this.$boton_colapsible = $("#boton_colapsible")
     this.$boton_buscar = $('#boton_buscar')
@@ -38,8 +55,8 @@ function TarjetaFiltros() {
 TarjetaFiltros.prototype.init_Components = function () {
 
     this.$fecha_oc_desde_hasta.daterangepicker(this.get_ConfDateRangePicker())
+    this.$id_compania.select2(this.get_ConfSelect2())
     this.$id_sucursal.select2(this.get_ConfSelect2())
-    this.init_DataSourceIdSucursal()
 }
 TarjetaFiltros.prototype.get_ConfDateRangePicker = function () {
 
@@ -84,26 +101,6 @@ TarjetaFiltros.prototype.get_ConfSelect2 = function () {
         width: '100%'
     }
 }
-TarjetaFiltros.prototype.init_DataSourceIdSucursal = function () {
-
-    $.ajax({
-    url: url_seguimiento_sucursal,
-    dataType: "json",
-    success: function( data ) {
-        var objetos=[];  
-        for (var i in data) {
-            datos = data[i];
-
-                objetos.push(datos.make);
-
-                $('#id_sucursal').append($('<option>', {
-                    value: datos.clave,
-                    text: '( ' + datos.clave + ' )' + ' ' + datos.desc_corta
-                }));
-            }
-        }
-    });
-}
 TarjetaFiltros.prototype.init_Events = function () {
 
     this.$boton_colapsible.on("click", this, this.click_BotonColapsible)
@@ -121,19 +118,30 @@ TarjetaFiltros.prototype.click_BotonColapsible = function (e){
         $("#boton_colapsible").removeClass('mdi-caret-up-circle').addClass('mdi-caret-down-circle')
     }
 }
-TarjetaFiltros.prototype.get_Values = function (_page) {
-    
+TarjetaFiltros.prototype.get_Values = function (_page, _pageSize) {
+
     return {
         page: _page,
+        pageSize: _pageSize,
 
-        // empleado: this.$empleado.val(),
-        // fecha_partida_inicio: this.$fecha_partida_inicio.val(),
-        // fecha_partida_fin: this.$fecha_partida_fin.val(),
-        // fecha_regreso_inicio: this.$fecha_regreso_inicio.val(),
-        // fecha_regreso_fin: this.$fecha_regreso_fin.val(),
-        // unidad_negocio: this.$unidad_negocio.val(),
-        // ciudad_destino: this.$ciudad_destino.val(),
-        // autorizador: this.$autorizador.val(),
+        req_compania: this.$id_compania.val(),
+        req_un: this.$id_sucursal.val(),
+        req_comprador_desc: this.$id_comprador.val(),
+        req: this.$id_requisicion.val(),
+        req_tipo: this.$id_requisicion_tipo.val(),
+        req_generador_desc: this.$id_requisicion_originador.val(),
+        req_estado_last: this.$id_requisicion_canceladas.val(),
+        cot: this.$id_cotizacion.val(),
+        cot_tipo: this.$id_cotizacion_tipo.val(),
+        cot_estado_last: this.$id_cotizacion_canceladas.val(),
+        ord: this.$id_oc.val(),
+        ord_tipo: this.$id_oc_tipo.val(),
+        ord_estado_last: this.$id_oc_canceladas.val(),
+        ord_fecha_creacion_desde: this.$fecha_oc_desde_hasta.val().split(" al ")[0],
+        ord_fecha_creacion_hasta: this.$fecha_oc_desde_hasta.val().split(" al ")[1],
+        ord_proveedor_desc: this.$id_proveedor.val(),
+        req_item_desc: this.$id_item.val(),
+        ord_recepcion: this.$id_recepcion.val()
     }
 }
 TarjetaFiltros.prototype.click_BotonBuscar = function (e) {
@@ -209,11 +217,11 @@ Grid.prototype.get_DataSourceConfig = function () {
                 type: "GET",
                 dataType: "json",
             },
-            //parameterMap: function (data, action) {
-            //    if (action === "read"){
-            //        return tarjeta_filtros.get_Values(data.page)
-            //    }
-            //}
+            parameterMap: function (data, action) {
+                if (action === "read"){
+                    return tarjeta_filtros.get_Values(data.page, data.pageSize)
+                }
+            }
         },
         schema: {
             data: "results",
