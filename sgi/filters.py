@@ -9,6 +9,7 @@ from django_filters import CharFilter
 
 # Modelos:
 from .models import IncidenciaDocumento
+from .models import CentroAtencion
 
 
 class IncidenciaDocumentoFilter(filters.FilterSet):
@@ -102,3 +103,19 @@ class IncidenciaDocumentoFilter(filters.FilterSet):
         else:
             consulta = queryset.filter(fecha__lte=valor)
             return consulta
+
+
+class CentroAtencionFilter(filters.FilterSet):
+
+    descripcion = CharFilter(
+        name="descripcion",
+        lookup_expr="icontains"
+    )   
+
+    class Meta:
+        model = IncidenciaDocumento
+        fields = [
+            'id',
+            'descripcion',
+            'created_by',
+        ]        

@@ -51,7 +51,7 @@
                     <div class="panel-heading panel-border nova-panel-heading"> 
                         <div class="tools pull-right nova-tools" id="toolbar">
 
-                            <a href="{% url 'finanzas:viatico_nuevo' %}" 
+                            <a href="{% url 'sgi:incidencia_nuevo' %}" 
                                 class="btn nova-btn btn-rounded btn-space btn-default" id="boton_nuevo">
                                 <i class="icon icon-left mdi mdi-plus-circle nova-black"></i>Nuevo Documento 
                             </a>
@@ -72,6 +72,84 @@
               </div> <!-- Panel -->
         </div><!-- col md 12 -->
     </div>
+
+     <!-- Targeta Filtros -->
+    <div id="tarjeta_filtros" tabindex="-1" role="dialog" class="modal fade colored-header colored-header-primary in">
+        <div class="modal-dialog custom-width">
+            <div class="modal-content">
+                
+                <div class="modal-header nova-modal-header">
+                    <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
+                    <h3 class="modal-title">Filtros</h3>
+                </div>
+                    
+                <!-- <div class=" nova-modal-body-padding"> -->
+                <form id="formulario_filtro" class="modal-body form-horizontal">
+                <!-- <div class="modal-body"> -->
+
+                    <div class="form-group">
+                        <label class="col-sm-3 nova-col-filter control-label">No de Documento</label>
+                        <div class="col-sm-6 xs-pt-5">
+                          {{ form.id}}
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label class="col-sm-3 nova-col-filter control-label">Tipo</label>
+                      <div class="col-sm-6 xs-pt-5">
+                        {{ form.tipo }}
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 nova-col-filter control-label">Fecha Mayor</label>
+                        <div class="col-sm-6 xs-pt-5">
+                            <div class="input-group">
+                                <input type="text" value="" readonly="" class="form-control input-xs" id="fecha_mayorque">
+                                <span class="input-group-addon btn btn-primary">
+                                    <i class="icon-th mdi mdi-calendar"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+                    <div class="form-group">
+                        <label class="col-sm-3 nova-col-filter control-label">Fecha Menor</label>
+                        <div class="col-sm-6 xs-pt-5">
+                            <div class="input-group">
+                                <input type="text" value="" readonly="" class="form-control input-xs" id="fecha_menorque">
+                                <span class="input-group-addon btn btn-primary">
+                                    <i class="icon-th mdi mdi-calendar"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                </form><!-- Modal body-->
+                <div class="modal-footer nova-modal-footer">
+                     <div class="row col-sm-12">
+                            <button type="button" id="boton_limpiar" class="btn btn-default pull-left">
+                                <i class="fa fa-eraser"></i>
+                                Limpiar
+                            </button>
+                            <button type="button" data-dismiss="modal" class="btn nova-btn btn-default">Cancelar</button>
+                            
+                            <button type="button" id="boton_buscar" class="btn nova-btn btn-primary btn-lg">
+                                <i class="icon icon-left mdi mdi-search nova-white"></i>
+                                Buscar
+                            </button>
+
+                            <button type="button" id="boton_buscar"> Buscar3 </button>
+                    </div>
+                </div>
+            </div> <!-- Modal content-->
+        </div> <!-- Modal dialog -->
+    </div><!-- Modal -->
+
+
+
+
 
 </div>
 
@@ -97,4 +175,3 @@
 
 
 {% endblock scripts %}
-s

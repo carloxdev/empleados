@@ -46,6 +46,7 @@ TargetaFiltros.prototype.init_Components = function () {
 
     // Estilos, Liberias
     this.$fecha_mayorque.datepicker()
+    this.$fecha_menorque.datepicker()
 }
 TargetaFiltros.prototype.init_Events = function () {
 
@@ -64,6 +65,10 @@ TargetaFiltros.prototype.get_Values = function (_page) {
         page: _page,
         id: this.$numero.val(),
         tipo: this.$tipo.val(),
+        fecha_mayorque: this.$fecha_mayorque.val(),
+        fecha_menorque: this.$fecha_menorque.val(),
+        es_registrable: this.$es_registrable.val(),
+        empleado_zona: this.$empleado_zona.val(),
 
     }
 
@@ -196,7 +201,7 @@ Grid.prototype.get_Columnas = function () {
             field: "pk", 
             title: "Numero", 
             width:"200px",
-            template: '<a class="nova-url" href="#=url_viaticocabecera_editar + pk#">#=tipo#</a>',
+            template: '<a class="nova-url" href="#=url_viaticocabecera_editar + pk#">#=pk#</a>',
         },
         { field: "tipo", title: "tipo", width:"200px" },
         { field: "es_registrable", title: "es_registrable", width:"200px" },
