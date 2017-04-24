@@ -59,57 +59,90 @@ class ViaticoLista(View):
         return render(request, self.template_name, {})
 
 
-class ViaticoNuevo(CreateView):
-    model = ViaticoCabecera
-    second_model = ViaticoLinea
-    template_name = 'viatico/viatico_nuevo.html'
-    form_class = ViaticoCabeceraForm
-    second_form_class = ViaticoLineaForm
-    operation = 'En edición'
+class ViaticoNuevo(View):
 
-    def get_context_data(self, **kwargs):
-        context = super(ViaticoNuevo, self).get_context_data(**kwargs)
-        if 'form' not in context:
-            context['form'] = self.form_class(self.request.GET)
-        if 'form2' not in context:
-            context['form2'] = self.second_form_class(self.request.GET)
-        if 'operation' not in context:
-            context['operation'] = self.operation
-        return context
+    def __init__(self):
+        self.template_name = 'viatico/viatico_nuevo.html'
 
-    def post(self, request, *args, **kwargs):
-        self.object = self.get_object
-        form = self.form_class(request.POST)
-        form2 = self.second_form_class()
-        operation = self.operation
+    def get(self, request):
 
-        if form.is_valid():
-            formulario = form.cleaned_data
-            viatico = ViaticoCabecera()
-            viatico.empleado = formulario.get('empleado')
-            viatico.fecha_partida = formulario.get('fecha_partida')
-            viatico.fecha_regreso = formulario.get('fecha_regreso')
-            viatico.unidad_negocio = formulario.get('unidad_negocio')
-            viatico.ciudad_destino = formulario.get('ciudad_destino')
-            viatico.proposito_viaje = formulario.get('proposito_viaje')
-            viatico.nombre_empresa = formulario.get('nombre_empresa')
-            viatico.rfc = formulario.get('rfc')
-            viatico.direccion = formulario.get('direccion')
-            viatico.grupo = formulario.get('grupo')
-            viatico.autorizador = formulario.get('autorizador')
-            viatico.status = formulario.get('status')
+        formulario = ViaticoCabeceraForm()
 
+        contexto = {
+            'form': formulario
+        }
+
+        return render(request, self.template_name, contexto)
+
+    def post(self, request):
+
+        formulario = ViaticoCabeceraForm(request.POST)
+
+        if formulario.is_valid():
+
+            viatico = formulario.save(commit=False)
+            viatico.created_by = request.user.profile
             viatico.save()
 
             return redirect(reverse('finanzas:viatico_editar', kwargs={'pk': viatico.id}))
 
-        else:
-            contexto = {
-                'form': form,
-                'form2': form2,
-                'operation': operation
-            }
-            return render(request, self.template_name, contexto)
+        contexto = {
+            'form': formulario
+        }
+        return render(request, self.template_name, contexto)
+
+
+# class ViaticoNuevo(CreateView):
+#     model = ViaticoCabecera
+#     second_model = ViaticoLinea
+#     template_name = 'viatico/viatico_nuevo.html'
+#     form_class = ViaticoCabeceraForm
+#     second_form_class = ViaticoLineaForm
+#     operation = 'En edición'
+
+#     def get_context_data(self, **kwargs):
+#         context = super(ViaticoNuevo, self).get_context_data(**kwargs)
+#         if 'form' not in context:
+#             context['form'] = self.form_class(self.request.GET)
+#         if 'form2' not in context:
+#             context['form2'] = self.second_form_class(self.request.GET)
+#         if 'operation' not in context:
+#             context['operation'] = self.operation
+#         return context
+
+#     def post(self, request, *args, **kwargs):
+#         self.object = self.get_object
+#         form = self.form_class(request.POST)
+#         form2 = self.second_form_class()
+#         operation = self.operation
+
+#         if form.is_valid():
+#             formulario = form.cleaned_data
+#             viatico = ViaticoCabecera()
+#             viatico.empleado = formulario.get('empleado')
+#             viatico.fecha_partida = formulario.get('fecha_partida')
+#             viatico.fecha_regreso = formulario.get('fecha_regreso')
+#             viatico.unidad_negocio = formulario.get('unidad_negocio')
+#             viatico.ciudad_destino = formulario.get('ciudad_destino')
+#             viatico.proposito_viaje = formulario.get('proposito_viaje')
+#             viatico.nombre_empresa = formulario.get('nombre_empresa')
+#             viatico.rfc = formulario.get('rfc')
+#             viatico.direccion = formulario.get('direccion')
+#             viatico.grupo = formulario.get('grupo')
+#             viatico.autorizador = formulario.get('autorizador')
+#             viatico.status = formulario.get('status')
+
+#             viatico.save()
+
+#             return redirect(reverse('finanzas:viatico_editar', kwargs={'pk': viatico.id}))
+
+#         else:
+#             contexto = {
+#                 'form': form,
+#                 'form2': form2,
+#                 'operation': operation
+#             }
+#             return render(request, self.template_name, contexto)
 
 
 class ViaticoEditar(View):
