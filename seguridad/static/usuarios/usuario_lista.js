@@ -4,7 +4,7 @@
 
 // URLS:
 var url_profile_bypage = window.location.origin + "/api/profile_bypage/"
-var url_profile_editar_bypage = window.location + "/editar/"
+var url_profile_detalles_bypage = window.location + "/detalles/"
 
 // OBJS
 var grid = null
@@ -164,11 +164,11 @@ Grid.prototype.get_Configuracion = function () {
 }
 Grid.prototype.get_Columnas = function () {
 
-    return [   
+    return [  
         { field: "pk", 
           title: "Cuenta", 
           width:"150px" ,
-          template: '<a class="btn btn-default" href="#=url_profile_editar_bypage + pk#">#=cuenta#</a>',
+          template: '<a href="#=url_profile_detalles_bypage + pk#">#=cuenta#</a>',
         },
         { field: "first_name", title: "Primer nombre", width:"200px" },
         { field: "last_name", title: "Apellidos", width:"200px" },

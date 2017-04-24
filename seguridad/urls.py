@@ -5,6 +5,7 @@ from .views import Login
 from .views import UsuarioLista
 from .views import UsuarioNuevo
 from .views import UsuarioEditar
+from .views import UsuarioDetalles
 
 from django.conf import settings
 
@@ -29,5 +30,6 @@ urlpatterns = [
     ),
     url(r'^usuarios$', UsuarioLista.as_view(), name="usuario_lista"),
     url(r'^usuarios/nuevo$', UsuarioNuevo.as_view(), name="usuario_nuevo"),
-    url(r'^usuarios/editar/(?P<pk>\d+)/$', UsuarioEditar.as_view(), name="usuario_nuevo"),
+    url(r'^usuarios/detalles/(?P<pk>\d+)/$', UsuarioDetalles.as_view(), name="usuario_detalles"),
+    url(r'^usuarios/editar/(?P<pk>\d+)/$', UsuarioEditar.as_view(), name="usuario_editar"),
 ]
