@@ -9,8 +9,6 @@ var url_viaticocabecera_editar = window.location.origin + "/viaticos/editar/"
 // OBJS
 var tarjeta_filtros = null
 var tarjeta_resultados = null
-var toolbar = null
-var grid = null
 
 
 /*-----------------------------------------------*\
@@ -28,13 +26,14 @@ $(document).ready(function () {
 \*-----------------------------------------------*/
 
 function PopupFiltros() {
+
     this.$id = $('#tarjeta_filtros')
+
+    this.$empleado = $('#id_empleado')
     this.$fecha_creacion = $('#fecha_creacion')
 
     this.$boton_buscar = $('#boton_buscar')
     this.$boton_limpiar = $('#boton_limpiar')
-
-    this.$combo = $('#combox')
 
     this.filtros_aplicados = false
 
@@ -44,20 +43,21 @@ function PopupFiltros() {
 PopupFiltros.prototype.init_Components = function () {
 
     this.$fecha_creacion.daterangepicker(this.get_ConfDateRangePicker())    
-    this.$combo.select2()
+    
     
 }
 PopupFiltros.prototype.init_Events = function () {
 
     this.$id.on("hidden.bs.modal", this, this.hide)
-    this.$id.on("shown.bs.modal", this, this.show)
+    this.$id.on("show.bs.modal", this, this.show)
 
     this.$boton_buscar.on("click", this, this.click_BotonBuscar)
     this.$boton_limpiar.on("click", this, this.click_BotonLimpiar)
 }
 PopupFiltros.prototype.show = function (e) {
 
-
+    e.data.$empleado.select2()
+    
 }
 PopupFiltros.prototype.hide = function (e) {
     e.data.$fecha_creacion.data('daterangepicker').hide()

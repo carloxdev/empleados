@@ -1,19 +1,27 @@
 # -*- coding: utf-8 -*-
-# Django:
+
+# Librerias/Clases Django
 from django.forms import ModelForm
 from django.forms import TextInput
 from django.forms import Textarea
 from django.forms import Select
 from django.forms import Form
 from django.forms import CharField
+from django.forms import ChoiceField
 
+from django.conf import settings
+
+# Librerias/Clases propias
+
+# Modelos:
 from .models import ViaticoCabecera
+from ebs.models import VIEW_EMPLEADOS_SIMPLE
 
 
 class ViaticoFilterForm(Form):
 
-    empleado = CharField(
-        widget=TextInput(attrs={'class': 'form-control input-xs'})
+    empleado = ChoiceField(
+        widget=Select(attrs={'class': 'select2'})
     )
     fecha_partida_inicio = CharField(
         widget=TextInput(attrs={'class': 'form-control input-xs',
@@ -42,10 +50,27 @@ class ViaticoFilterForm(Form):
     )
 
     def __init__(self, *args, **kwargs):
-        super(ViaticoFilterForm, self).__init__(
-            *args,
-            **kwargs
-        )
+        super(ViaticoFilterForm, self).__init__(*args, **kwargs)
+        self.fields['empleado'].choices = self.get_Empleados()
+
+    def get_Empleados(self):
+
+        valores = [('', '------')]
+
+        if settings.DEBUG:
+            empleados = VIEW_EMPLEADOS_SIMPLE.objects.using('ebs_d').all()
+        else:
+            empleados = VIEW_EMPLEADOS_SIMPLE.objects.using('ebs_p').all()
+
+        for empleado in empleados:
+            valores.append(
+                (
+                    empleado.pers_clave,
+                    empleado.pers_nombre_completo
+                )
+            )
+
+        return valores
 
 
 class ViaticoCabeceraForm(ModelForm):

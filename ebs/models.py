@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
-# Librerias Python
+# Librerias/Clases Python
 from __future__ import unicode_literals
 
-# Librerias Django:
+# Librerias/Clases Django
 from django.db import models
 
 
