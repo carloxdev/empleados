@@ -26,6 +26,7 @@ class Profile(models.Model):
         upload_to='usuarios/fotos/',
         blank=True
     )
+
     fecha_nacimiento = models.DateField(null=True, blank=True)
 
     def __unicode__(self):
