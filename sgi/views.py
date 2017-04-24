@@ -61,48 +61,86 @@ class IncidenciaDocumentoLista(View):
         return render(request, self.template_name, contexto)
 
 
-class IncidenciaDocumentoNuevo(CreateView):
-    model = IncidenciaDocumento
+class IncidenciaDocumentoNuevo(View):
 
-    template_name = 'incidencia/incidencia_nuevo.html'
-    form_class = IncidenciaDocumentoForm
+    def __init__(self):
+        self.template_name = 'incidencia/incidencia_nuevo.html'
 
-    def get_context_data(self, **kwargs):
-        context = super(IncidenciaDocumentoNuevo, self).get_context_data(**kwargs)
-        if 'form' not in context:
-            context['form'] = self.form_class(self.request.GET)
+    def get(self, request):
 
-    def post(self, request, *args, **kwargs):
-        self.object = self.get_object
-        form = self.form_class(request.POST)
+        formulario = IncidenciaDocumentoForm()
 
-        if form.is_valid():
-            formulario = form.cleaned_data
-            incidencia = IncidenciaDocumento()
-            incidencia.tipo = formulario.get('tipo')
-            incidencia.registrable = formulario.get('registrable')
-            incidencia.empleado_nombre = formulario.get('empleado_nombre')
-            incidencia.empleado_zona = formulario.get('empleado_zona')
-            incidencia.empleado_proyecto_desc = formulario.get('empleado_proyecto_desc')
-            incidencia.empleado_puesto_desc = formulario.get('empleado_puesto_desc')
-            incidencia.empleado_un = formulario.get('empleado_un')
-            incidencia.empleado_organizacion = formulario.get('empleado_organizacion')
-            incidencia.area_descripcion = formulario.get('area_descripcion')
-            incidencia.lugar = formulario.get('lugar')
-            incidencia.dias_incapcidad = formulario.get('dias_incapcidad')
-            incidencia.centro_atencion = formulario.get('centro_atencion')
-            incidencia.acr = formulario.get('acr')
-            incidencia.status = formulario.get('status')
+        contexto = {
+            'form': formulario
+        }
 
-            incidencia.save()
+        return render(request, self.template_name, contexto)
 
-            # return redirect(reverse('finanzas:viatico_editar', kwargs={'pk': incidencia.id}))
+    # def post(self, request):
 
-        else:
-            contexto = {
-                'form': form
-            }
-            return render(request, self.template_name, contexto)
+    #     formulario = IncidenciaDocumentoForm(request.POST)
+
+    #     if formulario.is_valid():
+
+    #         indidencia = formulario.save(commite=False)
+
+    #         incidencia.created_by = request.user.profile
+
+    #         incidencia.save()
+
+    #         return redirect(reverse('sgi:incidencia_lista'))
+
+    #     contexto = {
+    #         'form': formulario
+    #     }
+
+    #     return render(request, self.template_name, contexto)
+
+        # datos_formulario = formulario.cleaned_data
+
+
+# class IncidenciaDocumentoNuevo(CreateView):
+#     model = IncidenciaDocumento
+
+#     template_name = 'incidencia/incidencia_nuevo.html'
+#     form_class = IncidenciaDocumentoForm
+
+#     def get_context_data(self, **kwargs):
+#         context = super(IncidenciaDocumentoNuevo, self).get_context_data(**kwargs)
+#         if 'form' not in context:
+#             context['form'] = self.form_class(self.request.GET)
+
+#     def post(self, request, *args, **kwargs):
+#         self.object = self.get_object
+#         form = self.form_class(request.POST)
+
+#         if form.is_valid():
+#             formulario = form.cleaned_data
+#             incidencia = IncidenciaDocumento()
+#             incidencia.tipo = formulario.get('tipo')
+#             incidencia.registrable = formulario.get('registrable')
+#             incidencia.empleado_nombre = formulario.get('empleado_nombre')
+#             incidencia.empleado_zona = formulario.get('empleado_zona')
+#             incidencia.empleado_proyecto_desc = formulario.get('empleado_proyecto_desc')
+#             incidencia.empleado_puesto_desc = formulario.get('empleado_puesto_desc')
+#             incidencia.empleado_un = formulario.get('empleado_un')
+#             incidencia.empleado_organizacion = formulario.get('empleado_organizacion')
+#             incidencia.area_descripcion = formulario.get('area_descripcion')
+#             incidencia.lugar = formulario.get('lugar')
+#             incidencia.dias_incapcidad = formulario.get('dias_incapcidad')
+#             incidencia.centro_atencion = formulario.get('centro_atencion')
+#             incidencia.acr = formulario.get('acr')
+#             incidencia.status = formulario.get('status')
+
+#             incidencia.save()
+
+#             # return redirect(reverse('finanzas:viatico_editar', kwargs={'pk': incidencia.id}))
+
+#         else:
+#             contexto = {
+#                 'form': form
+#             }
+#             return render(request, self.template_name, contexto)
 
 
 # -------------- INCIDENCIA DOCUMENTO - API REST -------------- #
