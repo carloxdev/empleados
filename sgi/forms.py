@@ -2,6 +2,7 @@
 # Django:
 from django.forms import ModelForm
 from django.forms import TextInput
+from django.forms import CheckboxInput
 # from django.forms import Textarea
 from django.forms import Select
 # from django.forms import Form
@@ -95,25 +96,28 @@ class IncidenciaDocumentoForm(ModelForm):
               'centro_atencion': 'Centro de Atencion',
               'tiene_acr': 'acr Analisis Raiz Causa',
               'status': 'Estado de la solicitud',
+              #'Archivo': 'Adjuntar archivo',
               }
 
-    # widgets = {'tipo': TextInput(attrs={'class': 'form-control input-xs'}),
-    #            'es_registrable': TextInput(attrs={'class': 'form-control input-xs'}),
-    #            'fecha': TextInput(attrs={'class': 'form-control input-xs'}),
-    #            'empleado_id': TextInput(attrs={'class': 'form-control input-xs'}),
-    #            'empleado_nombre': TextInput(attrs={'class': 'form-control input-xs'}),
-    #            'empleado_zona': TextInput(attrs={'class': 'form-control input-xs'}),
-    #            'empleado_proyecto': TextInput(attrs={'class': 'form-control input-xs'}),
-    #            'empleado_proyecto_desc': TextInput(attrs={'class': 'form-control input-xs'}),
-    #            'empleado_puesto': TextInput(attrs={'class': 'form-control input-xs'}),
-    #            'empleado_puesto_desc': TextInput(attrs={'class': 'form-control input-xs'}),
-    #            'empleado_un': TextInput(attrs={'class': 'form-control input-xs'}),
-    #            'empleado_organizacion': TextInput(attrs={'class': 'form-control input-xs'}),
-    #            'area': TextInput(attrs={'class': 'form-control input-xs'}),
-    #            'area_descripcion': TextInput(attrs={'class': 'form-control input-xs'}),
-    #            'lugar': TextInput(attrs={'class': 'form-control input-xs'}),
-    #            'dias_incapacidad': TextInput(attrs={'class': 'form-control input-xs'}),
-    #            'centro_atencion': TextInput(attrs={'class': 'form-control input-xs'}),
-    #            'tiene_acr': TextInput(attrs={'class': 'form-control input-xs'}),
-    #            'status': TextInput(attrs={'class': 'form-control input-xs'}),
-    #            }
+    widgets = {'tipo': Select(attrs={'class': 'form-control input-sm'}),
+               #'es_registrable': Select(attrs={'class': 'form-control input-sm'}),
+               'fecha': TextInput(attrs={'class': 'form-control pull-right input-sm',
+                                'data-date-format': 'yyyy-mm-dd'}),
+               'empleado_id': TextInput(attrs={'class': 'form-control input-xs'}),
+               'empleado_nombre': TextInput(attrs={'class': 'form-control input-xs'}),
+               'empleado_zona': TextInput(attrs={'class': 'form-control input-xs'}),
+               'empleado_proyecto': TextInput(attrs={'class': 'form-control input-xs'}),
+               'empleado_proyecto_desc': TextInput(attrs={'class': 'form-control input-xs'}),
+               'empleado_puesto': TextInput(attrs={'class': 'form-control input-xs'}),
+               'empleado_puesto_desc': TextInput(attrs={'class': 'form-control input-xs'}),
+               'empleado_un': TextInput(attrs={'class': 'form-control input-xs'}),
+               'empleado_organizacion': TextInput(attrs={'class': 'form-control input-xs'}),
+               'area': TextInput(attrs={'class': 'form-control input-xs'}),
+               'area_descripcion': TextInput(attrs={'class': 'form-control input-xs'}),
+               'lugar': TextInput(attrs={'class': 'form-control input-xs'}),
+               'dias_incapacidad': TextInput(attrs={'class': 'form-control input-xs'}),
+               'centro_atencion':  Select(attrs={'class': 'form-control input-sm'}),
+               'tiene_acr': CheckboxInput(),
+               'status':  Select(attrs={'class': 'form-control input-sm'}),
+               #'Archivo': FileInput(attrs={'class': 'dropzone dz-clickable dz-started'}),
+               }

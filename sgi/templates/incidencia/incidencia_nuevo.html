@@ -92,23 +92,21 @@
                                 
                                 <!-- Fecha -->
                                 <div class="row">
-								<div class="col-sm-6">
-									<label for="{{ form.fecha.id_for_label }}"> Fecha: </label>
-			                            <div class="input-group datetimepicker nova-input-group-padding">
-			                                    {{ form.fecha }}
-			                            <span class="input-group-addon btn btn-primary"><i class="icon-th mdi mdi-calendar"></i></span>
-			                            </div>
-								</div>
+									<div class="col-sm-4">
+										<label for="{{ form.fecha.id_for_label }}"> Fecha: </label>
+				                            <div data-min-view="2" data-date-format="yyyy-mm-dd" class="input-group date datetimepicker">
+                         
+				                                    {{ form.fecha }}
+				                            <span class="input-group-addon btn btn-primary"><i class="icon-th mdi mdi-calendar"></i></span>
+				                            </div>
+									</div>
 								</div>
 
 
                                 <div class="row">
-
 								<!-- Empleado ID-->
 								<div class="col-sm-6">
-
 									<div class="form-group {% if form.empleado_id.field.required %} has-warning {% endif %} {% if form.empleado_id.errors %} has-error {% endif %}">
-
 									<label class="control-label">
 									<i class="fa {% if form.empleado_id.field.required %} fa-asterisk {% endif %} {% if form.empleado_id.errors %} fa-asterisk {% endif %}"></i> 
 										{{ form.empleado_id.label }} 
@@ -126,7 +124,6 @@
 
 								
 								<div class="row">
-
 								<!-- Empleado -->
 								<div class="col-sm-6">
 
@@ -410,6 +407,8 @@
 								</div>
 								</div>
 
+								
+
 								<!-- Status  -->
 								<div class="row">
 								<div class="col-sm-6">
@@ -476,7 +475,7 @@
     <script src="{% static 'theme/lib/moment.js/min/moment.min.js' %}"></script>
 
 	<!-- NOVA -->
-	<!-- <script src="{% static 'incidencia/incidencia_formulario.js' %}"></script>       -->
+	<!-- <script src="{% static 'incidencia/incidencia_formulario.js' %}"></script> -->
 
 {% endblock scripts %}
 
