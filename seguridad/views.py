@@ -49,6 +49,7 @@ from .forms import UserForm
 from .forms import UsuarioForm
 from .forms import UserFormFilter
 from .forms import UserEditarForm
+#from .forms import ConfirmarForm
 
 
 class Login(View):
@@ -134,6 +135,7 @@ class UsuarioNuevo(View):
     def get(self, request):
         form_usuario = UserForm()
         form_perfil = UsuarioForm()
+        #form_confirmar = ConfirmarForm()
 
         contexto = {
             'form': form_usuario,
@@ -164,7 +166,8 @@ class UsuarioNuevo(View):
 
             usuario.profile.clave_rh = datos_perfil.get('clave_rh')
             usuario.profile.clave_jde = datos_perfil.get('clave_jde')
-            usuario.profile.fecha_nacimiento = datos_perfil.get('fecha_nacimiento')
+            usuario.profile.fecha_nacimiento = datos_perfil.get(
+                'fecha_nacimiento')
             usuario.profile.foto = datos_perfil.get('foto')
             usuario.profile.save()
 
@@ -178,58 +181,17 @@ class UsuarioNuevo(View):
             return render(request, self.template_name, contexto)
 
 
-# class UsuarioNuevo(CreateView):
-#     model = User
-#     second_model = Profile
-#     form_class = UserForm
-#     second_form_class = UsuarioForm
-#     template_name = 'usuarios/usuario_nuevo.html'
-#     success_url = reverse_lazy('seguridad:usuario_lista')
-
-#     def get_context_data(self, **kwargs):
-#         context = super(UsuarioNuevo, self).get_context_data(**kwargs)
-#         if 'form' not in context:
-#             context['form'] = self.form_class(self.request.GET)
-#         if 'form2' not in context:
-#             context['form2'] = self.second_form_class(self.request.GET)
-#         return context
-
-#     def post(self, request, *args, **kwargs):
-#         self.object = self.get_object
-#         form = self.form_class(request.POST)
-#         form2 = self.second_form_class(request.POST, request.FILES)
-#         if form.is_valid() and form2.is_valid():
-#             usuario = User.objects.create_user(
-#                 username=form.cleaned_data.get('username'),
-#                 password=form.cleaned_data.get('password')
-#             )
-#             usuario.first_name = form.cleaned_data.get('first_name')
-#             usuario.last_name = form.cleaned_data.get('last_name')
-#             usuario.email = form.cleaned_data.get('email')
-#             usuario.is_active = True
-#             usuario.is_staff = form.cleaned_data.get('is_staff')
-#             usuario.save()
-#             usuario.profile.fecha_nacimiento = form2.cleaned_data.get(
-#                 'fecha_nacimiento')
-#             usuario.profile.clave_rh = form2.cleaned_data.get('clave_rh')
-#             usuario.profile.clave_jde = form2.cleaned_data.get('clave_jde')
-#             usuario.profile.foto = form2.cleaned_data.get('foto')
-#             usuario.profile.save()
-
-#             return redirect(
-#                 reverse('seguridad:usuarios_lista')
-#             )
-
-#             return redirect(reverse('seguridad:usuario_lista'))
-#         else:
-# return
-# self.render_to_response(self.get_context_data(form=form,form2=form2))
-
-
 class UsuarioEditar(View):
 
     def __init__(self):
         self.template_name = 'usuarios/usuario_editar.html'
+
+    def obtener_UrlImagen(self, _imagen):
+        imagen = ''
+        if _imagen:
+            imagen = _imagen.url
+
+        return imagen
 
     def get(self, request, pk):
         usuario_id = get_object_or_404(User, pk=pk)
@@ -248,6 +210,7 @@ class UsuarioEditar(View):
         contexto = {
             'form': form_usuario,
             'form2': form_perfil,
+            'foto': self.obtener_UrlImagen(usuario_id.profile.foto),
         }
         return render(request, self.template_name, contexto)
 
@@ -279,6 +242,7 @@ class UsuarioEditar(View):
         contexto = {
             'form': form_usuario,
             'form2': form_perfil,
+            'foto': self.obtener_UrlImagen(usuario.profile.foto),
         }
         return render(request, self.template_name, contexto)
 

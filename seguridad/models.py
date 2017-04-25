@@ -16,7 +16,7 @@ class Profile(models.Model):
     usuario = models.OneToOneField(User, on_delete=models.CASCADE)
     clave_rh = models.IntegerField(
         blank=True,
-        null=True
+        null=True,
     )
     clave_jde = models.CharField(
         max_length=144,

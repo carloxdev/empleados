@@ -1,110 +1,94 @@
 {% extends 'master.html' %}
-
 {% load static from staticfiles %}
-
 {% block titulo %} Usuarios {% endblock titulo %}
-
 {% block title-page %} Nuevo usuario {% endblock title-page %}
-
 {% block css %}
-	<!-- Kendo -->
-	<link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.rtl.min.css' %}"/>
-	<link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.common-bootstrap.min.css' %}"/>
-	<link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.bootstrap.min.css' %}"/>
-
-    <!-- Theme -->
-    <link rel="stylesheet" href="{% static 'theme/lib/datetimepicker/css/bootstrap-datetimepicker.min.css' %}"/>
-
-    <!-- Nova -->
-    <link rel="stylesheet" href="{% static 'grid.css' %}"/>
-
-
-
+<!-- Kendo -->
+<link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.rtl.min.css' %}"/>
+<link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.common-bootstrap.min.css' %}"/>
+<link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.bootstrap.min.css' %}"/>
+<!-- Theme -->
+<link rel="stylesheet" href="{% static 'theme/lib/datetimepicker/css/bootstrap-datetimepicker.min.css' %}"/>
+<!-- Nova -->
+<link rel="stylesheet" href="{% static 'grid.css' %}"/>
 {% endblock css %}
-
-
 {% block contenido %}
-	<div class="be-content">
-	    <div class="page-head">
-	        <h2 class="page-head-title">Nuevo usuario</h2>
-	        <ol class="breadcrumb page-head-nav">
-	            <li><a href="#">Inicio</a></li>
-	            <li><a href="#">Usuarios</a></li>
-	            <li><a href="#">Nuevo usuario</a></li>
-	        </ol>
-	    </div>
-	    <div class="col-md-12">
-         	<div class="main-content container-fluid">  
-			<div class="col-md-12">
-	                <div class="panel panel-default panel-table">
-	                    <div class="panel-heading panel-border nova-panel-heading"> 
-	                        <div class="title hidden-xs"> Nuevo usuario</div>
-	                    </div><!-- Panel Heading -->
-	                    <div class="panel panel-default panel-table">
-							<form action="" method="POST"> {% csrf_token %}	
-
-			                    <h4><b>Información de cuenta</b></h4>
-			                    <br>
-			                    <label class="control-label">
-									{{ form.username.label }} 
-								</label>
-			                     <p>{{ form.username}}</p>
-					             <label class="control-label">
-									 {{form.password.label}}
-								</label>
-								<p>{{ form.password }}</p>
-				             
-					            <h4><b>Información de usuario</b></h4>
-			                    <br>
-			                    <label class="control-label">
-									 {{form.first_name.label}}
-								</label>
-								 <p>{{ form.first_name }}</p>
-			                    <label class="control-label">
-									 {{form.last_name.label}}
-								</label>
-			                     <p>{{ form.last_name }}</p>
-					            <label class="control-label">
-									{{ form2.fecha_nacimiento.label}} 
-								</label>
-					             <p>{{ form2.fecha_nacimiento}}</p>
-					            <label class="control-label">
-									{{form.email.label}} 
-								</label>
-					             <p>{{ form.email }}</p>
-					            <label class="control-label">
-									 {{form2.clave_rh.label}}
-								</label>
-					             <p>{{ form2.clave_rh }}</p>
-					            <label class="control-label">
-									 {{form2.clave_jde.label }}
-								</label>
-					             <p>{{ form2.clave_jde }}</p>
-					            <label class="control-label">
-									 {{form2.foto.label }}
-								</label> 
-					            <p>{{ form2.foto }}</p>
-					            <br>
-					            <a class="button" href="{% url 'seguridad:usuario_lista' %}"> Regresar </a>
-					            <button type="submit" class="btn btn-primary" id="id_boton_guardar" >Guardar usuario</button>
-					        </form>
-	        			</div>
-			</div>     
-         </div>
-    </div>
-    
-{% endblock contenido %}
-
-{% block scripts %}
-	<!-- Kendo Js -->
-	<script src="{% static 'libs/kendo/2015.2.624/js/cultures/kendo.culture.es-MX.min.js' %}"></script>
-	<script src="{% static 'libs/kendo/2015.2.624/js/kendo.web.min.js' %}"></script>
-
-    <!-- Theme -->
-    <script src="{% static 'theme/lib/jquery-ui/jquery-ui.min.js' %}"></script>
-    <script src="{% static 'theme/lib/moment.js/min/moment.min.js' %}"></script>
-
-	<!-- NOVA -->
-	     
-
-{% endblock scripts %}
+<div class="be-content">
+<div class="page-head">
+	<h2 class="page-head-title">Nuevo usuario</h2>
+	<ol class="breadcrumb page-head-nav">
+		<li><a href="#">Inicio</a></li>
+		<li><a href="#">Usuarios</a></li>
+		<li><a href="#">Nuevo usuario</a></li>
+	</ol>
+</div>
+<div class="col-md-12">
+	<div class="main-content container-fluid">
+		<div class="col-md-12">
+			<div class="panel panel-default panel-table">
+				<div class="panel-heading panel-border nova-panel-heading">
+					<div class="title hidden-xs"> Nuevo usuario</div>
+					</div><!-- Panel Heading -->
+					<div class="panel panel-default panel-table">
+						<form action="" method="POST" enctype="multipart/form-data"> {% csrf_token %}
+							<h4><b>Información de cuenta</b></h4>
+							<br>
+							<label class="control-label">
+								{{ form.username.label }}
+							</label>
+							<p>{{ form.username}}</p>
+							<label class="control-label">
+								{{form.password.label}}
+							</label>
+							<p>{{ form.password }}</p>
+							
+							<h4><b>Información de usuario</b></h4>
+							<br>
+							<label class="control-label">
+								{{form.first_name.label}}
+							</label>
+							<p>{{ form.first_name }}</p>
+							<label class="control-label">
+								{{form.last_name.label}}
+							</label>
+							<p>{{ form.last_name }}</p>
+							<label class="control-label">
+								{{ form2.fecha_nacimiento.label}}
+							</label>
+							<p>{{ form2.fecha_nacimiento}}</p>
+							<label class="control-label">
+								{{form.email.label}}
+							</label>
+							<p>{{ form.email }}</p>
+							<label class="control-label">
+								{{form2.clave_rh.label}}
+							</label>
+							<p>{{ form2.clave_rh }}</p>
+							<label class="control-label">
+								{{form2.clave_jde.label }}
+							</label>
+							<p>{{ form2.clave_jde }}</p>
+							<label class="control-label">
+								{{form2.foto.label }}
+							</label>
+							<p>{{ form2.foto }}</p>
+							<br>
+							<a class="button" href="{% url 'seguridad:usuario_lista' %}"> Regresar </a>
+							<button type="submit" class="btn btn-primary" id="id_boton_guardar" >Guardar usuario</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+	{% endblock contenido %}
+	{% block scripts %}
+		<!-- Kendo Js -->
+		<script src="{% static 'libs/kendo/2015.2.624/js/cultures/kendo.culture.es-MX.min.js' %}"></script>
+		<script src="{% static 'libs/kendo/2015.2.624/js/kendo.web.min.js' %}"></script>
+		<!-- Theme -->
+		<script src="{% static 'theme/lib/jquery-ui/jquery-ui.min.js' %}"></script>
+		<script src="{% static 'theme/lib/moment.js/min/moment.min.js' %}"></script>
+		<!-- NOVA -->
+		
+	{% endblock scripts %}

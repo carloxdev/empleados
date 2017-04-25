@@ -7,7 +7,6 @@ from django.forms import TextInput
 from django.forms import RadioSelect
 from django.forms import FileInput
 from django.forms import CharField
-from django.forms import Select
 
 from .models import User
 from .models import Profile
@@ -18,6 +17,10 @@ class UserFormFilter(forms.Form):
     usuario__first_name = CharField(label="Nombre:")
     usuario__last_name = CharField(label="Apellidos:")
     clave_rh = CharField(label="Clave RH:")
+
+
+class ConfirmarForm(forms.Form):
+    confirmar = CharField(label="Confirmar contraseña")
 
 
 class UserForm(ModelForm):
@@ -58,31 +61,8 @@ class UserForm(ModelForm):
                    }
 
 
-class UsuarioForm(ModelForm):
-
-    class Meta:
-        model = Profile
-
-        fields = ['clave_rh',
-                  'clave_jde',
-                  'fecha_nacimiento',
-                  'foto',
-                  ]
-
-        labels = {'clave_rh': 'Clave rh',
-                  'clave_jde': 'Clave jde',
-                  'fecha_nacimiento': 'Fecha de nacimiento',
-                  'foto': 'Foto',
-                  }
-
-        widgets = {'clave_rh': TextInput(attrs={'class': 'form-control input-xs'}),
-                   'clave_jde': TextInput(attrs={'class': 'form-control input-xs'}),
-                   'fecha_nacimiento': TextInput(attrs={'class': 'form-control input-xs', 'data-date-format': 'yyyy-mm-dd'}),
-                   'foto': FileInput(attrs={'class': 'dropzone dz-clickable dz-started'}),
-                   }
-
-
 class UserEditarForm(ModelForm):
+
     def __init__(self, *args, **kwargs):
         super(UserEditarForm, self).__init__(*args, **kwargs)
         self.fields['password'].required = False
@@ -111,4 +91,28 @@ class UserEditarForm(ModelForm):
                    'first_name': TextInput(attrs={'class': 'form-control input-xs'}),
                    'last_name': TextInput(attrs={'class': 'form-control input-xs'}),
                    'email': TextInput(attrs={'class': 'form-control input-xs'}),
+                   }
+
+
+class UsuarioForm(ModelForm):
+
+    class Meta:
+        model = Profile
+
+        fields = ['clave_rh',
+                  'clave_jde',
+                  'fecha_nacimiento',
+                  'foto',
+                  ]
+
+        labels = {'clave_rh': 'Clave rh',
+                  'clave_jde': 'Clave jde',
+                  'fecha_nacimiento': 'Fecha de nacimiento',
+                  'foto': 'Foto',
+                  }
+
+        widgets = {'clave_rh': TextInput(attrs={'class': 'form-control input-xs'}),
+                   'clave_jde': TextInput(attrs={'class': 'form-control input-xs'}),
+                   'fecha_nacimiento': TextInput(attrs={'class': 'form-control input-xs', 'data-date-format': 'yyyy-mm-dd'}),
+                   'foto': FileInput(attrs={'class': 'dropzone dz-clickable dz-started'}),
                    }

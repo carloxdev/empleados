@@ -36,15 +36,14 @@
 					</div>
 					</div><!-- Panel Heading -->
 					<div>
-					<p> {{profile.foto}}</p>
-					<p><label>Nombre:</label> {{usuario.first_name}} {{usuario.last_name}}</p>
-					<p><label>Fecha de nacimiento:</label>{{profile.fecha_nacimiento}}</p>
-					<p><label>Correo electronico:</label>{{usuario.email}}</p>
-					<p><label>Clave RH:</label> {{profile.clave_rh}}</p>
-					<p><label>Clave JDE:</label> {{profile.clave_jde}}</p>
-					<p><label>Estado:</label>{{usuario.is_active}}</p>
-					<a class="btn" href="{% url 'seguridad:usuario_lista' %}"> Regresar </a>
-
+						<p> {{profile.foto}}</p>
+						<p><label>Nombre:</label> {{usuario.first_name}} {{usuario.last_name}}</p>
+						<p><label>Fecha de nacimiento:</label>{{profile.fecha_nacimiento}}</p>
+						<p><label>Correo electronico:</label>{{usuario.email}}</p>
+						<p><label>Clave RH:</label> {{profile.clave_rh}}</p>
+						<p><label>Clave JDE:</label> {{profile.clave_jde}}</p>
+						<p><label>Estado:</label>{{usuario.is_active}}</p>
+						<a class="btn" href="{% url 'seguridad:usuario_lista' %}"> Regresar </a>
 					</div>
 				</div>
 			</div>
