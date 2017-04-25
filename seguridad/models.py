@@ -15,12 +15,13 @@ from django.dispatch import receiver
 class Profile(models.Model):
     usuario = models.OneToOneField(User, on_delete=models.CASCADE)
     clave_rh = models.IntegerField(
-        blank=True,
+        blank=False,
         null=True,
     )
     clave_jde = models.CharField(
         max_length=144,
-        null=True
+        null=True,
+        blank=True
     )
     foto = models.ImageField(
         upload_to='usuarios/fotos/',

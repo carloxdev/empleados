@@ -2,17 +2,11 @@
 
 # Django Generic Views
 from django.views.generic.base import View
-from django.views.generic import TemplateView
-from django.views.generic import CreateView
-from django.views.generic import UpdateView
-from django.views.generic import DetailView
 
 # Django shortcuts
 from django.shortcuts import render
 from django.shortcuts import redirect
 from django.core.urlresolvers import reverse
-from django.core.urlresolvers import reverse_lazy
-from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 
 # Django Seguridad
@@ -96,20 +90,6 @@ class Login(View):
         return render(request, self.template_name, contexto)
 
 # --------------  PROFILE VIEWS -------------- #
-
-
-class UsuarioDetalles(DetailView):
-    model = User
-    second_model = Profile
-    template_name = 'usuarios/usuario_detalles.html'
-
-    def get_context_data(self, **kwargs):
-        context = super(UsuarioDetalles, self).get_context_data(**kwargs)
-        pk = self.kwargs.get('pk', 0)
-        usuario = self.model.objects.get(id=pk)
-        profile = self.second_model.objects.get(id=usuario.id)
-        context = {'usuario': usuario, 'profile': profile}
-        return context
 
 
 class UsuarioDetallesPerfil(View):
@@ -218,7 +198,6 @@ class UsuarioEditar(View):
         usuario_id = get_object_or_404(User, pk=pk)
         form_usuario = UserEditarForm(
             initial={
-                'username': usuario_id.username,
                 'first_name': usuario_id.first_name,
                 'last_name': usuario_id.last_name,
                 'email': usuario_id.email,
@@ -245,7 +224,6 @@ class UsuarioEditar(View):
             request.POST, request.FILES, instance=usuario.profile)
 
         if form_usuario.is_valid() and form_perfil.is_valid():
-            usuario.username = form_usuario.cleaned_data.get('username')
             usuario.first_name = form_usuario.cleaned_data.get('first_name')
             usuario.last_name = form_usuario.cleaned_data.get('last_name')
             usuario.email = form_usuario.cleaned_data.get('email')
@@ -258,7 +236,8 @@ class UsuarioEditar(View):
                 usuario.is_superuser = False
 
             if form_usuario.cleaned_data.get('password'):
-                usuario.password = make_password(form_usuario.cleaned_data.get('password'))
+                usuario.password = make_password(
+                    form_usuario.cleaned_data.get('password'))
 
             usuario.save()
             usuario.profile = form_perfil.save()
@@ -289,7 +268,6 @@ class UsuarioEditarPerfil(View):
         usuario_id = get_object_or_404(User, pk=pk)
         form_usuario = UserEditarPerfilForm(
             initial={
-                'username': usuario_id.username,
                 'first_name': usuario_id.first_name,
                 'last_name': usuario_id.last_name,
                 'email': usuario_id.email,
@@ -314,7 +292,6 @@ class UsuarioEditarPerfil(View):
             request.POST, request.FILES, instance=usuario.profile)
 
         if form_usuario.is_valid() and form_perfil.is_valid():
-            usuario.username = form_usuario.cleaned_data.get('username')
             usuario.first_name = form_usuario.cleaned_data.get('first_name')
             usuario.last_name = form_usuario.cleaned_data.get('last_name')
             usuario.email = form_usuario.cleaned_data.get('email')

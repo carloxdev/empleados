@@ -70,7 +70,6 @@ class UserEditarForm(ModelForm):
         model = User
 
         fields = ['password',
-                  'username',
                   'first_name',
                   'last_name',
                   'email',
@@ -79,7 +78,6 @@ class UserEditarForm(ModelForm):
                   ]
 
         labels = {'password': 'Contraseña',
-                  'username': 'Nombre de usuario',
                   'first_name': 'Nombre',
                   'last_name': 'Apellidos',
                   'email': 'Email',
@@ -88,7 +86,6 @@ class UserEditarForm(ModelForm):
                   }
 
         widgets = {'password': TextInput(attrs={'class': 'form-control input-xs', 'type': 'password'}),
-                   'username': TextInput(attrs={'class': 'form-control input-xs'}),
                    'first_name': TextInput(attrs={'class': 'form-control input-xs'}),
                    'last_name': TextInput(attrs={'class': 'form-control input-xs'}),
                    'email': TextInput(attrs={'class': 'form-control input-xs'}),
@@ -104,21 +101,18 @@ class UserEditarPerfilForm(ModelForm):
         model = User
 
         fields = ['password',
-                  'username',
                   'first_name',
                   'last_name',
                   'email',
                   ]
 
         labels = {'password': 'Contraseña',
-                  'username': 'Nombre de usuario',
                   'first_name': 'Nombre',
                   'last_name': 'Apellidos',
                   'email': 'Email',
                   }
 
         widgets = {'password': TextInput(attrs={'class': 'form-control input-xs', 'type': 'password'}),
-                   'username': TextInput(attrs={'class': 'form-control input-xs'}),
                    'first_name': TextInput(attrs={'class': 'form-control input-xs'}),
                    'last_name': TextInput(attrs={'class': 'form-control input-xs'}),
                    'email': TextInput(attrs={'class': 'form-control input-xs'}),
