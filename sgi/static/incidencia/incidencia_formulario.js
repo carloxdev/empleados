@@ -3,11 +3,11 @@
 \*-----------------------------------------------*/
 
 // URLS:
-var url_viaticolinea = window.location.origin + "/api/incidenciadocumento_bypage/"
+//var url_incidencia= window.location.origin + "/api/incidenciadocumento/"
+
 
 // OBJS
-var toolbar = null
-var tarjeta_resultados = null
+var IncidenciaNuevo = null
 
 
 /*-----------------------------------------------*\
@@ -16,216 +16,102 @@ var tarjeta_resultados = null
 
 $(document).ready(function () {
 
-    filtros = new TargetaFiltros()
-    resultados = new TargetaResultados()
+    incidencianuevo = new IncidenciaNuevo()
 })
 
 /*-----------------------------------------------*\
             OBJETO: incidencia
 \*-----------------------------------------------*/
 
-function TargetaFiltros(){
 
-    this.$boton_colapsible = $("#boton_colapsible")
-    this.init()
+function IncidenciaNuevo(){
+    this.$tipo = $('#tipo')
+    this.$es_registrable = $('#es_registrable')
+    this.$empleado_id = $('#empleado_id')
+    this.$empleado_nombre = $('#empleado_nombre')
+    this.$empleado_zona = $('#empleado_zona')
+    this.$empleado_proyecto = $('#empleado_proyecto')
+    this.$empleado_proyecto_desc = $('#empleado_proyecto_desc')
+    this.$empleado_puesto= $('#empleado_puesto')
+    this.$empleado_puesto_desc= $('#empleado_puesto_desc')
+    this.$empleado_un= $('#empleado_un')
+    this.$empleado_organizacion= $('#empleado_organizacion')
+    this.$area_id= $('#area_id')
+    this.$area_descripcion= $('#area_descripcion')
+    this.$lugar= $('#lugar')
+    this.$dias_incapcidad= $('#dias_incapcidad')
+    this.$centro_atencion= $('#centro_atencion')
+    this.$acr= $('#acr')
+    this.$status= $('#status')
+    this.$boton_guardar = $('#id_boton_guardar')
+
+    this.init_Events()
+
 }
-ViaticoCabecera.prototype.init = function (e) {
 
-    this.$boton_colapsible.on("click", this, this.click_BotonColapsible)
+IncidenciaNuevo.prototype.init_Events = function () {
+
+    // Asosciar Eventos
+    this.$boton_buscar.on("click", this, this.click_BotonBuscar)
 }
-ViaticoCabecera.prototype.click_BotonColapsible = function (e){
+IncidenciaNuevo.prototype.click_BotonBuscar = function (e) {
 
-    if ($("#boton_colapsible").hasClass('mdi-caret-down-circle')){
-
-        $("#boton_colapsible").removeClass('mdi-caret-down-circle').addClass('mdi-caret-up-circle')
-    }
-    else if($("#boton_colapsible").hasClass('mdi-caret-up-circle')){
-
-        $("#boton_colapsible").removeClass('mdi-caret-up-circle').addClass('mdi-caret-down-circle')
-    }   
-}
-
-/*-----------------------------------------------*\
-            OBJETO: Tarjeta resultados
-\*-----------------------------------------------*/
-
-function TarjetaResultados(){
-    
-    this.toolbar = new ToolBar()
-    this.grid = new Grid()
-}
-/*-----------------------------------------------*\
-            OBJETO: ToolBar
-\*-----------------------------------------------*/
-
-function ToolBar() {
-
-    this.$btn_finalizar_captura = $("#btn_finalizar_captura")
-    this.init()
-}
-ToolBar.prototype.init = function (e) {
-
-    this.$btn_finalizar_captura.on("click", this, this.click_BotonFinalizarCaptura)
-}
-ToolBar.prototype.click_BotonFinalizarCaptura = function (e) {
-    
     e.preventDefault()
-    
-}
 
+    tipo = e.data.$tipo.val()
+    es_registrable = e.data.$es_registrable.val()
+    //fecha = "2017"
+    empleado_id = e.data.$empleado_id.val()
+    empleado_nombre = e.data.$empleado_nombre.val()
+    empleado_zona = e.data.$empleado_zona.val()
+    empleado_proyecto = e.data.$empleado_proyecto.val()
+    empleado_proyecto_desc = e.data.$empleado_proyecto_desc.val()
+    empleado_puesto= e.data.$empleado_puesto.val()
+    empleado_puesto_desc= e.data.$empleado_puesto_desc.val()
+    empleado_un= e.data.$empleado_un.val()
+    empleado_organizacion= e.data.$empleado_organizacion.val()
+    area_id= e.data.$area_id.val()
+    area_descripcion= e.data.$area_descripcion.val()
+    lugar= e.data.$lugar.val()
+    dias_incapcidad= e.data.$dias_incapcidad.val()
+    centro_atencion= e.data.$centro_atencion.val()
+    acr= e.data.$acr.val()
+    status= e.data.$status.val()
 
-/*-----------------------------------------------*\
-            OBJETO: Grid
-\*-----------------------------------------------*/
+    var csrftoken = $("[name=csrfmiddlewaretoken]").val()
 
-function Grid() {
-    this.$id = $("#grid_resultados")
-    this.kfuente_datos = null
-    this.kgrid = null
-    this.init()
-
-}
-Grid.prototype.init = function () {
-    kendo.culture("es-MX")
-    this.kfuente_datos = new kendo.data.DataSource(this.get_FuenteDatosConfig())
-    this.kGrid = this.$id.kendoGrid(this.get_Config())
-
-}
-Grid.prototype.ocultar_Botones = function () {
-    var grid = this.kGrid.data("kendoGrid")
-    grid.hideColumn(3)
-
-}
-Grid.prototype.get_Config = function () {
-    return {
-        dataSource: this.kfuente_datos,
-        columnMenu: false,
-        groupable: false,
-        sortable: false,
-        editable: false,
-        resizable: true,
-        selectable: true,
-        scrollable: false,
-        columns: this.get_Columnas(),
-        scrollable: true,
-        pageable: true,
-        noRecords: {
-            template: "<div class='grid-empy'> No se encontraron registros </div>"
-        },  
-        dataBound: this.set_Functions,
-    }
-
-}
-Grid.prototype.get_Campos = function (e) {
-    
-    return {
-        concepto: { type: "string" },
-        observaciones: { type: "string" },
-        importe: { type: "number" },    
-    }
-}
-Grid.prototype.get_Columnas = function (e) {
-    
-    return [
-        { field: "concepto" , title: "Concepto"},
-        { field: "observaciones" , title: "Observaciones" },
-        { field: "importe", title: "Importe"},
-        
-        {
-           command: [ 
-                {
-                   text: " Eliminar",
-                   click: this.click_BotonEliminar,
-                   className: "boton_eliminar fa fa-trash-o"
-                },              
-            ],           
-           title: " ",
-           width: "120px"
-        },
-    ]
-}
-Grid.prototype.click_BotonEliminar = function (e) {
-
-    var token = $("[name=csrfmiddlewaretoken]").val()
-    var fila = this.dataItem($(e.currentTarget).closest('tr'))
-    var url = url_viaticolinea + fila.pk + "/"
-    alertify.confirm(
-        'Eliminar Registro',
-        '¿Desea eliminar esta fila?',
-
-        function () {
-            $.ajax({
-                url: url,
-                headers: { "X-CSRFToken": $.cookie('csrftoken') },
-                method: "DELETE",
-                success: function () {
-                    tarjeta_resultados.grid.kfuente_datos.remove(fila)
-                },
-                error: function () {
-                    alert("Ocurrió un error al eliminar")
-                }
-            })
-        }   , 
-        null
-    )  
-
-}
-Grid.prototype.set_Functions = function (e) {
-
-    tarjeta_resultados.grid.set_Icons(e)
-    tarjeta_resultados.grid.checar_Estado()
-}
-Grid.prototype.set_Icons = function (e) {
-
-    e.sender.tbody.find(".k-button.fa.fa-trash-o").each(function(idx, element){
-        $(element).removeClass("fa fa-trash-o").find("span").addClass("fa fa-trash-o")
-    })
-}
-Grid.prototype.get_FuenteDatosConfig = function (e) {
-
-    return {
-
-        serverPaging: true,
-        pageSize: 10,
-        transport: {
-            read: {
-
-                url: url_viaticolinea,
-                type: "GET",
-                dataType: "json",
+    $.ajax({
+            headers: { "X-CSRFToken": csrftoken },
+            url: url_incidencia,
+            method: "POST",
+            data: {
+                "tipo": tipo,
+                "empleado_nombre": empleado_nombre,
+                "empleado_zona": empleado_zona,
+                "empleado_proyecto_desc": empleado_proyecto_desc,
+                "empleado_puesto_desc": empleado_puesto_desc,
+                "empleado_un": empleado_un,
+                "empleado_organizacion": empleado_organizacion,
+                "area_descripcion": area_descripcion,
+                "lugar": lugar,
+                "dias_incapcidad": dias_incapcidad,
+                "centro_atencion": centro_atencion,
+                "status": status,
 
             },
-            parameterMap: function (data, action) {
-                if (action === "read") {
-
-                    return ventana_linea.get_Filtros(data.page, data.pageSize)
-                }
+            success: function (){
+              
+                alertify.success("Se ha guardado la Incidencia")
+                window.location.href = url_incidencia_lista
+                alert(url_incidencia_lista)
+            },
+            error: function(e){
+                alertify.error("Error "+ e.status + " . No se guardó el registro")
             }
-        },
-        schema: {
-            data: "results",
-            total: "count",
-            model: {
-                fields: this.get_Campos()
-            }
-        },
-        error: function (e) {
-            alert("Status: " + e.status + "; Error message: " + e.errorThrown)
-        },
-    }
-}
-Grid.prototype.buscar = function() {
-    
-    this.kfuente_datos.page(1)
-}
-Grid.prototype.checar_Estado = function() {
+           
+                    
+        });
 
-    if ( this.kfuente_datos.total() > 0 ) {
-        tarjeta_resultados.toolbar.$btn_finalizar_captura.removeAttr('disabled')
-
-    }
-    else if ( this.kfuente_datos.total() == 0 ) {
-        tarjeta_resultados.toolbar.$btn_finalizar_captura.attr('disabled', 'disabled')
-
-    }
 }
+
+
