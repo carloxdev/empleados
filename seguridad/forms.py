@@ -7,6 +7,7 @@ from django.forms import TextInput
 from django.forms import RadioSelect
 from django.forms import FileInput
 from django.forms import CharField
+from django.forms import DateInput
 
 from .models import User
 from .models import Profile
@@ -137,6 +138,6 @@ class UsuarioForm(ModelForm):
 
         widgets = {'clave_rh': TextInput(attrs={'class': 'form-control input-xs'}),
                    'clave_jde': TextInput(attrs={'class': 'form-control input-xs'}),
-                   'fecha_nacimiento': TextInput(attrs={'class': 'form-control input-xs', 'data-date-format': 'yyyy-mm-dd'}),
+                   'fecha_nacimiento': DateInput(attrs={'class': 'form-control input-xs', 'data-date-format': 'yyyy-mm-dd'}),
                    'foto': FileInput(attrs={'class': 'dropzone dz-clickable dz-started'}),
                    }

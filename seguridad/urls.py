@@ -31,6 +31,6 @@ urlpatterns = [
     url(r'^usuarios$', UsuarioLista.as_view(), name="usuario_lista"),
     url(r'^usuarios/nuevo$', UsuarioNuevo.as_view(), name="usuario_nuevo"),
     url(r'^usuarios/editar/(?P<pk>\d+)/$', UsuarioEditar.as_view(), name="usuario_editar"),
-    url(r'^usuarios/perfil/detalles$', UsuarioDetallesPerfil.as_view(), name="perfil_detalles"),
-    url(r'^usuarios/perfil/editar$', UsuarioEditarPerfil.as_view(), name="usuario_editar_perfil"),
+    url(r'^usuarios/perfil/detalles/$', UsuarioDetallesPerfil.as_view(), name="perfil_detalles"),
+    url(r'^usuarios/perfil/editar/(?P<pk>\d+)/$', UsuarioEditarPerfil.as_view(), name="usuario_editar_perfil"),
 ]

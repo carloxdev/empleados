@@ -32,6 +32,11 @@
 					</div>
 					</div><!-- Panel Heading -->
 					<div>
+					{% if profile.foto %}
+						<img class="user-image" src="{{ MEDIA_URL }}{{ profile.foto }}" alt="User Image">
+					{% else %}
+						<img src="{% static 'images/decoradores/no-image-user.jpg' %}" class="user-image img-responsive img-thumbnail" alt="User Image">
+					{% endif %}	 
 						<p> {{profile.foto}}</p>
 						<p><label>Nombre:</label> {{usuario.first_name}} {{usuario.last_name}}</p>
 						<p><label>Fecha de nacimiento:</label>{{profile.fecha_nacimiento}}</p>
