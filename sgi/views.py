@@ -4,8 +4,9 @@
 
 # Librerias/Clases Django
 from django.shortcuts import render
+from django.shortcuts import redirect
 from django.views.generic.base import View
-from django.views.generic import CreateView
+from django.core.urlresolvers import reverse
 
 # Librerias/Clases de Terceros
 from rest_framework import viewsets
@@ -69,6 +70,22 @@ class IncidenciaDocumentoNuevo(View):
     def get(self, request):
 
         formulario = IncidenciaDocumentoForm()
+
+        contexto = {
+            'form': formulario
+        }
+
+        return render(request, self.template_name, contexto)
+
+    def post(self, request):
+
+        formulario = IncidenciaDocumentoForm(request.POST)
+
+        if formulario.is_valid():
+
+            formulario.save()
+
+            return redirect(reverse('sgi:incidencia_lista'))
 
         contexto = {
             'form': formulario

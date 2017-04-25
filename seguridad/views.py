@@ -19,7 +19,7 @@ from django.shortcuts import get_object_or_404
 from django.contrib.auth import authenticate
 from django.contrib.auth import login
 
-#Django autorizacion
+# Django autorizacion
 from django.contrib.auth.hashers import make_password
 
 # Modelos
@@ -342,19 +342,19 @@ class UserAPI(viewsets.ModelViewSet):
     serializer_class = UserSerializer
 
 
-class ProfileAPI(viewsets.ModelViewSet):
-    queryset = Profile.objects.all()
-    serializer_class = ProfileSerializer
-    filter_backends = (DjangoFilterBackend,)
-    filter_class = ProfileFilter
-
-
 class UserByPageAPI(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     filter_backends = (DjangoFilterBackend,)
     filter_fields = ('username', 'is_active')
     pagination_class = GenericPagination
+
+
+class ProfileAPI(viewsets.ModelViewSet):
+    queryset = Profile.objects.all()
+    serializer_class = ProfileSerializer
+    filter_backends = (DjangoFilterBackend,)
+    filter_class = ProfileFilter
 
 
 class ProfileByPageAPI(viewsets.ModelViewSet):
