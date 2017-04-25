@@ -69,7 +69,7 @@
                   {% if user.is_superuser %}
                     <li><a href="{% url 'seguridad:usuario_lista' %}"><span class="icon mdi mdi-accounts"></span> Usuarios</a></li>
                   {% endif %}
-                  <li><a href="#"><span class="icon mdi mdi-face"></span> Cuenta</a></li>
+                  <li><a href="{% url 'seguridad:perfil_detalles' %}"><span class="icon mdi mdi-face"></span> Cuenta</a></li>
                   <li><a href="#"><span class="icon mdi mdi-settings"></span> Configuracion</a></li>
                   <li><a href="{% url 'seguridad:logout' %}"><span class="icon mdi mdi-power"></span> Salir</a></li>
                 </ul>

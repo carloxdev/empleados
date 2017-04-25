@@ -19,6 +19,9 @@ from django.shortcuts import get_object_or_404
 from django.contrib.auth import authenticate
 from django.contrib.auth import login
 
+#Django autorizacion
+from django.contrib.auth.hashers import make_password
+
 # Modelos
 from .models import Profile
 
@@ -109,6 +112,18 @@ class UsuarioDetalles(DetailView):
         return context
 
 
+class UsuarioDetallesPerfil(View):
+
+    def __init__(self):
+        self.template_name = 'usuarios/usuario_perfil.html'
+
+    def get(self, request):
+        usuario = User.objects.get(id=request.user.id)
+        perfil = Profile.objects.get(id=usuario.profile.id)
+        contexto = {'usuario': usuario, 'profile': perfil}
+        return render(request, self.template_name, contexto)
+
+
 class UsuarioLista(View):
 
     def __init__(self):
@@ -158,8 +173,14 @@ class UsuarioNuevo(View):
             usuario.first_name = datos_formulario.get('first_name')
             usuario.last_name = datos_formulario.get('last_name')
             usuario.email = datos_formulario.get('email')
-            usuario.is_active = True
-            usuario.is_staff = False
+            usuario.is_active = datos_formulario.get('is_active')
+            usuario.is_staff = datos_formulario.get('is_staff')
+
+            if datos_formulario.get('is_staff'):
+                usuario.is_superuser = True
+            else:
+                usuario.is_superuser = False
+
             usuario.save()
 
             datos_perfil = form_perfil.cleaned_data
@@ -201,7 +222,8 @@ class UsuarioEditar(View):
                 'first_name': usuario_id.first_name,
                 'last_name': usuario_id.last_name,
                 'email': usuario_id.email,
-                'is_active': usuario_id.is_active
+                'is_active': usuario_id.is_active,
+                'is_staff': usuario_id.is_staff,
             }
         )
 
@@ -228,7 +250,74 @@ class UsuarioEditar(View):
             usuario.last_name = form_usuario.cleaned_data.get('last_name')
             usuario.email = form_usuario.cleaned_data.get('email')
             usuario.is_active = form_usuario.cleaned_data.get('is_active')
-            usuario.is_staff = False
+            usuario.is_staff = form_usuario.cleaned_data.get('is_staff')
+
+            if form_usuario.cleaned_data.get('is_staff'):
+                usuario.is_superuser = True
+            else:
+                usuario.is_superuser = False
+
+            if form_usuario.cleaned_data.get('password'):
+                usuario.password = make_password(form_usuario.cleaned_data.get('password'))
+
+            usuario.save()
+            usuario.profile = form_perfil.save()
+
+            return redirect(reverse('seguridad:usuario_lista'))
+
+        contexto = {
+            'form': form_usuario,
+            'form2': form_perfil,
+            'foto': self.obtener_UrlImagen(usuario.profile.foto),
+        }
+        return render(request, self.template_name, contexto)
+
+
+class UsuarioEditarPerfil(View):
+
+    def __init__(self):
+        self.template_name = 'usuarios/usuario_editar_perfil.html'
+
+    def obtener_UrlImagen(self, _imagen):
+        imagen = ''
+        if _imagen:
+            imagen = _imagen.url
+
+        return imagen
+
+    def get(self, request, pk):
+        usuario_id = get_object_or_404(User, pk=pk)
+        form_usuario = UserEditarPerfilForm(
+            initial={
+                'username': usuario_id.username,
+                'first_name': usuario_id.first_name,
+                'last_name': usuario_id.last_name,
+                'email': usuario_id.email,
+            }
+        )
+
+        form_perfil = UsuarioForm(instance=usuario_id.profile)
+
+        contexto = {
+            'form': form_usuario,
+            'form2': form_perfil,
+            'foto': self.obtener_UrlImagen(usuario_id.profile.foto),
+        }
+        return render(request, self.template_name, contexto)
+
+    def post(self, request, pk):
+        usuario = get_object_or_404(User, pk=pk)
+
+        form_usuario = UserEditarPerfilForm(request.POST, instance=usuario)
+
+        form_perfil = UsuarioForm(
+            request.POST, request.FILES, instance=usuario.profile)
+
+        if form_usuario.is_valid() and form_perfil.is_valid():
+            usuario.username = form_usuario.cleaned_data.get('username')
+            usuario.first_name = form_usuario.cleaned_data.get('first_name')
+            usuario.last_name = form_usuario.cleaned_data.get('last_name')
+            usuario.email = form_usuario.cleaned_data.get('email')
 
             if form_usuario.cleaned_data.get('password'):
                 usuario.password = make_password(
@@ -245,7 +334,6 @@ class UsuarioEditar(View):
             'foto': self.obtener_UrlImagen(usuario.profile.foto),
         }
         return render(request, self.template_name, contexto)
-
 # -------------- SEGURIDAD API REST -------------- #
 
 

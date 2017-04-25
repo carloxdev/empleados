@@ -14,14 +14,6 @@
 {% endblock css %}
 {% block contenido %}
 <div class="be-content">
-<div class="page-head">
-	<h2 class="page-head-title">Editar usuario</h2>
-	<ol class="breadcrumb page-head-nav">
-		<li><a href="#">Inicio</a></li>
-		<li><a href="#">Usuarios</a></li>
-		<li><a href="#">Editar usuario</a></li>
-	</ol>
-</div>
 <div class="col-md-12">
 	<div class="main-content container-fluid">
 		<div class="col-md-12">
@@ -68,23 +60,6 @@
 								{{form2.clave_jde.label }}
 							</label>
 							<p>{{ form2.clave_jde }}</p>
-							
-							<div class="checkbox">
-								<label>
-									{{ form.is_active }}
-									<span class="etiqueta-checkbox">
-										{{ form.is_active.label }}
-									</span>
-								</label>
-							</div>
-							<div class="checkbox">
-								<label>
-									{{ form.is_staff }}
-									<span class="etiqueta-checkbox">
-										{{ form.is_staff.label }}
-									</span>
-								</label>
-							</div>
 							<label class="control-label">
 								{{form2.foto.label }}
 							</label>

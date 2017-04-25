@@ -57,7 +57,6 @@ class UserForm(ModelForm):
                    'first_name': TextInput(attrs={'class': 'form-control input-xs'}),
                    'last_name': TextInput(attrs={'class': 'form-control input-xs'}),
                    'email': TextInput(attrs={'class': 'form-control input-xs'}),
-                   'is_active': RadioSelect(attrs={'class': 'form-control input-xs'}),
                    }
 
 
@@ -75,7 +74,8 @@ class UserEditarForm(ModelForm):
                   'first_name',
                   'last_name',
                   'email',
-                  'is_active'
+                  'is_active',
+                  'is_staff',
                   ]
 
         labels = {'password': 'Contraseña',
@@ -84,6 +84,7 @@ class UserEditarForm(ModelForm):
                   'last_name': 'Apellidos',
                   'email': 'Email',
                   'is_active': 'Activo',
+                  'is_staff': 'Administrador'
                   }
 
         widgets = {'password': TextInput(attrs={'class': 'form-control input-xs', 'type': 'password'}),
@@ -93,6 +94,35 @@ class UserEditarForm(ModelForm):
                    'email': TextInput(attrs={'class': 'form-control input-xs'}),
                    }
 
+class UserEditarPerfilForm(ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        super(UserEditarPerfilForm, self).__init__(*args, **kwargs)
+        self.fields['password'].required = False
+
+    class Meta:
+        model = User
+
+        fields = ['password',
+                  'username',
+                  'first_name',
+                  'last_name',
+                  'email',
+                  ]
+
+        labels = {'password': 'Contraseña',
+                  'username': 'Nombre de usuario',
+                  'first_name': 'Nombre',
+                  'last_name': 'Apellidos',
+                  'email': 'Email',
+                  }
+
+        widgets = {'password': TextInput(attrs={'class': 'form-control input-xs', 'type': 'password'}),
+                   'username': TextInput(attrs={'class': 'form-control input-xs'}),
+                   'first_name': TextInput(attrs={'class': 'form-control input-xs'}),
+                   'last_name': TextInput(attrs={'class': 'form-control input-xs'}),
+                   'email': TextInput(attrs={'class': 'form-control input-xs'}),
+                   }
 
 class UsuarioForm(ModelForm):
 
