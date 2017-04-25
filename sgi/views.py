@@ -83,7 +83,9 @@ class IncidenciaDocumentoNuevo(View):
 
         if formulario.is_valid():
 
-            formulario.save()
+            incidencia = formulario.save(commit=False)
+            incidencia.created_by = request.user.profile
+            incidencia.save()
 
             return redirect(reverse('sgi:incidencia_lista'))
 
