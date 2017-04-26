@@ -28,8 +28,8 @@ from seguridad.views import UserByPageAPI
 from seguridad.views import ProfileAPI
 from seguridad.views import ProfileByPageAPI
 
-from administracion.views import VIEW_EMPLEADOS_SIMPLE_API
-from administracion.views import VIEW_EMPLEADOS_FULL_API
+from ebs.views import VIEW_EMPLEADOS_SIMPLE_API
+from ebs.views import VIEW_EMPLEADOS_FULL_API
 
 
 router = routers.DefaultRouter()
