@@ -19,105 +19,108 @@ from django import forms
 
 class IncidenciaDocumentoFilterForm(forms.Form):
 
-  numero = IntegerField(label="No. Documento")
-  tipo = ChoiceField(widget=Select())
-  fecha_mayorque = CharField()
-  fecha_menorque = CharField()
-  es_registrable = BooleanField()
-  empleado_zona = CharField()
+    numero = IntegerField(label="No. Documento")
+    tipo = ChoiceField(widget=Select())
+    fecha_mayorque = CharField()
+    fecha_menorque = CharField()
+    es_registrable = BooleanField()
+    # empleado_zona = CharField()
 
-  def __init__(self, *args, **kwargs):
-    super(IncidenciaDocumentoFilterForm, self).__init__(
-        *args, **kwargs)
-    self.fields['tipo'].choices = self.get_Tipos()
+    def __init__(self, *args, **kwargs):
+        super(IncidenciaDocumentoFilterForm, self).__init__(
+            *args, **kwargs)
+        self.fields['tipo'].choices = self.get_Tipos()
 
-  def get_Tipos(self):
+    def get_Tipos(self):
 
-    valores = [('', '------')]
+        valores = [('', '------')]
 
-    tipos = IncidenciaTipo.objects.all()
+        tipos = IncidenciaTipo.objects.all()
 
-    for tipo in tipos:
-      valores.append(
-          (
-              tipo.id,
-              tipo.descripcion
-          )
-      )
+        for tipo in tipos:
+            valores.append(
+                (
+                    tipo.id,
+                    tipo.descripcion
+                )
+            )
 
-    return valores
+        return valores
 
 
 class IncidenciaDocumentoForm(ModelForm):
 
-  class Meta:
-    model = IncidenciaDocumento
+    class Meta:
+        model = IncidenciaDocumento
 
-    fields = ['tipo',
-              'es_registrable',
-              'fecha',
-              'empleado_id',
-              'empleado_nombre',
-              'empleado_zona',
-              'empleado_proyecto',
-              'empleado_proyecto_desc',
-              'empleado_puesto',
-              'empleado_puesto_desc',
-              'empleado_un',
-              'empleado_organizacion',
-              'area_id',
-              'area_descripcion',
-              'lugar',
-              'dias_incapcidad',
-              'centro_atencion',
-              'tiene_acr',
-              'status']
-    # 'created_by',
-    # 'created_date',
-    # 'updated_by',
-    # 'updated_date' ]
+        fields = [
+            'tipo',
+            'es_registrable',
+            'fecha',
+            'empleado_id',
+            # 'empleado_nombre',
+            'zona',
+            # 'empleado_proyecto',
+            # 'empleado_proyecto_desc',
+            # 'empleado_puesto',
+            # 'empleado_puesto_desc',
+            # 'empleado_un',
+            # 'empleado_organizacion',
+            # 'area_id',
+            # 'area_descripcion',
+            'lugar',
+            'dias_incapcidad',
+            'centro_atencion',
+            'tiene_acr',
+            # 'status'
+        ]
+        # 'created_by',
+        # 'created_date',
+        # 'updated_by',
+        # 'updated_date' ]
 
-    labels = {'tipo': 'Tipo',
-              'es_registrable': 'Registrable',
-              'fecha': 'Fecha',
-              'empleado_id': 'Empleado id ',
-              'empleado_nombre': 'Nombre',
-              'empleado_zona': 'Zona del Empleado',
-              'empleado_proyecto': 'Proyecto id',
-              'empleado_proyecto_desc': 'Proyecto',
-              'empleado_puesto': 'Puesto_id',
-              'empleado_puesto_desc': 'Puesto',
-              'empleado_un': 'Unidad de Negocio',
-              'empleado_organizacion': 'Organizacion',
-              'area': 'Area id',
-              'area_descripcion': 'Area',
-              'lugar': 'Lugar de Incidencia',
-              'dias_incapcidad': 'Dias Incapacidad',
-              'centro_atencion': 'Centro de Atencion',
-              'tiene_acr': 'acr Analisis Raiz Causa',
-              'status': 'Estado de la solicitud',
-              #'Archivo': 'Adjuntar archivo',
-              }
+        labels = {
+            'tipo': 'Tipo',
+            'es_registrable': 'Registrable',
+            'fecha': 'Fecha',
+            'empleado_id': 'Empleado id ',
+            # 'empleado_nombre': 'Nombre',
+            'zona': 'Zona del Empleado',
+            # 'empleado_proyecto': 'Proyecto id',
+            # 'empleado_proyecto_desc': 'Proyecto',
+            # 'empleado_puesto': 'Puesto_id',
+            # 'empleado_puesto_desc': 'Puesto',
+            # 'empleado_un': 'Unidad de Negocio',
+            # 'empleado_organizacion': 'Organizacion',
+            # 'area': 'Area id',
+            # 'area_descripcion': 'Area',
+            'lugar': 'Lugar de Incidencia',
+            'dias_incapcidad': 'Dias Incapacidad',
+            'centro_atencion': 'Centro de Atencion',
+            'tiene_acr': 'acr Analisis Raiz Causa',
+            # 'status': 'Estado de la solicitud',
+        }
 
-    widgets = {'tipo': Select(attrs={'class': 'form-control input-sm'}),
-               #'es_registrable': Select(attrs={'class': 'form-control input-sm'}),
-               'fecha': TextInput(attrs={'class': 'form-control pull-right input-sm',
-                                'data-date-format': 'yyyy-mm-dd'}),
-               'empleado_id': TextInput(attrs={'class': 'form-control input-xs'}),
-               'empleado_nombre': TextInput(attrs={'class': 'form-control input-xs'}),
-               'empleado_zona': TextInput(attrs={'class': 'form-control input-xs'}),
-               'empleado_proyecto': TextInput(attrs={'class': 'form-control input-xs'}),
-               'empleado_proyecto_desc': TextInput(attrs={'class': 'form-control input-xs'}),
-               'empleado_puesto': TextInput(attrs={'class': 'form-control input-xs'}),
-               'empleado_puesto_desc': TextInput(attrs={'class': 'form-control input-xs'}),
-               'empleado_un': TextInput(attrs={'class': 'form-control input-xs'}),
-               'empleado_organizacion': TextInput(attrs={'class': 'form-control input-xs'}),
-               'area': TextInput(attrs={'class': 'form-control input-xs'}),
-               'area_descripcion': TextInput(attrs={'class': 'form-control input-xs'}),
-               'lugar': TextInput(attrs={'class': 'form-control input-xs'}),
-               'dias_incapacidad': TextInput(attrs={'class': 'form-control input-xs'}),
-               'centro_atencion':  Select(attrs={'class': 'form-control input-sm'}),
-               'tiene_acr': CheckboxInput(),
-               'status':  Select(attrs={'class': 'form-control input-sm'}),
-               #'Archivo': FileInput(attrs={'class': 'dropzone dz-clickable dz-started'}),
-               }
+        widgets = {
+            'tipo': Select(attrs={'class': 'form-control input-sm'}),
+            #'es_registrable': Select(attrs={'class': 'form-control input-sm'}),
+            'fecha': TextInput(attrs={'class': 'form-control pull-right input-sm',
+                                      'data-date-format': 'yyyy-mm-dd'}),
+            'empleado_id': TextInput(attrs={'class': 'form-control input-xs'}),
+            # 'empleado_nombre': TextInput(attrs={'class': 'form-control input-xs'}),
+            'zona': TextInput(attrs={'class': 'form-control input-xs'}),
+            # 'empleado_proyecto': TextInput(attrs={'class': 'form-control input-xs'}),
+            # 'empleado_proyecto_desc': TextInput(attrs={'class': 'form-control input-xs'}),
+            # 'empleado_puesto': TextInput(attrs={'class': 'form-control input-xs'}),
+            # 'empleado_puesto_desc': TextInput(attrs={'class': 'form-control input-xs'}),
+            # 'empleado_un': TextInput(attrs={'class': 'form-control input-xs'}),
+            # 'empleado_organizacion': TextInput(attrs={'class': 'form-control input-xs'}),
+            # 'area': TextInput(attrs={'class': 'form-control input-xs'}),
+            # 'area_descripcion': TextInput(attrs={'class': 'form-control input-xs'}),
+            'lugar': TextInput(attrs={'class': 'form-control input-xs'}),
+            'dias_incapacidad': TextInput(attrs={'class': 'form-control input-xs'}),
+            'centro_atencion': Select(attrs={'class': 'form-control input-sm'}),
+            'tiene_acr': CheckboxInput(),
+            # 'status': Select(attrs={'class': 'form-control input-sm'}),
+            #'Archivo': FileInput(attrs={'class': 'dropzone dz-clickable dz-started'}),
+        }

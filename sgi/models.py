@@ -11,6 +11,9 @@ from simple_history.models import HistoricalRecords
 
 # Librerias/Clases propias
 from seguridad.models import Profile
+from administracion.models import Zona
+from administracion.models import Empresa
+
 from .utilities import get_FilePath_Incidencia
 from .utilities import get_FilePath_Resolucion
 
@@ -89,13 +92,13 @@ class IncidenciaDocumento(models.Model):
     fecha = models.DateTimeField()
     empleado_id = models.IntegerField(default=0)
     empleado_nombre = models.CharField(max_length=144)
-    empleado_zona = models.CharField(max_length=144)
+    zona = models.ForeignKey(Zona, on_delete=models.PROTECT, null=True)
     empleado_proyecto = models.CharField(max_length=50)
     empleado_proyecto_desc = models.CharField(max_length=144)
     empleado_puesto = models.IntegerField(default=0)
     empleado_puesto_desc = models.CharField(max_length=144)
     empleado_un = models.CharField(max_length=144)
-    empleado_organizacion = models.CharField(max_length=144)
+    empresa = models.ForeignKey(Empresa, on_delete=models.PROTECT, null=True)
     area_id = models.IntegerField(default=0)
     area_descripcion = models.CharField(max_length=144)
     lugar = models.CharField(max_length=144)

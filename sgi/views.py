@@ -5,8 +5,10 @@
 # Librerias/Clases Django
 from django.shortcuts import render
 from django.shortcuts import redirect
+from django.shortcuts import get_object_or_404
 from django.views.generic.base import View
 from django.core.urlresolvers import reverse
+
 
 # Librerias/Clases de Terceros
 from rest_framework import viewsets
@@ -19,6 +21,11 @@ from django_filters.rest_framework import DjangoFilterBackend
 from .models import IncidenciaDocumento
 from .models import IncidenciaTipo
 from .models import CentroAtencion
+
+# Otros Modelos:
+from ebs.models import VIEW_EMPLEADOS_FULL
+from administracion.models import Zona
+from administracion.models import Empresa
 
 # Formularios:
 from .forms import IncidenciaDocumentoForm
@@ -82,9 +89,50 @@ class IncidenciaDocumentoNuevo(View):
         formulario = IncidenciaDocumentoForm(request.POST)
 
         if formulario.is_valid():
-
             incidencia = formulario.save(commit=False)
+
+            empleado = get_object_or_404(
+                VIEW_EMPLEADOS_FULL.objects.using('ebs_d').all(),
+                pers_empleado_numero=incidencia.empleado_id
+            )
+
+            incidencia.empleado_nombre = empleado.pers_nombre_completo
+
+            # if empleado.asig_ubicacion_desc == 'OFICINA VILLAHERMOSA JUJO' or \
+            #         empleado.asig_ubicacion_desc == 'OFICINA VILLAHERMOSA CEDROS' or \
+            #         empleado.asig_ubicacion_desc == 'OFICINA VILLAHERMOSA MANGOS':
+
+            #     incidencia.zona = Zona.objects.get(pk=1)
+
+            # elif empleado.asig_ubicacion_desc == 'OFICINA POZA RICA':
+
+            #     incidencia.zona = Zona.objects.get(pk=2)
+
+            # elif empleado.asig_ubicacion_desc == 'OFICINA REYNOSA':
+
+            #     incidencia.zona = Zona.objects.get(pk=3)
+
+            # elif empleado.asig_ubicacion_desc == 'OFICINA VERACRUZ' or \
+            #         empleado.asig_ubicacion_desc == 'OFICINA NARANJOS':
+
+            #     incidencia.zona = Zona.objects.get(pk=4)
+
+            # else:
+            #     incidencia.zona = Zona.objects.get(pk=5)
+
+            incidencia.empleado_proyecto = empleado.grup_proyecto_code_jde
+            incidencia.empleado_proyecto_desc = empleado.grup_proyecto_jde
+            incidencia.empleado_puesto = empleado.asig_puesto_clave
+            incidencia.empleado_puesto_desc = empleado.asig_puesto_desc
+
+            empresa = Empresa.objects.filter(descripcion=empleado.grup_compania_jde)
+
+            incidencia.empresa = empresa[0]
+            incidencia.area_id = empleado.asig_ubicacion_clave
+            incidencia.area_descripcion = empleado.asig_ubicacion_desc
+            incidencia.empleado_un = empleado.grup_fase_jde
             incidencia.created_by = request.user.profile
+
             incidencia.save()
 
             return redirect(reverse('sgi:incidencia_lista'))

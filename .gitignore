@@ -29,3 +29,4 @@ seguridad/migrations/*
 jde/migrations/*
 ebs/migrations/*
 sgi/migrations/*
+administracion/migrations/*
