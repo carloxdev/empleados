@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'ebs.apps.EbsConfig',
     'sgi.apps.SgiConfig',
     'compras.apps.ComprasConfig',
+    'administracion.apps.AdministracionConfig',
     'rest_framework',
 ]
 
