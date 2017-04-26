@@ -46,7 +46,9 @@ from .forms import UserForm
 from .forms import UsuarioForm
 from .forms import UserFormFilter
 from .forms import UserEditarForm
-#from .forms import ConfirmarForm
+from .forms import UserEditarPerfilForm
+from .forms import ConfirmarForm
+from .forms import ConfirmarEditarForm
 
 
 class Login(View):
@@ -130,56 +132,61 @@ class UsuarioNuevo(View):
     def get(self, request):
         form_usuario = UserForm()
         form_perfil = UsuarioForm()
-        #form_confirmar = ConfirmarForm()
+        form_confirmar = ConfirmarForm()
 
         contexto = {
             'form': form_usuario,
             'form2': form_perfil,
+            'form_pass': form_confirmar,
         }
         return render(request, self.template_name, contexto)
 
     def post(self, request):
         form_usuario = UserForm(request.POST)
         form_perfil = UsuarioForm(request.POST, request.FILES)
+        form_pass = ConfirmarForm(request.POST)
 
-        if form_usuario.is_valid() and form_perfil.is_valid():
+        if form_usuario.is_valid() and form_perfil.is_valid() and form_pass.is_valid():
 
             datos_formulario = form_usuario.cleaned_data
+            dato_confirmar = form_pass.cleaned_data
 
-            usuario = User.objects.create_user(
-                username=datos_formulario.get('username'),
-                password=datos_formulario.get('password')
-            )
-            usuario.first_name = datos_formulario.get('first_name')
-            usuario.last_name = datos_formulario.get('last_name')
-            usuario.email = datos_formulario.get('email')
-            usuario.is_active = datos_formulario.get('is_active')
-            usuario.is_staff = datos_formulario.get('is_staff')
+            if datos_formulario.get('password') == dato_confirmar.get('confirmar'):
+                usuario = User.objects.create_user(
+                    username=datos_formulario.get('username'),
+                    password=datos_formulario.get('password')
+                )
 
-            if datos_formulario.get('is_staff'):
-                usuario.is_superuser = True
-            else:
-                usuario.is_superuser = False
+                usuario.first_name = datos_formulario.get('first_name')
+                usuario.last_name = datos_formulario.get('last_name')
+                usuario.email = datos_formulario.get('email')
+                usuario.is_active = datos_formulario.get('is_active')
+                usuario.is_staff = datos_formulario.get('is_staff')
 
-            usuario.save()
+                if datos_formulario.get('is_staff'):
+                    usuario.is_superuser = True
+                else:
+                    usuario.is_superuser = False
 
-            datos_perfil = form_perfil.cleaned_data
+                usuario.save()
 
-            usuario.profile.clave_rh = datos_perfil.get('clave_rh')
-            usuario.profile.clave_jde = datos_perfil.get('clave_jde')
-            usuario.profile.fecha_nacimiento = datos_perfil.get(
-                'fecha_nacimiento')
-            usuario.profile.foto = datos_perfil.get('foto')
-            usuario.profile.save()
+                datos_perfil = form_perfil.cleaned_data
 
-            return redirect(reverse('seguridad:usuario_lista'))
+                usuario.profile.clave_rh = datos_perfil.get('clave_rh')
+                usuario.profile.clave_jde = datos_perfil.get('clave_jde')
+                usuario.profile.fecha_nacimiento = datos_perfil.get(
+                    'fecha_nacimiento')
+                usuario.profile.foto = datos_perfil.get('foto')
+                usuario.profile.save()
 
-        else:
-            contexto = {
-                'form': form_usuario,
-                'form2': form_perfil,
-            }
-            return render(request, self.template_name, contexto)
+                return redirect(reverse('seguridad:usuario_lista'))
+
+        contexto = {
+            'form': form_usuario,
+            'form2': form_perfil,
+            'form_pass': form_pass,
+        }
+        return render(request, self.template_name, contexto)
 
 
 class UsuarioEditar(View):
@@ -207,10 +214,12 @@ class UsuarioEditar(View):
         )
 
         form_perfil = UsuarioForm(instance=usuario_id.profile)
+        form_confirmar = ConfirmarEditarForm()
 
         contexto = {
             'form': form_usuario,
             'form2': form_perfil,
+            'form_pass': form_confirmar,
             'foto': self.obtener_UrlImagen(usuario_id.profile.foto),
         }
         return render(request, self.template_name, contexto)
@@ -223,30 +232,40 @@ class UsuarioEditar(View):
         form_perfil = UsuarioForm(
             request.POST, request.FILES, instance=usuario.profile)
 
-        if form_usuario.is_valid() and form_perfil.is_valid():
-            usuario.first_name = form_usuario.cleaned_data.get('first_name')
-            usuario.last_name = form_usuario.cleaned_data.get('last_name')
-            usuario.email = form_usuario.cleaned_data.get('email')
-            usuario.is_active = form_usuario.cleaned_data.get('is_active')
-            usuario.is_staff = form_usuario.cleaned_data.get('is_staff')
+        form_pass = ConfirmarEditarForm(request.POST)
 
-            if form_usuario.cleaned_data.get('is_staff'):
-                usuario.is_superuser = True
-            else:
-                usuario.is_superuser = False
+        if form_usuario.is_valid() and form_perfil.is_valid() and form_pass.is_valid():
 
-            if form_usuario.cleaned_data.get('password'):
-                usuario.password = make_password(
-                    form_usuario.cleaned_data.get('password'))
+            datos_formulario = form_usuario.cleaned_data
+            dato_confirmar = form_pass.cleaned_data
 
-            usuario.save()
-            usuario.profile = form_perfil.save()
+            if datos_formulario.get('password') == dato_confirmar.get('confirmar'):
+                usuario.first_name = datos_formulario.get('first_name')
+                usuario.last_name = datos_formulario.get('last_name')
+                usuario.email = datos_formulario.get('email')
+                usuario.is_active = datos_formulario.get('is_active')
+                usuario.is_staff = datos_formulario.get('is_staff')
 
-            return redirect(reverse('seguridad:usuario_lista'))
+                if datos_formulario.get('is_staff'):
+                    usuario.is_superuser = True
+                else:
+                    usuario.is_superuser = False
+
+                if datos_formulario.get('password'):
+                    print(datos_formulario.get('password'))
+                    usuario.password = make_password(
+                        datos_formulario.get('password'))
+                    print(datos_formulario.get('password'))
+
+                usuario.save()
+                usuario.profile = form_perfil.save()
+
+                return redirect(reverse('seguridad:usuario_lista'))
 
         contexto = {
             'form': form_usuario,
             'form2': form_perfil,
+            'form_pass': form_pass,
             'foto': self.obtener_UrlImagen(usuario.profile.foto),
         }
         return render(request, self.template_name, contexto)
@@ -275,10 +294,12 @@ class UsuarioEditarPerfil(View):
         )
 
         form_perfil = UsuarioForm(instance=usuario_id.profile)
+        form_confirmar = ConfirmarEditarForm()
 
         contexto = {
             'form': form_usuario,
             'form2': form_perfil,
+            'form_pass': form_confirmar,
             'foto': self.obtener_UrlImagen(usuario_id.profile.foto),
         }
         return render(request, self.template_name, contexto)
@@ -287,23 +308,29 @@ class UsuarioEditarPerfil(View):
         usuario = get_object_or_404(User, pk=pk)
 
         form_usuario = UserEditarPerfilForm(request.POST, instance=usuario)
-
         form_perfil = UsuarioForm(
             request.POST, request.FILES, instance=usuario.profile)
+        form_pass = ConfirmarEditarForm(request.POST)
 
-        if form_usuario.is_valid() and form_perfil.is_valid():
-            usuario.first_name = form_usuario.cleaned_data.get('first_name')
-            usuario.last_name = form_usuario.cleaned_data.get('last_name')
-            usuario.email = form_usuario.cleaned_data.get('email')
+        if form_usuario.is_valid() and form_perfil.is_valid() and form_pass.is_valid():
 
-            if form_usuario.cleaned_data.get('password'):
-                usuario.password = make_password(
-                    form_usuario.cleaned_data.get('password'))
+            datos_formulario = form_usuario.cleaned_data
+            dato_confirmar = form_pass.cleaned_data
 
-            usuario.save()
-            usuario.profile = form_perfil.save()
+            if datos_formulario.get('password') == dato_confirmar.get('confirmar'):
 
-            return redirect(reverse('seguridad:usuario_lista'))
+                usuario.first_name = datos_formulario.get('first_name')
+                usuario.last_name = datos_formulario.get('last_name')
+                usuario.email = datos_formulario.get('email')
+
+                if datos_formulario.get('password'):
+                    usuario.password = make_password(
+                        datos_formulario.get('password'))
+
+                usuario.save()
+                usuario.profile = form_perfil.save()
+
+                return redirect(reverse('seguridad:usuario_detalles_perfil'))
 
         contexto = {
             'form': form_usuario,

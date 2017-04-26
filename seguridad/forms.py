@@ -4,10 +4,10 @@ from django.forms import ModelForm
 from django import forms
 
 from django.forms import TextInput
-from django.forms import RadioSelect
 from django.forms import FileInput
 from django.forms import CharField
 from django.forms import DateInput
+from django.forms import PasswordInput
 
 from .models import User
 from .models import Profile
@@ -18,10 +18,6 @@ class UserFormFilter(forms.Form):
     usuario__first_name = CharField(label="Nombre:")
     usuario__last_name = CharField(label="Apellidos:")
     clave_rh = CharField(label="Clave RH:")
-
-
-class ConfirmarForm(forms.Form):
-    confirmar = CharField(label="Confirmar contraseña")
 
 
 class UserForm(ModelForm):
@@ -53,11 +49,35 @@ class UserForm(ModelForm):
                   'last_login': 'Ultima sesion',
                   }
 
-        widgets = {'password': TextInput(attrs={'class': 'form-control input-xs', 'type': 'password'}),
+        widgets = {'password': PasswordInput(attrs={'class': 'form-control input-xs'}),
                    'username': TextInput(attrs={'class': 'form-control input-xs'}),
                    'first_name': TextInput(attrs={'class': 'form-control input-xs'}),
                    'last_name': TextInput(attrs={'class': 'form-control input-xs'}),
                    'email': TextInput(attrs={'class': 'form-control input-xs'}),
+                   }
+
+
+class UsuarioForm(ModelForm):
+
+    class Meta:
+        model = Profile
+
+        fields = ['clave_rh',
+                  'clave_jde',
+                  'fecha_nacimiento',
+                  'foto',
+                  ]
+
+        labels = {'clave_rh': 'Clave rh',
+                  'clave_jde': 'Clave jde',
+                  'fecha_nacimiento': 'Fecha de nacimiento',
+                  'foto': 'Foto',
+                  }
+
+        widgets = {'clave_rh': TextInput(attrs={'class': 'form-control input-xs'}),
+                   'clave_jde': TextInput(attrs={'class': 'form-control input-xs'}),
+                   'fecha_nacimiento': DateInput(attrs={'class': 'form-control input-xs', 'data-date-format': 'yyyy-mm-dd'}),
+                   'foto': FileInput(attrs={'class': 'dropzone dz-clickable dz-started'}),
                    }
 
 
@@ -86,11 +106,12 @@ class UserEditarForm(ModelForm):
                   'is_staff': 'Administrador'
                   }
 
-        widgets = {'password': TextInput(attrs={'class': 'form-control input-xs', 'type': 'password'}),
+        widgets = {'password': PasswordInput(attrs={'class': 'form-control input-xs'}),
                    'first_name': TextInput(attrs={'class': 'form-control input-xs'}),
                    'last_name': TextInput(attrs={'class': 'form-control input-xs'}),
                    'email': TextInput(attrs={'class': 'form-control input-xs'}),
                    }
+
 
 class UserEditarPerfilForm(ModelForm):
 
@@ -113,31 +134,22 @@ class UserEditarPerfilForm(ModelForm):
                   'email': 'Email',
                   }
 
-        widgets = {'password': TextInput(attrs={'class': 'form-control input-xs', 'type': 'password'}),
+        widgets = {'password': PasswordInput(attrs={'class': 'form-control input-xs'}),
                    'first_name': TextInput(attrs={'class': 'form-control input-xs'}),
                    'last_name': TextInput(attrs={'class': 'form-control input-xs'}),
                    'email': TextInput(attrs={'class': 'form-control input-xs'}),
                    }
 
-class UsuarioForm(ModelForm):
 
-    class Meta:
-        model = Profile
+class ConfirmarForm(forms.Form):
+    confirmar = CharField(label="Confirmar contraseña:",
+                          widget=forms.PasswordInput(
+                              attrs={'class': 'form-control input-xs'})
+                          )
 
-        fields = ['clave_rh',
-                  'clave_jde',
-                  'fecha_nacimiento',
-                  'foto',
-                  ]
-
-        labels = {'clave_rh': 'Clave rh',
-                  'clave_jde': 'Clave jde',
-                  'fecha_nacimiento': 'Fecha de nacimiento',
-                  'foto': 'Foto',
-                  }
-
-        widgets = {'clave_rh': TextInput(attrs={'class': 'form-control input-xs'}),
-                   'clave_jde': TextInput(attrs={'class': 'form-control input-xs'}),
-                   'fecha_nacimiento': DateInput(attrs={'class': 'form-control input-xs', 'data-date-format': 'yyyy-mm-dd'}),
-                   'foto': FileInput(attrs={'class': 'dropzone dz-clickable dz-started'}),
-                   }
+class ConfirmarEditarForm(forms.Form):
+    confirmar = CharField(label="Confirmar contraseña:",
+                          required=False,
+                          widget=forms.PasswordInput(
+                              attrs={'class': 'form-control input-xs'})
+                          )

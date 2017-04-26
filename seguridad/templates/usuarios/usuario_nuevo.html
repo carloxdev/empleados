@@ -54,6 +54,15 @@
 									<span class="help-block">{{ error }}</span>
 								{% endfor %}
 							</div>
+							<!-- Confirmar Password-->
+							<div class="form-group {% if form_pass.confirmar != form.password %} has-error {% endif %}">
+								<label class="control-label">
+									{{form_pass.as_p}}
+								</label>
+								{% if form_pass.confirmar != form.password %}
+									<span class="help-block">Las contraseñas no coinciden</span>
+								 {% endif %}
+							</div>
 					
 					
 							<h4><b>Información de usuario</b></h4>
