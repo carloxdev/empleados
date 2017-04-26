@@ -10,6 +10,7 @@ from django.forms import CharField
 from django.forms import IntegerField
 from django.forms import NumberInput
 from django.forms import ChoiceField
+from django.forms import RadioSelect
 
 #Modelos
 from jde.models import VIEW_COMPANIAS
@@ -51,9 +52,8 @@ class ComprasSeguimientoFilterForm(Form):
     )
 
     CANCELADAS = (
-        ('', ''),
-        ('NO', 'No mostrar'),
-        ('980', 'Si mostrar')
+        ('', 'No'),
+        ('980', 'Si')
         
     )
     RECEPCION = (
@@ -82,8 +82,8 @@ class ComprasSeguimientoFilterForm(Form):
     requisicion_originador = CharField(
         widget=TextInput(attrs={'class': 'form-control input-xs'})
     )
-    requisicion_canceladas = CharField(
-        widget=Select(attrs={'class': 'form-control input-xs'}, choices=CANCELADAS)
+    requisicion_canceladas = ChoiceField(
+        widget=RadioSelect, choices=CANCELADAS
     )
 
     cotizacion = IntegerField(
@@ -95,8 +95,8 @@ class ComprasSeguimientoFilterForm(Form):
     cotizacion_originador = CharField(
         widget=TextInput(attrs={'class': 'form-control input-xs'})
     )
-    cotizacion_canceladas = CharField(
-        widget=Select(attrs={'class': 'form-control input-xs'}, choices=CANCELADAS)
+    cotizacion_canceladas = ChoiceField(
+        widget=RadioSelect, choices=CANCELADAS
     )
 
     oc = IntegerField(
@@ -105,14 +105,8 @@ class ComprasSeguimientoFilterForm(Form):
     oc_tipo = CharField(
         widget=Select(attrs={'class': 'form-control input-xs'}, choices=TIPOS_OC)
     )
-    oc_canceladas = CharField(
-        widget=Select(attrs={'class': 'form-control input-xs'}, choices=CANCELADAS)
-    )
-    oc_desde = DateField(
-        widget=TextInput(attrs={'class': 'form-control input-xs'})
-    )
-    oc_hasta = DateField(
-        widget=TextInput(attrs={'class': 'form-control input-xs'})
+    oc_canceladas = ChoiceField(
+        widget=RadioSelect, choices=CANCELADAS
     )
 
     proveedor = CharField(
@@ -162,6 +156,3 @@ class ComprasSeguimientoFilterForm(Form):
                 )
             )
         return valores
-
-
-
