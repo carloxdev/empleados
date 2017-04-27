@@ -39,6 +39,7 @@ function TargetaFiltros () {
 
     this.$boton_buscar = $('#boton_buscar')
 
+  
     this.init_Components()
     this.init_Events()
 
@@ -51,15 +52,16 @@ TargetaFiltros.prototype.init_Components = function () {
 }
 TargetaFiltros.prototype.init_Events = function () {
 
+    this.$id.on("hidden.bs.modal", this, this.hide)
     // Asosciar Eventos
     this.$boton_buscar.on("click", this, this.click_BotonBuscar)
 }
 TargetaFiltros.prototype.click_BotonBuscar = function (e) {
 
     e.preventDefault()
-
     resultados.grid.buscar()
-     e.data.$id.modal('hide')
+    e.data.$id.modal('hide')
+   
 }
 TargetaFiltros.prototype.get_Values = function (_page) {
 
