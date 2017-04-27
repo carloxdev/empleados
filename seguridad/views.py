@@ -14,6 +14,7 @@ from django.contrib.auth import authenticate
 from django.contrib.auth import login
 from django.utils.decorators import method_decorator
 from django.core.exceptions import PermissionDenied
+from django.contrib.auth.decorators import permission_required
 
 # Django autorizacion
 from django.contrib.auth.hashers import make_password

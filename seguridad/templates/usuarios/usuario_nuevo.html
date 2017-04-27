@@ -13,7 +13,10 @@
 <link rel="stylesheet" href="{% static 'grid.css' %}"/>
 {% endblock css %}
 {% block contenido %}
+
 <div class="be-content">
+{% if request.user.staff == True %}
+
 <div class="page-head">
 	<h2 class="page-head-title">Nuevo usuario</h2>
 	<ol class="breadcrumb page-head-nav">
@@ -174,6 +177,11 @@
 			</div>
 		</div>
 	</div>
+	{% else%}
+		<div class="col-md-12">
+			<h2> Usted no tiene acceso a esta sección </h2>
+		</div>
+	{% endif %}
 </div>
 
 {% endblock contenido %}
