@@ -34,40 +34,7 @@
 				</div><!-- Panel Heading -->
 					<div class="panel panel-default panel-table">
 						<form action="" method="POST" enctype="multipart/form-data"> {% csrf_token %}
-							<h4><b>Información de cuenta</b></h4>
-							<br>
-							<!-- Username-->
-							<div class="form-group {% if form.username.errors %} has-error {% endif %}">
-								<label class="control-label">
-									<i class="fa {% if form.username.errors %} {% endif %}"></i>
-									{{ form.username.label }}
-								</label>
-								<p>{{ form.username}}</p>
-								{% for error in form.username.errors %}
-									<span class="help-block">{{ error }}</span>
-								{% endfor %}
-							</div>
-							<!-- Password-->
-							<div class="form-group {% if form.password.errors %} has-error {% endif %}">
-								<label class="control-label">
-									{{form.password.label}}
-								</label>
-								<p>{{ form.password }}</p>
-								{% for error in form.password.errors %}
-									<span class="help-block">{{ error }}</span>
-								{% endfor %}
-							</div>
-							<!-- Confirmar Password-->
-							<div class="form-group {% if form_pass.confirmar != form.password %} has-error {% endif %}">
-								<label class="control-label">
-									{{form_pass.as_p}}
-								</label>
-								{% if form_pass.confirmar != form.password %}
-									<span class="help-block">Las contraseñas no coinciden</span>
-								 {% endif %}
-							</div>
-					
-					
+	
 							<h4><b>Información de usuario</b></h4>
 							<br>
 							<!-- Clave_rh-->
@@ -131,6 +98,50 @@
 									<span class="help-block">{{ error }}</span>
 								{% endfor %}
 							</div>
+							<!-- Foto-->
+							<div class="form-group {% if form2.foto.errors %} has-error {% endif %}">
+								<label class="control-label">
+									{{form2.foto.label }}
+								</label>
+								<p>{{ form2.foto }}</p>
+								{% for error in form2.foto.errors %}
+									<span class="help-block">{{ error }}</span>
+								{% endfor %}
+							</div>
+							<br>
+							<h4><b>Información de cuenta</b></h4>
+							<br>
+							<!-- Username-->
+							<div class="form-group {% if form.username.errors %} has-error {% endif %}">
+								<label class="control-label">
+									<i class="fa {% if form.username.errors %} {% endif %}"></i>
+									{{ form.username.label }}
+								</label>
+								<p>{{ form.username}}</p>
+								{% for error in form.username.errors %}
+									<span class="help-block">{{ error }}</span>
+								{% endfor %}
+							</div>
+							<!-- Password-->
+							<div class="form-group {% if form.password.errors %} has-error {% endif %}">
+								<label class="control-label">
+									{{form.password.label}}
+								</label>
+								<p>{{ form.password }}</p>
+								{% for error in form.password.errors %}
+									<span class="help-block">{{ error }}</span>
+								{% endfor %}
+							</div>
+							<!-- Confirmar Password-->
+							<div class="form-group {% if form_pass.confirmar != form.password %} has-error {% endif %}">
+								<label class="control-label">
+									{{form_pass.as_p}}
+								</label>
+								{% if form_pass.confirmar != form.password %}
+									<span class="help-block">Las contraseñas no coinciden</span>
+								 {% endif %}
+							</div>
+							<br>
 							<!-- Is_active-->
 							<div class="form-group {% if form.is_active.errors %} has-error {% endif %}">
 								<div class="checkbox">
@@ -156,16 +167,6 @@
 									</label>
 								</div>
 								{% for error in form.is_staff.errors %}
-									<span class="help-block">{{ error }}</span>
-								{% endfor %}
-							</div>
-							<!-- Foto-->
-							<div class="form-group {% if form2.foto.errors %} has-error {% endif %}">
-								<label class="control-label">
-									{{form2.foto.label }}
-								</label>
-								<p>{{ form2.foto }}</p>
-								{% for error in form2.foto.errors %}
 									<span class="help-block">{{ error }}</span>
 								{% endfor %}
 							</div>

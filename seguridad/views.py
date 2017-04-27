@@ -24,6 +24,7 @@ from .models import Profile
 
 # Otros Modelo
 from django.contrib.auth.models import User
+from ebs.models import VIEW_EMPLEADOS_SIMPLE
 
 # Librerias de Terceros:
 # Django API Rest
@@ -142,6 +143,7 @@ class UsuarioNuevo(View):
         return render(request, self.template_name, contexto)
 
     def post(self, request):
+
         form_usuario = UserForm(request.POST)
         form_perfil = UsuarioForm(request.POST, request.FILES)
         form_pass = ConfirmarForm(request.POST)
@@ -370,6 +372,12 @@ class ProfileByPageAPI(viewsets.ModelViewSet):
 
 class ProfileExcelAPI(viewsets.ModelViewSet):
     queryset = Profile.objects.all().order_by('-usuario__date_joined')
+    serializer_class = ProfileSerializer
+    filter_backends = (DjangoFilterBackend,)
+    filter_class = ProfileFilter
+
+class EmpleadosSimpleAPI(viewsets.ModelViewSet):
+    queryset = VIEW_EMPLEADOS_SIMPLE.objects.using('ebs_d').all()
     serializer_class = ProfileSerializer
     filter_backends = (DjangoFilterBackend,)
     filter_class = ProfileFilter

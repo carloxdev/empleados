@@ -194,7 +194,7 @@ Grid.prototype.get_Columnas = function () {
         { field: "last_name", title: "Apellidos", width:"200px" },
         { field: "email", title: "Email", width:"200px" },
         { field: "is_active",title: "Estado",width:"100px" },
-        { field: "clave_rh", title: "Clave rh", width:"100px" },
+        { field: "clave_rh", title: "Clave de empleado", width:"100px" },
         { field: "clave_jde", title: "Clave jde", width:"100px" },
         { field: "fecha_nacimiento", title: "Fecha de nacimiento", width:"150px", format: "{0:dd-MM-yyyy}" },
         { field: "date_joined", title: "Fecha de creación", width:"150px", format: "{0:dd-MM-yyyy}" },
@@ -269,7 +269,7 @@ Toolbar.prototype.Inicializar_CeldasExcel = function (e) {
             { value: 'Email' },
             { value: 'Estado' },
             { value: 'Fecha de nacimiento' },
-            { value: 'Clave RH' },
+            { value: 'Clave de empleado' },
             { value: 'Clave JDE' },
             { value: 'Fecha de alta'},
         ]

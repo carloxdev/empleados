@@ -47,15 +47,15 @@ class UserForm(ModelForm):
                   'first_name': 'Nombre',
                   'last_name': 'Apellidos',
                   'email': 'Email',
-                  'is_active': 'Estado',
+                  'is_active': 'Activo',
                   'is_staff': 'Administrador',
                   'last_login': 'Ultima sesion',
                   }
 
         widgets = {'password': PasswordInput(attrs={'class': 'form-control input-xs'}),
                    'username': TextInput(attrs={'class': 'form-control input-xs'}),
-                   'first_name': TextInput(attrs={'class': 'form-control input-xs'}),
-                   'last_name': TextInput(attrs={'class': 'form-control input-xs'}),
+                   'first_name': TextInput(attrs={'class': 'form-control input-xs','disabled': 'True'}),
+                   'last_name': TextInput(attrs={'class': 'form-control input-xs','disabled': 'True'}),
                    'email': TextInput(attrs={'class': 'form-control input-xs'}),
                    }
 
@@ -71,7 +71,7 @@ class UsuarioForm(ModelForm):
                   'foto',
                   ]
 
-        labels = {'clave_rh': 'Clave rh',
+        labels = {'clave_rh': 'Clave de empleado',
                   'clave_jde': 'Clave jde',
                   'fecha_nacimiento': 'Fecha de nacimiento',
                   'foto': 'Foto',
@@ -79,7 +79,7 @@ class UsuarioForm(ModelForm):
 
         widgets = {'clave_rh': TextInput(attrs={'class': 'form-control input-xs'}),
                    'clave_jde': TextInput(attrs={'class': 'form-control input-xs'}),
-                   'fecha_nacimiento': DateInput(attrs={'class': 'form-control input-xs', 'data-date-format': 'yyyy-mm-dd'}),
+                   'fecha_nacimiento': DateInput(attrs={'class': 'form-control input-xs', 'data-date-format': 'yyyy-mm-dd','disabled': 'True'}),
                    'foto': FileInput(attrs={'class': 'dropzone dz-clickable dz-started'}),
                    }
 
