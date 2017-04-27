@@ -4,8 +4,8 @@
 from rest_framework import serializers
 
 # Modelos:
-from ebs.models import VIEW_EMPLEADOS_SIMPLE
-from ebs.models import VIEW_EMPLEADOS_FULL
+from models import VIEW_EMPLEADOS_SIMPLE
+from models import VIEW_EMPLEADOS_FULL
 
 
 class VIEW_EMPLEADOS_SIMPLE_Serializer(serializers.HyperlinkedModelSerializer):

@@ -1,4 +1,9 @@
+# Librerias/Clases Django
 from django.shortcuts import render
+from django.shortcuts import redirect
+from django.shortcuts import get_object_or_404
+from django.views.generic.base import View
+from django.core.urlresolvers import reverse
 
 # Librerias de Terceros:
 # API Rest:
@@ -13,13 +18,26 @@ from .models import VIEW_EMPLEADOS_FULL
 from .serializers import VIEW_EMPLEADOS_SIMPLE_Serializer
 from .serializers import VIEW_EMPLEADOS_FULL_Serializer
 
+# Paginadores:
+from .pagination import GenericPagination
 
-# -------------- ADMINISTRACION - API REST -------------- #
+# Filtros:
+from .filters import VIEW_EMPLEADOS_SIMPLE_Filter
+
+
+
+# -------------- EBS - API REST -------------- #
 
 class VIEW_EMPLEADOS_SIMPLE_API(viewsets.ModelViewSet):
     queryset = VIEW_EMPLEADOS_SIMPLE.objects.using('ebs_d').all()
     serializer_class = VIEW_EMPLEADOS_SIMPLE_Serializer
+    filter_backends = (DjangoFilterBackend,)
+    filter_class = VIEW_EMPLEADOS_SIMPLE_Filter
+    pagination_class = GenericPagination
+
 
 class VIEW_EMPLEADOS_FULL_API(viewsets.ModelViewSet):
     queryset = VIEW_EMPLEADOS_FULL.objects.using('ebs_d').all()
     serializer_class = VIEW_EMPLEADOS_FULL_Serializer   
+
+
