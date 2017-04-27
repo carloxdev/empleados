@@ -29,6 +29,7 @@ $(document).ready(function () {
 
 function TargetaFiltros () {
 
+    this.$id = $('#tarjeta_filtros')
     this.$numero = $('#id_numero')
     this.$tipo = $('#id_tipo')
     this.$fecha_mayorque = $('#id_fecha_mayorque')
@@ -58,6 +59,7 @@ TargetaFiltros.prototype.click_BotonBuscar = function (e) {
     e.preventDefault()
 
     resultados.grid.buscar()
+     e.data.$id.modal('hide')
 }
 TargetaFiltros.prototype.get_Values = function (_page) {
 
