@@ -15,7 +15,7 @@
 {% block contenido %}
 
 <div class="be-content">
-{% if request.user.staff == True %}
+{% if request.user.is_staff == True %}
 
 <div class="page-head">
 	<h2 class="page-head-title">Nuevo usuario</h2>
