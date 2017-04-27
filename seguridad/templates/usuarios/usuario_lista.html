@@ -42,8 +42,8 @@
 							class="btn nova-btn btn-rounded btn-space btn-primary" data-toggle="modal" id="boton_filtro">
 							<i class="icon icon-left mdi mdi-search nova-white"></i>Filtrado
 						</a>
-						<button class="btn nova-btn btn-rounded btn-space btn-success" id="boton_restablecer">
-						<i class="icon icon-left mdi mdi-replay nova-white"></i>Restablecer
+						<button class="btn nova-btn btn-rounded btn-space" id="boton_exportar">
+						<i class="icon icon-left mdi mdi-replay nova-white"></i>Exportar
 						</button>
 						
 					</div>
@@ -60,6 +60,8 @@
 		
 	{% endblock contenido %}
 	{% block scripts %}
+		<!--JSZIP -->
+		<script src="{% static 'libs/kendo/2015.2.624/js/jszip.min.js' %}"></script>
 		<!-- Kendo Js -->
 		<script src="{% static 'libs/kendo/2015.2.624/js/cultures/kendo.culture.es-MX.min.js' %}"></script>
 		<script src="{% static 'libs/kendo/2015.2.624/js/kendo.web.min.js' %}"></script>

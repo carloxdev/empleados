@@ -17,7 +17,10 @@ class UserFormFilter(forms.Form):
     usuario = CharField(label="Nombre de usuario:")
     usuario__first_name = CharField(label="Nombre:")
     usuario__last_name = CharField(label="Apellidos:")
+    usuario__email = CharField(label="Email:")
     clave_rh = CharField(label="Clave RH:")
+    usuario__date_joined_mayorque = CharField(label="Fecha de creación mayor a:")
+    usuario__date_joined_menorque = CharField(label="Fecha de creación menor a:")
 
 
 class UserForm(ModelForm):

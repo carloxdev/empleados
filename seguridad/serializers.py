@@ -43,6 +43,8 @@ class ProfileSerializer(serializers.HyperlinkedModelSerializer):
     last_name = serializers.SerializerMethodField()
     email = serializers.SerializerMethodField()
     is_active = serializers.SerializerMethodField()
+    last_login = serializers.SerializerMethodField()
+    date_joined = serializers.SerializerMethodField()
 
     class Meta:
         model = Profile
@@ -53,6 +55,8 @@ class ProfileSerializer(serializers.HyperlinkedModelSerializer):
             'last_name',
             'email',
             'is_active',
+            'last_login',
+            'date_joined',
             'clave_rh',
             'clave_jde',
             'foto',
@@ -60,19 +64,66 @@ class ProfileSerializer(serializers.HyperlinkedModelSerializer):
         )
 
     def get_pk(self, obj):
-        return obj.usuario.pk
+        try:
+            return obj.usuario.pk
+        except Exception as e:
+            print str(e)
+            return " "
+        
 
     def get_cuenta(self, obj):
-        return obj.usuario.username
+        try:
+            return obj.usuario.username
+        except Exception as e:
+            print str(e)
+            return " "
 
     def get_first_name(self, obj):
-        return obj.usuario.first_name
-
+        try:
+            return obj.usuario.first_name
+        except Exception as e:
+            print str(e)
+            return " "
+        
     def get_last_name(self, obj):
-        return obj.usuario.last_name
+        try:
+            return obj.usuario.last_name
+        except Exception as e:
+            print str(e)
+            return " "
+        
 
     def get_email(self, obj):
-        return obj.usuario.email
+        try:
+            return obj.usuario.email
+        except Exception as e:
+            print str(e)
+            return " "
+    
+    def get_last_login(self,obj):
+        try:
+            return obj.usuario.last_login
+        except Exception as e:
+            print str(e)
+            return " "
+
+    def get_date_joined(self,obj):
+        try:
+            return obj.usuario.date_joined
+        except Exception as e:
+            print str(e)
+            return " "
+
 
     def get_is_active(self, obj):
-        return obj.usuario.is_active
+        try:
+            if obj.usuario.is_active == True:
+                estado = 'Activo'
+                return estado
+            else:
+                estado = 'Inactivo'
+                return estado
+        except Exception as e:
+            print str(e)
+            return " "
+        

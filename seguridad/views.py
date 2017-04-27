@@ -12,6 +12,8 @@ from django.shortcuts import get_object_or_404
 # Django Seguridad
 from django.contrib.auth import authenticate
 from django.contrib.auth import login
+from django.utils.decorators import method_decorator
+from django.core.exceptions import PermissionDenied
 
 # Django autorizacion
 from django.contrib.auth.hashers import make_password
@@ -93,7 +95,6 @@ class Login(View):
 
 # --------------  PROFILE VIEWS -------------- #
 
-
 class UsuarioDetallesPerfil(View):
 
     def __init__(self):
@@ -105,7 +106,6 @@ class UsuarioDetallesPerfil(View):
         contexto = {'usuario': usuario, 'profile': perfil}
         return render(request, self.template_name, contexto)
 
-
 class UsuarioLista(View):
 
     def __init__(self):
@@ -115,7 +115,6 @@ class UsuarioLista(View):
         form_buscar = UserFormFilter()
         contexto = {'form': form_buscar}
         return render(request, self.template_name, contexto)
-
 
 class UsuarioNuevo(View):
 
@@ -355,15 +354,21 @@ class UserByPageAPI(viewsets.ModelViewSet):
 
 
 class ProfileAPI(viewsets.ModelViewSet):
-    queryset = Profile.objects.all()
+    queryset = Profile.objects.all().order_by('-usuario__date_joined')
     serializer_class = ProfileSerializer
     filter_backends = (DjangoFilterBackend,)
     filter_class = ProfileFilter
 
 
 class ProfileByPageAPI(viewsets.ModelViewSet):
-    queryset = Profile.objects.all()
+    queryset = Profile.objects.all().order_by('-usuario__date_joined')
     serializer_class = ProfileSerializer
     filter_backends = (DjangoFilterBackend,)
     filter_class = ProfileFilter
     pagination_class = GenericPagination
+
+class ProfileExcelAPI(viewsets.ModelViewSet):
+    queryset = Profile.objects.all().order_by('-usuario__date_joined')
+    serializer_class = ProfileSerializer
+    filter_backends = (DjangoFilterBackend,)
+    filter_class = ProfileFilter
