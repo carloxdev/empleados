@@ -28,6 +28,7 @@ from seguridad.views import UserByPageAPI
 from seguridad.views import ProfileAPI
 from seguridad.views import ProfileByPageAPI
 from seguridad.views import ProfileExcelAPI
+from seguridad.views import EmpleadosSimpleAPI
 
 from ebs.views import VIEW_EMPLEADOS_SIMPLE_API
 from ebs.views import VIEW_EMPLEADOS_FULL_API
@@ -61,6 +62,12 @@ router.register(
     r'profileexcel',
     ProfileExcelAPI,
     'profileexcel'
+)
+
+router.register(
+    r'empleadossimple',
+    EmpleadosSimpleAPI,
+    'empleadossimple'
 )
 
 # -------------- Finanzas -------------- #

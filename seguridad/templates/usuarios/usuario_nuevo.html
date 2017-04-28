@@ -9,6 +9,7 @@
 <link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.bootstrap.min.css' %}"/>
 <!-- Theme -->
 <link rel="stylesheet" href="{% static 'theme/lib/datetimepicker/css/bootstrap-datetimepicker.min.css' %}"/>
+<link rel="stylesheet" href="{% static 'theme/lib/select2/css/select2.min.css' %}">
 <!-- Nova -->
 <link rel="stylesheet" href="{% static 'grid.css' %}"/>
 {% endblock css %}
@@ -36,7 +37,7 @@
 						<form action="" method="POST" enctype="multipart/form-data"> {% csrf_token %}
 	
 							<h4><b>Información de usuario</b></h4>
-							<br>
+
 							<!-- Clave_rh-->
 							<div class="form-group {% if form.clave_rh.errors %} has-error {% endif %}">
 								<label class="control-label">
@@ -123,21 +124,22 @@
 								{% endfor %}
 							</div>
 							<!-- Password-->
-							<div class="form-group {% if form.password.errors %} has-error {% endif %}">
+							<div class="form-group {% if msj == False %} has-error {% endif %}">
 								<label class="control-label">
 									{{form.password.label}}
 								</label>
 								<p>{{ form.password }}</p>
-								{% for error in form.password.errors %}
-									<span class="help-block">{{ error }}</span>
-								{% endfor %}
+								{% if msj == False %}
+									<span class="help-block">Las contraseñas no coinciden</span>
+								 {% endif %}
 							</div>
 							<!-- Confirmar Password-->
-							<div class="form-group {% if form_pass.confirmar != form.password %} has-error {% endif %}">
+							<div class="form-group {% if msj == False %} has-error {% endif %}">
 								<label class="control-label">
-									{{form_pass.as_p}}
+									{{form_pass.confirmar.label}}
 								</label>
-								{% if form_pass.confirmar != form.password %}
+								<p> {{form_pass.confirmar}} </p>
+								{% if msj == False %}
 									<span class="help-block">Las contraseñas no coinciden</span>
 								 {% endif %}
 							</div>
@@ -193,5 +195,8 @@
 <!-- Theme -->
 <script src="{% static 'theme/lib/jquery-ui/jquery-ui.min.js' %}"></script>
 <script src="{% static 'theme/lib/moment.js/min/moment.min.js' %}"></script>
+<script src="{% static 'theme/lib/select2/js/select2.min.js' %}"></script>
+<script src="{% static 'theme/lib/select2/js/select2.full.min.js' %}"></script>
 <!-- NOVA -->
+<script src="{% static 'usuarios/usuario_nuevo.js' %}"></script>
 {% endblock scripts %}

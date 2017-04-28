@@ -34,6 +34,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 # Serializadores:
 from .serializers import UserSerializer
 from .serializers import ProfileSerializer
+from ebs.serializers import VIEW_EMPLEADOS_SIMPLE_Serializer
 
 # Filters:
 from .filters import ProfileFilter
@@ -97,6 +98,7 @@ class Login(View):
 
 # --------------  PROFILE VIEWS -------------- #
 
+
 class UsuarioDetallesPerfil(View):
 
     def __init__(self):
@@ -108,6 +110,7 @@ class UsuarioDetallesPerfil(View):
         contexto = {'usuario': usuario, 'profile': perfil}
         return render(request, self.template_name, contexto)
 
+
 class UsuarioLista(View):
 
     def __init__(self):
@@ -117,6 +120,7 @@ class UsuarioLista(View):
         form_buscar = UserFormFilter()
         contexto = {'form': form_buscar}
         return render(request, self.template_name, contexto)
+
 
 class UsuarioNuevo(View):
 
@@ -147,6 +151,7 @@ class UsuarioNuevo(View):
         form_usuario = UserForm(request.POST)
         form_perfil = UsuarioForm(request.POST, request.FILES)
         form_pass = ConfirmarForm(request.POST)
+        mensaje = True
 
         if form_usuario.is_valid() and form_perfil.is_valid() and form_pass.is_valid():
 
@@ -158,6 +163,13 @@ class UsuarioNuevo(View):
                     username=datos_formulario.get('username'),
                     password=datos_formulario.get('password')
                 )
+                # empleado = get_object_or_404(
+                #     VIEW_EMPLEADOS_SIMPLE.objects.using('ebs_d').all(),
+                #     pers_empleado_numero=usuario.profile.clave_rh
+                # )
+                # usuario.first_name = empleado.pers_primer_nombre
+                # usuario.last_name = empleado.pers_apellido_paterno 
+                # usuario.email = empleado.pers_email
 
                 usuario.first_name = datos_formulario.get('first_name')
                 usuario.last_name = datos_formulario.get('last_name')
@@ -182,11 +194,14 @@ class UsuarioNuevo(View):
                 usuario.profile.save()
 
                 return redirect(reverse('seguridad:usuario_lista'))
+            else:
+                mensaje= False
 
         contexto = {
             'form': form_usuario,
             'form2': form_perfil,
             'form_pass': form_pass,
+            'msj': mensaje,
         }
         return render(request, self.template_name, contexto)
 
@@ -370,14 +385,17 @@ class ProfileByPageAPI(viewsets.ModelViewSet):
     filter_class = ProfileFilter
     pagination_class = GenericPagination
 
+
 class ProfileExcelAPI(viewsets.ModelViewSet):
     queryset = Profile.objects.all().order_by('-usuario__date_joined')
     serializer_class = ProfileSerializer
     filter_backends = (DjangoFilterBackend,)
     filter_class = ProfileFilter
 
+
 class EmpleadosSimpleAPI(viewsets.ModelViewSet):
     queryset = VIEW_EMPLEADOS_SIMPLE.objects.using('ebs_d').all()
-    serializer_class = ProfileSerializer
-    filter_backends = (DjangoFilterBackend,)
-    filter_class = ProfileFilter
+    serializer_class = VIEW_EMPLEADOS_SIMPLE_Serializer
+
+    #filter_backends = (DjangoFilterBackend,)
+    #filter_class = ProfileFilter
