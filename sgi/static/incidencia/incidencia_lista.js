@@ -32,8 +32,7 @@ function TargetaFiltros () {
     this.$id = $('#tarjeta_filtros')
     this.$numero = $('#id_numero')
     this.$tipo = $('#id_tipo')
-    this.$fecha_mayorque = $('#id_fecha_mayorque')
-    this.$fecha_menorque = $('#id_fecha_menorque')
+    this.$fecha_creacion = $('#fecha_creacion')
     this.$es_registrable = $('#id_es_registrable')
     this.$empleado_zona = $('#id_empleado_zona')
 
@@ -47,8 +46,9 @@ function TargetaFiltros () {
 TargetaFiltros.prototype.init_Components = function () {
 
     // Estilos, Liberias
-    this.$fecha_mayorque.datepicker()
-    this.$fecha_menorque.datepicker()
+    //this.$fecha_mayorque.datepicker()
+    //this.$fecha_menorque.datepicker()
+   this.$fecha_creacion.daterangepicker(this.get_ConfDateRangePicker())   
 }
 TargetaFiltros.prototype.init_Events = function () {
 
@@ -56,6 +56,60 @@ TargetaFiltros.prototype.init_Events = function () {
     // Asosciar Eventos
     this.$boton_buscar.on("click", this, this.click_BotonBuscar)
 }
+
+TargetaFiltros.prototype.hide = function (e) {
+    e.data.$fecha_creacion.data('daterangepicker').hide()
+}
+TargetaFiltros.prototype.get_ConfiguracionCalendario = function(){
+    
+    return{
+        language: 'es',
+        autoclose: true,
+        minView: 2,
+        format: 'yyyy-mm-dd'
+    }
+}
+TargetaFiltros.prototype.get_ConfDateRangePicker = function () {
+
+    return {
+        locale: {
+            format: 'YYYY-MM-DD',
+            applyLabel: "Aplicar",
+            cancelLabel: "Cancelar",
+            fromLabel: "Del",
+            separator: " al ",
+            toLabel: "Al",            
+            weekLabel: "S",
+            daysOfWeek: [
+                "Do",
+                "Lu",
+                "Ma",
+                "Mi",
+                "Ju",
+                "Vi",
+                "Sa"
+            ],
+            monthNames: [
+                "Enero",
+                "Febrero",
+                "Marzo",
+                "Abril",
+                "Mayo",
+                "Junio",
+                "Julio",
+                "Agosto",
+                "Septiembre",
+                "Octubre",
+                "Noviembre",
+                "Diciembre"
+            ],          
+        },
+        startDate: '2017-01-01'
+    }    
+}
+
+
+
 TargetaFiltros.prototype.click_BotonBuscar = function (e) {
 
     e.preventDefault()
@@ -69,8 +123,7 @@ TargetaFiltros.prototype.get_Values = function (_page) {
         page: _page,
         id: this.$numero.val(),
         tipo: this.$tipo.val(),
-        fecha_mayorque: this.$fecha_mayorque.val(),
-        fecha_menorque: this.$fecha_menorque.val(),
+        fecha_creacion: this.$fecha_creacion.val(),
         es_registrable: this.$es_registrable.val(),
         empleado_zona: this.$empleado_zona.val(),
 
@@ -163,7 +216,7 @@ Grid.prototype.get_Campos = function () {
         fecha : { type: "string" },
         empleado_id : { type: "number" },
         empleado_nombre : { type: "string" },
-        empleado_zona : { type: "string" },
+        zona : { type: "string" },
         empleado_proyecto : { type: "string" },
         empleado_proyecto_desc : { type: "string" },
         empleado_puesto : { type: "number" },
@@ -212,7 +265,7 @@ Grid.prototype.get_Columnas = function () {
         { field: "fecha", title: "fecha", width:"200px" },
         { field: "empleado_id", title: "empleado_id", width:"200px" },
         { field: "empleado_nombre", title: "empleado_nombre", width:"200px" },
-        { field: "empleado_zona", title: "empleado_zona", width:"200px" },
+        { field: "zona", title: "empleado_zona", width:"200px" },
         { field: "empleado_proyecto", title: "empleado_proyecto", width:"200px" },
         { field: "empleado_proyecto_desc", title: "empleado_proyecto_desc", width:"200px" },
         { field: "empleado_puesto", title: "empleado_puesto", width:"200px" },

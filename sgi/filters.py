@@ -10,12 +10,13 @@ from django_filters import CharFilter
 # Modelos:
 from .models import IncidenciaDocumento
 from .models import CentroAtencion
+from administracion.models import Zona
 
 
 class IncidenciaDocumentoFilter(filters.FilterSet):
 
-    empleado_zona = CharFilter(
-        name="empleado_zona",
+    zona = CharFilter(
+        name="zona",
         lookup_expr="icontains"
     )
 
@@ -67,7 +68,7 @@ class IncidenciaDocumentoFilter(filters.FilterSet):
             'fecha_mayorque',
             'fecha_menorque',
             'es_registrable',
-            'empleado_zona',
+            'zona',
             'status',
             'empleado_nombre',
             'empleado_proyecto_desc',

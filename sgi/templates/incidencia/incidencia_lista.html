@@ -88,37 +88,38 @@
                 <!-- <div class="modal-body"> -->
 
                     <div class="form-group">
-                        <label class="col-sm-3 nova-col-filter control-label">No de Documento</label>
+                        <label class="col-sm-3 nova-col-filter control-label">No de Documento:</label>
                         <div class="col-sm-6 xs-pt-5">
                           {{ form.numero}}
                         </div>
                     </div>
 
                     <div class="form-group">
-                      <label class="col-sm-3 nova-col-filter control-label">Tipo</label>
+                      <label class="col-sm-3 nova-col-filter control-label">Tipo:</label>
                       <div class="col-sm-6 xs-pt-5">
                         {{ form.tipo }}
                       </div>
                     </div>
 
                     <div class="form-group">
-                        <label class="col-sm-3 nova-col-filter control-label">Fecha Mayor</label>
-                        <div class="col-sm-6 xs-pt-5">
-                            <div class="input-group">
-                                <input type="text" value="" readonly="" class="form-control input-xs" id="fecha_mayorque">
-                                <span class="input-group-addon btn btn-primary">
-                                    <i class="icon-th mdi mdi-calendar"></i>
-                                </span>
-                            </div>
-                        </div>
+                      <label class="col-sm-3 nova-col-filter control-label">Registrable:</label>
+                      <div class="col-sm-6 xs-pt-5">
+                        {{ form.es_registrable }}
+                      </div>
                     </div>
 
-                    
                     <div class="form-group">
-                        <label class="col-sm-3 nova-col-filter control-label">Fecha Menor</label>
+                      <label class="col-sm-3 nova-col-filter control-label">Zona:</label>
+                      <div class="col-sm-6 xs-pt-5">
+                        {{ form.zona }}
+                      </div>
+                    </div>
+
+                     <div class="form-group">
+                        <label class="col-sm-3 nova-col-filter control-label">Fecha: </label>
                         <div class="col-sm-6 xs-pt-5">
-                            <div class="input-group">
-                                <input type="text" value="" readonly="" class="form-control input-xs" id="fecha_menorque">
+                            <div class="input-group"> 
+                                <input type="text" value="" readonly="" class="form-control input-xs" id="fecha_creacion">
                                 <span class="input-group-addon btn btn-primary">
                                     <i class="icon-th mdi mdi-calendar"></i>
                                 </span>

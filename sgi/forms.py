@@ -13,6 +13,7 @@ from django.forms import BooleanField
 
 from .models import IncidenciaDocumento
 from .models import IncidenciaTipo
+from administracion.models import Zona
 
 from django import forms
 
@@ -24,12 +25,13 @@ class IncidenciaDocumentoFilterForm(forms.Form):
     fecha_mayorque = CharField()
     fecha_menorque = CharField()
     es_registrable = BooleanField()
-    # empleado_zona = CharField()
+    zona = ChoiceField(widget=Select())
 
     def __init__(self, *args, **kwargs):
         super(IncidenciaDocumentoFilterForm, self).__init__(
             *args, **kwargs)
         self.fields['tipo'].choices = self.get_Tipos()
+        self.fields['zona'].choices = self.get_Zonas()
 
     def get_Tipos(self):
 
@@ -46,6 +48,23 @@ class IncidenciaDocumentoFilterForm(forms.Form):
             )
 
         return valores
+   
+
+    def get_Zonas(self):
+
+        valor = [('', '------')]
+
+        zonas = Zona.objects.all()
+
+        for zona in zonas:
+            valor.append(
+                (
+                    zona.id,
+                    zona.descripcion
+                )
+            )
+
+        return valor   
 
 
 class IncidenciaDocumentoForm(ModelForm):
@@ -103,12 +122,12 @@ class IncidenciaDocumentoForm(ModelForm):
 
         widgets = {
             'tipo': Select(attrs={'class': 'form-control input-sm'}),
-            #'es_registrable': Select(attrs={'class': 'form-control input-sm'}),
+            'es_registrable':CheckboxInput(),
             'fecha': TextInput(attrs={'class': 'form-control pull-right input-sm',
                                       'data-date-format': 'yyyy-mm-dd'}),
             'empleado_id': TextInput(attrs={'class': 'form-control input-xs'}),
             # 'empleado_nombre': TextInput(attrs={'class': 'form-control input-xs'}),
-            'zona': TextInput(attrs={'class': 'form-control input-xs'}),
+            'zona': Select(attrs={'class': 'form-control input-sm'}),
             # 'empleado_proyecto': TextInput(attrs={'class': 'form-control input-xs'}),
             # 'empleado_proyecto_desc': TextInput(attrs={'class': 'form-control input-xs'}),
             # 'empleado_puesto': TextInput(attrs={'class': 'form-control input-xs'}),
