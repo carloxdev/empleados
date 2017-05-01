@@ -1,0 +1,68 @@
+{% extends 'master.html' %}
+{% load static from staticfiles %}
+{% block titulo %} Usuarios {% endblock titulo %}
+{% block title-page %} Nuevo usuario {% endblock title-page %}
+{% block css %}
+<!-- Kendo -->
+<link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.rtl.min.css' %}"/>
+<link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.common-bootstrap.min.css' %}"/>
+<link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.bootstrap.min.css' %}"/>
+<!-- Theme -->
+<link rel="stylesheet" href="{% static 'theme/lib/datetimepicker/css/bootstrap-datetimepicker.min.css' %}"/>
+<link rel="stylesheet" href="{% static 'theme/lib/select2/css/select2.min.css' %}">
+<!-- Nova -->
+<link rel="stylesheet" href="{% static 'grid.css' %}"/>
+{% endblock css %}
+{% block contenido %}
+<div class="be-content">
+
+<div class="col-md-12">
+	<div class="main-content container-fluid">
+		<div class="col-md-12">
+			<div class="panel panel-default panel-table">
+				<div class="panel-heading panel-border nova-panel-heading">
+					<div class="title hidden-xs">  Cambiar contraseña </div>
+					</div><!-- Panel Heading -->
+					<div class="panel panel-default panel-table">
+						<form action="" method="POST" enctype="multipart/form-data"> {% csrf_token %}
+								
+								<h4><b>Contraseña</b></h4>
+								<!-- Password-->
+								<div class="form-group {% if msj == False %} has-error {% endif %}">
+									<label class="control-label">
+										{{form.contrasena_nueva.label}}
+									</label>
+									<p>{{ form.contrasena_nueva }}</p>
+								</div>
+								<!-- Confirmar Password-->
+								<div class="form-group {% if msj == False %} has-error {% endif %}">
+								<label class="control-label">
+									{{form_pass.confirmar.label}}
+								</label>
+								<p> {{form_pass.confirmar}} </p>
+								{% if msj == False %}
+									<span class="help-block">Las contraseñas no coinciden</span>
+								{% endif %}
+						</div>
+						<br>
+						<a class="button" href="{% url 'seguridad:usuario_lista' %}"> Regresar </a>
+						<button type="submit" class="btn btn-primary" id="id_boton_guardar" >Guardar contraseña</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock contenido %}
+{% block scripts %}
+<!-- Kendo Js -->
+<script src="{% static 'libs/kendo/2015.2.624/js/cultures/kendo.culture.es-MX.min.js' %}"></script>
+<script src="{% static 'libs/kendo/2015.2.624/js/kendo.web.min.js' %}"></script>
+<!-- Theme -->
+<script src="{% static 'theme/lib/jquery-ui/jquery-ui.min.js' %}"></script>
+<script src="{% static 'theme/lib/moment.js/min/moment.min.js' %}"></script>
+<script src="{% static 'theme/lib/select2/js/select2.min.js' %}"></script>
+<script src="{% static 'theme/lib/select2/js/select2.full.min.js' %}"></script>
+<!-- NOVA -->
+
+{% endblock scripts %}

@@ -1,7 +1,7 @@
 {% extends 'master.html' %}
 {% load static from staticfiles %}
 {% block titulo %} Usuarios {% endblock titulo %}
-{% block title-page %} Editar usuario {% endblock title-page %}
+{% block title-page %} Nuevo usuario {% endblock title-page %}
 {% block css %}
 <!-- Kendo -->
 <link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.rtl.min.css' %}"/>
@@ -9,14 +9,17 @@
 <link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.bootstrap.min.css' %}"/>
 <!-- Theme -->
 <link rel="stylesheet" href="{% static 'theme/lib/datetimepicker/css/bootstrap-datetimepicker.min.css' %}"/>
+<link rel="stylesheet" href="{% static 'theme/lib/select2/css/select2.min.css' %}">
 <!-- Nova -->
 <link rel="stylesheet" href="{% static 'grid.css' %}"/>
 {% endblock css %}
 {% block contenido %}
+
 <div class="be-content">
 {% if request.user.is_staff == True %}
+
 <div class="page-head">
-	<h2 class="page-head-title">Editar usuario</h2>
+	<h2 class="page-head-title">Nuevo usuario</h2>
 	<ol class="breadcrumb page-head-nav">
 		<li><a href="#">Inicio</a></li>
 		<li><a href="#">Usuarios</a></li>
@@ -29,32 +32,12 @@
 			<div class="panel panel-default panel-table">
 				<div class="panel-heading panel-border nova-panel-heading">
 					<div class="title hidden-xs"> Editar usuario</div>
-					</div><!-- Panel Heading -->
+				</div><!-- Panel Heading -->
 					<div class="panel panel-default panel-table">
 						<form action="" method="POST" enctype="multipart/form-data"> {% csrf_token %}
-							<h4><b>Información de cuenta</b></h4>
-							<!-- Password-->
-							<div class="form-group {% if form.password.errors %} has-error {% endif %}">
-								<label class="control-label">
-									{{form.password.label}}
-								</label>
-								<p>{{ form.password }}</p>
-								{% for error in form.password.errors %}
-									<span class="help-block">{{ error }}</span>
-								{% endfor %}
-							</div>
-							<!-- Confirmar Password-->
-							<div class="form-group {% if form_pass.confirmar != form.password %} has-error {% endif %}">
-								<label class="control-label">
-									{{form_pass.as_p}}
-								</label>
-								{% if form_pass.confirmar != form.password %}
-									<span class="help-block">Las contraseñas no coinciden</span>
-								 {% endif %}
-							</div>
-					
+	
 							<h4><b>Información de usuario</b></h4>
-							<br>
+
 							<!-- Clave_rh-->
 							<div class="form-group {% if form.clave_rh.errors %} has-error {% endif %}">
 								<label class="control-label">
@@ -116,6 +99,26 @@
 									<span class="help-block">{{ error }}</span>
 								{% endfor %}
 							</div>
+							<!-- Foto-->
+							<div class="form-group {% if form2.foto.errors %} has-error {% endif %}">
+								<label class="control-label">
+									{{form2.foto.label }}
+								</label>
+								<p>{{ form2.foto }}</p>
+								{% for error in form2.foto.errors %}
+									<span class="help-block">{{ error }}</span>
+								{% endfor %}
+							</div>
+							<br>
+							<h4><b>Información de cuenta</b></h4>
+							<br>
+							<!-- Password-->
+							<div class="form-group {% if form.is_active.errors %} has-error {% endif %}">
+								<label class="control-label">Contraseña</label>
+								<br>
+								<a href="{% url 'seguridad:usuario_cambiar_contrasena' user.id %}"class="btn nova-btn btn-rounded btn-space btn-default" id="boton_nuevo">Cambiar contraseña</a>
+							</div>
+							<br>
 							<!-- Is_active-->
 							<div class="form-group {% if form.is_active.errors %} has-error {% endif %}">
 								<div class="checkbox">
@@ -144,22 +147,11 @@
 									<span class="help-block">{{ error }}</span>
 								{% endfor %}
 							</div>
-							<!-- Foto-->
-							<div class="form-group {% if form2.foto.errors %} has-error {% endif %}">
-								<label class="control-label">
-									{{form2.foto.label }}
-								</label>
-								<p>{{ form2.foto }}</p>
-								{% for error in form2.foto.errors %}
-									<span class="help-block">{{ error }}</span>
-								{% endfor %}
-							</div>
 							<br>
-				<a class="button" href="{% url 'seguridad:usuario_lista' %}"> Regresar </a>
-				<button type="submit" class="btn btn-primary" id="id_boton_guardar" >Guardar usuario</button>
-			</form>
+							<a class="button" href="{% url 'seguridad:usuario_lista' %}"> Regresar </a>
+							<button type="submit" class="btn btn-primary" id="id_boton_guardar" >Guardar cambios</button>
+						</form>
 					</div>
-				</div>
 			</div>
 		</div>
 	</div>
@@ -169,17 +161,17 @@
 		</div>
 	{% endif %}
 </div>
-		
-	{% endblock contenido %}
-	{% block scripts %}
-		<!-- Kendo Js -->
-		<script src="{% static 'libs/kendo/2015.2.624/js/cultures/kendo.culture.es-MX.min.js' %}"></script>
-		<script src="{% static 'libs/kendo/2015.2.624/js/kendo.web.min.js' %}"></script>
-		<!-- Theme -->
-		<script src="{% static 'theme/lib/jquery-ui/jquery-ui.min.js' %}"></script>
-		<script src="{% static 'theme/lib/moment.js/min/moment.min.js' %}"></script>
-		<!-- NOVA -->
-		<script src="{% static 'theme/lib/select2/js/select2.min.js' %}"></script>
-		<script src="{% static 'theme/lib/select2/js/select2.full.min.js' %}"></script>
-		
-	{% endblock scripts %}
+
+{% endblock contenido %}
+{% block scripts %}
+<!-- Kendo Js -->
+<script src="{% static 'libs/kendo/2015.2.624/js/cultures/kendo.culture.es-MX.min.js' %}"></script>
+<script src="{% static 'libs/kendo/2015.2.624/js/kendo.web.min.js' %}"></script>
+<!-- Theme -->
+<script src="{% static 'theme/lib/jquery-ui/jquery-ui.min.js' %}"></script>
+<script src="{% static 'theme/lib/moment.js/min/moment.min.js' %}"></script>
+<script src="{% static 'theme/lib/select2/js/select2.min.js' %}"></script>
+<script src="{% static 'theme/lib/select2/js/select2.full.min.js' %}"></script>
+<!-- NOVA -->
+<script src="{% static 'usuarios/usuario_nuevo.js' %}"></script>
+{% endblock scripts %}

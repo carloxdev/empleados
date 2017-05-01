@@ -8,6 +8,7 @@ from .views import UsuarioNuevo
 from .views import UsuarioEditar
 from .views import UsuarioDetallesPerfil
 from .views import UsuarioEditarPerfil
+from .views import UsuarioCambiarContrasena
 
 # Autentificacion
 from django.contrib.auth import views as auth_views
@@ -31,6 +32,7 @@ urlpatterns = [
     url(r'^usuarios$', UsuarioLista.as_view(), name="usuario_lista"),
     url(r'^usuarios/nuevo/$', UsuarioNuevo.as_view(), name="usuario_nuevo"),
     url(r'^usuarios/editar/(?P<pk>\d+)/$', UsuarioEditar.as_view(), name="usuario_editar"),
+    url(r'^usuarios/contrasena/(?P<pk>\d+)/$', UsuarioCambiarContrasena.as_view(), name="usuario_cambiar_contrasena"),
     url(r'^usuarios/perfil/detalles/$', UsuarioDetallesPerfil.as_view(), name="usuario_detalles_perfil"),
     url(r'^usuarios/perfil/editar/(?P<pk>\d+)/$', UsuarioEditarPerfil.as_view(), name="usuario_editar_perfil"),
 ]

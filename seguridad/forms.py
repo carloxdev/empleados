@@ -63,61 +63,62 @@ class UserForm(ModelForm):
                    }  #Para hacer no editable 'disabled': 'True'
 
 class UsuarioForm(ModelForm):
-    clave_rh = ChoiceField(label="Clave de empleado:",widget = Select(attrs={'class': 'form-control input-xs'}))
+    #clave_rh = ChoiceField(label="Clave de empleado:",widget = Select(attrs={'class': 'form-control input-xs'}))
         
     class Meta:
         model = Profile
 
-        fields = [
+        fields = ['clave_rh',
                   'clave_jde',
                   'fecha_nacimiento',
                   'foto',
                   ]
 
-        labels = {
+        labels = {'clave_rh': 'Clave de empleado',
                   'clave_jde': 'Clave jde',
                   'fecha_nacimiento': 'Fecha de nacimiento',
                   'foto': 'Foto',
                   }
 
         widgets = {
+                   'clave_rh': TextInput(attrs={'class': 'form-control input-xs'}),
                    'clave_jde': TextInput(attrs={'class': 'form-control input-xs'}),
                    'fecha_nacimiento': DateInput(attrs={'class': 'form-control input-xs', 'data-date-format': 'yyyy-mm-dd'}),
                    'foto': FileInput(attrs={'class': 'dropzone dz-clickable dz-started'}),
                    }
 
-    def __init__(self, *args, **kwargs):
-        super(UsuarioForm, self).__init__(*args, **kwargs)
-        self.fields['clave_rh'].choices= self.get_Clave_rh()
+    # def __init__(self, *args, **kwargs):
+    #     super(UsuarioForm, self).__init__(*args, **kwargs)
+    #     self.fields['clave_rh'].choices= self.get_Clave_rh()
 
-    def get_Clave_rh(self):
+    # def get_Clave_rh(self):
 
-        valores = [('','-------')]
+    #     valores = [('','-------')]
 
-        claves = VIEW_EMPLEADOS_SIMPLE.objects.using('ebs_d').all()
+    #     claves = VIEW_EMPLEADOS_SIMPLE.objects.using('ebs_d').all()
         
 
-        for clave in claves:
+    #     for clave in claves:
 
-            valores.append(
-                (   
-                    clave.pers_empleado_numero,
-                    clave.pers_empleado_numero,
-                )
-            )
-        return valores
+    #         valores.append(
+    #             (   
+    #                 clave.pers_empleado_numero,
+    #                 clave.pers_empleado_numero,
+    #             )
+    #         )
+    #     return valores
 
 
 class UserEditarForm(ModelForm):
 
-    def __init__(self, *args, **kwargs):
-        super(UserEditarForm, self).__init__(*args, **kwargs)
-        self.fields['password'].required = False
+    # def __init__(self, *args, **kwargs):
+    #     super(UserEditarForm, self).__init__(*args, **kwargs)
+    #     self.fields['password'].required = False
 
     class Meta:
         model = User
 
-        fields = ['password',
+        fields = [#'password',
                   'first_name',
                   'last_name',
                   'email',
@@ -125,7 +126,7 @@ class UserEditarForm(ModelForm):
                   'is_staff',
                   ]
 
-        labels = {'password': 'Contraseña',
+        labels = {#'password': 'Contraseña',
                   'first_name': 'Nombre',
                   'last_name': 'Apellidos',
                   'email': 'Email',
@@ -133,12 +134,11 @@ class UserEditarForm(ModelForm):
                   'is_staff': 'Administrador'
                   }
 
-        widgets = {'password': PasswordInput(attrs={'class': 'form-control input-xs'}),
+        widgets = {#'password': PasswordInput(attrs={'class': 'form-control input-xs'}),
                    'first_name': TextInput(attrs={'class': 'form-control input-xs'}),
                    'last_name': TextInput(attrs={'class': 'form-control input-xs'}),
                    'email': TextInput(attrs={'class': 'form-control input-xs'}),
                    }
-
 
 class UserEditarPerfilForm(ModelForm):
 
@@ -165,18 +165,20 @@ class UserEditarPerfilForm(ModelForm):
                    'first_name': TextInput(attrs={'class': 'form-control input-xs'}),
                    'last_name': TextInput(attrs={'class': 'form-control input-xs'}),
                    'email': TextInput(attrs={'class': 'form-control input-xs'}),
-                   }
+                   }  
 
+class UserContrasenaForm(forms.Form):
+
+    # contrasena_actual = CharField(label="Actual",
+    #                         widget=forms.PasswordInput(
+    #                             attrs={'class': 'form-control input-xs'}))
+
+    contrasena_nueva = CharField(label="Nueva",
+                            widget=forms.PasswordInput(
+                                attrs={'class': 'form-control input-xs'}))
 
 class ConfirmarForm(forms.Form):
-    confirmar = CharField(label="Confirmar contraseña:",
-                          widget=forms.PasswordInput(
-                              attrs={'class': 'form-control input-xs'})
-                          )
-
-class ConfirmarEditarForm(forms.Form):
-    confirmar = CharField(label="Confirmar contraseña:",
-                          required=False,
+    confirmar = CharField(label="Confirmación:",
                           widget=forms.PasswordInput(
                               attrs={'class': 'form-control input-xs'})
                           )
