@@ -7,7 +7,7 @@
 // URLS:
 var url_incidenciadocumento = window.location.origin + "/api/incidenciadocumento/"
 var url_incidenciadocumento_bypage = window.location.origin + "/api/incidenciadocumento_bypage/"
-var url_viaticocabecera_editar = window.location.origin + "/viaticos/editar/"
+var url_incidencia_editar = window.location.origin + "/incidencias/editar/"
 
 // OBJS
 var filtros = null
@@ -258,7 +258,7 @@ Grid.prototype.get_Columnas = function () {
             field: "pk", 
             title: "Numero", 
             width:"200px",
-            template: '<a class="nova-url" href="#=url_viaticocabecera_editar + pk#">#=pk#</a>',
+            template: '<a class="nova-url" href="#=url_incidencia_editar + pk#">#=pk#</a>',
         },
         { field: "tipo", title: "tipo", width:"200px" },
         { field: "es_registrable", title: "es_registrable", width:"200px" },

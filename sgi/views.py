@@ -210,6 +210,65 @@ class IncidenciaDocumentoNuevo(View):
 #             return render(request, self.template_name, contexto)
 
 
+class IncidenciaDocumentoEditar(View):
+
+    def __init__(self):
+        self.template_name = 'incidencia/incidencia_editar.html'
+
+    def get(self, request, pk):
+        empleado =  get_object_or_404(IncidenciaDocumento, pk=pk)
+        formulario = IncidenciaDocumentoForm(instance=empleado)
+
+        #operation = viatico.get_status_display()
+
+        contexto = {
+            'form': formulario,
+        }
+        return render(request, self.template_name, contexto)
+
+    def post(self, request, pk):
+
+        # empleado = get_object_or_404(
+        #         VIEW_EMPLEADOS_FULL.objects.using('ebs_d').all(),
+        #         pers_empleado_numero=incidencia.empleado_id
+        #     )
+        empleado =  get_object_or_404(IncidenciaDocumento, pk=pk)
+        formulario = IncidenciaDocumentoForm(request.POST, instance=empleado)
+        
+        if formulario.is_valid():
+            incidencia = formulario.save(commit=False)
+
+            empleado = get_object_or_404(
+                VIEW_EMPLEADOS_FULL.objects.using('ebs_d').all(),
+                pers_empleado_numero=incidencia.empleado_id
+            )
+
+            incidencia.empleado_nombre = empleado.pers_nombre_completo
+
+            incidencia.empleado_proyecto = empleado.grup_proyecto_code_jde
+            incidencia.empleado_proyecto_desc = empleado.grup_proyecto_jde
+            incidencia.empleado_puesto = empleado.asig_puesto_clave
+            incidencia.empleado_puesto_desc = empleado.asig_puesto_desc
+
+            empresa = Empresa.objects.filter(descripcion=empleado.grup_compania_jde)
+
+            incidencia.empresa = empresa[0]
+            incidencia.area_id = empleado.asig_ubicacion_clave
+            incidencia.area_descripcion = empleado.asig_ubicacion_desc
+            incidencia.empleado_un = empleado.grup_fase_jde
+            incidencia.created_by = request.user.profile
+
+            incidencia.save()
+
+            return redirect(reverse('sgi:incidencia_lista'))
+
+        contexto = {
+            'form': formulario
+        }
+        return render(request, self.template_name, contexto)
+
+
+
 # -------------- INCIDENCIA DOCUMENTO - API REST -------------- #
 
 class IncidenciaDocumentoAPI(viewsets.ModelViewSet):
