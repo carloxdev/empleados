@@ -368,7 +368,7 @@
             </div>  <!-- Panel -->
         </div>  <!-- col-sm-12 -->
         
-        {% if True %}
+        {% if True %}<!--Preguntar si al cargar la ventana va a estar oculto el grid-->
         <div class="col-sm-12">
             <div class="panel panel-default panel-table">
                 <div class="panel-heading panel-border nova-panel-heading">
@@ -386,6 +386,31 @@
             </div> <!-- Panel -->
         </div><!-- col sm 12-->
         {% endif %}
+        
+
+        <div id="popup_filtros" role="dialog" class="modal fade colored-header colored-header-primary in">
+            <div class="modal-dialog custom-width">
+                <div class="modal-content">
+                    
+                    <div class="modal-header nova-modal-header">
+                        <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
+                        <h3 class="modal-title">Detalles</h3>
+                    </div>
+                    
+                    <div class="modal-body">
+                        <div id="tabla_detalles" class="nova-div-overflow">
+                            
+                        </div>
+                    </div>
+
+                    <div class="modal-footer nova-modal-footer">
+                        <div class="row col-sm-12">
+                            <button type="button" data-dismiss="modal" class="btn nova-btn btn-default">Aceptar</button>
+                        </div>
+                    </div>
+                </div> <!-- Modal content-->
+            </div> <!-- Modal dialog -->
+        </div><!-- Modal -->
 
 
     </div>

@@ -6,7 +6,8 @@ from rest_framework import serializers
 from jde.models import VIEW_SCOMPRAS
 from jde.models import VIEW_UNIDADES
 from jde.models import VIEW_COMPANIAS
-
+from jde.models import VIEW_AUTORIZACIONES
+from jde.models import VIEW_RECEPCIONES
 
 class CompraSeguimientoSerializer(serializers.HyperlinkedModelSerializer):
       class Meta:
@@ -105,3 +106,75 @@ class CompraSeguimientoCompaniaSerializer(serializers.HyperlinkedModelSerializer
                   'comp_book_code',
                   'book_desc',
       )
+
+class CompraSeguimientoAutorizacionesSerializer(serializers.ModelSerializer):
+      class Meta:
+            model = VIEW_AUTORIZACIONES
+            fields = (
+                  'orden',
+                  'ruta',
+                  'estado',
+                  'un',
+                  'oc_compania',
+                  'oc_tipo',
+                  'oc',
+                  'oc_sufix',
+                  'autorizador',
+                  'autorizador_desc',
+                  'autorizacion_fecha',
+                  'autorizacion_hora',
+                  'lista_estados',
+      )
+
+class CompraSeguimientoRecepcionesSerializer(serializers.ModelSerializer):
+      class Meta:
+            model = VIEW_RECEPCIONES
+            fields = (
+                  'fecha_lm',
+                  'cantidad_recib',
+                  'udm_recib',
+                  'pu_ex',
+                  'monto_recib_ex',
+                  'moneda',
+                  'tasa',
+                  'pu_mx',
+                  'monto_recib_mx',
+                  'impuesto',
+                  'impuesto_flag',
+                  'batch',
+                  'batch_tipo',
+                  'activo',
+                  'ubicacion',
+                  'lote',
+                  'contenedor',
+                  'observaciones',
+                  'updater',
+                  'updater_desc',
+                  'fecha_update',
+                  'oc_compania',
+                  'oc_tipo',
+                  'oc',
+                  'oc_linea',
+                  'oc_linea_tipo',
+                  'oc_sufix',
+                  'tran_compania',
+                  'tran_un',
+                  'tran_tipo',
+                  'tran_tipo_desc',
+                  'tran_linea',
+                  'doc_compania',
+                  'doc_tipo',
+                  'doc',
+                  'doc_linea',
+                  'doc_je_linea',
+                  'doc_factura',
+                  'proveedor',
+                  'item',
+                  'item_numero',
+                  'item_descripcion',
+                  'item_glclass',
+                  'originador',
+                  'originador_desc',
+                  'fecha_creacion',
+                  'fecha_tran',
+      )      

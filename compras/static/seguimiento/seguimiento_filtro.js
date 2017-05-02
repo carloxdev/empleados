@@ -6,10 +6,13 @@
 var url_seguimiento_bypage = window.location.origin + "/api/compraseguimiento_bypage/"
 var url_seguimiento_compania = window.location.origin + "/api/compraseguimientocompania/"
 var url_seguimiento_sucursal = window.location.origin + "/api/compraseguimientosucursal/"
+var url_compraseguimeinto_autorizadores = window.location.origin + "/api/compraseguimientoautorizaciones/"
+var url_compraseguimiento_recepciones = window.location.origin + "/api/compraseguimientorecepciones/"
 
 // OBJS
 var tarjeta_filtros = null
 var tarjeta_resultados = null
+var tarjeta_detalles = null
 var toolbar = null
 var grid = null
 
@@ -19,14 +22,15 @@ var grid = null
 \*-----------------------------------------------*/
 
 $(document).ready(function () {
+    
     tarjeta_filtros = new TarjetaFiltros()
     tarjeta_resultados = new TarjetaResultados()
+    tarjeta_detalles = new PopupDetalles()
 })
 
 /*-----------------------------------------------*\
             OBJETO: Tarjeta filtros
 \*-----------------------------------------------*/
-
 function TarjetaFiltros() {
 
     this.$id_compania = $("#id_compania")
@@ -362,6 +366,18 @@ Grid.prototype.get_Columnas = function () {
         { field: "req_linea_tipo", title: "Tipo linea", width:"75px"},
         { field: "req_estado_last", title: "Último estatus", width:"120px"},
         { field: "req_estado_next", title: "Siguiente estatus", width:"120px"},
+
+        //{ title: "Autorizadores", width:"120px", template: '<a class="nova-url" href="#=tarjeta_detalles#" data-toggle="modal">#="Ver"#</a>',},
+        { command: [ 
+                {
+                   text: "Autorizadores",
+                   click: this.click_BotonDetallesAutorizaciones,
+                   className: "mdi mdi-search"
+                },              
+            ],           
+           title: "Autorizadores",
+           width: "120px"
+        },
         { field: "req_comprador_desc", title: "Comprador", width:"150px"},
         { field: "req_item_numero", title: "No. item", width:"120px"},
         { field: "req_item_desc", title: "Descripción del item", width:"200px"},
@@ -389,6 +405,26 @@ Grid.prototype.get_Columnas = function () {
         { field: "ord_pu_mx", title: "Costo Unitario MXP", width:"150px"},
         { field: "ord_total_mx", title: "Total de linea MXP", width:"150px"},
         { field: "ord_impuesto", title: "Impuesto", width:"100px"},
+        { command: [ 
+                {
+                   text: "Recepciones",
+                   click: this.click_BotonDetallesRecepciones,
+                   className: "mdi mdi-search"
+                },              
+            ],           
+           title: "Recepción",
+           width: "120px"
+        },
+        { command: [ 
+                {
+                   text: "Cotejo",
+                   click: this.click_BotonDetallesCotejo,
+                   className: "mdi mdi-search"
+                },              
+            ],           
+           title: "Cotejo",
+           width: "120px"
+        },
 
         { field: "req_generador_desc", title: "Requisición generador desc", width:"150px"},
         { field: "req_estado_last_desc", title: "Requisición estado last desc", width:"150px"},
@@ -422,7 +458,125 @@ Grid.prototype.get_Columnas = function () {
         { field: "ord_updated_by_desc", title: "Ord update by desc", width:"150px"},
     ]
 }
+Grid.prototype.click_BotonDetallesAutorizaciones = function (e) {
+    
+    e.preventDefault()
+    var fila = this.dataItem($(e.currentTarget).closest('tr'))
+    tarjeta_resultados.grid.filtrar_Autorizaciones(fila)
+    tarjeta_detalles.$popup_filtros.modal('show')
+}
+Grid.prototype.filtrar_Autorizaciones = function (fila) {
+    
+    $.ajax({
+        url: url_compraseguimeinto_autorizadores,
+        method: "GET",
+        dataType: "json",
+        data: {
+            oc:fila.ord,
+            oc_tipo:fila.ord_tipo,
+            oc_compania:fila.ord_compania
+        },
+        success: function(data) {
+            tarjeta_detalles.construir_Tabla(
+                '#tabla_detalles',
+                data.results,
+                ['orden',
+                  'ruta',
+                  'estado',
+                  'un',
+                  'oc_compania',
+                  'oc_tipo',
+                  'oc',
+                  'oc_sufix',
+                  'autorizador',
+                  'autorizador_desc',
+                  'autorizacion_fecha',
+                  'autorizacion_hora',
+                  'lista_estados'])
+        },
+        failure: function(data) { 
+            alert('Error al recuperar datos.');
+        }
+    });
+         
+}
+Grid.prototype.click_BotonDetallesRecepciones = function (e){
+    
+    e.preventDefault()
+    var fila = this.dataItem($(e.currentTarget).closest('tr'))
+    tarjeta_resultados.grid.filtrar_Recepciones(fila)
+    tarjeta_detalles.$popup_filtros.modal('show')
+}
+Grid.prototype.filtrar_Recepciones = function (fila) {
+    
+    $.ajax({
+        url: url_compraseguimiento_recepciones,
+        method: "GET",
+        dataType: "json",
+        data: {
+            oc:fila.ord,
+            oc_tipo:fila.ord_tipo,
+            oc_compania:fila.ord_compania,
+            oc_linea:fila.ord_linea,
+            tran_tipo:'1',
+        },
+        success: function(data) {
+            tarjeta_detalles.construir_Tabla(
+                '#tabla_detalles',
+                data.results,
+                [   'fecha_lm', 'cantidad_recib', 'udm_recib', 'pu_ex', 'monto_recib_ex', 'moneda', 'tasa', 'pu_mx', 'monto_recib_mx',
+                    'impuesto', 'impuesto_flag', 'batch', 'batch_tipo', 'activo', 'ubicacion', 'lote', 'contenedor', 'observaciones',
+                    'updater', 'updater_desc', 'fecha_update', 'oc_compania', 'oc_tipo', 'oc', 'oc_linea', 'oc_linea_tipo', 'oc_sufix',
+                    'tran_compania', 'tran_un', 'tran_tipo', 'tran_tipo_desc', 'tran_linea', 'doc_compania', 'doc_tipo', 'doc',
+                    'doc_linea', 'doc_je_linea', 'doc_factura', 'proveedor', 'item', 'item_numero', 'item_descripcion', 'item_glclass',
+                    'originador', 'originador_desc', 'fecha_creacion', 'fecha_tran'])
+        },
+        failure: function(data) { 
+            alert('Error al recuperar datos.');
+        }
+    });
+}
+Grid.prototype.set_Icons = function (e) {
+
+    e.sender.tbody.find(".k-button.mdi.mdi-search").each(function(idx, element){
+        $(element).removeClass("mdi mdi-search").find("span").addClass("mdi mdi-search")
+    })
+}
 Grid.prototype.buscar = function() {
     
     this.kfuente_datos.page(1)
+}
+function PopupDetalles() {
+    
+    this.$popup_filtros = $("#popup_filtros")
+    this.init_Events()
+}
+PopupDetalles.prototype.init_Events = function () {
+
+    this.$popup_filtros.on("hidden.bs.modal", this, this.hide)
+}
+PopupDetalles.prototype.hide = function (e) {
+    $("#tabla_detalles").html('');
+}
+PopupDetalles.prototype.construir_Tabla = function (id_contenedor, data, columnas){
+
+    var head = ''
+    var rows = ''
+    for(fila = 0; fila<data.length; fila++)
+    {   var cols = ''
+        for(columna = 0; columna<columnas.length; columna++)
+        {  cols += '<td>'+data[fila][columnas[columna]]+'</td>'
+        }
+        rows += '<tr>'+cols+'</tr>'
+    }
+    for(columna = 0; columna<columnas.length; columna++)
+    {  head += '<th>'+columnas[columna]+'</th>'
+
+    }
+    $(id_contenedor).html(
+        '<table class="table table-bordered table-responsive">'+
+            '<thead>'+head+'</thead>'+
+            '<tbody>'+rows+'</tbody>'+
+        '</table>'
+    );
 }

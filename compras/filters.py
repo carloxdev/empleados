@@ -7,6 +7,8 @@ from django_filters import NumberFilter
 # Modelos:
 from jde.models import VIEW_SCOMPRAS
 from jde.models import VIEW_UNIDADES
+from jde.models import VIEW_AUTORIZACIONES
+from jde.models import VIEW_RECEPCIONES
 
 
 class CompraSeguimientoFilter(filters.FilterSet):
@@ -126,17 +128,60 @@ class CompraSeguimientoFilter(filters.FilterSet):
             return queryset
         else:
             consulta = queryset.filter(req_fecha_creacion__lte=valor)
-            # import ipdb; ipdb.set_trace()
+
             return consulta
-    #def __init__(self, *args, **kwargs):
-    #    super(CompraSeguimientoFilter, self).__init__(
-    #        *args, **kwargs
-    #    )
-    #    print(self.data['req_fecha_creacion_desde'])
 
-    #    if self.data['req_fecha_creacion_desde'] == self.data['req_fecha_creacion_hasta']:
-    #        self.filters['req_fecha_creacion_desde'].lookup_expr = "exact"
-    #        self.filters['req_fecha_creacion_desde'].name = "req_fecha_creacion"
-    #        self.filters['req_fecha_creacion_hasta'].lookup_expr = "exact"
-    #        self.filters['req_fecha_creacion_hasta'].name = "req_fecha_creacion"
+class CompraSeguimientoAutorizacionesFilter(filters.FilterSet):
 
+    oc = NumberFilter(
+        name="oc",
+        lookup_expr="exact"
+    )
+    oc_tipo = CharFilter(
+        name="oc_tipo",
+        lookup_expr="exact"
+    )
+    oc_compania = CharFilter(
+        name="oc_compania",
+        lookup_expr="exact"
+    )
+    class Meta:
+        model=VIEW_AUTORIZACIONES
+        fields = [ 
+                'oc',
+                'oc_tipo',
+                'oc_compania'
+        ]
+
+class CompraSeguimientoRecepcionesFilter(filters.FilterSet):
+
+    oc = NumberFilter(
+        name="oc",
+        lookup_expr="exact"
+    )
+    oc_tipo = CharFilter(
+        name="oc_tipo",
+        lookup_expr="exact"
+    )
+    oc_compania = CharFilter(
+        name="oc_compania",
+        lookup_expr="exact"
+    )
+    oc_linea = NumberFilter(
+        name="oc_linea",
+        lookup_expr="exact"
+    )
+    tran_tipo = NumberFilter(
+        name="tran_tipo",
+        lookup_expr="exact"
+    )
+
+    class Meta:
+        model=VIEW_RECEPCIONES
+        fields = [ 
+                'oc',
+                'oc_tipo',
+                'oc_compania',
+                'oc_linea',
+                'tran_tipo'
+        ]

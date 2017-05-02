@@ -17,6 +17,8 @@ from compras.views import CompraSeguimientoAPI
 from compras.views import CompraSeguimientoByPageAPI
 from compras.views import CompraSeguimientoSucursalAPI
 from compras.views import CompraSeguimientoCompaniaAPI
+from compras.views import CompraSeguimientoAutorizacionesAPI
+from compras.views import CompraSeguimientoRecepcionesAPI
 
 from sgi.views import IncidenciaDocumentoAPI
 from sgi.views import IncidenciaDocumentoByPageAPI
@@ -121,6 +123,17 @@ router.register(
     'compraseguimientosucursal',
 )
 
+router.register(
+    r'compraseguimientoautorizaciones',
+    CompraSeguimientoAutorizacionesAPI,
+    'compraseguimientoautorizaciones',
+)
+
+router.register(
+    r'compraseguimientorecepciones',
+    CompraSeguimientoRecepcionesAPI,
+    'compraseguimientorecepciones',
+)
 # -------------- SGI -------------- #
 
 router.register(

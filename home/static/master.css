@@ -122,6 +122,12 @@
     right: -7px;
 }
 
+.nova-div-overflow{
+    overflow: scroll;
+    overflow-x: scroll;
+    overflow-y: scroll;
+}
+
 
 @media (min-width: 768px) {
     

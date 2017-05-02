@@ -646,3 +646,115 @@ class VIEW_COMPANIAS(models.Model):
             self.book_desc,
         )
         return value
+
+
+class VIEW_AUTORIZACIONES(models.Model):
+
+    orden = models.IntegerField()
+    ruta = models.CharField(max_length=12)
+    estado = models.CharField(max_length=2)
+    un = models.CharField(max_length=12)
+    oc_compania = models.CharField(max_length=5)
+    oc_tipo = models.CharField(max_length=2)
+    oc = models.IntegerField(primary_key=True)
+    oc_sufix = models.CharField(max_length=3)
+    autorizador = models.IntegerField()
+    autorizador_desc = models.CharField(max_length=40)
+    autorizacion_fecha = models.DateField()
+    autorizacion_hora = models.IntegerField()
+    lista_estados = models.CharField(max_length=4000)
+
+    class Meta:
+        managed = False
+        db_table = u'"NUVPD"."VIEW_AUTORIZACIONES"'
+
+    def __str__(self):
+        value = "%s - %s - %s - %s" % (
+            self.orden,
+            self.estado,
+            self.oc,
+            self.autorizador
+        )
+        return value
+    
+    def __unicode__(self):
+        value = "%s - %s - %s - %s" % (
+            self.orden,
+            self.estado,
+            self.oc,
+            self.autorizador
+        )
+        return value
+
+
+class VIEW_RECEPCIONES(models.Model):
+
+    fecha_lm = models.DateField()
+    cantidad_recib = models.IntegerField()
+    udm_recib = models.CharField(max_length=2)
+    pu_ex = models.IntegerField()
+    monto_recib_ex = models.IntegerField()
+    moneda = models.CharField(max_length=3)
+    tasa = models.IntegerField()
+    pu_mx = models.IntegerField()
+    monto_recib_mx = models.IntegerField()
+    impuesto = models.CharField(max_length=10)
+    impuesto_flag = models.CharField(max_length=1)
+    batch = models.IntegerField()
+    batch_tipo = models.CharField(max_length=2)
+    activo = models.CharField(max_length=25)
+    ubicacion = models.CharField(max_length=20)
+    lote = models.CharField(max_length=30)
+    contenedor = models.CharField(max_length=20)
+    observaciones = models.CharField(max_length=30)
+    updater = models.CharField(max_length=10)
+    updater_desc = models.CharField(max_length=40)
+    fecha_update = models.DateField()
+    oc_compania = models.CharField(max_length=5)
+    oc_tipo = models.CharField(max_length=2)
+    oc = models.IntegerField(primary_key=True)
+    oc_linea = models.IntegerField()
+    oc_linea_tipo = models.CharField(max_length=2)
+    oc_sufix = models.CharField(max_length=3)
+    tran_compania = models.CharField(max_length=5)
+    tran_un = models.CharField(max_length=12)
+    tran_tipo = models.CharField(max_length=1)
+    tran_tipo_desc = models.CharField(max_length=19)
+    tran_linea = models.IntegerField()
+    doc_compania = models.CharField(max_length=5)
+    doc_tipo = models.CharField(max_length=2)
+    doc = models.IntegerField()
+    doc_linea = models.IntegerField()
+    doc_je_linea = models.IntegerField()
+    doc_factura = models.CharField(max_length=25)
+    proveedor = models.IntegerField()
+    item = models.IntegerField()
+    item_numero = models.CharField(max_length=25)
+    item_descripcion = models.CharField(max_length=60)
+    item_glclass = models.CharField(max_length=4)
+    originador = models.CharField(max_length=10)
+    originador_desc = models.CharField(max_length=40)
+    fecha_creacion = models.DateField()
+    fecha_tran = models.DateField()
+
+    class Meta:
+        managed = False
+        db_table = u'"NUVPD"."VIEW_RECEPCIONES"'
+
+    def __str__(self):
+        value = "%s - %s - %s - %s" % (
+            self.oc,
+            self.item,
+            self.originador,
+            self.proveedor
+        )
+        return value
+    
+    def __unicode__(self):
+        value = "%s - %s - %s - %s" % (
+            self.oc,
+            self.item,
+            self.originador,
+            self.proveedor
+        )
+        return value
