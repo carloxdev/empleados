@@ -33,7 +33,7 @@ urlpatterns = [
         {'next_page': settings.LOGIN_URL},
         name='logout'
     ),
-    url(r'^usuarios$', UsuarioLista.as_view(), name="usuario_lista"),
+    url(r'^usuarios/$', UsuarioLista.as_view(), name="usuario_lista"),
     url(r'^usuarios/nuevo/$', UsuarioNuevo.as_view(), name="usuario_nuevo"),
     url(r'^usuarios/editar/(?P<pk>\d+)/$', UsuarioEditar.as_view(), name="usuario_editar"),
     url(r'^usuarios/contrasena/(?P<pk>\d+)/$', UsuarioCambiarContrasena.as_view(), name="usuario_cambiar_contrasena"),
