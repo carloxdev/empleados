@@ -18,6 +18,7 @@ from django.contrib.auth.decorators import permission_required
 
 # Django autorizacion
 from django.contrib.auth.hashers import make_password
+from django.contrib.auth.hashers import check_password
 
 # Modelos
 from .models import Profile
@@ -54,7 +55,7 @@ from .forms import UserEditarForm
 from .forms import UserEditarPerfilForm
 from .forms import ConfirmarForm
 from .forms import UserContrasenaForm
-ConfirmarForm
+from .forms import UserContrasenaActualForm
 
 
 class Login(View):
@@ -97,19 +98,7 @@ class Login(View):
 
         return render(request, self.template_name, contexto)
 
-# --------------  PROFILE VIEWS -------------- #
-
-
-class UsuarioDetallesPerfil(View):
-
-    def __init__(self):
-        self.template_name = 'usuarios/usuario_perfil.html'
-
-    def get(self, request):
-        usuario = User.objects.get(id=request.user.id)
-        perfil = Profile.objects.get(id=usuario.profile.id)
-        contexto = {'usuario': usuario, 'profile': perfil}
-        return render(request, self.template_name, contexto)
+# -------------- ADMINISTTRADOR VIEWS -------------- #
 
 
 class UsuarioLista(View):
@@ -233,7 +222,7 @@ class UsuarioEditar(View):
 
         form_perfil = UsuarioForm(instance=usuario_id.profile)
 
-        user = usuario_id;
+        user = usuario_id
 
         contexto = {
             'form': form_usuario,
@@ -289,9 +278,12 @@ class UsuarioCambiarContrasena(View):
         form_contrasena = UserContrasenaForm()
         form_confirmar = ConfirmarForm()
 
+        user = usuario_id
+
         contexto = {
-            'form': form_contrasena,
+            'form_nuevo': form_contrasena,
             'form_pass': form_confirmar,
+            'user': user,
         }
         return render(request, self.template_name, contexto)
 
@@ -306,17 +298,32 @@ class UsuarioCambiarContrasena(View):
             dato_contrasena = form_contrasena.cleaned_data
             dato_confirmar = form_confirmar.cleaned_data
             if dato_contrasena.get('contrasena_nueva') == dato_confirmar.get('confirmar'):
-                usuario.password = make_password(dato_contrasena.get('contrasena_nueva'))
+                usuario.password = make_password(
+                    dato_contrasena.get('contrasena_nueva'))
                 usuario.save()
                 return redirect(reverse('seguridad:usuario_lista'))
         else:
             mensaje = False
 
         contexto = {
-            'form': form_contrasena,
+            'form_nuevo': form_contrasena,
             'form_pass': form_confirmar,
             'msj': mensaje,
         }
+        return render(request, self.template_name, contexto)
+
+
+# -------------- USUARIO VIEWS -------------- #
+
+class UsuarioDetallesPerfil(View):
+
+    def __init__(self):
+        self.template_name = 'usuarios/usuario_perfil.html'
+
+    def get(self, request):
+        usuario = User.objects.get(id=request.user.id)
+        perfil = Profile.objects.get(id=usuario.profile.id)
+        contexto = {'usuario': usuario, 'profile': perfil}
         return render(request, self.template_name, contexto)
 
 
@@ -343,12 +350,10 @@ class UsuarioEditarPerfil(View):
         )
 
         form_perfil = UsuarioForm(instance=usuario_id.profile)
-        form_confirmar = ConfirmarForm()
 
         contexto = {
             'form': form_usuario,
             'form2': form_perfil,
-            'form_pass': form_confirmar,
             'foto': self.obtener_UrlImagen(usuario_id.profile.foto),
         }
         return render(request, self.template_name, contexto)
@@ -359,32 +364,76 @@ class UsuarioEditarPerfil(View):
         form_usuario = UserEditarPerfilForm(request.POST, instance=usuario)
         form_perfil = UsuarioForm(
             request.POST, request.FILES, instance=usuario.profile)
-        form_pass = ConfirmarForm(request.POST)
 
-        if form_usuario.is_valid() and form_perfil.is_valid() and form_pass.is_valid():
+        if form_usuario.is_valid() and form_perfil.is_valid():
 
             datos_formulario = form_usuario.cleaned_data
-            dato_confirmar = form_pass.cleaned_data
 
-            if datos_formulario.get('password') == dato_confirmar.get('confirmar'):
+            usuario.first_name = datos_formulario.get('first_name')
+            usuario.last_name = datos_formulario.get('last_name')
+            usuario.email = datos_formulario.get('email')
 
-                usuario.first_name = datos_formulario.get('first_name')
-                usuario.last_name = datos_formulario.get('last_name')
-                usuario.email = datos_formulario.get('email')
+            usuario.save()
+            usuario.profile = form_perfil.save()
 
-                if datos_formulario.get('password'):
-                    usuario.password = make_password(
-                        datos_formulario.get('password'))
-
-                usuario.save()
-                usuario.profile = form_perfil.save()
-
-                return redirect(reverse('seguridad:usuario_detalles_perfil'))
+            return redirect(reverse('seguridad:usuario_detalles_perfil'))
 
         contexto = {
             'form': form_usuario,
             'form2': form_perfil,
             'foto': self.obtener_UrlImagen(usuario.profile.foto),
+        }
+        return render(request, self.template_name, contexto)
+
+
+class UsuarioCambiarContrasenaPerfil(View):
+
+    def __init__(self):
+        self.template_name = 'usuarios/usuario_contraseña.html'
+
+    def get(self, request, pk):
+        usuario_id = get_object_or_404(User, pk=pk)
+        form_contrasena_actual = UserContrasenaActualForm()
+        form_contrasena_nueva = UserContrasenaForm()
+        form_confirmar = ConfirmarForm()
+
+        contexto = {
+            'form_actual': form_contrasena_actual,
+            'form_nuevo': form_contrasena_nueva,
+            'form_pass': form_confirmar,
+        }
+        return render(request, self.template_name, contexto)
+
+    def post(self, request, pk):
+        mensaje = True
+        validacion = True
+        usuario = get_object_or_404(User, pk=pk)
+
+        form_contrasena_actual = UserContrasenaActualForm(request.POST)
+        form_contrasena_nueva = UserContrasenaForm(request.POST)
+        form_confirmar = ConfirmarForm(request.POST)
+
+        if form_contrasena_actual.is_valid() and form_contrasena_nueva.is_valid() and form_confirmar.is_valid():
+            dato_contrasena_actual = form_contrasena_actual.cleaned_data
+            dato_contrasena_nueva = form_contrasena_nueva.cleaned_data
+            dato_confirmar = form_confirmar.cleaned_data
+
+            if usuario.check_password(dato_contrasena_actual.get('contrasena_actual')) == True:
+                if dato_contrasena_nueva.get('contrasena_nueva') == dato_confirmar.get('confirmar'):
+                    usuario.password = make_password(dato_contrasena_nueva.get('contrasena_nueva'))
+                    usuario.save()
+                    return redirect(reverse('seguridad:logout'))
+            else:
+                validacion = False
+        else:
+            mensaje = False
+
+        contexto = {
+            'form_actual': form_contrasena_actual,
+            'form_nuevo': form_contrasena_nueva,
+            'form_pass': form_confirmar,
+            'validacion': validacion,
+            'msj': mensaje,
         }
         return render(request, self.template_name, contexto)
 # -------------- SEGURIDAD API REST -------------- #
@@ -428,6 +477,3 @@ class ProfileExcelAPI(viewsets.ModelViewSet):
 class EmpleadosSimpleAPI(viewsets.ModelViewSet):
     queryset = VIEW_EMPLEADOS_SIMPLE.objects.using('ebs_d').all()
     serializer_class = VIEW_EMPLEADOS_SIMPLE_Serializer
-
-    # filter_backends = (DjangoFilterBackend,)
-    # filter_class = ProfileFilter

@@ -27,25 +27,44 @@
 						<form action="" method="POST" enctype="multipart/form-data"> {% csrf_token %}
 								
 								<h4><b>Contraseña</b></h4>
-								<!-- Password-->
+								
+								{% if request.user.is_staff == False %}
+									<h4>ADVERTENCIA: Se cerrara la sesión al momento de cambiar su contraseña.</h4>
+									<br>
+									<!--Actual Password-->
+									<div class="form-group {% if validacion == False %} has-error {% endif %}">
+										<label class="control-label">
+											{{form_actual.contrasena_actual.label}}
+										</label>
+										<p>{{ form_actual.contrasena_actual }}</p>
+										{% if validacion == False %}
+											<span class="help-block">La contraseña es incorrecta</span>
+										{% endif %}
+									</div>
+								{% endif %}
+								<!--Nuevo Password-->
 								<div class="form-group {% if msj == False %} has-error {% endif %}">
 									<label class="control-label">
-										{{form.contrasena_nueva.label}}
+										{{form_nuevo.contrasena_nueva.label}}
 									</label>
-									<p>{{ form.contrasena_nueva }}</p>
+									<p>{{ form_nuevo.contrasena_nueva }}</p>
 								</div>
 								<!-- Confirmar Password-->
 								<div class="form-group {% if msj == False %} has-error {% endif %}">
-								<label class="control-label">
-									{{form_pass.confirmar.label}}
-								</label>
-								<p> {{form_pass.confirmar}} </p>
-								{% if msj == False %}
-									<span class="help-block">Las contraseñas no coinciden</span>
-								{% endif %}
-						</div>
+									<label class="control-label">
+										{{form_pass.confirmar.label}}
+									</label>
+									<p> {{form_pass.confirmar}} </p>
+									{% if msj == False %}
+										<span class="help-block">Las contraseñas no coinciden</span>
+									{% endif %}
+								</div>
 						<br>
-						<a class="button" href="{% url 'seguridad:usuario_lista' %}"> Regresar </a>
+						{% if request.user.is_staff == False %}
+							<a class="button" href="{% url 'seguridad:usuario_editar_perfil' request.user.id %}"> Regresar </a>
+						{% else %}
+							<a class="button" href="{% url 'seguridad:usuario_editar' user.id %}"> Regresar </a>
+						{% endif %}
 						<button type="submit" class="btn btn-primary" id="id_boton_guardar" >Guardar contraseña</button>
 					</form>
 				</div>
@@ -61,8 +80,6 @@
 <!-- Theme -->
 <script src="{% static 'theme/lib/jquery-ui/jquery-ui.min.js' %}"></script>
 <script src="{% static 'theme/lib/moment.js/min/moment.min.js' %}"></script>
-<script src="{% static 'theme/lib/select2/js/select2.min.js' %}"></script>
-<script src="{% static 'theme/lib/select2/js/select2.full.min.js' %}"></script>
 <!-- NOVA -->
 
 {% endblock scripts %}

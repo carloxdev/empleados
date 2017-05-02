@@ -39,11 +39,35 @@
 					{% endif %}	 
 						<p> {{profile.foto}}</p>
 						<p><label>Nombre:</label> {{usuario.first_name}} {{usuario.last_name}}</p>
-						<p><label>Fecha de nacimiento:</label>{{profile.fecha_nacimiento}}</p>
-						<p><label>Correo electronico:</label>{{usuario.email}}</p>
+						<p><label>Fecha de nacimiento:</label>
+							{% if profile.fecha_nacimiento == None %}
+								No se ha proporcionado la fecha de nacimiento.
+							{% else %}
+								{{profile.fecha_nacimiento}}
+							{% endif %}
+						</p>
+						<p><label>Correo electronico:</label>
+							{% if usuario.email == None %}
+								No se ha proporcionado la fecha de nacimiento.
+							{% else %}
+								{{usuario.email}}
+							{% endif %}
+						</p>
 						<p><label>Clave RH:</label> {{profile.clave_rh}}</p>
-						<p><label>Clave JDE:</label> {{profile.clave_jde}}</p>
-						<p><label>Estado:</label>{{usuario.is_active}}</p>
+						<p><label>Clave JDE:</label> 
+							{% if profile.clave_jde == '' %}
+								No se ha proporcionado la clave jde.
+							{% else %}
+								{{profile.clave_jde}}
+							{% endif %}
+						</p>
+						<p><label>Estado:</label>
+							{% if usuario.is_active == True %}
+								Activo
+							{% else %}
+								Inactivo
+							{% endif %}
+						</p>
 					</div>
 				</div>
 			</div>

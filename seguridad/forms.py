@@ -142,36 +142,31 @@ class UserEditarForm(ModelForm):
 
 class UserEditarPerfilForm(ModelForm):
 
-    def __init__(self, *args, **kwargs):
-        super(UserEditarPerfilForm, self).__init__(*args, **kwargs)
-        self.fields['password'].required = False
-
     class Meta:
         model = User
 
-        fields = ['password',
-                  'first_name',
+        fields = ['first_name',
                   'last_name',
                   'email',
                   ]
 
-        labels = {'password': 'Contraseña',
-                  'first_name': 'Nombre',
+        labels = {'first_name': 'Nombre',
                   'last_name': 'Apellidos',
                   'email': 'Email',
                   }
 
-        widgets = {'password': PasswordInput(attrs={'class': 'form-control input-xs'}),
-                   'first_name': TextInput(attrs={'class': 'form-control input-xs'}),
+        widgets = {'first_name': TextInput(attrs={'class': 'form-control input-xs'}),
                    'last_name': TextInput(attrs={'class': 'form-control input-xs'}),
                    'email': TextInput(attrs={'class': 'form-control input-xs'}),
                    }  
 
-class UserContrasenaForm(forms.Form):
+class UserContrasenaActualForm(forms.Form):
 
-    # contrasena_actual = CharField(label="Actual",
-    #                         widget=forms.PasswordInput(
-    #                             attrs={'class': 'form-control input-xs'}))
+    contrasena_actual = CharField(label="Actual",
+                            widget=forms.PasswordInput(
+                                attrs={'class': 'form-control input-xs'}))
+
+class UserContrasenaForm(forms.Form):
 
     contrasena_nueva = CharField(label="Nueva",
                             widget=forms.PasswordInput(

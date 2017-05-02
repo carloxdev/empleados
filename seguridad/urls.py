@@ -9,6 +9,7 @@ from .views import UsuarioEditar
 from .views import UsuarioDetallesPerfil
 from .views import UsuarioEditarPerfil
 from .views import UsuarioCambiarContrasena
+from .views import UsuarioCambiarContrasenaPerfil
 
 # Autentificacion
 from django.contrib.auth import views as auth_views
@@ -35,4 +36,5 @@ urlpatterns = [
     url(r'^usuarios/contrasena/(?P<pk>\d+)/$', UsuarioCambiarContrasena.as_view(), name="usuario_cambiar_contrasena"),
     url(r'^usuarios/perfil/detalles/$', UsuarioDetallesPerfil.as_view(), name="usuario_detalles_perfil"),
     url(r'^usuarios/perfil/editar/(?P<pk>\d+)/$', UsuarioEditarPerfil.as_view(), name="usuario_editar_perfil"),
+    url(r'^usuarios/perfil/contrasena/(?P<pk>\d+)/$', UsuarioCambiarContrasenaPerfil.as_view(), name="usuario_cambiar_contrasena_perfil"),
 ]
