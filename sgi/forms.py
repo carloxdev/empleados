@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-# Django:
+
+# Librerias Django:
 from django.forms import ModelForm
 from django.forms import TextInput
 from django.forms import CheckboxInput
@@ -11,8 +12,12 @@ from django.forms import ChoiceField
 from django.forms import IntegerField
 from django.forms import BooleanField
 
+
+# Librerias Propias:
 from .models import IncidenciaDocumento
 from .models import IncidenciaTipo
+
+from ebs.models import VIEW_EMPLEADOS_SIMPLE
 from administracion.models import Zona
 
 from django import forms
@@ -48,7 +53,6 @@ class IncidenciaDocumentoFilterForm(forms.Form):
             )
 
         return valores
-   
 
     def get_Zonas(self):
 
@@ -64,10 +68,43 @@ class IncidenciaDocumentoFilterForm(forms.Form):
                 )
             )
 
-        return valor   
+        return valor
 
 
 class IncidenciaDocumentoForm(ModelForm):
+
+    empleado_id = ChoiceField(
+        label='Empleado: ',
+        widget=Select(attrs={'class': 'form-control input-sm'})
+    )
+
+    def __init__(self, *args, **kwargs):
+        super(IncidenciaDocumentoForm, self).__init__(
+            *args, **kwargs)
+        self.fields['empleado_id'].choices = self.get_EmpleadosEbs()
+        # self.fields['zona'].choices = self.get_Zonas()
+
+    def get_EmpleadosEbs(self):
+
+        valores = [('', '-------')]
+
+        empleados = VIEW_EMPLEADOS_SIMPLE.objects.using('ebs_d').all()
+
+        for empleado in empleados:
+
+            descripcion = "%s - %s" % (
+                empleado.pers_empleado_numero,
+                empleado.pers_nombre_completo
+            )
+
+            valores.append(
+                (
+                    empleado.pers_empleado_numero,
+                    descripcion,
+                )
+            )
+
+        return valores
 
     class Meta:
         model = IncidenciaDocumento
@@ -78,16 +115,16 @@ class IncidenciaDocumentoForm(ModelForm):
             'fecha',
             'empleado_id',
             'zona',
-            'empleado_nombre',
+            # 'empleado_nombre',
             #'empleado_zona',
-            'empleado_proyecto',
-            'empleado_proyecto_desc',
-            'empleado_puesto',
-            'empleado_puesto_desc',
-            'empleado_un',
+            # 'empleado_proyecto',
+            # 'empleado_proyecto_desc',
+            # 'empleado_puesto',
+            # 'empleado_puesto_desc',
+            # 'empleado_un',
             #'empleado_organizacion',
-             'area_id',
-             'area_descripcion',
+            'area_id',
+            'area_descripcion',
             'lugar',
             'dias_incapcidad',
             'centro_atencion',
@@ -105,13 +142,13 @@ class IncidenciaDocumentoForm(ModelForm):
             'fecha': 'Fecha',
             'empleado_id': 'Empleado id ',
             'zona': 'Zona',
-            'empleado_nombre': 'Nombre',
+            # 'empleado_nombre': 'Nombre',
             #'empleado_zona': 'Zona del Empleado',
-            'empleado_proyecto': 'Proyecto id',
-            'empleado_proyecto_desc': 'Proyecto',
-            'empleado_puesto': 'Puesto_id',
-            'empleado_puesto_desc': 'Puesto',
-            'empleado_un': 'Unidad de Negocio',
+            # 'empleado_proyecto': 'Proyecto id',
+            # 'empleado_proyecto_desc': 'Proyecto',
+            # 'empleado_puesto': 'Puesto_id',
+            # 'empleado_puesto_desc': 'Puesto',
+            # 'empleado_un': 'Unidad de Negocio',
             #'empleado_organizacion': 'Organizacion',
             'area': 'Area id',
             'area_descripcion': 'Area',
@@ -124,18 +161,18 @@ class IncidenciaDocumentoForm(ModelForm):
 
         widgets = {
             'tipo': Select(attrs={'class': 'form-control input-sm'}),
-            'es_registrable':CheckboxInput(),
+            'es_registrable': CheckboxInput(),
             'fecha': TextInput(attrs={'class': 'form-control pull-right input-sm',
                                       'data-date-format': 'yyyy-mm-dd'}),
-            'empleado_id': TextInput(attrs={'class': 'form-control input-xs'}),
-            'empleado_nombre': TextInput(attrs={'class': 'form-control input-xs'}),
+            'empleado_id': Select(attrs={'class': 'form-control input-sm'}),
+            # 'empleado_nombre': TextInput(attrs={'class': 'form-control input-xs'}),
             'zona': Select(attrs={'class': 'form-control input-sm'}),
-            'empleado_proyecto': TextInput(attrs={'class': 'form-control input-xs'}),
-            'empleado_proyecto_desc': TextInput(attrs={'class': 'form-control input-xs'}),
-            'empleado_puesto': TextInput(attrs={'class': 'form-control input-xs'}),
-            'empleado_puesto_desc': TextInput(attrs={'class': 'form-control input-xs'}),
-            'empleado_un': TextInput(attrs={'class': 'form-control input-xs'}),
-            ##'empleado_organizacion': TextInput(attrs={'class': 'form-control input-xs'}),
+            # 'empleado_proyecto': TextInput(attrs={'class': 'form-control input-xs'}),
+            # 'empleado_proyecto_desc': TextInput(attrs={'class': 'form-control input-xs'}),
+            # 'empleado_puesto': TextInput(attrs={'class': 'form-control input-xs'}),
+            # 'empleado_puesto_desc': TextInput(attrs={'class': 'form-control input-xs'}),
+            # 'empleado_un': TextInput(attrs={'class': 'form-control input-xs'}),
+            # 'empleado_organizacion': TextInput(attrs={'class': 'form-control input-xs'}),
             'area': TextInput(attrs={'class': 'form-control input-xs'}),
             'area_descripcion': TextInput(attrs={'class': 'form-control input-xs'}),
             'lugar': TextInput(attrs={'class': 'form-control input-xs'}),
