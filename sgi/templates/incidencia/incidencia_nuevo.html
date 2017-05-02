@@ -148,16 +148,16 @@
                                 <!-- Empleado Zona-->
 								<div class="col-sm-6">
 
-									<div class="form-group {% if form.empleado_zona.field.required %} has-warning {% endif %} {% if form.empleado_zona.errors %} has-error {% endif %}">
+									<div class="form-group {% if form.zona.field.required %} has-warning {% endif %} {% if form.zona.errors %} has-error {% endif %}">
 
 									<label class="control-label">
-									<i class="fa {% if form.empleado_zona.field.required %} fa-asterisk {% endif %} {% if form.empleado_zona.errors %} fa-asterisk {% endif %}"></i> 
-										{{ form.empleado_zona.label }} 
+									<i class="fa {% if form.zona.field.required %} fa-asterisk {% endif %} {% if form.zona.errors %} fa-asterisk {% endif %}"></i> 
+										{{ form.zona.label }} 
 									</label>
 									<p>
-										{{ form.empleado_zona }}	
+										{{ form.zona }}	
 									</p>
-									{% for error in form.empleado_zona.errors %}
+									{% for error in form.zona.errors %}
 										<span class="help-block">{{ error }}</span>
 									{% endfor %}
 									</div>

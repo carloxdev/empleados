@@ -21,6 +21,7 @@ class IncidenciaDocumentoSerializer(serializers.HyperlinkedModelSerializer):
             'fecha',
             'empleado_id',
             'empleado_nombre',
+            #'zona',
             # 'empleado_zona',
             'empleado_proyecto',
             'empleado_proyecto_desc',

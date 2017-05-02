@@ -98,27 +98,27 @@ class IncidenciaDocumentoNuevo(View):
 
             incidencia.empleado_nombre = empleado.pers_nombre_completo
 
-            # if empleado.asig_ubicacion_desc == 'OFICINA VILLAHERMOSA JUJO' or \
-            #         empleado.asig_ubicacion_desc == 'OFICINA VILLAHERMOSA CEDROS' or \
-            #         empleado.asig_ubicacion_desc == 'OFICINA VILLAHERMOSA MANGOS':
+            if empleado.asig_ubicacion_desc == 'OFICINA VILLAHERMOSA JUJO' or \
+                    empleado.asig_ubicacion_desc == 'OFICINA VILLAHERMOSA CEDROS' or \
+                    empleado.asig_ubicacion_desc == 'OFICINA VILLAHERMOSA MANGOS':
 
-            #     incidencia.zona = Zona.objects.get(pk=1)
+                incidencia.zona = Zona.objects.get(pk=1)
 
-            # elif empleado.asig_ubicacion_desc == 'OFICINA POZA RICA':
+            elif empleado.asig_ubicacion_desc == 'OFICINA POZA RICA':
 
-            #     incidencia.zona = Zona.objects.get(pk=2)
+                incidencia.zona = Zona.objects.get(pk=2)
 
-            # elif empleado.asig_ubicacion_desc == 'OFICINA REYNOSA':
+            elif empleado.asig_ubicacion_desc == 'OFICINA REYNOSA':
 
-            #     incidencia.zona = Zona.objects.get(pk=3)
+                incidencia.zona = Zona.objects.get(pk=3)
 
-            # elif empleado.asig_ubicacion_desc == 'OFICINA VERACRUZ' or \
-            #         empleado.asig_ubicacion_desc == 'OFICINA NARANJOS':
+            elif empleado.asig_ubicacion_desc == 'OFICINA VERACRUZ' or \
+                    empleado.asig_ubicacion_desc == 'OFICINA NARANJOS':
 
-            #     incidencia.zona = Zona.objects.get(pk=4)
+                incidencia.zona = Zona.objects.get(pk=4)
 
-            # else:
-            #     incidencia.zona = Zona.objects.get(pk=5)
+            else:
+                incidencia.zona = Zona.objects.get(pk=5)
 
             incidencia.empleado_proyecto = empleado.grup_proyecto_code_jde
             incidencia.empleado_proyecto_desc = empleado.grup_proyecto_jde
