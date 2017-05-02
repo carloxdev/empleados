@@ -111,31 +111,24 @@ class UsuarioForm(ModelForm):
 
 class UserEditarForm(ModelForm):
 
-    # def __init__(self, *args, **kwargs):
-    #     super(UserEditarForm, self).__init__(*args, **kwargs)
-    #     self.fields['password'].required = False
-
     class Meta:
         model = User
 
-        fields = [#'password',
-                  'first_name',
+        fields = ['first_name',
                   'last_name',
                   'email',
                   'is_active',
                   'is_staff',
                   ]
 
-        labels = {#'password': 'Contraseña',
-                  'first_name': 'Nombre',
+        labels = {'first_name': 'Nombre',
                   'last_name': 'Apellidos',
                   'email': 'Email',
                   'is_active': 'Activo',
                   'is_staff': 'Administrador'
                   }
 
-        widgets = {#'password': PasswordInput(attrs={'class': 'form-control input-xs'}),
-                   'first_name': TextInput(attrs={'class': 'form-control input-xs'}),
+        widgets = {'first_name': TextInput(attrs={'class': 'form-control input-xs'}),
                    'last_name': TextInput(attrs={'class': 'form-control input-xs'}),
                    'email': TextInput(attrs={'class': 'form-control input-xs'}),
                    }

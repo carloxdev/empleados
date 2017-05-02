@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.rtl.min.css' %}"/>
 <link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.common-bootstrap.min.css' %}"/>
 <link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.bootstrap.min.css' %}"/>
-<!-- Theme --P>
+<!-- Theme -->
 <link rel="stylesheet" href="{% static 'theme/lib/datetimepicker/css/bootstrap-datetimepicker.min.css' %}"/>
 <!-- Nova -->
 <link rel="stylesheet" href="{% static 'grid.css' %}"/>
@@ -22,22 +22,33 @@
 		<div class="col-md-12">
 			<div class="panel panel-default panel-table">
 				<div class="panel-heading panel-border nova-panel-heading">
-					<div class="tools pull-right nova-tools" id="toolbar">
-						<a href="{% url 'seguridad:usuario_editar_perfil' usuario.id %}"
-							class="btn nova-btn btn-rounded btn-space btn-default" id="boton_nuevo">
-							<i class="icon icon-left mdi mdi-plus-circle nova-black"></i>Editar
-						</a>
-					</div>
+					{% if request.user.id == usuario.id %}
+						<div class="tools pull-right nova-tools" id="toolbar">
+							<a href="{% url 'seguridad:usuario_editar_perfil' usuario.id %}"
+								class="btn nova-btn btn-rounded btn-space btn-default" id="boton_nuevo">
+								<i class="icon icon-left mdi mdi-plus-circle nova-black"></i>Editar
+							</a>
+						</div>
+					{% endif %}
+
 					<div class="title hidden-xs">Usuario <b>{{usuario.username}}</b>
 					</div>
 					</div><!-- Panel Heading -->
 					<div>
-					{% if profile.foto %}
-						<img class="user-image" src="{{ MEDIA_URL }}{{ profile.foto.url }}" alt="User Image">
-					{% else %}
-						<img src="{% static 'images/decoradores/no-image-user.jpg' %}" class="user-image img-responsive img-thumbnail" alt="User Image">
-					{% endif %}	 
-						<p> {{profile.foto}}</p>
+					<!-- Foto  -->
+	                     <label class="control-label">
+	                         Foto:
+	                      </label>    
+						<br>
+						{% if profile.foto %}
+							<img class="img-responsive" src="{{ profile.foto.url }}" alt="User Image" width="200px" height="200px">
+							<br>
+						{% else %}
+							No se ha subido ninguna foto de perfil.
+							<br>
+							<br>
+						{% endif %}	 
+					<!-- Información  -->
 						<p><label>Nombre:</label> {{usuario.first_name}} {{usuario.last_name}}</p>
 						<p><label>Fecha de nacimiento:</label>
 							{% if profile.fecha_nacimiento == None %}
@@ -68,6 +79,8 @@
 								Inactivo
 							{% endif %}
 						</p>
+						<br>
+						<a class="button" href="{% url 'seguridad:usuario_lista_perfil' %}"> Regresar </a>
 					</div>
 				</div>
 			</div>

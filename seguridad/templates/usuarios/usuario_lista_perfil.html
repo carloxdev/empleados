@@ -1,0 +1,64 @@
+{% extends 'master.html' %}
+{% load static from staticfiles %}
+{% block titulo %} Perfiles {% endblock titulo %}
+{% block title-page %} Registros {% endblock title-page %}
+{% block css %}
+<!-- Kendo -->
+<link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.rtl.min.css' %}"/>
+<link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.common-bootstrap.min.css' %}"/>
+<link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.bootstrap.min.css' %}"/>
+<!-- Theme -->
+<link rel="stylesheet" href="{% static 'theme/lib/datetimepicker/css/bootstrap-datetimepicker.min.css' %}"/>
+<!-- Nova -->
+<link rel="stylesheet" href="{% static 'grid.css' %}"/>
+{% endblock css %}
+{% block contenido %}
+<div class="be-content">
+	<div class="page-head">
+		<h2 class="page-head-title">Perfiles </h2>
+	</div>
+	<div class="col-md-12">
+		<div class="main-content container-fluid">
+			<div>
+				<h3> Busqueda de usuarios</h3>
+				<form action="">
+					<p>{{ form.usuario__first_name.label }} {{ form.usuario__first_name}}</p>
+					<p>{{ form.usuario__last_name.label }} {{ form.usuario__last_name}}</p>
+					<p>{{ form.usuario__email.label }} {{ form.usuario__email}}</p>
+					<p>{{ form.clave_rh.label }} {{ form.clave_rh}}</p>
+				</form>
+				<button type="button" id="boton_buscar"> Buscar </button>
+			</div>
+			<div class="col-md-12">
+				<div class="panel panel-default panel-table">
+					<div class="panel-heading panel-border nova-panel-heading">
+						<div class="tools pull-right nova-tools" id="toolbar">
+							<a href="{% url 'seguridad:usuario_detalles_mi_perfil' %}"
+								class="btn nova-btn btn-rounded btn-space btn-default" id="boton_nuevo">Ver mi perfil
+							</a>
+						</div>
+						<div class="title hidden-xs">Usuarios registrados
+						</div>
+						</div><!-- Panel Heading -->
+						<div class="panel panel-default panel-table">
+							<div id="grid_resultados">
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+</div>
+{% endblock contenido %}
+{% block scripts %}
+<!--JSZIP -->
+<script src="{% static 'libs/kendo/2015.2.624/js/jszip.min.js' %}"></script>
+<!-- Kendo Js -->
+<script src="{% static 'libs/kendo/2015.2.624/js/cultures/kendo.culture.es-MX.min.js' %}"></script>
+<script src="{% static 'libs/kendo/2015.2.624/js/kendo.web.min.js' %}"></script>
+<!-- Theme -->
+<script src="{% static 'theme/lib/jquery-ui/jquery-ui.min.js' %}"></script>
+<script src="{% static 'theme/lib/moment.js/min/moment.min.js' %}"></script>
+<!-- NOVA -->
+<script src="{% static 'usuarios/perfil_lista.js' %}"></script>
+{% endblock scripts %}

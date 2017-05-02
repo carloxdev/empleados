@@ -288,7 +288,7 @@ class UsuarioCambiarContrasena(View):
         return render(request, self.template_name, contexto)
 
     def post(self, request, pk):
-        mensaje = True
+        mensaje = True #Bandera para confirmacion de contraseña
         usuario = get_object_or_404(User, pk=pk)
 
         form_contrasena = UserContrasenaForm(request.POST)
@@ -315,7 +315,17 @@ class UsuarioCambiarContrasena(View):
 
 # -------------- USUARIO VIEWS -------------- #
 
-class UsuarioDetallesPerfil(View):
+class UsuarioListaPerfil(View):
+
+    def __init__(self):
+        self.template_name = 'usuarios/usuario_lista_perfil.html'
+
+    def get(self, request):
+        form_buscar = UserFormFilter()
+        contexto = {'form': form_buscar}
+        return render(request, self.template_name, contexto)
+
+class UsuarioDetallesMiPerfil(View):
 
     def __init__(self):
         self.template_name = 'usuarios/usuario_perfil.html'
@@ -326,6 +336,26 @@ class UsuarioDetallesPerfil(View):
         contexto = {'usuario': usuario, 'profile': perfil}
         return render(request, self.template_name, contexto)
 
+class UsuarioDetallesPerfil(View):
+
+    def __init__(self):
+        self.template_name = 'usuarios/usuario_perfil.html'
+
+    def obtener_UrlImagen(self, _imagen):
+        imagen = ''
+        if _imagen:
+            imagen = _imagen.url
+
+        return imagen
+
+    def get(self, request, pk):
+        usuario = User.objects.get(id=pk)
+        perfil = Profile.objects.get(id=usuario.profile.id)
+        contexto = {'usuario': usuario, 
+                    'profile': perfil,
+                    'foto': self.obtener_UrlImagen(usuario.profile.foto),
+                    }
+        return render(request, self.template_name, contexto)
 
 class UsuarioEditarPerfil(View):
 
@@ -376,7 +406,7 @@ class UsuarioEditarPerfil(View):
             usuario.save()
             usuario.profile = form_perfil.save()
 
-            return redirect(reverse('seguridad:usuario_detalles_perfil'))
+            return redirect(reverse('seguridad:usuario_detalles_mi_perfil'))
 
         contexto = {
             'form': form_usuario,
@@ -405,8 +435,8 @@ class UsuarioCambiarContrasenaPerfil(View):
         return render(request, self.template_name, contexto)
 
     def post(self, request, pk):
-        mensaje = True
-        validacion = True
+        mensaje = True #Bandera para confirmacion de contraseña
+        validacion = True #Bandera para contraseña actual
         usuario = get_object_or_404(User, pk=pk)
 
         form_contrasena_actual = UserContrasenaActualForm(request.POST)
@@ -436,8 +466,9 @@ class UsuarioCambiarContrasenaPerfil(View):
             'msj': mensaje,
         }
         return render(request, self.template_name, contexto)
-# -------------- SEGURIDAD API REST -------------- #
 
+
+# -------------- SEGURIDAD API REST -------------- #
 
 class UserAPI(viewsets.ModelViewSet):
     queryset = User.objects.all()
