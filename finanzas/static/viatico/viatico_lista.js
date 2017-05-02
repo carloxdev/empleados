@@ -43,8 +43,7 @@ function PopupFiltros() {
 PopupFiltros.prototype.init_Components = function () {
 
     this.$fecha_creacion.daterangepicker(this.get_ConfDateRangePicker())    
-    
-    
+
 }
 PopupFiltros.prototype.init_Events = function () {
 

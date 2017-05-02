@@ -31,7 +31,9 @@ from seguridad.views import ProfileExcelAPI
 from seguridad.views import EmpleadosSimpleAPI
 
 from ebs.views import VIEW_EMPLEADOS_SIMPLE_API
+from ebs.views import VIEW_EMPLEADOS_SIMPLE_ByPageAPI
 from ebs.views import VIEW_EMPLEADOS_FULL_API
+from ebs.views import VIEW_EMPLEADOS_FULL_ByPageAPI
 
 
 router = routers.DefaultRouter()
@@ -145,7 +147,7 @@ router.register(
     'incidenciacentroatencion'
 )
 
-# -------------- ADMINISTRACION -------------- #
+# -------------- EBS -------------- #
 
 router.register(
     r'empleadosvistasimple',
@@ -154,11 +156,22 @@ router.register(
 )
 
 router.register(
+    r'empleadosvistasimple_bypage',
+    VIEW_EMPLEADOS_SIMPLE_ByPageAPI,
+    'empleadosvistasimple_bypage'
+)
+
+router.register(
     r'empleadosvistafull',
     VIEW_EMPLEADOS_FULL_API,
     'empleadosvistafull'
 )
 
+router.register(
+    r'empleadosvistafull_bypage',
+    VIEW_EMPLEADOS_FULL_ByPageAPI,
+    'empleadosvistafull_bypage'
+)
 
 
 # -------------- URLS -------------- #

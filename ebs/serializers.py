@@ -9,7 +9,8 @@ from models import VIEW_EMPLEADOS_FULL
 
 
 class VIEW_EMPLEADOS_SIMPLE_Serializer(serializers.HyperlinkedModelSerializer):
-       class Meta:
+
+    class Meta:
         model = VIEW_EMPLEADOS_SIMPLE
         fields = (
             'pers_clave', 
@@ -43,7 +44,8 @@ class VIEW_EMPLEADOS_SIMPLE_Serializer(serializers.HyperlinkedModelSerializer):
 
 
 class VIEW_EMPLEADOS_FULL_Serializer(serializers.HyperlinkedModelSerializer):
-       class Meta:
+
+    class Meta:
         model = VIEW_EMPLEADOS_FULL
         fields = (
             'pers_clave',

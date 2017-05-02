@@ -3,11 +3,11 @@
 \*-----------------------------------------------*/
 
 // URLS:
-//var url_incidencia= window.location.origin + "/api/incidenciadocumento/"
+var url_empleado_full = window.location.origin + "/api/empleadosvistafull/"
 
 
 // OBJS
-var IncidenciaNuevo = null
+var targeta = null
 
 
 /*-----------------------------------------------*\
@@ -16,22 +16,29 @@ var IncidenciaNuevo = null
 
 $(document).ready(function () {
 
-    incidencianuevo = new IncidenciaNuevo()
+    targeta = new TargetaIncidencia()
 })
+
 
 /*-----------------------------------------------*\
             OBJETO: incidencia
 \*-----------------------------------------------*/
 
 
-function IncidenciaNuevo(){
+function TargetaIncidencia(){
 
-    this.$fecha = $('#fecha')
-    this.init()
+    this.$fecha = $('#id_fecha')
+    this.$zona = $('#id_zona')
+    this.$empleado = $('#id_empleado_id') 
+
+    this.init_Components()
+    this.init_Events()
 }
+TargetaIncidencia.prototype.init_Components = function () {
 
-IncidenciaNuevo.prototype.init = function () {
-    this.$fecha.inputmask("yyyy-mm-dd", {"placeholder": "yyyy-mm-dd"})
+
+    this.$empleado.select2()
+    
     this.$fecha.datepicker(
         {
             autoclose: true,
@@ -42,4 +49,62 @@ IncidenciaNuevo.prototype.init = function () {
         }
     )
 }
+TargetaIncidencia.prototype.init_Events = function () {
+
+    this.$empleado.on("change", this, this.escoger_Zona)
+}
+TargetaIncidencia.prototype.escoger_Zona = function (e) {
+
+    // Consultar el API con el numero del empleado.
+    var num_empleado = e.data.$empleado.val()
+
+    var url = url_empleado_full + "?pers_empleado_numero=" + num_empleado
+
+    $.ajax({
+        url: url,
+        method: "GET",
+        success: function (response) {
+            
+            // Validar cuando no obtenga regitros
+
+
+            if (response[0].asig_ubicacion_desc == 'OFICINA VILLAHERMOSA JUJO' ||
+                    response[0].asig_ubicacion_desc == 'OFICINA VILLAHERMOSA CEDROS' ||
+                    response[0].asig_ubicacion_desc == 'OFICINA VILLAHERMOSA MANGOS') {
+
+                // alert("VILLAHERMOSA")
+                e.data.$zona.val(1)
+            }
+
+            else if (response[0].asig_ubicacion_desc == 'OFICINA POZA RICA'){
+                // alert("POZA RICA")  
+                e.data.$zona.val(2) 
+            }
+            else if (response[0].asig_ubicacion_desc == 'OFICINA REYNOSA'){
+                // alert("REYNOSA")
+                e.data.$zona.val(3) 
+            }
+            else if (response[0].asig_ubicacion_desc == 'OFICINA VERACRUZ' ||
+                    response[0].asig_ubicacion_desc == 'OFICINA NARANJOS'){
+                // alert("VERACRUZ")           
+                e.data.$zona.val(4) 
+            }
+            else {
+
+                // alert("NARANJOS")
+                e.data.$zona.val(5) 
+            }
+
+
+        },
+        error: function (response) {
+            // alertify.error("Ocurrio error al consultar")
+            alert("Ocurrio error al consultar")
+        }
+
+    })
+}
+
+
+
 
