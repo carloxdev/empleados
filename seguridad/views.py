@@ -369,8 +369,8 @@ class UsuarioEditarPerfil(View):
 
         return imagen
 
-    def get(self, request, pk):
-        usuario_id = get_object_or_404(User, pk=pk)
+    def get(self, request):
+        usuario_id = get_object_or_404(User, pk=request.user.id)
         form_usuario = UserEditarPerfilForm(
             initial={
                 'first_name': usuario_id.first_name,

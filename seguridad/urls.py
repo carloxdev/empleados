@@ -40,7 +40,7 @@ urlpatterns = [
     url(r'^usuarios/perfil/lista/$', UsuarioListaPerfil.as_view(), name="usuario_lista_perfil"),
     url(r'^usuarios/perfil/lista/detalles/(?P<pk>\d+)/$', UsuarioDetallesPerfil.as_view(), name="usuario_lista_perfil"),
     url(r'^usuarios/perfil/detalles/$', UsuarioDetallesMiPerfil.as_view(), name="usuario_detalles_mi_perfil"),
-    url(r'^usuarios/perfil/editar/(?P<pk>\d+)/$', UsuarioEditarPerfil.as_view(), name="usuario_editar_perfil"),
+    url(r'^usuarios/perfil/editar/$', UsuarioEditarPerfil.as_view(), name="usuario_editar_perfil"),
     url(r'^usuarios/perfil/contrasena/(?P<pk>\d+)/$', UsuarioCambiarContrasenaPerfil.as_view(), name="usuario_cambiar_contrasena_perfil"),
 ]
 

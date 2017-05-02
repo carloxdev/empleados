@@ -63,7 +63,7 @@ class UserForm(ModelForm):
                    }  #Para hacer no editable 'disabled': 'True'
 
 class UsuarioForm(ModelForm):
-    #clave_rh = ChoiceField(label="Clave de empleado:",widget = Select(attrs={'class': 'form-control input-xs'}))
+    clave_rh = ChoiceField(label="Clave de empleado:",widget = Select(attrs={'class': 'form-control input-xs'}))
         
     class Meta:
         model = Profile
@@ -87,27 +87,31 @@ class UsuarioForm(ModelForm):
                    'foto': FileInput(attrs={'class': 'dropzone dz-clickable dz-started'}),
                    }
 
-    # def __init__(self, *args, **kwargs):
-    #     super(UsuarioForm, self).__init__(*args, **kwargs)
-    #     self.fields['clave_rh'].choices= self.get_Clave_rh()
+    def __init__(self, *args, **kwargs):
+        super(UsuarioForm, self).__init__(*args, **kwargs)
+        self.fields['clave_rh'].choices= self.get_EmpleadosEbs()
 
-    # def get_Clave_rh(self):
+    def get_EmpleadosEbs(self):
 
-    #     valores = [('','-------')]
+        valores = [('','-------')]
 
-    #     claves = VIEW_EMPLEADOS_SIMPLE.objects.using('ebs_d').all()
+        empleados = VIEW_EMPLEADOS_SIMPLE.objects.using('ebs_d').all()
         
 
-    #     for clave in claves:
+        for empleado in empleados:
 
-    #         valores.append(
-    #             (   
-    #                 clave.pers_empleado_numero,
-    #                 clave.pers_empleado_numero,
-    #             )
-    #         )
-    #     return valores
+            descripcion = "%s - %s" % (
+                empleado.pers_empleado_numero,
+                empleado.pers_nombre_completo
+            )
 
+            valores.append(
+                (   
+                    empleado.pers_empleado_numero,
+                    descripcion,
+                )
+            )
+        return valores
 
 class UserEditarForm(ModelForm):
 
