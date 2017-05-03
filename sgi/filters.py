@@ -11,6 +11,7 @@ from django_filters import CharFilter
 from .models import IncidenciaDocumento
 from .models import CentroAtencion
 from administracion.models import Zona
+from .models import IncidenciaArchivo
 
 
 class IncidenciaDocumentoFilter(filters.FilterSet):
@@ -119,4 +120,18 @@ class CentroAtencionFilter(filters.FilterSet):
             'id',
             'descripcion',
             'created_by',
-        ]        
+        ] 
+
+class IncidenciaArchivoFilter(filters.FilterSet):
+
+    id_emp = CharFilter(
+        name="pers_empleado_numero",
+        lookup_expr="icontains"
+    )
+
+    class Meta:
+        model = IncidenciaArchivo
+        fields = [
+            'id_emp', 
+            'tipo', 
+        ]               

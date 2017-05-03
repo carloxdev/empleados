@@ -21,6 +21,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from .models import IncidenciaDocumento
 from .models import IncidenciaTipo
 from .models import CentroAtencion
+from .models import IncidenciaArchivo
 
 # Otros Modelos:
 from ebs.models import VIEW_EMPLEADOS_FULL
@@ -30,17 +31,21 @@ from administracion.models import Empresa
 # Formularios:
 from .forms import IncidenciaDocumentoForm
 from .forms import IncidenciaDocumentoFilterForm
+from .forms import IncidenciaArchivoForm
 
 # Serializadores:
 from .serializers import IncidenciaDocumentoSerializer
 from .serializers import IncidenciaTipoSerializer
 from .serializers import CentroAtencionSerializer
+from .serializers import IncidenciaArchivoSerializer
 
 # Filtros:
 from home.pagination import GenericPagination
 
 # Paginacion:
 from .filters import IncidenciaDocumentoFilter
+from .filters import IncidenciaDocumentoFilter
+from .filters import IncidenciaArchivoFilter
 
 
 # from django.shortcuts import get_object_or_404
@@ -268,6 +273,65 @@ class IncidenciaDocumentoEditar(View):
         return render(request, self.template_name, contexto)
 
 
+class IncidenciaDocumentoArchivo(View):
+
+    def __init__(self):
+        self.template_name = 'incidencia/incidencia_archivo.html'
+
+    def get(self, request, pk):
+
+        id_incidencia = pk
+        anexos = IncidenciaArchivo.objects.filter(id=id_incidencia)
+        form = IncidenciaArchivoForm()
+
+        contexto = {
+            'form': form,
+            'id': id_incidencia,
+            'anexos': anexos,
+        }
+
+        return render(request, self.template_name, contexto)
+
+    # def get(self, request, pk):
+    #     empleado =  get_object_or_404(IncidenciaDocumento, pk=pk)
+    #     formulario = IncidenciaDocumentoForm(instance=empleado)
+
+    #     #operation = viatico.get_status_display()
+
+    #     contexto = {
+    #         'form': formulario,
+    #     }
+    #     return render(request, self.template_name, contexto)        
+
+    def post(self, request, pk):
+        id_incidencia = pk
+        incidencia = IncidenciaDocumento.objects.get(id=id_incidencia)
+        anexos = IncidenciaArchivo.objects.filter(incidencia=id_incidencia)
+        form = IncidenciaArchivoForm(request.POST, request.FILES)
+
+        if form.is_valid():
+            archivo_anexo = IncidenciaArchivo()
+            archivo_anexo.tipo = request.POST['tipo']
+            archivo_anexo.archivo = request.FILES['archivo']
+
+            print archivo_anexo.tipo
+            # if 'archivo' in request.POST:
+            #     archivo_anexo.archivo = request.POST['archivo']
+            # else:
+            #     archivo_anexo.archivo = request.FILES['archivo']
+            archivo_anexo.incidencia = id_incidencia
+            archivo_anexo.save()
+            anexos = AnexoArchivo.objects.filter(incidencia=id_incidencia)
+            form = IncidenciaArchivoForm()
+
+            contexto = {
+                'form': form,
+                'id': id_incidencia,
+                'anexos': anexos,
+            }
+
+            return render(request, self.template_name, contexto)
+
 
 # -------------- INCIDENCIA DOCUMENTO - API REST -------------- #
 
@@ -284,6 +348,15 @@ class IncidenciaDocumentoByPageAPI(viewsets.ModelViewSet):
     filter_backends = (DjangoFilterBackend,)
     filter_class = IncidenciaDocumentoFilter
     pagination_class = GenericPagination
+
+# -------------- INCIDENCIA ANEXO - API REST -------------- #  
+
+class IncidenciaArchivoByPageAPI(viewsets.ModelViewSet):
+    queryset = IncidenciaArchivo.objects.all()
+    serializer_class = IncidenciaArchivoSerializer
+    filter_backends = (DjangoFilterBackend,)
+    filter_class = IncidenciaArchivoFilter
+    pagination_class = GenericPagination  
 
 
 # -------------- INCIDENCIA TIPO - API REST -------------- #

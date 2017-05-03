@@ -5,6 +5,7 @@ from rest_framework import serializers
 from .models import IncidenciaDocumento
 from .models import IncidenciaTipo
 from .models import CentroAtencion
+from .models import IncidenciaArchivo
 
 
 class IncidenciaDocumentoSerializer(serializers.HyperlinkedModelSerializer):
@@ -72,3 +73,20 @@ class CentroAtencionSerializer(serializers.HyperlinkedModelSerializer):
         fields = (
             'descripcion',
         )
+
+class IncidenciaArchivoSerializer(serializers.HyperlinkedModelSerializer):
+
+    tipo = serializers.SerializerMethodField()
+
+    class Meta:
+        model = IncidenciaArchivo
+        fields = (
+            'pk',
+            'tipo',
+            'archivo',
+            'created_by',
+            'created_date',
+            'updated_by',
+            'updated_date',
+        )
+

@@ -8,6 +8,7 @@
 var url_incidenciadocumento = window.location.origin + "/api/incidenciadocumento/"
 var url_incidenciadocumento_bypage = window.location.origin + "/api/incidenciadocumento_bypage/"
 var url_incidencia_editar = window.location.origin + "/incidencias/editar/"
+var url_anexos = window.location.origin + "/incidencias/anexos/"
 
 // OBJS
 var filtros = null
@@ -176,6 +177,13 @@ Grid.prototype.init_Components = function () {
     // Se inicializa y configura el grid:
     this.kgrid = this.$id.kendoGrid(this.get_Configuracion())    
 }
+
+Grid.prototype.click_BotonAnexos = function (e) {
+
+    e.preventDefault()
+    var fila = this.dataItem($(e.currentTarget).closest('tr'))
+    window.location.href = url_anexos + fila.pk 
+}
 Grid.prototype.get_DataSourceConfig = function () {
 
     return {
@@ -248,7 +256,7 @@ Grid.prototype.get_Configuracion = function () {
         noRecords: {
             template: "<div class='grid-empy'> No se encontraron registros </div>"
         },
-        // dataBound: this.set_Icons,
+        dataBound: this.set_Icons,
     }    
 }
 Grid.prototype.get_Columnas = function () {
@@ -279,7 +287,24 @@ Grid.prototype.get_Columnas = function () {
         { field: "centro_atencion", title: "centro_atencion", width:"200px" },
         { field: "tiene_acr", title: "tiene_acr", width:"200px" },
         { field: "status", title: "status", width:"200px" },
+        {
+           command: [ 
+                {
+                   text: "Anexo",
+                   click: this.click_BotonAnexos,
+                   className: "boton_eliminar fa fa-trash-o"
+                },              
+            ],           
+           title: " ",
+           width: "120px"
+        },
     ]
+}
+Grid.prototype.set_Icons = function (e) {
+
+    e.sender.tbody.find(".k-button.fa.fa-pencil").each(function(idx, element){
+        $(element).removeClass("fa fa-pencil").find("span").addClass("fa fa-pencil")
+    })   
 }
 Grid.prototype.buscar = function() {
     

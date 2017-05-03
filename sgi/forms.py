@@ -11,11 +11,13 @@ from django.forms import CharField
 from django.forms import ChoiceField
 from django.forms import IntegerField
 from django.forms import BooleanField
+from django.forms import FileInput
 
 
 # Librerias Propias:
 from .models import IncidenciaDocumento
 from .models import IncidenciaTipo
+from .models import IncidenciaArchivo
 
 from ebs.models import VIEW_EMPLEADOS_SIMPLE
 from administracion.models import Zona
@@ -123,8 +125,8 @@ class IncidenciaDocumentoForm(ModelForm):
             # 'empleado_puesto_desc',
             # 'empleado_un',
             #'empleado_organizacion',
-            'area_id',
-            'area_descripcion',
+            #'area_id',
+            #'area_descripcion',
             'lugar',
             'dias_incapcidad',
             'centro_atencion',
@@ -150,8 +152,8 @@ class IncidenciaDocumentoForm(ModelForm):
             # 'empleado_puesto_desc': 'Puesto',
             # 'empleado_un': 'Unidad de Negocio',
             #'empleado_organizacion': 'Organizacion',
-            'area': 'Area id',
-            'area_descripcion': 'Area',
+            #'area': 'Area id',
+            #'area_descripcion': 'Area',
             'lugar': 'Lugar de Incidencia',
             'dias_incapcidad': 'Dias Incapacidad',
             'centro_atencion': 'Centro de Atencion',
@@ -173,12 +175,27 @@ class IncidenciaDocumentoForm(ModelForm):
             # 'empleado_puesto_desc': TextInput(attrs={'class': 'form-control input-xs'}),
             # 'empleado_un': TextInput(attrs={'class': 'form-control input-xs'}),
             # 'empleado_organizacion': TextInput(attrs={'class': 'form-control input-xs'}),
-            'area': TextInput(attrs={'class': 'form-control input-xs'}),
-            'area_descripcion': TextInput(attrs={'class': 'form-control input-xs'}),
+            #'area': TextInput(attrs={'class': 'form-control input-xs'}),
+            #'area_descripcion': TextInput(attrs={'class': 'form-control input-xs'}),
             'lugar': TextInput(attrs={'class': 'form-control input-xs'}),
             'dias_incapacidad': TextInput(attrs={'class': 'form-control input-xs'}),
             'centro_atencion': Select(attrs={'class': 'form-control input-sm'}),
             'tiene_acr': CheckboxInput(),
             # 'status': Select(attrs={'class': 'form-control input-sm'}),
             #'Archivo': FileInput(attrs={'class': 'dropzone dz-clickable dz-started'}),
+        }
+
+class IncidenciaArchivoForm(ModelForm):
+
+    class Meta:
+        model = IncidenciaArchivo
+        fields = ['id', 'tipo', 'archivo']
+        labels = {
+            'id': 'No Incidencia',
+            'tipo': 'Tipo',
+            'archivo': 'Archivo',
+        }
+        widgets = {
+            'Tipo': TextInput(attrs={'class': 'form-control'}),
+            'archivo': FileInput(attrs={'class': 'dropzone dz-clickable dz-started'}),
         }

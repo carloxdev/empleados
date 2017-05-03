@@ -14,8 +14,14 @@ from seguridad.models import Profile
 from administracion.models import Zona
 from administracion.models import Empresa
 
-from .utilities import get_FilePath_Incidencia
-from .utilities import get_FilePath_Resolucion
+# Validadores:
+from home.validators import valid_extension
+from home.validators import validate_image
+
+# Utilidades:
+from utilities import get_FilePath_Incidencia
+from utilities import get_FilePath_Resolucion
+
 
 
 class CentroAtencion(models.Model):

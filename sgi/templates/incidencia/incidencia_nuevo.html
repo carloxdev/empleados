@@ -28,8 +28,8 @@
         <h2 class="page-head-title">Nueva Incidencia</h2>
         <ol class="breadcrumb page-head-nav">
             <li><a href="#">Inicio</a></li>
-           {#  <li><a href="{% url 'finanzas:viatico_lista' %}">Viaticos</a></li> #}
-            <li class="active">{% if id_cabecera %}Edición {% else %} Nuevo {% endif %}</li>
+            <li><a href="{% url 'sgi:incidencia_lista' %}">Incidencias</a></li>
+            <li class="active">{% if id %}Edición {% else %} Nuevo {% endif %}</li>
         </ol>
     </div>
     <div class="main-content container-fluid">  
@@ -90,7 +90,7 @@
 
                                 
                                 <!-- Fecha -->
-                                <div class="row">
+                                <!--<div class="row">
 									<div class="col-sm-4">
 										<label for="{{ form.fecha.id_for_label }}"> Fecha: </label>
 				                            <div data-min-view="2" data-date-format="yyyy-mm-dd" class="input-group date datetimepicker">
@@ -99,7 +99,23 @@
 				                            <span class="input-group-addon btn btn-primary"><i class="icon-th mdi mdi-calendar"></i></span>
 				                            </div>
 									</div>
-								</div>
+								</div>-->
+                                <div class="row">
+								<div class="form-group col-sx-12 col-sm-4 col-md-4 {% if form.fecha.field.required %} has-warning {% endif %} {% if form.fecha.errors %} has-error {% endif %} ">
+									<label for="{{ form.fecha.id_for_label}}">
+									<i class="fa {% if form.fecha.field.required %} fa-asterisk {% endif %}"></i>
+									Fecha</label>
+									<div class="form-group input-group">
+						            	<div class="input-group-addon">
+						                	<i class="fa fa-calendar"></i>
+						            	</div>
+						                {{ form.fecha }}
+						            </div>
+						            {% for error in form.fecha.errors %}
+									    <span class="help-block">{{ error }}</span>
+										{% endfor %}						
+						        </div>
+						        </div>
 
 
                                 <div class="row">
@@ -122,8 +138,9 @@
 								</div>
 
 								
-								<div class="row">
+								
 								<!-- Nombre Empleado -->
+								<!--<div class="row">
 								<div class="col-sm-6">
 
 									<div class="form-group {% if form.empleado_nombre.field.required %} has-warning {% endif %} {% if form.empleado_nombre.errors %} has-error {% endif %}">
@@ -140,7 +157,7 @@
 									{% endfor %}
 									</div>
 								</div>
-								</div>
+								</div>-->
                                 
 
                                 <div class="row">
@@ -164,7 +181,7 @@
 								</div>
                                 
                                 <!-- Empleado proyecto id-->
-                                <div class="row">
+                                <!--<div class="row">
 								<div class="col-sm-6">
 
 									<div class="form-group {% if form.empleado_proyecto.field.required %} has-warning {% endif %} {% if form.empleado_proyecto.errors %} has-error {% endif %}">
@@ -181,10 +198,10 @@
 									{% endfor %}
 									</div>
 								</div>
-								</div>
+								</div>-->
 
 								<!-- Empleado proyecto -->
-								<div class="row">
+								<!--<div class="row">
 								<div class="col-sm-6">
 
 									<div class="form-group {% if form.empleado_proyecto_desc.field.required %} has-warning {% endif %} {% if form.empleado_proyecto_desc.errors %} has-error {% endif %}">
@@ -201,11 +218,11 @@
 									{% endfor %}
 									</div>
 								</div>
-								</div>
+								</div>-->
 
 
                                 <!-- Empleado puesto id -->
-                                <div class="row">
+                                <!--<div class="row">
 								<div class="col-sm-6">
 
 									<div class="form-group {% if form.empleado_puesto.field.required %} has-warning {% endif %} {% if form.empleado_puesto.errors %} has-error {% endif %}">
@@ -222,10 +239,10 @@
 									{% endfor %}
 									</div>
 								</div>
-								</div>
+								</div>-->
 
 								<!-- Empleado puesto -->
-								<div class="row">
+								<!--<div class="row">
 								<div class="col-sm-6">
 
 									<div class="form-group {% if form.empleado_puesto_desc.field.required %} has-warning {% endif %} {% if form.empleado_puesto_desc.errors %} has-error {% endif %}">
@@ -242,10 +259,10 @@
 									{% endfor %}
 									</div>
 								</div>
-								</div>
+								</div>-->
 
 								<!-- Empleado unidad negocio -->
-								<div class="row">
+								<!--<div class="row">
 								<div class="col-sm-6">
 
 									<div class="form-group {% if form.empleado_un.field.required %} has-warning {% endif %} {% if form.empleado_un.errors %} has-error {% endif %}">
@@ -262,11 +279,11 @@
 									{% endfor %}
 									</div>
 								</div>
-								</div>
+								</div>-->
 
 
 								<!-- Empleado organizacion -->
-								<div class="row">
+								<!--<div class="row">
 								<div class="col-sm-6">
 
 									<div class="form-group {% if form.empleado_organizacion.field.required %} has-warning {% endif %} {% if form.empleado_organizacion.errors %} has-error {% endif %}">
@@ -283,10 +300,10 @@
 									{% endfor %}
 									</div>
 								</div>
-								</div>
+								</div>-->
 
                                 <!-- area id -->
-                                <div class="row">
+                                <!--<div class="row">
 								<div class="col-sm-6">
 
 									<div class="form-group {% if form.area_id.field.required %} has-warning {% endif %} {% if form.area_id.errors %} has-error {% endif %}">
@@ -303,10 +320,10 @@
 									{% endfor %}
 									</div>
 								</div>
-								</div>
+								</div>-->
 
 								<!-- area descripcion -->
-								<div class="row">
+								<!-- <div class="row">
 								<div class="col-sm-6">
 
 									<div class="form-group {% if form.area_descripcion.field.required %} has-warning {% endif %} {% if form.area_descripcion.errors %} has-error {% endif %}">
@@ -323,7 +340,7 @@
 									{% endfor %}
 									</div>
 								</div>
-								</div>
+								</div>-->
 
 								<!-- lugar  -->
 								<div class="row">
@@ -476,6 +493,7 @@
 
 	<!-- NOVA -->
 	<script src="{% static 'incidencia/incidencia_formulario.js' %}"></script>
+
 
 {% endblock scripts %}
 
