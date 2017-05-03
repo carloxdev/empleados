@@ -39,12 +39,15 @@
 							<h4><b>Información de usuario</b></h4>
 
 							<!-- Clave_rh-->
-							<div class="form-group {% if form.username.field.required %} has-warning {% endif %} {% if form.clave_rh.errors %} has-error {% endif %}">
+							<div class="form-group {% if form.username.field.required %} has-warning {% endif %} {% if form.clave_rh.errors %} has-error {% endif %}{% if msj_clave == True %} has-error {% endif %}">
 								<label class="control-label">
 									<i class="fa {% if form.username.field.required %} fa-asterisk {% endif %} {% if form.username.errors %} fa-asterisk {% endif %}"></i> 
 									{{form2.clave_rh.label}}
 								</label>
 								<p>{{ form2.clave_rh }}</p>
+								{% if msj_clave == True %} 
+									<span class="help-block">La clave seleccionada ya esta asociada a un usuario.</span>
+								{% endif %}
 								{% for error in form2.clave_rh.errors %}
 									<span class="help-block">{{ error }}</span>
 								{% endfor %}
@@ -71,17 +74,6 @@
 									<span class="help-block">{{ error }}</span>
 								{% endfor %}
 							</div>
-							<!-- Email-->
-							<div class="form-group {% if form.email.field.required %} has-warning {% endif %} {% if form.email.errors %} has-error {% endif %}">
-								<label class="control-label">
-									<i class="fa {% if form.email.field.required %} fa-asterisk {% endif %} {% if form.email.errors %} fa-asterisk {% endif %}"></i> 
-									{{form.email.label}}
-								</label>
-								<p>{{ form.email }}</p>
-								{% for error in form.email.errors %}
-									<span class="help-block">{{ error }}</span>
-								{% endfor %}
-							</div>
 							<!-- Fecha_nacimiento-->
 							<div class="form-group {% if form2.fecha_nacimiento.field.required %} has-warning {% endif %} {% if form2.fecha_nacimiento.errors %} has-error {% endif %}">
 								<label class="control-label">
@@ -90,6 +82,17 @@
 								</label>
 								<p>{{ form2.fecha_nacimiento}}</p>
 								{% for error in form2.fecha_nacimiento.errors %}
+									<span class="help-block">{{ error }}</span>
+								{% endfor %}
+							</div>
+							<!-- Email-->
+							<div class="form-group {% if form.email.field.required %} has-warning {% endif %} {% if form.email.errors %} has-error {% endif %}">
+								<label class="control-label">
+									<i class="fa {% if form.email.field.required %} fa-asterisk {% endif %} {% if form.email.errors %} fa-asterisk {% endif %}"></i> 
+									{{form.email.label}}
+								</label>
+								<p>{{ form.email }}</p>
+								{% for error in form.email.errors %}
 									<span class="help-block">{{ error }}</span>
 								{% endfor %}
 							</div>
@@ -119,15 +122,12 @@
 							<h4><b>Información de cuenta</b></h4>
 							<br>
 							<!-- Username-->
-							<div class="form-group {% if form.username.field.required %} has-warning {% endif %} {% if form.username.errors %} has-error {% endif %}{% if msj_clave == True %} has-error {% endif %}">
+							<div class="form-group {% if form.username.field.required %} has-warning {% endif %} {% if form.username.errors %} has-error {% endif %}">
 								<label class="control-label">
 									<i class="fa {% if form.username.field.required %} fa-asterisk {% endif %} {% if form.username.errors %} fa-asterisk {% endif %}"></i> 
 									{{ form.username.label }}
 								</label>
 								<p>{{ form.username}}</p>
-								{% if msj_clave == True %}
-									<span class="help-block">Ya existe un usuario con la clave de empleado especificada</span>
-								{% endif %}
 								{% for error in form.username.errors %}
 									<span class="help-block">{{ error }}</span>
 								{% endfor %}

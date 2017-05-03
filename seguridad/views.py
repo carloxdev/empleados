@@ -217,6 +217,7 @@ class UsuarioEditar(View):
                 'email': usuario_id.email,
                 'is_active': usuario_id.is_active,
                 'is_staff': usuario_id.is_staff,
+                'is_superuser': usuario_id.is_superuser
             }
         )
 
@@ -249,12 +250,8 @@ class UsuarioEditar(View):
             usuario.email = datos_formulario.get('email')
             usuario.is_active = datos_formulario.get('is_active')
             usuario.is_staff = datos_formulario.get('is_staff')
-
-            if datos_formulario.get('is_staff'):
-                usuario.is_superuser = True
-            else:
-                usuario.is_superuser = False
-
+            usuario.is_superuser = datos_formulario.get('is_superuser')
+            
             usuario.save()
             usuario.profile = form_perfil.save()
 
@@ -315,47 +312,6 @@ class UsuarioCambiarContrasena(View):
 
 # -------------- USUARIO VIEWS -------------- #
 
-class UsuarioListaPerfil(View):
-
-    def __init__(self):
-        self.template_name = 'usuarios/usuario_lista_perfil.html'
-
-    def get(self, request):
-        form_buscar = UserFormFilter()
-        contexto = {'form': form_buscar}
-        return render(request, self.template_name, contexto)
-
-class UsuarioDetallesMiPerfil(View):
-
-    def __init__(self):
-        self.template_name = 'usuarios/usuario_perfil.html'
-
-    def get(self, request):
-        usuario = User.objects.get(id=request.user.id)
-        perfil = Profile.objects.get(id=usuario.profile.id)
-        contexto = {'usuario': usuario, 'profile': perfil}
-        return render(request, self.template_name, contexto)
-
-class UsuarioDetallesPerfil(View):
-
-    def __init__(self):
-        self.template_name = 'usuarios/usuario_perfil.html'
-
-    def obtener_UrlImagen(self, _imagen):
-        imagen = ''
-        if _imagen:
-            imagen = _imagen.url
-
-        return imagen
-
-    def get(self, request, pk):
-        usuario = User.objects.get(id=pk)
-        perfil = Profile.objects.get(id=usuario.profile.id)
-        contexto = {'usuario': usuario, 
-                    'profile': perfil,
-                    'foto': self.obtener_UrlImagen(usuario.profile.foto),
-                    }
-        return render(request, self.template_name, contexto)
 
 class UsuarioEditarPerfil(View):
 

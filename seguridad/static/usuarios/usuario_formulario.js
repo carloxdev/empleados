@@ -4,6 +4,7 @@
 
 // URLS:
 var url_empleado_simple= window.location.origin + "/api/empleadosvistasimple/"
+var url_profile_datos = window.location.origin + "/api/profile/"
 
 // OBJS
 var tarjeta= null
@@ -37,6 +38,7 @@ function TarjetaUsuario() {
     this.$last_name = $('#id_last_name')
     this.$email = $('#id_email')
     this.$fecha_nacimiento = $('#id_fecha_nacimiento')
+    this.$clave_existente = null
 
     this.init_Components()
     this.init_Events()
@@ -62,13 +64,31 @@ TarjetaUsuario.prototype.escoger_Usuario = function (e) {
     $.ajax({
         url: url,
         method: "GET",
-        success: function (response) {
-            
+        success: function (response) {    
+
             e.data.$first_name.val((response[0].pers_primer_nombre +" "+ response[0].pers_segundo_nombre).split(" -")[0])
             e.data.$last_name.val(response[0].pers_apellido_paterno +" "+ response[0].pers_apellido_materno)
             e.data.$email.val(response[0].pers_email)
             e.data.$fecha_nacimiento.val((response[0].pers_fecha_nacimiento).split(" ")[0])
             e.data.$username.val(num_empleado)
+        },
+        error: function (response) {
+            // alertify.error("Ocurrio error al consultar")
+            alert("Ocurrio error al consultar")
+        }
+
+    })
+}
+TarjetaUsuario.prototype.validar_Clave = function () {
+
+    // Consultar el API con el numero del empleado.
+    var url_profile = url_profile_datos + "?clave_rh=" + num_empleado
+
+    $.ajax({
+        url: url,
+        method: "GET",
+        success: function (response) {
+
         },
         error: function (response) {
             // alertify.error("Ocurrio error al consultar")

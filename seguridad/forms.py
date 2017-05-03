@@ -63,7 +63,7 @@ class UserForm(ModelForm):
                    'first_name': TextInput(attrs={'class': 'form-control input-xs','readonly':'True'}),
                    'last_name': TextInput(attrs={'class': 'form-control input-xs','readonly':'True'}),
                    'email': TextInput(attrs={'class': 'form-control input-xs','readonly':'True'}),
-                   }  #Para hacer no editable 'disabled': 'True'
+                   } 
 
 
 class UsuarioForm(ModelForm):
@@ -127,17 +127,19 @@ class UserEditarForm(ModelForm):
                   'email',
                   'is_active',
                   'is_staff',
+                  'is_superuser',
                   ]
 
         labels = {'first_name': 'Nombre',
                   'last_name': 'Apellidos',
                   'email': 'Email',
                   'is_active': 'Activo',
-                  'is_staff': 'Administrador'
+                  'is_staff': 'Administrador',
+                  'is_superuser': 'Acceso a todos los privilegios',
                   }
 
-        widgets = {'first_name': TextInput(attrs={'class': 'form-control input-xs'}),
-                   'last_name': TextInput(attrs={'class': 'form-control input-xs'}),
+        widgets = {'first_name': TextInput(attrs={'class': 'form-control input-xs','readonly':'True'}),
+                   'last_name': TextInput(attrs={'class': 'form-control input-xs','readonly':'True'}),
                    'email': TextInput(attrs={'class': 'form-control input-xs'}),
                    }
 

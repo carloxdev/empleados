@@ -4,7 +4,7 @@
 
 // URLS:
 var url_profile_bypage = window.location.origin + "/api/profile_bypage/"
-var url_profile_editar_bypage = window.location + "/editar/"
+var url_profile_editar_bypage = window.location + "editar/"
 var url_profile_excel = window.location.origin + "/api/profileexcel/"
 
 // OBJS
