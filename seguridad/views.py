@@ -154,9 +154,6 @@ class UsuarioNuevo(View):
             valor = datos_perfil.get('clave_rh')
             clave = Profile.objects.filter(clave_rh = valor)
 
-            print valor
-            print clave
-
             if valor and clave:
                 mensaje_clave = True
             else:

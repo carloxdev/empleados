@@ -158,8 +158,6 @@ Grid.prototype.get_Campos = function () {
         clave_jde : { type: "string" },
         fecha_nacimiento : { type: "date" },
         is_active : { type: "string" },
-        //is_staff : { type: "string" },
-        //is_superuser : { type: "string" },
         date_joined : { type: "date" },
         last_login : { type: "date" },
     }
@@ -199,8 +197,6 @@ Grid.prototype.get_Columnas = function () {
         { field: "clave_jde", title: "Clave JDE", width:"100px" },
         { field: "fecha_nacimiento", title: "Fecha de nacimiento", width:"150px", format: "{0:dd-MM-yyyy}" },
         { field: "is_active",title: "Estado",width:"100px" },
-        //{ field: "is_staff",title: "Administrador",width:"100px" },
-        //{ field: "is_superuser",title: "Estado",width:"100px" },
         { field: "date_joined", title: "Fecha de creación", width:"150px", format: "{0:dd-MM-yyyy}" },
         { field: "last_login", title: "Ultima sesion", width:"150px", format: "{0:dd-MM-yyyy}" },
     ]
