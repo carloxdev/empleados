@@ -536,6 +536,42 @@ Grid.prototype.filtrar_Recepciones = function (fila) {
         }
     });
 }
+Grid.prototype.click_BotonDetallesCotejo = function (e){
+    
+    e.preventDefault()
+    var fila = this.dataItem($(e.currentTarget).closest('tr'))
+    tarjeta_resultados.grid.filtrar_Cotejo(fila)
+    tarjeta_detalles.$popup_filtros.modal('show')
+}
+Grid.prototype.filtrar_Cotejo = function (fila) {
+    
+    $.ajax({
+        url: url_compraseguimiento_recepciones,
+        method: "GET",
+        dataType: "json",
+        data: {
+            oc:fila.ord,
+            oc_tipo:fila.ord_tipo,
+            oc_compania:fila.ord_compania,
+            oc_linea:fila.ord_linea,
+            tran_tipo:'2',
+        },
+        success: function(data) {
+            tarjeta_detalles.construir_Tabla(
+                '#tabla_detalles',
+                data.results,
+                [   'fecha_lm', 'cantidad_recib', 'udm_recib', 'pu_ex', 'monto_recib_ex', 'moneda', 'tasa', 'pu_mx', 'monto_recib_mx',
+                    'impuesto', 'impuesto_flag', 'batch', 'batch_tipo', 'activo', 'ubicacion', 'lote', 'contenedor', 'observaciones',
+                    'updater', 'updater_desc', 'fecha_update', 'oc_compania', 'oc_tipo', 'oc', 'oc_linea', 'oc_linea_tipo', 'oc_sufix',
+                    'tran_compania', 'tran_un', 'tran_tipo', 'tran_tipo_desc', 'tran_linea', 'doc_compania', 'doc_tipo', 'doc',
+                    'doc_linea', 'doc_je_linea', 'doc_factura', 'proveedor', 'item', 'item_numero', 'item_descripcion', 'item_glclass',
+                    'originador', 'originador_desc', 'fecha_creacion', 'fecha_tran'])
+        },
+        failure: function(data) { 
+            alert('Error al recuperar datos.');
+        }
+    });
+}
 Grid.prototype.set_Icons = function (e) {
 
     e.sender.tbody.find(".k-button.mdi.mdi-search").each(function(idx, element){
