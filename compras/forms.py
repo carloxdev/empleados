@@ -15,6 +15,8 @@ from django.forms import RadioSelect
 #Modelos
 from jde.models import VIEW_COMPANIAS
 from jde.models import VIEW_UNIDADES
+from jde.models import VIEW_USUARIOS
+from jde.models import VIEW_ITEMS
 
 class ComprasSeguimientoFilterForm(Form):
     TIPOS_REQUISISION = (
@@ -64,7 +66,7 @@ class ComprasSeguimientoFilterForm(Form):
     )
 
     compania = ChoiceField(
-        widget=Select(attrs={'class': 'select2 input-xs'})
+        widget=Select(attrs={'class': 'select2 nova-select2'})
     )
     sucursal = ChoiceField(
         widget=Select(attrs={'class': 'select2 nova-select2'})
@@ -79,8 +81,8 @@ class ComprasSeguimientoFilterForm(Form):
     requisicion_tipo = CharField(
         widget=Select(attrs={'class': 'form-control input-xs'}, choices=TIPOS_REQUISISION)
     )
-    requisicion_originador = CharField(
-        widget=TextInput(attrs={'class': 'form-control input-xs'})
+    requisicion_originador = ChoiceField(
+        widget=Select(attrs={'class': 'select2 nova-select2'})
     )
     requisicion_canceladas = ChoiceField(
         widget=RadioSelect, choices=CANCELADAS
@@ -112,8 +114,8 @@ class ComprasSeguimientoFilterForm(Form):
     proveedor = CharField(
         widget=TextInput(attrs={'class': 'form-control input-xs'})
     )
-    item = CharField(
-        widget=TextInput(attrs={'class': 'form-control input-xs'})
+    item = ChoiceField(
+        widget=Select(attrs={'class': 'select2 nova-select2'})
     )
     recepcion = CharField(
         widget=Select(attrs={'class': 'form-control input-xs'}, choices=RECEPCION)
@@ -124,6 +126,8 @@ class ComprasSeguimientoFilterForm(Form):
             *args, **kwargs)
         self.fields['compania'].choices= self.get_Compania()
         self.fields['sucursal'].choices= self.get_Sucursal()
+        self.fields['requisicion_originador'].choices= self.get_Requisicion_Originador()
+        self.fields['item'].choices= self.get_Item()
 
     def get_Compania(self):
 
@@ -153,6 +157,30 @@ class ComprasSeguimientoFilterForm(Form):
                 (   
                     unidad.clave,
                     '(' + unidad.clave + ')' + ' ' + unidad.desc_corta,
+                )
+            )
+        return valores
+
+    def get_Requisicion_Originador(self):
+        valores = [('','-------')]
+        originadores = VIEW_USUARIOS.objects.using('jde_p').filter(dir_tipo="E")
+
+        for originador in originadores:
+            valores.append(
+                (   originador.clave,
+                    originador.dir_desc,
+                )
+            )
+        return valores
+
+    def get_Item(self):
+        valores = [('','-------')]
+        items = VIEW_ITEMS.objects.using('jde_p').all()
+
+        for item in items:
+            valores.append(
+                (   item.numero,
+                    item.descripcion + ' ' + item.modelo,
                 )
             )
         return valores

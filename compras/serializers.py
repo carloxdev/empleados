@@ -8,6 +8,8 @@ from jde.models import VIEW_UNIDADES
 from jde.models import VIEW_COMPANIAS
 from jde.models import VIEW_AUTORIZACIONES
 from jde.models import VIEW_RECEPCIONES
+from jde.models import VIEW_USUARIOS
+from jde.models import VIEW_ITEMS
 
 class CompraSeguimientoSerializer(serializers.HyperlinkedModelSerializer):
       class Meta:
@@ -177,4 +179,47 @@ class CompraSeguimientoRecepcionesSerializer(serializers.ModelSerializer):
                   'originador_desc',
                   'fecha_creacion',
                   'fecha_tran',
-      )      
+      )
+
+class CompraSeguimientoUsuariosSerializer(serializers.HyperlinkedModelSerializer):
+      class Meta:
+            model = VIEW_USUARIOS
+            fields = ( 
+                  'dir_tipo_desc',
+                  'dir_tipo',
+                  'dir_desc',
+                  'dir',
+                  'clave',
+      )
+
+class CompraSeguimientoItemsSerializer(serializers.HyperlinkedModelSerializer):
+
+      class Meta:
+            model = VIEW_ITEMS
+            fields = (
+                  'proveedor_prin',
+                  'submercancia',
+                  'mercancia',
+                  'comprador',
+                  'udm_compra',
+                  'udm_secu',
+                  'udm_prim',
+                  'gl_codigo',
+                  'linea_tipo',
+                  'alm_tipo',
+                  'texto_busqueda',
+                  'modelo',
+                  'descripcion',
+                  'noparte',
+                  'numero',
+                  'clave',
+                  'fijo_fariable',
+                  'nivel_plazo',
+                  'elim_mensaje_mrp',
+                  'limite_vislz_mensaje',
+                  'limite_congelacion',
+                  'regla_limite_planif',
+                  'cd_planif',
+                  'codigo_norma_ordenes',
+                  'mantto_clasif',
+            )
