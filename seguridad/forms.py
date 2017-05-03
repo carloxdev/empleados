@@ -57,9 +57,9 @@ class UserForm(ModelForm):
 
         widgets = {'password': PasswordInput(attrs={'class': 'form-control input-xs'}),
                    'username': TextInput(attrs={'class': 'form-control input-xs'}),
-                   'first_name': TextInput(attrs={'class': 'form-control input-xs'}),
-                   'last_name': TextInput(attrs={'class': 'form-control input-xs'}),
-                   'email': TextInput(attrs={'class': 'form-control input-xs'}),
+                   'first_name': TextInput(attrs={'class': 'form-control input-xs','readonly':'True'}),
+                   'last_name': TextInput(attrs={'class': 'form-control input-xs','readonly':'True'}),
+                   'email': TextInput(attrs={'class': 'form-control input-xs','readonly':'True'}),
                    }  #Para hacer no editable 'disabled': 'True'
 
 class UsuarioForm(ModelForm):
@@ -83,7 +83,7 @@ class UsuarioForm(ModelForm):
         widgets = {
                    'clave_rh': TextInput(attrs={'class': 'form-control input-xs'}),
                    'clave_jde': TextInput(attrs={'class': 'form-control input-xs'}),
-                   'fecha_nacimiento': DateInput(attrs={'class': 'form-control input-xs', 'data-date-format': 'yyyy-mm-dd'}),
+                   'fecha_nacimiento': DateInput(attrs={'class': 'form-control input-xs', 'data-date-format': 'yyyy-mm-dd','readonly':'True'}),
                    'foto': FileInput(attrs={'class': 'dropzone dz-clickable dz-started'}),
                    }
 
