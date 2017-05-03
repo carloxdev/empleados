@@ -148,14 +148,6 @@ class UsuarioNuevo(View):
             datos_formulario = form_usuario.cleaned_data
             dato_confirmar = form_pass.cleaned_data
             
-            dato_formulario2 = form_perfil.cleaned_data
-            print '---------------------------------'
-            print datos_formulario.get('first_name')
-            print datos_formulario.get('last_name')
-            print datos_formulario.get('email')
-            print dato_formulario2.get('fecha_nacimiento')
-            print datos_formulario.get('username')
-
             if datos_formulario.get('password') == dato_confirmar.get('confirmar'):
                 usuario = User.objects.create_user(
                     username=datos_formulario.get('username'),

@@ -64,10 +64,10 @@ TarjetaUsuario.prototype.escoger_Usuario = function (e) {
         method: "GET",
         success: function (response) {
             
-            e.data.$first_name.val(response[0].pers_primer_nombre +" "+ response[0].pers_segundo_nombre)
+            e.data.$first_name.val((response[0].pers_primer_nombre +" "+ response[0].pers_segundo_nombre).split(" -")[0])
             e.data.$last_name.val(response[0].pers_apellido_paterno +" "+ response[0].pers_apellido_materno)
             e.data.$email.val(response[0].pers_email)
-            e.data.$fecha_nacimiento.val(response[0].pers_fecha_nacimiento)
+            e.data.$fecha_nacimiento.val((response[0].pers_fecha_nacimiento).split(" ")[0])
             e.data.$username.val(num_empleado)
         },
         error: function (response) {
