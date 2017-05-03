@@ -147,19 +147,20 @@ class UsuarioNuevo(View):
 
             datos_formulario = form_usuario.cleaned_data
             dato_confirmar = form_pass.cleaned_data
+            
+            dato_formulario2 = form_perfil.cleaned_data
+            print '---------------------------------'
+            print datos_formulario.get('first_name')
+            print datos_formulario.get('last_name')
+            print datos_formulario.get('email')
+            print dato_formulario2.get('fecha_nacimiento')
+            print datos_formulario.get('username')
 
             if datos_formulario.get('password') == dato_confirmar.get('confirmar'):
                 usuario = User.objects.create_user(
                     username=datos_formulario.get('username'),
                     password=datos_formulario.get('password')
                 )
-                # empleado = get_object_or_404(
-                #     VIEW_EMPLEADOS_SIMPLE.objects.using('ebs_d').all(),
-                #     pers_empleado_numero=usuario.profile.clave_rh
-                # )
-                # usuario.first_name = empleado.pers_primer_nombre
-                # usuario.last_name = empleado.pers_apellido_paterno
-                # usuario.email = empleado.pers_email
 
                 usuario.first_name = datos_formulario.get('first_name')
                 usuario.last_name = datos_formulario.get('last_name')
@@ -181,6 +182,7 @@ class UsuarioNuevo(View):
                 usuario.profile.fecha_nacimiento = datos_perfil.get(
                     'fecha_nacimiento')
                 usuario.profile.foto = datos_perfil.get('foto')
+
                 usuario.profile.save()
 
                 return redirect(reverse('seguridad:usuario_lista'))
@@ -503,8 +505,3 @@ class ProfileExcelAPI(viewsets.ModelViewSet):
     serializer_class = ProfileSerializer
     filter_backends = (DjangoFilterBackend,)
     filter_class = ProfileFilter
-
-
-class EmpleadosSimpleAPI(viewsets.ModelViewSet):
-    queryset = VIEW_EMPLEADOS_SIMPLE.objects.using('ebs_d').all()
-    serializer_class = VIEW_EMPLEADOS_SIMPLE_Serializer
