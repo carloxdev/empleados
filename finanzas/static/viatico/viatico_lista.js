@@ -72,7 +72,7 @@ PopupFiltros.prototype.hide = function (e) {
 }
 PopupFiltros.prototype.get_ConfiguracionCalendario = function(){
     
-    return{
+    return {
         language: 'es',
         autoclose: true,
         minView: 2,
@@ -83,7 +83,8 @@ PopupFiltros.prototype.get_ConfDateRangePicker = function () {
 
     return {
         locale: {
-            format: 'YYYY-MM-DD',
+            // format: 'YYYY-MM-DD',
+            format: 'DD-MM-YYYY',
             applyLabel: "Aplicar",
             cancelLabel: "Cancelar",
             fromLabel: "Del",
@@ -114,7 +115,8 @@ PopupFiltros.prototype.get_ConfDateRangePicker = function () {
                 "Diciembre"
             ],          
         },
-        startDate: '2017-01-01'
+        // startDate: '2017-01-01'
+        startDate: '01-01-2017'
     }    
 }
 PopupFiltros.prototype.get_Values = function (_page) {
@@ -122,14 +124,17 @@ PopupFiltros.prototype.get_Values = function (_page) {
     return {
         page: _page,
 
-        // empleado: this.$empleado.val(),
+        empleado: this.$empleado.val(),
+        unidad_negocio: this.$unidad_negocio.val(),
+        ciudad_destino: this.$ciudad_destino.val(),
+        autorizador: this.$autorizador.val(),
+        created_date_mayorque: this.$fecha_creacion.data('daterangepicker').startDate.format('YYYY-MM-DD'),
+        created_date_menorque: this.$fecha_creacion.data('daterangepicker').endDate.format('YYYY-MM-DD'),
+
         // fecha_partida_inicio: this.$fecha_partida_inicio.val(),
         // fecha_partida_fin: this.$fecha_partida_fin.val(),
         // fecha_regreso_inicio: this.$fecha_regreso_inicio.val(),
         // fecha_regreso_fin: this.$fecha_regreso_fin.val(),
-        // unidad_negocio: this.$unidad_negocio.val(),
-        // ciudad_destino: this.$ciudad_destino.val(),
-        // autorizador: this.$autorizador.val(),
     }
 }
 PopupFiltros.prototype.click_BotonBuscar = function (e) {
@@ -144,12 +149,17 @@ PopupFiltros.prototype.click_BotonLimpiar = function (e) {
     
     e.preventDefault()
     // e.data.$empleado.val("")
-    e.data.$fecha_creacion.data('daterangepicker').setStartDate('2017-01-01')
+    // e.data.$fecha_creacion.data('daterangepicker').setStartDate('2017-01-01')
+    // e.data.$fecha_creacion.data('daterangepicker').setEndDate(
+    //     moment().format('YYYY-MM-dd')
+    // )
+    e.data.$fecha_creacion.data('daterangepicker').setStartDate('01-01-2017')
     e.data.$fecha_creacion.data('daterangepicker').setEndDate(
-        moment().format('YYYY-MM-dd')
-    )
+        moment().format('DD-MM-YYYY')
+    )    
     e.data.filtros_aplicados = false
 }
+
 
 /*-----------------------------------------------*\
             OBJETO: Tarjeta resultados
