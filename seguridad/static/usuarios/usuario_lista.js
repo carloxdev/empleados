@@ -154,10 +154,12 @@ Grid.prototype.get_Campos = function () {
         first_name : { type: "string"},
         last_name : { type: "string" },
         email : { type: "string" },
-        is_active : { type: "string" },
         clave_rh : { type: "string" },
         clave_jde : { type: "string" },
         fecha_nacimiento : { type: "date" },
+        is_active : { type: "string" },
+        //is_staff : { type: "string" },
+        //is_superuser : { type: "string" },
         date_joined : { type: "date" },
         last_login : { type: "date" },
     }
@@ -193,10 +195,12 @@ Grid.prototype.get_Columnas = function () {
         { field: "first_name", title: "Nombre", width:"200px" },
         { field: "last_name", title: "Apellidos", width:"200px" },
         { field: "email", title: "Email", width:"200px" },
-        { field: "is_active",title: "Estado",width:"100px" },
         { field: "clave_rh", title: "Clave de empleado", width:"150px" },
         { field: "clave_jde", title: "Clave JDE", width:"100px" },
         { field: "fecha_nacimiento", title: "Fecha de nacimiento", width:"150px", format: "{0:dd-MM-yyyy}" },
+        { field: "is_active",title: "Estado",width:"100px" },
+        //{ field: "is_staff",title: "Administrador",width:"100px" },
+        //{ field: "is_superuser",title: "Estado",width:"100px" },
         { field: "date_joined", title: "Fecha de creación", width:"150px", format: "{0:dd-MM-yyyy}" },
         { field: "last_login", title: "Ultima sesion", width:"150px", format: "{0:dd-MM-yyyy}" },
     ]
@@ -267,10 +271,10 @@ Toolbar.prototype.Inicializar_CeldasExcel = function (e) {
             { value: 'Nombre' },
             { value: 'Apellidos' },
             { value: 'Email' },
-            { value: 'Estado' },
             { value: 'Fecha de nacimiento' },
             { value: 'Clave de empleado' },
             { value: 'Clave JDE' },
+            { value: 'Estado' },
             { value: 'Fecha de creación'},
         ]
     }];
@@ -291,10 +295,10 @@ Toolbar.prototype.click_BotonExportar = function (e) {
                     { value: data[i].first_name },
                     { value: data[i].last_name },
                     { value: data[i].email },
-                    { value: data[i].is_active },
                     { value: data[i].fecha_nacimiento },
                     { value: data[i].clave_rh },
                     { value: data[i].clave_jde },
+                    { value: data[i].is_active },
                     { value: data[i].date_joined },
                 ]
             })

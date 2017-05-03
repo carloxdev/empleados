@@ -119,12 +119,15 @@
 							<h4><b>Información de cuenta</b></h4>
 							<br>
 							<!-- Username-->
-							<div class="form-group {% if form.username.field.required %} has-warning {% endif %} {% if form.username.errors %} has-error {% endif %}">
+							<div class="form-group {% if form.username.field.required %} has-warning {% endif %} {% if form.username.errors %} has-error {% endif %}{% if msj_clave == True %} has-error {% endif %}">
 								<label class="control-label">
 									<i class="fa {% if form.username.field.required %} fa-asterisk {% endif %} {% if form.username.errors %} fa-asterisk {% endif %}"></i> 
 									{{ form.username.label }}
 								</label>
 								<p>{{ form.username}}</p>
+								{% if msj_clave == True %}
+									<span class="help-block">Ya existe un usuario con la clave de empleado especificada</span>
+								{% endif %}
 								{% for error in form.username.errors %}
 									<span class="help-block">{{ error }}</span>
 								{% endfor %}
@@ -182,6 +185,20 @@
 									</label>
 								</div>
 								{% for error in form.is_staff.errors %}
+									<span class="help-block">{{ error }}</span>
+								{% endfor %}
+							</div>
+							<!-- Is_superuser-->
+							<div class="form-group {% if form.is_superuser.errors %} has-error {% endif %}">
+								<div class="checkbox">
+									<label>
+										{{ form.is_superuser }}
+										<span class="etiqueta-checkbox">
+											{{ form.is_superuser.label }}
+										</span>
+									</label>
+								</div>
+								{% for error in form.is_superuser.errors %}
 									<span class="help-block">{{ error }}</span>
 								{% endfor %}
 							</div>

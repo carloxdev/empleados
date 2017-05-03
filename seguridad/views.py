@@ -141,51 +141,60 @@ class UsuarioNuevo(View):
         form_usuario = UserForm(request.POST)
         form_perfil = UsuarioForm(request.POST, request.FILES)
         form_pass = ConfirmarForm(request.POST)
-        mensaje = True
+
+        mensaje = True #Bandera confirmar contraseña
+        mensaje_clave = False #Bandera ya existe usuario con la clave_rh
 
         if form_usuario.is_valid() and form_perfil.is_valid() and form_pass.is_valid():
 
             datos_formulario = form_usuario.cleaned_data
             dato_confirmar = form_pass.cleaned_data
-            
-            if datos_formulario.get('password') == dato_confirmar.get('confirmar'):
-                usuario = User.objects.create_user(
-                    username=datos_formulario.get('username'),
-                    password=datos_formulario.get('password')
-                )
+            datos_perfil = form_perfil.cleaned_data
 
-                usuario.first_name = datos_formulario.get('first_name')
-                usuario.last_name = datos_formulario.get('last_name')
-                usuario.email = datos_formulario.get('email')
-                usuario.is_active = datos_formulario.get('is_active')
-                usuario.is_staff = datos_formulario.get('is_staff')
+            valor = datos_perfil.get('clave_rh')
+            clave = Profile.objects.filter(clave_rh = valor)
 
-                if datos_formulario.get('is_staff'):
-                    usuario.is_superuser = True
-                else:
-                    usuario.is_superuser = False
+            print valor
+            print clave
 
-                usuario.save()
-
-                datos_perfil = form_perfil.cleaned_data
-
-                usuario.profile.clave_rh = datos_perfil.get('clave_rh')
-                usuario.profile.clave_jde = datos_perfil.get('clave_jde')
-                usuario.profile.fecha_nacimiento = datos_perfil.get(
-                    'fecha_nacimiento')
-                usuario.profile.foto = datos_perfil.get('foto')
-
-                usuario.profile.save()
-
-                return redirect(reverse('seguridad:usuario_lista'))
+            if valor and clave:
+                mensaje_clave = True
             else:
-                mensaje = False
+                if datos_formulario.get('password') == dato_confirmar.get('confirmar'):
+                    usuario = User.objects.create_user(
+                        username=datos_formulario.get('username'),
+                        password=datos_formulario.get('password')
+                    )
+
+                    usuario.first_name = datos_formulario.get('first_name')
+                    usuario.last_name = datos_formulario.get('last_name')
+                    usuario.email = datos_formulario.get('email')
+                    usuario.is_active = datos_formulario.get('is_active')
+                    usuario.is_staff = datos_formulario.get('is_staff')
+                    usuario.is_superuser = datos_formulario.get('is_superuser')
+
+                    usuario.save()
+
+                    datos_perfil = form_perfil.cleaned_data
+
+                    usuario.profile.clave_rh = datos_perfil.get('clave_rh')
+                    usuario.profile.clave_jde = datos_perfil.get('clave_jde')
+                    usuario.profile.fecha_nacimiento = datos_perfil.get(
+                        'fecha_nacimiento')
+                    usuario.profile.foto = datos_perfil.get('foto')
+
+                    usuario.profile.save()
+
+                    return redirect(reverse('seguridad:usuario_lista'))
+                else:
+                    mensaje = False
 
         contexto = {
             'form': form_usuario,
             'form2': form_perfil,
             'form_pass': form_pass,
             'msj': mensaje,
+            'msj_clave': mensaje_clave,
         }
         return render(request, self.template_name, contexto)
 

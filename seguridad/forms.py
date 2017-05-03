@@ -42,6 +42,7 @@ class UserForm(ModelForm):
                   'email',
                   'is_active',
                   'is_staff',
+                  'is_superuser',
                   'last_login',
                   ]
 
@@ -52,6 +53,7 @@ class UserForm(ModelForm):
                   'email': 'Email',
                   'is_active': 'Activo',
                   'is_staff': 'Administrador',
+                  'is_superuser': 'Acceso a todos los privilegios',
                   'last_login': 'Ultima sesion',
                   }
 
