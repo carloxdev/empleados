@@ -30,6 +30,9 @@ function PopupFiltros() {
     this.$id = $('#tarjeta_filtros')
 
     this.$empleado = $('#id_empleado')
+    this.$unidad_negocio = $('#id_unidad_negocio')
+    this.$ciudad_destino = $('#id_ciudad_destino')
+    this.$autorizador = $('#id_autorizador') 
     this.$fecha_creacion = $('#fecha_creacion')
 
     this.$boton_buscar = $('#boton_buscar')
@@ -56,6 +59,8 @@ PopupFiltros.prototype.init_Events = function () {
 PopupFiltros.prototype.show = function (e) {
 
     e.data.$empleado.select2()
+    e.data.$unidad_negocio.select2()
+    e.data.$autorizador.select2()
     
 }
 PopupFiltros.prototype.hide = function (e) {

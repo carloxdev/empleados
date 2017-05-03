@@ -60,11 +60,12 @@ class UserForm(ModelForm):
                    'first_name': TextInput(attrs={'class': 'form-control input-xs'}),
                    'last_name': TextInput(attrs={'class': 'form-control input-xs'}),
                    'email': TextInput(attrs={'class': 'form-control input-xs'}),
-                   }  #Para hacer no editable 'disabled': 'True'
+                   }  # Para hacer no editable 'disabled': 'True'
+
 
 class UsuarioForm(ModelForm):
-    clave_rh = ChoiceField(label="Clave de empleado:",widget = Select(attrs={'class': 'form-control input-xs'}))
-        
+    clave_rh = ChoiceField(label="Clave de empleado:", widget=Select(attrs={'class': 'form-control input-xs'}))
+
     class Meta:
         model = Profile
 
@@ -81,22 +82,21 @@ class UsuarioForm(ModelForm):
                   }
 
         widgets = {
-                   'clave_rh': TextInput(attrs={'class': 'form-control input-xs'}),
-                   'clave_jde': TextInput(attrs={'class': 'form-control input-xs'}),
-                   'fecha_nacimiento': DateInput(attrs={'class': 'form-control input-xs', 'data-date-format': 'yyyy-mm-dd'}),
-                   'foto': FileInput(attrs={'class': 'dropzone dz-clickable dz-started'}),
-                   }
+            'clave_rh': TextInput(attrs={'class': 'form-control input-xs'}),
+            'clave_jde': TextInput(attrs={'class': 'form-control input-xs'}),
+            'fecha_nacimiento': DateInput(attrs={'class': 'form-control input-xs', 'data-date-format': 'yyyy-mm-dd'}),
+            'foto': FileInput(attrs={'class': 'dropzone dz-clickable dz-started'}),
+        }
 
     def __init__(self, *args, **kwargs):
         super(UsuarioForm, self).__init__(*args, **kwargs)
-        self.fields['clave_rh'].choices= self.get_EmpleadosEbs()
+        self.fields['clave_rh'].choices = self.get_EmpleadosEbs()
 
     def get_EmpleadosEbs(self):
 
-        valores = [('','-------')]
+        valores = [('', '-------')]
 
         empleados = VIEW_EMPLEADOS_SIMPLE.objects.using('ebs_d').all()
-        
 
         for empleado in empleados:
 
@@ -106,12 +106,13 @@ class UsuarioForm(ModelForm):
             )
 
             valores.append(
-                (   
+                (
                     empleado.pers_empleado_numero,
                     descripcion,
                 )
             )
         return valores
+
 
 class UserEditarForm(ModelForm):
 
@@ -137,6 +138,7 @@ class UserEditarForm(ModelForm):
                    'email': TextInput(attrs={'class': 'form-control input-xs'}),
                    }
 
+
 class UserEditarPerfilForm(ModelForm):
 
     class Meta:
@@ -155,19 +157,22 @@ class UserEditarPerfilForm(ModelForm):
         widgets = {'first_name': TextInput(attrs={'class': 'form-control input-xs'}),
                    'last_name': TextInput(attrs={'class': 'form-control input-xs'}),
                    'email': TextInput(attrs={'class': 'form-control input-xs'}),
-                   }  
+                   }
+
 
 class UserContrasenaActualForm(forms.Form):
 
     contrasena_actual = CharField(label="Actual",
-                            widget=forms.PasswordInput(
-                                attrs={'class': 'form-control input-xs'}))
+                                  widget=forms.PasswordInput(
+                                      attrs={'class': 'form-control input-xs'}))
+
 
 class UserContrasenaForm(forms.Form):
 
     contrasena_nueva = CharField(label="Nueva",
-                            widget=forms.PasswordInput(
-                                attrs={'class': 'form-control input-xs'}))
+                                 widget=forms.PasswordInput(
+                                     attrs={'class': 'form-control input-xs'}))
+
 
 class ConfirmarForm(forms.Form):
     confirmar = CharField(label="Confirmación:",

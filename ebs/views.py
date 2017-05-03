@@ -1,14 +1,20 @@
-# Librerias/Clases Django
-from django.shortcuts import render
-from django.shortcuts import redirect
-from django.shortcuts import get_object_or_404
-from django.views.generic.base import View
-from django.core.urlresolvers import reverse
 
-# Librerias de Terceros:
+# Librerias/Clases Django
+
+# from django.shortcuts import render
+# from django.shortcuts import redirect
+# from django.shortcuts import get_object_or_404
+# from django.views.generic.base import View
+# from django.core.urlresolvers import reverse
+
+# Librerias de Terceros
+
 # API Rest:
 from rest_framework import viewsets
 from django_filters.rest_framework import DjangoFilterBackend
+
+
+# Librerias Propias
 
 # Modelos:
 from .models import VIEW_EMPLEADOS_SIMPLE
