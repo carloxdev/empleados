@@ -12,6 +12,7 @@ from django.forms import ChoiceField
 from django.forms import IntegerField
 from django.forms import BooleanField
 from django.forms import FileInput
+from django.forms import HiddenInput
 
 
 # Librerias Propias:
@@ -185,17 +186,17 @@ class IncidenciaDocumentoForm(ModelForm):
             #'Archivo': FileInput(attrs={'class': 'dropzone dz-clickable dz-started'}),
         }
 
+
 class IncidenciaArchivoForm(ModelForm):
 
     class Meta:
         model = IncidenciaArchivo
-        fields = ['id', 'tipo', 'archivo']
-        labels = {
-            'id': 'No Incidencia',
-            'tipo': 'Tipo',
-            'archivo': 'Archivo',
-        }
+        fields = [
+            'incidencia',
+            'tipo',
+            'archivo'
+        ]
         widgets = {
-            'Tipo': TextInput(attrs={'class': 'form-control'}),
+            'incidencia': HiddenInput(),
             'archivo': FileInput(attrs={'class': 'dropzone dz-clickable dz-started'}),
         }

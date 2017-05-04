@@ -8,7 +8,7 @@
 var url_incidenciadocumento = window.location.origin + "/api/incidenciadocumento/"
 var url_incidenciadocumento_bypage = window.location.origin + "/api/incidenciadocumento_bypage/"
 var url_incidencia_editar = window.location.origin + "/incidencias/editar/"
-var url_anexos = window.location.origin + "/incidencias/anexos/"
+var url_anexos = window.location.origin + "/incidencias/incidencia_id/archivos/"
 
 // OBJS
 var filtros = null
@@ -182,7 +182,7 @@ Grid.prototype.click_BotonAnexos = function (e) {
 
     e.preventDefault()
     var fila = this.dataItem($(e.currentTarget).closest('tr'))
-    window.location.href = url_anexos + fila.pk 
+    window.location.href = url_anexos.replace("incidencia_id", fila.pk)
 }
 Grid.prototype.get_DataSourceConfig = function () {
 

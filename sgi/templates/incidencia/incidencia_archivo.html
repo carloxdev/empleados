@@ -35,13 +35,15 @@
 			 
 		<div class="col-sm-12">
 			<div class="panel panel-border panel-contrast">
-	            <div class="panel-heading panel-heading-default nova-border-bottom">Solicitud de incidencia: {% if id %}<strong value="{{ id }}" id="registrable">{{ id }}</strong>{% endif %}
+	            <div class="panel-heading panel-heading-default nova-border-bottom">Solicitud de incidencia: {% if incidencia_id %}<strong name="incidencia_id" value="{{ incidencia_id }}" id="registrable">{{ incidencia_id }}</strong>{% endif %}
 	               	{% if operation != '' %} <span class="label label-primary nova-label-centrado">{{ operation }}</span> {% endif %}
 	               	<div class="tools" data-toggle="collapse" href="#cabecera_colapsible">{% if registrable %}<span class="icon mdi mdi-caret-down-circle" id="boton_colapsible"></span>{% endif %}</div>
 	            </div> 
 	            <div class="panel-body collapse {% if not registrable %}in{% endif %}" id="cabecera_colapsible">
 
 	                <form action="" method="POST" enctype="multipart/form-data"> {% csrf_token %}	
+
+                            {{ form.incidencia }} 
 
 						    <!-- Tipo  -->
 							<div class="row">
@@ -113,6 +115,15 @@
               	</div> <!-- Panel Body -->
             </div>	<!-- Panel -->
 		</div>	<!-- col-sm-12 -->
+
+        <div class="col-sm-12">
+            {% for anexo in anexos %}
+            <p>
+            {{anexo.tipo}} - {{anexo.archivo}}
+            </p>
+            {% endfor %}
+
+        </div>
     </div>
 
 	

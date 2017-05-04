@@ -23,7 +23,6 @@ from utilities import get_FilePath_Incidencia
 from utilities import get_FilePath_Resolucion
 
 
-
 class CentroAtencion(models.Model):
 
     descripcion = models.CharField(max_length=144)

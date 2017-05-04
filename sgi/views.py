@@ -10,6 +10,7 @@ from django.views.generic.base import View
 from django.core.urlresolvers import reverse
 
 
+
 # Librerias/Clases de Terceros
 from rest_framework import viewsets
 from django_filters.rest_framework import DjangoFilterBackend
@@ -103,33 +104,12 @@ class IncidenciaDocumentoNuevo(View):
 
             incidencia.empleado_nombre = empleado.pers_nombre_completo
 
-            # if empleado.asig_ubicacion_desc == 'OFICINA VILLAHERMOSA JUJO' or \
-            #         empleado.asig_ubicacion_desc == 'OFICINA VILLAHERMOSA CEDROS' or \
-            #         empleado.asig_ubicacion_desc == 'OFICINA VILLAHERMOSA MANGOS':
-
-            #     incidencia.zona = Zona.objects.get(pk=1)
-
-            # elif empleado.asig_ubicacion_desc == 'OFICINA POZA RICA':
-
-            #     incidencia.zona = Zona.objects.get(pk=2)
-
-            # elif empleado.asig_ubicacion_desc == 'OFICINA REYNOSA':
-
-            #     incidencia.zona = Zona.objects.get(pk=3)
-
-            # elif empleado.asig_ubicacion_desc == 'OFICINA VERACRUZ' or \
-            #         empleado.asig_ubicacion_desc == 'OFICINA NARANJOS':
-
-            #     incidencia.zona = Zona.objects.get(pk=4)
-
-            # else:
-            #     incidencia.zona = Zona.objects.get(pk=5)
-
             incidencia.empleado_proyecto = empleado.grup_proyecto_code_jde
             incidencia.empleado_proyecto_desc = empleado.grup_proyecto_jde
             incidencia.empleado_puesto = empleado.asig_puesto_clave
             incidencia.empleado_puesto_desc = empleado.asig_puesto_desc
 
+            # import ipdb; ipdb.set_trace()
             empresa = Empresa.objects.filter(descripcion=empleado.grup_compania_jde)
 
             incidencia.empresa = empresa[0]
@@ -139,7 +119,7 @@ class IncidenciaDocumentoNuevo(View):
             incidencia.created_by = request.user.profile
 
             incidencia.save()
-          
+
             #send_mail("Subject", "Email body", settings.EMAIL_HOST_USER, "janexa@gmail.com", fail_silently=False)
 
             return redirect(reverse('sgi:incidencia_lista'))
@@ -223,7 +203,7 @@ class IncidenciaDocumentoEditar(View):
         self.template_name = 'incidencia/incidencia_editar.html'
 
     def get(self, request, pk):
-        empleado =  get_object_or_404(IncidenciaDocumento, pk=pk)
+        empleado = get_object_or_404(IncidenciaDocumento, pk=pk)
         formulario = IncidenciaDocumentoForm(instance=empleado)
 
         #operation = viatico.get_status_display()
@@ -239,9 +219,9 @@ class IncidenciaDocumentoEditar(View):
         #         VIEW_EMPLEADOS_FULL.objects.using('ebs_d').all(),
         #         pers_empleado_numero=incidencia.empleado_id
         #     )
-        empleado =  get_object_or_404(IncidenciaDocumento, pk=pk)
+        empleado = get_object_or_404(IncidenciaDocumento, pk=pk)
         formulario = IncidenciaDocumentoForm(request.POST, instance=empleado)
-        
+
         if formulario.is_valid():
             incidencia = formulario.save(commit=False)
 
@@ -280,62 +260,45 @@ class IncidenciaDocumentoArchivo(View):
     def __init__(self):
         self.template_name = 'incidencia/incidencia_archivo.html'
 
-    
+    def get(self, request, incidencia_id):
 
-    def get(self, request, pk):
+        incidencia = IncidenciaDocumento.objects.get(pk=incidencia_id)
 
-        id_incidencia = pk
-        anexos = IncidenciaArchivo.objects.filter(id=id_incidencia)
-        form = IncidenciaArchivoForm()
+        # import ipdb; ipdb.set_trace()
+        incidencia_archivos = IncidenciaArchivo.objects.filter(incidencia=incidencia)
+
+        # anexos = IncidenciaArchivo.objects.filter(id=pk)
+        form = IncidenciaArchivoForm(
+            initial={
+                'incidencia': incidencia
+            }
+        )
 
         contexto = {
             'form': form,
-            'id': id_incidencia,
-            'anexos': anexos,
+            'incidencia_id': incidencia_id,
+            'anexos': incidencia_archivos,
         }
 
         return render(request, self.template_name, contexto)
 
-    # def get(self, request, pk):
-    #     empleado =  get_object_or_404(IncidenciaDocumento, pk=pk)
-    #     formulario = IncidenciaDocumentoForm(instance=empleado)
+    def post(self, request, incidencia_id):
 
-    #     #operation = viatico.get_status_display()
-
-    #     contexto = {
-    #         'form': formulario,
-    #     }
-    #     return render(request, self.template_name, contexto)        
-
-    def post(self, request, pk):
-        id_incidencia = pk
-        incidencia = IncidenciaDocumento.objects.get(id=id_incidencia)
-        # anexos = IncidenciaArchivo.objects.filter(incidencia=id_incidencia)
         form = IncidenciaArchivoForm(request.POST, request.FILES)
-        
+
+        incidencia_archivos = IncidenciaArchivo.objects.filter(incidencia_id=incidencia_id)
+
         if form.is_valid():
-            # archivo_anexo = IncidenciaArchivo()
-            # archivo_anexo.tipo = request.POST['tipo']
-            # archivo_anexo.archivo = request.FILES['archivo']
 
-            #print archivo_anexo.tipo
-            # if 'archivo' in request.POST:
-            #     archivo_anexo.archivo = request.POST['archivo']
-            # else:
-            #     archivo_anexo.archivo = request.FILES['archivo']
-            # archivo_anexo.incidencia = id_incidencia
-            # archivo_anexo.save()
-            # anexos = AnexoArchivo.objects.filter(incidencia=id_incidencia)
-            form.save()
+            incidencia_archivo = form.save(commit=False)
+            incidencia_archivo.created_by = request.user.profile
+            incidencia_archivo.save()
 
-            return redirect(reverse('sgi:incidencia_lista'))
-        else:
-
-            contexto = {
-                'form': form,
-                'id': id_incidencia,
-                'anexos': anexos,
-            }
+        contexto = {
+            'form': form,
+            'incidencia_id': incidencia_id,
+            'anexos': incidencia_archivos,
+        }
 
         return render(request, self.template_name, contexto)
 
@@ -356,14 +319,15 @@ class IncidenciaDocumentoByPageAPI(viewsets.ModelViewSet):
     filter_class = IncidenciaDocumentoFilter
     pagination_class = GenericPagination
 
-# -------------- INCIDENCIA ANEXO - API REST -------------- #  
+# -------------- INCIDENCIA ANEXO - API REST -------------- #
+
 
 class IncidenciaArchivoByPageAPI(viewsets.ModelViewSet):
     queryset = IncidenciaArchivo.objects.all()
     serializer_class = IncidenciaArchivoSerializer
     filter_backends = (DjangoFilterBackend,)
     filter_class = IncidenciaArchivoFilter
-    pagination_class = GenericPagination  
+    pagination_class = GenericPagination
 
 
 # -------------- INCIDENCIA TIPO - API REST -------------- #
