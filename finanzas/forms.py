@@ -53,9 +53,13 @@ class ViaticoFilterForm(Form):
         valores = [('', '------')]
 
         if settings.DEBUG:
-            empleados = VIEW_EMPLEADOS_SIMPLE.objects.using('ebs_d').all().order_by('pers_nombre_completo')
+            empleados = VIEW_EMPLEADOS_SIMPLE.objects.using('ebs_d').exclude(
+                pers_empleado_numero__isnull=True
+            ).order_by('pers_nombre_completo')
         else:
-            empleados = VIEW_EMPLEADOS_SIMPLE.objects.using('ebs_p').all().order_by('pers_nombre_completo')
+            empleados = VIEW_EMPLEADOS_SIMPLE.objects.using('ebs_p').exclude(
+                pers_empleado_numero__isnull=True
+            ).order_by('pers_nombre_completo')
 
         for empleado in empleados:
 

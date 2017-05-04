@@ -76,10 +76,10 @@ TarjetaUsuario.prototype.buscar_EmpleadoProfile = function (e) {
             if (response.length != 0) {
                 alert('La clave de empleado seleccionada ya esta asociada a un usuario.')
                 //Limpiar formulario
-                tarjeta.limpiar_Formulario(e)
+                tarjeta.limpiar_Formulario()
              }
              else {
-                tarjeta.buscar_EmpleadoEBS(e)
+                tarjeta.buscar_EmpleadoEBS(num_empleado)
              }
         },
         error: function (response) {
@@ -100,6 +100,10 @@ TarjetaUsuario.prototype.buscar_EmpleadoEBS = function (e) {
         url: url,
         method: "GET",
         success: function (response) { 
+
+
+            // llenar_Formulario()
+            
 
             e.data.$first_name.val((response[0].pers_primer_nombre +" "+ response[0].pers_segundo_nombre).split(" -")[0])
             e.data.$last_name.val(response[0].pers_apellido_paterno +" "+ response[0].pers_apellido_materno)
