@@ -261,9 +261,9 @@ class VIEW_SCOMPRAS_Filter(filters.FilterSet):
         name="req_tipo",
         lookup_expr="exact"
     )
-    req_generador_desc = CharFilter(
-        name="req_generador_desc",
-        lookup_expr="icontains"
+    req_generador = CharFilter(
+        name="req_generador",
+        lookup_expr="contains"
     )
     req_estado_last = CharFilter(
         name="req_estado_last",
@@ -277,6 +277,10 @@ class VIEW_SCOMPRAS_Filter(filters.FilterSet):
         name="cot_tipo",
         lookup_expr="exact"
     )
+    cot_generador = CharFilter(
+        name="cot_generador",
+        lookup_expr="contains"
+    )
     cot_estado_last = CharFilter(
         name="cot_estado_last",
         lookup_expr="exact"
@@ -289,13 +293,17 @@ class VIEW_SCOMPRAS_Filter(filters.FilterSet):
         name="ord_tipo",
         lookup_expr="exact"
     )
+    ord_generador = CharFilter(
+        name="ord_generador",
+        lookup_expr="contains"
+    )
     ord_estado_last = CharFilter(
         name="ord_estado_last",
         lookup_expr="exact"
     )
     req_fecha_creacion_desde = CharFilter(
         name="req_fecha_creacion_desde",
-        method="req_filter_fecha_desde"
+        method="req_filter_fecha_desde" 
     )
     req_fecha_creacion_hasta = CharFilter(
         name="req_fecha_creacion_hasta",
@@ -303,7 +311,7 @@ class VIEW_SCOMPRAS_Filter(filters.FilterSet):
     )
     ord_fecha_creacion_desde = CharFilter(
         name="ord_fecha_creacion_desde",
-        method="ord_filter_fecha_desde"
+        method="ord_filter_fecha_desde" 
     )
     ord_fecha_creacion_hasta = CharFilter(
         name="ord_fecha_creacion_hasta",
@@ -321,7 +329,6 @@ class VIEW_SCOMPRAS_Filter(filters.FilterSet):
         name="ord_recepcion",
         lookup_expr="exact"
     )
-
     class Meta:
         model = VIEW_SCOMPRAS
         fields = [
@@ -330,34 +337,33 @@ class VIEW_SCOMPRAS_Filter(filters.FilterSet):
             'req_comprador_desc',
             'req',
             'req_tipo',
-            'req_generador_desc',
+            'req_generador',
             'req_estado_last',
-            'req_fecha_creacion_desde',
-            'req_fecha_creacion_hasta',
-            'ord_fecha_creacion_desde',
-            'ord_fecha_creacion_hasta',
+            'req_fecha_creacion',
+            'ord_fecha_creacion',
             'cot',
             'cot_tipo',
+            'cot_generador',
             'cot_estado_last',
             'ord',
             'ord_tipo',
+            'ord_generador',
             'ord_estado_last',
             'ord_proveedor_desc',
             'req_item_desc',
             'ord_recepcion'
         ]
-
     def req_filter_fecha_desde(self, queryset, name, value):
 
         valor = "{}T00:00:00".format(value)
 
         if not value:
-
+            
             return queryset
         else:
-
+            
             consulta = queryset.filter(req_fecha_creacion__gte=valor)
-
+            
             return consulta
 
     def req_filter_fecha_hasta(self, queryset, name, value):
@@ -376,12 +382,12 @@ class VIEW_SCOMPRAS_Filter(filters.FilterSet):
         valor = "{}T00:00:00".format(value)
 
         if not value:
-
+            
             return queryset
         else:
-
+            
             consulta = queryset.filter(cot_fecha_creacion__gte=valor)
-
+            
             return consulta
 
     def ord_filter_fecha_hasta(self, queryset, name, value):
@@ -451,17 +457,4 @@ class VIEW_RECEPCIONES_Filter(filters.FilterSet):
             'oc_compania',
             'oc_linea',
             'tran_tipo'
-        ]
-
-
-class VIEW_ITEMS_Filter(filters.FilterSet):
-    descripcion = CharFilter(
-        name="descripcion",
-        lookup_expr="icontains"
-    )
-
-    class Meta:
-        model = VIEW_ITEMS
-        fields = [
-            'descripcion'
         ]

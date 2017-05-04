@@ -6,8 +6,8 @@
 var url_seguimiento_bypage = window.location.origin + "/api/viewscompras_bypage/"
 var url_seguimiento_compania = window.location.origin + "/api/viewcompanias/"
 var url_seguimiento_sucursal = window.location.origin + "/api/viewunidades/"
-var url_compraseguimeinto_autorizadores = window.location.origin + "/api/viewautorizaciones/"
-var url_compraseguimiento_recepciones = window.location.origin + "/api/viewrecepciones/"
+var url_compraseguimeinto_autorizadores = window.location.origin + "/api/viewautorizaciones_bypage/"
+var url_compraseguimiento_recepciones = window.location.origin + "/api/viewrecepciones_bypage/"
 
 // OBJS
 var tarjeta_filtros = null
@@ -135,7 +135,7 @@ TarjetaFiltros.prototype.click_BotonColapsible = function (e){
     }
 }
 TarjetaFiltros.prototype.get_Values = function (_page, _pageSize) {
-
+        
     return {
         page: _page,
         pageSize: _pageSize,

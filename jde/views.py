@@ -31,7 +31,6 @@ from .serializers import VIEW_UNIDADES_Serializer
 from .serializers import VIEW_COMPANIAS_Serializer
 from .serializers import VIEW_AUTORIZACIONES_Serializer
 from .serializers import VIEW_RECEPCIONES_Serializer
-from .serializers import VIEW_ITEMS_Serializer
 
 from .serializers import VM_PORF_COMPRAS_Serializer
 from .serializers import VM_PORF_CXC_Serializer
@@ -49,7 +48,6 @@ from .filters import VIEW_RECEPSINCOTEJO_Filter
 from .filters import VIEW_USUARIOS_Filter
 from .filters import VIEW_AUTORIZACIONES_Filter
 from .filters import VIEW_RECEPCIONES_Filter
-from .filters import VIEW_ITEMS_Filter
 
 from .filters import VM_PORF_COMPRAS_Filter
 from .filters import VM_PORF_CXC_Filter
@@ -213,25 +211,20 @@ class VIEW_COMPANIAS_API(viewsets.ModelViewSet):
     serializer_class = VIEW_COMPANIAS_Serializer
 
 
-class VIEW_AUTORIZACIONES_API(viewsets.ReadOnlyModelViewSet):
+class VIEW_AUTORIZACIONES_ByPageAPI(viewsets.ReadOnlyModelViewSet):
     queryset = VIEW_AUTORIZACIONES.objects.using('jde_p').all()
     serializer_class = VIEW_AUTORIZACIONES_Serializer
+    pagination_class = GenericPagination
 
     filter_backends = (DjangoFilterBackend,)
     filter_class = VIEW_AUTORIZACIONES_Filter
 
 
-class VIEW_RECEPCIONES_API(viewsets.ReadOnlyModelViewSet):
+class VIEW_RECEPCIONES_ByPageAPI(viewsets.ReadOnlyModelViewSet):
     queryset = VIEW_RECEPCIONES.objects.using('jde_p').all()
     serializer_class = VIEW_RECEPCIONES_Serializer
+    pagination_class = GenericPagination
 
     filter_backends = (DjangoFilterBackend,)
     filter_class = VIEW_RECEPCIONES_Filter
 
-
-class VIEW_ITEMS_API(viewsets.ReadOnlyModelViewSet):
-    queryset = VIEW_ITEMS.objects.using('jde_p').all()
-    serializer_class = VIEW_ITEMS_Serializer
-
-    filter_backends = (DjangoFilterBackend,)
-    filter_class = VIEW_ITEMS_Filter

@@ -29,9 +29,8 @@ from jde.views import VIEW_SCOMPRAS_API
 from jde.views import VIEW_SCOMPRAS_ByPageAPI
 from jde.views import VIEW_UNIDADES_API
 from jde.views import VIEW_COMPANIAS_API
-from jde.views import VIEW_AUTORIZACIONES_API
-from jde.views import VIEW_RECEPCIONES_API
-from jde.views import VIEW_ITEMS_API
+from jde.views import VIEW_AUTORIZACIONES_ByPageAPI
+from jde.views import VIEW_RECEPCIONES_ByPageAPI
 
 
 router = routers.DefaultRouter()
@@ -181,19 +180,14 @@ router.register(
 )
 
 router.register(
-    r'viewautorizaciones',
-    VIEW_AUTORIZACIONES_API,
-    'viewautorizaciones',
+    r'viewautorizaciones_bypage',
+    VIEW_AUTORIZACIONES_ByPageAPI,
+    'viewautorizaciones_bypage',
 )
 
 router.register(
-    r'viewrecepciones',
-    VIEW_RECEPCIONES_API,
-    'viewrecepciones',
+    r'viewrecepciones_bypage',
+    VIEW_RECEPCIONES_ByPageAPI,
+    'viewrecepciones_bypage',
 )
 
-router.register(
-    r'viewitems',
-    VIEW_ITEMS_API,
-    'viewitems',
-)
