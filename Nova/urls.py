@@ -37,6 +37,8 @@ from ebs.views import VIEW_EMPLEADOS_SIMPLE_ByPageAPI
 from ebs.views import VIEW_EMPLEADOS_FULL_API
 from ebs.views import VIEW_EMPLEADOS_FULL_ByPageAPI
 
+from jde.views import VIEW_USUARIOS_API
+
 
 router = routers.DefaultRouter()
 
@@ -184,6 +186,14 @@ router.register(
     r'empleadosvistafull_bypage',
     VIEW_EMPLEADOS_FULL_ByPageAPI,
     'empleadosvistafull_bypage'
+)
+
+# -------------- JDE -------------- #
+
+router.register(
+    r'usuariosvista',
+    VIEW_USUARIOS_API,
+    'usuariosvista'
 )
 
 

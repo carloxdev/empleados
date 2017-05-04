@@ -3,6 +3,7 @@
 # Django API REST
 import django_filters
 from rest_framework import filters
+from django_filters import CharFilter
 
 # Modelos:
 from .models import VIEW_SCOMPRAS
@@ -13,6 +14,7 @@ from .models import VM_PORF_CXC
 from .models import VM_PORF_CXP
 from .models import VM_PORF_NOMINA
 from .models import VIEW_RECEPSINCOTEJO
+from .models import VIEW_USUARIOS
 
 # ----------------- VIEW_SCOMPRAS ----------------- #
 
@@ -270,4 +272,23 @@ class VIEW_RECEPSINCOTEJO_Filter(filters.FilterSet):
             'oc_compania',
             'oc_comprador_desc',
             'oc_tipo',
+        ]
+
+# ----------------- VIEW_USUARIOS ----------------- #
+
+class VIEW_USUARIOS_Filter(filters.FilterSet):
+
+    clave = CharFilter(
+        name="clave",
+        lookup_expr="icontains"
+    )
+
+    class Meta:
+        model = VIEW_USUARIOS
+        fields = [
+            'dir_tipo_desc',
+            'dir_tipo',
+            'dir_desc',
+            'dir',
+            'clave',
         ]

@@ -46,7 +46,7 @@
 								</label>
 								<p>{{ form2.clave_rh }}</p>
 								{% if msj_clave == True %} 
-									<span class="help-block">La clave seleccionada ya esta asociada a un usuario.</span>
+									<span class="help-block">La clave de empleado seleccionada ya esta asociada a un usuario.</span>
 								{% endif %}
 								{% for error in form2.clave_rh.errors %}
 									<span class="help-block">{{ error }}</span>

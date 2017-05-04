@@ -13,6 +13,7 @@ from .models import VM_PORF_CXC
 from .models import VM_PORF_CXP
 from .models import VM_PORF_NOMINA
 from .models import VIEW_RECEPSINCOTEJO
+from .models import VIEW_USUARIOS
 
 # Serializadores:
 from .serializers import VIEW_SCOMPRAS_Serializer
@@ -23,6 +24,7 @@ from .serializers import VM_PORF_CXC_Serializer
 from .serializers import VM_PORF_CXP_Serializer
 from .serializers import VM_PORF_NOMINA_Serializer
 from .serializers import VIEW_RECEPSINCOTEJO_Serializer
+from .serializers import VIEW_USUARIOS_Serializer
 
 # Paginadores:
 from .pagination import GenericPagination
@@ -36,6 +38,7 @@ from .filters import VM_PORF_CXC_Filter
 from .filters import VM_PORF_CXP_Filter
 from .filters import VM_PORF_NOMINA_Filter
 from .filters import VIEW_RECEPSINCOTEJO_Filter
+from .filters import VIEW_USUARIOS_Filter
 
 
 # ----------------- VIEW_SCOMPRAS ----------------- #
@@ -163,3 +166,12 @@ class VIEW_RECEPSINCOTEJO_Todos_API(viewsets.ModelViewSet):
 
     filter_backends = (filters.DjangoFilterBackend,)
     filter_class = VIEW_RECEPSINCOTEJO_Filter
+
+# ----------------- VIEW_USUARIOS ----------------- #
+
+class VIEW_USUARIOS_API(viewsets.ModelViewSet):
+    queryset = VIEW_USUARIOS.objects.using('jde_p').all()
+    serializer_class = VIEW_USUARIOS_Serializer
+    filter_backends = (filters.DjangoFilterBackend,)
+    filter_class = VIEW_USUARIOS_Filter
+        

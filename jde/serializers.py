@@ -11,6 +11,7 @@ from .models import VM_PORF_CXC
 from .models import VM_PORF_CXP
 from .models import VM_PORF_NOMINA
 from .models import VIEW_RECEPSINCOTEJO
+from .models import VIEW_USUARIOS
 
 
 class VIEW_SCOMPRAS_Serializer(serializers.HyperlinkedModelSerializer):
@@ -389,3 +390,16 @@ class VIEW_RECEPSINCOTEJO_Serializer(serializers.HyperlinkedModelSerializer):
             'fac_updater_desc',
             'fac_fecha_update',
         )
+
+class VIEW_USUARIOS_Serializer(serializers.HyperlinkedModelSerializer):
+
+      class Meta:
+            model = VIEW_USUARIOS
+            fields =(
+                  'dir_tipo_desc',
+                  'dir_tipo',
+                  'dir_desc',
+                  'dir',
+                  'clave',
+                  )          
+            
