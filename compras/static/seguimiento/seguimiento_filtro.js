@@ -3,12 +3,12 @@
 \*-----------------------------------------------*/
 
 // URLS:
-var url_seguimiento_bypage = window.location.origin + "/api/compraseguimiento_bypage/"
-var url_seguimiento_compania = window.location.origin + "/api/compraseguimientocompania/"
-var url_seguimiento_sucursal = window.location.origin + "/api/compraseguimientosucursal/"
-var url_compraseguimeinto_autorizadores = window.location.origin + "/api/compraseguimientoautorizaciones/"
-var url_compraseguimiento_recepciones = window.location.origin + "/api/compraseguimientorecepciones/"
-var url_compraseguimiento_items = window.location.origin + "/api/compraseguimientoitems/"
+var url_seguimiento_bypage = window.location.origin + "/api/viewscompras_bypage/"
+var url_seguimiento_compania = window.location.origin + "/api/viewcompanias/"
+var url_seguimiento_sucursal = window.location.origin + "/api/viewunidades/"
+var url_compraseguimeinto_autorizadores = window.location.origin + "/api/viewautorizaciones/"
+var url_compraseguimiento_recepciones = window.location.origin + "/api/viewrecepciones/"
+var url_compraseguimiento_items = window.location.origin + "/api/viewitems/"
 
 // OBJS
 var tarjeta_filtros = null
