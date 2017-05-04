@@ -47,7 +47,7 @@ from .filters import IncidenciaDocumentoFilter
 from .filters import IncidenciaDocumentoFilter
 from .filters import IncidenciaArchivoFilter
 
-
+#from django.core.mail import send_mail
 # from django.shortcuts import get_object_or_404
 # from django.shortcuts import redirect
 
@@ -139,6 +139,8 @@ class IncidenciaDocumentoNuevo(View):
             incidencia.created_by = request.user.profile
 
             incidencia.save()
+          
+            #send_mail("Subject", "Email body", settings.EMAIL_HOST_USER, "janexa@gmail.com", fail_silently=False)
 
             return redirect(reverse('sgi:incidencia_lista'))
 
@@ -278,6 +280,8 @@ class IncidenciaDocumentoArchivo(View):
     def __init__(self):
         self.template_name = 'incidencia/incidencia_archivo.html'
 
+    
+
     def get(self, request, pk):
 
         id_incidencia = pk
@@ -306,23 +310,26 @@ class IncidenciaDocumentoArchivo(View):
     def post(self, request, pk):
         id_incidencia = pk
         incidencia = IncidenciaDocumento.objects.get(id=id_incidencia)
-        anexos = IncidenciaArchivo.objects.filter(incidencia=id_incidencia)
+        # anexos = IncidenciaArchivo.objects.filter(incidencia=id_incidencia)
         form = IncidenciaArchivoForm(request.POST, request.FILES)
-
+        
         if form.is_valid():
-            archivo_anexo = IncidenciaArchivo()
-            archivo_anexo.tipo = request.POST['tipo']
-            archivo_anexo.archivo = request.FILES['archivo']
+            # archivo_anexo = IncidenciaArchivo()
+            # archivo_anexo.tipo = request.POST['tipo']
+            # archivo_anexo.archivo = request.FILES['archivo']
 
-            print archivo_anexo.tipo
+            #print archivo_anexo.tipo
             # if 'archivo' in request.POST:
             #     archivo_anexo.archivo = request.POST['archivo']
             # else:
             #     archivo_anexo.archivo = request.FILES['archivo']
-            archivo_anexo.incidencia = id_incidencia
-            archivo_anexo.save()
-            anexos = AnexoArchivo.objects.filter(incidencia=id_incidencia)
-            form = IncidenciaArchivoForm()
+            # archivo_anexo.incidencia = id_incidencia
+            # archivo_anexo.save()
+            # anexos = AnexoArchivo.objects.filter(incidencia=id_incidencia)
+            form.save()
+
+            return redirect(reverse('sgi:incidencia_lista'))
+        else:
 
             contexto = {
                 'form': form,
@@ -330,7 +337,7 @@ class IncidenciaDocumentoArchivo(View):
                 'anexos': anexos,
             }
 
-            return render(request, self.template_name, contexto)
+        return render(request, self.template_name, contexto)
 
 
 # -------------- INCIDENCIA DOCUMENTO - API REST -------------- #

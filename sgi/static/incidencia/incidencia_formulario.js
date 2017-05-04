@@ -40,7 +40,7 @@ TargetaIncidencia.prototype.init_Components = function () {
     this.$empleado.select2()
     
     
-    this.$fecha.inputmask("yyyy-mm-dd", {"placeholder": "yyyy-mm-dd"})
+    //this.$fecha.inputmask("yyyy-mm-dd", {"placeholder": "yyyy-mm-dd"})
     this.$fecha.datepicker(
         {
             autoclose: true,
