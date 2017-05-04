@@ -4,15 +4,16 @@
 
 // URLS:
 var url_empleado_simple= window.location.origin + "/api/empleadosvistasimple/"
-var url_profile_datos = window.location.origin + "/api/profile/"
-var url_usuarios_view = window.location.origin + "/api/usuariosvista/"
+var url_profile = window.location.origin + "/api/profile/"
+var url_usuariosvista = window.location.origin + "/api/usuariosvista/"
 
 
 // OBJS
 var tarjeta= null
 
 //
-var num_empleado = null
+var num_empleado
+
 
 /*-----------------------------------------------*\
             LOAD
@@ -44,6 +45,7 @@ function TarjetaUsuario() {
     this.$email = $('#id_email')
     this.$fecha_nacimiento = $('#id_fecha_nacimiento')
     this.$clave_jde = $('#id_clave_jde')
+    this.$contrasena = $('#id_password')
 
     this.init_Components()
     this.init_Events()
@@ -58,25 +60,26 @@ TarjetaUsuario.prototype.get_ConfSelect2 = function () {
     }
 }
 TarjetaUsuario.prototype.init_Events = function () {
-    this.$clave_rh.on("change", this, this.validar_Clave)
-    this.$clave_rh.on("change", this, this.llenar_Usuario)
-    this.$clave_rh.on("change", this, this.llenar_Clavejde)
+    this.$clave_rh.on("change", this, this.buscar_EmpleadoProfile)
 }
-TarjetaUsuario.prototype.validar_Clave = function (e) {
+TarjetaUsuario.prototype.buscar_EmpleadoProfile = function (e) {
 
     // Consultar el PROFILE API con el numero del empleado.
     num_empleado = e.data.$clave_rh.val()
-    var url_profile = url_profile_datos + "?clave_rh="  + num_empleado
+    var url = url_profile + "?clave_rh="  + num_empleado
 
     $.ajax({
-        url: url_profile,
+        url: url,
         method: "GET",
         success: function (response) {
-            //alert(JSON.stringify(response))
-            if (response.length == 0){
-                //escoger_Usuario()
-             }else{
+
+            if (response.length != 0) {
                 alert('La clave de empleado seleccionada ya esta asociada a un usuario.')
+                //Limpiar formulario
+                tarjeta.limpiar_Formulario(e)
+             }
+             else {
+                tarjeta.buscar_EmpleadoEBS(e)
              }
         },
         error: function (response) {
@@ -85,11 +88,13 @@ TarjetaUsuario.prototype.validar_Clave = function (e) {
 
     })
 }
-TarjetaUsuario.prototype.llenar_Usuario = function (e) {
+TarjetaUsuario.prototype.buscar_EmpleadoEBS = function (e) {
 
     // Consultar el VIEW EMPLEADOS API con el numero del empleado.
-    num_empleado = e.data.$clave_rh.val()
     var url = url_empleado_simple + "?pers_empleado_numero=" + num_empleado
+
+    //Limpiar formulario
+    tarjeta.limpiar_Formulario(e)
 
     $.ajax({
         url: url,
@@ -103,31 +108,17 @@ TarjetaUsuario.prototype.llenar_Usuario = function (e) {
             e.data.$username.val(num_empleado)
         },
         error: function (response) {
-            // alertify.error("Ocurrio error al consultar")
+            //alertify.error("Ocurrio error al consultar")
             alert("Ocurrio error al consultar")
         }
 
     })
 }
-TarjetaUsuario.prototype.llenar_Clavejde = function (e) {
-
-    // Consultar el VIEW USUARIOS API con el numero del empleado.
-    num_empleado = e.data.$clave_rh.val()
-    var url_usuarios_jde = url_usuarios_view + "?dir="  + num_empleado
-
-    $.ajax({
-        url: url_usuarios_jde,
-        method: "GET",
-        success: function (response) {
-            //alert(JSON.stringify(response))
-            if (response.length == 0){
-             }else{
-                e.data.$clave_jde.val(response[0].clave)
-             }
-        },
-        error: function (response) {
-            alert("Ocurrio error al consultar")
-        }
-
-    })
+TarjetaUsuario.prototype.limpiar_Formulario = function (e) {
+    e.data.$first_name.val("")
+    e.data.$last_name.val("")
+    e.data.$email.val("")
+    e.data.$fecha_nacimiento.val("")
+    e.data.$username.val("")
+    e.data.$contrasena.val("")
 }
