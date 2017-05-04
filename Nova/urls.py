@@ -19,7 +19,6 @@ from compras.views import viewunidadesAPI
 from compras.views import viewcompaniasAPI
 from compras.views import viewautorizacionesAPI
 from compras.views import viewrecepcionesAPI
-from compras.views import viewitemsAPI
 
 from sgi.views import IncidenciaDocumentoAPI
 from sgi.views import IncidenciaDocumentoByPageAPI
@@ -132,11 +131,6 @@ router.register(
     'viewrecepciones',
 )
 
-router.register(
-    r'viewitems',
-    viewitemsAPI,
-    'viewitems',
-)
 # -------------- SGI -------------- #
 
 router.register(

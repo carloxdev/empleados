@@ -9,7 +9,6 @@ from jde.models import VIEW_COMPANIAS
 from jde.models import VIEW_AUTORIZACIONES
 from jde.models import VIEW_RECEPCIONES
 from jde.models import VIEW_USUARIOS
-from jde.models import VIEW_ITEMS
 
 class viewscomprasSerializer(serializers.HyperlinkedModelSerializer):
       class Meta:
@@ -180,12 +179,3 @@ class viewrecepcionesSerializer(serializers.ModelSerializer):
                   'fecha_creacion',
                   'fecha_tran',
       )
-
-class viewitemsSerializer(serializers.HyperlinkedModelSerializer):
-
-      class Meta:
-            model = VIEW_ITEMS
-            fields = (
-                  'clave',
-                  'descripcion',
-            )

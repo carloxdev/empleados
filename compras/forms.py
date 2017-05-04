@@ -16,11 +16,10 @@ from django.forms import RadioSelect
 from jde.models import VIEW_COMPANIAS
 from jde.models import VIEW_UNIDADES
 from jde.models import VIEW_USUARIOS
-from jde.models import VIEW_ITEMS
 
 class ComprasSeguimientoFilterForm(Form):
     TIPOS_REQUISISION = (
-        ('', ''),
+        ('', '-------'),
         ('SR','SR - Requisición de Servicios'),
         ('OR','OR - Requisición de Materiales'),
         ('XR','XR - Requisición de Activos'),
@@ -31,7 +30,7 @@ class ComprasSeguimientoFilterForm(Form):
         ('1Q','1Q - Requisición para compra de Importacion Rel')
     )
     TIPOS_COTIZACION = (
-        ('', ''),
+        ('', '-------'),
         ('QS','QS - Cotización de Servicio'),
         ('OQ','OQ - Cotización de Materiales'),
         ('QX','QX - Cotización de Activos'),
@@ -42,7 +41,7 @@ class ComprasSeguimientoFilterForm(Form):
         ('2Q','2Q - Cotizacion para compra de Importacion Rel')
     )
     TIPOS_OC = (
-        ('', ''),
+        ('', '-------'),
         ('OS','OS - OC de Servicio'),
         ('OP','OP - OC de Materiales'),
         ('OX','OX - OC de Activos'),
@@ -59,7 +58,7 @@ class ComprasSeguimientoFilterForm(Form):
         
     )
     RECEPCION = (
-        ('', ''),
+        ('', '-------'),
         ('COMPLETA', 'Con recepción'),
         ('PENDIENTE', 'Sin recepción'),
         ('PARCIAL', 'Parcial')
@@ -72,7 +71,7 @@ class ComprasSeguimientoFilterForm(Form):
         widget=Select(attrs={'class': 'select2 nova-select2'})
     )
     comprador = CharField(
-        widget=TextInput(attrs={'class': 'form-control input-xs', 'placeholder': 'Nombre ejemplo: JORDAN'})
+        widget=TextInput(attrs={'class': 'form-control input-xs', 'placeholder': 'Ejemplo: JORDAN'})
     )
 
     requisicion = IntegerField(
@@ -115,10 +114,10 @@ class ComprasSeguimientoFilterForm(Form):
     )
 
     proveedor = CharField(
-        widget=TextInput(attrs={'class': 'form-control input-xs'})
+        widget=TextInput(attrs={'class': 'form-control input-xs', 'placeholder': 'Ejemplo: SANTANDREU'})
     )
-    item = ChoiceField(
-        widget=Select(attrs={'class': 'select2 nova-select2'})
+    item = CharField(
+        widget=TextInput(attrs={'class': 'form-control input-xs', 'placeholder': 'Ejemplo: TUBERIA'})
     )
     recepcion = CharField(
         widget=Select(attrs={'class': 'form-control input-xs'}, choices=RECEPCION)
@@ -132,7 +131,6 @@ class ComprasSeguimientoFilterForm(Form):
         self.fields['requisicion_originador'].choices= self.get_Originador()
         self.fields['cotizacion_originador'].choices= self.get_Originador()
         self.fields['oc_originador'].choices= self.get_Originador()
-        #self.fields['item'].choices= self.get_Item()
 
     def get_Compania(self):
 
@@ -177,15 +175,3 @@ class ComprasSeguimientoFilterForm(Form):
                 )
             )
         return valores
-
-    # def get_Item(self):
-    #     valores = [('','-------')]
-    #     items = VIEW_ITEMS.objects.using('jde_p').all()
-
-    #     for item in items:
-    #         valores.append(
-    #             (   item.numero,
-    #                 item.descripcion + ' ' + item.modelo,
-    #             )
-    #         )
-    #     return valores

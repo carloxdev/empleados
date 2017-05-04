@@ -16,7 +16,6 @@ from jde.models import VIEW_UNIDADES
 from jde.models import VIEW_COMPANIAS
 from jde.models import VIEW_AUTORIZACIONES
 from jde.models import VIEW_RECEPCIONES
-from jde.models import VIEW_ITEMS
 
 # Formularios
 from .forms import ComprasSeguimientoFilterForm
@@ -27,13 +26,11 @@ from .serializers import viewunidadesSerializer
 from .serializers import viewcompaniasSerializer
 from .serializers import viewautorizacionesSerializer
 from .serializers import viewrecepcionesSerializer
-from .serializers import viewitemsSerializer
 
 # Filtros:
 from .filters import viewscomprasFilter
 from .filters import viewautorizacionesFilter
 from .filters import viewrecepcionesFilter
-from .filters import viewitemsFilter
 
 # Paginacion
 from .pagination import GenericPagination
@@ -82,6 +79,7 @@ class viewcompaniasAPI(viewsets.ModelViewSet):
 class viewautorizacionesAPI(viewsets.ReadOnlyModelViewSet):
     queryset = VIEW_AUTORIZACIONES.objects.using('jde_p').all()
     serializer_class = viewautorizacionesSerializer
+    pagination_class = GenericPagination
 
     filter_backends = (DjangoFilterBackend,)
     filter_class = viewautorizacionesFilter
@@ -89,14 +87,7 @@ class viewautorizacionesAPI(viewsets.ReadOnlyModelViewSet):
 class viewrecepcionesAPI(viewsets.ReadOnlyModelViewSet):
     queryset = VIEW_RECEPCIONES.objects.using('jde_p').all()
     serializer_class = viewrecepcionesSerializer
+    pagination_class = GenericPagination
 
     filter_backends = (DjangoFilterBackend,)
     filter_class = viewrecepcionesFilter
-
-class viewitemsAPI(viewsets.ReadOnlyModelViewSet):
-    queryset = VIEW_ITEMS.objects.using('jde_p').all()
-    serializer_class = viewitemsSerializer
-    #pagination_class = GenericPagination
-    filter_backends = (DjangoFilterBackend,)
-    filter_class = viewitemsFilter
-

@@ -8,7 +8,6 @@ var url_seguimiento_compania = window.location.origin + "/api/viewcompanias/"
 var url_seguimiento_sucursal = window.location.origin + "/api/viewunidades/"
 var url_compraseguimeinto_autorizadores = window.location.origin + "/api/viewautorizaciones/"
 var url_compraseguimiento_recepciones = window.location.origin + "/api/viewrecepciones/"
-var url_compraseguimiento_items = window.location.origin + "/api/viewitems/"
 
 // OBJS
 var tarjeta_filtros = null
@@ -73,66 +72,6 @@ TarjetaFiltros.prototype.init_Components = function () {
     this.$id_oc_tipo.select2(this.get_ConfSelect2())
     this.$id_oc_originador.select2(this.get_ConfSelect2())
     this.$id_recepcion.select2(this.get_ConfSelect2())
-    this.$id_item.select2(this.get_ConfSelect2())
-
-
-    $(this.$id_item).select2({
-      ajax: {
-        url: url_compraseguimiento_items,
-        dataType: 'json',
-        delay: 250,
-        data: function (params) {//CREO Q ES params.results, CAMBIAR TOOS LOS parametros de funtion por uno solo (response)
-            alert(JSON.stringify(params))
-          return {
-            descripcion: params.term, // search term
-            page: params.page
-          };
-        },
-        processResults: function (data, params) {
-          // parse the results into the format expected by Select2
-          // since we are using custom formatting functions we do not need to
-          // alter the remote JSON data, except to indicate that infinite
-          // scrolling can be used
-          //alert(JSON.stringify(data))
-          params.page = params.page || 1;
-          alert(JSON.stringify(data))
-          alert(data.items)
-          return {
-
-            results: data.items,
-            pagination: {
-              more: (params.page * 30) < data.total_count
-            }
-          };
-        },
-        cache: true
-      },
-      escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
-      minimumInputLength: 1,
-    });
-
-    // $.ajax({
-    //     url: url_compraseguimiento_items,
-    //     method: "GET",
-    //     dataType: "json",
-
-    //     success: function(data) {
-    //         //alert(data.results)
-    //         //$('.selector-pais select').html(data.results).fadeIn();
-
-    //         $.each(data.results, function(id, objeto) {
-    //             $('.selector-pais select').append('<option value="'+objeto.clave+'">'+objeto.descripcion+'</option>');
-       
-    //         })
-
-
-
-            
-    //     },
-    //     failure: function(data) { 
-    //         alert('Error al recuperar datos.');
-    //     }
-    // });
 
 }
 TarjetaFiltros.prototype.get_ConfDateRangePicker = function () {
@@ -196,7 +135,7 @@ TarjetaFiltros.prototype.click_BotonColapsible = function (e){
     }
 }
 TarjetaFiltros.prototype.get_Values = function (_page, _pageSize) {
-    
+
     return {
         page: _page,
         pageSize: _pageSize,
@@ -206,20 +145,22 @@ TarjetaFiltros.prototype.get_Values = function (_page, _pageSize) {
         req_comprador_desc: this.$id_comprador.val(),
         req: this.$id_requisicion.val(),
         req_tipo: this.$id_requisicion_tipo.val(),
-        req_generador_desc: this.$id_requisicion_originador.val(),
+        req_generador: this.$id_requisicion_originador.val(),
         req_estado_last: $("input[name='requisicion_canceladas']:checked").val(),
         cot: this.$id_cotizacion.val(),
         cot_tipo: this.$id_cotizacion_tipo.val(),
+        cot_generador: this.$id_cotizacion_originador.val(),
         cot_estado_last: $("input[name='cotizacion_canceladas']:checked").val(),
         ord: this.$id_oc.val(),
         ord_tipo: this.$id_oc_tipo.val(),
+        ord_generador: this.$id_oc_originador.val(),
         ord_estado_last: $("input[name='oc_canceladas']:checked").val(),
         req_fecha_creacion_desde: this.$fecha_req_desde_hasta.val().split(" al ")[0],
         req_fecha_creacion_hasta: this.$fecha_req_desde_hasta.val().split(" al ")[1],
         ord_fecha_creacion_desde: this.$fecha_ord_desde_hasta.val().split(" al ")[0],
         ord_fecha_creacion_hasta: this.$fecha_ord_desde_hasta.val().split(" al ")[1],
         ord_proveedor_desc: this.$id_proveedor.val(),
-        //req_item_desc: this.$id_item.val(),
+        req_item_desc: this.$id_item.val(),
         ord_recepcion: this.$id_recepcion.val()
     }
 }
@@ -236,16 +177,18 @@ TarjetaFiltros.prototype.click_BotonLimpiar = function (e) {
     e.data.$id_comprador.val("")
     e.data.$id_requisicion.val("")
     e.data.$id_requisicion_tipo.data('select2').val(0)
-    e.data.$id_requisicion_originador.val("")
+    e.data.$id_requisicion_originador.data('select2').val(0)
     e.data.$id_requisicion_canceladas.prop('checked', true)
     e.data.$id_cotizacion.val("")
     e.data.$id_cotizacion_tipo.data('select2').val(0)
+    e.data.$id_cotizacion_originador.data('select2').val(0)
     e.data.$id_cotizacion_canceladas.prop('checked', true)
     e.data.$id_oc.val("")
     e.data.$id_oc_tipo.data('select2').val(0)
+    e.data.$id_oc_originador.data('select2').val(0)
     e.data.$id_oc_canceladas.prop('checked', true)
     e.data.$id_proveedor.val("")
-    //e.data.$id_item.val("")
+    e.data.$id_item.val("")
     e.data.$id_recepcion.data('select2').val(0)
     e.data.$fecha_req_desde_hasta.data('daterangepicker').setStartDate('2017-01-01')
     e.data.$fecha_req_desde_hasta.data('daterangepicker').setEndDate(
@@ -440,8 +383,6 @@ Grid.prototype.get_Columnas = function () {
         { field: "req_linea_tipo", title: "Tipo linea", width:"75px"},
         { field: "req_estado_last", title: "Último estatus", width:"120px"},
         { field: "req_estado_next", title: "Siguiente estatus", width:"120px"},
-
-        //{ title: "Autorizadores", width:"120px", template: '<a class="nova-url" href="#=tarjeta_detalles#" data-toggle="modal">#="Ver"#</a>',},
         { command: [ 
                 {
                    text: "Autorizadores",

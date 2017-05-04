@@ -364,9 +364,21 @@
                                 </div>
                             </div>
 
-                            <div>
-                                 articulo
-                                 <select id="id_item"></select>
+                            <!-- item -->
+                            <div class="col-sm-4">
+                                <div class="form-group {% if form.item.errors %} has-error {% endif %}">
+
+                                <label class="control-label">
+                                <i class="fa {% if form.item.errors %} fa-asterisk {% endif %}"></i> 
+                                    Item
+                                </label>
+                                <p>
+                                    {{ form.item }} 
+                                </p>
+                                {% for error in form.item.errors %}
+                                    <span class="help-block">{{ error }}</span>
+                                {% endfor %}
+                                </div>
                             </div>
 
                              <!-- recepcion -->
