@@ -172,27 +172,27 @@ router.register(
 # -------------- EBS -------------- #
 
 router.register(
-    r'empleadosvistasimple',
+    r'VIEW_EMPLEADOS_SIMPLE',
     VIEW_EMPLEADOS_SIMPLE_API,
-    'empleadosvistasimple'
+    'VIEW_EMPLEADOS_SIMPLE'
 )
 
 router.register(
-    r'empleadosvistasimple_bypage',
+    r'VIEW_EMPLEADOS_FULL_bypage',
     VIEW_EMPLEADOS_SIMPLE_ByPageAPI,
-    'empleadosvistasimple_bypage'
+    'VIEW_EMPLEADOS_FULL_bypage'
 )
 
 router.register(
-    r'empleadosvistafull',
+    r'VIEW_EMPLEADOS_FULL',
     VIEW_EMPLEADOS_FULL_API,
-    'empleadosvistafull'
+    'VIEW_EMPLEADOS_FULL'
 )
 
 router.register(
-    r'empleadosvistafull_bypage',
+    r'VIEW_EMPLEADOS_FULL_bypage',
     VIEW_EMPLEADOS_FULL_ByPageAPI,
-    'empleadosvistafull_bypage'
+    'VIEW_EMPLEADOS_FULL_bypage'
 )
 
 # -------------- JDE -------------- #
