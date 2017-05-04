@@ -676,7 +676,7 @@ class VIEW_AUTORIZACIONES(models.Model):
             self.autorizador
         )
         return value
-    
+
     def __unicode__(self):
         value = "%s - %s - %s - %s" % (
             self.orden,
@@ -749,7 +749,7 @@ class VIEW_RECEPCIONES(models.Model):
             self.proveedor
         )
         return value
-    
+
     def __unicode__(self):
         value = "%s - %s - %s - %s" % (
             self.oc,
@@ -758,6 +758,7 @@ class VIEW_RECEPCIONES(models.Model):
             self.proveedor
         )
         return value
+
 
 class VIEW_USUARIOS(models.Model):
     dir_tipo_desc = models.CharField(max_length=30)
@@ -776,12 +777,16 @@ class VIEW_USUARIOS(models.Model):
             self.dir_desc,
             self.dir_tipo,
         )
-    def __unicode__(sefl):
+        return value
+
+    def __unicode__(self):
         value = "%s - %s - %s"(
             self.clave,
             self.dir_desc,
             self.dir_tipo,
         )
+        return value
+
 
 class VIEW_ITEMS(models.Model):
     proveedor_prin = models.CharField(max_length=3)
@@ -820,9 +825,13 @@ class VIEW_ITEMS(models.Model):
             self.numero,
             self.descripcion,
         )
-    def __unicode__(sefl):
+
+        return value
+
+    def __unicode__(self):
         value = "%s - %s - %s"(
             self.clave,
             self.numero,
             self.descripcion,
         )
+        return value
