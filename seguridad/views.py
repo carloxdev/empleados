@@ -26,6 +26,7 @@ from .models import Profile
 # Otros Modelo
 from django.contrib.auth.models import User
 from ebs.models import VIEW_EMPLEADOS_SIMPLE
+from jde.models import VIEW_USUARIOS
 
 # Librerias de Terceros:
 # Django API Rest
@@ -143,7 +144,6 @@ class UsuarioNuevo(View):
         form_pass = ConfirmarForm(request.POST)
 
         mensaje = True #Bandera confirmar contraseña
-        mensaje_clave = False #Bandera ya existe usuario con la clave_rh
 
         if form_usuario.is_valid() and form_perfil.is_valid() and form_pass.is_valid():
 
@@ -154,44 +154,54 @@ class UsuarioNuevo(View):
             valor = datos_perfil.get('clave_rh')
             clave = Profile.objects.filter(clave_rh = valor)
 
-            if valor and clave:
-                mensaje_clave = True
-            else:
-                if datos_formulario.get('password') == dato_confirmar.get('confirmar'):
-                    usuario = User.objects.create_user(
-                        username=datos_formulario.get('username'),
-                        password=datos_formulario.get('password')
+            if not(valor and clave):
+                print 'entre aqui'
+                empleado = get_object_or_404(
+                        VIEW_USUARIOS.objects.using('jde_p').all(),
+                        dir= datos_perfil.get('clave_rh')
                     )
 
-                    usuario.first_name = datos_formulario.get('first_name')
-                    usuario.last_name = datos_formulario.get('last_name')
-                    usuario.email = datos_formulario.get('email')
-                    usuario.is_active = datos_formulario.get('is_active')
-                    usuario.is_staff = datos_formulario.get('is_staff')
-                    usuario.is_superuser = datos_formulario.get('is_superuser')
+                print empleado.clave
+                print 'termine!!'
+                # if datos_formulario.get('password') == dato_confirmar.get('confirmar'):
+                #     usuario = User.objects.create_user(
+                #         username=datos_formulario.get('username'),
+                #         password=datos_formulario.get('password')
+                #     )
 
-                    usuario.save()
+                #     usuario.first_name = datos_formulario.get('first_name')
+                #     usuario.last_name = datos_formulario.get('last_name')
+                #     usuario.email = datos_formulario.get('email')
+                #     usuario.is_active = datos_formulario.get('is_active')
+                #     usuario.is_staff = datos_formulario.get('is_staff')
+                #     usuario.is_superuser = datos_formulario.get('is_superuser')
 
-                    datos_perfil = form_perfil.cleaned_data
+                #     usuario.save()
 
-                    usuario.profile.clave_rh = datos_perfil.get('clave_rh')
-                    usuario.profile.clave_jde = datos_perfil.get('clave_jde')
-                    usuario.profile.fecha_nacimiento = datos_perfil.get(
-                        'fecha_nacimiento')
-                    usuario.profile.foto = datos_perfil.get('foto')
+                #     empleado = get_object_or_404(
+                #         VIEW_USUARIOS.objects.using('jde_p').all(),
+                #         dir=datos_perfil.get('clave_rh')
+                #     )
 
-                    usuario.profile.save()
+                #     usuario.profile.clave_rh = datos_perfil.get('clave_rh')
+                #     usuario.profile.clave_jde = empleado.clave
+                #     usuario.profile.fecha_nacimiento = datos_perfil.get(
+                #         'fecha_nacimiento')
+                #     usuario.profile.foto = datos_perfil.get('foto')
 
-                    return redirect(reverse('seguridad:usuario_lista'))
-                else:
-                    mensaje = False
+                #     usuario.profile.save()
+
+                #     return redirect(reverse('seguridad:usuario_lista'))
+                # else:
+                #     mensaje = False
+            else:
+                print 'VVLV'
 
         contexto = {
             'form': form_usuario,
             'form2': form_perfil,
             'form_pass': form_pass,
             'msj': mensaje,
-            'msj_clave': mensaje_clave,
         }
         return render(request, self.template_name, contexto)
 

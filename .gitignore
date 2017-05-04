@@ -23,10 +23,11 @@ static/*
 Nova/settings.py
 
 # Migraciones
+administracion/migrations/*
+compras/migrations/*
+ebs/migrations/*
 finanzas/migrations/*
 home/migrations/*
-seguridad/migrations/*
 jde/migrations/*
-ebs/migrations/*
+seguridad/migrations/*
 sgi/migrations/*
-administracion/migrations/*

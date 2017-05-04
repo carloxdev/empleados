@@ -86,7 +86,7 @@ class UsuarioForm(ModelForm):
 
         widgets = {
                    'clave_rh': TextInput(attrs={'class': 'form-control input-xs'}),
-                   'clave_jde': TextInput(attrs={'class': 'form-control input-xs'}),
+                   #'clave_jde': TextInput(attrs={'class': 'form-control input-xs'}),
                    'fecha_nacimiento': DateInput(attrs={'class': 'form-control input-xs', 'data-date-format': 'yyyy-mm-dd','readonly':'True'}),
                    'foto': FileInput(attrs={'class': 'dropzone dz-clickable dz-started'}),
                    }
