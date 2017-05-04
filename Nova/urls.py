@@ -13,12 +13,13 @@ from finanzas.views import ViaticoLineaAPI
 from finanzas.views import ViaticoCabeceraByPageAPI
 from finanzas.views import ViaticoLineaByPageAPI
 
-from compras.views import CompraSeguimientoAPI
-from compras.views import CompraSeguimientoByPageAPI
-from compras.views import CompraSeguimientoSucursalAPI
-from compras.views import CompraSeguimientoCompaniaAPI
-from compras.views import CompraSeguimientoAutorizacionesAPI
-from compras.views import CompraSeguimientoRecepcionesAPI
+from compras.views import viewscomprasAPI
+from compras.views import viewscomprasByPageAPI
+from compras.views import viewunidadesAPI
+from compras.views import viewcompaniasAPI
+from compras.views import viewautorizacionesAPI
+from compras.views import viewrecepcionesAPI
+from compras.views import viewitemsAPI
 
 from sgi.views import IncidenciaDocumentoAPI
 from sgi.views import IncidenciaDocumentoByPageAPI
@@ -96,39 +97,45 @@ router.register(
 # -------------- Compras -------------- #
 
 router.register(
-    r'compraseguimiento',
-    CompraSeguimientoAPI,
-    'compraseguimiento'
+    r'viewscompras',
+    viewscomprasAPI,
+    'viewscompras'
 )
 
 router.register(
-    r'compraseguimiento_bypage',
-    CompraSeguimientoByPageAPI,
-    'compraseguimiento_bypage'
+    r'viewscompras_bypage',
+    viewscomprasByPageAPI,
+    'viewscompras_bypage'
 )
 
 router.register(
-    r'compraseguimientocompania',
-    CompraSeguimientoCompaniaAPI,
-    'compraseguimientocompania'
+    r'viewcompanias',
+    viewcompaniasAPI,
+    'viewcompanias'
 )
 
 router.register(
-    r'compraseguimientosucursal',
-    CompraSeguimientoSucursalAPI,
-    'compraseguimientosucursal',
+    r'viewunidades',
+    viewunidadesAPI,
+    'viewunidades',
 )
 
 router.register(
-    r'compraseguimientoautorizaciones',
-    CompraSeguimientoAutorizacionesAPI,
-    'compraseguimientoautorizaciones',
+    r'viewautorizaciones',
+    viewautorizacionesAPI,
+    'viewautorizaciones',
 )
 
 router.register(
-    r'compraseguimientorecepciones',
-    CompraSeguimientoRecepcionesAPI,
-    'compraseguimientorecepciones',
+    r'viewrecepciones',
+    viewrecepcionesAPI,
+    'viewrecepciones',
+)
+
+router.register(
+    r'viewitems',
+    viewitemsAPI,
+    'viewitems',
 )
 # -------------- SGI -------------- #
 
@@ -191,9 +198,9 @@ router.register(
 # -------------- JDE -------------- #
 
 router.register(
-    r'usuariosvista',
+    r'viewusuarios',
     VIEW_USUARIOS_API,
-    'usuariosvista'
+    'viewusuarios'
 )
 
 

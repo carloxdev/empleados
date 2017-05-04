@@ -9,9 +9,10 @@ from jde.models import VIEW_SCOMPRAS
 from jde.models import VIEW_UNIDADES
 from jde.models import VIEW_AUTORIZACIONES
 from jde.models import VIEW_RECEPCIONES
+from jde.models import VIEW_ITEMS
 
 
-class CompraSeguimientoFilter(filters.FilterSet):
+class viewscomprasFilter(filters.FilterSet):
 
     req_compania = CharFilter(
         name="req_compania",
@@ -67,11 +68,19 @@ class CompraSeguimientoFilter(filters.FilterSet):
     )
     req_fecha_creacion_desde = CharFilter(
         name="req_fecha_creacion_desde",
-        method="filter_fecha_desde" 
+        method="req_filter_fecha_desde" 
     )
     req_fecha_creacion_hasta = CharFilter(
         name="req_fecha_creacion_hasta",
-        method="filter_fecha_hasta"
+        method="req_filter_fecha_hasta"
+    )
+    ord_fecha_creacion_desde = CharFilter(
+        name="ord_fecha_creacion_desde",
+        method="ord_filter_fecha_desde" 
+    )
+    ord_fecha_creacion_hasta = CharFilter(
+        name="ord_fecha_creacion_hasta",
+        method="ord_filter_fecha_hasta"
     )
     ord_proveedor_desc = CharFilter(
         name="ord_proveedor_desc",
@@ -97,6 +106,8 @@ class CompraSeguimientoFilter(filters.FilterSet):
             'req_estado_last',
             'req_fecha_creacion_desde',
             'req_fecha_creacion_hasta',
+            'ord_fecha_creacion_desde',
+            'ord_fecha_creacion_hasta',
             'cot',
             'cot_tipo',
             'cot_estado_last',
@@ -107,7 +118,7 @@ class CompraSeguimientoFilter(filters.FilterSet):
             'req_item_desc',
             'ord_recepcion'
         ]
-    def filter_fecha_desde(self, queryset, name, value):
+    def req_filter_fecha_desde(self, queryset, name, value):
 
         valor = "{}T00:00:00".format(value)
 
@@ -120,7 +131,7 @@ class CompraSeguimientoFilter(filters.FilterSet):
             
             return consulta
 
-    def filter_fecha_hasta(self, queryset, name, value):
+    def req_filter_fecha_hasta(self, queryset, name, value):
 
         valor = "{}T23:59:59".format(value)
 
@@ -131,7 +142,32 @@ class CompraSeguimientoFilter(filters.FilterSet):
 
             return consulta
 
-class CompraSeguimientoAutorizacionesFilter(filters.FilterSet):
+    def ord_filter_fecha_desde(self, queryset, name, value):
+
+        valor = "{}T00:00:00".format(value)
+
+        if not value:
+            
+            return queryset
+        else:
+            
+            consulta = queryset.filter(cot_fecha_creacion__gte=valor)
+            
+            return consulta
+
+    def ord_filter_fecha_hasta(self, queryset, name, value):
+
+        valor = "{}T23:59:59".format(value)
+
+        if not value:
+            return queryset
+        else:
+            consulta = queryset.filter(cot_fecha_creacion__lte=valor)
+
+            return consulta
+
+
+class viewautorizacionesFilter(filters.FilterSet):
 
     oc = NumberFilter(
         name="oc",
@@ -153,7 +189,7 @@ class CompraSeguimientoAutorizacionesFilter(filters.FilterSet):
                 'oc_compania'
         ]
 
-class CompraSeguimientoRecepcionesFilter(filters.FilterSet):
+class viewrecepcionesFilter(filters.FilterSet):
 
     oc = NumberFilter(
         name="oc",
@@ -184,4 +220,16 @@ class CompraSeguimientoRecepcionesFilter(filters.FilterSet):
                 'oc_compania',
                 'oc_linea',
                 'tran_tipo'
+        ]
+
+class viewitemsFilter(filters.FilterSet):
+    descripcion = CharFilter(
+        name="descripcion",
+        lookup_expr="icontains"
+    )
+
+    class Meta:
+        model = VIEW_ITEMS
+        fields = [
+            'descripcion'
         ]

@@ -8,6 +8,7 @@ var url_seguimiento_compania = window.location.origin + "/api/compraseguimientoc
 var url_seguimiento_sucursal = window.location.origin + "/api/compraseguimientosucursal/"
 var url_compraseguimeinto_autorizadores = window.location.origin + "/api/compraseguimientoautorizaciones/"
 var url_compraseguimiento_recepciones = window.location.origin + "/api/compraseguimientorecepciones/"
+var url_compraseguimiento_items = window.location.origin + "/api/compraseguimientoitems/"
 
 // OBJS
 var tarjeta_filtros = null
@@ -42,14 +43,17 @@ function TarjetaFiltros() {
     this.$id_requisicion_canceladas = $('#id_requisicion_canceladas_0')
     this.$id_cotizacion = $("#id_cotizacion")
     this.$id_cotizacion_tipo = $("#id_cotizacion_tipo")
+    this.$id_cotizacion_originador = $("#id_cotizacion_originador")
     this.$id_cotizacion_canceladas = $("#id_cotizacion_canceladas_0")
     this.$id_oc = $("#id_oc")
     this.$id_oc_tipo = $("#id_oc_tipo")
+    this.$id_oc_originador = $("#id_oc_originador")
     this.$id_oc_canceladas = $("#id_oc_canceladas_0")
     this.$id_proveedor = $("#id_proveedor")
     this.$id_item = $("#id_item")
     this.$id_recepcion = $("#id_recepcion")
     this.$fecha_req_desde_hasta = $("#fecha_req_desde_hasta")
+    this.$fecha_ord_desde_hasta = $("#fecha_ord_desde_hasta")
     this.$boton_colapsible = $("#boton_colapsible")
     this.$boton_buscar = $('#boton_buscar')
     this.$boton_limpiar = $('#boton_limpiar')
@@ -59,12 +63,76 @@ function TarjetaFiltros() {
 TarjetaFiltros.prototype.init_Components = function () {
 
     this.$fecha_req_desde_hasta.daterangepicker(this.get_ConfDateRangePicker())
+    this.$fecha_ord_desde_hasta.daterangepicker(this.get_ConfDateRangePicker())
     this.$id_compania.select2(this.get_ConfSelect2())
     this.$id_sucursal.select2(this.get_ConfSelect2())
     this.$id_requisicion_tipo.select2(this.get_ConfSelect2())
+    this.$id_requisicion_originador.select2(this.get_ConfSelect2())
     this.$id_cotizacion_tipo.select2(this.get_ConfSelect2())
+    this.$id_cotizacion_originador.select2(this.get_ConfSelect2())
     this.$id_oc_tipo.select2(this.get_ConfSelect2())
+    this.$id_oc_originador.select2(this.get_ConfSelect2())
     this.$id_recepcion.select2(this.get_ConfSelect2())
+    this.$id_item.select2(this.get_ConfSelect2())
+
+
+    $(this.$id_item).select2({
+      ajax: {
+        url: url_compraseguimiento_items,
+        dataType: 'json',
+        delay: 250,
+        data: function (params) {//CREO Q ES params.results, CAMBIAR TOOS LOS parametros de funtion por uno solo (response)
+            alert(JSON.stringify(params))
+          return {
+            descripcion: params.term, // search term
+            page: params.page
+          };
+        },
+        processResults: function (data, params) {
+          // parse the results into the format expected by Select2
+          // since we are using custom formatting functions we do not need to
+          // alter the remote JSON data, except to indicate that infinite
+          // scrolling can be used
+          //alert(JSON.stringify(data))
+          params.page = params.page || 1;
+          alert(JSON.stringify(data))
+          alert(data.items)
+          return {
+
+            results: data.items,
+            pagination: {
+              more: (params.page * 30) < data.total_count
+            }
+          };
+        },
+        cache: true
+      },
+      escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
+      minimumInputLength: 1,
+    });
+
+    // $.ajax({
+    //     url: url_compraseguimiento_items,
+    //     method: "GET",
+    //     dataType: "json",
+
+    //     success: function(data) {
+    //         //alert(data.results)
+    //         //$('.selector-pais select').html(data.results).fadeIn();
+
+    //         $.each(data.results, function(id, objeto) {
+    //             $('.selector-pais select').append('<option value="'+objeto.clave+'">'+objeto.descripcion+'</option>');
+       
+    //         })
+
+
+
+            
+    //     },
+    //     failure: function(data) { 
+    //         alert('Error al recuperar datos.');
+    //     }
+    // });
 
 }
 TarjetaFiltros.prototype.get_ConfDateRangePicker = function () {
@@ -148,8 +216,10 @@ TarjetaFiltros.prototype.get_Values = function (_page, _pageSize) {
         ord_estado_last: $("input[name='oc_canceladas']:checked").val(),
         req_fecha_creacion_desde: this.$fecha_req_desde_hasta.val().split(" al ")[0],
         req_fecha_creacion_hasta: this.$fecha_req_desde_hasta.val().split(" al ")[1],
+        ord_fecha_creacion_desde: this.$fecha_ord_desde_hasta.val().split(" al ")[0],
+        ord_fecha_creacion_hasta: this.$fecha_ord_desde_hasta.val().split(" al ")[1],
         ord_proveedor_desc: this.$id_proveedor.val(),
-        req_item_desc: this.$id_item.val(),
+        //req_item_desc: this.$id_item.val(),
         ord_recepcion: this.$id_recepcion.val()
     }
 }
@@ -175,10 +245,14 @@ TarjetaFiltros.prototype.click_BotonLimpiar = function (e) {
     e.data.$id_oc_tipo.data('select2').val(0)
     e.data.$id_oc_canceladas.prop('checked', true)
     e.data.$id_proveedor.val("")
-    e.data.$id_item.val("")
+    //e.data.$id_item.val("")
     e.data.$id_recepcion.data('select2').val(0)
     e.data.$fecha_req_desde_hasta.data('daterangepicker').setStartDate('2017-01-01')
     e.data.$fecha_req_desde_hasta.data('daterangepicker').setEndDate(
+        moment().format('YYYY-MM-DD')
+    )
+    e.data.$fecha_ord_desde_hasta.data('daterangepicker').setStartDate('2017-01-01')
+    e.data.$fecha_ord_desde_hasta.data('daterangepicker').setEndDate(
         moment().format('YYYY-MM-DD')
     )
 }

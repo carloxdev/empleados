@@ -11,7 +11,7 @@ from jde.models import VIEW_RECEPCIONES
 from jde.models import VIEW_USUARIOS
 from jde.models import VIEW_ITEMS
 
-class CompraSeguimientoSerializer(serializers.HyperlinkedModelSerializer):
+class viewscomprasSerializer(serializers.HyperlinkedModelSerializer):
       class Meta:
             model = VIEW_SCOMPRAS
             fields = (
@@ -91,7 +91,7 @@ class CompraSeguimientoSerializer(serializers.HyperlinkedModelSerializer):
                   )
 
 
-class CompraSeguimientoSucursalSerializer(serializers.HyperlinkedModelSerializer):
+class viewunidadesSerializer(serializers.HyperlinkedModelSerializer):
       class Meta:
             model = VIEW_UNIDADES
             fields = (
@@ -99,7 +99,7 @@ class CompraSeguimientoSucursalSerializer(serializers.HyperlinkedModelSerializer
                   'desc_corta'
       )
 
-class CompraSeguimientoCompaniaSerializer(serializers.HyperlinkedModelSerializer):
+class viewcompaniasSerializer(serializers.HyperlinkedModelSerializer):
       class Meta:
             model = VIEW_COMPANIAS
             fields = (
@@ -109,7 +109,7 @@ class CompraSeguimientoCompaniaSerializer(serializers.HyperlinkedModelSerializer
                   'book_desc',
       )
 
-class CompraSeguimientoAutorizacionesSerializer(serializers.ModelSerializer):
+class viewautorizacionesSerializer(serializers.ModelSerializer):
       class Meta:
             model = VIEW_AUTORIZACIONES
             fields = (
@@ -128,7 +128,7 @@ class CompraSeguimientoAutorizacionesSerializer(serializers.ModelSerializer):
                   'lista_estados',
       )
 
-class CompraSeguimientoRecepcionesSerializer(serializers.ModelSerializer):
+class viewrecepcionesSerializer(serializers.ModelSerializer):
       class Meta:
             model = VIEW_RECEPCIONES
             fields = (
@@ -181,45 +181,11 @@ class CompraSeguimientoRecepcionesSerializer(serializers.ModelSerializer):
                   'fecha_tran',
       )
 
-class CompraSeguimientoUsuariosSerializer(serializers.HyperlinkedModelSerializer):
-      class Meta:
-            model = VIEW_USUARIOS
-            fields = ( 
-                  'dir_tipo_desc',
-                  'dir_tipo',
-                  'dir_desc',
-                  'dir',
-                  'clave',
-      )
-
-class CompraSeguimientoItemsSerializer(serializers.HyperlinkedModelSerializer):
+class viewitemsSerializer(serializers.HyperlinkedModelSerializer):
 
       class Meta:
             model = VIEW_ITEMS
             fields = (
-                  'proveedor_prin',
-                  'submercancia',
-                  'mercancia',
-                  'comprador',
-                  'udm_compra',
-                  'udm_secu',
-                  'udm_prim',
-                  'gl_codigo',
-                  'linea_tipo',
-                  'alm_tipo',
-                  'texto_busqueda',
-                  'modelo',
-                  'descripcion',
-                  'noparte',
-                  'numero',
                   'clave',
-                  'fijo_fariable',
-                  'nivel_plazo',
-                  'elim_mensaje_mrp',
-                  'limite_vislz_mensaje',
-                  'limite_congelacion',
-                  'regla_limite_planif',
-                  'cd_planif',
-                  'codigo_norma_ordenes',
-                  'mantto_clasif',
+                  'descripcion',
             )
