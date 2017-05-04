@@ -76,9 +76,12 @@ TarjetaUsuario.prototype.buscar_EmpleadoProfile = function (e) {
 
             if (response.length != 0) {
                 alert('La clave de empleado seleccionada ya esta asociada a un usuario.')
+<<<<<<< HEAD
                 //this.$username.disabled = true
 
                 //Limpiar formulario
+=======
+>>>>>>> origin/master
                 tarjeta.limpiar_Formulario()
              }
              else {
@@ -102,12 +105,30 @@ TarjetaUsuario.prototype.buscar_EmpleadoEBS = function (_clave) {
         method: "GET",
         success: function (response) { 
 
+<<<<<<< HEAD
             if (response.length != 0) {
                 tarjeta.llenar_Formulario(response)
             }
             else {
                 alert('No existe el numero de empleado especificado.')
             }
+=======
+<<<<<<< HEAD
+
+            // llenar_Formulario()
+            
+
+            e.data.$first_name.val((response[0].pers_primer_nombre +" "+ response[0].pers_segundo_nombre).split(" -")[0])
+            e.data.$last_name.val(response[0].pers_apellido_paterno +" "+ response[0].pers_apellido_materno)
+            e.data.$email.val(response[0].pers_email)
+            e.data.$fecha_nacimiento.val((response[0].pers_fecha_nacimiento).split(" ")[0])
+            e.data.$username.val(num_empleado)
+=======
+            //Llenar formulario
+            tarjeta.llenar_Formulario()
+
+>>>>>>> origin/master
+>>>>>>> origin/master
         },
         error: function (response) {
             alert("Ocurrio error al consultar")

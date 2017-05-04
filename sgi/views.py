@@ -123,6 +123,7 @@ class IncidenciaDocumentoNuevo(View):
             #send_mail("Subject", "Email body", settings.EMAIL_HOST_USER, "janexa@gmail.com", fail_silently=False)
 
             return redirect(reverse('sgi:incidencia_lista'))
+            #return redirect(reverse('incidencia_archivo', kwargs={'pk': incidencia}))
 
         contexto = {
             'form': formulario

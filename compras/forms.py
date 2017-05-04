@@ -72,7 +72,7 @@ class ComprasSeguimientoFilterForm(Form):
         widget=Select(attrs={'class': 'select2 nova-select2'})
     )
     comprador = CharField(
-        widget=TextInput(attrs={'class': 'form-control input-xs'})
+        widget=TextInput(attrs={'class': 'form-control input-xs', 'placeholder': 'Nombre ejemplo: JORDAN'})
     )
 
     requisicion = IntegerField(
@@ -94,8 +94,8 @@ class ComprasSeguimientoFilterForm(Form):
     cotizacion_tipo = CharField(
         widget=Select(attrs={'class': 'form-control input-xs'}, choices=TIPOS_COTIZACION)
     )
-    cotizacion_originador = CharField(
-        widget=TextInput(attrs={'class': 'form-control input-xs'})
+    cotizacion_originador = ChoiceField(
+        widget=Select(attrs={'class': 'select2 nova-select2'})
     )
     cotizacion_canceladas = ChoiceField(
         widget=RadioSelect, choices=CANCELADAS
@@ -106,6 +106,9 @@ class ComprasSeguimientoFilterForm(Form):
     )
     oc_tipo = CharField(
         widget=Select(attrs={'class': 'form-control input-xs'}, choices=TIPOS_OC)
+    )
+    oc_originador = ChoiceField(
+        widget=Select(attrs={'class': 'select2 nova-select2'})
     )
     oc_canceladas = ChoiceField(
         widget=RadioSelect, choices=CANCELADAS
@@ -126,8 +129,10 @@ class ComprasSeguimientoFilterForm(Form):
             *args, **kwargs)
         self.fields['compania'].choices= self.get_Compania()
         self.fields['sucursal'].choices= self.get_Sucursal()
-        self.fields['requisicion_originador'].choices= self.get_Requisicion_Originador()
-        self.fields['item'].choices= self.get_Item()
+        self.fields['requisicion_originador'].choices= self.get_Originador()
+        self.fields['cotizacion_originador'].choices= self.get_Originador()
+        self.fields['oc_originador'].choices= self.get_Originador()
+        #self.fields['item'].choices= self.get_Item()
 
     def get_Compania(self):
 
@@ -161,9 +166,9 @@ class ComprasSeguimientoFilterForm(Form):
             )
         return valores
 
-    def get_Requisicion_Originador(self):
+    def get_Originador(self):
         valores = [('','-------')]
-        originadores = VIEW_USUARIOS.objects.using('jde_p').filter(dir_tipo="E")
+        originadores = VIEW_USUARIOS.objects.using('jde_p').filter(dir_tipo__contains="E")
 
         for originador in originadores:
             valores.append(
@@ -173,14 +178,14 @@ class ComprasSeguimientoFilterForm(Form):
             )
         return valores
 
-    def get_Item(self):
-        valores = [('','-------')]
-        items = VIEW_ITEMS.objects.using('jde_p').all()
+    # def get_Item(self):
+    #     valores = [('','-------')]
+    #     items = VIEW_ITEMS.objects.using('jde_p').all()
 
-        for item in items:
-            valores.append(
-                (   item.numero,
-                    item.descripcion + ' ' + item.modelo,
-                )
-            )
-        return valores
+    #     for item in items:
+    #         valores.append(
+    #             (   item.numero,
+    #                 item.descripcion + ' ' + item.modelo,
+    #             )
+    #         )
+    #     return valores

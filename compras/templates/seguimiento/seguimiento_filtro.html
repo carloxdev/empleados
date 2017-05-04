@@ -131,7 +131,7 @@
                             </div>
 
                             <!-- requisición_originador -->
-                            <div class="col-sm-3">
+                            <div class="col-sm-4">
                                 <div class="form-group {% if form.requisicion_originador.errors %} has-error {% endif %}">
 
                                 <label class="control-label">
@@ -148,7 +148,7 @@
                             </div>
 
                             <!-- requisición_canceladas -->
-                            <div class="col-sm-3">
+                            <div class="col-sm-2">
                                 <div class="form-group {% if form.requisicion_canceladas.errors %} has-error {% endif %}" id="id_requisicion_canceladas">
 
                                 <label class="control-label">
@@ -205,8 +205,25 @@
                                 </div>
                             </div>
 
+                            <!-- cotización_originador -->
+                            <div class="col-sm-4">
+                                <div class="form-group {% if form.cotizacion_originador.errors %} has-error {% endif %}">
+
+                                <label class="control-label">
+                                <i class="fa {% if form.cotizacion_originador.errors %} fa-asterisk {% endif %}"></i> 
+                                    Originador
+                                </label>
+                                <p>
+                                    {{ form.cotizacion_originador }} 
+                                </p>
+                                {% for error in form.cotizacion_originador.errors %}
+                                    <span class="help-block">{{ error }}</span>
+                                {% endfor %}
+                                </div>
+                            </div>
+
                             <!-- cotizacion_canceladas -->
-                            <div class="col-sm-3 pull-right">
+                            <div class="col-sm-2 pull-right">
                                 <div class="form-group {% if form.cotizacion_canceladas.errors %} has-error {% endif %}">
 
                                 <label class="control-label">
@@ -261,8 +278,25 @@
                                     </div>
                                 </div>
 
+                                <!-- oc_originador -->
+                                <div class="col-sm-4">
+                                    <div class="form-group {% if form.oc_originador.errors %} has-error {% endif %}">
+
+                                    <label class="control-label">
+                                    <i class="fa {% if form.oc_originador.errors %} fa-asterisk {% endif %}"></i> 
+                                        Originador
+                                    </label>
+                                    <p>
+                                        {{ form.oc_originador }} 
+                                    </p>
+                                    {% for error in form.oc_originador.errors %}
+                                        <span class="help-block">{{ error }}</span>
+                                    {% endfor %}
+                                    </div>
+                                </div>
+
                                 <!-- oc_canceladas -->
-                                <div class="col-sm-3 pull-right">
+                                <div class="col-sm-2 pull-right">
                                     <div class="form-group {% if form.oc_canceladas.errors %} has-error {% endif %}">
 
                                     <label class="control-label">
@@ -284,9 +318,9 @@
                             
                             <div class="row nova-padding-row">
                             <!-- req_desde  y req_hasta-->
-                            <div class="col-sm-6">
+                            <div class="col-sm-4">
                                 <div class="form-group {% if form.oc_desde.errors %} has-error {% endif %}">
-                                    <label class="control-label">Requisición Desde - Hasta </label>
+                                    <label class="control-label">Fecha creación requisición  </label>
                                     
                                         <div class="input-group">
                                             <input type="text" value="" readonly="" class="form-control input-xs" id="fecha_req_desde_hasta">
@@ -295,6 +329,18 @@
                                             </span>
                                         </div>
                                     
+                                </div>
+                            </div>
+
+                            <div class="col-sm-4">
+                                <div class="form-group {% if form.oc_desde.errors %} has-error {% endif %}">
+                                    <label class="control-label">Fecha de creación orden </label>
+                                    <div class="input-group">
+                                        <input type="text" value="" readonly="" class="form-control input-xs" id="fecha_ord_desde_hasta">
+                                        <span class="input-group-addon btn btn-primary">
+                                            <i class="icon-th mdi mdi-calendar"></i>
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
 
@@ -318,21 +364,9 @@
                                 </div>
                             </div>
 
-                             <!-- item -->
-                            <div class="col-sm-4">
-                                <div class="form-group {% if form.item.errors %} has-error {% endif %}">
-
-                                <label class="control-label">
-                                <i class="fa {% if form.item.errors %} fa-asterisk {% endif %}"></i> 
-                                    Item
-                                </label>
-                                <p>
-                                    {{ form.item }} 
-                                </p>
-                                {% for error in form.item.errors %}
-                                    <span class="help-block">{{ error }}</span>
-                                {% endfor %}
-                                </div>
+                            <div>
+                                 articulo
+                                 <select id="id_item"></select>
                             </div>
 
                              <!-- recepcion -->

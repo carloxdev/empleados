@@ -4,7 +4,7 @@
 
 // URLS:
 var url_viaticocabecera_bypage = window.location.origin + "/api/viaticocabecera_bypage/"
-var url_viaticocabecera_editar = window.location.origin + "/viaticos/editar/"
+var url_viaticocabecera_editar = ""
 
 // OBJS
 var tarjeta_filtros = null
@@ -17,6 +17,10 @@ var tarjeta_resultados = null
 
 $(document).ready(function () {
     
+    // Inicializar URLS:
+    url_viaticocabecera_editar = window.location.origin.toString() + $('#url_viaticocabecera_editar').val()
+
+    // Inicializando Objetos
     tarjeta_filtros = new PopupFiltros()
     tarjeta_resultados = new TarjetaResultados()
 })
