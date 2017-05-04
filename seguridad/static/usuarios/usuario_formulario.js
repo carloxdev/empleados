@@ -46,6 +46,7 @@ function TarjetaUsuario() {
     this.$fecha_nacimiento = $('#id_fecha_nacimiento')
     this.$clave_jde = $('#id_clave_jde')
     this.$contrasena = $('#id_password')
+    this.$confirmar = $('#id_confirmar')
 
     this.init_Components()
     this.init_Events()
@@ -64,7 +65,7 @@ TarjetaUsuario.prototype.init_Events = function () {
 }
 TarjetaUsuario.prototype.buscar_EmpleadoProfile = function (e) {
 
-    // Consultar el PROFILE API con el numero del empleado.
+    // Consultar el PROFILE API en SEGURIDAD con el numero del empleado.
     num_empleado = e.data.$clave_rh.val()
     var url = url_profile + "?clave_rh="  + num_empleado
 
@@ -75,8 +76,10 @@ TarjetaUsuario.prototype.buscar_EmpleadoProfile = function (e) {
 
             if (response.length != 0) {
                 alert('La clave de empleado seleccionada ya esta asociada a un usuario.')
+                //this.$username.disabled = true
+
                 //Limpiar formulario
-                //tarjeta.limpiar_Formulario(e)
+                tarjeta.limpiar_Formulario()
              }
              else {
                 tarjeta.buscar_EmpleadoEBS(num_empleado)
@@ -90,7 +93,7 @@ TarjetaUsuario.prototype.buscar_EmpleadoProfile = function (e) {
 }
 TarjetaUsuario.prototype.buscar_EmpleadoEBS = function (_clave) {
 
-    // Consultar el VIEW EMPLEADOS API con el numero del empleado.
+    // Consultar el VIEW EMPLEADOS API  en EBS con el numero del empleado.
     num_empleado = _clave
     var url = url_empleado_simple + "?pers_empleado_numero=" + num_empleado
 
@@ -99,31 +102,35 @@ TarjetaUsuario.prototype.buscar_EmpleadoEBS = function (_clave) {
         method: "GET",
         success: function (response) { 
 
-            //Llenar formulario
-            tarjeta.llenar_Formulario()
-
+            if (response.length != 0) {
+                tarjeta.llenar_Formulario(response)
+            }
+            else {
+                alert('No existe el numero de empleado especificado.')
+            }
         },
         error: function (response) {
-            //alertify.error("Ocurrio error al consultar")
             alert("Ocurrio error al consultar")
         }
 
     })
 }
-TarjetaUsuario.prototype.llenar_Formulario = function () {
+TarjetaUsuario.prototype.llenar_Formulario = function (_response) {
 
-    e.data.$first_name.val((response[0].pers_primer_nombre +" "+ response[0].pers_segundo_nombre).split(" -")[0])
-    e.data.$last_name.val(response[0].pers_apellido_paterno +" "+ response[0].pers_apellido_materno)
-    e.data.$email.val(response[0].pers_email)
-    e.data.$fecha_nacimiento.val((response[0].pers_fecha_nacimiento).split(" ")[0])
-    e.data.$username.val(num_empleado)
+    this.$first_name.val((_response[0].pers_primer_nombre +" "+ _response[0].pers_segundo_nombre).split(" -")[0])
+    this.$last_name.val(_response[0].pers_apellido_paterno +" "+ _response[0].pers_apellido_materno)
+    this.$email.val(_response[0].pers_email)
+    this.$fecha_nacimiento.val((_response[0].pers_fecha_nacimiento).split(" ")[0])
+    this.$username.val(num_empleado)
 
 }
 TarjetaUsuario.prototype.limpiar_Formulario = function () {
-    e.data.$first_name.val("")
-    e.data.$last_name.val("")
-    e.data.$email.val("")
-    e.data.$fecha_nacimiento.val("")
-    e.data.$username.val("")
-    e.data.$contrasena.val("")
+
+    this.$first_name.val("")
+    this.$last_name.val("")
+    this.$email.val("")
+    this.$fecha_nacimiento.val("")
+    this.$username.val("")
+    this.$contrasena.val("")
+
 }
