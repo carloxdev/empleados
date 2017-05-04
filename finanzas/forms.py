@@ -58,10 +58,15 @@ class ViaticoFilterForm(Form):
             empleados = VIEW_EMPLEADOS_SIMPLE.objects.using('ebs_p').all().order_by('pers_nombre_completo')
 
         for empleado in empleados:
+
+            descripcion = "%s - %s" % (
+                empleado.pers_empleado_numero,
+                empleado.pers_nombre_completo
+            )
             valores.append(
                 (
-                    empleado.pers_clave,
-                    empleado.pers_nombre_completo
+                    empleado.pers_empleado_numero,
+                    descripcion
                 )
             )
 
@@ -115,13 +120,15 @@ class ViaticoCabeceraForm(ModelForm):
         model = ViaticoCabecera
 
         fields = [
-            'empleado',
+            'empleado_clave',
+            'empleado_descripcion',
             'fecha_partida',
             'fecha_regreso',
             'unidad_negocio',
             'ciudad_destino',
             'proposito_viaje',
-            'nombre_empresa',
+            'empresa_clave',
+            'empresa_descripcion',
             'rfc',
             'direccion',
             'grupo',
@@ -136,7 +143,8 @@ class ViaticoCabeceraForm(ModelForm):
             'unidad_negocio': 'Unidad de negocio',
             'ciudad_destino': 'Ciudad de destino',
             'proposito_viaje': 'Proposito del viaje',
-            'nombre_empresa': 'Empresa',
+            # 'empresa_clave': 'Empresa',
+            # 'empresa_descripcion': 'Empresa Descri',
             'rfc': 'RFC',
             'direccion': 'Dirección',
             'grupo': 'Grupo',
@@ -145,7 +153,7 @@ class ViaticoCabeceraForm(ModelForm):
         }
 
         widgets = {
-            'empleado': TextInput(attrs={'class': 'form-control input-xs'}),
+            'empleado_clave': TextInput(attrs={'class': 'form-control input-xs'}),
             'fecha_partida': TextInput(attrs={
                 'class': 'form-control input-xs',
                 'data-date-format': 'yyyy-mm-dd'
@@ -157,7 +165,8 @@ class ViaticoCabeceraForm(ModelForm):
             'unidad_negocio': TextInput(attrs={'class': 'form-control input-xs'}),
             'ciudad_destino': TextInput(attrs={'class': 'form-control input-xs'}),
             'proposito_viaje': Textarea(attrs={'class': 'form-control input-xs'}),
-            'nombre_empresa': TextInput(attrs={'class': 'form-control input-xs'}),
+            'empresa_clave': TextInput(attrs={'class': 'form-control input-xs'}),
+            'empresa_descripcion': TextInput(attrs={'class': 'form-control input-xs'}),
             'rfc': TextInput(attrs={'class': 'form-control input-xs'}),
             'direccion': TextInput(attrs={'class': 'form-control input-xs'}),
             'grupo': TextInput(attrs={'class': 'form-control input-xs'}),

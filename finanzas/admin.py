@@ -9,13 +9,15 @@ from .models import ViaticoLinea
 class ViaticoCabeceraAdmin(admin.ModelAdmin):
     list_display = (
         'pk',
-        'empleado',
+        'empleado_clave',
+        'empleado_descripcion',
         'fecha_partida',
         'fecha_regreso',
         'unidad_negocio',
         'ciudad_destino',
         'proposito_viaje',
-        'nombre_empresa',
+        'empresa_clave',
+        'empresa_descripcion',
         'rfc',
         'direccion',
         'grupo',

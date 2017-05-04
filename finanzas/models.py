@@ -22,17 +22,19 @@ class ViaticoCabecera(models.Model):
         ('can', 'Cancelado'),
     )
 
-    empleado = models.CharField(max_length=60)
+    empleado_clave = models.IntegerField(default=0)
+    empleado_descripcion = models.CharField(max_length=60)
     fecha_partida = models.DateField()
     fecha_regreso = models.DateField()
     unidad_negocio = models.CharField(max_length=80, blank=False, null=False)
     ciudad_destino = models.CharField(max_length=150, blank=False, null=False)
     proposito_viaje = models.TextField(max_length=250, blank=False, null=False)
-    nombre_empresa = models.CharField(max_length=80)
+    empresa_clave = models.CharField(max_length=80)
+    empresa_descripcion = models.CharField(max_length=80)
     rfc = models.CharField(max_length=13)
     direccion = models.CharField(max_length=60, blank=False)
     grupo = models.CharField(max_length=40)
-    autorizador = models.CharField(max_length=60, blank=False)
+    autorizador = models.ForeignKey(Profile, related_name='via_autorizador', null=True)
     importe_total = models.DecimalField(max_digits=7, decimal_places=2, blank=False, null=False, default=0.0)
     status = models.CharField(
         choices=VIATICO_ESTADOS,
@@ -62,10 +64,10 @@ class ViaticoCabecera(models.Model):
         verbose_name_plural = "Viaticos Cabeceras"
 
     def __str__(self):
-        return "%s - %s" % (self.pk, self.empleado)
+        return "%s - %s" % (self.pk, self.empleado_descripcion)
 
     def __unicode__(self):
-        return "%s - %s" % (self.pk, self.empleado)
+        return "%s - %s" % (self.pk, self.empleado_descripcion)
 
 
 class ViaticoLinea(models.Model):
