@@ -76,10 +76,10 @@ TarjetaUsuario.prototype.buscar_EmpleadoProfile = function (e) {
             if (response.length != 0) {
                 alert('La clave de empleado seleccionada ya esta asociada a un usuario.')
                 //Limpiar formulario
-                tarjeta.limpiar_Formulario(e)
+                //tarjeta.limpiar_Formulario(e)
              }
              else {
-                tarjeta.buscar_EmpleadoEBS(e)
+                tarjeta.buscar_EmpleadoEBS(num_empleado)
              }
         },
         error: function (response) {
@@ -88,24 +88,20 @@ TarjetaUsuario.prototype.buscar_EmpleadoProfile = function (e) {
 
     })
 }
-TarjetaUsuario.prototype.buscar_EmpleadoEBS = function (e) {
+TarjetaUsuario.prototype.buscar_EmpleadoEBS = function (_clave) {
 
     // Consultar el VIEW EMPLEADOS API con el numero del empleado.
+    num_empleado = _clave
     var url = url_empleado_simple + "?pers_empleado_numero=" + num_empleado
-
-    //Limpiar formulario
-    tarjeta.limpiar_Formulario(e)
 
     $.ajax({
         url: url,
         method: "GET",
         success: function (response) { 
 
-            e.data.$first_name.val((response[0].pers_primer_nombre +" "+ response[0].pers_segundo_nombre).split(" -")[0])
-            e.data.$last_name.val(response[0].pers_apellido_paterno +" "+ response[0].pers_apellido_materno)
-            e.data.$email.val(response[0].pers_email)
-            e.data.$fecha_nacimiento.val((response[0].pers_fecha_nacimiento).split(" ")[0])
-            e.data.$username.val(num_empleado)
+            //Llenar formulario
+            tarjeta.llenar_Formulario()
+
         },
         error: function (response) {
             //alertify.error("Ocurrio error al consultar")
@@ -114,7 +110,16 @@ TarjetaUsuario.prototype.buscar_EmpleadoEBS = function (e) {
 
     })
 }
-TarjetaUsuario.prototype.limpiar_Formulario = function (e) {
+TarjetaUsuario.prototype.llenar_Formulario = function () {
+
+    e.data.$first_name.val((response[0].pers_primer_nombre +" "+ response[0].pers_segundo_nombre).split(" -")[0])
+    e.data.$last_name.val(response[0].pers_apellido_paterno +" "+ response[0].pers_apellido_materno)
+    e.data.$email.val(response[0].pers_email)
+    e.data.$fecha_nacimiento.val((response[0].pers_fecha_nacimiento).split(" ")[0])
+    e.data.$username.val(num_empleado)
+
+}
+TarjetaUsuario.prototype.limpiar_Formulario = function () {
     e.data.$first_name.val("")
     e.data.$last_name.val("")
     e.data.$email.val("")

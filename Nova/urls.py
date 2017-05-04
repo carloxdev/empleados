@@ -191,9 +191,9 @@ router.register(
 # -------------- JDE -------------- #
 
 router.register(
-    r'usuariosvista',
+    r'viewusuarios',
     VIEW_USUARIOS_API,
-    'usuariosvista'
+    'viewusuarios'
 )
 
 
