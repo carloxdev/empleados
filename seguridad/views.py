@@ -49,14 +49,17 @@ from .models import User
 from .models import Profile
 
 # Formularios:
-from .forms import UserForm
-from .forms import UsuarioForm
+#from .forms import UserForm
+#from .forms import UsuarioForm
 from .forms import UserFormFilter
 from .forms import UserEditarForm
 from .forms import UserEditarPerfilForm
 from .forms import ConfirmarForm
 from .forms import UserContrasenaForm
 from .forms import UserContrasenaActualForm
+
+#-----------------
+from .forms import ProfileForm
 
 
 class Login(View):
@@ -108,8 +111,10 @@ class UsuarioLista(View):
         self.template_name = 'usuarios/usuario_lista.html'
 
     def get(self, request):
-        form_buscar = UserFormFilter()
-        contexto = {'form': form_buscar}
+
+        form_profile = UserFormFilter()
+
+        contexto = {'form': form_profile}
         return render(request, self.template_name, contexto)
 
 
@@ -118,90 +123,54 @@ class UsuarioNuevo(View):
     def __init__(self):
         self.template_name = 'usuarios/usuario_nuevo.html'
 
-    def obtener_UrlImagen(self, _imagen):
-        imagen = ''
-        if _imagen:
-            imagen = _imagen.url
-
-        return imagen
-
     def get(self, request):
-        form_usuario = UserForm()
-        form_perfil = UsuarioForm()
-        form_confirmar = ConfirmarForm()
+
+        form_usuario = ProfileForm()
 
         contexto = {
             'form': form_usuario,
-            'form2': form_perfil,
-            'form_pass': form_confirmar,
         }
         return render(request, self.template_name, contexto)
 
     def post(self, request):
 
-        form_usuario = UserForm(request.POST)
-        form_perfil = UsuarioForm(request.POST, request.FILES)
-        form_pass = ConfirmarForm(request.POST)
+        form_usuario = ProfileForm(request.POST, request.FILES)
 
-        mensaje = True #Bandera confirmar contraseña
-
-        if form_usuario.is_valid() and form_perfil.is_valid() and form_pass.is_valid():
+        if form_usuario.is_valid():
 
             datos_formulario = form_usuario.cleaned_data
-            dato_confirmar = form_pass.cleaned_data
-            datos_perfil = form_perfil.cleaned_data
 
-            valor = datos_perfil.get('clave_rh')
-            clave = Profile.objects.filter(clave_rh = valor)
+            valor = datos_formulario.get('clave_rh')
+            clave = Profile.objects.filter(clave_rh=valor)
 
             if not(valor and clave):
-                print 'entre aqui'
-                empleado = get_object_or_404(
-                        VIEW_USUARIOS.objects.using('jde_p').all(),
-                        dir= datos_perfil.get('clave_rh')
-                    )
+                
+                usuario = User.objects.create_user(
+                    username=datos_formulario.get('username'),
+                    password=datos_formulario.get('password1')
+                )
 
-                print empleado.clave
-                print 'termine!!'
-                # if datos_formulario.get('password') == dato_confirmar.get('confirmar'):
-                #     usuario = User.objects.create_user(
-                #         username=datos_formulario.get('username'),
-                #         password=datos_formulario.get('password')
-                #     )
+                usuario.first_name = datos_formulario.get('first_name')
+                usuario.last_name = datos_formulario.get('last_name')
+                usuario.email = datos_formulario.get('email')
+                usuario.is_active = datos_formulario.get('is_active')
+                usuario.is_staff = datos_formulario.get('is_staff')
+                usuario.is_superuser = datos_formulario.get('is_superuser')
 
-                #     usuario.first_name = datos_formulario.get('first_name')
-                #     usuario.last_name = datos_formulario.get('last_name')
-                #     usuario.email = datos_formulario.get('email')
-                #     usuario.is_active = datos_formulario.get('is_active')
-                #     usuario.is_staff = datos_formulario.get('is_staff')
-                #     usuario.is_superuser = datos_formulario.get('is_superuser')
+                usuario.save()
 
-                #     usuario.save()
+                usuario.profile.clave_rh = datos_formulario.get('clave_rh')
+                usuario.profile.clave_jde = datos_formulario.get('clave_jde')
+                usuario.profile.fecha_nacimiento = datos_formulario.get(
+                    'fecha_nacimiento')
+                usuario.profile.foto = datos_formulario.get('foto')
 
-                #     empleado = get_object_or_404(
-                #         VIEW_USUARIOS.objects.using('jde_p').all(),
-                #         dir=datos_perfil.get('clave_rh')
-                #     )
+                usuario.profile.save()
 
-                #     usuario.profile.clave_rh = datos_perfil.get('clave_rh')
-                #     usuario.profile.clave_jde = empleado.clave
-                #     usuario.profile.fecha_nacimiento = datos_perfil.get(
-                #         'fecha_nacimiento')
-                #     usuario.profile.foto = datos_perfil.get('foto')
-
-                #     usuario.profile.save()
-
-                #     return redirect(reverse('seguridad:usuario_lista'))
-                # else:
-                #     mensaje = False
-            else:
-                print 'VVLV'
+                return redirect(reverse('seguridad:usuario_lista'))
 
         contexto = {
             'form': form_usuario,
-            'form2': form_perfil,
-            'form_pass': form_pass,
-            'msj': mensaje,
         }
         return render(request, self.template_name, contexto)
 
@@ -220,25 +189,26 @@ class UsuarioEditar(View):
 
     def get(self, request, pk):
         usuario_id = get_object_or_404(User, pk=pk)
-        form_usuario = UserEditarForm(
+        form_usuario = ProfileForm(
             initial={
+                'username': usuario_id.username,
                 'first_name': usuario_id.first_name,
                 'last_name': usuario_id.last_name,
                 'email': usuario_id.email,
                 'is_active': usuario_id.is_active,
                 'is_staff': usuario_id.is_staff,
-                'is_superuser': usuario_id.is_superuser
+                'is_superuser': usuario_id.is_superuser,
+                'clave_rh': usuario_id.clave_rh,
+                'clave_jde': usuario_id.clave_jde,
+                'fecha_nacimiento': usuario_id.fecha_nacimiento,
             }
         )
-
-        form_perfil = UsuarioForm(instance=usuario_id.profile)
-
+        
         user = usuario_id
 
         contexto = {
             'form': form_usuario,
-            'form2': form_perfil,
-            'foto': self.obtener_UrlImagen(usuario_id.profile.foto),
+            #'foto': self.obtener_UrlImagen(usuario_id.profile.foto),
             'user': user,
         }
         return render(request, self.template_name, contexto)
@@ -246,12 +216,9 @@ class UsuarioEditar(View):
     def post(self, request, pk):
         usuario = get_object_or_404(User, pk=pk)
 
-        form_usuario = UserEditarForm(request.POST, instance=usuario)
+        form_usuario = ProfileForm(request.POST, instance=usuario)
 
-        form_perfil = UsuarioForm(
-            request.POST, request.FILES, instance=usuario.profile)
-
-        if form_usuario.is_valid() and form_perfil.is_valid():
+        if form_usuario.is_valid():
 
             datos_formulario = form_usuario.cleaned_data
 
@@ -261,18 +228,181 @@ class UsuarioEditar(View):
             usuario.is_active = datos_formulario.get('is_active')
             usuario.is_staff = datos_formulario.get('is_staff')
             usuario.is_superuser = datos_formulario.get('is_superuser')
-            
+
             usuario.save()
-            usuario.profile = form_perfil.save()
+
+            usuario.profile.clave_rh = datos_formulario.get('clave_rh')
+            usuario.profile.clave_jde = datos_formulario.get('clave_jde')
+            usuario.profile.fecha_nacimiento = datos_formulario.get(
+                    'fecha_nacimiento')
+
+            usuario.profile.save()
 
             return redirect(reverse('seguridad:usuario_lista'))
 
         contexto = {
             'form': form_usuario,
-            'form2': form_perfil,
-            'foto': self.obtener_UrlImagen(usuario.profile.foto),
+            #'foto': self.obtener_UrlImagen(usuario.profile.foto),
         }
         return render(request, self.template_name, contexto)
+
+
+# class UsuarioNuevo(View):
+
+#     def __init__(self):
+#         self.template_name = 'usuarios/usuario_nuevo.html'
+
+#     def obtener_UrlImagen(self, _imagen):
+#         imagen = ''
+#         if _imagen:
+#             imagen = _imagen.url
+
+#         return imagen
+
+#     def get(self, request):
+#         form_usuario = UserForm()
+#         form_perfil = UsuarioForm()
+#         form_confirmar = ConfirmarForm()
+
+#         contexto = {
+#             'form': form_usuario,
+#             'form2': form_perfil,
+#             'form_pass': form_confirmar,
+#         }
+#         return render(request, self.template_name, contexto)
+
+#     def post(self, request):
+
+#         form_usuario = UserForm(request.POST)
+#         form_perfil = UsuarioForm(request.POST, request.FILES)
+#         form_pass = ConfirmarForm(request.POST)
+
+#         mensaje = True #Bandera confirmar contraseña
+
+# if form_usuario.is_valid() and form_perfil.is_valid() and
+# form_pass.is_valid():
+
+#             datos_formulario = form_usuario.cleaned_data
+#             dato_confirmar = form_pass.cleaned_data
+#             datos_perfil = form_perfil.cleaned_data
+
+#             valor = datos_perfil.get('clave_rh')
+#             clave = Profile.objects.filter(clave_rh = valor)
+
+#             if not(valor and clave):
+#                 print 'entre aqui'
+#                 empleado = get_object_or_404(
+#                         VIEW_USUARIOS.objects.using('jde_p').all(),
+#                         dir= datos_perfil.get('clave_rh')
+#                     )
+
+#                 print empleado.clave
+
+#                 if datos_formulario.get('password') == dato_confirmar.get('confirmar'):
+#                     usuario = User.objects.create_user(
+#                         username=datos_formulario.get('username'),
+#                         password=datos_formulario.get('password')
+#                     )
+
+#                     usuario.first_name = datos_formulario.get('first_name')
+#                     usuario.last_name = datos_formulario.get('last_name')
+#                     usuario.email = datos_formulario.get('email')
+#                     usuario.is_active = datos_formulario.get('is_active')
+#                     usuario.is_staff = datos_formulario.get('is_staff')
+#                     usuario.is_superuser = datos_formulario.get('is_superuser')
+
+#                     usuario.save()
+
+#                     usuario.profile.clave_rh = datos_perfil.get('clave_rh')
+#                     usuario.profile.clave_jde = empleado.clave
+#                     usuario.profile.fecha_nacimiento = datos_perfil.get(
+#                         'fecha_nacimiento')
+#                     usuario.profile.foto = datos_perfil.get('foto')
+
+#                     usuario.profile.save()
+
+#                     return redirect(reverse('seguridad:usuario_lista'))
+#                 else:
+#                     mensaje = False
+#             else:
+#                 print 'VVLV'
+
+#         contexto = {
+#             'form': form_usuario,
+#             'form2': form_perfil,
+#             'form_pass': form_pass,
+#             'msj': mensaje,
+#         }
+#         return render(request, self.template_name, contexto)
+
+
+# class UsuarioEditar(View):
+
+#     def __init__(self):
+#         self.template_name = 'usuarios/usuario_editar.html'
+
+#     def obtener_UrlImagen(self, _imagen):
+#         imagen = ''
+#         if _imagen:
+#             imagen = _imagen.url
+
+#         return imagen
+
+#     def get(self, request, pk):
+#         usuario_id = get_object_or_404(User, pk=pk)
+#         form_usuario = UserEditarForm(
+#             initial={
+#                 'first_name': usuario_id.first_name,
+#                 'last_name': usuario_id.last_name,
+#                 'email': usuario_id.email,
+#                 'is_active': usuario_id.is_active,
+#                 'is_staff': usuario_id.is_staff,
+#                 'is_superuser': usuario_id.is_superuser
+#             }
+#         )
+
+#         form_perfil = UsuarioForm(instance=usuario_id.profile)
+
+#         user = usuario_id
+
+#         contexto = {
+#             'form': form_usuario,
+#             'form2': form_perfil,
+#             'foto': self.obtener_UrlImagen(usuario_id.profile.foto),
+#             'user': user,
+#         }
+#         return render(request, self.template_name, contexto)
+
+#     def post(self, request, pk):
+#         usuario = get_object_or_404(User, pk=pk)
+
+#         form_usuario = UserEditarForm(request.POST, instance=usuario)
+
+#         form_perfil = UsuarioForm(
+#             request.POST, request.FILES, instance=usuario.profile)
+
+#         if form_usuario.is_valid() and form_perfil.is_valid():
+
+#             datos_formulario = form_usuario.cleaned_data
+
+#             usuario.first_name = datos_formulario.get('first_name')
+#             usuario.last_name = datos_formulario.get('last_name')
+#             usuario.email = datos_formulario.get('email')
+#             usuario.is_active = datos_formulario.get('is_active')
+#             usuario.is_staff = datos_formulario.get('is_staff')
+#             usuario.is_superuser = datos_formulario.get('is_superuser')
+
+#             usuario.save()
+#             usuario.profile = form_perfil.save()
+
+#             return redirect(reverse('seguridad:usuario_lista'))
+
+#         contexto = {
+#             'form': form_usuario,
+#             'form2': form_perfil,
+#             'foto': self.obtener_UrlImagen(usuario.profile.foto),
+#         }
+#         return render(request, self.template_name, contexto)
 
 
 class UsuarioCambiarContrasena(View):
@@ -295,7 +425,7 @@ class UsuarioCambiarContrasena(View):
         return render(request, self.template_name, contexto)
 
     def post(self, request, pk):
-        mensaje = True #Bandera para confirmacion de contraseña
+        mensaje = True  # Bandera para confirmacion de contraseña
         usuario = get_object_or_404(User, pk=pk)
 
         form_contrasena = UserContrasenaForm(request.POST)
@@ -401,8 +531,8 @@ class UsuarioCambiarContrasenaPerfil(View):
         return render(request, self.template_name, contexto)
 
     def post(self, request, pk):
-        mensaje = True #Bandera para confirmacion de contraseña
-        validacion = True #Bandera para contraseña actual
+        mensaje = True  # Bandera para confirmacion de contraseña
+        validacion = True  # Bandera para contraseña actual
         usuario = get_object_or_404(User, pk=pk)
 
         form_contrasena_actual = UserContrasenaActualForm(request.POST)
@@ -416,7 +546,8 @@ class UsuarioCambiarContrasenaPerfil(View):
 
             if usuario.check_password(dato_contrasena_actual.get('contrasena_actual')) == True:
                 if dato_contrasena_nueva.get('contrasena_nueva') == dato_confirmar.get('confirmar'):
-                    usuario.password = make_password(dato_contrasena_nueva.get('contrasena_nueva'))
+                    usuario.password = make_password(
+                        dato_contrasena_nueva.get('contrasena_nueva'))
                     usuario.save()
                     return redirect(reverse('seguridad:logout'))
             else:
