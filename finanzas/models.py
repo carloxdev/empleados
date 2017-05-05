@@ -21,7 +21,7 @@ class ViaticoCabecera(models.Model):
         ('fin', 'Finalizado'),
         ('can', 'Cancelado'),
     )
-
+    
     empleado_clave = models.IntegerField(default=0)
     empleado_descripcion = models.CharField(max_length=60)
     fecha_partida = models.DateField()
