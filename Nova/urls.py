@@ -4,10 +4,7 @@ from django.conf.urls import url
 from django.contrib import admin
 from django.conf.urls import include
 
-<<<<<<< Updated upstream
-from .router_urls import router
-=======
-<<<<<<< HEAD
+
 # Librerias APi Rest:
 from rest_framework import routers
 
@@ -214,10 +211,7 @@ router.register(
     'viewusuarios'
 )
 
-=======
-from .router_urls import router
->>>>>>> origin/master
->>>>>>> Stashed changes
+
 
 # -------------- URLS -------------- #
 
