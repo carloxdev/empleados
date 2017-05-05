@@ -25,7 +25,6 @@ from .models import Profile
 
 # Otros Modelo
 from django.contrib.auth.models import User
-from ebs.models import VIEW_EMPLEADOS_SIMPLE
 from jde.models import VIEW_USUARIOS
 
 # Librerias de Terceros:
@@ -36,7 +35,6 @@ from django_filters.rest_framework import DjangoFilterBackend
 # Serializadores:
 from .serializers import UserSerializer
 from .serializers import ProfileSerializer
-from ebs.serializers import VIEW_EMPLEADOS_SIMPLE_Serializer
 
 # Filters:
 from .filters import ProfileFilter
@@ -189,7 +187,7 @@ class UsuarioEditar(View):
 
     def get(self, request, pk):
         usuario_id = get_object_or_404(User, pk=pk)
-        form_usuario = ProfileForm(
+        form_usuario = UserEditarForm(
             initial={
                 'username': usuario_id.username,
                 'first_name': usuario_id.first_name,
@@ -198,9 +196,10 @@ class UsuarioEditar(View):
                 'is_active': usuario_id.is_active,
                 'is_staff': usuario_id.is_staff,
                 'is_superuser': usuario_id.is_superuser,
-                'clave_rh': usuario_id.clave_rh,
-                'clave_jde': usuario_id.clave_jde,
-                'fecha_nacimiento': usuario_id.fecha_nacimiento,
+                'clave_rh': usuario_id.profile.clave_rh,
+                'clave_jde': usuario_id.profile.clave_jde,
+                'fecha_nacimiento': usuario_id.profile.fecha_nacimiento,
+                'foto': usuario_id.profile.foto
             }
         )
         
@@ -208,19 +207,20 @@ class UsuarioEditar(View):
 
         contexto = {
             'form': form_usuario,
-            #'foto': self.obtener_UrlImagen(usuario_id.profile.foto),
+            'foto': self.obtener_UrlImagen(usuario_id.profile.foto),
             'user': user,
         }
         return render(request, self.template_name, contexto)
 
     def post(self, request, pk):
         usuario = get_object_or_404(User, pk=pk)
-
-        form_usuario = ProfileForm(request.POST, instance=usuario)
+        form_usuario = UserEditarForm(request.POST, request.FILES, instance=usuario)
 
         if form_usuario.is_valid():
 
             datos_formulario = form_usuario.cleaned_data
+
+            print datos_formulario.get('fecha_nacimiento')
 
             usuario.first_name = datos_formulario.get('first_name')
             usuario.last_name = datos_formulario.get('last_name')
@@ -233,8 +233,14 @@ class UsuarioEditar(View):
 
             usuario.profile.clave_rh = datos_formulario.get('clave_rh')
             usuario.profile.clave_jde = datos_formulario.get('clave_jde')
-            usuario.profile.fecha_nacimiento = datos_formulario.get(
-                    'fecha_nacimiento')
+            usuario.profile.fecha_nacimiento = usuario.profile.fecha_nacimiento
+            print datos_formulario.get('foto')
+
+            if datos_formulario.get('foto') != None:
+                usuario.profile.foto = datos_formulario.get('foto')
+                print 'Guarde nueva imagen'
+
+                
 
             usuario.profile.save()
 
@@ -242,7 +248,7 @@ class UsuarioEditar(View):
 
         contexto = {
             'form': form_usuario,
-            #'foto': self.obtener_UrlImagen(usuario.profile.foto),
+            'foto': self.obtener_UrlImagen(usuario.profile.foto),
         }
         return render(request, self.template_name, contexto)
 

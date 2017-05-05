@@ -12,6 +12,8 @@ from django.forms import DateInput
 from django.forms import Select
 from django.forms import PasswordInput
 from django.forms import ChoiceField
+from django.forms import ClearableFileInput
+from django.forms import FileField
 
 from .models import Profile
 from ebs.models import VIEW_EMPLEADOS_SIMPLE
@@ -27,7 +29,6 @@ class UserFormFilter(forms.Form):
         label="Fecha de creación mayor a:")
     usuario__date_joined_menorque = CharField(
         label="Fecha de creación menor a:")
-
 
 class ProfileForm(UserCreationForm):
     clave_rh = ChoiceField(label="Clave de empleado:", widget=Select(
@@ -63,7 +64,7 @@ class ProfileForm(UserCreationForm):
                     'email': 'Email',
                     'is_active': 'Activo',
                     'is_staff': 'Administrador',
-                    'is_superuser': 'Acceso a todos los privilegios',
+                    'is_superuser': 'Todos los privilegios',
                     # Profile
                     'clave_rh': 'Clave de empleado',
                     'clave_jde': 'Clave jde',
@@ -89,7 +90,6 @@ class ProfileForm(UserCreationForm):
         self.fields['clave_rh'].choices = self.get_EmpleadosEbs()
 
     def get_EmpleadosEbs(self):
-        print('datos')
         valores = [('', '-------')]
 
         empleados = VIEW_EMPLEADOS_SIMPLE.objects.using('ebs_d').all()
@@ -110,16 +110,29 @@ class ProfileForm(UserCreationForm):
         return valores
 
 class UserEditarForm(ModelForm):
+    clave_rh = CharField(label="Clave de empleado:", widget=TextInput(
+        attrs={'class': 'form-control input-xs', 'readonly': 'True'}))
+    clave_jde = CharField(label="Clave de jde:", widget=TextInput(
+         attrs={'class': 'form-control input-xs', 'readonly': 'True'}))
+    fecha_nacimiento = CharField(label='Fecha de nacimiento', widget=DateInput(
+        attrs={'class': 'form-control input-xs', 'data-date-format': 'yyyy-mm-dd','readonly': 'True'}),)
+    foto = FileField(label="Foto", widget= ClearableFileInput(attrs={'class': 'dropzone dz-clickable dz-started'}),)
 
     class Meta:
         model = User
 
-        fields = ['first_name',
+        fields = [ #User
+                  'first_name',
                   'last_name',
                   'email',
                   'is_active',
                   'is_staff',
                   'is_superuser',
+                  #Profile
+                  'clave_rh',
+                  'clave_jde',
+                  'fecha_nacimiento',
+                  'foto',
                   ]
 
         labels = {'first_name': 'Nombre',
@@ -127,13 +140,25 @@ class UserEditarForm(ModelForm):
                   'email': 'Email',
                   'is_active': 'Activo',
                   'is_staff': 'Administrador',
-                  'is_superuser': 'Acceso a todos los privilegios',
+                  'is_superuser': 'Todos los privilegios',
+                  #Profile
+                  'clave_rh': 'Clave de empleado',
+                  'clave_jde': 'Clave de JDE',
+                  'fecha_nacimiento': 'Fecha de nacimiento',
+                  'foto': 'Foto',
+
                   }
 
         widgets = {'first_name': TextInput(attrs={'class': 'form-control input-xs', 'readonly': 'True'}),
                    'last_name': TextInput(attrs={'class': 'form-control input-xs', 'readonly': 'True'}),
                    'email': TextInput(attrs={'class': 'form-control input-xs'}),
                    }
+
+    def __init__(self, *args, **kwargs):
+        super(UserEditarForm, self).__init__(*args, **kwargs)
+        self.fields['clave_jde'].required=False
+        self.fields['fecha_nacimiento'].required=False
+        self.fields['foto'].required=False
 
 
 class UserEditarPerfilForm(ModelForm):

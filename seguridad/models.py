@@ -25,8 +25,8 @@ class Profile(models.Model):
     )
     foto = models.ImageField(
         upload_to='usuarios/fotos/',
-        blank=True,
         null=True,
+        blank=True,
     )
 
     fecha_nacimiento = models.DateField(null=True, blank=True)

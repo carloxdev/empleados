@@ -1,7 +1,7 @@
 {% extends 'master.html' %}
 {% load static from staticfiles %}
 {% block titulo %} Usuarios {% endblock titulo %}
-{% block title-page %} Nuevo usuario {% endblock title-page %}
+{% block title-page %} Editar usuario {% endblock title-page %}
 {% block css %}
 <!-- Kendo -->
 <link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.rtl.min.css' %}"/>
@@ -19,10 +19,10 @@
 {% if request.user.is_staff == True %}
 
 <div class="page-head">
-	<h2 class="page-head-title">Nuevo usuario</h2>
+	<h2 class="page-head-title">Editar usuario</h2>
 	<ol class="breadcrumb page-head-nav">
-		<li><a href="#">Inicio</a></li>
-		<li><a href="#">Usuarios</a></li>
+		<li><a href="{% url 'home:inicio' %}">Inicio</a></li>
+		<li><a href="{% url 'seguridad:usuario_lista' %}">Usuarios</a></li>
 		<li><a href="#">Editar usuario</a></li>
 	</ol>
 </div>
@@ -39,13 +39,13 @@
 							<h4><b>Información de usuario</b></h4>
 
 							<!-- Clave_rh-->
-							<div class="form-group {% if form.username.field.required %} has-warning {% endif %} {% if form.clave_rh.errors %} has-error {% endif %}">
+							<div class="form-group {% if fform.clave_rh.field.required %} has-warning {% endif %} {% if form.clave_rh.errors %} has-error {% endif %}">
 								<label class="control-label">
-									<i class="fa {% if form.username.field.required %} fa-asterisk {% endif %} {% if form.username.errors %} fa-asterisk {% endif %}"></i> 
-									{{form2.clave_rh.label}}
+									<i class="fa {% if form.clave_rh.field.required %} fa-asterisk {% endif %} {% if form.clave_rh.errors %} fa-asterisk {% endif %}"></i> 
+									{{form.clave_rh.label}}
 								</label>
-								<p>{{ form2.clave_rh }}</p>
-								{% for error in form2.clave_rh.errors %}
+								<p>{{ form.clave_rh }}</p>
+								{% for error in form.clave_rh.errors %}
 									<span class="help-block">{{ error }}</span>
 								{% endfor %}
 							</div>
@@ -72,13 +72,13 @@
 								{% endfor %}
 							</div>
 							<!-- Fecha_nacimiento-->
-							<div class="form-group {% if form2.fecha_nacimiento.field.required %} has-warning {% endif %} {% if form2.fecha_nacimiento.errors %} has-error {% endif %}">
+							<div class="form-group {% if form.fecha_nacimiento.field.required %} has-warning {% endif %} {% if form.fecha_nacimiento.errors %} has-error {% endif %}">
 								<label class="control-label">
-									<i class="fa {% if form2.fecha_nacimiento.field.required %} fa-asterisk {% endif %} {% if form2.fecha_nacimiento.errors %} fa-asterisk {% endif %}"></i> 
-									{{ form2.fecha_nacimiento.label}}
+									<i class="fa {% if form.fecha_nacimiento.field.required %} fa-asterisk {% endif %} {% if form.fecha_nacimiento.errors %} fa-asterisk {% endif %}"></i> 
+									{{ form.fecha_nacimiento.label}}
 								</label>
-								<p>{{ form2.fecha_nacimiento}}</p>
-								{% for error in form2.fecha_nacimiento.errors %}
+								<p>{{ form.fecha_nacimiento}}</p>
+								{% for error in form.fecha_nacimiento.errors %}
 									<span class="help-block">{{ error }}</span>
 								{% endfor %}
 							</div>
@@ -94,24 +94,24 @@
 								{% endfor %}
 							</div>
 							<!-- Clave_jde-->
-							<div class="form-group {% if form2.clave_jde.field.required %} has-warning {% endif %} {% if form2.clave_jde.errors %} has-error {% endif %}">
+							<div class="form-group {% if form.clave_jde.field.required %} has-warning {% endif %} {% if form.clave_jde.errors %} has-error {% endif %}">
 								<label class="control-label">
-									<i class="fa {% if form2.clave_jde.field.required %} fa-asterisk {% endif %} {% if form2.clave_jde.errors %} fa-asterisk {% endif %}"></i> 
-									{{form2.clave_jde.label }}
+									<i class="fa {% if form.clave_jde.field.required %} fa-asterisk {% endif %} {% if form.clave_jde.errors %} fa-asterisk {% endif %}"></i> 
+									{{form.clave_jde.label }}
 								</label>
-								<p>{{ form2.clave_jde }}</p>
-								{% for error in form2.clave_jde.errors %}
+								<p>{{ form.clave_jde }}</p>
+								{% for error in form.clave_jde.errors %}
 									<span class="help-block">{{ error }}</span>
 								{% endfor %}
 							</div>
 							<!-- Foto-->
-							<div class="form-group {% if form2.foto.field.required %} has-warning {% endif %} {% if form2.foto.errors %} has-error {% endif %}">
+							<div class="form-group {% if form.foto.field.required %} has-warning {% endif %} {% if form.foto.errors %} has-error {% endif %}">
 								<label class="control-label">
-									<i class="fa {% if form2.foto.field.required %} fa-asterisk {% endif %} {% if form2.foto.errors %} fa-asterisk {% endif %}"></i> 
-									{{form2.foto.label }}
+									<i class="fa {% if form.foto.field.required %} fa-asterisk {% endif %} {% if form.foto.errors %} fa-asterisk {% endif %}"></i> 
+									{{form.foto.label }}
 								</label>
-								<p>{{ form2.foto }}</p>
-								{% for error in form2.foto.errors %}
+								<p>{{ form.foto }}</p>
+								{% for error in form.foto.errors %}
 									<span class="help-block">{{ error }}</span>
 								{% endfor %}
 							</div>
@@ -195,6 +195,6 @@
 <script src="{% static 'theme/lib/jquery-ui/jquery-ui.min.js' %}"></script>
 <script src="{% static 'theme/lib/select2/js/select2.min.js' %}"></script>
 <script src="{% static 'theme/lib/select2/js/select2.full.min.js' %}"></script>
-<!-- NOVA -->
-<script src="{% static 'usuarios/usuario_formulario.js' %}"></script>
+<!-- NOVA 
+<script src="{% static 'usuarios/usuario_formulario.js' %}"></script>-->
 {% endblock scripts %}
