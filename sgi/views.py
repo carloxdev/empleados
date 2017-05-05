@@ -23,6 +23,7 @@ from .models import IncidenciaDocumento
 from .models import IncidenciaTipo
 from .models import CentroAtencion
 from .models import IncidenciaArchivo
+from .models import IncidenciaResolucion
 
 # Otros Modelos:
 from ebs.models import VIEW_EMPLEADOS_FULL
@@ -33,12 +34,14 @@ from administracion.models import Empresa
 from .forms import IncidenciaDocumentoForm
 from .forms import IncidenciaDocumentoFilterForm
 from .forms import IncidenciaArchivoForm
+from .forms import IncidenciaResolucionForm
 
 # Serializadores:
 from .serializers import IncidenciaDocumentoSerializer
 from .serializers import IncidenciaTipoSerializer
 from .serializers import CentroAtencionSerializer
 from .serializers import IncidenciaArchivoSerializer
+from .serializers import IncidenciaResolucionSerializer
 
 # Filtros:
 from home.pagination import GenericPagination
@@ -47,6 +50,7 @@ from home.pagination import GenericPagination
 from .filters import IncidenciaDocumentoFilter
 from .filters import IncidenciaDocumentoFilter
 from .filters import IncidenciaArchivoFilter
+from .filters import IncidenciaResolucionFilter
 
 #from django.core.mail import send_mail
 # from django.shortcuts import get_object_or_404
@@ -109,7 +113,7 @@ class IncidenciaDocumentoNuevo(View):
             incidencia.empleado_puesto = empleado.asig_puesto_clave
             incidencia.empleado_puesto_desc = empleado.asig_puesto_desc
 
-            # import ipdb; ipdb.set_trace()
+            #import ipdb; ipdb.set_trace()
             empresa = Empresa.objects.filter(descripcion=empleado.grup_compania_jde)
 
             incidencia.empresa = empresa[0]
@@ -123,7 +127,7 @@ class IncidenciaDocumentoNuevo(View):
             #send_mail("Subject", "Email body", settings.EMAIL_HOST_USER, "janexa@gmail.com", fail_silently=False)
 
             return redirect(reverse('sgi:incidencia_lista'))
-            #return redirect(reverse('incidencia_archivo', kwargs={'pk': incidencia}))
+            #return redirect(reverse('incidencia_archivo', kwargs={'incidencia_id': id_incidencia}))
 
         contexto = {
             'form': formulario
@@ -303,6 +307,57 @@ class IncidenciaDocumentoArchivo(View):
 
         return render(request, self.template_name, contexto)
 
+class IncidenciaResolucionNuevo(View):
+
+    def __init__(self):
+        self.template_name = 'incidencia/incidencia_seguimiento.html'
+
+    def get(self, request, incidencia_id):
+
+        incidencia = IncidenciaDocumento.objects.get(pk=incidencia_id)
+
+        # import ipdb; ipdb.set_trace()
+        incidencia_resolucion = IncidenciaResolucion.objects.filter(incidencia=incidencia)
+
+        form = IncidenciaResolucionForm(
+            initial={
+                'incidencia': incidencia
+            }
+        )
+
+        contexto = {
+            'form': form,
+            'incidencia_id': incidencia_id,
+        }
+
+        return render(request, self.template_name, contexto)
+ 
+
+    def post(self, request, incidencia_id):
+
+        form = IncidenciaResolucionForm(request.POST)
+
+        incidencia_resolucion = IncidenciaResolucion.objects.filter(incidencia=incidencia_id)
+
+        if form.is_valid():
+
+            incidencia_resolucion = form.save(commit=False)
+            incidencia_resolucion.created_by = request.user.profile
+            incidencia_resolucion.save()
+
+            return redirect(reverse('sgi:incidencia_lista'))
+
+        contexto = {
+            'form': form,
+            'incidencia_id': incidencia_id,
+            'anexos': incidencia_resolucion,
+        }
+
+        return render(request, self.template_name, contexto)
+
+       
+
+
 
 # -------------- INCIDENCIA DOCUMENTO - API REST -------------- #
 
@@ -341,3 +396,11 @@ class IncidenciaTipoAPI(viewsets.ModelViewSet):
 class CentroAtencionAPI(viewsets.ModelViewSet):
     queryset = CentroAtencion.objects.all()
     serializer_class = CentroAtencionSerializer
+
+
+# -------------- INCIDENCIA RESOLUCION - API REST -------------- #
+
+class IncidenciaResolucionAPI(viewsets.ModelViewSet):
+    queryset = IncidenciaResolucion.objects.all()
+    serializer_class = IncidenciaResolucionSerializer
+        

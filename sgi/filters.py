@@ -12,6 +12,7 @@ from .models import IncidenciaDocumento
 from .models import CentroAtencion
 from administracion.models import Zona
 from .models import IncidenciaArchivo
+from .models import IncidenciaResolucion
 
 
 class IncidenciaDocumentoFilter(filters.FilterSet):
@@ -134,4 +135,17 @@ class IncidenciaArchivoFilter(filters.FilterSet):
         fields = [
             'id_emp', 
             'tipo', 
+        ]               
+
+class IncidenciaResolucionFilter(filters.FilterSet):
+
+    id_incidencia = CharFilter(
+        name="incidencia",
+        lookup_expr="icontains"
+    )
+
+    class Meta:
+        model = IncidenciaResolucion
+        fields = [
+            'incidencia', 
         ]               

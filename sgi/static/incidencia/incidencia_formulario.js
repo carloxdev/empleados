@@ -3,7 +3,7 @@
 \*-----------------------------------------------*/
 
 // URLS:
-var url_empleado_full = window.location.origin + "/api/VIEW_EMPLEADOS_FULL/"
+var url_empleado_full = window.location.origin + "/api/view_empleados_full/"
 
 
 // OBJS
@@ -100,8 +100,8 @@ TargetaIncidencia.prototype.escoger_Zona = function (e) {
 
         },
         error: function (response) {
-            // alertify.error("Ocurrio error al consultar")
-            alert("Ocurrio error al consultar")
+             alertify.error("Ocurrio error al consultar")
+            //alert("Ocurrio error al consultar")
         }
 
     })

@@ -6,6 +6,7 @@ from .models import IncidenciaDocumento
 from .models import IncidenciaTipo
 from .models import CentroAtencion
 from .models import IncidenciaArchivo
+from .models import IncidenciaResolucion
 
 
 class IncidenciaDocumentoSerializer(serializers.HyperlinkedModelSerializer):
@@ -90,3 +91,25 @@ class IncidenciaArchivoSerializer(serializers.HyperlinkedModelSerializer):
             'updated_date',
         )
 
+class IncidenciaResolucionSerializer(serializers.HyperlinkedModelSerializer):
+
+    tipo = serializers.SerializerMethodField()
+    
+
+    class Meta:
+        model = IncidenciaResolucion
+        fields = (
+            'incidencia',
+            'mensaje',
+            'tipo',
+            'created_by',
+            'created_date',
+            'updated_by',
+            'updated_date',
+        )
+
+    def get_tipo(self, obj):
+
+        return obj.tipo.descripcion
+
+    

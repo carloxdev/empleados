@@ -4,7 +4,7 @@
 from django.forms import ModelForm
 from django.forms import TextInput
 from django.forms import CheckboxInput
-# from django.forms import Textarea
+from django.forms import Textarea
 from django.forms import Select
 # from django.forms import Form
 from django.forms import CharField
@@ -19,6 +19,7 @@ from django.forms import HiddenInput
 from .models import IncidenciaDocumento
 from .models import IncidenciaTipo
 from .models import IncidenciaArchivo
+from .models import IncidenciaResolucion
 
 from ebs.models import VIEW_EMPLEADOS_SIMPLE
 from administracion.models import Zona
@@ -196,7 +197,37 @@ class IncidenciaArchivoForm(ModelForm):
             'tipo',
             'archivo'
         ]
+        labels = {
+            'tipo': 'Status',
+        }
         widgets = {
             'incidencia': HiddenInput(),
             'archivo': FileInput(attrs={'class': 'dropzone dz-clickable dz-started'}),
         }
+
+class IncidenciaResolucionForm(ModelForm):
+
+
+    class Meta:
+        model = IncidenciaResolucion
+        fields = [
+            'incidencia',
+            'mensaje',
+            'tipo',
+            'status',
+        ]
+        labels = {
+            'tipo': 'Tipo de Seguimiento',
+            'mensaje': 'Nuevo Comentario',
+            'status': 'Status',
+        }
+        widgets = {
+            'incidencia': HiddenInput(),
+            'mensaje': Textarea(attrs={'class': 'form-control input-xs'}),
+            'tipo': Select(attrs={'class': 'form-control input-sm'}),
+            'status': Select(attrs={'class': 'form-control input-sm'}),
+        } 
+
+        
+
+     

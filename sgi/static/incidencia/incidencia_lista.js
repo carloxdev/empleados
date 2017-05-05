@@ -7,8 +7,10 @@
 // URLS:
 var url_incidenciadocumento = window.location.origin + "/api/incidenciadocumento/"
 var url_incidenciadocumento_bypage = window.location.origin + "/api/incidenciadocumento_bypage/"
-var url_incidencia_editar = window.location.origin + "/incidencias/editar/"
+var url_incidencia_editar = window.location.origin + "/incidencias/"
+//var url_incidencia_editar = ""
 var url_anexos = window.location.origin + "/incidencias/incidencia_id/archivos/"
+var url_seguimiento = window.location.origin + "/incidencias/incidencia_id/seguimiento/"
 
 // OBJS
 var filtros = null
@@ -19,6 +21,7 @@ var resultados = null
 \*-----------------------------------------------*/
 
 $(document).ready(function () {
+    //url_incidencia_editar = window.location.origin.toString() + $('#url_incidencia_editar').val()
 
     filtros = new TargetaFiltros()
     resultados = new TargetaResultados()
@@ -184,6 +187,12 @@ Grid.prototype.click_BotonAnexos = function (e) {
     var fila = this.dataItem($(e.currentTarget).closest('tr'))
     window.location.href = url_anexos.replace("incidencia_id", fila.pk)
 }
+Grid.prototype.click_BotonSeguimiento = function (e) {
+
+    e.preventDefault()
+    var fila = this.dataItem($(e.currentTarget).closest('tr'))
+    window.location.href = url_seguimiento.replace("incidencia_id", fila.pk)
+}
 Grid.prototype.get_DataSourceConfig = function () {
 
     return {
@@ -265,35 +274,46 @@ Grid.prototype.get_Columnas = function () {
         { 
             field: "pk", 
             title: "Numero", 
-            width:"200px",
-            template: '<a class="nova-url" href="#=url_incidencia_editar + pk#">#=pk#</a>',
+            width:"100px",
+            template: '<a class="nova-url" href="#=url_incidencia_editar  + pk + "/" + "editar/"  #">#=pk#</a>',
         },
-        { field: "tipo", title: "tipo", width:"200px" },
-        { field: "es_registrable", title: "es_registrable", width:"200px" },
-        { field: "fecha", title: "fecha", width:"200px" },
-        { field: "empleado_id", title: "empleado_id", width:"200px" },
-        { field: "empleado_nombre", title: "empleado_nombre", width:"200px" },
-        { field: "zona", title: "empleado_zona", width:"200px" },
-        { field: "empleado_proyecto", title: "empleado_proyecto", width:"200px" },
-        { field: "empleado_proyecto_desc", title: "empleado_proyecto_desc", width:"200px" },
-        { field: "empleado_puesto", title: "empleado_puesto", width:"200px" },
-        { field: "empleado_puesto_desc", title: "empleado_puesto_desc", width:"200px" },
-        { field: "empleado_un", title: "empleado_un", width:"200px" },
-        { field: "empleado_organizacion", title: "empleado_organizacion", width:"200px" },
-        { field: "area_id", title: "area_id", width:"200px" },
+        { field: "tipo", title: "Categoria", width:"200px" },
+        { field: "es_registrable", title: "Tipo", width:"100px" },
+        { field: "fecha", title: "fecha", width:"100px" },
+        { field: "empleado_id", title: "No Empleado", width:"70px" },
+        { field: "empleado_nombre", title: "Empleado", width:"220px" },
+        { field: "zona", title: "Zona Empleado", width:"100px" },
+        { field: "empleado_proyecto", title: "Id Proyecto", width:"70px" },
+        { field: "empleado_proyecto_desc", title: "Proyecto Empleado", width:"200px" },
+        { field: "empleado_puesto", title: "Id Puesto", width:"70px" },
+        { field: "empleado_puesto_desc", title: "Puesto", width:"200px" },
+        { field: "empleado_un", title: "UN", width:"70px" },
+        { field: "empleado_organizacion", title: "Organizacion Empleado", width:"200px" },
+        { field: "area_id", title: "Id Area", width:"90px" },
         { field: "area_descripcion", title: "area_descripcion", width:"200px" },
         { field: "lugar", title: "lugar", width:"200px" },
-        { field: "dias_incapcidad", title: "dias_incapcidad", width:"200px" },
-        { field: "centro_atencion", title: "centro_atencion", width:"200px" },
-        { field: "tiene_acr", title: "tiene_acr", width:"200px" },
-        { field: "status", title: "status", width:"200px" },
+        { field: "dias_incapcidad", title: "Dias Incapacidad", width:"80px" },
+        { field: "centro_atencion", title: "Centro Atencion", width:"100px" },
+        { field: "tiene_acr", title: "ACR", width:"50px" },
+        { field: "status", title: "status", width:"70px" },
         {
            command: [ 
                 {
-                   text: "Anexo",
+                   text: "Anexos",
                    click: this.click_BotonAnexos,
-                   className: "boton_eliminar fa fa-trash-o"
-                },              
+                   className: "btn btn-space btn-primary"
+                },          
+            ],           
+           title: " ",
+           width: "120px"
+        },
+        {
+           command: [ 
+                {
+                   text: "Seguimiento",
+                   click: this.click_BotonSeguimiento,
+                   className: "btn btn-space btn-primary"
+                },             
             ],           
            title: " ",
            width: "120px"
