@@ -82,6 +82,7 @@ class ProfileForm(UserCreationForm):
 
     def __init__(self, *args, **kwargs):
         super(ProfileForm, self).__init__(*args, **kwargs)
+        self.fields['username'].widget.attrs.pop("autofocus", None)
         self.fields['clave_jde'].required=False
         self.fields['fecha_nacimiento'].required=False
         self.fields['foto'].required=False

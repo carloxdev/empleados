@@ -136,8 +136,6 @@ TarjetaUsuario.prototype.buscar_EmpleadoJDE = function (_clave) {
         success: function (response) {
             //alert(JSON.stringify(response))
             if (response.length != 0){
-                //alert(response[0].clave)
-                
                 datos.val(response[0].clave)
              }else{
                 //this.$clave_jde.val("None")
