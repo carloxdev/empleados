@@ -220,8 +220,6 @@ class UsuarioEditar(View):
 
             datos_formulario = form_usuario.cleaned_data
 
-            print datos_formulario.get('fecha_nacimiento')
-
             usuario.first_name = datos_formulario.get('first_name')
             usuario.last_name = datos_formulario.get('last_name')
             usuario.email = datos_formulario.get('email')
@@ -234,13 +232,10 @@ class UsuarioEditar(View):
             usuario.profile.clave_rh = datos_formulario.get('clave_rh')
             usuario.profile.clave_jde = datos_formulario.get('clave_jde')
             usuario.profile.fecha_nacimiento = usuario.profile.fecha_nacimiento
-            print datos_formulario.get('foto')
 
+            #Si el campo foto es diferente de None guardara la imagen nueva que recibio.
             if datos_formulario.get('foto') != None:
-                usuario.profile.foto = datos_formulario.get('foto')
-                print 'Guarde nueva imagen'
-
-                
+                usuario.profile.foto = datos_formulario.get('foto')  
 
             usuario.profile.save()
 

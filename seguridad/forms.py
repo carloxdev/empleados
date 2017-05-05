@@ -112,7 +112,7 @@ class ProfileForm(UserCreationForm):
 class UserEditarForm(ModelForm):
     clave_rh = CharField(label="Clave de empleado:", widget=TextInput(
         attrs={'class': 'form-control input-xs', 'readonly': 'True'}))
-    clave_jde = CharField(label="Clave de jde:", widget=TextInput(
+    clave_jde = CharField(label="Clave de JDE:", widget=TextInput(
          attrs={'class': 'form-control input-xs', 'readonly': 'True'}))
     fecha_nacimiento = CharField(label='Fecha de nacimiento', widget=DateInput(
         attrs={'class': 'form-control input-xs', 'data-date-format': 'yyyy-mm-dd','readonly': 'True'}),)

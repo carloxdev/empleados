@@ -23,7 +23,7 @@
 	<ol class="breadcrumb page-head-nav">
 		<li><a href="{% url 'home:inicio' %}">Inicio</a></li>
 		<li><a href="{% url 'seguridad:usuario_lista' %}">Usuarios</a></li>
-		<li><a href="#">Editar usuario</a></li>
+		<li><a href="{% url 'seguridad:usuario_editar' user.id %}">Editar usuario</a></li>
 	</ol>
 </div>
 <div class="col-md-12">
