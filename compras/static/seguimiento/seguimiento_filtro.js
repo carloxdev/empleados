@@ -4,6 +4,7 @@
 
 // URLS:
 var url_seguimiento_bypage = window.location.origin + "/api/viewscompras_bypage/"
+var url_seguimiento = window.location.origin + "/api/viewscompras/"
 var url_seguimiento_compania = window.location.origin + "/api/viewcompanias/"
 var url_seguimiento_sucursal = window.location.origin + "/api/viewunidades/"
 var url_compraseguimeinto_autorizadores = window.location.origin + "/api/viewautorizaciones_bypage/"
@@ -164,6 +165,33 @@ TarjetaFiltros.prototype.get_Values = function (_page, _pageSize) {
         ord_recepcion: this.$id_recepcion.val()
     }
 }
+TarjetaFiltros.prototype.get_FiltrosExcel = function () {
+        
+    return {
+        req_compania: this.$id_compania.val(),
+        req_un: this.$id_sucursal.val(),
+        req_comprador_desc: this.$id_comprador.val(),
+        req: this.$id_requisicion.val(),
+        req_tipo: this.$id_requisicion_tipo.val(),
+        req_generador: this.$id_requisicion_originador.val(),
+        req_estado_last: $("input[name='requisicion_canceladas']:checked").val(),
+        cot: this.$id_cotizacion.val(),
+        cot_tipo: this.$id_cotizacion_tipo.val(),
+        cot_generador: this.$id_cotizacion_originador.val(),
+        cot_estado_last: $("input[name='cotizacion_canceladas']:checked").val(),
+        ord: this.$id_oc.val(),
+        ord_tipo: this.$id_oc_tipo.val(),
+        ord_generador: this.$id_oc_originador.val(),
+        ord_estado_last: $("input[name='oc_canceladas']:checked").val(),
+        req_fecha_creacion_desde: this.$fecha_req_desde_hasta.val().split(" al ")[0],
+        req_fecha_creacion_hasta: this.$fecha_req_desde_hasta.val().split(" al ")[1],
+        ord_fecha_creacion_desde: this.$fecha_ord_desde_hasta.val().split(" al ")[0],
+        ord_fecha_creacion_hasta: this.$fecha_ord_desde_hasta.val().split(" al ")[1],
+        ord_proveedor_desc: this.$id_proveedor.val(),
+        req_item_desc: this.$id_item.val(),
+        ord_recepcion: this.$id_recepcion.val()
+    }
+}
 TarjetaFiltros.prototype.click_BotonBuscar = function (e) {
     
     e.preventDefault()
@@ -223,10 +251,256 @@ ToolBar.prototype.init = function () {
 
     this.$boton_excel.on("click", this, this.click_BotonExportar)
 }
+ToolBar.prototype.Inicializar_CeldasExcel = function (e) {
+
+    if (tarjeta_resultados.grid.get_Columnas != null)
+    {
+        if (tarjeta_resultados.grid.get_Columnas.length != 1) {
+            tarjeta_resultados.grid.get_Columnas.length = 0;
+        }
+    }
+
+    this.kRows = [{
+        cells: [
+            { value: 'req_compania' },
+            { value: 'req_un' },
+            { value: 'req' },
+            { value: 'req_tipo' },
+            { value: 'req_generador' },
+            { value: 'req_fecha_creacion' },
+            { value: 'req_fecha_necesidad' },
+            { value: 'req_linea' },
+            { value: 'req_linea_tipo' },
+            { value: 'req_estado_last' },
+            { value: 'req_estado_next' },
+            { value: 'req_comprador_desc' },
+            { value: 'req_item_numero' },
+            { value: 'req_item_desc' },
+            { value: 'req_cantidad_solicitada' },
+            { value: 'req_udm' },
+            { value: 'cot' },
+            { value: 'cot_tipo' },
+            { value: 'cot_fecha_creacion' },
+            { value: 'cot_generador' },
+            { value: 'cot_linea' },
+            { value: 'cot_estado_last' },
+            { value: 'cot_estado_next' },
+            { value: 'ord' },
+            { value: 'ord_tipo' },
+            { value: 'ord_fecha_creacion' },
+            { value: 'ord_fecha_entrega' },
+            { value: 'ord_generador' },
+            { value: 'ord_linea' },
+            { value: 'ord_proveedor' },
+            { value: 'ord_proveedor_desc' },
+            { value: 'ord_estado_last' },
+            { value: 'ord_estado_next' },
+            { value: 'ord_cantidad_solic' },
+            { value: 'ord_moneda' },
+            { value: 'ord_pu_mx' },
+            { value: 'ord_total_mx' },
+            { value: 'ord_impuesto' },
+            { value: 'req_generador_desc' },
+            { value: 'req_estado_last_desc' },
+            { value: 'req_comprador' },
+            { value: 'req_udm_desc' },
+            { value: 'cot_compania' },
+            { value: 'cot_estado_last_desc' },
+            { value: 'ord_compania' },
+            { value: 'ord_tipo_desc' },
+            { value: 'ord_generador_desc' },
+            { value: 'ord_estado_last_desc' },
+            { value: 'ord_udm' },
+            { value: 'ord_udm_desc' },
+            { value: 'ord_cantidad_recib' },
+            { value: 'ord_cantidad_xrecib' },
+            { value: 'ord_recepcion' },
+            { value: 'ord_pu_ex' },
+            { value: 'ord_total_ex' },
+            { value: 'ord_monto_recib_ex' },
+            { value: 'ord_monto_xrecib_ex' },
+            { value: 'ord_moneda_desc' },
+            { value: 'ord_tasa' },
+            { value: 'ord_monto_recib_mx' },
+            { value: 'ord_monto_xrecib_mx' },
+            { value: 'ord_impuesto_desc' },
+            { value: 'ord_impuesto_flag' },
+            { value: 'ord_descuento' },
+            { value: 'ord_termino_pago' },
+            { value: 'ord_termino_pago_desc' },
+            { value: 'ord_updated_by' },
+            { value: 'ord_updated_by_desc' },
+        ]
+    }];
+}
 ToolBar.prototype.click_BotonExportar = function (e) {
     
-    e.preventDefault()
+    tarjeta_resultados.grid.leer_Datos()
+        e.data.Inicializar_CeldasExcel()
+
+        tarjeta_resultados.grid.kfuente_datos_excel.fetch(function () {
+
+            var data = this.data();
+            for (var i = 0; i < data.length; i++) {
+
+                e.data.kRows.push({
+                    cells: [
+                        { value: data[i].req_compania },
+                        { value: data[i].req_un },
+                        { value: data[i].req },
+                        { value: data[i].req_tipo },
+                        { value: data[i].req_generador },
+                        { value: data[i].req_fecha_creacion },
+                        { value: data[i].req_fecha_necesidad },
+                        { value: data[i].req_linea },
+                        { value: data[i].req_linea_tipo },
+                        { value: data[i].req_estado_last },
+                        { value: data[i].req_estado_next },
+                        { value: data[i].req_comprador_desc },
+                        { value: data[i].req_item_numero },
+                        { value: data[i].req_item_desc },
+                        { value: data[i].req_cantidad_solicitada },
+                        { value: data[i].req_udm },
+                        { value: data[i].cot },
+                        { value: data[i].cot_tipo },
+                        { value: data[i].cot_fecha_creacion },
+                        { value: data[i].cot_generador },
+                        { value: data[i].cot_linea },
+                        { value: data[i].cot_estado_last },
+                        { value: data[i].cot_estado_next },
+                        { value: data[i].ord },
+                        { value: data[i].ord_tipo },
+                        { value: data[i].ord_fecha_creacion },
+                        { value: data[i].ord_fecha_entrega },
+                        { value: data[i].ord_generador },
+                        { value: data[i].ord_linea },
+                        { value: data[i].ord_proveedor },
+                        { value: data[i].ord_proveedor_desc },
+                        { value: data[i].ord_estado_last },
+                        { value: data[i].ord_estado_next },
+                        { value: data[i].ord_cantidad_solic },
+                        { value: data[i].ord_moneda },
+                        { value: data[i].ord_pu_mx },
+                        { value: data[i].ord_total_mx },
+                        { value: data[i].ord_impuesto },
+                        { value: data[i].req_generador_desc },
+                        { value: data[i].req_estado_last_desc },
+                        { value: data[i].req_comprador },
+                        { value: data[i].req_udm_desc },
+                        { value: data[i].cot_compania },
+                        { value: data[i].cot_estado_last_desc },
+                        { value: data[i].ord_compania },
+                        { value: data[i].ord_tipo_desc },
+                        { value: data[i].ord_generador_desc },
+                        { value: data[i].ord_estado_last_desc },
+                        { value: data[i].ord_udm },
+                        { value: data[i].ord_udm_desc },
+                        { value: data[i].ord_cantidad_recib },
+                        { value: data[i].ord_cantidad_xrecib },
+                        { value: data[i].ord_recepcion },
+                        { value: data[i].ord_pu_ex },
+                        { value: data[i].ord_total_ex },
+                        { value: data[i].ord_monto_recib_ex },
+                        { value: data[i].ord_monto_xrecib_ex },
+                        { value: data[i].ord_moneda_desc },
+                        { value: data[i].ord_tasa },
+                        { value: data[i].ord_monto_recib_mx },
+                        { value: data[i].ord_monto_xrecib_mx },
+                        { value: data[i].ord_impuesto_desc },
+                        { value: data[i].ord_impuesto_flag },
+                        { value: data[i].ord_descuento },
+                        { value: data[i].ord_termino_pago },
+                        { value: data[i].ord_termino_pago_desc },
+                        { value: data[i].ord_updated_by },
+                        { value: data[i].ord_updated_by_desc },
+                    ]
+                })
+            }
+            var workbook = new kendo.ooxml.Workbook({
+                sheets: [
+                    {
+                        columns: [
+                            { autoWidth: true },
+                            { autoWidth: true },
+                            { autoWidth: true },
+                            { autoWidth: true },
+                            { autoWidth: true },
+                            { autoWidth: true },
+                            { autoWidth: true },
+                            { autoWidth: true },
+                            { autoWidth: true },
+                            { autoWidth: true },
+                            { autoWidth: true },
+                            { autoWidth: true },
+                            { autoWidth: true },
+                            { autoWidth: true },
+                            { autoWidth: true },
+                            { autoWidth: true },
+                            { autoWidth: true },
+                            { autoWidth: true },
+                            { autoWidth: true },
+                            { autoWidth: true },
+                            { autoWidth: true },
+                            { autoWidth: true },
+                            { autoWidth: true },
+                            { autoWidth: true },
+                            { autoWidth: true },
+                            { autoWidth: true },
+                            { autoWidth: true },
+                            { autoWidth: true },
+                            { autoWidth: true },
+                            { autoWidth: true },
+                            { autoWidth: true },
+                            { autoWidth: true },
+                            { autoWidth: true },
+                            { autoWidth: true },
+                            { autoWidth: true },
+                            { autoWidth: true },
+                            { autoWidth: true },
+                            { autoWidth: true },
+                            { autoWidth: true },
+                            { autoWidth: true },
+                            { autoWidth: true },
+                            { autoWidth: true },
+                            { autoWidth: true },
+                            { autoWidth: true },
+                            { autoWidth: true },
+                            { autoWidth: true },
+                            { autoWidth: true },
+                            { autoWidth: true },
+                            { autoWidth: true },
+                            { autoWidth: true },
+                            { autoWidth: true },
+                            { autoWidth: true },
+                            { autoWidth: true },
+                            { autoWidth: true },
+                            { autoWidth: true },
+                            { autoWidth: true },
+                            { autoWidth: true },
+                            { autoWidth: true },
+                            { autoWidth: true },
+                            { autoWidth: true },
+                            { autoWidth: true },
+                            { autoWidth: true },
+                            { autoWidth: true },
+                            { autoWidth: true },
+                            { autoWidth: true },
+                            { autoWidth: true },
+                            { autoWidth: true },
+                            { autoWidth: true },
+                        ],
+                        title: "Seguimientos",
+                        rows: e.data.kRows
+                    }
+                ]
+            });
+            kendo.saveAs({
+                dataURI: workbook.toDataURL(),
+                fileName: "ListadoSeguimientos.xlsx",
+            });
+        });
 }
+
 /*-----------------------------------------------*\
             OBJETO: Grid
 \*-----------------------------------------------*/
@@ -235,6 +509,7 @@ function Grid() {
 
     this.$id = $("#grid_resultados")
     this.kfuente_datos = null
+    this.kfuente_datos_excel = null
     this.kgrid = null
     this.init()
 }
@@ -242,9 +517,10 @@ Grid.prototype.init = function () {
 
     kendo.culture("es-MX")
     this.kfuente_datos = new kendo.data.DataSource(this.get_DataSourceConfig())
+    this.kfuente_datos_excel = new kendo.data.DataSource(this.get_FuenteDatosExcel())
     this.kgrid = this.$id.kendoGrid(this.get_Configuracion())
 }
-Grid.prototype.get_DataSourceConfig = function () {
+Grid.prototype.get_DataSourceConfig = function (e) {
 
     return {
 
@@ -266,6 +542,35 @@ Grid.prototype.get_DataSourceConfig = function () {
         schema: {
             data: "results",
             total: "count",
+            model: {
+                fields: this.get_Campos()
+            }
+        },
+        error: function (e) {
+            alertify.error("Status: " + e.status + "; Error message: " + e.errorThrown)
+        },
+    }    
+}
+Grid.prototype.get_FuenteDatosExcel = function (e) {
+
+    return {
+
+        serverPaging: true,
+        pageSize: 10,
+        transport: {
+            read: {
+
+                url: url_seguimiento,
+                type: "GET",
+                dataType: "json",
+            },
+            parameterMap: function (data, action) {
+                if (action === "read"){
+                    return tarjeta_filtros.get_FiltrosExcel()
+                }
+            }
+        },
+        schema: {
             model: {
                 fields: this.get_Campos()
             }
@@ -596,6 +901,10 @@ Grid.prototype.set_Icons = function (e) {
 Grid.prototype.buscar = function() {
     
     this.kfuente_datos.page(1)
+}
+Grid.prototype.leer_Datos = function() {
+    
+    this.kfuente_datos_excel.read()
 }
 function PopupDetalles() {
     

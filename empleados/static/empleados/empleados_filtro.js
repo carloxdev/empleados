@@ -4,6 +4,7 @@
 
 // URLS:
 var url_empleados_bypage = window.location.origin + "/api/viewempleadosfull_bypage/"
+var url_empleados = window.location.origin + "/api/viewempleadosfull/"
 
 // OBJS
 var tarjeta_filtros = null
@@ -53,6 +54,7 @@ TarjetaFiltros.prototype.init_Components = function () {
     this.$id_pers_tipo_codigo.select2(this.get_ConfSelect2())
     this.$id_asig_puesto_clave.select2(this.get_ConfSelect2())
     this.$id_asig_organizacion_clave.select2(this.get_ConfSelect2())
+    this.$id_grup_compania_jde.select2(this.get_ConfSelect2())
     this.$id_metodo_sucursal.select2(this.get_ConfSelect2())
 }
 TarjetaFiltros.prototype.get_ConfDateRangePicker = function () {
@@ -138,6 +140,26 @@ TarjetaFiltros.prototype.get_Values = function (_page, _pageSize) {
         grup_nomina_jde: $("input[name='grup_nomina_jde']:checked").val(),
     }
 }
+TarjetaFiltros.prototype.get_FiltrosExcel = function () {
+        
+    return {        
+        pers_primer_nombre: this.$id_pers_primer_nombre.val(),
+        pers_segundo_nombre: this.$id_pers_segundo_nombre.val(),
+        pers_apellido_paterno: this.$id_pers_apellido_paterno.val(),
+        pers_apellido_materno: this.$id_pers_apellido_materno.val(),
+        pers_genero_clave: $("input[name='pers_genero_clave']:checked").val(),
+        pers_empleado_numero: this.$id_pers_empleado_numero.val(),
+        pers_tipo_codigo: this.$id_pers_tipo_codigo.val(),
+        asig_puesto_clave: this.$id_asig_puesto_clave.val(),
+        asig_organizacion_clave: this.$id_asig_organizacion_clave.val(),
+        fecha_contratacion_desde: this.$fecha_contratacion.val().split(" al ")[0],
+        fecha_contratacion_hasta: this.$fecha_contratacion.val().split(" al ")[1],
+        grup_compania_jde: this.$id_grup_compania_jde.val(),
+        zona: this.$id_zona.val(),
+        metodo_sucursal: this.$id_metodo_sucursal.val(),
+        grup_nomina_jde: $("input[name='grup_nomina_jde']:checked").val(),
+    }
+}
 TarjetaFiltros.prototype.click_BotonBuscar = function (e) {
     
     e.preventDefault()
@@ -159,7 +181,7 @@ TarjetaFiltros.prototype.click_BotonLimpiar = function (e) {
     e.data.$fecha_contratacion.data('daterangepicker').setEndDate(
         moment().format('YYYY-MM-DD')
     )
-    e.data.$id_grup_compania_jde.val("")
+    e.data.$id_grup_compania_jde.val(0)
     e.data.$id_zona.val("")
     e.data.$id_metodo_sucursal.data('select2').val(0)
     e.data.$id_grup_nomina_jde.prop('checked', false)
@@ -172,7 +194,7 @@ TarjetaFiltros.prototype.click_BotonLimpiar = function (e) {
 function TarjetaResultados(){
     
     this.toolbar = new ToolBar()
-    //this.grid = new Grid()
+    this.grid = new Grid()
 }
 
 /*-----------------------------------------------*\
@@ -188,9 +210,302 @@ ToolBar.prototype.init = function () {
 
     this.$boton_excel.on("click", this, this.click_BotonExportar)
 }
+ToolBar.prototype.Inicializar_CeldasExcel = function (e) {
+
+    if (tarjeta_resultados.grid.get_Columnas != null)
+    {
+        if (tarjeta_resultados.grid.get_Columnas.length != 1) {
+            tarjeta_resultados.grid.get_Columnas.length = 0;
+        }
+    }
+
+    this.kRows = [{
+        cells: [
+            { value: 'pers_clave' },
+            { value: 'pers_tipo_codigo' },
+            { value: 'pers_tipo_desc' },
+            { value: 'pers_empleado_numero' },
+            { value: 'pers_titulo' },
+            { value: 'pers_primer_nombre' },
+            { value: 'pers_segundo_nombre' },
+            { value: 'pers_apellido_paterno' },
+            { value: 'pers_apellido_materno' },
+            { value: 'pers_nombre_completo' },
+            { value: 'pers_genero_clave' },
+            { value: 'pers_genero_desc' },
+            { value: 'pers_curp' },
+            { value: 'pers_nacionalidad_clave' },
+            { value: 'pers_rfc' },
+            { value: 'pers_numero_imss' },
+            { value: 'pers_ife' },
+            { value: 'pers_fecha_nacimiento' },
+            { value: 'pers_ciudad_nacimiento' },
+            { value: 'pers_estado_nacimiento' },
+            { value: 'pers_pais_nacimiento_clave' },
+            { value: 'pers_fecha_efective_desde' },
+            { value: 'pers_fecha_efective_hasta' },
+            { value: 'pers_email' },
+            { value: 'pers_estado_civil' },
+            { value: 'pers_estado_civil_desc' },
+            { value: 'pers_fecha_contratacion' },
+            { value: 'asig_clave' },
+            { value: 'asig_empleado_numero' },
+            { value: 'asig_persona_clave' },
+            { value: 'asig_fecha_inicio' },
+            { value: 'asig_fecha_fin' },
+            { value: 'asig_organizacion_clave' },
+            { value: 'asig_organizacion_desc' },
+            { value: 'asig_trabajo_clave' },
+            { value: 'asig_trabajo_desc' },
+            { value: 'asig_grado_clave' },
+            { value: 'asig_grado_desc' },
+            { value: 'asig_ubicacion_clave' },
+            { value: 'asig_ubicacion_desc' },
+            { value: 'asig_grupo_clave' },
+            { value: 'asig_grupo_desc' },
+            { value: 'asig_puesto_clave' },
+            { value: 'asig_puesto_desc' },
+            { value: 'asig_nomina_clave' },
+            { value: 'asig_nomina_desc' },
+            { value: 'asig_estado_clave' },
+            { value: 'asig_estado_desc' },
+            { value: 'asig_categoria_codigo' },
+            { value: 'asig_salario_base_clave' },
+            { value: 'asig_salario_base_desc' },
+            { value: 'informacion_estatutaria_clave' },
+            { value: 'informacion_estatutaria_desc' },
+            { value: 'asig_version' },
+            { value: 'asig_jefe_directo_clave' },
+            { value: 'asig_jefe_directo_desc' },
+            { value: 'asig_salario_in' },
+            { value: 'asig_salario_out' },
+            { value: 'asig_tipo_empleado' },
+            { value: 'grup_clave' },
+            { value: 'grup_nombre' },
+            { value: 'grup_bandera_habilitado' },
+            { value: 'grup_nomina_jde' },
+            { value: 'grup_compania_jde' },
+            { value: 'grup_proyecto_jde' },
+            { value: 'grup_proyecto_code_jde' },
+            { value: 'grup_fase_jde' },
+            { value: 'grup_fase_code_jde' },
+            { value: 'grup_puesto_jde' },
+            { value: 'grup_puesto_code_jde' },
+            { value: 'metodo_asignacion_id' },
+            { value: 'metodo_nombre' },
+            { value: 'metodo_tipo' },
+            { value: 'metodo_prioridad' },
+            { value: 'metodo_fecha_efec_desde' },
+            { value: 'metodo_fecha_efec_hasta' },
+            { value: 'metodo_importe_saldo' },
+            { value: 'metodo_porcentaje' },
+            { value: 'metodo_pago' },
+            { value: 'metodo_sucursal' },
+            { value: 'metodo_cuenta' },
+            { value: 'metodo_banco' },
+            { value: 'metodo_tipo_cuenta_id' },
+            { value: 'metodo_clabe' },
+        ]
+    }];
+}
 ToolBar.prototype.click_BotonExportar = function (e) {
     
-    e.preventDefault()
+    tarjeta_resultados.grid.leer_Datos()
+    e.data.Inicializar_CeldasExcel()
+
+    tarjeta_resultados.grid.kfuente_datos_excel.fetch(function () {
+
+        var data = this.data();
+        for (var i = 0; i < data.length; i++) {
+
+            e.data.kRows.push({
+                cells: [
+                    { value: data[i].pers_clave },
+                    { value: data[i].pers_tipo_codigo },
+                    { value: data[i].pers_tipo_desc },
+                    { value: data[i].pers_empleado_numero },
+                    { value: data[i].pers_titulo },
+                    { value: data[i].pers_primer_nombre },
+                    { value: data[i].pers_segundo_nombre },
+                    { value: data[i].pers_apellido_paterno },
+                    { value: data[i].pers_apellido_materno },
+                    { value: data[i].pers_nombre_completo },
+                    { value: data[i].pers_genero_clave },
+                    { value: data[i].pers_genero_desc },
+                    { value: data[i].pers_curp },
+                    { value: data[i].pers_nacionalidad_clave },
+                    { value: data[i].pers_rfc },
+                    { value: data[i].pers_numero_imss },
+                    { value: data[i].pers_ife },
+                    { value: data[i].pers_fecha_nacimiento },
+                    { value: data[i].pers_ciudad_nacimiento },
+                    { value: data[i].pers_estado_nacimiento },
+                    { value: data[i].pers_pais_nacimiento_clave },
+                    { value: data[i].pers_fecha_efective_desde },
+                    { value: data[i].pers_fecha_efective_hasta },
+                    { value: data[i].pers_email },
+                    { value: data[i].pers_estado_civil },
+                    { value: data[i].pers_estado_civil_desc },
+                    { value: data[i].pers_fecha_contratacion },
+                    { value: data[i].asig_clave },
+                    { value: data[i].asig_empleado_numero },
+                    { value: data[i].asig_persona_clave },
+                    { value: data[i].asig_fecha_inicio },
+                    { value: data[i].asig_fecha_fin },
+                    { value: data[i].asig_organizacion_clave },
+                    { value: data[i].asig_organizacion_desc },
+                    { value: data[i].asig_trabajo_clave },
+                    { value: data[i].asig_trabajo_desc },
+                    { value: data[i].asig_grado_clave },
+                    { value: data[i].asig_grado_desc },
+                    { value: data[i].asig_ubicacion_clave },
+                    { value: data[i].asig_ubicacion_desc },
+                    { value: data[i].asig_grupo_clave },
+                    { value: data[i].asig_grupo_desc },
+                    { value: data[i].asig_puesto_clave },
+                    { value: data[i].asig_puesto_desc },
+                    { value: data[i].asig_nomina_clave },
+                    { value: data[i].asig_nomina_desc },
+                    { value: data[i].asig_estado_clave },
+                    { value: data[i].asig_estado_desc },
+                    { value: data[i].asig_categoria_codigo },
+                    { value: data[i].asig_salario_base_clave },
+                    { value: data[i].asig_salario_base_desc },
+                    { value: data[i].informacion_estatutaria_clave },
+                    { value: data[i].informacion_estatutaria_desc },
+                    { value: data[i].asig_version },
+                    { value: data[i].asig_jefe_directo_clave },
+                    { value: data[i].asig_jefe_directo_desc },
+                    { value: data[i].asig_salario_in },
+                    { value: data[i].asig_salario_out },
+                    { value: data[i].asig_tipo_empleado },
+                    { value: data[i].grup_clave },
+                    { value: data[i].grup_nombre },
+                    { value: data[i].grup_bandera_habilitado },
+                    { value: data[i].grup_nomina_jde },
+                    { value: data[i].grup_compania_jde },
+                    { value: data[i].grup_proyecto_jde },
+                    { value: data[i].grup_proyecto_code_jde },
+                    { value: data[i].grup_fase_jde },
+                    { value: data[i].grup_fase_code_jde },
+                    { value: data[i].grup_puesto_jde },
+                    { value: data[i].grup_puesto_code_jde },
+                    { value: data[i].metodo_asignacion_id },
+                    { value: data[i].metodo_nombre },
+                    { value: data[i].metodo_tipo },
+                    { value: data[i].metodo_prioridad },
+                    { value: data[i].metodo_fecha_efec_desde },
+                    { value: data[i].metodo_fecha_efec_hasta },
+                    { value: data[i].metodo_importe_saldo },
+                    { value: data[i].metodo_porcentaje },
+                    { value: data[i].metodo_pago },
+                    { value: data[i].metodo_sucursal },
+                    { value: data[i].metodo_cuenta },
+                    { value: data[i].metodo_banco },
+                    { value: data[i].metodo_tipo_cuenta_id },
+                    { value: data[i].metodo_clabe },
+                ]
+            })
+        }
+        var workbook = new kendo.ooxml.Workbook({
+            sheets: [
+                {
+                    columns: [
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                    ],
+                    title: "Empleados",
+                    rows: e.data.kRows
+                }
+            ]
+        });
+        kendo.saveAs({
+            dataURI: workbook.toDataURL(),
+            fileName: "ListadoEmpleados.xlsx",
+        });
+    });
 }
 /*-----------------------------------------------*\
             OBJETO: Grid
@@ -200,6 +515,8 @@ function Grid() {
 
     this.$id = $("#grid_resultados")
     this.kfuente_datos = null
+    this.kfuente_datos_excel = null
+
     this.kgrid = null
     this.init()
 }
@@ -207,9 +524,10 @@ Grid.prototype.init = function () {
 
     kendo.culture("es-MX")
     this.kfuente_datos = new kendo.data.DataSource(this.get_DataSourceConfig())
+    this.kfuente_datos_excel = new kendo.data.DataSource(this.get_FuenteDatosExcel())
     this.kgrid = this.$id.kendoGrid(this.get_Configuracion())
 }
-Grid.prototype.get_DataSourceConfig = function () {
+Grid.prototype.get_DataSourceConfig = function (e) {
 
     return {
 
@@ -231,6 +549,35 @@ Grid.prototype.get_DataSourceConfig = function () {
         schema: {
             data: "results",
             total: "count",
+            model: {
+                fields: this.get_Campos()
+            }
+        },
+        error: function (e) {
+            alertify.error("Status: " + e.status + "; Error message: " + e.errorThrown)
+        },
+    }    
+}
+Grid.prototype.get_FuenteDatosExcel = function (e) {
+
+    return {
+
+        serverPaging: true,
+        pageSize: 10,
+        transport: {
+            read: {
+
+                url: url_empleados,
+                type: "GET",
+                dataType: "json",
+            },
+            parameterMap: function (data, action) {
+                if (action === "read"){
+                    return tarjeta_filtros.get_FiltrosExcel()
+                }
+            }
+        },
+        schema: {
             model: {
                 fields: this.get_Campos()
             }
@@ -351,10 +698,7 @@ Grid.prototype.get_Configuracion = function () {
 }
 Grid.prototype.get_Columnas = function () {
 
-    return [    
-        { field: "req_compania", title: "Compañia", width:"100px" },
-        { field: "req_fecha_creacion", title: "Fecha creación", width:"120px", format: "{0:dd-MM-yyyy}" },
-
+    return [
         { field: "pers_clave", title: "pers_clave", width: "100px" },
         { field: "pers_tipo_codigo", title: "pers_tipo_codigo", width: "100px" },
         { field: "pers_tipo_desc", title: "pers_tipo_desc", width: "100px" },
@@ -445,4 +789,8 @@ Grid.prototype.get_Columnas = function () {
 Grid.prototype.buscar = function() {
     
     this.kfuente_datos.page(1)
+}
+Grid.prototype.leer_Datos = function() {
+    
+    this.kfuente_datos_excel.read()
 }

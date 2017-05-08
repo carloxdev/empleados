@@ -135,7 +135,7 @@
                             </div>
 
                             <!-- pers_empleado_numero -->
-                            <div class="col-sm-3">
+                            <div class="col-sm-4">
                                 <div class="form-group {% if form.pers_empleado_numero.errors %} has-error {% endif %}">
 
                                 <label class="control-label">
@@ -152,7 +152,7 @@
                             </div>
 
                             <!-- pers_tipo_codigo -->
-                            <div class="col-sm-4 pull-right">
+                            <div class="col-sm-4">
                                 <div class="form-group {% if form.pers_tipo_codigo.errors %} has-error {% endif %}">
 
                                 <label class="control-label">
@@ -170,7 +170,7 @@
                             
                             
                             <!-- asig_puesto_clave -->
-                            <div class="col-sm-4 pull-right">
+                            <div class="col-sm-4">
                                 <div class="form-group {% if form.asig_puesto_clave.errors %} has-error {% endif %}">
 
                                 <label class="control-label">
@@ -329,6 +329,8 @@
 {% endblock contenido %}
 
 {% block scripts %}
+    <!--JSZIP -->
+    <script src="{% static 'libs/kendo/2015.2.624/js/jszip.min.js' %}"></script>
     <!-- Kendo Js -->
     <script src="{% static 'libs/kendo/2015.2.624/js/cultures/kendo.culture.es-MX.min.js' %}"></script>
     <script src="{% static 'libs/kendo/2015.2.624/js/kendo.web.min.js' %}"></script>

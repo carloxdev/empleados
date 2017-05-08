@@ -130,3 +130,30 @@ class VIEW_EMPLEADOS_FULL(models.Model):
     class Meta:
         managed = False
         db_table = u'"NUVAPP"."VIEW_EMPLEADOS_FULL"'
+
+
+class VIEW_TIPO_PERSONAS(models.Model):
+    clave_tipo = models.IntegerField(primary_key=True)
+    desc_tipo = models.CharField(max_length=80)
+
+    class Meta:
+        managed = False
+        db_table = u'"NUVAPP"."VIEW_TIPO_PERSONAS"'
+
+
+class VIEW_PUESTOS(models.Model):
+    clave_puesto = models.IntegerField(primary_key=True)
+    desc_puesto = models.CharField(max_length=240)
+
+    class Meta:
+        managed = False
+        db_table = u'"NUVAPP"."VIEW_PUESTOS"'
+
+
+class VIEW_ORGANIZACIONES(models.Model):
+    clave_org = models.IntegerField(primary_key=True)
+    desc_org = models.CharField(max_length=240)
+
+    class Meta:
+        managed = False
+        db_table = u'"NUVAPP"."VIEW_ORGANIZACIONES"'

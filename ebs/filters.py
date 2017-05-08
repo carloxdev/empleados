@@ -91,7 +91,7 @@ class VIEW_EMPLEADOS_FULL_Filter(filters.FilterSet):
     )
     grup_compania_jde = CharFilter(
         name="grup_compania_jde",
-        lookup_expr="icontains"
+        lookup_expr="contains"
     )
     zona = CharFilter(
         name="zona",
