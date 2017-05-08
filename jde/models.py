@@ -31,6 +31,35 @@ class F0101(models.Model):
         return value
 
 
+class VIEW_CENTROSCOSTO(models.Model):
+
+    clave = models.CharField(max_length=12, primary_key=True)
+    descripcion = models.CharField(max_length=60)
+    compania = models.CharField(max_length=5)
+    tipo = models.CharField(max_length=2)
+    tipo_desc = models.CharField(max_length=60)
+    estado = models.CharField(max_length=1)
+    estado_desc = models.CharField(max_length=20)
+    proyecto = models.CharField(max_length=3)
+    proyecto_tipo = models.CharField(max_length=10)
+    proyecto_desc = models.CharField(max_length=30)
+    proyecto_zona = models.CharField(max_length=30)
+    estructura = models.CharField(max_length=10)
+    estructura_desc = models.CharField(max_length=60)
+
+    class Meta:
+        managed = False
+        db_table = u'"NUVPD"."VIEW_CENTROSCOSTO"'
+
+    def __str__(self):
+        value = "%s - %s" % (self.clave, self.descripcion)
+        return value
+
+    def __unicode__(self):
+        value = "%s - %s" % (self.clave, self.descripcion)
+        return value
+
+
 class VIEW_UNIDADES(models.Model):
     clave = models.CharField(
         max_length=12, primary_key=True, db_column='CLAVE')
@@ -644,6 +673,33 @@ class VIEW_COMPANIAS(models.Model):
         value = "%s - %s" % (
             self.comp_code,
             self.book_desc,
+        )
+        return value
+
+
+class VIEW_EMPRESAS(models.Model):
+    numero = models.CharField(max_length=5, primary_key=True)
+    descripcion = models.CharField(max_length=30)
+    ab_clave = models.IntegerField()
+    ab_desc = models.CharField(max_length=80)
+    rfc = models.CharField(max_length=20)
+    direccion = models.CharField(max_length=161)
+
+    class Meta:
+        managed = False
+        db_table = u'"NUVPD"."VIEW_EMPRESAS"'
+
+    def __str__(self):
+        value = "%s - %s" % (
+            self.numero,
+            self.descripcion,
+        )
+        return value
+
+    def __unicode__(self):
+        value = "%s - %s" % (
+            self.numero,
+            self.descripcion,
         )
         return value
 
