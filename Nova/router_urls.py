@@ -190,4 +190,3 @@ router.register(
     VIEW_RECEPCIONES_ByPageAPI,
     'viewrecepciones_bypage',
 )
-

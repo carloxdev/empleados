@@ -49,7 +49,7 @@ INSTALLED_APPS = [
     'sgi.apps.SgiConfig',
     'rest_framework',
     'simple_history',
-    'empleados.apps.EmpleadosConfig'
+    'capitalHumano.apps.CapitalhumanoConfig'
 ]
 
 MIDDLEWARE = [

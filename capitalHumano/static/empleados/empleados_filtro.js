@@ -118,7 +118,7 @@ TarjetaFiltros.prototype.click_BotonColapsible = function (e){
     }
 }
 TarjetaFiltros.prototype.get_Values = function (_page, _pageSize) {
-        
+
     return {
         page: _page,
         pageSize: _pageSize,
@@ -132,8 +132,8 @@ TarjetaFiltros.prototype.get_Values = function (_page, _pageSize) {
         pers_tipo_codigo: this.$id_pers_tipo_codigo.val(),
         asig_puesto_clave: this.$id_asig_puesto_clave.val(),
         asig_organizacion_clave: this.$id_asig_organizacion_clave.val(),
-        fecha_contratacion_desde: this.$fecha_contratacion.val().split(" al ")[0],
-        fecha_contratacion_hasta: this.$fecha_contratacion.val().split(" al ")[1],
+        pers_fecha_contratacion_desde: this.$fecha_contratacion.val().split(" al ")[0],
+        pers_fecha_contratacion_hasta: this.$fecha_contratacion.val().split(" al ")[1],
         grup_compania_jde: this.$id_grup_compania_jde.val(),
         zona: this.$id_zona.val(),
         metodo_sucursal: this.$id_metodo_sucursal.val(),
@@ -152,8 +152,8 @@ TarjetaFiltros.prototype.get_FiltrosExcel = function () {
         pers_tipo_codigo: this.$id_pers_tipo_codigo.val(),
         asig_puesto_clave: this.$id_asig_puesto_clave.val(),
         asig_organizacion_clave: this.$id_asig_organizacion_clave.val(),
-        fecha_contratacion_desde: this.$fecha_contratacion.val().split(" al ")[0],
-        fecha_contratacion_hasta: this.$fecha_contratacion.val().split(" al ")[1],
+        pers_fecha_contratacion_desde: this.$fecha_contratacion.val().split(" al ")[0],
+        pers_fecha_contratacion_hasta: this.$fecha_contratacion.val().split(" al ")[1],
         grup_compania_jde: this.$id_grup_compania_jde.val(),
         zona: this.$id_zona.val(),
         metodo_sucursal: this.$id_metodo_sucursal.val(),

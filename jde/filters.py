@@ -303,7 +303,7 @@ class VIEW_SCOMPRAS_Filter(filters.FilterSet):
     )
     req_fecha_creacion_desde = CharFilter(
         name="req_fecha_creacion_desde",
-        method="req_filter_fecha_desde" 
+        method="req_filter_fecha_desde"
     )
     req_fecha_creacion_hasta = CharFilter(
         name="req_fecha_creacion_hasta",
@@ -311,7 +311,7 @@ class VIEW_SCOMPRAS_Filter(filters.FilterSet):
     )
     ord_fecha_creacion_desde = CharFilter(
         name="ord_fecha_creacion_desde",
-        method="ord_filter_fecha_desde" 
+        method="ord_filter_fecha_desde"
     )
     ord_fecha_creacion_hasta = CharFilter(
         name="ord_fecha_creacion_hasta",
@@ -329,6 +329,7 @@ class VIEW_SCOMPRAS_Filter(filters.FilterSet):
         name="ord_recepcion",
         lookup_expr="exact"
     )
+
     class Meta:
         model = VIEW_SCOMPRAS
         fields = [
@@ -353,17 +354,18 @@ class VIEW_SCOMPRAS_Filter(filters.FilterSet):
             'req_item_desc',
             'ord_recepcion'
         ]
+
     def req_filter_fecha_desde(self, queryset, name, value):
 
         valor = "{}T00:00:00".format(value)
 
         if not value:
-            
+
             return queryset
         else:
-            
+
             consulta = queryset.filter(req_fecha_creacion__gte=valor)
-            
+
             return consulta
 
     def req_filter_fecha_hasta(self, queryset, name, value):
@@ -382,12 +384,12 @@ class VIEW_SCOMPRAS_Filter(filters.FilterSet):
         valor = "{}T00:00:00".format(value)
 
         if not value:
-            
+
             return queryset
         else:
-            
+
             consulta = queryset.filter(cot_fecha_creacion__gte=valor)
-            
+
             return consulta
 
     def ord_filter_fecha_hasta(self, queryset, name, value):

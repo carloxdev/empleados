@@ -23,22 +23,6 @@ class EmpleadosFilterForm(Form):
         ('F', 'Femenino'),
         ('M', 'Masculino'),
     )
-    TIPO = (
-        ('', '-------'),
-        ('MHP', 'MHP'),
-    )
-    PUESTO = (
-        ('', '-------'),
-        ('A', 'Analista de medio ambiente'),
-    )
-    ORGANIZACION = (
-        ('', '-------'),
-        ('CV', 'Coordinacion Villahermosa'),
-    )
-    CENTRO_DE_COSTOS = (
-        ('', '-------'),
-        ('F201113', 'F201113'),
-    )
     NOMINA = (
         ('ADMINISTRATIVA', 'Administrativa'),
         ('OPERATIVA', 'Operativa'),
@@ -50,12 +34,12 @@ class EmpleadosFilterForm(Form):
     pers_apellido_materno = CharField(widget=TextInput(attrs={'class': 'form-control input-xs'}))
     pers_genero_clave = ChoiceField(widget=RadioSelect, choices=GENERO)
     pers_empleado_numero = IntegerField(widget=NumberInput(attrs={'class': 'form-control input-xs', 'min': '1'}))
-    pers_tipo_codigo = ChoiceField(widget=Select(attrs={'class': 'select2 nova-select2'}), choices=TIPO)
-    asig_puesto_clave = ChoiceField(widget=Select(attrs={'class': 'select2 nova-select2'}), choices=PUESTO)
-    asig_organizacion_clave = ChoiceField(widget=Select(attrs={'class': 'select2 nova-select2'}), choices=ORGANIZACION)
-    grup_compania_jde = ChoiceField(widget=Select(attrs={'class': 'select2 nova-select2'}), choices=ORGANIZACION)
-    zona = CharField(widget=TextInput(attrs={'class': 'form-control input-xs'}))  # PREGUNTAR POR EL CAMPO
-    metodo_sucursal = ChoiceField(widget=Select(attrs={'class': 'select2 nova-select2'}), choices=CENTRO_DE_COSTOS)
+    pers_tipo_codigo = ChoiceField(widget=Select(attrs={'class': 'select2 nova-select2'}))
+    asig_puesto_clave = ChoiceField(widget=Select(attrs={'class': 'select2 nova-select2'}))
+    asig_organizacion_clave = ChoiceField(widget=Select(attrs={'class': 'select2 nova-select2'}))
+    grup_compania_jde = ChoiceField(widget=Select(attrs={'class': 'select2 nova-select2'}))
+    #zona = CharField(widget=TextInput(attrs={'class': 'form-control input-xs'}))
+    metodo_sucursal = ChoiceField(widget=Select(attrs={'class': 'select2 nova-select2'}))
     grup_nomina_jde = ChoiceField(widget=RadioSelect, choices=NOMINA)
 
     def __init__(self, *args, **kwargs):
