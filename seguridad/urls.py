@@ -8,7 +8,7 @@ from .views import UsuarioLista
 from .views import UsuarioNuevo
 from .views import UsuarioEditar
 from .views import UsuarioEditarPerfil
-from .views import UsuarioCambiarContrasena
+from .views import UsuarioCambiarContrasenaAdmin
 from .views import UsuarioCambiarContrasenaPerfil
 
 # Autentificacion
@@ -33,7 +33,7 @@ urlpatterns = [
     url(r'^usuarios/$', UsuarioLista.as_view(), name="usuario_lista"),
     url(r'^usuarios/nuevo/$', UsuarioNuevo.as_view(), name="usuario_nuevo"),
     url(r'^usuarios/editar/(?P<pk>\d+)/$', UsuarioEditar.as_view(), name="usuario_editar"),
-    url(r'^usuarios/contrasena/(?P<pk>\d+)/$', UsuarioCambiarContrasena.as_view(), name="usuario_cambiar_contrasena"),
+    url(r'^usuarios/contrasena/(?P<pk>\d+)/$', UsuarioCambiarContrasenaAdmin.as_view(), name="usuario_cambiar_contrasena"),
     url(r'^usuarios/perfil/editar/$', UsuarioEditarPerfil.as_view(), name="usuario_editar_perfil"),
     url(r'^usuarios/perfil/contrasena/(?P<pk>\d+)/$', UsuarioCambiarContrasenaPerfil.as_view(), name="usuario_cambiar_contrasena_perfil"),
 ]
