@@ -136,9 +136,9 @@ router.register(
 )
 
 router.register(
-    r'viewempleadosfull_bypage',
+    r'viewempleadossimple_bypage',
     VIEW_EMPLEADOS_SIMPLE_ByPageAPI,
-    'viewempleadosfull_bypage'
+    'viewempleadossimple_bypage'
 )
 
 router.register(

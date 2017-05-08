@@ -19,7 +19,6 @@ from .models import VIEW_UNIDADES
 from .models import VIEW_COMPANIAS
 from .models import VIEW_AUTORIZACIONES
 from .models import VIEW_RECEPCIONES
-from .models import VIEW_ITEMS
 
 # Serializadores:
 from .serializers import VIEW_SCOMPRAS_Serializer

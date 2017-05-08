@@ -1,8 +1,8 @@
 from django.conf.urls import url
 
-from .views import Seguimiento
+from .views import Empleados
 
 
 urlpatterns = [
-    url(r'^compras/seguimiento/$', Seguimiento.as_view(), name="seguimiento"),
+    url(r'^capital-humano/empleados/$', Empleados.as_view(), name="empleados_filtros"),
 ]

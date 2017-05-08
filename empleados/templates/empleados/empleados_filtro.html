@@ -1,0 +1,351 @@
+{% extends 'master.html' %}
+
+{% load static from staticfiles %}
+
+{% block titulo %} Capital humano {% endblock titulo %}
+
+{% block title-page %} Empleados  {% endblock title-page %}
+
+{% block css %}
+    <!-- Kendo -->
+    <link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.rtl.min.css' %}"/>
+    <link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.common-bootstrap.min.css' %}"/>
+    <link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.bootstrap.min.css' %}"/>
+
+    <!-- Theme -->
+    <link rel="stylesheet" href="{% static 'theme/lib/datetimepicker/css/bootstrap-datetimepicker.min.css' %}"/>
+    <link rel="stylesheet" href="{% static 'theme/lib/daterangepicker/css/daterangepicker.css' %}"/>
+    <link rel="stylesheet" href="{% static 'theme/lib/select2/css/select2.min.css' %}">
+    
+    <!-- Nova -->
+    <link rel="stylesheet" href="{% static 'grid.css' %}"/>
+{% endblock css %}
+
+{% block contenido %}
+
+<div class="be-content">
+    <div class="page-head">
+        <h2 class="page-head-title">Capital Humano</h2>
+        <ol class="breadcrumb page-head-nav">
+            <li class="active">Empleados</li>
+        </ol>
+    </div>
+    <div class="main-content container-fluid">
+        <div class="col-sm-12">
+            <div class="panel panel-border panel-contrast">
+                <div class="panel-heading panel-heading-default nova-border-bottom">Filtros
+                    <div class="tools" data-toggle="collapse" href="#cabecera_colapsible"><span class="icon mdi mdi-caret-down-circle" id="boton_colapsible"></span>
+                    </div>
+                </div> 
+                <div class="panel-body collapse in" id="cabecera_colapsible">
+
+                    <form action="" method="POST"> {% csrf_token %} 
+
+                        <div class="row">
+                                
+                            <div class="row nova-padding-row">
+                                <!-- pers_primer_nombre -->
+                                <div class="col-sm-4">
+                                    <div class="form-group {% if form.pers_primer_nombre.errors %} has-error {% endif %}">
+
+                                    <label class="control-label">
+                                    <i class="fa {% if form.pers_primer_nombre.errors %} fa-asterisk {% endif %}"></i> 
+                                        Primer nombre
+                                    </label>
+                                    <p>
+                                        {{ form.pers_primer_nombre }} 
+                                    </p>
+                                    {% for error in form.pers_primer_nombre.errors %}
+                                        <span class="help-block">{{ error }}</span>
+                                    {% endfor %}
+                                    </div>
+                                </div>
+
+                                 <!-- pers_segundo_nombre -->
+                                <div class="col-sm-4">
+                                    <div class="form-group {% if form.pers_segundo_nombre.errors %} has-error {% endif %}">
+                                        <label class="control-label">
+                                            <i class="fa {% if form.pers_segundo_nombre.errors %} fa-asterisk {% endif %}"></i> 
+                                            Segundo nombre
+                                        </label>
+                                        <p>
+                                            {{ form.pers_segundo_nombre }}
+                                        </p>
+                                            {% for error in form.pers_segundo_nombre.errors %}
+                                                <span class="help-block">{{ error }}</span>
+                                            {% endfor %}                  
+                                    </div>
+                                </div>   
+                                
+                                <!-- pers_apellido_paterno -->
+                                <div class="col-sm-4">
+                                    <div class="form-group {% if form.pers_apellido_paterno.errors %} has-error {% endif %}">
+
+                                    <label class="control-label">
+                                    <i class="fa {% if form.pers_apellido_paterno.errors %} fa-asterisk {% endif %}"></i> 
+                                        Apellido paterno
+                                    </label>
+                                    <p>
+                                        {{ form.pers_apellido_paterno }} 
+                                    </p>
+                                    {% for error in form.pers_apellido_paterno.errors %}
+                                        <span class="help-block">{{ error }}</span>
+                                    {% endfor %}
+                                    </div>
+                                </div>
+                            </div>                       
+
+                            <!-- pers_apellido_materno -->
+                            <div class="col-sm-4">
+                                <div class="form-group {% if form.pers_apellido_materno.errors %} has-error {% endif %}">
+
+                                <label class="control-label">
+                                <i class="fa {% if form.pers_apellido_materno.errors %} fa-asterisk {% endif %}"></i> 
+                                    Apellido materno
+                                </label>
+                                <p>
+                                    {{ form.pers_apellido_materno }} 
+                                </p>
+                                {% for error in form.pers_apellido_materno.errors %}
+                                    <span class="help-block">{{ error }}</span>
+                                {% endfor %}
+                                </div>
+                            </div>
+
+                            <!-- pers_genero_clave -->
+                            <div class="col-sm-8">
+                                <div class="form-group {% if form.pers_genero_clave.errors %} has-error {% endif %}">
+
+                                <label class="control-label">
+                                <i class="fa {% if form.pers_genero_clave.errors %} fa-asterisk {% endif %}"></i> 
+                                    Género
+                                </label>
+                                <div id="botones_radio">
+                                {% for radio in form.pers_genero_clave %}
+                                    <div class="be-radio">
+                                      {{ radio.tag }}
+                                      <label for="{{ radio.id_for_label }}">{{ radio.choice_label }}</label>
+                                    </div>
+                                {% endfor %}
+                                </div>
+                                {% for error in form.pers_genero_clave.errors %}
+                                    <span class="help-block">{{ error }}</span>
+                                {% endfor %}
+                                </div>
+                            </div>
+
+                            <!-- pers_empleado_numero -->
+                            <div class="col-sm-3">
+                                <div class="form-group {% if form.pers_empleado_numero.errors %} has-error {% endif %}">
+
+                                <label class="control-label">
+                                <i class="fa {% if form.pers_empleado_numero.errors %} fa-asterisk {% endif %}"></i> 
+                                    Número de empleado
+                                </label>
+                                <p>
+                                    {{ form.pers_empleado_numero }} 
+                                </p>
+                                {% for error in form.pers_empleado_numero.errors %}
+                                    <span class="help-block">{{ error }}</span>
+                                {% endfor %}
+                                </div>
+                            </div>
+
+                            <!-- pers_tipo_codigo -->
+                            <div class="col-sm-4 pull-right">
+                                <div class="form-group {% if form.pers_tipo_codigo.errors %} has-error {% endif %}">
+
+                                <label class="control-label">
+                                <i class="fa {% if form.pers_tipo_codigo.errors %} fa-asterisk {% endif %}"></i> 
+                                    Tipo
+                                </label>
+                                <p>
+                                    {{ form.pers_tipo_codigo }} 
+                                </p>
+                                {% for error in form.pers_tipo_codigo.errors %}
+                                    <span class="help-block">{{ error }}</span>
+                                {% endfor %}
+                                </div>
+                            </div>
+                            
+                            
+                            <!-- asig_puesto_clave -->
+                            <div class="col-sm-4 pull-right">
+                                <div class="form-group {% if form.asig_puesto_clave.errors %} has-error {% endif %}">
+
+                                <label class="control-label">
+                                <i class="fa {% if form.asig_puesto_clave.errors %} fa-asterisk {% endif %}"></i> 
+                                    Puesto
+                                </label>
+                                <p>
+                                    {{ form.asig_puesto_clave }} 
+                                </p>
+                                {% for error in form.asig_puesto_clave.errors %}
+                                    <span class="help-block">{{ error }}</span>
+                                {% endfor %}
+                                </div>
+                            </div>
+
+                            <!-- asig_organizacion_clave -->
+                            <div class="col-sm-4">
+                                <div class="form-group {% if form.asig_organizacion_clave.errors %} has-error {% endif %}">
+
+                                <label class="control-label">
+                                <i class="fa {% if form.asig_organizacion_clave.errors %} fa-asterisk {% endif %}"></i> 
+                                    Organización
+                                </label>
+                                <p>
+                                    {{ form.asig_organizacion_clave }} 
+                                </p>
+                                {% for error in form.asig_organizacion_clave.errors %}
+                                    <span class="help-block">{{ error }}</span>
+                                {% endfor %}
+                                </div>
+                            </div>
+                                
+                            
+                            <!-- fecha_contratacion -->
+                            <div class="col-sm-4">
+                                <div class="form-group {% if form.oc_desde.errors %} has-error {% endif %}">
+                                    <label class="control-label">Fecha de contratación  </label>                                    
+                                    <div class="input-group">
+                                        <input type="text" value="" readonly="" class="form-control input-xs" id="fecha_contratacion">
+                                        <span class="input-group-addon btn btn-primary">
+                                            <i class="icon-th mdi mdi-calendar"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- grup_compania_jde -->
+                            <div class="col-sm-4">
+                                <div class="form-group {% if form.grup_compania_jde.errors %} has-error {% endif %}">
+
+                                <label class="control-label">
+                                <i class="fa {% if form.grup_compania_jde.errors %} fa-asterisk {% endif %}"></i> 
+                                    Compañia
+                                </label>
+                                <p>
+                                    {{ form.grup_compania_jde }} 
+                                </p>
+                                {% for error in form.grup_compania_jde.errors %}
+                                    <span class="help-block">{{ error }}</span>
+                                {% endfor %}
+                                </div>
+                            </div>
+
+                            <!-- zona -->
+                            <div class="col-sm-4">
+                                <div class="form-group {% if form.zona.errors %} has-error {% endif %}">
+
+                                <label class="control-label">
+                                <i class="fa {% if form.zona.errors %} fa-asterisk {% endif %}"></i> 
+                                    Zona
+                                </label>
+                                <p>
+                                    {{ form.zona }} 
+                                </p>
+                                {% for error in form.zona.errors %}
+                                    <span class="help-block">{{ error }}</span>
+                                {% endfor %}
+                                </div>
+                            </div>
+                            
+                            <!-- metodo_sucursal -->
+                            <div class="col-sm-4">
+                                <div class="form-group {% if form.metodo_sucursal.errors %} has-error {% endif %}">
+
+                                <label class="control-label">
+                                <i class="fa {% if form.metodo_sucursal.errors %} fa-asterisk {% endif %}"></i> 
+                                    Centro de costos
+                                </label>
+                                <p>
+                                    {{ form.metodo_sucursal }} 
+                                </p>
+                                {% for error in form.metodo_sucursal.errors %}
+                                    <span class="help-block">{{ error }}</span>
+                                {% endfor %}
+                                </div>
+                            </div>
+
+                            <!-- grup_nomina_jde -->
+                            <div class="col-sm-4">
+                                <div class="form-group {% if form.grup_nomina_jde.errors %} has-error {% endif %}">
+
+                                <label class="control-label">
+                                <i class="fa {% if form.grup_nomina_jde.errors %} fa-asterisk {% endif %}"></i> 
+                                    Nómina
+                                </label>
+                                <div id="botones_radio">
+                                {% for radio in form.grup_nomina_jde %}
+                                    <div class="be-radio">
+                                      {{ radio.tag }}
+                                      <label for="{{ radio.id_for_label }}">{{ radio.choice_label }}</label>
+                                    </div>
+                                {% endfor %}
+                                </div>
+                                {% for error in form.grup_nomina_jde.errors %}
+                                    <span class="help-block">{{ error }}</span>
+                                {% endfor %}
+                                </div>
+                            </div>
+                        
+                        </div>
+                        <button type="button" id="boton_limpiar" class="btn btn-default pull-left">
+                            <i class="fa fa-eraser"></i>
+                            Limpiar
+                        </button>
+
+                        <button type="button" id="boton_buscar" class="btn nova-btn btn-primary btn-lg pull-right" method='POST'>
+                            <i class="icon icon-left mdi mdi-search nova-white"></i>
+                            Buscar
+                        </button>
+                    </form>
+                </div> <!-- Panel Body -->
+            </div>  <!-- Panel -->
+        </div>  <!-- col-sm-12 -->
+        
+        {% if True %}<!--Preguntar si al cargar la ventana va a estar oculto el grid-->
+        <div class="col-sm-12">
+            <div class="panel panel-default panel-table">
+                <div class="panel-heading panel-border nova-panel-heading">
+                    <div class="tools pull-right" id="toolbar">
+                        <button class="btn nova-btn btn-rounded btn-space btn-success" id="boton_excel">
+                            <i class="icon icon-left mdi mdi-download nova-white"></i>Exportar
+                        </button>
+                    </div>
+                    <div class="title hidden-xs">Registros</div>
+                </div><!-- Panel Heading -->
+                <div id="grid_resultados">
+                </div>
+                <div class="panel-footer panel-border nova-panel-footer panel-border">
+                </div><!-- Panel Footer -->
+            </div> <!-- Panel -->
+        </div><!-- col sm 12-->
+        {% endif %}
+    </div>
+</div>
+
+{% endblock contenido %}
+
+{% block scripts %}
+    <!-- Kendo Js -->
+    <script src="{% static 'libs/kendo/2015.2.624/js/cultures/kendo.culture.es-MX.min.js' %}"></script>
+    <script src="{% static 'libs/kendo/2015.2.624/js/kendo.web.min.js' %}"></script>
+
+    <!-- Moment -->
+    <script src="{% static 'libs/momentjs/2.18.1/moment.js' %}"></script>    
+
+    <!-- Theme -->
+    <script src="{% static 'theme/lib/jquery-ui/jquery-ui.min.js' %}"></script>
+    <script src="{% static 'theme/lib/datetimepicker/js/bootstrap-datetimepicker.min.js' %}"></script>
+    <script src="{% static 'theme/lib/datetimepicker/js/locales/bootstrap-datetimepicker.es.js' %}"></script>
+    <script src="{% static 'theme/lib/daterangepicker/js/daterangepicker.js' %}"></script>
+    <script src="{% static 'theme/lib/select2/js/select2.min.js' %}"></script>
+    <script src="{% static 'theme/lib/select2/js/select2.full.min.js' %}"></script>
+
+    <!-- NOVA -->
+    <script src="{% static 'empleados/empleados_filtro.js' %}"></script>
+
+{% endblock scripts %}
+
