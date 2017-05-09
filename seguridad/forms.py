@@ -6,7 +6,6 @@ from django import forms
 # Forms django
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.forms import AdminPasswordChangeForm
-from django.contrib.auth.forms import PasswordChangeForm
 
 # Fields
 from django.forms import TextInput
@@ -34,6 +33,7 @@ class UserFormFilter(forms.Form):
         label="Fecha de creación mayor a:")
     usuario__date_joined_menorque = CharField(
         label="Fecha de creación menor a:")
+
 
 class UserNuevoForm(UserCreationForm):
     clave_rh = ChoiceField(label="Clave de empleado:", widget=Select(
@@ -114,6 +114,7 @@ class UserNuevoForm(UserCreationForm):
             )
         return valores
 
+
 class UserAltaForm(UserCreationForm):
     clave_rh = ChoiceField(label="Clave de empleado:", widget=Select(
         attrs={'class': 'form-control input-xs'}))
@@ -187,6 +188,7 @@ class UserAltaForm(UserCreationForm):
             )
         return valores
 
+
 class UserEditarForm(ModelForm):
     clave_rh = CharField(label="Clave de empleado:", widget=TextInput(
         attrs={'class': 'form-control input-xs', 'readonly': 'True'}))
@@ -239,6 +241,7 @@ class UserEditarForm(ModelForm):
         self.fields['fecha_nacimiento'].required = False
         self.fields['foto'].required = False
 
+
 class UserEditarPerfilForm(ModelForm):
     clave_rh = CharField(label="Clave de empleado:", widget=TextInput(
         attrs={'class': 'form-control input-xs', 'readonly': 'True'}))
@@ -283,6 +286,7 @@ class UserEditarPerfilForm(ModelForm):
         self.fields['clave_jde'].required = False
         self.fields['fecha_nacimiento'].required = False
         self.fields['foto'].required = False
+
 
 class UserContrasenaNuevaForm(AdminPasswordChangeForm):
     password1 = CharField(label='Nueva contraseña', widget=PasswordInput(

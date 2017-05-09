@@ -1,7 +1,6 @@
 # Django API REST
 from rest_framework import filters
 from django_filters import CharFilter
-from django_filters import DateFilter
 
 # Modelos:
 from .models import Profile
@@ -49,7 +48,6 @@ class ProfileFilter(filters.FilterSet):
             'usuario__date_joined_mayorque',
             'usuario__date_joined_menorque',
         ]
-
 
     def filter_date_joined_mayorque(self, queryset, name, value):
 

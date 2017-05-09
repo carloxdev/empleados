@@ -35,7 +35,7 @@ from .forms import UserEditarForm
 from .forms import UserEditarPerfilForm
 from .forms import UserContrasenaActualForm
 from .forms import UserContrasenaNuevaForm
-#from .forms import UserAltaForm
+
 
 class Login(View):
     def __init__(self):
@@ -130,7 +130,6 @@ class UsuarioNuevo(View):
                 usuario.is_active = datos_formulario.get('is_active')
                 usuario.is_staff = datos_formulario.get('is_staff')
                 usuario.is_superuser = datos_formulario.get('is_superuser')
-
                 usuario.save()
 
                 usuario.profile.clave_rh = datos_formulario.get('clave_rh')
@@ -138,7 +137,6 @@ class UsuarioNuevo(View):
                 usuario.profile.fecha_nacimiento = datos_formulario.get(
                     'fecha_nacimiento')
                 usuario.profile.foto = datos_formulario.get('foto')
-
                 usuario.profile.save()
 
                 return redirect(reverse('seguridad:usuario_lista'))
@@ -203,14 +201,13 @@ class UsuarioEditar(View):
             usuario.is_active = datos_formulario.get('is_active')
             usuario.is_staff = datos_formulario.get('is_staff')
             usuario.is_superuser = datos_formulario.get('is_superuser')
-
             usuario.save()
 
             usuario.profile.clave_rh = datos_formulario.get('clave_rh')
             usuario.profile.clave_jde = datos_formulario.get('clave_jde')
             usuario.profile.fecha_nacimiento = usuario.profile.fecha_nacimiento
 
-            if datos_formulario.get('foto') != None:
+            if datos_formulario.get('foto') is not None:
                 usuario.profile.foto = datos_formulario.get('foto')
 
             usuario.profile.save()
@@ -247,7 +244,7 @@ class UsuarioCambiarContrasenaAdmin(LoginRequiredMixin, View):
         form_contrasena = UserContrasenaNuevaForm(usuario, request.POST)
 
         if form_contrasena.is_valid():
-            user = form_contrasena.save()
+            usuario = form_contrasena.save()
             if usuario.id == request.user.id:
                 update_session_auth_hash(request, form_contrasena.user)
             return redirect(reverse('seguridad:usuario_lista'))
@@ -286,7 +283,6 @@ class UsuarioEditarPerfil(View):
                 'foto': usuario_id.profile.foto,
             }
         )
-
         contexto = {
             'form': form_usuario,
             'foto': self.obtener_UrlImagen(usuario_id.profile.foto),
@@ -305,7 +301,6 @@ class UsuarioEditarPerfil(View):
             usuario.first_name = datos_formulario.get('first_name')
             usuario.last_name = datos_formulario.get('last_name')
             usuario.email = datos_formulario.get('email')
-
             usuario.save()
 
             usuario.profile.clave_rh = datos_formulario.get('clave_rh')
@@ -313,7 +308,7 @@ class UsuarioEditarPerfil(View):
             usuario.profile.fecha_nacimiento = usuario.profile.fecha_nacimiento
             print datos_formulario.get('foto')
 
-            if datos_formulario.get('foto') != None:
+            if datos_formulario.get('foto') is not None:
                 usuario.profile.foto = datos_formulario.get('foto')
 
             usuario.profile.save()
@@ -355,8 +350,8 @@ class UsuarioCambiarContrasenaPerfil(LoginRequiredMixin, View):
         if form_contrasena_actual.is_valid() and form_contrasena_nueva.is_valid():
             dato_contrasena_actual = form_contrasena_actual.cleaned_data
 
-            if usuario.check_password(dato_contrasena_actual.get('contrasena_actual')) == True:
-                user = form_contrasena_nueva.save()
+            if usuario.check_password(dato_contrasena_actual.get('contrasena_actual')) is True:
+                usuario = form_contrasena_nueva.save()
                 update_session_auth_hash(request, form_contrasena_nueva.user)
                 return redirect(reverse('home:inicio'))
             else:
@@ -367,4 +362,3 @@ class UsuarioCambiarContrasenaPerfil(LoginRequiredMixin, View):
             'form2': form_contrasena_nueva,
         }
         return render(request, self.template_name, contexto)
-
