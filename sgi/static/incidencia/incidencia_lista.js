@@ -5,13 +5,13 @@
 \*-----------------------------------------------*/
 
 // URLS:
-var url_incidenciadocumento = window.location.origin + "/api/incidenciadocumento/"
-var url_incidenciadocumento_bypage = window.location.origin + "/api/incidenciadocumento_bypage/"
+var url_incidenciadocumento = window.location.origin + "/api-sgi/incidenciadocumento/"
+var url_incidenciadocumento_bypage = window.location.origin + "/api-sgi/incidenciadocumento_bypage/"
 var url_incidencia_editar = window.location.origin + "/incidencias/"
 //var url_incidencia_editar = ""
 var url_anexos = window.location.origin + "/incidencias/incidencia_id/archivos/"
 var url_seguimiento = window.location.origin + "/incidencias/incidencia_id/seguimiento/"
-var url_excel = window.location.origin + "/api/incidenciadocumento/"
+var url_excel = window.location.origin + "/api-sgi/incidenciadocumento/"
 
 
 // OBJS

@@ -78,11 +78,14 @@ class CentroAtencionSerializer(serializers.HyperlinkedModelSerializer):
 class IncidenciaArchivoSerializer(serializers.HyperlinkedModelSerializer):
 
     #tipo = serializers.SerializerMethodField()
+    id = serializers.SerializerMethodField()
 
     class Meta:
         model = IncidenciaArchivo
         fields = (
-            'pk',
+            'url',
+            'id',
+            'incidencia',
             'tipo',
             'archivo',
             'created_by',
@@ -90,6 +93,12 @@ class IncidenciaArchivoSerializer(serializers.HyperlinkedModelSerializer):
             'updated_by',
             'updated_date',
         )
+
+    def get_id(self, obj):
+        try:
+            return obj.id.tag
+        except:
+            return ""    
 
     # def get_tipo(self, obj):
 

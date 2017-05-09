@@ -3,7 +3,7 @@
 \*-----------------------------------------------*/
 
 // URLS
-var url_eliminar = window.location.origin + "/api/incidenciaarchivo/"
+var url_eliminar = window.location.origin + "/api-sgi/incidenciaarchivo/"
 
 // OBJS
 var item = null
@@ -35,11 +35,11 @@ TargetaItem.prototype.init = function () {
 }
 TargetaItem.prototype.eliminar = function (e) {
 
-	var id_anexo = e.currentTarget.dataset.action
+	var id = e.currentTarget.dataset.action
 
-	var url = url_eliminar + id_anexo
+	var url = url_eliminar + id + "/"
 
-	alert(id_anexo)
+	alert(id)
 	console.log("entro")
 	console.log(url)
 
@@ -48,16 +48,16 @@ TargetaItem.prototype.eliminar = function (e) {
 		method: "DELETE",
 		success: function (response) {
 
-			e.data.remover(id_anexo)
+			e.data.remover(id)
 		},
 		error: function(response){
 			alertify.error("Ocurrio error al eliminar")
 		}                    
 	})
 }
-TargetaItem.prototype.remover = function (_id_anexo) {
+TargetaItem.prototype.remover = function (_id) {
 
-	nodo = $("?" + id)
+	nodo = $("#" + _id)
 	nodo.remove()
 }
 
