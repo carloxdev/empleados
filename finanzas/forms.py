@@ -146,9 +146,9 @@ class ViaticoCabeceraNuevoForm(ModelForm):
             'proposito_viaje',
         ]
 
-        # widget = {
-        #     'proposito_viaje' : Textarea(attrs)
-        # }
+        widgets = {
+            'proposito_viaje': Textarea(attrs={'class': 'form-control'}),
+        }
 
     def __init__(self, *args, **kwargs):
         super(ViaticoCabeceraNuevoForm, self).__init__(*args, **kwargs)

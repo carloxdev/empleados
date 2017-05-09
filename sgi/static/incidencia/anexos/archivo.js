@@ -45,6 +45,7 @@ TargetaItem.prototype.eliminar = function (e) {
 
 	$.ajax({
 		url: url,
+		headers: { "X-CSRFToken": galletita },
 		method: "DELETE",
 		success: function (response) {
 
