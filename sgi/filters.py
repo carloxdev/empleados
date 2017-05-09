@@ -125,16 +125,15 @@ class CentroAtencionFilter(filters.FilterSet):
 
 class IncidenciaArchivoFilter(filters.FilterSet):
 
-    id_emp = CharFilter(
-        name="pers_empleado_numero",
+    id = CharFilter(
+        name="id",
         lookup_expr="icontains"
     )
 
     class Meta:
         model = IncidenciaArchivo
         fields = [
-            'id_emp', 
-            'tipo', 
+            'id',
         ]               
 
 class IncidenciaResolucionFilter(filters.FilterSet):

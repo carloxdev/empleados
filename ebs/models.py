@@ -68,7 +68,7 @@ class VIEW_EMPLEADOS_FULL(models.Model):
     pers_email = models.CharField(max_length=240)
     pers_estado_civil = models.CharField(max_length=30)
     pers_estado_civil_desc = models.CharField(max_length=7)
-    pers_fecha_contratacion = models.CharField(max_length=8)
+    pers_fecha_contratacion = models.DateField()
     asig_clave = models.IntegerField()
     asig_empleado_numero = models.CharField(max_length=30)
     asig_persona_clave = models.IntegerField()

@@ -10,10 +10,7 @@ from django.views.generic.base import View
 from django.core.urlresolvers import reverse
 
 
-
 # Librerias/Clases de Terceros
-from rest_framework import viewsets
-from django_filters.rest_framework import DjangoFilterBackend
 
 
 # Librerias/Clases propias
@@ -35,22 +32,6 @@ from .forms import IncidenciaDocumentoForm
 from .forms import IncidenciaDocumentoFilterForm
 from .forms import IncidenciaArchivoForm
 from .forms import IncidenciaResolucionForm
-
-# Serializadores:
-from .serializers import IncidenciaDocumentoSerializer
-from .serializers import IncidenciaTipoSerializer
-from .serializers import CentroAtencionSerializer
-from .serializers import IncidenciaArchivoSerializer
-from .serializers import IncidenciaResolucionSerializer
-
-# Filtros:
-from home.pagination import GenericPagination
-
-# Paginacion:
-from .filters import IncidenciaDocumentoFilter
-from .filters import IncidenciaDocumentoFilter
-from .filters import IncidenciaArchivoFilter
-from .filters import IncidenciaResolucionFilter
 
 #from django.core.mail import send_mail
 # from django.shortcuts import get_object_or_404
@@ -127,7 +108,7 @@ class IncidenciaDocumentoNuevo(View):
             #send_mail("Subject", "Email body", settings.EMAIL_HOST_USER, "janexa@gmail.com", fail_silently=False)
 
             return redirect(reverse('sgi:incidencia_lista'))
-            #return redirect(reverse('incidencia_archivo', kwargs={'incidencia_id': id_incidencia}))
+            # return redirect(reverse('incidencia_archivo', kwargs={'incidencia_id': id_incidencia}))
 
         contexto = {
             'form': formulario
@@ -307,6 +288,7 @@ class IncidenciaDocumentoArchivo(View):
 
         return render(request, self.template_name, contexto)
 
+
 class IncidenciaResolucionNuevo(View):
 
     def __init__(self):
@@ -331,7 +313,6 @@ class IncidenciaResolucionNuevo(View):
         }
 
         return render(request, self.template_name, contexto)
- 
 
     def post(self, request, incidencia_id):
 
@@ -355,52 +336,3 @@ class IncidenciaResolucionNuevo(View):
 
         return render(request, self.template_name, contexto)
 
-       
-
-
-
-# -------------- INCIDENCIA DOCUMENTO - API REST -------------- #
-
-class IncidenciaDocumentoAPI(viewsets.ModelViewSet):
-    queryset = IncidenciaDocumento.objects.all()
-    serializer_class = IncidenciaDocumentoSerializer
-    filter_backends = (DjangoFilterBackend,)
-    filter_class = IncidenciaDocumentoFilter
-
-
-class IncidenciaDocumentoByPageAPI(viewsets.ModelViewSet):
-    queryset = IncidenciaDocumento.objects.all()
-    serializer_class = IncidenciaDocumentoSerializer
-    filter_backends = (DjangoFilterBackend,)
-    filter_class = IncidenciaDocumentoFilter
-    pagination_class = GenericPagination
-
-# -------------- INCIDENCIA ANEXO - API REST -------------- #
-
-
-class IncidenciaArchivoByPageAPI(viewsets.ModelViewSet):
-    queryset = IncidenciaArchivo.objects.all()
-    serializer_class = IncidenciaArchivoSerializer
-    filter_backends = (DjangoFilterBackend,)
-    filter_class = IncidenciaArchivoFilter
-    pagination_class = GenericPagination
-
-
-# -------------- INCIDENCIA TIPO - API REST -------------- #
-
-class IncidenciaTipoAPI(viewsets.ModelViewSet):
-    queryset = IncidenciaTipo.objects.all()
-    serializer_class = IncidenciaTipoSerializer
-
-
-class CentroAtencionAPI(viewsets.ModelViewSet):
-    queryset = CentroAtencion.objects.all()
-    serializer_class = CentroAtencionSerializer
-
-
-# -------------- INCIDENCIA RESOLUCION - API REST -------------- #
-
-class IncidenciaResolucionAPI(viewsets.ModelViewSet):
-    queryset = IncidenciaResolucion.objects.all()
-    serializer_class = IncidenciaResolucionSerializer
-        

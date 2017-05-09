@@ -28,7 +28,6 @@
 
     <input type="text" id="url_viaticocabecera_editar" class="hidden" value="{% url 'finanzas:viatico_editar' 0 %}">
 
-
 	<div class="page-head nova-page-head">
 		<h2 class="page-head-title nova-title">Solicitudes de Viaticos</h2>
 		<ol class="breadcrumb page-head-nav pull-right">
@@ -38,33 +37,39 @@
 	</div>
 
     <!-- Targeta Resultados -->
-    <div class="main-content container-fluid nova-main-content">  
-		<div class="col-md-12 nova-col">
-                <div class="panel panel-default panel-table">
-                    <div class="panel-heading panel-border nova-panel-heading"> 
-                        <div class="tools pull-right nova-tools" id="toolbar">
+    <div class="main-content container-fluid nova-main-content">
 
-                            <a href="{% url 'finanzas:viatico_nuevo' %}" 
-                                class="btn nova-btn btn-rounded btn-space btn-default" id="boton_nuevo">
-                                <i class="icon icon-left mdi mdi-plus-circle nova-black"></i>Nuevo 
-                            </a>
+     <!-- <div class="main-content container nova-main-content">    -->
+    
+        <div class="row">
+            <div class="col-xs-12 nova-col">
+                    <div class="panel panel-default panel-table">
+                        <div class="panel-heading panel-border nova-panel-heading"> 
+                            <div class="tools pull-right nova-tools" id="toolbar">
 
-                            <a href="#tarjeta_filtros" 
-                                class="btn nova-btn btn-rounded btn-space btn-primary" data-toggle="modal" id="boton_filtros">
-                                <i class="icon icon-left mdi mdi-search nova-white"></i>Filtros
-                            </a>
+                                <a href="{% url 'finanzas:viatico_nuevo' %}" 
+                                    class="btn nova-btn btn-rounded btn-space btn-default" id="boton_nuevo">
+                                    <i class="icon icon-left mdi mdi-plus-circle nova-black"></i>Nuevo 
+                                </a>
 
-                            <button class="btn nova-btn btn-rounded btn-space btn-success" id="boton_excel">
-                                <i class="icon icon-left mdi mdi-download nova-white"></i>Exportar
-                            </button>
-                        </div>
-                        <div class="title hidden-xs">Registros</div>
-                    </div><!-- Panel Heading -->
+                                <a href="#tarjeta_filtros" 
+                                    class="btn nova-btn btn-rounded btn-space btn-primary" data-toggle="modal" id="boton_filtros">
+                                    <i class="icon icon-left mdi mdi-search nova-white"></i>Filtros
+                                </a>
 
-                    <div id="grid_resultados">
-                    </div><!-- "Panel Body" -->
-              </div> <!-- Panel -->
-        </div><!-- col md 12 -->
+                                <button class="btn nova-btn btn-rounded btn-space btn-success" id="boton_excel">
+                                    <i class="icon icon-left mdi mdi-download nova-white"></i>Exportar
+                                </button>
+                            </div>
+                            <div class="title hidden-xs">Registros</div>
+                        </div><!-- Panel Heading -->
+
+                        <div id="grid_resultados">
+                        </div><!-- "Panel Body" -->
+                  </div> <!-- Panel -->
+            </div><!-- col md 12 -->            
+        </div>
+
 	</div>
 
     <!-- Targeta Filtros -->

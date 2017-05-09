@@ -27,24 +27,6 @@ from .models import Profile
 # Otros Modelo
 from django.contrib.auth.models import User
 
-# Librerias de Terceros:
-# Django API Rest
-from rest_framework import viewsets
-from django_filters.rest_framework import DjangoFilterBackend
-
-# Serializadores:
-from .serializers import UserSerializer
-from .serializers import ProfileSerializer
-
-# Filters:
-from .filters import ProfileFilter
-
-# Paginacion
-from .pagination import GenericPagination
-
-# Modelos:
-from .models import User
-from .models import Profile
 
 # Formularios:
 from .forms import UserFormFilter
@@ -55,6 +37,11 @@ from .forms import UserContrasenaActualForm
 from .forms import UserContrasenaNuevaForm
 from .forms import UserAltaForm
 
+<<<<<<< HEAD
+=======
+from django.contrib.auth.forms import PasswordChangeForm
+
+>>>>>>> origin/master
 
 class Login(View):
 
@@ -230,8 +217,12 @@ class UsuarioEditar(View):
             usuario.profile.clave_jde = datos_formulario.get('clave_jde')
             usuario.profile.fecha_nacimiento = usuario.profile.fecha_nacimiento
 
+<<<<<<< HEAD
             # Si el campo foto es diferente de None guardara la imagen nueva
             # que recibio.
+=======
+            # Si el campo foto es diferente de None guardara la imagen nueva que recibio.
+>>>>>>> origin/master
             if datos_formulario.get('foto') != None:
                 usuario.profile.foto = datos_formulario.get('foto')
 
@@ -318,8 +309,12 @@ class UsuarioEditarPerfil(View):
     def post(self, request, pk):
         usuario = get_object_or_404(User, pk=pk)
 
+<<<<<<< HEAD
         form_usuario = UserEditarPerfilForm(
             request.POST, request.FILES, instance=usuario)
+=======
+        form_usuario = UserEditarPerfilForm(request.POST, request.FILES, instance=usuario)
+>>>>>>> origin/master
 
         if form_usuario.is_valid():
 
@@ -336,8 +331,12 @@ class UsuarioEditarPerfil(View):
             usuario.profile.fecha_nacimiento = usuario.profile.fecha_nacimiento
             print datos_formulario.get('foto')
 
+<<<<<<< HEAD
             # Si el campo foto es diferente de None guardara la imagen nueva
             # que recibio.
+=======
+            # Si el campo foto es diferente de None guardara la imagen nueva que recibio.
+>>>>>>> origin/master
             if datos_formulario.get('foto') != None:
                 usuario.profile.foto = datos_formulario.get('foto')
 
@@ -392,6 +391,7 @@ class UsuarioCambiarContrasenaPerfil(LoginRequiredMixin, View):
             'form2': form_contrasena_nueva,
         }
         return render(request, self.template_name, contexto)
+<<<<<<< HEAD
 
 
 class UsuarioAlta(View):
@@ -437,3 +437,5 @@ class ProfileByPageAPI(viewsets.ModelViewSet):
     filter_backends = (DjangoFilterBackend,)
     filter_class = ProfileFilter
     pagination_class = GenericPagination
+=======
+>>>>>>> origin/master

@@ -1,5 +1,7 @@
 {% extends 'master.html' %}
 
+{# {% load filename %} #}
+
 {% load static from staticfiles %}
 
 {% block titulo %} Incidencia {% endblock titulo %}
@@ -86,6 +88,8 @@
 							    </div>
 							</div>
 
+
+
 								{% if form.errors %}
 								    {% for field in form %}
 								        {% for error in field.errors %}
@@ -116,17 +120,57 @@
             </div>	<!-- Panel -->
 		</div>	<!-- col-sm-12 -->
 
-        <div class="col-sm-12">
+        
+
+ <div class="main-content container-fluid">  
+ 	<div class="col-sm-6">
+	  <div class="panel panel-border panel-contrast">
+        <div class="row">
+            <div class="col-md-12">
+              <div class="panel">
+                <div class="panel-heading panel-heading-divider">Archivos Incidencia<span class="panel-subtitle">Puedes Eliminar o Descargar el archivo</span></div>
+                      <div class="box box-solid">
+                 
+                        {% for anexo in anexos %}
+							
+								<div class="box box-solid">
+									<div class="box-header with-border">
+					              			<div class="pull-right">
+					              				<button data-action="{{ anexo.incidencia }}" class="btn btn-danger btn-sm"><i class="fa fa-trash" title="Eliminar"></i></button>
+					            			</div>	
+					            		 
+					              			<i class="fa fa-file-o"></i>
+					              			<p>
+					              			{{ anexo.archivo }}
+					              			</p>
+					              			
+					              			<!-- /.box-header -->
+								            <div class="box-body">
+								            	<a href="{{MEDIA_URL}}{{ anexo.archivo }}" download=""><p align="center"><strong align="center">{{ anexo.archivo}}</strong></p></a>
+								            </div>
+						            		<!-- /.box-body -->
+					            	</div>
+					            </div>	
+			        			
+			        	{% endfor %}
+                     </div>
+                </div>
+              </div>
+            </div>
+        </div>
+    </div>
+ </div>
+
+  <!-- <div class="col-sm-12">
             {% for anexo in anexos %}
             <p>
             {{anexo.tipo}} - {{anexo.archivo}}
             </p>
             {% endfor %}
+  </div> -->
 
-        </div>
-    </div>
 
-	
+	</div>
 {% endblock contenido %}
 
 {% block scripts %}
@@ -143,7 +187,7 @@
     <script src="{% static 'theme/lib/select2/js/select2.min.js' %}"></script>
 
 	<!-- NOVA -->
-	<!--<script src="{% static 'incidencia/incidencia_formulario.js' %}"></script> -->
+	<script src="{% static 'incidencia/anexos/archivo.js' %}"></script>
 
 
 {% endblock scripts %}

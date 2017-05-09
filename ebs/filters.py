@@ -90,12 +90,12 @@ class VIEW_EMPLEADOS_FULL_Filter(filters.FilterSet):
         lookup_expr="icontains"
     )
     pers_fecha_contratacion_desde = CharFilter(
-        name="pers_fecha_contratacion_desde",
-        method="pers_filter_fecha_desde"
+        name="pers_fecha_contratacion",
+        lookup_expr="gte"
     )
     pers_fecha_contratacion_hasta = CharFilter(
-        name="pers_fecha_contratacion_hasta",
-        method="pers_filter_fecha_hasta"
+        name="pers_fecha_contratacion",
+        lookup_expr="lte"
     )
     grup_compania_jde = CharFilter(
         name="grup_compania_jde",
@@ -202,27 +202,3 @@ class VIEW_EMPLEADOS_FULL_Filter(filters.FilterSet):
             'metodo_tipo_cuenta_id',
             'metodo_clabe',
         ]
-
-    def pers_filter_fecha_desde(self, queryset, name, value):
-
-        valor = "{}T00:00:00".format(value)
-
-        if not value:
-
-            return queryset
-        else:
-
-            consulta = queryset.filter(pers_fecha_contratacion__gte=valor)
-
-            return consulta
-
-    def pers_filter_fecha_hasta(self, queryset, name, value):
-
-        valor = "{}T23:59:59".format(value)
-
-        if not value:
-            return queryset
-        else:
-            consulta = queryset.filter(pers_fecha_contratacion__lte=valor)
-
-            return consulta

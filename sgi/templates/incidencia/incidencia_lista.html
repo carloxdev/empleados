@@ -61,7 +61,7 @@
                                 <i class="icon icon-left mdi mdi-search nova-white"></i>Filtros
                             </a>
 
-                            <button class="btn nova-btn btn-rounded btn-space btn-success" id="boton_excel">
+                            <button class="btn nova-btn btn-rounded btn-space btn-success" id="boton_exportar">
                                 <i class="icon icon-left mdi mdi-download nova-white"></i>Exportar
                             </button>
                         </div>
@@ -153,6 +153,8 @@
 
 {% block scripts %}
 
+    <!--JSZIP -->
+    <script src="{% static 'libs/kendo/2015.2.624/js/jszip.min.js' %}"></script>
     <!-- Kendo Js -->
     <script src="{% static 'libs/kendo/2015.2.624/js/cultures/kendo.culture.es-MX.min.js' %}"></script>
     <script src="{% static 'libs/kendo/2015.2.624/js/kendo.web.min.js' %}"></script>

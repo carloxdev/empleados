@@ -118,65 +118,48 @@ class ViaticoFilterForm(Form):
         return valores
 
 
-class ViaticoCabeceraForm(ModelForm):
+class ViaticoCabeceraNuevoForm(ModelForm):
+
+    empleado_clave = ChoiceField(
+        label="Empleado",
+        widget=Select(
+            attrs={'class': 'form-control input-xs'}
+        )
+    )
 
     class Meta:
         model = ViaticoCabecera
 
         fields = [
             'empleado_clave',
-            'empleado_descripcion',
+            # 'unidades_negocio_clave',
             'fecha_partida',
             'fecha_regreso',
-            'unidad_negocio',
-            'ciudad_destino',
-            'proposito_viaje',
-            'empresa_clave',
-            'empresa_descripcion',
-            'rfc',
-            'direccion',
-            'grupo',
-            'autorizador',
-            'status',
         ]
 
-        labels = {
-            'empleado': 'Empleado',
-            'fecha_partida': 'Fecha de partida',
-            'fecha_regreso': 'Fecha de regreso',
-            'unidad_negocio': 'Unidad de negocio',
-            'ciudad_destino': 'Ciudad de destino',
-            'proposito_viaje': 'Proposito del viaje',
-            # 'empresa_clave': 'Empresa',
-            # 'empresa_descripcion': 'Empresa Descri',
-            'rfc': 'RFC',
-            'direccion': 'Dirección',
-            'grupo': 'Grupo',
-            'autorizador': 'Autorizador',
-            'status': 'Estado',
-        }
+    def __init__(self, *args, **kwargs):
+        super(ViaticoCabeceraNuevoForm, self).__init__(*args, **kwargs)
+        self.fields['empleado_clave'].choices = self.get_EmpleadosEbs()
+        # self.fields['unidades_negocio_clave'].choices = self.get_CentrosCostoJde()
 
-        widgets = {
-            'empleado_clave': TextInput(attrs={'class': 'form-control input-xs'}),
-            'fecha_partida': TextInput(attrs={
-                'class': 'form-control input-xs',
-                'data-date-format': 'yyyy-mm-dd'
-            }),
-            'fecha_regreso': TextInput(attrs={
-                'class': 'form-control input-xs',
-                'data-date-format': 'yyyy-mm-dd'
-            }),
-            'unidad_negocio': TextInput(attrs={'class': 'form-control input-xs'}),
-            'ciudad_destino': TextInput(attrs={'class': 'form-control input-xs'}),
-            'proposito_viaje': Textarea(attrs={'class': 'form-control input-xs'}),
-            'empresa_clave': TextInput(attrs={'class': 'form-control input-xs'}),
-            'empresa_descripcion': TextInput(attrs={'class': 'form-control input-xs'}),
-            'rfc': TextInput(attrs={'class': 'form-control input-xs'}),
-            'direccion': TextInput(attrs={'class': 'form-control input-xs'}),
-            'grupo': TextInput(attrs={'class': 'form-control input-xs'}),
-            'autorizador': TextInput(attrs={'class': 'form-control input-xs'}),
-            'status': TextInput(attrs={'class': 'form-control input-xs'}),
-        }
+    def get_EmpleadosEbs(self):
+        valores = [('', '-------')]
+
+        empleados = VIEW_EMPLEADOS_SIMPLE.objects.using('ebs_d').all()
+        for empleado in empleados:
+
+            descripcion = "%s - %s" % (
+                empleado.pers_empleado_numero,
+                empleado.pers_nombre_completo
+            )
+
+            valores.append(
+                (
+                    empleado.pers_empleado_numero,
+                    descripcion,
+                )
+            )
+        return valores
 
 
 class ViaticoLineaForm(Form):

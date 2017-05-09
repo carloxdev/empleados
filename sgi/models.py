@@ -212,21 +212,21 @@ class ResolucionTipo(models.Model):
 class IncidenciaResolucion(models.Model):
 
 
-    STATUS_OPCIONES = (
-        ('abi', 'Abierto'),
-        ('cer', 'Cerrado'),
-        ('pro', 'Proceso'),
-        ('can', 'Cancelado'),
-    )
+    # STATUS_OPCIONES = (
+    #     ('abi', 'Abierto'),
+    #     ('cer', 'Cerrado'),
+    #     ('pro', 'Proceso'),
+    #     ('can', 'Cancelado'),
+    # )
 
     incidencia = models.ForeignKey(IncidenciaDocumento)
     mensaje = models.TextField(blank=True, null=True)
     tipo = models.ForeignKey(ResolucionTipo, null=True, blank=True)
-    status = models.CharField(
-        choices=STATUS_OPCIONES,
-        default="abi",
-        max_length=3
-    )
+    # status = models.CharField(
+    #     choices=STATUS_OPCIONES,
+    #     default="abi",
+    #     max_length=3
+    # )
 
     created_by = models.ForeignKey(Profile, related_name='ire_created_by')
     created_date = models.DateTimeField(

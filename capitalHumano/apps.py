@@ -4,4 +4,4 @@ from django.apps import AppConfig
 
 
 class CapitalhumanoConfig(AppConfig):
-    name = 'capitalHumano'
+    name = 'capitalhumano'
