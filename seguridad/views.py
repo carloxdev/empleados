@@ -368,17 +368,3 @@ class UsuarioCambiarContrasenaPerfil(LoginRequiredMixin, View):
         }
         return render(request, self.template_name, contexto)
 
-
-class UsuarioAlta(View):
-
-    def __init__(self):
-        self.template_name = 'usuarios/usuario_alta.html'
-
-    def get(self, request):
-
-        form = UserAltaForm()
-
-        contexto = {
-            'form': form,
-        }
-        return render(request, self.template_name, contexto)
