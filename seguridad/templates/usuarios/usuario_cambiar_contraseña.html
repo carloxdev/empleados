@@ -15,6 +15,7 @@
 {% endblock css %}
 {% block contenido %}
 <div class="be-content">
+{% if request.user.is_staff == True %}
 <div class="page-head">
 	<h2 class="page-head-title">Cambiar contraseña</h2>
 	<ol class="breadcrumb page-head-nav">
@@ -49,17 +50,15 @@
 										{{form.password2.label}}
 									</label>
 									<p> {{form.password2}} </p>
-									{% for error in form.password2.errors %}
-										<span class="help-block">{{ error }}</span>
-									{% endfor %}
 								</div>
 
 						{% if form.errors %}
+							<div class="alert alert-danger">
 						    {% for field in form %}
 						        {% for error in field.errors %}
-						            <div class="alert alert-danger">
 						                <strong>{{ error|escape }}</strong>
-						            </div>
+						                <br>
+						            
 						        {% endfor %}
 						    {% endfor %}
 						    {% for error in form.non_field_errors %}
@@ -67,20 +66,21 @@
 						            <strong>{{ error|escape }}</strong>
 						        </div>
 						    {% endfor %}
+						    </div>
 						{% endif %}
-						
 
-						{% if request.user.is_staff == False %}
-							<a class="button" href="{% url 'seguridad:usuario_editar_perfil' request.user.id %}"> Regresar </a>
-						{% else %}
-							<a class="button" href="{% url 'seguridad:usuario_editar' user.id %}"> Regresar </a>
-						{% endif %}
+						<a class="button" href="{% url 'seguridad:usuario_editar' user.id %}"> Regresar </a>
 						<button type="submit" class="btn btn-primary" id="id_boton_guardar" >Guardar contraseña</button>
 					</form>
 				</div>
 			</div>
 		</div>
 	</div>
+	{% else%}
+		<div class="col-md-12">
+			<h2> Usted no tiene acceso a esta sección </h2>
+		</div>
+	{% endif %}
 </div>
 {% endblock contenido %}
 {% block scripts %}

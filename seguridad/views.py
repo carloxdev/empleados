@@ -35,7 +35,7 @@ from .forms import UserEditarForm
 from .forms import UserEditarPerfilForm
 from .forms import UserContrasenaActualForm
 from .forms import UserContrasenaNuevaForm
-from .forms import UserAltaForm
+#from .forms import UserAltaForm
 
 class Login(View):
     def __init__(self):
