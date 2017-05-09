@@ -16,6 +16,7 @@ from jde.models import VIEW_UNIDADES
 from ebs.models import VIEW_TIPO_PERSONAS
 from ebs.models import VIEW_PUESTOS
 from ebs.models import VIEW_ORGANIZACIONES
+from administracion.models import Empresa
 
 
 class EmpleadosFilterForm(Form):
@@ -39,7 +40,7 @@ class EmpleadosFilterForm(Form):
     asig_organizacion_clave = ChoiceField(widget=Select(attrs={'class': 'select2 nova-select2'}))
     grup_compania_jde = ChoiceField(widget=Select(attrs={'class': 'select2 nova-select2'}))
     #zona = CharField(widget=TextInput(attrs={'class': 'form-control input-xs'}))
-    metodo_sucursal = ChoiceField(widget=Select(attrs={'class': 'select2 nova-select2'}))
+    grup_fase_jde = ChoiceField(widget=Select(attrs={'class': 'select2 nova-select2'}))
     grup_nomina_jde = ChoiceField(widget=RadioSelect, choices=NOMINA)
 
     def __init__(self, *args, **kwargs):
@@ -49,7 +50,7 @@ class EmpleadosFilterForm(Form):
         self.fields['asig_puesto_clave'].choices = self.get_Puestos()
         self.fields['asig_organizacion_clave'].choices = self.get_Organizacion()
         self.fields['grup_compania_jde'].choices = self.get_Compania()
-        self.fields['metodo_sucursal'].choices = self.get_Sucursal()
+        self.fields['grup_fase_jde'].choices = self.get_Sucursal()
 
     def get_Tipos(self):
 
@@ -103,14 +104,14 @@ class EmpleadosFilterForm(Form):
 
         valores = [('', '-------')]
 
-        companias = VIEW_COMPANIAS.objects.using('jde_p').all()
+        companias = Empresa.objects.all()
 
         for compania in companias:
-
+            print(compania.clave)
             valores.append(
                 (
-                    compania.comp_code,
-                    str(int(compania.comp_code)) + ' - ' + compania.comp_desc,
+                    compania.descripcion_jde,
+                    str(int(compania.clave)) + ' - ' + compania.descripcion,
                 )
             )
         return valores

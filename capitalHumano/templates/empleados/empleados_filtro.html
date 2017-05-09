@@ -252,18 +252,18 @@
                             </div>
                             -->
                             
-                            <!-- metodo_sucursal -->
+                            <!-- grup_fase_jde -->
                             <div class="col-sm-4">
-                                <div class="form-group {% if form.metodo_sucursal.errors %} has-error {% endif %}">
+                                <div class="form-group {% if form.grup_fase_jde.errors %} has-error {% endif %}">
 
                                 <label class="control-label">
-                                <i class="fa {% if form.metodo_sucursal.errors %} fa-asterisk {% endif %}"></i> 
+                                <i class="fa {% if form.grup_fase_jde.errors %} fa-asterisk {% endif %}"></i> 
                                     Centro de costos
                                 </label>
                                 <p>
-                                    {{ form.metodo_sucursal }} 
+                                    {{ form.grup_fase_jde }} 
                                 </p>
-                                {% for error in form.metodo_sucursal.errors %}
+                                {% for error in form.grup_fase_jde.errors %}
                                     <span class="help-block">{{ error }}</span>
                                 {% endfor %}
                                 </div>

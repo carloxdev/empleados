@@ -105,9 +105,9 @@ class VIEW_EMPLEADOS_FULL_Filter(filters.FilterSet):
     #     name="zona",
     #     lookup_expr="icontains"
     # )
-    metodo_sucursal = CharFilter(
-        name="metodo_sucursal",
-        lookup_expr="icontains"
+    grup_fase_jde = CharFilter(
+        name="grup_fase_jde",
+        lookup_expr="exact"
     )
     grup_nomina_jde = CharFilter(
         name="grup_nomina_jde",

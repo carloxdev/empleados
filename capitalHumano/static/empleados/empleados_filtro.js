@@ -2,9 +2,9 @@
             GLOBAL VARIABLES
 \*-----------------------------------------------*/
 
-// URLS:
-var url_empleados_bypage = window.location.origin + "/api/viewempleadosfull_bypage/"
-var url_empleados = window.location.origin + "/api/viewempleadosfull/"
+// URLS:api-ebs/viewempleadosfull/"
+var url_empleados_bypage = window.location.origin + "/api-ebs/viewempleadosfull_bypage/"
+var url_empleados = window.location.origin + "/api-ebs/viewempleadosfull/"
 
 // OBJS
 var tarjeta_filtros = null
@@ -39,7 +39,7 @@ function TarjetaFiltros() {
     this.$id_asig_organizacion_clave = $("#id_asig_organizacion_clave")
     this.$id_grup_compania_jde = $('#id_grup_compania_jde')
     this.$id_zona = $("#id_zona")
-    this.$id_metodo_sucursal = $("#id_metodo_sucursal")
+    this.$id_grup_fase_jde = $("#id_grup_fase_jde")
     this.$id_grup_nomina_jde = $("#id_grup_nomina_jde")
     this.$fecha_contratacion = $("#fecha_contratacion")
     this.$boton_colapsible = $("#boton_colapsible")
@@ -55,7 +55,7 @@ TarjetaFiltros.prototype.init_Components = function () {
     this.$id_asig_puesto_clave.select2(this.get_ConfSelect2())
     this.$id_asig_organizacion_clave.select2(this.get_ConfSelect2())
     this.$id_grup_compania_jde.select2(this.get_ConfSelect2())
-    this.$id_metodo_sucursal.select2(this.get_ConfSelect2())
+    this.$id_grup_fase_jde.select2(this.get_ConfSelect2())
 }
 TarjetaFiltros.prototype.get_ConfDateRangePicker = function () {
 
@@ -136,7 +136,7 @@ TarjetaFiltros.prototype.get_Values = function (_page, _pageSize) {
         pers_fecha_contratacion_hasta: this.$fecha_contratacion.val().split(" al ")[1],
         grup_compania_jde: this.$id_grup_compania_jde.val(),
         zona: this.$id_zona.val(),
-        metodo_sucursal: this.$id_metodo_sucursal.val(),
+        grup_fase_jde: this.$id_grup_fase_jde.val(),
         grup_nomina_jde: $("input[name='grup_nomina_jde']:checked").val(),
     }
 }
@@ -156,7 +156,7 @@ TarjetaFiltros.prototype.get_FiltrosExcel = function () {
         pers_fecha_contratacion_hasta: this.$fecha_contratacion.val().split(" al ")[1],
         grup_compania_jde: this.$id_grup_compania_jde.val(),
         zona: this.$id_zona.val(),
-        metodo_sucursal: this.$id_metodo_sucursal.val(),
+        grup_fase_jde: this.$id_grup_fase_jde.val(),
         grup_nomina_jde: $("input[name='grup_nomina_jde']:checked").val(),
     }
 }
@@ -183,7 +183,7 @@ TarjetaFiltros.prototype.click_BotonLimpiar = function (e) {
     )
     e.data.$id_grup_compania_jde.val(0)
     e.data.$id_zona.val("")
-    e.data.$id_metodo_sucursal.data('select2').val(0)
+    e.data.$id_grup_fase_jde.data('select2').val(0)
     e.data.$id_grup_nomina_jde.prop('checked', false)
 }
 
@@ -300,7 +300,7 @@ ToolBar.prototype.Inicializar_CeldasExcel = function (e) {
             { value: 'metodo_importe_saldo' },
             { value: 'metodo_porcentaje' },
             { value: 'metodo_pago' },
-            { value: 'metodo_sucursal' },
+            { value: 'grup_fase_jde' },
             { value: 'metodo_cuenta' },
             { value: 'metodo_banco' },
             { value: 'metodo_tipo_cuenta_id' },
@@ -399,7 +399,7 @@ ToolBar.prototype.click_BotonExportar = function (e) {
                     { value: data[i].metodo_importe_saldo },
                     { value: data[i].metodo_porcentaje },
                     { value: data[i].metodo_pago },
-                    { value: data[i].metodo_sucursal },
+                    { value: data[i].grup_fase_jde },
                     { value: data[i].metodo_cuenta },
                     { value: data[i].metodo_banco },
                     { value: data[i].metodo_tipo_cuenta_id },
@@ -669,7 +669,7 @@ Grid.prototype.get_Campos = function () {
         metodo_importe_saldo : { type: "number" },
         metodo_porcentaje : { type: "number" },
         metodo_pago : { type: "string" },
-        metodo_sucursal : { type: "string" },
+        grup_fase_jde : { type: "string" },
         metodo_cuenta : { type: "string" },
         metodo_banco : { type: "string" },
         metodo_tipo_cuenta_id : { type: "string" },
@@ -778,7 +778,7 @@ Grid.prototype.get_Columnas = function () {
         { field: "metodo_importe_saldo", title: "metodo_importe_saldo", width: "100px" },
         { field: "metodo_porcentaje", title: "metodo_porcentaje", width: "100px" },
         { field: "metodo_pago", title: "metodo_pago", width: "100px" },
-        { field: "metodo_sucursal", title: "metodo_sucursal", width: "100px" },
+        { field: "grup_fase_jde", title: "grup_fase_jde", width: "100px" },
         { field: "metodo_cuenta", title: "metodo_cuenta", width: "100px" },
         { field: "metodo_banco", title: "metodo_banco", width: "100px" },
         { field: "metodo_tipo_cuenta_id", title: "metodo_tipo_cuenta_id", width: "100px" },
