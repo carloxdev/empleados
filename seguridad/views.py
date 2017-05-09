@@ -8,11 +8,13 @@ from django.shortcuts import render
 from django.shortcuts import redirect
 from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 # Django Seguridad
 from django.contrib import messages
 from django.contrib.auth import authenticate
 from django.contrib.auth import login
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.utils.decorators import method_decorator
 from django.core.exceptions import PermissionDenied
 from django.contrib.auth.decorators import permission_required
@@ -52,7 +54,6 @@ from .forms import UserFormFilter
 from .forms import UserNuevoForm
 from .forms import UserEditarForm
 from .forms import UserEditarPerfilForm
-from .forms import UserContrasenaNuevaPerfilForm
 from .forms import UserContrasenaActualForm
 from .forms import UserContrasenaNuevaForm
 
@@ -246,7 +247,7 @@ class UsuarioEditar(View):
         }
         return render(request, self.template_name, contexto)
 
-class UsuarioCambiarContrasenaAdmin(View):
+class UsuarioCambiarContrasenaAdmin(LoginRequiredMixin,View):
 
     def __init__(self):
         self.template_name = 'usuarios/usuario_cambiar_contraseña.html'
@@ -269,7 +270,9 @@ class UsuarioCambiarContrasenaAdmin(View):
         form_contrasena = UserContrasenaNuevaForm(usuario,request.POST)
 
         if form_contrasena.is_valid():
-            usuario = form_contrasena.save()
+            user = form_contrasena.save()
+            if usuario.id == request.user.id:
+                update_session_auth_hash(request, form_contrasena.user)
             return redirect(reverse('seguridad:usuario_lista'))
 
         contexto = {
@@ -293,8 +296,8 @@ class UsuarioEditarPerfil(View):
 
         return imagen
 
-    def get(self, request):
-        usuario_id = get_object_or_404(User, pk=request.user.id)
+    def get(self, request, pk):
+        usuario_id = get_object_or_404(User, pk=pk)
         form_usuario = UserEditarPerfilForm(
             initial={
                 'first_name': usuario_id.first_name,
@@ -313,9 +316,9 @@ class UsuarioEditarPerfil(View):
         }
         return render(request, self.template_name, contexto)
 
-    def post(self, request):
-        id = request.user.id
-        usuario = get_object_or_404(User, pk=id)
+    def post(self, request, pk):
+        #id = request.user.id
+        usuario = get_object_or_404(User, pk=pk)
         
         form_usuario = UserEditarPerfilForm(request.POST,request.FILES, instance=usuario)
 
@@ -349,7 +352,7 @@ class UsuarioEditarPerfil(View):
         return render(request, self.template_name, contexto)
 
 
-class UsuarioCambiarContrasenaPerfil(View):
+class UsuarioCambiarContrasenaPerfil(LoginRequiredMixin,View):
 
     def __init__(self):
         self.template_name = 'usuarios/usuario_cambiar_contraseña_perfil.html'
@@ -380,11 +383,10 @@ class UsuarioCambiarContrasenaPerfil(View):
 
             if usuario.check_password(dato_contrasena_actual.get('contrasena_actual')) == True:
                 user = form_contrasena_nueva.save()
-                update_session_auth_hash(request, user)
+                update_session_auth_hash(request, form_contrasena_nueva.user)
                 return redirect(reverse('home:inicio'))
             else:
                 messages.error(request, 'La contraseña actual es incorrecta')
-
 
         # if form_contrasena.is_valid():
         #     usuario = form_contrasena.save()

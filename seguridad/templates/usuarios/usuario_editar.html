@@ -23,7 +23,7 @@
 	<ol class="breadcrumb page-head-nav">
 		<li><a href="{% url 'home:inicio' %}">Inicio</a></li>
 		<li><a href="{% url 'seguridad:usuario_lista' %}">Usuarios</a></li>
-		<li><a href="{% url 'seguridad:usuario_editar' user.id %}">Editar usuario</a></li>
+		<li>Editar usuario</li>
 	</ol>
 </div>
 <div class="col-md-12">
@@ -31,7 +31,8 @@
 		<div class="col-md-12">
 			<div class="panel panel-default panel-table">
 				<div class="panel-heading panel-border nova-panel-heading">
-					<div class="title hidden-xs"> Editar usuario</div>
+					<div class="title hidden-xs">Usuario <b>{{ user.username }}</b>
+					</div>
 				</div><!-- Panel Heading -->
 					<div class="panel panel-default panel-table">
 						<form action="" method="POST" enctype="multipart/form-data"> {% csrf_token %}

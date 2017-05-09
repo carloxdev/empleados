@@ -19,7 +19,7 @@
 	<h2 class="page-head-title">Cambiar contraseña</h2>
 	<ol class="breadcrumb page-head-nav">
 		<li><a href="{% url 'home:inicio' %}">Inicio</a></li>
-		<li><a href="{% url 'seguridad:usuario_editar_perfil'%}">Perfil de usuario</a></li>
+		<li><a href="{% url 'seguridad:usuario_editar_perfil' request.user.id %}">Perfil de usuario</a></li>
 		<li>Cambiar contraseña</li>
 	</ol>
 <div class="col-md-12">
@@ -27,11 +27,11 @@
 		<div class="col-md-12">
 			<div class="panel panel-default panel-table">
 				<div class="panel-heading panel-border nova-panel-heading">
-					<div class="title hidden-xs">  Cambiar contraseña </div>
-					</div><!-- Panel Heading -->
+					<div class="title hidden-xs">Usuario <b>{{request.user.username}}</b>
+					</div>
+				</div><!-- Panel Heading -->
 					<div class="panel panel-default panel-table">
 						<form action="" method="POST" enctype="multipart/form-data"> {% csrf_token %}
-						<h4>Al cambiar su contraseña será redirigido a la pantalla de inicio de sesión.</h4>
 						<br>
 						<!--Actual Password-->
 						<div class="form-group {% if form.contrasena_actual.errors %} has-error {% endif %}">
@@ -40,6 +40,7 @@
 							</label>
 							<p>{{ form.contrasena_actual }}</p>
 						</div>
+
 						<!--Nuevo Password-->
 						<div class="form-group {% if form2.password1.errors %} has-error {% endif %}">
 							<label class="control-label">
@@ -54,8 +55,6 @@
 							</label>
 							<p> {{form2.password2}} </p>
 						</div>
-
-
 
 						{% if form2.errors %}
 						    {% for field in form2 %}

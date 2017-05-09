@@ -4,8 +4,8 @@
 
 // URLS:
 var url_profile_bypage = window.location.origin + "/api/profile_bypage/"
-var url_profile_editar_bypage = window.location + "editar/"
 var url_profile_excel = window.location.origin + "/api/profileexcel/"
+var url_profile_editar_bypage = window.location
 
 // OBJS
 var grid = null
@@ -188,7 +188,7 @@ Grid.prototype.get_Columnas = function () {
         { field: "pk", 
           title: "Cuenta", 
           width:"150px" ,
-          template: '<a href="#=url_profile_editar_bypage + pk#">#=cuenta#</a>',
+          template: '<a href="#=url_profile_editar_bypage + pk #/editar/">#=cuenta#</a>',
         },
         { field: "first_name", title: "Nombre", width:"200px" },
         { field: "last_name", title: "Apellidos", width:"200px" },

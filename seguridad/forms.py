@@ -227,33 +227,22 @@ class UserContrasenaNuevaForm(AdminPasswordChangeForm):
 
         fields = ('password1', 'password2', )
 
-class UserContrasenaNuevaPerfilForm(PasswordChangeForm):
-    old_password = CharField(label='Contraseña actual', widget=PasswordInput(
-        attrs={'class': 'form-control input-xs'}))
-    password1 = CharField(label='Nueva contraseña', widget=PasswordInput(
-        attrs={'class': 'form-control input-xs'}))
-    password2 = CharField(label='Confirmar contraseña', widget=PasswordInput(
-        attrs={'class': 'form-control input-xs'}))
-
-    class Meta:
-        model = User
-
-        fields = ('old_password','password1', 'password2',)
-
-
 class UserContrasenaActualForm(forms.Form):
 
     contrasena_actual = CharField(label="Actual",
                                   widget=forms.PasswordInput(
                                       attrs={'class': 'form-control input-xs'}))
 
+#class UserContrasenaNuevaPerfilForm(PasswordChangeForm):
+#     old_password = CharField(label='Contraseña actual', widget=PasswordInput(
+#         attrs={'class': 'form-control input-xs'}))
+#     password1 = CharField(label='Nueva contraseña', widget=PasswordInput(
+#         attrs={'class': 'form-control input-xs'}))
+#     password2 = CharField(label='Confirmar contraseña', widget=PasswordInput(
+#         attrs={'class': 'form-control input-xs'}))
 
-# class UserContrasenaForm(forms.Form):
+#     class Meta:
+#         model = User
 
-#     contrasena_nueva = CharField(label="Nueva",
-#                                  widget=forms.PasswordInput(
-#                                      attrs={'class': 'form-control input-xs'}))
-#     confirmar = CharField(label="Confirmación:",
-#                           widget=forms.PasswordInput(
-#                               attrs={'class': 'form-control input-xs'})
-#                           )
+#         fields = ('old_password','password1', 'password2',)
+

@@ -32,10 +32,10 @@ urlpatterns = [
     ),
     url(r'^usuarios/$', UsuarioLista.as_view(), name="usuario_lista"),
     url(r'^usuarios/nuevo/$', UsuarioNuevo.as_view(), name="usuario_nuevo"),
-    url(r'^usuarios/editar/(?P<pk>\d+)/$', UsuarioEditar.as_view(), name="usuario_editar"),
-    url(r'^usuarios/contrasena/(?P<pk>\d+)/$', UsuarioCambiarContrasenaAdmin.as_view(), name="usuario_cambiar_contrasena"),
-    url(r'^usuarios/perfil/editar/$', UsuarioEditarPerfil.as_view(), name="usuario_editar_perfil"),
-    url(r'^usuarios/perfil/contrasena/(?P<pk>\d+)/$', UsuarioCambiarContrasenaPerfil.as_view(), name="usuario_cambiar_contrasena_perfil"),
+    url(r'^usuarios/(?P<pk>\d+)/editar/$', UsuarioEditar.as_view(), name="usuario_editar"),
+    url(r'^usuarios/(?P<pk>\d+)/editar/contrasena/$', UsuarioCambiarContrasenaAdmin.as_view(), name="usuario_cambiar_contrasena"),
+    url(r'^usuarios/(?P<pk>\d+)/perfil/editar/$', UsuarioEditarPerfil.as_view(), name="usuario_editar_perfil"),
+    url(r'^usuarios/(?P<pk>\d+)/perfil/contrasena/$', UsuarioCambiarContrasenaPerfil.as_view(), name="usuario_cambiar_contrasena_perfil"),
 ]
 
 if settings.DEBUG:
