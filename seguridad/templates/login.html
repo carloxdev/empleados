@@ -23,7 +23,10 @@
         <div class="main-content container-fluid">
           <div class="splash-container">
             <div class="panel panel-default panel-border-color panel-border-color-primary">
-              <div class="panel-heading"><img src="{% static 'theme/img/logo-xx.png' %}" alt="logo" width="102" height="27" class="logo-img"><span class="splash-description">Ingrese los datos correspondientes</span></div>
+              <div class="panel-heading">
+                <img src="{% static 'theme/img/logo_centrado.jpg' %}" alt="Nuvoil" width="120" height="120" class="logo-img">
+                <span class="splash-description">Ingrese los datos correspondientes</span>
+              </div>
               <div class="panel-body">
                 <form  method="POST" action=""> 
                   {% csrf_token %}

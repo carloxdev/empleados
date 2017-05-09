@@ -27,7 +27,6 @@ from .models import Profile
 # Otros Modelo
 from django.contrib.auth.models import User
 
-
 # Formularios:
 from .forms import UserFormFilter
 from .forms import UserNuevoForm
