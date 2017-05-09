@@ -11,10 +11,16 @@ var url_incidencia_editar = window.location.origin + "/incidencias/"
 //var url_incidencia_editar = ""
 var url_anexos = window.location.origin + "/incidencias/incidencia_id/archivos/"
 var url_seguimiento = window.location.origin + "/incidencias/incidencia_id/seguimiento/"
+var url_excel = window.location.origin + "/api/incidenciadocumento/"
+
 
 // OBJS
+var grid = null
 var filtros = null
 var resultados = null
+var toolbar = null
+
+
 
 /*-----------------------------------------------*\
             LOAD
@@ -135,6 +141,17 @@ TargetaFiltros.prototype.get_Values = function (_page) {
 
 }
 
+TargetaFiltros.prototype.get_FiltrosExcel = function () {
+
+    return {
+        id: this.$numero.val(),
+        tipo: this.$tipo.val(),
+        fecha_creacion: this.$fecha_creacion.val(),
+        es_registrable: this.$es_registrable.val(),
+        empleado_zona: this.$empleado_zona.val(),
+    }
+}
+
 
 
 /*-----------------------------------------------*\
@@ -147,14 +164,7 @@ function TargetaResultados () {
     this.grid = new Grid()
 }
 
-/*-----------------------------------------------*\
-            OBJETO: Toolbar
-\*-----------------------------------------------*/
 
-function Toolbar() {
-
-    this.$boton_excel = $('#boton_excel')
-}
 
 /*-----------------------------------------------*\
             OBJETO: Grid
@@ -164,6 +174,7 @@ function Grid() {
 
     this.$id = $('#grid_resultados')
     this.kfuente_datos = null
+    this.kfuente_datos_excel = null
     this.kgrid = null
 
     this.init_Components()
@@ -176,6 +187,7 @@ Grid.prototype.init_Components = function () {
 
     // Se inicializa la fuente da datos (datasource)
     this.kfuente_datos = new kendo.data.DataSource(this.get_DataSourceConfig())
+    this.kfuente_datos_excel = new kendo.data.DataSource(this.get_FuenteDatosExcel())
 
     // Se inicializa y configura el grid:
     this.kgrid = this.$id.kendoGrid(this.get_Configuracion())    
@@ -187,12 +199,14 @@ Grid.prototype.click_BotonAnexos = function (e) {
     var fila = this.dataItem($(e.currentTarget).closest('tr'))
     window.location.href = url_anexos.replace("incidencia_id", fila.pk)
 }
+
 Grid.prototype.click_BotonSeguimiento = function (e) {
 
     e.preventDefault()
     var fila = this.dataItem($(e.currentTarget).closest('tr'))
     window.location.href = url_seguimiento.replace("incidencia_id", fila.pk)
 }
+
 Grid.prototype.get_DataSourceConfig = function () {
 
     return {
@@ -224,6 +238,7 @@ Grid.prototype.get_DataSourceConfig = function () {
         },
     } 
 }
+
 Grid.prototype.get_Campos = function () {
 
     return {
@@ -320,13 +335,163 @@ Grid.prototype.get_Columnas = function () {
         },
     ]
 }
+
+Grid.prototype.buscar = function() {
+    
+    this.kfuente_datos.page(1)
+}
+
+Grid.prototype.leer_Datos = function() {
+    
+    this.kfuente_datos_excel.read()
+}
+
+
+Grid.prototype.get_FuenteDatosExcel = function (e) {
+
+    return {
+
+        transport: {
+            read: {
+
+                url: url_excel,
+                type: "GET",
+                dataType: "json",
+            },
+            parameterMap: function (data, action) {
+                if (action === "read") {
+
+                    return filtros.get_FiltrosExcel()
+                }
+            }
+        },
+        schema: {
+            model: {
+                fields: this.get_Campos()
+            }
+        },
+        error: function (e) {
+            alertify.error("Status: " + e.status + "; Error message: " + e.errorThrown)
+        },
+    }
+    
+}
+
 Grid.prototype.set_Icons = function (e) {
 
     e.sender.tbody.find(".k-button.fa.fa-pencil").each(function(idx, element){
         $(element).removeClass("fa fa-pencil").find("span").addClass("fa fa-pencil")
     })   
 }
-Grid.prototype.buscar = function() {
-    
-    this.kfuente_datos.page(1)
+/*-----------------------------------------------*\
+            OBJETO: TOOLBAR
+\*-----------------------------------------------*/
+
+function Toolbar() {
+
+    this.$boton_exportar = $("#boton_exportar")
+
+    this.init()
+}
+Toolbar.prototype.init = function (e) {
+
+    this.$boton_exportar.on("click", this, this.click_BotonExportar)
+}
+
+Toolbar.prototype.Inicializar_CeldasExcel = function (e) {
+
+    if (resultados.grid.get_Columnas != null)
+    {
+        if (resultados.grid.get_Columnas.length != 1) {
+            resultados.grid.get_Columnas.length = 0;
+        }
+    }
+
+    this.kRows = [{
+        cells: [
+            { value: 'Id'},
+            { value: 'Categoria' },
+            { value: 'Tipo' },
+            { value: 'Fecha' },
+            { value: 'Clave de Empleado' },
+            { value: 'Zona Empleado' },
+            { value: 'Id Proyecto' },
+            { value: 'Proyecto Empleado' },
+            { value: 'Id Puesto'},
+            { value: 'Unidad de Negocio'},
+            { value: 'Organizacion Empleado'},
+            { value: 'id Area'},
+            { value: 'Area Descripcion'},
+            { value: 'lugar'},
+            { value: 'Dias Incapacidad'},
+            { value: 'Centro de Atencion'},
+            { value: 'status'},
+        ]
+    }];
+}
+
+Toolbar.prototype.click_BotonExportar = function (e) {
+
+    resultados.grid.leer_Datos()
+    e.data.Inicializar_CeldasExcel();
+
+    resultados.grid.kfuente_datos_excel.fetch(function () {
+
+        var data = this.data();
+        for (var i = 0; i < data.length; i++) {
+
+            e.data.kRows.push({
+                cells: [
+                    { value: data[i].pk },
+                    { value: data[i].tipo },
+                    { value: data[i].es_registrable },
+                    { value: data[i].fecha },
+                    { value: data[i].empleado_id },
+                    { value: data[i].empleado_nombre },
+                    { value: data[i].empleado_proyecto },
+                    { value: data[i].empleado_proyecto_desc },
+                    { value: data[i].empleado_puesto },
+                    { value: data[i].empleado_puesto_desc },
+                    { value: data[i].empleado_un},
+                    { value: data[i].area_id},
+                    { value: data[i].area_descripcion},
+                    { value: data[i].lugar},
+                    { value: data[i].dias_incapcidad},
+                    { value: data[i].tiene_acr},
+                    { value: data[i].status},
+                ]
+            })
+        }
+        var workbook = new kendo.ooxml.Workbook({
+            sheets: [
+                {
+                    columns: [
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                    ],
+                    title: "incidenciasregistradas",
+                    rows: e.data.kRows
+                }
+            ]
+        });
+        kendo.saveAs({
+            dataURI: workbook.toDataURL(),
+            fileName: "Incidencias_registradas.xlsx",
+        });
+    });
 }

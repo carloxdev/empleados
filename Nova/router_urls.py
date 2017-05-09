@@ -12,6 +12,7 @@ from sgi.views import IncidenciaDocumentoByPageAPI
 from sgi.views import IncidenciaTipoAPI
 from sgi.views import CentroAtencionAPI
 from sgi.views import IncidenciaArchivoByPageAPI
+from sgi.views import IncidenciaArchivoAPI
 
 from seguridad.views import UserAPI
 from seguridad.views import UserByPageAPI
@@ -115,10 +116,20 @@ router.register(
 )
 
 router.register(
-    r'incidenciaarchivo',
+    r'incidenciaarchivo_bypage',
     IncidenciaArchivoByPageAPI,
+    'incidenciaarchivo_bypage'
+)
+
+
+router.register(
+    r'incidenciaarchivo',
+    IncidenciaArchivoAPI,
     'incidenciaarchivo'
 )
+
+
+
 
 # -------------- EBS -------------- #
 

@@ -214,18 +214,18 @@ class IncidenciaResolucionForm(ModelForm):
             'incidencia',
             'mensaje',
             'tipo',
-            'status',
+            #'status',
         ]
         labels = {
             'tipo': 'Tipo de Seguimiento',
             'mensaje': 'Nuevo Comentario',
-            'status': 'Status',
+            #'status': 'Status',
         }
         widgets = {
             'incidencia': HiddenInput(),
             'mensaje': Textarea(attrs={'class': 'form-control input-xs'}),
             'tipo': Select(attrs={'class': 'form-control input-sm'}),
-            'status': Select(attrs={'class': 'form-control input-sm'}),
+            #'status': Select(attrs={'class': 'form-control input-sm'}),
         } 
 
         

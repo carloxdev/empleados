@@ -385,7 +385,12 @@ class IncidenciaArchivoByPageAPI(viewsets.ModelViewSet):
     filter_class = IncidenciaArchivoFilter
     pagination_class = GenericPagination
 
-
+class IncidenciaArchivoAPI(viewsets.ModelViewSet):
+    queryset = IncidenciaArchivo.objects.all()
+    serializer_class = IncidenciaArchivoSerializer
+    filter_backends = (DjangoFilterBackend,)
+    filter_class = IncidenciaArchivoFilter
+    
 # -------------- INCIDENCIA TIPO - API REST -------------- #
 
 class IncidenciaTipoAPI(viewsets.ModelViewSet):
