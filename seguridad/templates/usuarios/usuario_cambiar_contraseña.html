@@ -16,10 +16,11 @@
 {% block contenido %}
 <div class="be-content">
 <div class="page-head">
-	<h2 class="page-head-title">Editar usuario</h2>
+	<h2 class="page-head-title">Cambiar contraseña</h2>
 	<ol class="breadcrumb page-head-nav">
 		<li><a href="{% url 'home:inicio' %}">Inicio</a></li>
-		<li><a href="{% url 'seguridad:usuario_editar' user.id %}">Editar perfil</a></li>
+		<li><a href="{% url 'seguridad:usuario_lista' %}">Usuarios</a></li>
+		<li><a href="{% url 'seguridad:usuario_editar' user.id %}">Editar usuario</a></li>
 		<li>Cambiar contraseña</li>
 	</ol>
 </div>

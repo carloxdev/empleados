@@ -55,17 +55,17 @@
               <li>
                 <div class="user-info">
                   <div class="user-name">
-                    {% if user.username == 'root' %}
+                    {% if request.user.username == 'root' %}
                       Administrador
                     {% else %}
-                      {{ user.get_full_name }}
+                      {{ request.user.get_full_name }}
                     {% endif %}
                   </div>
                   <div class="user-position online">Conectado</div>
                 </div>
               </li>
               
-              {% if user.is_superuser %}
+              {% if request.user.is_superuser %}
                 <li><a href="{% url 'seguridad:usuario_lista' %}"><span class="icon mdi mdi-accounts"></span> Usuarios</a></li>
               {% endif %}
               <li><a href="{% url 'seguridad:usuario_editar_perfil' request.user.id %}"><span class="icon mdi mdi-face"></span> Perfil</a></li>
