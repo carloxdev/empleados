@@ -15,27 +15,28 @@ class ViaticoCabeceraSerializer(serializers.HyperlinkedModelSerializer):
         model = ViaticoCabecera
         fields = (
             'url',
-            'pk',
             'empleado_clave',
             'empleado_descripcion',
             'fecha_partida',
             'fecha_regreso',
-            'unidad_negocio',
+            'unidad_negocio_clave',
+            'unidad_negocio_descripcion',
             'ciudad_destino',
             'proposito_viaje',
-            'empresa_clave',
-            'empresa_descripcion',
+            'empresa',
             'rfc',
             'direccion',
             'grupo',
-            'autorizador',
+            'autorizador_clave',
+            'autorizador_descripcion',
             'status',
-            'fecha_autorizacion',
-            'created_date',
+            'approved_by',
+            'approved_date',
+            'importe_total',
             'created_by',
-            'updated_date',
+            'created_date',
             'updated_by',
-            'importe_total'
+            'updated_date',
         )
 
     def get_status(self, obj):

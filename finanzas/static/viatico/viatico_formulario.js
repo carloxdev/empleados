@@ -3,7 +3,7 @@
 \*-----------------------------------------------*/
 
 // URLS:
-var url_viaticolinea = window.location.origin + "/api/viaticolinea_bypage/"
+var url_viaticolinea = window.location.origin + "/api-finanzas/viaticolinea_bypage/"
 
 // OBJS
 var toolbar = null

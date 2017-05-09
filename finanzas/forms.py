@@ -22,6 +22,7 @@ from .models import ViaticoCabecera
 # Otros Modelos:
 from ebs.models import VIEW_EMPLEADOS_SIMPLE
 from jde.models import VIEW_UNIDADES
+from jde.models import VIEW_CENTROSCOSTO
 
 
 class ViaticoFilterForm(Form):
@@ -81,9 +82,9 @@ class ViaticoFilterForm(Form):
         valores = [('', '------')]
 
         if settings.DEBUG:
-            unidades = VIEW_UNIDADES.objects.using('jde_p').all().order_by('clave')
+            unidades = VIEW_UNIDADES.objects.using('jde_p').exclude(estructura="HST").order_by('clave')
         else:
-            unidades = VIEW_UNIDADES.objects.using('jde_p').all().order_by('clave')
+            unidades = VIEW_UNIDADES.objects.using('jde_p').exclude(estructura="HST").order_by('clave')
 
         for unidad in unidades:
 
@@ -127,25 +128,42 @@ class ViaticoCabeceraNuevoForm(ModelForm):
         )
     )
 
+    unidad_negocio_clave = ChoiceField(
+        label="Unidad Negocio",
+        widget=Select(
+            attrs={'class': 'form-control input-xs'}
+        )
+    )
+
     class Meta:
         model = ViaticoCabecera
 
         fields = [
             'empleado_clave',
-            # 'unidades_negocio_clave',
+            'unidad_negocio_clave',
             'fecha_partida',
             'fecha_regreso',
+            'proposito_viaje',
         ]
+
+        # widget = {
+        #     'proposito_viaje' : Textarea(attrs)
+        # }
 
     def __init__(self, *args, **kwargs):
         super(ViaticoCabeceraNuevoForm, self).__init__(*args, **kwargs)
         self.fields['empleado_clave'].choices = self.get_EmpleadosEbs()
-        # self.fields['unidades_negocio_clave'].choices = self.get_CentrosCostoJde()
+        self.fields['unidad_negocio_clave'].choices = self.get_CentrosCostoJde()
 
     def get_EmpleadosEbs(self):
         valores = [('', '-------')]
 
-        empleados = VIEW_EMPLEADOS_SIMPLE.objects.using('ebs_d').all()
+        empleados = VIEW_EMPLEADOS_SIMPLE.objects.using('ebs_d').filter(
+            pers_tipo_codigo__in=['1121', '1120']
+        ).exclude(
+            pers_empleado_numero__isnull=True
+        ).order_by('pers_nombre_completo')
+
         for empleado in empleados:
 
             descripcion = "%s - %s" % (
@@ -159,6 +177,43 @@ class ViaticoCabeceraNuevoForm(ModelForm):
                     descripcion,
                 )
             )
+        return valores
+
+    def get_CentrosCostoJde(self):
+
+        valores = [('', '------')]
+
+        if settings.DEBUG:
+            centros = VIEW_CENTROSCOSTO.objects.using('jde_p').exclude(
+                estructura="HST"
+            ).exclude(
+                estado="N"
+            ).order_by(
+                'clave'
+            )
+        else:
+            centros = VIEW_CENTROSCOSTO.objects.using('jde_p').exclude(
+                estructura="HST"
+            ).exclude(
+                estado="N"
+            ).order_by(
+                'clave'
+            )
+
+        for centro in centros:
+
+            descripcion = "%s - %s" % (
+                centro.clave,
+                centro.descripcion
+            )
+
+            valores.append(
+                (
+                    centro.clave,
+                    descripcion
+                )
+            )
+
         return valores
 
 
