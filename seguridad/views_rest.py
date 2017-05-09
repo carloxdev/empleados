@@ -44,10 +44,3 @@ class ProfileByPageAPI(viewsets.ModelViewSet):
     filter_backends = (DjangoFilterBackend,)
     filter_class = ProfileFilter
     pagination_class = GenericPagination
-
-
-class ProfileExcelAPI(viewsets.ModelViewSet):
-    queryset = Profile.objects.all().order_by('-usuario__date_joined')
-    serializer_class = ProfileSerializer
-    filter_backends = (DjangoFilterBackend,)
-    filter_class = ProfileFilter

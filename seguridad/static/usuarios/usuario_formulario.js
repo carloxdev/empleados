@@ -3,9 +3,9 @@
 \*-----------------------------------------------*/
 
 // URLS:
-var url_empleado_simple= window.location.origin + "/api/viewempleadossimple/"
-var url_profile = window.location.origin + "/api/profile/"
-var url_viewusuarios = window.location.origin + "/api/viewusuarios/"
+var url_empleado_simple= window.location.origin + "/api-ebs/viewempleadossimple/"
+var url_profile = window.location.origin + "/api-seguridad/profile/"
+var url_viewusuarios = window.location.origin + "/api-jde/viewusuarios/"
 
 
 // OBJS

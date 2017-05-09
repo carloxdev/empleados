@@ -3,8 +3,8 @@
 \*-----------------------------------------------*/
 
 // URLS:
-var url_profile_bypage = window.location.origin + "/api/profile_bypage/"
-var url_profile_excel = window.location.origin + "/api/profile/"
+var url_profile_bypage = window.location.origin + "/api-seguridad/profile_bypage/"
+var url_profile_excel = window.location.origin + "/api-seguridad/profile/"
 var url_profile_editar_bypage = window.location
 
 // OBJS
