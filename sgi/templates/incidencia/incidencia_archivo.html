@@ -1,6 +1,6 @@
 {% extends 'master.html' %}
 
-{# {% load filename %} #}
+{% load filename %}
 
 {% load static from staticfiles %}
 
@@ -132,7 +132,7 @@
                       <div class="box box-solid">
                  
                         {% for anexo in anexos %}
-							
+						
 								<div class="box box-solid">
 									<div class="box-header with-border">
 					              			<div class="pull-right">
@@ -140,18 +140,18 @@
 					            			</div>	
 					            		 
 					              			<i class="fa fa-file-o"></i>
-					              			<p>
-					              			{{ anexo.archivo }}
-					              			</p>
+					              			
+					              			{{ anexo.archivo|filename }}
+					              			
 					              			
 					              			<!-- /.box-header -->
 								            <div class="box-body">
-								            	<a href="{{MEDIA_URL}}{{ anexo.archivo }}" download=""><p align="center"><strong align="center">{{ anexo.archivo}}</strong></p></a>
+								            	<a href="{{MEDIA_URL}}{{ anexo.archivo|filename }}" download=""><p align="lefts"><strong align="center">{{ anexo.archivo|filename }}</strong></p></a>
 								            </div>
 						            		<!-- /.box-body -->
 					            	</div>
 					            </div>	
-			        			
+			        		
 			        	{% endfor %}
                      </div>
                 </div>
