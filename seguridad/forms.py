@@ -3,12 +3,12 @@
 from django.forms import ModelForm
 from django import forms
 
-#Forms django
+# Forms django
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.forms import AdminPasswordChangeForm
 from django.contrib.auth.forms import PasswordChangeForm
 
-#Fields
+# Fields
 from django.forms import TextInput
 from django.forms import FileInput
 from django.forms import CharField
@@ -19,9 +19,8 @@ from django.forms import ChoiceField
 from django.forms import ClearableFileInput
 from django.forms import FileField
 
-#Modelos
+# Modelos
 from django.contrib.auth.models import User
-from .models import Profile
 from ebs.models import VIEW_EMPLEADOS_SIMPLE
 
 
@@ -192,7 +191,7 @@ class UserEditarPerfilForm(ModelForm):
                     'clave_jde',
                     'fecha_nacimiento',
                     'foto',
-                    ]
+        ]
 
         labels = {'first_name': 'Nombre',
                   'last_name': 'Apellidos',
@@ -227,22 +226,9 @@ class UserContrasenaNuevaForm(AdminPasswordChangeForm):
 
         fields = ('password1', 'password2', )
 
+
 class UserContrasenaActualForm(forms.Form):
 
     contrasena_actual = CharField(label="Actual",
                                   widget=forms.PasswordInput(
                                       attrs={'class': 'form-control input-xs'}))
-
-#class UserContrasenaNuevaPerfilForm(PasswordChangeForm):
-#     old_password = CharField(label='Contraseña actual', widget=PasswordInput(
-#         attrs={'class': 'form-control input-xs'}))
-#     password1 = CharField(label='Nueva contraseña', widget=PasswordInput(
-#         attrs={'class': 'form-control input-xs'}))
-#     password2 = CharField(label='Confirmar contraseña', widget=PasswordInput(
-#         attrs={'class': 'form-control input-xs'}))
-
-#     class Meta:
-#         model = User
-
-#         fields = ('old_password','password1', 'password2',)
-
