@@ -9,6 +9,7 @@ from simple_history.models import HistoricalRecords
 
 # Otros Modelos:
 from seguridad.models import Profile
+from administracion.models import Empresa
 
 
 class ViaticoCabecera(models.Model):
@@ -21,29 +22,37 @@ class ViaticoCabecera(models.Model):
         ('fin', 'Finalizado'),
         ('can', 'Cancelado'),
     )
-    
+
     empleado_clave = models.IntegerField(default=0)
-    empleado_descripcion = models.CharField(max_length=60)
+    empleado_descripcion = models.CharField(max_length=60, null=True)
     fecha_partida = models.DateField()
     fecha_regreso = models.DateField()
-    unidad_negocio = models.CharField(max_length=80, blank=False, null=False)
+    unidad_negocio_clave = models.CharField(max_length=80, blank=False, null=False)
+    unidad_negocio_descripcion = models.CharField(max_length=144, null=True)
     ciudad_destino = models.CharField(max_length=150, blank=False, null=False)
     proposito_viaje = models.TextField(max_length=250, blank=False, null=False)
-    empresa_clave = models.CharField(max_length=80)
-    empresa_descripcion = models.CharField(max_length=80)
+    empresa = models.ForeignKey(Empresa, null=True)
+
     rfc = models.CharField(max_length=13)
     direccion = models.CharField(max_length=60, blank=False)
     grupo = models.CharField(max_length=40)
-    autorizador = models.ForeignKey(Profile, related_name='via_autorizador', null=True)
-    importe_total = models.DecimalField(max_digits=7, decimal_places=2, blank=False, null=False, default=0.0)
+
+    autorizador_clave = models.IntegerField(default=0)
+    autorizador_descripcion = models.CharField(max_length=60, null=True)
+
     status = models.CharField(
         choices=VIATICO_ESTADOS,
         default="cap",
-        max_length=3)
-    fecha_autorizacion = models.DateTimeField(
+        max_length=3
+    )
+
+    approved_by = models.ForeignKey(Profile, related_name='via_autorizador', null=True)
+    approved_date = models.DateTimeField(
         null=True,
         blank=True
     )
+
+    importe_total = models.DecimalField(max_digits=7, decimal_places=2, blank=False, null=False, default=0.0)
     created_by = models.ForeignKey(Profile, related_name='via_created_by', null=True)
     created_date = models.DateTimeField(
         auto_now=False,

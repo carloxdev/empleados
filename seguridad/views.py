@@ -30,24 +30,6 @@ from .models import Profile
 from django.contrib.auth.models import User
 from jde.models import VIEW_USUARIOS
 
-# Librerias de Terceros:
-# Django API Rest
-from rest_framework import viewsets
-from django_filters.rest_framework import DjangoFilterBackend
-
-# Serializadores:
-from .serializers import UserSerializer
-from .serializers import ProfileSerializer
-
-# Filters:
-from .filters import ProfileFilter
-
-# Paginacion
-from .pagination import GenericPagination
-
-# Modelos:
-from .models import User
-from .models import Profile
 
 # Formularios:
 from .forms import UserFormFilter
@@ -59,8 +41,6 @@ from .forms import UserContrasenaNuevaForm
 from .forms import UserAltaForm
 
 from django.contrib.auth.forms import PasswordChangeForm
-
-
 
 
 class Login(View):
@@ -118,6 +98,7 @@ class UsuarioLista(View):
         contexto = {'form': form_profile}
         return render(request, self.template_name, contexto)
 
+
 class UsuarioNuevo(View):
 
     def __init__(self):
@@ -144,7 +125,7 @@ class UsuarioNuevo(View):
             clave = Profile.objects.filter(clave_rh=valor)
 
             if not(valor and clave):
-                
+
                 usuario = User.objects.create_user(
                     username=datos_formulario.get('username'),
                     password=datos_formulario.get('password1')
@@ -173,6 +154,7 @@ class UsuarioNuevo(View):
             'form': form_usuario,
         }
         return render(request, self.template_name, contexto)
+
 
 class UsuarioEditar(View):
 
@@ -203,7 +185,7 @@ class UsuarioEditar(View):
                 'foto': usuario_id.profile.foto
             }
         )
-        
+
         user = usuario_id
 
         contexto = {
@@ -234,9 +216,9 @@ class UsuarioEditar(View):
             usuario.profile.clave_jde = datos_formulario.get('clave_jde')
             usuario.profile.fecha_nacimiento = usuario.profile.fecha_nacimiento
 
-            #Si el campo foto es diferente de None guardara la imagen nueva que recibio.
+            # Si el campo foto es diferente de None guardara la imagen nueva que recibio.
             if datos_formulario.get('foto') != None:
-                usuario.profile.foto = datos_formulario.get('foto')  
+                usuario.profile.foto = datos_formulario.get('foto')
 
             usuario.profile.save()
 
@@ -248,7 +230,8 @@ class UsuarioEditar(View):
         }
         return render(request, self.template_name, contexto)
 
-class UsuarioCambiarContrasenaAdmin(LoginRequiredMixin,View):
+
+class UsuarioCambiarContrasenaAdmin(LoginRequiredMixin, View):
 
     def __init__(self):
         self.template_name = 'usuarios/usuario_cambiar_contraseña.html'
@@ -268,7 +251,7 @@ class UsuarioCambiarContrasenaAdmin(LoginRequiredMixin,View):
     def post(self, request, pk):
         usuario = get_object_or_404(User, pk=pk)
 
-        form_contrasena = UserContrasenaNuevaForm(usuario,request.POST)
+        form_contrasena = UserContrasenaNuevaForm(usuario, request.POST)
 
         if form_contrasena.is_valid():
             user = form_contrasena.save()
@@ -305,9 +288,9 @@ class UsuarioEditarPerfil(View):
                 'last_name': usuario_id.last_name,
                 'email': usuario_id.email,
                 'clave_rh': usuario_id.profile.clave_rh,
-                'clave_jde':usuario_id.profile.clave_jde,
-                'fecha_nacimiento':usuario_id.profile.fecha_nacimiento,
-                'foto':usuario_id.profile.foto,
+                'clave_jde': usuario_id.profile.clave_jde,
+                'fecha_nacimiento': usuario_id.profile.fecha_nacimiento,
+                'foto': usuario_id.profile.foto,
             }
         )
 
@@ -320,8 +303,8 @@ class UsuarioEditarPerfil(View):
     def post(self, request, pk):
         #id = request.user.id
         usuario = get_object_or_404(User, pk=pk)
-        
-        form_usuario = UserEditarPerfilForm(request.POST,request.FILES, instance=usuario)
+
+        form_usuario = UserEditarPerfilForm(request.POST, request.FILES, instance=usuario)
 
         if form_usuario.is_valid():
 
@@ -338,9 +321,9 @@ class UsuarioEditarPerfil(View):
             usuario.profile.fecha_nacimiento = usuario.profile.fecha_nacimiento
             print datos_formulario.get('foto')
 
-            #Si el campo foto es diferente de None guardara la imagen nueva que recibio.
+            # Si el campo foto es diferente de None guardara la imagen nueva que recibio.
             if datos_formulario.get('foto') != None:
-                usuario.profile.foto = datos_formulario.get('foto')  
+                usuario.profile.foto = datos_formulario.get('foto')
 
             usuario.profile.save()
 
@@ -352,7 +335,8 @@ class UsuarioEditarPerfil(View):
         }
         return render(request, self.template_name, contexto)
 
-class UsuarioCambiarContrasenaPerfil(LoginRequiredMixin,View):
+
+class UsuarioCambiarContrasenaPerfil(LoginRequiredMixin, View):
 
     def __init__(self):
         self.template_name = 'usuarios/usuario_cambiar_contraseña_perfil.html'
@@ -393,95 +377,3 @@ class UsuarioCambiarContrasenaPerfil(LoginRequiredMixin,View):
             'form2': form_contrasena_nueva,
         }
         return render(request, self.template_name, contexto)
-
-class UsuarioAlta(View):
-    def __init__(self):
-        self.template_name = 'usuarios/usuario_alta.html'
-
-    def get(self, request):
-
-        form = UserAltaForm()
-
-        contexto = {
-            'form': form,
-        }
-        return render(request, self.template_name, contexto)
-
-    # def post(self, request):
-
-    #     form_usuario = UserNuevoForm(request.POST, request.FILES)
-
-    #     if form_usuario.is_valid():
-
-    #         datos_formulario = form_usuario.cleaned_data
-
-    #         valor = datos_formulario.get('clave_rh')
-    #         clave = Profile.objects.filter(clave_rh=valor)
-
-    #         if not(valor and clave):
-                
-    #             usuario = User.objects.create_user(
-    #                 username=datos_formulario.get('username'),
-    #                 password=datos_formulario.get('password1')
-    #             )
-
-    #             usuario.first_name = datos_formulario.get('first_name')
-    #             usuario.last_name = datos_formulario.get('last_name')
-    #             usuario.email = datos_formulario.get('email')
-    #             usuario.is_active = datos_formulario.get('is_active')
-    #             usuario.is_staff = datos_formulario.get('is_staff')
-    #             usuario.is_superuser = datos_formulario.get('is_superuser')
-
-    #             usuario.save()
-
-    #             usuario.profile.clave_rh = datos_formulario.get('clave_rh')
-    #             usuario.profile.clave_jde = datos_formulario.get('clave_jde')
-    #             usuario.profile.fecha_nacimiento = datos_formulario.get(
-    #                 'fecha_nacimiento')
-    #             usuario.profile.foto = datos_formulario.get('foto')
-
-    #             usuario.profile.save()
-
-    #             return redirect(reverse('seguridad:usuario_lista'))
-
-    #     contexto = {
-    #         'form': form_usuario,
-    #     }
-    #     return render(request, self.template_name, contexto)
-
-
-# -------------- SEGURIDAD API REST -------------- #
-
-class UserAPI(viewsets.ModelViewSet):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
-
-
-class UserByPageAPI(viewsets.ModelViewSet):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
-    filter_backends = (DjangoFilterBackend,)
-    filter_fields = ('username', 'is_active')
-    pagination_class = GenericPagination
-
-
-class ProfileAPI(viewsets.ModelViewSet):
-    queryset = Profile.objects.all().order_by('-usuario__date_joined')
-    serializer_class = ProfileSerializer
-    filter_backends = (DjangoFilterBackend,)
-    filter_class = ProfileFilter
-
-
-class ProfileByPageAPI(viewsets.ModelViewSet):
-    queryset = Profile.objects.all().order_by('-usuario__date_joined')
-    serializer_class = ProfileSerializer
-    filter_backends = (DjangoFilterBackend,)
-    filter_class = ProfileFilter
-    pagination_class = GenericPagination
-
-
-class ProfileExcelAPI(viewsets.ModelViewSet):
-    queryset = Profile.objects.all().order_by('-usuario__date_joined')
-    serializer_class = ProfileSerializer
-    filter_backends = (DjangoFilterBackend,)
-    filter_class = ProfileFilter
