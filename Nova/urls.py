@@ -10,6 +10,9 @@ from finanzas.urls_rest import router_finanzas
 from seguridad.urls_rest import router_seguridad
 from sgi.urls_rest import router_sgi
 
+# Librerias necesarias para publicar Medias en DEBUG
+from django.conf.urls.static import static
+from django.conf import settings
 
 
 urlpatterns = [
@@ -28,3 +31,9 @@ urlpatterns = [
     url(r'', include('sgi.urls', namespace="sgi")),
     url(r'', include('capitalHumano.urls', namespace="capitalhumano")),
 ]
+
+
+if settings.DEBUG:
+
+    urlpatterns = urlpatterns + \
+        static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
