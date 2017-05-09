@@ -32,15 +32,15 @@ function TarjetaFiltros() {
     this.$id_pers_segundo_nombre = $("#id_pers_segundo_nombre")
     this.$id_pers_apellido_paterno = $("#id_pers_apellido_paterno")
     this.$id_pers_apellido_materno = $("#id_pers_apellido_materno")
-    this.$id_pers_genero_clave = $("#id_pers_genero_clave")
+    this.$id_pers_genero_clave = $("input[name='pers_genero_clave']")
     this.$id_pers_empleado_numero = $("#id_pers_empleado_numero")
     this.$id_pers_tipo_codigo = $('#id_pers_tipo_codigo')
     this.$id_asig_puesto_clave = $("#id_asig_puesto_clave")
     this.$id_asig_organizacion_clave = $("#id_asig_organizacion_clave")
     this.$id_grup_compania_jde = $('#id_grup_compania_jde')
-    this.$id_zona = $("#id_zona")
+    //this.$id_zona = $("#id_zona")
     this.$id_grup_fase_jde = $("#id_grup_fase_jde")
-    this.$id_grup_nomina_jde = $("#id_grup_nomina_jde")
+    this.$id_grup_nomina_jde = $("input[name='grup_nomina_jde']")
     this.$fecha_contratacion = $("#fecha_contratacion")
     this.$boton_colapsible = $("#boton_colapsible")
     this.$boton_buscar = $('#boton_buscar')
@@ -135,7 +135,7 @@ TarjetaFiltros.prototype.get_Values = function (_page, _pageSize) {
         pers_fecha_contratacion_desde: this.$fecha_contratacion.val().split(" al ")[0],
         pers_fecha_contratacion_hasta: this.$fecha_contratacion.val().split(" al ")[1],
         grup_compania_jde: this.$id_grup_compania_jde.val(),
-        zona: this.$id_zona.val(),
+        //zona: this.$id_zona.val(),
         grup_fase_jde: this.$id_grup_fase_jde.val(),
         grup_nomina_jde: $("input[name='grup_nomina_jde']:checked").val(),
     }
@@ -155,7 +155,7 @@ TarjetaFiltros.prototype.get_FiltrosExcel = function () {
         pers_fecha_contratacion_desde: this.$fecha_contratacion.val().split(" al ")[0],
         pers_fecha_contratacion_hasta: this.$fecha_contratacion.val().split(" al ")[1],
         grup_compania_jde: this.$id_grup_compania_jde.val(),
-        zona: this.$id_zona.val(),
+        //zona: this.$id_zona.val(),
         grup_fase_jde: this.$id_grup_fase_jde.val(),
         grup_nomina_jde: $("input[name='grup_nomina_jde']:checked").val(),
     }
@@ -181,8 +181,8 @@ TarjetaFiltros.prototype.click_BotonLimpiar = function (e) {
     e.data.$fecha_contratacion.data('daterangepicker').setEndDate(
         moment().format('YYYY-MM-DD')
     )
-    e.data.$id_grup_compania_jde.val(0)
-    e.data.$id_zona.val("")
+    e.data.$id_grup_compania_jde.data('select2').val(0)
+    //e.data.$id_zona.val("")
     e.data.$id_grup_fase_jde.data('select2').val(0)
     e.data.$id_grup_nomina_jde.prop('checked', false)
 }
