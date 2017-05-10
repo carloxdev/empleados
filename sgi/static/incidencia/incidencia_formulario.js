@@ -3,7 +3,7 @@
 \*-----------------------------------------------*/
 
 // URLS:
-var url_empleado_full = window.location.origin + "/api/view_empleados_full/"
+var url_empleado_full = window.location.origin + "/api-ebs/viewempleadosfull/"
 
 
 // OBJS

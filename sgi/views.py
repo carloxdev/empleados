@@ -33,6 +33,10 @@ from .forms import IncidenciaDocumentoFilterForm
 from .forms import IncidenciaArchivoForm
 from .forms import IncidenciaResolucionForm
 
+
+# Email:
+from django.core.mail import send_mail
+
 #from django.core.mail import send_mail
 # from django.shortcuts import get_object_or_404
 # from django.shortcuts import redirect
@@ -104,6 +108,11 @@ class IncidenciaDocumentoNuevo(View):
             incidencia.created_by = request.user.profile
 
             incidencia.save()
+
+            send_mail("Asunto", 
+            "Mensaje...Probando linea 1 desde django", 
+            '"Notificaciones Nuvoil" <notificaciones@nuvoil.com>',
+            ['janet.castro@nuvoil.com'])
 
             #send_mail("Subject", "Email body", settings.EMAIL_HOST_USER, "janexa@gmail.com", fail_silently=False)
 
