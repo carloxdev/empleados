@@ -14,7 +14,6 @@ from sgi.urls_rest import router_sgi
 from django.conf.urls.static import static
 from django.conf import settings
 
-
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^api-ebs/', include(router_ebs.urls)),
@@ -29,7 +28,7 @@ urlpatterns = [
     url(r'', include('home.urls', namespace="home")),
     url(r'', include('seguridad.urls', namespace="seguridad")),
     url(r'', include('sgi.urls', namespace="sgi")),
-    url(r'', include('capitalHumano.urls', namespace="capitalhumano")),
+    url(r'', include('capitalhumano.urls', namespace="capitalhumano")),
 ]
 
 

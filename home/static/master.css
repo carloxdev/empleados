@@ -1,5 +1,5 @@
 
-.nova-be-left-sidebar{
+/* .nova-be-left-sidebar{
     background-color: #eee;
 }
 
@@ -9,7 +9,7 @@
 
 .nova-be-wrapper {
     background-color: #f5f5f5;
-}
+} */
 
 .nova-panel-heading {
     margin: 0px;
@@ -29,6 +29,21 @@
 
 .nova-main-content {
     padding: 15px 10px 25px;   
+}
+
+.nova-active-tab {
+
+    background-color: #f7f7f7;
+}
+
+.nova-active-tab:hover {
+    color: #949494 !important;
+}
+
+.nova-active-tab:focus {
+    color: #ffffff;
+    /* background: #4285f4; */
+    /* border-color: #4285f4; */
 }
 
 /* 
@@ -158,4 +173,9 @@
     .nova-col-filter {
         width: 25%;
     }
+
+    .nova-panel-footer {
+        padding-bottom: 20px;
+    }
+
 }
