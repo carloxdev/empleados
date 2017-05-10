@@ -8,7 +8,6 @@ from django.shortcuts import render
 from django.shortcuts import redirect
 from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404
-from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 # Django Seguridad
@@ -259,10 +258,10 @@ class UsuarioCambiarContrasenaAdmin(LoginRequiredMixin, View):
 # -------------- USUARIO VIEWS -------------- #
 
 
-class UsuarioEditarPerfil(View):
+class UsuarioPerfil(View):
 
     def __init__(self):
-        self.template_name = 'usuarios/usuario_editar_perfil.html'
+        self.template_name = 'usuarios/usuario_perfil.html'
 
     def obtener_UrlImagen(self, _imagen):
         imagen = ''
