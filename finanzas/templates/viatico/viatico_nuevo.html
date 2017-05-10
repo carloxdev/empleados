@@ -44,7 +44,7 @@
                     <div id="wizard1" class="wizard wizard-ux">
                         <ul class="steps">
 
-                            <li class="active">Solicitud No:</li>
+                            <li class="active">Numero:</li>
 
                         </ul>
                         <div class="actions">
@@ -54,12 +54,14 @@
                         <div class="step-content">
                             <div data-step="1" class="step-pane active">
 
-                                <div class="form-horizontal group-border-dashed"> 
+                                <div class="form-horizontal group-border-dashed">
+
                                     <div class="form-group no-padding">
                                         <div class="col-sm-7">
                                             <h5 class="wizard-title">Informacion de la solicitud:</h5>
                                         </div>
                                     </div>
+
                                     <div class="form-group">
                                         
                                         <label class="col-sm-3 control-label" 
@@ -70,6 +72,7 @@
                                             {{ form.empleado_clave }}
                                         </div>
                                     </div>
+
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label" 
                                             for="{{ form.unidad_negocio_clave.id_for_label }}">
@@ -79,6 +82,7 @@
                                             {{ form.unidad_negocio_clave }}
                                         </div> 
                                     </div>
+
                                     <div class="form-group">
 
                                         <label class="col-sm-3 control-label">
@@ -92,9 +96,17 @@
                                         </div>                                        
                                     </div>
 
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label" 
+                                            for="{{ form.ciudad_destino.id_for_label }}">
+                                            {{ form.ciudad_destino.label }}
+                                        </label>
+                                        <div class="col-sm-6 xs-pt-5">
+                                            {{ form.ciudad_destino }}
+                                        </div> 
+                                    </div>
 
                                     <div class="form-group">
-                                        
                                         <label class="col-sm-3 control-label" 
                                             for="{{ form.proposito_viaje.id_for_label }}">
                                             {{ form.proposito_viaje.label }}
@@ -103,6 +115,12 @@
                                             {{ form.proposito_viaje }}
                                         </div>
                                     </div>
+
+                                    <div class="form-group no-padding">
+                                        <div class="col-sm-7">
+                                            <h5 class="wizard-title">Informacion de la autorizacion:</h5>
+                                        </div>
+                                    </div>                                    
 
                                 </div>
                             </div>

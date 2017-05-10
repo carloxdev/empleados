@@ -11,7 +11,6 @@ from django.forms import ChoiceField
 from django.forms import RadioSelect
 
 # Modelos
-from jde.models import VIEW_COMPANIAS
 from jde.models import VIEW_UNIDADES
 from ebs.models import VIEW_TIPO_PERSONAS
 from ebs.models import VIEW_PUESTOS
@@ -19,7 +18,7 @@ from ebs.models import VIEW_ORGANIZACIONES
 from administracion.models import Empresa
 
 
-class EmpleadosFilterForm(Form):
+class EmpleadoFilterForm(Form):
     GENERO = (
         ('F', 'Femenino'),
         ('M', 'Masculino'),
@@ -44,7 +43,7 @@ class EmpleadosFilterForm(Form):
     grup_nomina_jde = ChoiceField(widget=RadioSelect, choices=NOMINA)
 
     def __init__(self, *args, **kwargs):
-        super(EmpleadosFilterForm, self).__init__(
+        super(EmpleadoFilterForm, self).__init__(
             *args, **kwargs)
         self.fields['pers_tipo_codigo'].choices = self.get_Tipos()
         self.fields['asig_puesto_clave'].choices = self.get_Puestos()

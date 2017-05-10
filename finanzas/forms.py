@@ -144,12 +144,14 @@ class ViaticoCabeceraNuevoForm(ModelForm):
             'fecha_partida',
             'fecha_regreso',
             'proposito_viaje',
+            'ciudad_destino',
         ]
 
         widgets = {
             'proposito_viaje': Textarea(attrs={'class': 'form-control'}),
             'fecha_partida': TextInput(attrs={'class': 'form-control input-xs'}),
-            'fecha_regreso': TextInput(attrs={'class': 'form-control input-xs'})
+            'fecha_regreso': TextInput(attrs={'class': 'form-control input-xs'}),
+            'ciudad_destino': TextInput(attrs={'class': 'form-control input-xs'}),
         }
 
     def __init__(self, *args, **kwargs):

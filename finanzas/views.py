@@ -42,7 +42,7 @@ class ViaticoLista(View):
         return render(request, self.template_name, {})
 
 
-class ViaticoNuevo(View):
+class ViaticoCabeceraNuevo(View):
 
     def __init__(self):
         self.template_name = 'viatico/viatico_nuevo.html'
@@ -75,7 +75,7 @@ class ViaticoNuevo(View):
         return render(request, self.template_name, contexto)
 
 
-class ViaticoEditar(View):
+class ViaticoCabeceraEditar(View):
 
     def __init__(self):
         self.template_name = 'viatico/viatico_editar.html'
@@ -110,6 +110,5 @@ class ViaticoEditar(View):
             'id_cabecera': viatico.id,
         }
         return render(request, self.template_name, contexto)
-
 
 

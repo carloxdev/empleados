@@ -9,18 +9,18 @@ from django.views.generic.base import View
 # Librerias de Propias
 
 # Formularios
-from .forms import EmpleadosFilterForm
+from .forms import EmpleadoFilterForm
 
 
 # -------------- EMPLEADOS -------------- #
 
-class Empleados(View):
+class EmpleadoLista(View):
     def __init__(self):
-        self.template_name = 'empleados/empleados_filtro.html'
+        self.template_name = 'empleado_lista.html'
 
     def get(self, request):
 
-        formulario = EmpleadosFilterForm()
+        formulario = EmpleadoFilterForm()
 
         contexto = {
             'form': formulario

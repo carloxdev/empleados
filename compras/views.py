@@ -9,18 +9,18 @@ from django.views.generic.base import View
 # Librerias de Propias
 
 # Formularios
-from .forms import ComprasSeguimientoFilterForm
+from .forms import SeguimientoComprasFilterForm
 
 
 # -------------- COMPRAS -------------- #
 
-class Seguimiento(View):
+class SeguimientoComprasLista(View):
     def __init__(self):
-        self.template_name = 'seguimiento/seguimiento_filtro.html'
+        self.template_name = 'seguimiento_compras_lista.html'
 
     def get(self, request):
 
-        formulario = ComprasSeguimientoFilterForm()
+        formulario = SeguimientoComprasFilterForm()
 
         contexto = {
             'form': formulario

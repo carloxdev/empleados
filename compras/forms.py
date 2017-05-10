@@ -15,7 +15,7 @@ from jde.models import VIEW_UNIDADES
 from jde.models import VIEW_USUARIOS
 
 
-class ComprasSeguimientoFilterForm(Form):
+class SeguimientoComprasFilterForm(Form):
     TIPOS_REQUISISION = (
         ('', '-------'),
         ('SR', 'SR - Requisición de Servicios'),
@@ -132,7 +132,7 @@ class ComprasSeguimientoFilterForm(Form):
     )
 
     def __init__(self, *args, **kwargs):
-        super(ComprasSeguimientoFilterForm, self).__init__(
+        super(SeguimientoComprasFilterForm, self).__init__(
             *args, **kwargs)
         self.fields['compania'].choices = self.get_Compania()
         self.fields['sucursal'].choices = self.get_Sucursal()
