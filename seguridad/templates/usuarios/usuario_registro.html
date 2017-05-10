@@ -1,19 +1,13 @@
+{% extends 'login.html' %}
 {% load static from staticfiles %}
+{% block titulo %} Registro {% endblock titulo %}
+{% block title-page %} Registro de usuario {% endblock title-page %}
+{% block css %}
+  <!-- Theme -->
+  <link rel="stylesheet" href="{% static 'theme/lib/select2/css/select2.min.css' %}">
+{% endblock css %}
 
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <link rel="shortcut icon" href="{% static 'theme/img/logo-fav.png' %}">
-    <title>Alta de usuario</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'theme/lib/perfect-scrollbar/css/perfect-scrollbar.min.css' %}"/>
-    <link rel="stylesheet" type="text/css" href="{% static 'theme/lib/material-design-icons/css/material-design-iconic-font.min.css' %}"/>
-    <link rel="stylesheet" href="{% static 'theme/css/style.css' %}" type="text/css"/>
-  </head>
-  <body>
-
+{% block contenido %}
   <div class="page-head">
     <h2 class="page-head-title">Registro de usuario</h2>
     <ol class="breadcrumb page-head-nav">
@@ -38,9 +32,6 @@
                   {{form.clave_rh.label}}
                 </label>
                 <p>{{ form.clave_rh }}</p>
-                {% for error in form.clave_rh.errors %}
-                  <span class="help-block">{{ error }}</span>
-                {% endfor %}
               </div>
               <!-- First_name-->
               <div class="form-group {% if form.first_name.field.required %} has-warning {% endif %} {% if form.first_name.errors %} has-error {% endif %}">
@@ -49,9 +40,6 @@
                   {{form.first_name.label}}
                 </label>
                 <p>{{ form.first_name }}</p>
-                {% for error in form.first_name.errors %}
-                  <span class="help-block">{{ error }}</span>
-                {% endfor %}
               </div>
               <!-- Last_name-->
               <div class="form-group {% if form.last_name.field.required %} has-warning {% endif %} {% if form.last_name.errors %} has-error {% endif %}">
@@ -60,9 +48,6 @@
                   {{form.last_name.label}}
                 </label>
                 <p>{{ form.last_name }}</p>
-                {% for error in form.last_name.errors %}
-                  <span class="help-block">{{ error }}</span>
-                {% endfor %}
               </div>
               <!-- Fecha_nacimiento-->
               <div class="form-group {% if form.fecha_nacimiento.field.required %} has-warning {% endif %} {% if form.fecha_nacimiento.errors %} has-error {% endif %}">
@@ -71,9 +56,6 @@
                   {{ form.fecha_nacimiento.label}}
                 </label>
                 <p>{{ form.fecha_nacimiento}}</p>
-                {% for error in form.fecha_nacimiento.errors %}
-                  <span class="help-block">{{ error }}</span>
-                {% endfor %}
               </div>
               <!-- Email-->
               <div class="form-group {% if form.email.field.required %} has-warning {% endif %} {% if form.email.errors %} has-error {% endif %}">
@@ -82,9 +64,6 @@
                   {{form.email.label}}
                 </label>
                 <p>{{ form.email }}</p>
-                {% for error in form.email.errors %}
-                  <span class="help-block">{{ error }}</span>
-                {% endfor %}
               </div>
               <!-- Clave_jde -->
               <div class="hidden">
@@ -97,9 +76,6 @@
                   {{form.foto.label }}
                 </label>
                 <p>{{ form.foto }}</p>
-                {% for error in form.foto.errors %}
-                  <span class="help-block">{{ error }}</span>
-                {% endfor %}
               </div>
               <br>
               <h4><b>Información de cuenta</b></h4>
@@ -111,9 +87,6 @@
                   {{ form.username.label }}
                 </label>
                 <p>{{ form.username}}</p>
-                {% for error in form.username.errors %}
-                  <span class="help-block">{{ error }}</span>
-                {% endfor %}
               </div>
               <!-- Password-->
               <div class="form-group {% if form.password1.field.required %} has-warning {% endif %} {% if form.password1.errors %} has-error {% endif %}">
@@ -122,9 +95,6 @@
                   {{form.password1.label}}
                 </label>
                 <p>{{ form.password1 }}</p>
-                {% for error in form.password1.errors %}
-                  <span class="help-block">{{ error }}</span>
-                {% endfor %}
               </div>
               <!-- Confirmar Password-->
               <div class="form-group {% if form.password2.field.required %} has-warning {% endif %} {% if form.password2.errors %} has-error {% endif %}">
@@ -133,9 +103,6 @@
                   {{form.password2.label}}
                 </label>
                 <p> {{form.password2}} </p>
-                {% for error in form.password2.errors %}
-                  <span class="help-block">{{ error }}</span>
-                {% endfor %}
               </div>
               <br>
               <button type="submit" class="btn btn-primary" id="id_boton_guardar" >Guardar usuario</button>
@@ -143,11 +110,11 @@
           </div>
           <p>
         {% if form.errors %}
+          <div class="alert alert-danger">
             {% for field in form %}
                 {% for error in field.errors %}
-                    <div class="alert alert-danger">
-                        <strong>{{ error|escape }}</strong>
-                    </div>
+                  <strong>{{ error|escape }}</strong>
+                   <br>
                 {% endfor %}
             {% endfor %}
             {% for error in form.non_field_errors %}
@@ -155,46 +122,31 @@
                     <strong>{{ error|escape }}</strong>
                 </div>
             {% endfor %}
-        {% endif %}         
-
-        {% if form_profile.errors %}
-            {% for field in form_profile %}
-                {% for error in field.errors %}
-                    <div class="alert alert-danger">
-                        <strong>{{ error|escape }}</strong>
-                    </div>
-                {% endfor %}
-            {% endfor %}
-            {% for error in form_profile.non_field_errors %}
-                <div class="alert alert-danger">
-                    <strong>{{ error|escape }}</strong>
-                </div>
-            {% endfor %}
-        {% endif %}         
+            </div>
+        {% endif %} 
+        {% if messages %}
+          {% for message in messages %}
+            <div class="alert alert-danger">
+                  <strong>{{message}}</strong>
+              </div>
+          {% endfor %}
+        {% endif %}        
             </p>
       </div>
     </div>
   </div>
   </div>
 
-    <script src="{% static 'theme/lib/jquery/jquery.min.js' %}" type="text/javascript"></script>
-    <script src="{% static 'theme/lib/perfect-scrollbar/js/perfect-scrollbar.jquery.min.js' %}" type="text/javascript"></script>
-    <script src="{% static 'theme/js/main.js' %}" type="text/javascript"></script>
-    <script src="{% static 'theme/lib/bootstrap/dist/js/bootstrap.min.js' %}" type="text/javascript"></script>
-    <!-- Theme -->
-    <script src="{% static 'theme/lib/jquery-ui/jquery-ui.min.js' %}"></script>
-    <script src="{% static 'theme/lib/select2/js/select2.min.js' %}"></script>
-    <script src="{% static 'theme/lib/select2/js/select2.full.min.js' %}"></script>
-    <!-- Moment -->
-    <script src="{% static 'libs/momentjs/2.18.1/moment.js' %}"></script>
-    <!-- NOVA -->
-    <script src="{% static 'usuarios/usuario_formulario.js' %}"></script>
-    <script type="text/javascript">
-      $(document).ready(function(){
-      	//initialize the javascript
-      	App.init();
-      });
-      
-    </script>
-  </body>
-</html>
+  {% endblock contenido%}
+{% block scripts %}
+
+  <!-- Moment -->
+  <script src="{% static 'libs/momentjs/2.18.1/moment.js' %}"></script>
+
+  <!-- Theme -->
+  <script src="{% static 'theme/lib/jquery-ui/jquery-ui.min.js' %}"></script>
+  <script src="{% static 'theme/lib/select2/js/select2.min.js' %}"></script>
+  <script src="{% static 'theme/lib/select2/js/select2.full.min.js' %}"></script>
+  <!-- NOVA -->
+  <script src="{% static 'usuarios/usuario_formulario.js' %}"></script>
+{% endblock scripts %}

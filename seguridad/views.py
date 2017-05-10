@@ -30,6 +30,7 @@ from django.contrib.auth.models import User
 # Formularios:
 from .forms import UserFormFilter
 from .forms import UserNuevoForm
+from .forms import UserRegistroForm
 from .forms import UserEditarForm
 from .forms import UserEditarPerfilForm
 from .forms import UserContrasenaActualForm
@@ -37,6 +38,7 @@ from .forms import UserContrasenaNuevaForm
 
 
 class Login(View):
+
     def __init__(self):
         self.template_name = 'login.html'
 
@@ -291,7 +293,8 @@ class UsuarioEditarPerfil(View):
     def post(self, request, pk):
         usuario = get_object_or_404(User, pk=pk)
 
-        form_usuario = UserEditarPerfilForm(request.POST, request.FILES, instance=usuario)
+        form_usuario = UserEditarPerfilForm(
+            request.POST, request.FILES, instance=usuario)
 
         if form_usuario.is_valid():
 
@@ -359,5 +362,61 @@ class UsuarioCambiarContrasenaPerfil(LoginRequiredMixin, View):
         contexto = {
             'form': form_contrasena_actual,
             'form2': form_contrasena_nueva,
+        }
+        return render(request, self.template_name, contexto)
+
+
+class UsuarioRegistro(View):
+    def __init__(self):
+        self.template_name = 'usuarios/usuario_registro.html'
+
+    def get(self, request):
+
+        form_usuario = UserRegistroForm()
+
+        contexto = {
+            'form': form_usuario,
+        }
+        return render(request, self.template_name, contexto)
+
+    def post(self, request):
+
+        form_usuario = UserRegistroForm(request.POST, request.FILES)
+
+        if form_usuario.is_valid():
+
+            datos_formulario = form_usuario.cleaned_data
+
+            valor = datos_formulario.get('clave_rh')
+            clave = Profile.objects.filter(clave_rh=valor)
+
+            if not(valor and clave):
+
+                usuario = User.objects.create_user(
+                    username=datos_formulario.get('username'),
+                    password=datos_formulario.get('password1')
+                )
+
+                usuario.first_name = datos_formulario.get('first_name')
+                usuario.last_name = datos_formulario.get('last_name')
+                usuario.email = datos_formulario.get('email')
+                usuario.is_active = True
+                usuario.is_staff = False
+                usuario.is_superuser = False
+                usuario.save()
+
+                usuario.profile.clave_rh = datos_formulario.get('clave_rh')
+                usuario.profile.clave_jde = datos_formulario.get('clave_jde')
+                usuario.profile.fecha_nacimiento = datos_formulario.get(
+                    'fecha_nacimiento')
+                usuario.profile.foto = datos_formulario.get('foto')
+                usuario.profile.save()
+
+                return redirect(reverse('home:inicio'))
+            else:
+                messages.error(request, 'La clave de empleado ya se encuentra asociada a una cuenta')
+
+        contexto = {
+            'form': form_usuario,
         }
         return render(request, self.template_name, contexto)

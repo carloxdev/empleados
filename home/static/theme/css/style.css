@@ -8255,16 +8255,17 @@ canvas {
 .be-top-header .navbar-header .navbar-brand {
   line-height: 60px;
   height: 60px;
-  width: 142px;
-  background-image: url("../img/logo.png");
+  width: 170px;
+  background-image: url("/static/images/logos/logo_horizontal.png");
   background-repeat: no-repeat;
   background-position: 20px center;
   padding: 0 20px;
   margin: 0;
+  background-size: 135px 50px 
 }
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 2/1), (min-resolution: 192dpi) {
   .be-top-header .navbar-header .navbar-brand {
-    background-image: url("../img/logo-xx.png");
+    background-image: url("/static/images/logos/logo_horizontal.png");
     background-size: 102px 27px;
   }
 }

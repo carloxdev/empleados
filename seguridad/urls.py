@@ -6,6 +6,7 @@ from django.conf.urls.static import static
 from .views import Login
 from .views import UsuarioLista
 from .views import UsuarioNuevo
+from .views import UsuarioRegistro
 from .views import UsuarioEditar
 from .views import UsuarioEditarPerfil
 from .views import UsuarioCambiarContrasenaAdmin
@@ -38,6 +39,7 @@ urlpatterns = [
     url(r'^usuarios/(?P<pk>\d+)/perfil/$', UsuarioEditarPerfil.as_view(), name="usuario_editar_perfil"),
     url(r'^usuarios/(?P<pk>\d+)/perfil/contrasena/$',
         UsuarioCambiarContrasenaPerfil.as_view(), name="usuario_cambiar_contrasena_perfil"),
+    url(r'^registro/$', UsuarioRegistro.as_view(), name="usuario_registro")
 ]
 
 if settings.DEBUG:

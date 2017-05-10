@@ -46,8 +46,14 @@
   <div class="be-wrapper nova-be-wrapper be-collapsible-sidebar be-fixed-sidebar">
     <nav class="navbar navbar-default navbar-fixed-top be-top-header">
       <div class="container-fluid">
-        <div class="navbar-header"><a href="{% url 'home:inicio' %}" class="navbar-brand"></a><a href="#" class="be-toggle-left-sidebar"><span class="icon mdi mdi-menu"></span></a>
-      </div>
+      
+        <div class="navbar-header">
+          <a class="navbar-brand" href="{% url 'home:inicio' %}"></a>
+          <a href="#" class="be-toggle-left-sidebar">
+            <span class="icon mdi mdi-menu"></span>
+          </a>
+        </div>
+
       <div class="be-right-navbar">
         <ul class="nav navbar-nav navbar-right be-user-nav">
           <li class="dropdown"><a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="dropdown-toggle">
@@ -144,6 +150,7 @@
           </div>
         </div>
       </nav>
+
       <div class="be-left-sidebar nova-be-left-sidebar">
         <div class="left-sidebar-wrapper"><a href="#" class="left-sidebar-toggle">{% block title-page %}  {% endblock title-page %}</a>
         <div class="left-sidebar-spacer">
