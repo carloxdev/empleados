@@ -2,21 +2,14 @@
 
 {% load static from staticfiles %}
 
+{% load campos_personalizados %}
+
 {% block titulo %} Viaticos {% endblock titulo %}
 
 {% block title-page %} Nueva Solicitud de Viatico {% endblock title-page %}
 
 {% block css %}
-	<!-- Kendo -->
-	<link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.rtl.min.css' %}"/>
-	<link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.common-bootstrap.min.css' %}"/>
-	<link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.bootstrap.min.css' %}"/>
 
-    <!-- Theme -->
-    <link rel="stylesheet" href="{% static 'theme/lib/datetimepicker/css/bootstrap-datetimepicker.min.css' %}"/>
-
-    <!-- Nova -->
-    <link rel="stylesheet" href="{% static 'grid.css' %}"/>
 
 {% endblock css %}
 
@@ -86,14 +79,12 @@
                                     <div class="form-group">
 
                                         <label class="col-sm-3 control-label">
-                                            {{ form.fecha_partida.label }}
+                                            Fecha partida/regreso
                                         </label>
-                                        <div class="col-sm-3 xs-pt-5">
-                                            {{ form.fecha_partida }}
-                                        </div>
-                                        <div class="col-sm-3 xs-pt-5">
-                                            {{ form.fecha_regreso }}
-                                        </div>                                        
+
+                                        {% campo_fecha form.fecha_partida %}
+                                        {% campo_fecha form.fecha_regreso %}
+                                        
                                     </div>
 
                                     <div class="form-group">
@@ -120,7 +111,7 @@
                                         <div class="col-sm-7">
                                             <h5 class="wizard-title">Informacion de la autorizacion:</h5>
                                         </div>
-                                    </div>                                    
+                                    </div>
 
                                 </div>
                             </div>
@@ -153,19 +144,21 @@
 {% endblock contenido %}
 
 {% block scripts %}
-	<!-- Kendo Js -->
-	<script src="{% static 'libs/kendo/2015.2.624/js/cultures/kendo.culture.es-MX.min.js' %}"></script>
-	<script src="{% static 'libs/kendo/2015.2.624/js/kendo.web.min.js' %}"></script>
 
     <!-- Theme -->
-    <script src="{% static 'theme/lib/datetimepicker/js/bootstrap-datetimepicker.min.js' %}"></script>
     <script src="{% static 'theme/lib/jquery-ui/jquery-ui.min.js' %}"></script>
     <script src="{% static 'theme/lib/moment.js/min/moment.min.js' %}"></script>
-    
-    <!-- plugins -->
-   <script src="{% static 'libs/plugins/input-mask/jquery.inputmask.js' %}"></script>
+    <script src="{% static 'theme/lib/bootstrap/dist/js/transition.js' %}"></script>    
+    <script src="{% static 'theme/lib/bootstrap/dist/js/collapse.js' %}"></script>    
+    <script src="{% static 'theme/lib/select2/js/select2.min.js' %}"></script>
 
-	<!-- NOVA -->
+    <!-- DateTimePicker -->
+    <script src="{% static 'libs/bootstrap-datetimepicker/4.17.47/bootstrap-datetimepicker.js' %}"></script>
+    
+    <!-- InputMask -->
+    <script src="{% static 'libs/plugins/input-mask/jquery.inputmask.js' %}"></script>
+
+	<!-- Nova -->
 	<script src="{% static 'viatico/viatico_formulario.js' %}"></script>      
 
 {% endblock scripts %}
