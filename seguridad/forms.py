@@ -301,10 +301,12 @@ class UserEditarPerfilForm(ModelForm):
 
 
 class UserContrasenaNuevaForm(AdminPasswordChangeForm):
-    password1 = CharField(label='Nueva contraseña', widget=PasswordInput(
-        attrs={'class': 'form-control input-xs'}))
-    password2 = CharField(label='Confirmar contraseña', widget=PasswordInput(
-        attrs={'class': 'form-control input-xs'}))
+    password1 = CharField(label='Nueva contraseña',
+                          widget=PasswordInput(
+                              attrs={'class': 'form-control input-xs'}))
+    password2 = CharField(label='Confirmar contraseña',
+                          widget=PasswordInput(
+                              attrs={'class': 'form-control input-xs'}))
 
     class Meta:
         model = User
@@ -319,7 +321,31 @@ class UserContrasenaActualForm(forms.Form):
                                       attrs={'class': 'form-control input-xs'}))
 
 
-class EmailForm(forms.Form):
+class ValidarClaveEmpleadoForm(forms.Form):
 
-    email = CharField(label="Correo electronico", widget=forms.EmailInput(
-        attrs={'class': 'form-control input-xs'}))
+    clave_rh = ChoiceField(label='Clave de empleado',
+                           widget=forms.Select(
+                               attrs={'class': 'form-control input-xs'}))
+
+    def __init__(self, *args, **kwargs):
+        super(ValidarClaveEmpleadoForm, self).__init__(*args, **kwargs)
+        self.fields['clave_rh'].choices = self.get_EmpleadosEbs()
+
+    def get_EmpleadosEbs(self):
+        valores = [('', '-------')]
+
+        usuarios = User.objects.all()
+        for usuario in usuarios:
+
+            descripcion = "%s - %s" % (
+                usuario.profile.clave_rh,
+                usuario.get_full_name()
+            )
+
+            valores.append(
+                (
+                    usuario.profile.clave_rh,
+                    descripcion,
+                )
+            )
+        return valores

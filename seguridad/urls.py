@@ -11,6 +11,7 @@ from .views import UsuarioEditar
 from .views import UsuarioPerfil
 from .views import UsuarioCambiarContrasenaAdmin
 from .views import UsuarioCambiarContrasenaPerfil
+from .views import UsuarioValidacionClave
 
 # Autentificacion
 from django.contrib.auth import views as auth_views
@@ -69,9 +70,23 @@ urlpatterns = [
         name="usuario_registro"
     ),
 
-    # ------------------PRUEBAS------------------
+    # ------------------ Reset contrasena clave de empleado ------ #
+
     url(
-        r'^reset/password_reset/$',
+        r'^reset/clave/$',
+        UsuarioValidacionClave.as_view(),
+        name="password_reset_clave"
+    ),
+
+    # url(
+    #     r'^reset/clave/done/$',
+    #     UsuarioDone.as_view(),
+    #     name="password_reset_clave"
+    # ),
+
+    # ------------------ Reset contrasena email ------------------ #
+    url(
+        r'^reset/email/$',
         auth_views.password_reset,
         {'template_name': 'registration/contrasena_reset_form.html',
          'email_template_name': 'registration/contrasena_reset_email.html',
@@ -79,7 +94,7 @@ urlpatterns = [
         name='password_reset'
     ),
     url(
-        r'^reset/password_reset/done/$',
+        r'^reset/email/done/$',
         auth_views.password_reset_done,
         {'template_name': 'registration/contrasena_reset_done.html'},
         name="password_reset_done"

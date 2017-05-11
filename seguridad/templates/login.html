@@ -50,7 +50,11 @@
               </div>
             </div>
             <div class="splash-footer">
-                <a href="{% url 'seguridad:password_reset' %}">Olvide mi contraseña</a>
+                He olvidado mi contraseña
+                <br>
+                <a href="{% url 'seguridad:password_reset' %}">Restablecer via email</a>
+                <br>
+                <a href="{% url 'seguridad:password_reset_clave' %}">Restablecer via clave de empleado</a>
                 <br>
                 <span>¿No tienes una cuenta? <a href="{% url 'seguridad:usuario_registro' %}">Registrarme</a></span></div>
           </div>

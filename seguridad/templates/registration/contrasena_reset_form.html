@@ -3,7 +3,7 @@
 {% block contenido %}
 <div class="be-content">
 	<div class="page-head">
-		<h2 class="page-head-title">Restablecer contraseña de usuario</h2>
+		<h2 class="page-head-title">Restablecer contraseña via email.</h2>
 	</div>
 	<div class="col-md-12">
 		<div class="main-content container-fluid">
@@ -18,7 +18,7 @@
 							{{ form.as_p }}
 							<!-- Botones de accion -->
 							<a class="button" href="{% url 'seguridad:login' %}"> Regresar </a>
-							<button type="submit" class="btn btn-primary" id="id_boton_guardar" >Restablecer contraseña</button>
+							<button type="submit" class="btn btn-primary" id="id_boton_guardar" >Enviar correo</button>
 						</form>
 					</div><!-- End Form group -->
 				</div><!-- End Panel default -->
