@@ -500,15 +500,14 @@ Grid.prototype.get_Columnas = function () {
                 {
                    text: "Autorizadores",
                    click: this.click_BotonDetallesAutorizaciones,
-                   className: "mdi mdi-search"
                 },              
             ],           
            title: "Autorizadores",
            width: "120px"
         },
-        { field: "req_comprador_desc", title: "Comprador", width:"150px"},
+        { field: "req_comprador_desc", title: "Comprador", width:"300px"},
         { field: "req_item_numero", title: "No. item", width:"120px"},
-        { field: "req_item_desc", title: "Descripción del item", width:"200px"},
+        { field: "req_item_desc", title: "Descripción del item", width:"500px"},
         { field: "req_cantidad_solicitada", title: "Cantidad solicitada", width:"120px"},
         { field: "req_udm", title: "UDM", width:"75px"},
         { field: "cot", title: "Cotización", width:"120px"},
@@ -525,7 +524,7 @@ Grid.prototype.get_Columnas = function () {
         { field: "ord_generador", title: "Originador", width:"150px"},
         { field: "ord_linea", title: "Linea", width:"75px"},
         { field: "ord_proveedor", title: "Proveedor codigo", width:"120px"},
-        { field: "ord_proveedor_desc", title: "Proveedor descripcion", width:"150px"},
+        { field: "ord_proveedor_desc", title: "Proveedor descripcion", width:"350px"},
         { field: "ord_estado_last", title: "Último estado", width:"120px"},
         { field: "ord_estado_next", title: "Siguiente estado", width:"120px"},
         { field: "ord_cantidad_solic", title: "Cantidad", width:"75px"},
@@ -537,7 +536,6 @@ Grid.prototype.get_Columnas = function () {
                 {
                    text: "Recepciones",
                    click: this.click_BotonDetallesRecepciones,
-                   className: "mdi mdi-search"
                 },              
             ],           
            title: "Recepción",
@@ -547,7 +545,6 @@ Grid.prototype.get_Columnas = function () {
                 {
                    text: "Cotejo",
                    click: this.click_BotonDetallesCotejo,
-                   className: "mdi mdi-search"
                 },              
             ],           
            title: "Cotejo",
