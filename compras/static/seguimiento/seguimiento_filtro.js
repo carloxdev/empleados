@@ -261,76 +261,7 @@ ToolBar.prototype.Inicializar_CeldasExcel = function (e) {
     }
 
     this.kRows = [{
-        cells: [
-            { value: 'req_compania' },
-            { value: 'req_un' },
-            { value: 'req' },
-            { value: 'req_tipo' },
-            { value: 'req_generador' },
-            { value: 'req_fecha_creacion' },
-            { value: 'req_fecha_necesidad' },
-            { value: 'req_linea' },
-            { value: 'req_linea_tipo' },
-            { value: 'req_estado_last' },
-            { value: 'req_estado_next' },
-            { value: 'req_comprador_desc' },
-            { value: 'req_item_numero' },
-            { value: 'req_item_desc' },
-            { value: 'req_cantidad_solicitada' },
-            { value: 'req_udm' },
-            { value: 'cot' },
-            { value: 'cot_tipo' },
-            { value: 'cot_fecha_creacion' },
-            { value: 'cot_generador' },
-            { value: 'cot_linea' },
-            { value: 'cot_estado_last' },
-            { value: 'cot_estado_next' },
-            { value: 'ord' },
-            { value: 'ord_tipo' },
-            { value: 'ord_fecha_creacion' },
-            { value: 'ord_fecha_entrega' },
-            { value: 'ord_generador' },
-            { value: 'ord_linea' },
-            { value: 'ord_proveedor' },
-            { value: 'ord_proveedor_desc' },
-            { value: 'ord_estado_last' },
-            { value: 'ord_estado_next' },
-            { value: 'ord_cantidad_solic' },
-            { value: 'ord_moneda' },
-            { value: 'ord_pu_mx' },
-            { value: 'ord_total_mx' },
-            { value: 'ord_impuesto' },
-            { value: 'req_generador_desc' },
-            { value: 'req_estado_last_desc' },
-            { value: 'req_comprador' },
-            { value: 'req_udm_desc' },
-            { value: 'cot_compania' },
-            { value: 'cot_estado_last_desc' },
-            { value: 'ord_compania' },
-            { value: 'ord_tipo_desc' },
-            { value: 'ord_generador_desc' },
-            { value: 'ord_estado_last_desc' },
-            { value: 'ord_udm' },
-            { value: 'ord_udm_desc' },
-            { value: 'ord_cantidad_recib' },
-            { value: 'ord_cantidad_xrecib' },
-            { value: 'ord_recepcion' },
-            { value: 'ord_pu_ex' },
-            { value: 'ord_total_ex' },
-            { value: 'ord_monto_recib_ex' },
-            { value: 'ord_monto_xrecib_ex' },
-            { value: 'ord_moneda_desc' },
-            { value: 'ord_tasa' },
-            { value: 'ord_monto_recib_mx' },
-            { value: 'ord_monto_xrecib_mx' },
-            { value: 'ord_impuesto_desc' },
-            { value: 'ord_impuesto_flag' },
-            { value: 'ord_descuento' },
-            { value: 'ord_termino_pago' },
-            { value: 'ord_termino_pago_desc' },
-            { value: 'ord_updated_by' },
-            { value: 'ord_updated_by_desc' },
-        ]
+        cells: this.get_Celdas()
     }];
 }
 ToolBar.prototype.click_BotonExportar = function (e) {
@@ -344,151 +275,13 @@ ToolBar.prototype.click_BotonExportar = function (e) {
             for (var i = 0; i < data.length; i++) {
 
                 e.data.kRows.push({
-                    cells: [
-                        { value: data[i].req_compania },
-                        { value: data[i].req_un },
-                        { value: data[i].req },
-                        { value: data[i].req_tipo },
-                        { value: data[i].req_generador },
-                        { value: data[i].req_fecha_creacion },
-                        { value: data[i].req_fecha_necesidad },
-                        { value: data[i].req_linea },
-                        { value: data[i].req_linea_tipo },
-                        { value: data[i].req_estado_last },
-                        { value: data[i].req_estado_next },
-                        { value: data[i].req_comprador_desc },
-                        { value: data[i].req_item_numero },
-                        { value: data[i].req_item_desc },
-                        { value: data[i].req_cantidad_solicitada },
-                        { value: data[i].req_udm },
-                        { value: data[i].cot },
-                        { value: data[i].cot_tipo },
-                        { value: data[i].cot_fecha_creacion },
-                        { value: data[i].cot_generador },
-                        { value: data[i].cot_linea },
-                        { value: data[i].cot_estado_last },
-                        { value: data[i].cot_estado_next },
-                        { value: data[i].ord },
-                        { value: data[i].ord_tipo },
-                        { value: data[i].ord_fecha_creacion },
-                        { value: data[i].ord_fecha_entrega },
-                        { value: data[i].ord_generador },
-                        { value: data[i].ord_linea },
-                        { value: data[i].ord_proveedor },
-                        { value: data[i].ord_proveedor_desc },
-                        { value: data[i].ord_estado_last },
-                        { value: data[i].ord_estado_next },
-                        { value: data[i].ord_cantidad_solic },
-                        { value: data[i].ord_moneda },
-                        { value: data[i].ord_pu_mx },
-                        { value: data[i].ord_total_mx },
-                        { value: data[i].ord_impuesto },
-                        { value: data[i].req_generador_desc },
-                        { value: data[i].req_estado_last_desc },
-                        { value: data[i].req_comprador },
-                        { value: data[i].req_udm_desc },
-                        { value: data[i].cot_compania },
-                        { value: data[i].cot_estado_last_desc },
-                        { value: data[i].ord_compania },
-                        { value: data[i].ord_tipo_desc },
-                        { value: data[i].ord_generador_desc },
-                        { value: data[i].ord_estado_last_desc },
-                        { value: data[i].ord_udm },
-                        { value: data[i].ord_udm_desc },
-                        { value: data[i].ord_cantidad_recib },
-                        { value: data[i].ord_cantidad_xrecib },
-                        { value: data[i].ord_recepcion },
-                        { value: data[i].ord_pu_ex },
-                        { value: data[i].ord_total_ex },
-                        { value: data[i].ord_monto_recib_ex },
-                        { value: data[i].ord_monto_xrecib_ex },
-                        { value: data[i].ord_moneda_desc },
-                        { value: data[i].ord_tasa },
-                        { value: data[i].ord_monto_recib_mx },
-                        { value: data[i].ord_monto_xrecib_mx },
-                        { value: data[i].ord_impuesto_desc },
-                        { value: data[i].ord_impuesto_flag },
-                        { value: data[i].ord_descuento },
-                        { value: data[i].ord_termino_pago },
-                        { value: data[i].ord_termino_pago_desc },
-                        { value: data[i].ord_updated_by },
-                        { value: data[i].ord_updated_by_desc },
-                    ]
+                    cells: e.data.get_Registros_Excel(data[i])
                 })
             }
             var workbook = new kendo.ooxml.Workbook({
                 sheets: [
                     {
-                        columns: [
-                            { autoWidth: true },
-                            { autoWidth: true },
-                            { autoWidth: true },
-                            { autoWidth: true },
-                            { autoWidth: true },
-                            { autoWidth: true },
-                            { autoWidth: true },
-                            { autoWidth: true },
-                            { autoWidth: true },
-                            { autoWidth: true },
-                            { autoWidth: true },
-                            { autoWidth: true },
-                            { autoWidth: true },
-                            { autoWidth: true },
-                            { autoWidth: true },
-                            { autoWidth: true },
-                            { autoWidth: true },
-                            { autoWidth: true },
-                            { autoWidth: true },
-                            { autoWidth: true },
-                            { autoWidth: true },
-                            { autoWidth: true },
-                            { autoWidth: true },
-                            { autoWidth: true },
-                            { autoWidth: true },
-                            { autoWidth: true },
-                            { autoWidth: true },
-                            { autoWidth: true },
-                            { autoWidth: true },
-                            { autoWidth: true },
-                            { autoWidth: true },
-                            { autoWidth: true },
-                            { autoWidth: true },
-                            { autoWidth: true },
-                            { autoWidth: true },
-                            { autoWidth: true },
-                            { autoWidth: true },
-                            { autoWidth: true },
-                            { autoWidth: true },
-                            { autoWidth: true },
-                            { autoWidth: true },
-                            { autoWidth: true },
-                            { autoWidth: true },
-                            { autoWidth: true },
-                            { autoWidth: true },
-                            { autoWidth: true },
-                            { autoWidth: true },
-                            { autoWidth: true },
-                            { autoWidth: true },
-                            { autoWidth: true },
-                            { autoWidth: true },
-                            { autoWidth: true },
-                            { autoWidth: true },
-                            { autoWidth: true },
-                            { autoWidth: true },
-                            { autoWidth: true },
-                            { autoWidth: true },
-                            { autoWidth: true },
-                            { autoWidth: true },
-                            { autoWidth: true },
-                            { autoWidth: true },
-                            { autoWidth: true },
-                            { autoWidth: true },
-                            { autoWidth: true },
-                            { autoWidth: true },
-                            { autoWidth: true },
-                            { autoWidth: true },
-                            { autoWidth: true },
-                        ],
+                        columns: e.data.get_Columnas_Excel_Ancho(),
                         title: "Seguimientos",
                         rows: e.data.kRows
                     }
@@ -499,6 +292,52 @@ ToolBar.prototype.click_BotonExportar = function (e) {
                 fileName: "ListadoSeguimientos.xlsx",
             });
         });
+}
+ToolBar.prototype.get_Formato_Columnas = function () {
+    
+    var columnas = tarjeta_resultados.grid.get_Columnas()
+    var columnas_formateadas = []
+
+    $.each(columnas, function (index) {
+        $.each(this, function (name) {
+            if (name === 'field'){
+                columnas_formateadas.push(columnas[index])
+            }
+        })
+    })
+    return columnas_formateadas
+}
+ToolBar.prototype.get_Celdas = function () {
+    
+    var celdas = []
+    var columnas = this.get_Formato_Columnas()
+
+    for (var i=0; i < columnas.length; i++) {
+        campo = columnas[i].title
+        celdas.push({ value: campo })
+    }
+    return celdas
+}
+ToolBar.prototype.get_Registros_Excel = function (data) {
+    
+    var registros = []
+    var columnas = this.get_Formato_Columnas()
+
+    for (var i=0; i < columnas.length; i++) {
+        campo = columnas[i].field
+        registros.push({ value: data[campo] })
+    }
+    return registros
+}
+ToolBar.prototype.get_Columnas_Excel_Ancho = function () {
+    
+    var columnas_excel = []
+    var columnas = this.get_Formato_Columnas()
+
+    for (var i=0; i < columnas.length; i++) {
+        columnas_excel.push({ autoWidth: true })
+    }
+    return columnas_excel
 }
 
 /*-----------------------------------------------*\
@@ -621,37 +460,6 @@ Grid.prototype.get_Campos = function () {
         ord_pu_mx : { type: "string" },
         ord_total_mx : { type: "string" },
         ord_impuesto : { type: "string" },
-
-        req_generador_desc : { type: "string" }, 
-        req_estado_last_desc : { type: "string" },
-        req_comprador : { type: "number" },
-        req_udm_desc : { type: "string" },
-        cot_compania : { type: "string" },
-        cot_estado_last_desc : { type: "string" },
-        ord_compania : { type: "string" },
-        ord_tipo_desc : { type: "string" },
-        ord_generador_desc : { type: "string" },
-        ord_estado_last_desc : { type: "string" },
-        ord_udm : { type: "string" },
-        ord_udm_desc : { type: "string" },
-        ord_cantidad_recib : { type: "string" },
-        ord_cantidad_xrecib : { type: "string" },
-        ord_recepcion : { type: "string" },
-        ord_pu_ex : { type: "string" },
-        ord_total_ex : { type: "string" },
-        ord_monto_recib_ex : { type: "string" },
-        ord_monto_xrecib_ex : { type: "string" },
-        ord_moneda_desc : { type: "string" },
-        ord_tasa : { type: "string" },
-        ord_monto_recib_mx : { type: "string" },
-        ord_monto_xrecib_mx : { type: "string" },
-        ord_impuesto_desc : { type: "string" },
-        ord_impuesto_flag : { type: "string" },
-        ord_descuento : { type: "number" },
-        ord_termino_pago : { type: "string" },
-        ord_termino_pago_desc : { type: "string" },
-        ord_updated_by : { type: "string" },
-        ord_updated_by_desc : { type: "string" },
     }
 }
 Grid.prototype.get_Configuracion = function () {
@@ -745,37 +553,6 @@ Grid.prototype.get_Columnas = function () {
            title: "Cotejo",
            width: "120px"
         },
-
-        { field: "req_generador_desc", title: "Requisición generador desc", width:"150px"},
-        { field: "req_estado_last_desc", title: "Requisición estado last desc", width:"150px"},
-        { field: "req_comprador", title: "Requisición comprador", width:"150px"},
-        { field: "req_udm_desc", title: "Requisición udm desc", width:"150px"},
-        { field: "cot_compania", title: "Cot compañia", width:"150px"},
-        { field: "cot_estado_last_desc", title: "Cot estado last desc", width:"150px"},
-        { field: "ord_compania", title: "Ord compañia", width:"150px"},
-        { field: "ord_tipo_desc", title: "Ord tipo desc", width:"150px"},
-        { field: "ord_generador_desc", title: "Ord generador desc", width:"150px"},
-        { field: "ord_estado_last_desc", title: "Ord estado last desc", width:"150px"},
-        { field: "ord_udm", title: "Ord udm", width:"150px"},
-        { field: "ord_udm_desc", title: "Ord udm desc", width:"150px"},
-        { field: "ord_cantidad_recib", title: "Ord cantidad recibida", width:"150px"},
-        { field: "ord_cantidad_xrecib", title: "Ord cantidad xrecibida", width:"150px"},
-        { field: "ord_recepcion", title: "Ord recepcion", width:"150px"},
-        { field: "ord_pu_ex", title: "Ord pu ex", width:"150px"},
-        { field: "ord_total_ex", title: "Ord total ex", width:"150px"},
-        { field: "ord_monto_recib_ex", title: "Ord monto recibido ex", width:"150px"},
-        { field: "ord_monto_xrecib_ex", title: "Ord monto xrecibido ext", width:"150px"},
-        { field: "ord_moneda_desc", title: "Ord moneda desc", width:"150px"},
-        { field: "ord_tasa", title: "Ord tasa", width:"150px"},
-        { field: "ord_monto_recib_mx", title: "Ord monto recibido mx", width:"150px"},
-        { field: "ord_monto_xrecib_mx", title: "Ord monto xrecibido mx", width:"150px"},
-        { field: "ord_impuesto_desc", title: "Ord impuesto desc", width:"150px"},
-        { field: "ord_impuesto_flag", title: "Ord impuesto flag", width:"150px"},
-        { field: "ord_descuento", title: "Ord descuento", width:"150px"},
-        { field: "ord_termino_pago", title: "Ord termino pago", width:"150px"},
-        { field: "ord_termino_pago_desc", title: "Ord termino pago desc", width:"150px"},
-        { field: "ord_updated_by", title: "Ord update by", width:"150px"},
-        { field: "ord_updated_by_desc", title: "Ord update by desc", width:"150px"},
     ]
 }
 Grid.prototype.click_BotonDetallesAutorizaciones = function (e) {
@@ -800,19 +577,15 @@ Grid.prototype.filtrar_Autorizaciones = function (fila) {
             tarjeta_detalles.construir_Tabla(
                 '#tabla_detalles',
                 data.results,
-                ['orden',
-                  'ruta',
-                  'estado',
-                  'un',
-                  'oc_compania',
-                  'oc_tipo',
-                  'oc',
-                  'oc_sufix',
-                  'autorizador',
-                  'autorizador_desc',
-                  'autorizacion_fecha',
-                  'autorizacion_hora',
-                  'lista_estados'])
+                [   'ruta',
+                    'autorizador_desc',
+                    'autorizacion_fecha',
+                ],
+                [   'Ruta de aprovación',
+                    'Responsable',
+                    'Fecha autorización',
+                ]
+            )
         },
         failure: function(data) { 
             alert('Error al recuperar datos.');
@@ -844,12 +617,33 @@ Grid.prototype.filtrar_Recepciones = function (fila) {
             tarjeta_detalles.construir_Tabla(
                 '#tabla_detalles',
                 data.results,
-                [   'fecha_lm', 'cantidad_recib', 'udm_recib', 'pu_ex', 'monto_recib_ex', 'moneda', 'tasa', 'pu_mx', 'monto_recib_mx',
-                    'impuesto', 'impuesto_flag', 'batch', 'batch_tipo', 'activo', 'ubicacion', 'lote', 'contenedor', 'observaciones',
-                    'updater', 'updater_desc', 'fecha_update', 'oc_compania', 'oc_tipo', 'oc', 'oc_linea', 'oc_linea_tipo', 'oc_sufix',
-                    'tran_compania', 'tran_un', 'tran_tipo', 'tran_tipo_desc', 'tran_linea', 'doc_compania', 'doc_tipo', 'doc',
-                    'doc_linea', 'doc_je_linea', 'doc_factura', 'proveedor', 'item', 'item_numero', 'item_descripcion', 'item_glclass',
-                    'originador', 'originador_desc', 'fecha_creacion', 'fecha_tran'])
+                [   'doc_tipo', 
+                    'doc',
+                    'oc_tipo',
+                    'fecha_tran',
+                    'fecha_update',
+                    'fecha_lm', 
+                    'cantidad_recib',
+                    'pu_mx',
+                    'monto_recib_mx',
+                    'batch',
+                    'batch_tipo',
+                    'fecha_creacion',
+                ],
+                [   'Tipo recepción', 
+                    'Documento',
+                    'Tipo',
+                    'Fecha transacción',
+                    'Fecha recepción',
+                    'Fecha LM', 
+                    'Cantidad recibida',
+                    'Costo unitario',
+                    'Monto',
+                    'Batch',
+                    'Tipo',
+                    'Fecha',
+                ]
+            )
         },
         failure: function(data) { 
             alert('Error al recuperar datos.');
@@ -880,12 +674,37 @@ Grid.prototype.filtrar_Cotejo = function (fila) {
             tarjeta_detalles.construir_Tabla(
                 '#tabla_detalles',
                 data.results,
-                [   'fecha_lm', 'cantidad_recib', 'udm_recib', 'pu_ex', 'monto_recib_ex', 'moneda', 'tasa', 'pu_mx', 'monto_recib_mx',
-                    'impuesto', 'impuesto_flag', 'batch', 'batch_tipo', 'activo', 'ubicacion', 'lote', 'contenedor', 'observaciones',
-                    'updater', 'updater_desc', 'fecha_update', 'oc_compania', 'oc_tipo', 'oc', 'oc_linea', 'oc_linea_tipo', 'oc_sufix',
-                    'tran_compania', 'tran_un', 'tran_tipo', 'tran_tipo_desc', 'tran_linea', 'doc_compania', 'doc_tipo', 'doc',
-                    'doc_linea', 'doc_je_linea', 'doc_factura', 'proveedor', 'item', 'item_numero', 'item_descripcion', 'item_glclass',
-                    'originador', 'originador_desc', 'fecha_creacion', 'fecha_tran'])
+                [   'tran_compania',
+                    'doc_tipo',
+                    'doc',
+                    'doc_linea',
+                    'fecha_creacion',
+                    'fecha_lm',
+                    'doc_factura',
+                    'pu_mx',
+                    'impuesto',
+                    'moneda',
+                    'batch',
+                    'batch_tipo',
+                    'fecha_update',
+                    'monto_recib_mx',
+                ],
+                [   'Compañia cotejo',
+                    'Tipo cotejo',
+                    'Número cotejo',
+                    'Linea cotejo',
+                    'Fecha cotejo',
+                    'Fecha LM',
+                    'Factura',
+                    'Monto sin impuesto',
+                    'Tipo impuesto',
+                    'Moneda',
+                    'Cotejo batch',
+                    'Batch tipo',
+                    'Batch fecha',
+                    'Monto',
+                ]
+            )
         },
         failure: function(data) { 
             alert('Error al recuperar datos.');
@@ -918,19 +737,19 @@ PopupDetalles.prototype.init_Events = function () {
 PopupDetalles.prototype.hide = function (e) {
     $("#tabla_detalles").html('');
 }
-PopupDetalles.prototype.construir_Tabla = function (id_contenedor, data, columnas){
+PopupDetalles.prototype.construir_Tabla = function (id_contenedor, data, campos, columnas_nombre){
 
     var head = ''
     var rows = ''
     for(fila = 0; fila<data.length; fila++)
     {   var cols = ''
-        for(columna = 0; columna<columnas.length; columna++)
-        {  cols += '<td>'+data[fila][columnas[columna]]+'</td>'
+        for(columna = 0; columna<campos.length; columna++)
+        {  cols += '<td>'+data[fila][campos[columna]]+'</td>'
         }
         rows += '<tr>'+cols+'</tr>'
     }
-    for(columna = 0; columna<columnas.length; columna++)
-    {  head += '<th>'+columnas[columna]+'</th>'
+    for(columna = 0; columna<columnas_nombre.length; columna++)
+    {  head += '<th>'+columnas_nombre[columna]+'</th>'
 
     }
     $(id_contenedor).html(
