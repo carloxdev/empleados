@@ -1,0 +1,67 @@
+{% extends 'login.html' %}
+{% block titulo %} Restablecer contraseña {% endblock titulo %}
+{% block contenido %}
+<div class="be-content">
+  <div class="page-head">
+    <h2 class="page-head-title">Cambiar contraseña</h2>
+  </div>
+  <div class="col-md-12">
+    <div class="main-content container-fluid">
+      <div class="col-md-8">
+        <div class="panel panel-default panel-table">
+            <br>
+            {% if validlink %}
+              <div class="panel panel-default panel-table">
+                  <form action="" method="POST" enctype="multipart/form-data"> {% csrf_token %}
+                      
+                  <br>
+                  <!--Nuevo Password-->
+                      <div class="form-group {% if form.password1.errors %} has-error {% endif %}">
+                        <label class="control-label">
+                          {{form.password1.label}}
+                        </label>
+                        <p>{{ form.password1 }}</p>
+                      </div>
+                  <!-- Confirmar Password-->
+                      <div class="form-group {% if form.password2.errors %} has-error {% endif %}">
+                        <label class="control-label">
+                          {{form.password2.label}}
+                        </label>
+                        <p> {{form.password2}} </p>
+                      </div>
+
+                  {% if form.errors %}
+                    <div class="alert alert-danger">
+                      {% for field in form %}
+                          {% for error in field.errors %}
+                                  <strong>{{ error|escape }}</strong>
+                                  <br>
+                              
+                          {% endfor %}
+                      {% endfor %}
+                      {% for error in form.non_field_errors %}
+                          <div class="alert alert-danger">
+                              <strong>{{ error|escape }}</strong>
+                          </div>
+                      {% endfor %}
+                      </div>
+                  {% endif %}
+
+                  <button type="submit" class="btn btn-primary" id="id_boton_guardar" >Guardar contraseña</button>
+                </form>
+              </div>
+            {% else %}
+              <h4>
+                El link es invalido, posiblemente ya ha sido utilizado.
+                Por favor solicite uno nuevo.
+                <br>
+                <br>
+                <a href="{% url 'seguridad:password_reset' %}"> Solicitar</a>
+              </h4>
+            {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock contenido %}

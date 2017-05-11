@@ -22,13 +22,14 @@ urlpatterns = [
     url(r'^api-seguridad/', include(router_seguridad.urls)),
     url(r'^api-sgi/', include(router_sgi.urls)),
 
-
     url(r'', include('finanzas.urls', namespace="finanzas")),
     url(r'', include('compras.urls', namespace="compras")),
     url(r'', include('home.urls', namespace="home")),
     url(r'', include('seguridad.urls', namespace="seguridad")),
     url(r'', include('sgi.urls', namespace="sgi")),
     url(r'', include('capitalHumano.urls', namespace="capitalhumano")),
+    
+    url(r'^', include('django.contrib.auth.urls'))
 ]
 
 

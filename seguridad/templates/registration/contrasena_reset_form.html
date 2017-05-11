@@ -1,0 +1,29 @@
+{% extends 'login.html' %}
+{% block titulo %} Restablecer contraseña {% endblock titulo %}
+{% block contenido %}
+<div class="be-content">
+	<div class="page-head">
+		<h2 class="page-head-title">Restablecer contraseña de usuario</h2>
+	</div>
+	<div class="col-md-12">
+		<div class="main-content container-fluid">
+			<div class="col-md-8">
+				<div class="panel panel-default panel-table">
+					<div class="form-group">
+						<br>
+						<h4>Ingrese el correo electronico asociado a su cuenta.</h4>
+						<br>
+						<form method="post">
+							{% csrf_token %}
+							{{ form.as_p }}
+							<a class="button" href="{% url 'seguridad:login' %}"> Regresar </a>
+							<button type="submit" class="btn btn-primary" id="id_boton_guardar" >Guardar usuario</button>
+						</form>
+						
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock contenido%}

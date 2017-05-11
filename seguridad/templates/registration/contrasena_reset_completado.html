@@ -1,0 +1,25 @@
+{% extends 'login.html' %}
+{% block titulo %} Restablecer contraseña {% endblock titulo %}
+{% block contenido %}
+<div class="be-content">
+	<div class="page-head">
+		<h2 class="page-head-title">Mensaje</h2>
+	</div>
+	<div class="col-md-12">
+		<div class="main-content container-fluid">
+			<div class="col-md-8">
+				<div class="panel panel-default panel-table">
+					<div class="form-group">
+						<br>
+						<h4>
+							Tu contraseña ha sido cambiada. Dirijase al 
+							<a href="{% url 'seguridad:login' %}">login</a> para iniciar sesión.
+						</h4>
+						<br>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock contenido %}
