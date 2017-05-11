@@ -35,7 +35,8 @@ from .forms import IncidenciaResolucionForm
 
 
 # Email:
-from django.core.mail import send_mail
+#from django.core.mail import send_mail
+from django.core.mail import EmailMultiAlternatives
 
 #from django.core.mail import send_mail
 # from django.shortcuts import get_object_or_404
@@ -109,10 +110,77 @@ class IncidenciaDocumentoNuevo(View):
 
             incidencia.save()
 
-            send_mail("Asunto", 
-            "Mensaje...Probando linea 1 desde django", 
-            '"Notificaciones Nuvoil" <notificaciones@nuvoil.com>',
-            ['janet.castro@nuvoil.com'])
+            #send_mail("Asunto", 
+            #"Mensaje...Probando linea 1 desde django", 
+            #'"Notificaciones Nuvoil" <notificaciones@nuvoil.com>',
+            #['janet.castro@nuvoil.com'])
+
+            subject = 'ALTA DE INCIDENCIA'
+            text_content = 'Mensaje...nLinea 2nLinea3'
+            #html_content = '<h2>Mensaje</2><p> Empleado: ' + incidencia.empleado_nombre + ' </p>'
+            html_content = """\
+                           <html>
+                           <body>
+                           <center> 
+                             <table width=650 cellpadding=0 cellspacing=2 border=0>  
+                                <tr>  
+                                <td width=1% valign=top><a href="mailto:ti@nuvoil.com"><img src="" alt=Nuvoil width=197 height=76 border=0 alt="Nuvoil"></a></td> 
+                                <td align=right><font face=arial size=-1><a href="mailto:ti@nuvoil.com">Enviarnos e-mail</a></font><hr size=4 noshade color="#D10018"></td> 
+                                </tr>   
+                            </table> 
+                            <br><br> 
+                            <table width=500 cellpadding=7 cellspacing=0 border=0> 
+                            <tr><td align=center><font face=arial size=+1><b>Notificaciones</b></font></td></tr>  
+                            <tr><td><font face=arial size=-1>El siguiente mensaje fue generado automaticamente, por favor no lo responda</font>  
+                            </td></tr> 
+                            <tr><td> 
+                                <table width='100%' cellpadding=0 cellspacing=0 border=0 bgcolor=cccccc><tr><td height=1></td></tr></table> 
+                                <table width='100%' cellpadding=10 cellspacing=0 border=0 bgcolor=eeeeee>  
+                                <tr><td align=center>  
+                                <table cellpadding=0 cellspacing=0 border=0><tr><td> 
+                                Empleado: """ + incidencia.empleado_nombre + """</td></tr></table> 
+                                     <table class=style1 font-family=calibri> 
+                                     <tr><td colspan=8 align=center><strong>   INCIDENCIAS  </strong></td></tr> 
+                                     <tr>  
+                                     <td style=background-color: #C0C0C0> <strong>INCIDENCIA</strong></td> 
+                                     <td style=background-color: #C0C0C0> <strong>CATEGORIA</strong></td> 
+                                     <td style=background-color: #C0C0C0> <strong>DESCRIPCION</strong></td> 
+                                     <td style=background-color: #C0C0C0> <strong>EMPLEADO</strong></td>  
+                                     <td style=background-color: #C0C0C0> <strong>FECHA DE INCIDENCIA</strong></td>  
+                                     <td style=background-color: #C0C0C0> 
+                                     <strong>ZONA</strong></td> 
+                                     <td style=background-color: #C0C0C0>  
+                                     <strong>ESTATUS</strong></td> 
+                                     <tr>
+                                          <td> """ + str(incidencia.pk) + """ </td> 
+                                          <td> """ + str(incidencia.tipo) + """ </td> 
+                                          <td> """ + str(incidencia.es_registrable) + """ </td> 
+                                          <td> """ + incidencia.empleado_nombre + """ </td> 
+                                          <td> """ + str(incidencia.fecha) + """ </td> 
+                                          <td> """ + str(incidencia.zona) + """ </td> 
+                                          <td> """ + str(incidencia.status)  + """ </td>
+                                     </tr> 
+                                     <tr> 
+                                </td></tr>  
+                                </table>  
+                               <table width='100%' cellpadding=0 cellspacing=0 border=0 bgcolor=cccccc><tr><td height=1></td></tr></table>   
+                            </td></tr> 
+                            <tr><td align=center><font face=arial size=-1></font></td></tr> 
+                            </table> 
+                            <br>  
+                            <hr size=4 noshade width=650 color="#D10018"> 
+                            <font face=arial size=-2>Copyright &copy; 2017 Nuvoil</font>  
+                            </center>  
+                            </body> 
+                            </html> 
+                           """
+
+
+            from_email = '"Notificaciones Nuvoil" <notificaciones@nuvoil.com>'
+            to = 'janet.castro@nuvoil.com'
+            msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+            msg.attach_alternative(html_content, "text/html")
+            msg.send()
 
             #send_mail("Subject", "Email body", settings.EMAIL_HOST_USER, "janexa@gmail.com", fail_silently=False)
 
