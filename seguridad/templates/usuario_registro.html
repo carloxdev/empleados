@@ -105,38 +105,40 @@
                 <p> {{form.password2}} </p>
               </div>
               <br>
+              <!-- Botones de acción -->
               <a class="button" href="{% url 'seguridad:login' %}"> Regresar </a>
               <button type="submit" class="btn btn-primary" id="id_boton_guardar" >Guardar usuario</button>
             </form>
           </div>
+         <!-- Mensajes de errores-->
           <p>
-        {% if form.errors %}
-          <div class="alert alert-danger">
-            {% for field in form %}
-                {% for error in field.errors %}
-                  <strong>{{ error|escape }}</strong>
-                   <br>
+            {% if form.errors %}
+              <div class="alert alert-danger">
+                {% for field in form %}
+                    {% for error in field.errors %}
+                      <strong>{{ error|escape }}</strong>
+                       <br>
+                    {% endfor %}
                 {% endfor %}
-            {% endfor %}
-            {% for error in form.non_field_errors %}
-                <div class="alert alert-danger">
-                    <strong>{{ error|escape }}</strong>
+                {% for error in form.non_field_errors %}
+                    <div class="alert alert-danger">
+                        <strong>{{ error|escape }}</strong>
+                    </div>
+                {% endfor %}
                 </div>
-            {% endfor %}
-            </div>
-        {% endif %} 
-        {% if messages %}
-          {% for message in messages %}
-            <div class="alert alert-danger">
-                  <strong>{{message}}</strong>
-              </div>
-          {% endfor %}
-        {% endif %}        
-            </p>
+            {% endif %} 
+            {% if messages %}
+              {% for message in messages %}
+                <div class="alert alert-danger">
+                    <strong>{{message}}</strong>
+                </div>
+              {% endfor %}
+            {% endif %}        
+          </p>
       </div>
     </div>
   </div>
-  </div>
+</div>
 
   {% endblock contenido%}
 {% block scripts %}

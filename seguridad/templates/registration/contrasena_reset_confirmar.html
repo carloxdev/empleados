@@ -4,52 +4,54 @@
 <div class="be-content">
   <div class="page-head">
     <h2 class="page-head-title">Cambiar contraseña</h2>
-  </div>
+  </div><!-- End Page head -->
   <div class="col-md-12">
     <div class="main-content container-fluid">
       <div class="col-md-8">
         <div class="panel panel-default panel-table">
             <br>
             {% if validlink %}
-              <div class="panel panel-default panel-table">
-                  <form action="" method="POST" enctype="multipart/form-data"> {% csrf_token %}
-                      
-                  <br>
-                  <!--Nuevo Password-->
-                      <div class="form-group {% if form.password1.errors %} has-error {% endif %}">
-                        <label class="control-label">
-                          {{form.password1.label}}
-                        </label>
-                        <p>{{ form.password1 }}</p>
-                      </div>
-                  <!-- Confirmar Password-->
-                      <div class="form-group {% if form.password2.errors %} has-error {% endif %}">
-                        <label class="control-label">
-                          {{form.password2.label}}
-                        </label>
-                        <p> {{form.password2}} </p>
-                      </div>
-
-                  {% if form.errors %}
-                    <div class="alert alert-danger">
-                      {% for field in form %}
-                          {% for error in field.errors %}
-                                  <strong>{{ error|escape }}</strong>
-                                  <br>
-                              
-                          {% endfor %}
-                      {% endfor %}
-                      {% for error in form.non_field_errors %}
-                          <div class="alert alert-danger">
-                              <strong>{{ error|escape }}</strong>
+                  <div class="panel panel-default panel-table">
+                      <form action="" method="POST" enctype="multipart/form-data"> {% csrf_token %}
+                          
+                      <br>
+                      <!--Nuevo Password-->
+                          <div class="form-group {% if form.password1.errors %} has-error {% endif %}">
+                            <label class="control-label">
+                              {{form.password1.label}}
+                            </label>
+                            <p>{{ form.password1 }}</p>
                           </div>
-                      {% endfor %}
-                      </div>
-                  {% endif %}
-
-                  <button type="submit" class="btn btn-primary" id="id_boton_guardar" >Guardar contraseña</button>
-                </form>
-              </div>
+                      <!-- Confirmar Password-->
+                          <div class="form-group {% if form.password2.errors %} has-error {% endif %}">
+                            <label class="control-label">
+                              {{form.password2.label}}
+                            </label>
+                            <p> {{form.password2}} </p>
+                          </div>
+                      <!-- Boton de accion -->
+                      <button type="submit" class="btn btn-primary" id="id_boton_guardar" >Guardar contraseña</button>
+                    </form>
+                  </div><!-- End Panel default -->
+                  <!-- Mensajes de errores -->
+                  <p>
+                      {% if form.errors %}
+                        <div class="alert alert-danger">
+                          {% for field in form %}
+                              {% for error in field.errors %}
+                                      <strong>{{ error|escape }}</strong>
+                                      <br>
+                                  
+                              {% endfor %}
+                          {% endfor %}
+                          {% for error in form.non_field_errors %}
+                              <div class="alert alert-danger">
+                                  <strong>{{ error|escape }}</strong>
+                              </div>
+                          {% endfor %}
+                          </div>
+                      {% endif %}
+                  </p>
             {% else %}
               <h4>
                 El link es invalido, posiblemente ya ha sido utilizado.
@@ -59,9 +61,9 @@
                 <a href="{% url 'seguridad:password_reset' %}"> Solicitar</a>
               </h4>
             {% endif %}
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+        </div><!-- End Panel default -->
+      </div><!-- End Col-md-8 -->
+    </div><!-- End Main content -->
+  </div><!-- End Col-md-12 -->
+</div><!-- End Be content -->
 {% endblock contenido %}

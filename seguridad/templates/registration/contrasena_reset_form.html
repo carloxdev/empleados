@@ -16,14 +16,14 @@
 						<form method="post">
 							{% csrf_token %}
 							{{ form.as_p }}
+							<!-- Botones de accion -->
 							<a class="button" href="{% url 'seguridad:login' %}"> Regresar </a>
-							<button type="submit" class="btn btn-primary" id="id_boton_guardar" >Guardar usuario</button>
+							<button type="submit" class="btn btn-primary" id="id_boton_guardar" >Restablecer contraseña</button>
 						</form>
-						
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
+					</div><!-- End Form group -->
+				</div><!-- End Panel default -->
+			</div><!-- End Col-md-8 -->
+		</div><!-- End Main content -->
+	</div><!-- End Col-md-12 -->
+</div><!-- End Be content -->
 {% endblock contenido%}
