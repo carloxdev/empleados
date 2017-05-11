@@ -17,6 +17,7 @@ from django.forms import PasswordInput
 from django.forms import ChoiceField
 from django.forms import ClearableFileInput
 from django.forms import FileField
+from django.forms import EmailInput
 
 # Modelos
 from django.contrib.auth.models import User
@@ -316,3 +317,9 @@ class UserContrasenaActualForm(forms.Form):
     contrasena_actual = CharField(label="Actual",
                                   widget=forms.PasswordInput(
                                       attrs={'class': 'form-control input-xs'}))
+
+
+class EmailForm(forms.Form):
+
+    email = CharField(label="Correo electronico", widget=forms.EmailInput(
+        attrs={'class': 'form-control input-xs'}))

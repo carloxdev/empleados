@@ -15,21 +15,21 @@
 {% block contenido %}
 
 <div class="be-content">
-<div class="page-head">
-	<h2 class="page-head-title">Perfil de usuario</h2>
-	<ol class="breadcrumb page-head-nav">
-		<li><a href="{% url 'home:inicio' %}">Inicio</a></li>
-		<li>Perfil de usuario</li>
-	</ol>
-</div>
-<div class="col-md-12">
-	<div class="main-content container-fluid">
-		<div class="col-md-12">
-			<div class="panel panel-default panel-table">
-				<div class="panel-heading panel-border nova-panel-heading">
-					<div class="title hidden-xs">Usuario <b>{{request.user.username}}</b>
-					</div>
-				</div><!-- Panel Heading -->
+	<div class="page-head">
+		<h2 class="page-head-title">Perfil de usuario</h2>
+		<ol class="breadcrumb page-head-nav">
+			<li><a href="{% url 'home:inicio' %}">Inicio</a></li>
+			<li>Perfil de usuario</li>
+		</ol>
+	</div><!-- End Page head -->
+	<div class="col-md-12">
+		<div class="main-content container-fluid">
+			<div class="col-md-12">
+				<div class="panel panel-default panel-table">
+					<div class="panel-heading panel-border nova-panel-heading">
+						<div class="title hidden-xs">Usuario <b>{{request.user.username}}</b>
+						</div>
+					</div><!-- End Panel heading -->
 					<div class="panel panel-default panel-table">
 						<form action="" method="POST" enctype="multipart/form-data"> {% csrf_token %}
 	
@@ -123,15 +123,16 @@
 							</div>
 							<br>
 							<br>
+							<!-- Botones de accion -->
 							<a class="button" href="{% url 'home:inicio' %}"> Regresar </a>
 							<button type="submit" class="btn btn-primary" id="id_boton_guardar" >Guardar cambios</button>
 						</form>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
+					</div><!-- End Panel default -->
+				</div><!-- End Panel default -->
+			</div><!-- End col-md-12 -->
+		</div><!-- End main content -->
+	</div><!-- End col-md-12 -->
+</div><!-- End Be content -->
 		
 	{% endblock contenido %}
 	{% block scripts %}

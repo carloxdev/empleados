@@ -367,7 +367,7 @@ class UsuarioCambiarContrasenaPerfil(LoginRequiredMixin, View):
 
 class UsuarioRegistro(View):
     def __init__(self):
-        self.template_name = 'usuarios/usuario_registro.html'
+        self.template_name = 'usuario_registro.html'
 
     def get(self, request):
 
