@@ -27,13 +27,13 @@ $(document).keypress(function (e) {
 \*-----------------------------------------------*/
 
 function TarjetaUsuario() {
-    this.$clave_rh = $('#id_clave_rh')
+    this.$email = $('#id_email')
 
     this.init_Components()
 }
 TarjetaUsuario.prototype.init_Components = function () {
     
-    this.$clave_rh.select2(this.get_ConfSelect2())
+    this.$email.select2(this.get_ConfSelect2())
 }
 TarjetaUsuario.prototype.get_ConfSelect2 = function () {
     return {
