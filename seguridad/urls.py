@@ -11,13 +11,14 @@ from .views import UsuarioEditar
 from .views import UsuarioPerfil
 from .views import UsuarioCambiarContrasenaAdmin
 from .views import UsuarioCambiarContrasenaPerfil
-from .views import UsuarioValidacionClave
 
 # Autentificacion
 from django.contrib.auth import views as auth_views
 
 # Forms correo
 from .forms import UserContrasenaNuevaForm
+from .forms import ClaveEmpleadoForm
+from .forms import EmailForm
 
 app_name = "seguridad"
 
@@ -74,15 +75,14 @@ urlpatterns = [
 
     url(
         r'^reset/clave/$',
-        UsuarioValidacionClave.as_view(),
+        auth_views.password_reset,
+        {'template_name': 'registration/contrasena_reset_clave.html',
+         'email_template_name': 'registration/contrasena_reset_email.html',
+         'subject_template_name': 'registration/email_subject.txt',
+         'password_reset_form': ClaveEmpleadoForm,
+         'post_reset_redirect': 'seguridad:password_reset_done'},
         name="password_reset_clave"
     ),
-
-    # url(
-    #     r'^reset/clave/done/$',
-    #     UsuarioDone.as_view(),
-    #     name="password_reset_clave"
-    # ),
 
     # ------------------ Reset contrasena email ------------------ #
     url(
@@ -90,11 +90,13 @@ urlpatterns = [
         auth_views.password_reset,
         {'template_name': 'registration/contrasena_reset_form.html',
          'email_template_name': 'registration/contrasena_reset_email.html',
+         'subject_template_name': 'registration/email_subject.txt',
+         'password_reset_form': EmailForm,
          'post_reset_redirect': 'seguridad:password_reset_done'},
         name='password_reset'
     ),
     url(
-        r'^reset/email/done/$',
+        r'^reset/password_reset/done/$',
         auth_views.password_reset_done,
         {'template_name': 'registration/contrasena_reset_done.html'},
         name="password_reset_done"

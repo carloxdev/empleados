@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from django.conf import settings
 
 # Django Generic Views
 from django.views.generic.base import View
@@ -35,10 +34,6 @@ from .forms import UserEditarForm
 from .forms import UserEditarPerfilForm
 from .forms import UserContrasenaActualForm
 from .forms import UserContrasenaNuevaForm
-from .forms import ValidarClaveEmpleadoForm
-
-# Email:
-from django.core.mail import send_mail
 
 
 class Login(View):
@@ -424,43 +419,5 @@ class UsuarioRegistro(View):
 
         contexto = {
             'form': form_usuario,
-        }
-        return render(request, self.template_name, contexto)
-
-
-class UsuarioValidacionClave(View):
-
-    def __init__(self):
-        self.template_name = 'registration/contrasena_reset_clave.html'
-
-    def get(self, request):
-
-        form = ValidarClaveEmpleadoForm()
-
-        contexto = {'form': form}
-        return render(request, self.template_name, contexto)
-
-    def post(self, request):
-
-        form = ValidarClaveEmpleadoForm(request.POST)
-
-        if form.is_valid():
-
-            dato_formulario = form.cleaned_data
-
-            clave_empleado = dato_formulario.get('clave_rh')
-            usuario = Profile.objects.get(clave_rh=clave_empleado)
-
-            print usuario.usuario.email
-
-            send_mail("Asunto",
-                      'contenido',
-                      settings.EMAIL_HOST_USER,
-                      [usuario.usuario.email])
-
-            # return redirect(reverse('seguridad:usuario_lista'))
-
-        contexto = {
-            'form': form,
         }
         return render(request, self.template_name, contexto)

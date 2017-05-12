@@ -6,6 +6,7 @@ from django import forms
 # Forms django
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.forms import AdminPasswordChangeForm
+from django.contrib.auth.forms import PasswordResetForm
 
 # Fields
 from django.forms import TextInput
@@ -17,7 +18,6 @@ from django.forms import PasswordInput
 from django.forms import ChoiceField
 from django.forms import ClearableFileInput
 from django.forms import FileField
-from django.forms import EmailInput
 
 # Modelos
 from django.contrib.auth.models import User
@@ -321,15 +321,21 @@ class UserContrasenaActualForm(forms.Form):
                                       attrs={'class': 'form-control input-xs'}))
 
 
-class ValidarClaveEmpleadoForm(forms.Form):
+class EmailForm(PasswordResetForm):
+    email = CharField(label='Correo electronico',
+                      widget=forms.TextInput(
+                            attrs={'class': 'form-control input-xs'}))
 
-    clave_rh = ChoiceField(label='Clave de empleado',
-                           widget=forms.Select(
-                               attrs={'class': 'form-control input-xs'}))
+
+class ClaveEmpleadoForm(PasswordResetForm):
+
+    email = ChoiceField(label='Clave de empleado',
+                        widget=forms.Select(
+                            attrs={'class': 'form-control input-xs'}))
 
     def __init__(self, *args, **kwargs):
-        super(ValidarClaveEmpleadoForm, self).__init__(*args, **kwargs)
-        self.fields['clave_rh'].choices = self.get_EmpleadosEbs()
+        super(ClaveEmpleadoForm, self).__init__(*args, **kwargs)
+        self.fields['email'].choices = self.get_EmpleadosEbs()
 
     def get_EmpleadosEbs(self):
         valores = [('', '-------')]
@@ -344,7 +350,7 @@ class ValidarClaveEmpleadoForm(forms.Form):
 
             valores.append(
                 (
-                    usuario.profile.clave_rh,
+                    usuario.email,
                     descripcion,
                 )
             )
