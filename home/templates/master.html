@@ -24,8 +24,8 @@
   <link rel="stylesheet" href="{% static 'libs/pace/1.0.0/pace.css' %}" type="text/css"/>
   
   <!-- Alertifyjs -->
-  <link rel="stylesheet" href="{% static 'libs/alertifyjs/1.6.0/css/alertify.min.css' %}" />
-  <link rel="stylesheet" href="{% static 'libs/alertifyjs/1.6.0/css/themes/bootstrap.min.css' %}" />
+  <link rel="stylesheet" href="{% static 'libs/alertifyjs/1.6.0/css/alertify.min.css' %}" type="text/css"/>
+  <link rel="stylesheet" href="{% static 'libs/alertifyjs/1.6.0/css/themes/bootstrap.min.css' %}" type="text/css"/>
   
   <!-- Theme -->
   <link rel="stylesheet" href="{% static 'theme/lib/select2/css/select2.min.css' %}"/>
@@ -438,7 +438,8 @@
             <script src="{% static 'libs/jquery-cookie/1.4.1/jquery.cookie.js' %}"></script>
             
             <!-- Main Theme js -->
-            <script src="{% static 'theme/js/main.js' %}" type="text/javascript"></script>
+            <script src="{% static 'theme/lib/select2/js/select2.min.js' %}"></script>
+            <script src="{% static 'theme/js/main.js' %}"></script>
 
             <!-- Nova -->
             <script src="{% static 'master.js' %}" type="text/javascript"></script>

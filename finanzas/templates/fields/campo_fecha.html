@@ -6,9 +6,9 @@
     </span>
 </div>
 
+ -->
 
-
-<div class="col-md-3 col-xs-7">
+<!-- <div class="col-md-3 col-xs-7">
     <div
         data-date="1979-09-16T05:25:07Z"
         data-date-format="yyyy-mm-dd - HH:ii"
@@ -19,15 +19,24 @@
             <i class="icon-th mdi mdi-calendar"></i>
         </span>
     </div>
-</div>
+</div> 
 
- -->
+
+-->
+
+
 <div class="col-sm-3 xs-pt-5">
-
-    <div class="input-group date" id={{clave}}>
-        <input type="text"  class="form-control input-xs">
+    <div class="input-group date" 
+    data-min-view="2" 
+    data-date-format="yyyy-mm-dd" 
+    id={{clave}}>
+        <input type="text" class="form-control input-xs" id={{clave_fecha}} value="{{valor}}">
         <span class="input-group-addon nova-addon-button">
             <span class="glyphicon glyphicon-calendar"></span>
         </span>
     </div>
+    {% for error in form.unidad_negocio_clave.errors %}
+        <span class="help-block">{{ error }}</span>
+    {% endfor %}                                                                                
+    
 </div>

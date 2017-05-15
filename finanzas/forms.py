@@ -9,6 +9,11 @@ from django.forms import Select
 from django.forms import Form
 from django.forms import CharField
 from django.forms import ChoiceField
+from django.forms import HiddenInput
+
+
+from bootstrap3_datetime.widgets import DateTimePicker
+
 
 from django.conf import settings
 from django.contrib.auth.models import User
@@ -18,6 +23,9 @@ from django.contrib.auth.models import User
 
 # Modelos:
 from .models import ViaticoCabecera
+
+# Librerias:
+from .forms_fields import SelectWithDescriptions
 
 # Otros Modelos:
 from ebs.models import VIEW_EMPLEADOS_SIMPLE
@@ -123,14 +131,14 @@ class ViaticoCabeceraNuevoForm(ModelForm):
 
     empleado_clave = ChoiceField(
         label="Empleado",
-        widget=Select(
+        widget=SelectWithDescriptions(
             attrs={'class': 'form-control input-xs'}
         )
     )
 
     unidad_negocio_clave = ChoiceField(
         label="Unidad Negocio",
-        widget=Select(
+        widget=SelectWithDescriptions(
             attrs={'class': 'form-control input-xs'}
         )
     )
@@ -140,7 +148,9 @@ class ViaticoCabeceraNuevoForm(ModelForm):
 
         fields = [
             'empleado_clave',
+            'empleado_descripcion',
             'unidad_negocio_clave',
+            'unidad_negocio_descripcion',
             'fecha_partida',
             'fecha_regreso',
             'proposito_viaje',
@@ -148,8 +158,16 @@ class ViaticoCabeceraNuevoForm(ModelForm):
         ]
 
         widgets = {
+            'fecha_partida': DateTimePicker(
+                options={
+                    "format": "YYYY-MM-DD HH:mm",
+                    "pickSeconds": False,
+                }
+            ),
+            'empleado_descripcion': HiddenInput(),
+            'unidad_negocio_descripcion': HiddenInput(),
             'proposito_viaje': Textarea(attrs={'class': 'form-control'}),
-            'fecha_partida': TextInput(attrs={'class': 'form-control input-xs'}),
+            # 'fecha_partida': TextInput(attrs={'class': 'form-control input-xs'}),
             'fecha_regreso': TextInput(attrs={'class': 'form-control input-xs'}),
             'ciudad_destino': TextInput(attrs={'class': 'form-control input-xs'}),
         }
@@ -160,7 +178,7 @@ class ViaticoCabeceraNuevoForm(ModelForm):
         self.fields['unidad_negocio_clave'].choices = self.get_CentrosCostoJde()
 
     def get_EmpleadosEbs(self):
-        valores = [('', '-------')]
+        valores = [('', '-------'), ]
 
         empleados = VIEW_EMPLEADOS_SIMPLE.objects.using('ebs_d').filter(
             pers_tipo_codigo__in=['1121', '1120']
@@ -170,7 +188,7 @@ class ViaticoCabeceraNuevoForm(ModelForm):
 
         for empleado in empleados:
 
-            descripcion = "%s - %s" % (
+            descripcion = "%s : %s" % (
                 empleado.pers_empleado_numero,
                 empleado.pers_nombre_completo
             )
@@ -178,7 +196,7 @@ class ViaticoCabeceraNuevoForm(ModelForm):
             valores.append(
                 (
                     empleado.pers_empleado_numero,
-                    descripcion,
+                    descripcion
                 )
             )
         return valores
@@ -206,7 +224,7 @@ class ViaticoCabeceraNuevoForm(ModelForm):
 
         for centro in centros:
 
-            descripcion = "%s - %s" % (
+            descripcion = "%s : %s" % (
                 centro.clave,
                 centro.descripcion
             )

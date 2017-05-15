@@ -5,6 +5,8 @@
 // OBJS
 var formulario = null
 
+//  $("#date").mask("99/99/9999",{placeholder:"mm/dd/yyyy"});
+
 /*-----------------------------------------------*\
             LOAD
 \*-----------------------------------------------*/
@@ -21,9 +23,13 @@ $(document).ready(function () {
 function Formulario() {
 
     this.$empleado_clave = $('#id_empleado_clave')
+    this.$empleado_descripcion = $('#id_empleado_descripcion')
     this.$unidad_negocio_clave = $('#id_unidad_negocio_clave')
-    this.$fecha_partida = $('#id_fecha_partida')
+    this.$unidad_negocio_descripcion = $('#id_unidad_negocio_descripcion')
+    // this.$fecha_partida = $('#id_fecha_partida')
+    // this.$fecha_partida_fecha = $('#id_fecha_partida-date')
     this.$fecha_regreso = $('#id_fecha_regreso')
+    this.$fecha_regreso_fecha = $('#id_fecha_regreso-date')
     
     this.$ciudad_destino = $('#id_ciudad_destino')
     this.$proposito_viaje = $('#id_proposito_viaje')
@@ -33,25 +39,47 @@ function Formulario() {
 }
 Formulario.prototype.init_Components = function () {
 
-
     this.$empleado_clave.select2()
     this.$unidad_negocio_clave.select2()
     
-    this.$fecha_partida.datetimepicker()
-    this.$fecha_regreso.datetimepicker({
-        useCurrent: false
-    })
+    this.$fecha_partida_fecha.mask(
+        "9999-99-99",
+        {
+            placeholder:"aaaa/mm/dd"
+        }
+    )
+    this.$fecha_partida.datetimepicker(this.get_DateTimePickerConfig())
+    this.$fecha_regreso_fecha.mask(
+        "9999-99-99",
+        {
+            placeholder:"aaaa/mm/dd"
+        }
+    )
+    this.$fecha_regreso.datetimepicker(this.get_DateTimePickerConfig())
 }
 Formulario.prototype.init_Events = function () {
 
+    this.$empleado_clave.on("change", this, this.seleccionar_Empleado)
+    this.$unidad_negocio_clave.on("change", this, this.seleccionar_UnidadNegocio)
+    
+}
+Formulario.prototype.get_DateTimePickerConfig = function () {
+    return {
+        autoclose: true,
+        orientation: "bottom left",
+        minViewMode: 2,
+        format: "yyyy-mm-dd",
+    }
+}
+Formulario.prototype.seleccionar_Empleado = function(e) {
 
-    this.$fecha_partida.on("dp.change", this, this.seleccion_FechaPartida)
-    this.$fecha_regreso.on("dp.change", this, this.seleccion_FechaRegreso)
+    e.data.$empleado_descripcion.val(
+        e.data.$empleado_clave.find(":selected").data("desc")
+    )
 }
-Formulario.prototype.seleccion_FechaPartida = function (e) {
-    e.data.$fecha_regreso.data("DateTimePicker").minDate(e.date)
-}
-Formulario.prototype.seleccion_FechaRegreso = function (e) {
-    e.data.$fecha_partida.data("DateTimePicker").maxDate(e.date)   
+Formulario.prototype.seleccionar_UnidadNegocio = function(e) {
+    e.data.$unidad_negocio_descripcion.val(
+        e.data.$unidad_negocio_clave.find(":selected").data("desc")
+    )
 }
 

@@ -60,11 +60,12 @@ class ViaticoCabeceraNuevo(View):
     def post(self, request):
 
         formulario = ViaticoCabeceraNuevoForm(request.POST)
-
+        import ipdb; ipdb.set_trace()
         if formulario.is_valid():
 
             viatico = formulario.save(commit=False)
             viatico.created_by = request.user.profile
+            viatico.updated_by = request.user.profile
             viatico.save()
 
             return redirect(reverse('finanzas:viatico_editar', kwargs={'pk': viatico.id}))
@@ -110,5 +111,4 @@ class ViaticoCabeceraEditar(View):
             'id_cabecera': viatico.id,
         }
         return render(request, self.template_name, contexto)
-
 

@@ -10,10 +10,14 @@
 
 {% block css %}
 
+    <link rel="stylesheet" href="{% static 'theme/lib/datetimepicker/css/bootstrap-datetimepicker.min.css' %}" type="text/css"/>
 
 {% endblock css %}
 
 {% block contenido %}
+
+        {{ form.media }}
+
 
 <div class="be-content">
 
@@ -55,6 +59,8 @@
                                         </div>
                                     </div>
 
+                                    {{ form.non_field_errors }} 
+
                                     <div class="form-group">
                                         
                                         <label class="col-sm-3 control-label" 
@@ -64,6 +70,9 @@
                                         <div class="col-sm-6 xs-pt-5">
                                             {{ form.empleado_clave }}
                                         </div>
+                                        {% for error in form.empleado_clave.errors %}
+                                            <span class="help-block">{{ error }}</span>
+                                        {% endfor %}
                                     </div>
 
                                     <div class="form-group">
@@ -74,6 +83,9 @@
                                         <div class="col-sm-6 xs-pt-5">
                                             {{ form.unidad_negocio_clave }}
                                         </div> 
+                                        {% for error in form.unidad_negocio_clave.errors %}
+                                            <span class="help-block">{{ error }}</span>
+                                        {% endfor %}                                        
                                     </div>
 
                                     <div class="form-group">
@@ -81,9 +93,19 @@
                                         <label class="col-sm-3 control-label">
                                             Fecha partida/regreso
                                         </label>
+                                        <div class="col-sm-3 xs-pt-5">
+                                            {{ form.fecha_partida }}
+                                        </div> 
+                                        {% for error in form.fecha_partida.errors %}
+                                            <span class="help-block">{{ error }}</span>
+                                        {% endfor %}
+                                        <div class="col-sm-3 xs-pt-5">
+                                            {{ form.fecha_regreso }}
+                                        </div> 
+                                        {% for error in form.fecha_regreso.errors %}
+                                            <span class="help-block">{{ error }}</span>
+                                        {% endfor %}
 
-                                        {% campo_fecha form.fecha_partida %}
-                                        {% campo_fecha form.fecha_regreso %}
                                         
                                     </div>
 
@@ -95,6 +117,9 @@
                                         <div class="col-sm-6 xs-pt-5">
                                             {{ form.ciudad_destino }}
                                         </div> 
+                                        {% for error in form.ciudad_destino.errors %}
+                                            <span class="help-block">{{ error }}</span>
+                                        {% endfor %}
                                     </div>
 
                                     <div class="form-group">
@@ -105,6 +130,9 @@
                                         <div class="col-sm-6 xs-pt-5">
                                             {{ form.proposito_viaje }}
                                         </div>
+                                        {% for error in form.proposito_viaje.errors %}
+                                            <span class="help-block">{{ error }}</span>
+                                        {% endfor %}                                        
                                     </div>
 
                                     <div class="form-group no-padding">
@@ -133,11 +161,19 @@
                                 Guardar Encabezado
                             </button>
                         </div>
-                    </div>                                                  
+                    </div>   
+
+                    <!-- Ocultos -->
+                    <div>
+                        {{ form.empleado_descripcion }}
+                        {{ form.unidad_negocio_descripcion }}
+                    </div>                    
 
                 </form>
             </div>
         </div>
+
+
     </div>
 </div>
 
@@ -148,13 +184,9 @@
     <!-- Theme -->
     <script src="{% static 'theme/lib/jquery-ui/jquery-ui.min.js' %}"></script>
     <script src="{% static 'theme/lib/moment.js/min/moment.min.js' %}"></script>
-    <script src="{% static 'theme/lib/bootstrap/dist/js/transition.js' %}"></script>    
-    <script src="{% static 'theme/lib/bootstrap/dist/js/collapse.js' %}"></script>    
-    <script src="{% static 'theme/lib/select2/js/select2.min.js' %}"></script>
+    <script src="{% static 'theme/lib/datetimepicker/js/bootstrap-datetimepicker.min.js' %}"></script>
+    <script src="{% static 'theme/lib/jquery.maskedinput/jquery.maskedinput.min.js' %}"></script>
 
-    <!-- DateTimePicker -->
-    <script src="{% static 'libs/bootstrap-datetimepicker/4.17.47/bootstrap-datetimepicker.js' %}"></script>
-    
     <!-- InputMask -->
     <script src="{% static 'libs/plugins/input-mask/jquery.inputmask.js' %}"></script>
 
