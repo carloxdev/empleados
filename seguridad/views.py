@@ -34,6 +34,10 @@ from .forms import UserEditarForm
 from .forms import UserEditarPerfilForm
 from .forms import UserContrasenaActualForm
 from .forms import UserContrasenaNuevaForm
+from .forms import EmailForm
+
+# Tokens para correo
+from django.contrib.auth.tokens import default_token_generator
 
 
 class Login(View):
@@ -419,5 +423,60 @@ class UsuarioRegistro(View):
 
         contexto = {
             'form': form_usuario,
+        }
+        return render(request, self.template_name, contexto)
+
+
+class ResetContrasena(View):
+
+    def __init__(self):
+        self.template_name = 'registration/contrasena_reset_form.html'
+
+    def get(self, request):
+        form = EmailForm()
+
+        contexto = {
+            'form': form,
+        }
+        return render(request, self.template_name, contexto)
+
+    def post(self, request):
+        form = EmailForm(request.POST)
+        dato = request.POST['email']
+
+        if dato.isdigit():
+            if Profile.objects.filter(clave_rh=dato).exists():
+
+                correo = Profile.objects.get(clave_rh=dato)
+                request.POST._mutable = True
+                request.POST['email'] = correo.usuario.email
+                request.POST._mutable = False
+                messages.success(request, 'El correo a sido enviado exitosamente')
+
+            else:
+                messages.error(
+                    request, 'La clave de empleado proporcionada no existe')
+        else:
+            if User.objects.filter(email=dato).exists() is False:
+                messages.error(
+                    request, 'El email proporcionado no esta asociado a un usuario')
+            else:
+                messages.success(request, 'El correo a sido enviado exitosamente')
+
+        if form.is_valid():
+
+            opts = {
+                'use_https': request.is_secure(),
+                'token_generator': default_token_generator,
+                'from_email': None,
+                'email_template_name': 'registration/contrasena_reset_email.html',
+                'subject_template_name': 'registration/email_subject.txt',
+                'request': request,
+                'html_email_template_name': None,
+            }
+            form.save(**opts)
+
+        contexto = {
+            'form': form,
         }
         return render(request, self.template_name, contexto)

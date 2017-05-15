@@ -11,14 +11,13 @@ from .views import UsuarioEditar
 from .views import UsuarioPerfil
 from .views import UsuarioCambiarContrasenaAdmin
 from .views import UsuarioCambiarContrasenaPerfil
+from .views import ResetContrasena
 
 # Autentificacion
 from django.contrib.auth import views as auth_views
 
 # Forms correo
 from .forms import UserContrasenaNuevaForm
-from .forms import ClaveEmpleadoForm
-from .forms import EmailForm
 
 app_name = "seguridad"
 
@@ -71,36 +70,13 @@ urlpatterns = [
         name="usuario_registro"
     ),
 
-    # ------------------ Reset contrasena clave de empleado ------ #
-
+    # # ------------------ Reset contrasena email ------------------ #
     url(
-        r'^reset/clave/$',
-        auth_views.password_reset,
-        {'template_name': 'registration/contrasena_reset_clave.html',
-         'email_template_name': 'registration/contrasena_reset_email.html',
-         'subject_template_name': 'registration/email_subject.txt',
-         'password_reset_form': ClaveEmpleadoForm,
-         'post_reset_redirect': 'seguridad:password_reset_done'},
-        name="password_reset_clave"
-    ),
-
-    # ------------------ Reset contrasena email ------------------ #
-    url(
-        r'^reset/email/$',
-        auth_views.password_reset,
-        {'template_name': 'registration/contrasena_reset_form.html',
-         'email_template_name': 'registration/contrasena_reset_email.html',
-         'subject_template_name': 'registration/email_subject.txt',
-         'password_reset_form': EmailForm,
-         'post_reset_redirect': 'seguridad:password_reset_done'},
+        r'^reset/$',
+        ResetContrasena.as_view(),
         name='password_reset'
     ),
-    url(
-        r'^reset/password_reset/done/$',
-        auth_views.password_reset_done,
-        {'template_name': 'registration/contrasena_reset_done.html'},
-        name="password_reset_done"
-    ),
+    # Pantalla de restablecimiento de contrasena.
     url(
         r'^reset/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
         auth_views.password_reset_confirm,
@@ -108,6 +84,7 @@ urlpatterns = [
          'set_password_form': UserContrasenaNuevaForm},
         name='password_reset_confirm'
     ),
+    # Mensaje 'success' de contrasena cambiada.
     url(
         r'^reset/done/$',
         auth_views.password_reset_complete,

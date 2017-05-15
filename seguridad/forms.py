@@ -322,36 +322,6 @@ class UserContrasenaActualForm(forms.Form):
 
 
 class EmailForm(PasswordResetForm):
-    email = CharField(label='Correo electronico',
+    email = CharField(label='Introduzca su correo o clave de empleado',
                       widget=forms.TextInput(
-                            attrs={'class': 'form-control input-xs'}))
-
-
-class ClaveEmpleadoForm(PasswordResetForm):
-
-    email = ChoiceField(label='Clave de empleado',
-                        widget=forms.Select(
-                            attrs={'class': 'form-control input-xs'}))
-
-    def __init__(self, *args, **kwargs):
-        super(ClaveEmpleadoForm, self).__init__(*args, **kwargs)
-        self.fields['email'].choices = self.get_EmpleadosEbs()
-
-    def get_EmpleadosEbs(self):
-        valores = [('', '-------')]
-
-        usuarios = User.objects.all()
-        for usuario in usuarios:
-
-            descripcion = "%s - %s" % (
-                usuario.profile.clave_rh,
-                usuario.get_full_name()
-            )
-
-            valores.append(
-                (
-                    usuario.email,
-                    descripcion,
-                )
-            )
-        return valores
+                          attrs={'class': 'form-control input-xs'}))
