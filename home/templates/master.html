@@ -70,12 +70,12 @@
                 <div class="user-info">
                   <div class="user-name">
                     {% if request.user.username == 'root' %}
-                      Administrador
+                      <h4>ADMINISTRADOR</h4>
                     {% else %}
-                      {{ request.user.get_full_name }}
+                      <h5>{{ request.user.get_full_name }}</h5>
+                      
                     {% endif %}
                   </div>
-                  <div class="user-position online">Conectado</div>
                 </div>
               </li>
               

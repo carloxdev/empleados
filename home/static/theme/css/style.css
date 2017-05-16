@@ -8929,17 +8929,18 @@ canvas {
   background-color: #4285f4;
   color: #ffffff;
   overflow: hidden;
-  padding: 20px 15px 14px;
+  padding: 0 15px 0;
   border-radius: 2px 2px 0 0;
   margin-bottom: 7px;
 }
 .be-user-nav > li.dropdown .dropdown-menu .user-info .user-name {
   display: block;
   font-size: 19px;
-  line-height: 22px;
-  text-overflow: ellipsis;
+  line-height: 10px;
+  text-align: center;
+  /*text-overflow: ellipsis;
   white-space: nowrap;
-  overflow: hidden;
+  overflow: hidden;*/
 }
 .be-user-nav > li.dropdown .dropdown-menu .user-info .user-position {
   display: block;
