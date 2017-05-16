@@ -447,9 +447,9 @@ class ResetContrasena(View):
         if dato.isdigit():
             # Si el dato obtenido existe entonces procederá
             if Profile.objects.filter(clave_rh=dato).exists():
-                usuario = Profile.objects.get(clave_rh=dato)
+                profile = Profile.objects.get(clave_rh=dato)
                 request.POST._mutable = True
-                request.POST['email'] = usuario.usuario.email
+                request.POST['email'] = profile.usuario.email
                 request.POST._mutable = False
 
                 if form.is_valid():
