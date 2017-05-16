@@ -26,15 +26,15 @@ $(document).ready(function () {
 function NovaSitio() {
 
     this.galletita = $.cookie('csrftoken')
-    this.$submodulo = $("#submodulo")
+    this.$menu = $("#menu")
 
     this.set_ActivePage()
 }
 NovaSitio.prototype.set_ActivePage = function () {
-    if (this.$submodulo.text() == "Solicitudes de Viaticos") 
-    {
-        this.activar_Opcion("solicitudes")
-    }
+
+    opcion = this.$menu.data("opcion")
+
+    this.activar_Opcion(opcion)
 }
 NovaSitio.prototype.activar_Opcion = function (_option) {
 
