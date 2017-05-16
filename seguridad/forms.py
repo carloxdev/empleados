@@ -333,19 +333,23 @@ class UserContrasenaActualForm(forms.Form):
 
 class EmailForm(PasswordResetForm):
 
-    email = CharField(label='Introduzca su correo o clave de empleado',
+    email = CharField(label='',
                       widget=forms.TextInput(
                           attrs={'class': 'form-control input-xs'}))
 
-    def get_users(self, email, cuenta):
-        """Given an email, return matching user(s) who should receive a reset.
-        This allows subclasses to more easily customize the default policies
-        that prevent inactive users and users with unusable passwords from
-        resetting their password.
-        """
+    # Nombre de usuario
+    def get_user_clave(self, email, cuenta):
         active_users = get_user_model()._default_manager.filter(
             email__iexact=email,
             username__iexact=cuenta,
+            is_active=True
+        )
+        return (u for u in active_users if u.has_usable_password())
+
+    # Email
+    def get_users_email(self, email):
+        active_users = get_user_model()._default_manager.filter(
+            email__iexact=email,
             is_active=True
         )
         return (u for u in active_users if u.has_usable_password())
@@ -359,14 +363,11 @@ class EmailForm(PasswordResetForm):
              request=None,
              html_email_template_name=None,
              extra_email_context=None):
-        """
-        Generates a one-use only link for resetting password and sends to the
-        user.
-        """
+
         if request.POST['usuario_clave']:
             cuenta = request.POST['usuario_clave']
             email = self.cleaned_data["email"]
-            for user in self.get_users(email, cuenta):
+            for user in self.get_user_clave(email, cuenta):
                 if not domain_override:
                     current_site = get_current_site(request)
                     site_name = current_site.name
@@ -390,8 +391,7 @@ class EmailForm(PasswordResetForm):
                 )
         elif request.POST['email']:
             email = request.POST['email']
-            cuenta = User.objects.get(email=email)
-            for user in self.get_users(email, cuenta):
+            for user in self.get_users_email(email):
                 if not domain_override:
                     current_site = get_current_site(request)
                     site_name = current_site.name

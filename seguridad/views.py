@@ -443,14 +443,12 @@ class ResetContrasena(View):
         form = EmailForm(request.POST)
         dato = request.POST['email']
 
-        # Si son numeros entonces es una Clave de empleado
-
-        
-        if Profile.objects.filter(clave_rh=dato).exists():
-            profile = Profile.objects.get(clave_rh=dato)
+        # Filtrado por "Nombre de usuario"
+        if User.objects.filter(username=dato).exists():
+            usuario = User.objects.get(username=dato)
             request.POST._mutable = True
-            request.POST['usuario_clave'] = profile.usuario.username
-            request.POST['email'] = profile.usuario.email
+            request.POST['usuario_clave'] = usuario.username
+            request.POST['email'] = usuario.email
             request.POST._mutable = False
 
             if form.is_valid():
@@ -469,32 +467,30 @@ class ResetContrasena(View):
                 messages.success(
                     request, 'El correo a sido enviado exitosamente')
 
+        # Filtrado por "Correo electronico"
+        elif User.objects.filter(email=dato).exists():
+
+            request.POST._mutable = True
+            request.POST['usuario_clave'] = ""
+            request.POST._mutable = False
+
+            if form.is_valid():
+                opts = {
+                    'use_https': request.is_secure(),
+                    'token_generator': default_token_generator,
+                    'from_email': None,
+                    'email_template_name': 'registration/contrasena_reset_email.html',
+                    'subject_template_name': 'registration/email_subject.txt',
+                    'request': request,
+                    'html_email_template_name': None,
+                }
+                form.save(**opts)
+
+            messages.success(
+                request, 'El correo a sido enviado exitosamente')
         else:
             messages.error(
-                request, 'La clave de empleado proporcionada no esta asociada a un usuario')
-        # else:
-
-        #     if User.objects.filter(email=dato).exists():
-        #         usuario = User.objects.get(email=dato)
-        #         request.POST._mutable = True
-        #         request.POST['email'] = usuario.email
-        #         request.POST._mutable = False
-
-        #         if form.is_valid():
-
-        #             opts = {
-        #                 'use_https': request.is_secure(),
-        #                 'token_generator': default_token_generator,
-        #                 'from_email': None,
-        #                 'email_template_name': 'registration/contrasena_reset_email.html',
-        #                 'subject_template_name': 'registration/email_subject.txt',
-        #                 'request': request,
-        #                 'html_email_template_name': None,
-        #             }
-        #             form.save(**opts)
-
-        #             messages.success(
-        #                 request, 'El correo a sido enviado exitosamente')
+                request, 'El usuario/correo electronico no se encuentra aosciado a un usuario.')
 
         contexto = {
             'form': form,
