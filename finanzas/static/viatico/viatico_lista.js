@@ -36,9 +36,7 @@ $(document).ready(function () {
 
         }
         // Tecla ESC
-    })    
-
-    alertify.confirm('Confirm Message')
+    })
 })
 
 /*-----------------------------------------------*\

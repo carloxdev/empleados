@@ -36,12 +36,16 @@
                     <div id="wizard1" class="wizard wizard-ux">
                         <ul class="steps">
 
-                            <li class="active">Numero:</li>
-
+                            <li class="active">Numero: VIA-{{ form.instance.id }} </li>
+                            
                         </ul>
                         <div class="actions">
                             <button type="button" class="btn btn-xs btn-prev btn-default nova-active-tab">General</button>
-                            <button type="button" class="btn btn-xs btn-next btn-default">Lineas</button>
+
+                            <a href="{% url 'finanzas:viatico_lineas' form.instance.id %}"
+                            class="btn bt-xs btn-next btn-default">
+                                Lineas
+                            </a>
                         </div>
                         <div class="step-content">
                             <div data-step="1" class="step-pane active">
@@ -164,10 +168,10 @@
 
                         <div class="row col-sm-12">
 
-                            <button type="button" id="boton_limpiar" class="btn btn-default pull-left">
+                            <a href=" {% url 'finanzas:viatico_lista' %}" class="btn btn-default pull-left">
                                 <i class="icon mdi mdi-arrow-left"></i>
-                                Regresar
-                            </button>                        
+                                Regresar                                
+                            </a>                     
                             
                             <button type="submit" id="boton_buscar" class="btn nova-btn btn-primary btn-lg pull-right">
                                 <i class="icon icon-left mdi mdi-save nova-white"></i>

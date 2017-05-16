@@ -18,7 +18,7 @@ from .models import ViaticoCabecera
 
 # Formularios:
 from .forms import ViaticoCabeceraForm
-from .forms import ViaticoLineaForm
+# from .forms import ViaticoLineaForm
 from .forms import ViaticoFilterForm
 
 
@@ -66,8 +66,7 @@ class ViaticoCabeceraNuevo(View):
             viatico.updated_by = request.user.profile
             viatico.save()
 
-            # return redirect(reverse('finanzas:viatico_editar', kwargs={'pk': viatico.id}))
-            return redirect(reverse('finanzas:viatico_lista'))
+            return redirect(reverse('finanzas:viatico_lineas'))
 
         contexto = {
             'form': formulario
@@ -109,3 +108,18 @@ class ViaticoCabeceraEditar(View):
             'form': formulario,
         }
         return render(request, self.template_name, contexto)
+
+
+class ViaticoLineas(View):
+    def __init__(self):
+        self.template_name = 'viatico/viatico_lineas.html'
+
+    def get(self, request, pk):
+
+        # formulario = ViaticoFilterForm()
+
+        # contexto = {
+        #     'form': formulario
+        # }
+
+        return render(request, self.template_name, {})
