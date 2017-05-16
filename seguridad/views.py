@@ -449,6 +449,7 @@ class ResetContrasena(View):
             if Profile.objects.filter(clave_rh=dato).exists():
                 profile = Profile.objects.get(clave_rh=dato)
                 request.POST._mutable = True
+                request.POST['usuario_clave'] = profile.usuario.username
                 request.POST['email'] = profile.usuario.email
                 request.POST._mutable = False
 
