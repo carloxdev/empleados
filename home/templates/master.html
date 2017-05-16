@@ -163,7 +163,7 @@
             <div class="left-sidebar-content">
               <ul class="sidebar-elements">
                 <li class="divider">Menu</li>
-                <li class="active">
+                <li>
                   <a href="{% url 'home:inicio' %}">
                     <i class="icon mdi mdi-home"></i>
                     <span>Inicio</span>
@@ -171,7 +171,7 @@
                 </li>
                 <li class="parent"><a href="#"><i class="icon mdi mdi-airplane"></i></i><span>Viaticos</span></a>
                 <ul class="sub-menu">
-                  <li>
+                  <li id="solicitudes">
                     <a href="{% url 'finanzas:viatico_lista' %}">
                       <span>Solicitudes</span>
                     </a>
