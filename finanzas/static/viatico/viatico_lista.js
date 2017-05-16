@@ -57,7 +57,6 @@ function PopupFiltros() {
     this.$boton_buscar = $('#boton_buscar')
     this.$boton_limpiar = $('#boton_limpiar')
 
-    this.filtros_aplicados = false
 
     this.init_Components()
     this.init_Events()
@@ -72,7 +71,6 @@ PopupFiltros.prototype.init_Events = function () {
     this.$id.on("show.bs.modal", this, this.start_Show)
     this.$id.on("shown.bs.modal", this, this.end_Show)
 
-
     this.$boton_buscar.on("click", this, this.click_BotonBuscar)
     this.$boton_limpiar.on("click", this, this.click_BotonLimpiar)
 }
@@ -81,18 +79,12 @@ PopupFiltros.prototype.start_Show = function (e) {
     e.data.$empleado.select2()
     e.data.$unidad_negocio.select2()
     e.data.$autorizador.select2()
-
-    
 }
 PopupFiltros.prototype.end_Show = function (e) {
     e.data.$proposito_viaje.focus()
 }
 PopupFiltros.prototype.hide = function (e) {
     e.data.$fecha_creacion.data('daterangepicker').hide()
-
-    if (e.data.filtros_aplicados == false) {
-        tarjeta_resultados.toolbar.restart_BotonFiltros()
-    }
 }
 PopupFiltros.prototype.get_ConfDateRangePicker = function () {
 
@@ -148,12 +140,46 @@ PopupFiltros.prototype.get_Values = function (_page) {
         creacion_fecha_menorque: this.$fecha_creacion.data('daterangepicker').endDate.format('YYYY-MM-DD'),
     }
 }
+PopupFiltros.prototype.get_NoFiltrosAplicados = function () {
+
+    cantidad = 0
+
+    if (this.$proposito_viaje.val() != "") {
+        cantidad += 1
+    }
+    if (this.$empleado.val() != "") {
+        cantidad += 1   
+    }
+    if (this.$unidad_negocio.val() != "" ) {
+        cantidad += 1
+    }
+    if (this.$ciudad_destino.val() !=  "") {
+        cantidad += 1
+    }
+    if (this.$autorizador.val()  != "" ) {
+        cantidad += 1
+    }
+    if (this.$fecha_creacion.data('daterangepicker').startDate.format('YYYY-MM-DD') != '2017-01-01' || 
+        this.$fecha_creacion.data('daterangepicker').endDate.format('YYYY-MM-DD') != moment().format('YYYY-MM-DD') ) {
+        cantidad += 1
+    }
+
+    return cantidad
+}
 PopupFiltros.prototype.apply_Filters = function () {
 
     tarjeta_resultados.grid.buscar()
-    tarjeta_resultados.toolbar.change_BotonFiltros()
-    this.filtros_aplicados = true
-    this.$id.modal('hide')    
+
+    no_filtros = this.get_NoFiltrosAplicados()
+
+    if (no_filtros != 0) {
+        tarjeta_resultados.toolbar.change_BotonFiltros(no_filtros)
+    }
+    else {
+        tarjeta_resultados.toolbar.restart_BotonFiltros()
+    }
+    
+    this.$id.modal('hide')
 }
 PopupFiltros.prototype.click_BotonBuscar = function (e) {
     
@@ -176,7 +202,6 @@ PopupFiltros.prototype.click_BotonLimpiar = function (e) {
     e.data.$fecha_creacion.data('daterangepicker').setEndDate(
         moment().format('DD-MM-YYYY')
     )    
-    e.data.filtros_aplicados = false
 }
 
 
@@ -197,26 +222,21 @@ function TarjetaResultados(){
 function ToolBar() {
 
     this.$boton_filtros = $('#boton_filtros')
-    // this.$boton_restablecer =  $('#boton_restablecer')
-    this.init_Events()
+
 }
 ToolBar.prototype.init_Events = function () {
 
-    // this.$boton_restablecer.on("click", this, this.click_BotonRestablecer)
 }
-ToolBar.prototype.change_BotonFiltros = function () {
+ToolBar.prototype.change_BotonFiltros = function (_no_filtros) {
 
-    this.$boton_filtros.html("<i class='icon icon-left mdi mdi-search nova-white'></i>Ver Filtros")
+    html = "<i class='icon icon-left mdi mdi-search nova-white'></i>Filtros <span class='badge nova-border-bottom'>no_filtros</span>".replace("no_filtros", _no_filtros)
+
+    this.$boton_filtros.html(html)
 }
 ToolBar.prototype.restart_BotonFiltros = function () {
     this.$boton_filtros.html("<i class='icon icon-left mdi mdi-search nova-white'></i>Filtros")   
 }
-ToolBar.prototype.click_BotonRestablecer = function (e) {
-    
-    e.preventDefault()
-    tarjeta_filtros.$formulario_filtro[0].reset()
-    tarjeta_resultados.grid.buscar()
-}
+
 /*-----------------------------------------------*\
             OBJETO: Grid
 \*-----------------------------------------------*/

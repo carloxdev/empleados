@@ -65,7 +65,9 @@
     color: #404040 !important;
 }
 
-
+.nova-badge {
+    border: 0;
+}
 
 .nova-col-filter {
     padding-right: 0px !important;
@@ -84,7 +86,9 @@
 }
 
 .nova-border-bottom {
-    border-bottom: 1px solid #d4d4d4;
+    border-bottom: 1px solid #d4d4d4 !important;
+    color: black !important;
+    background-color: #ffffff !important;
 }
 
 .nova-panel-heading {

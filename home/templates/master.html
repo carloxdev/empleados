@@ -69,20 +69,25 @@
               <li>
                 <div class="user-info">
                   <div class="user-name">
-                    {% if request.user.username == 'root' %}
+                    {% if user.username == 'root' %}
                       <h4>ADMINISTRADOR</h4>
                     {% else %}
-                      <h5>{{ request.user.get_full_name }}</h5>
+
+                        {% if user.get_full_name %}
+                            <h5>{{ user.get_full_name }}</h5>
+                        {% else %} 
+                            <h5> {{ user.username|upper }}  </h5>
+                        {% endif%}
                       
                     {% endif %}
                   </div>
                 </div>
               </li>
               
-              {% if request.user.is_superuser %}
+              {% if user.is_superuser %}
                 <li><a href="{% url 'seguridad:usuario_lista' %}"><span class="icon mdi mdi-accounts"></span> Usuarios</a></li>
               {% endif %}
-              <li><a href="{% url 'seguridad:usuario_perfil' pk=request.user.id %}"><span class="icon mdi mdi-face"></span> Perfil</a></li>
+              <li><a href="{% url 'seguridad:usuario_perfil' pk=user.id %}"><span class="icon mdi mdi-face"></span> Perfil</a></li>
               <li><a href="#"><span class="icon mdi mdi-settings"></span> Configuracion</a></li>
               <li><a href="{% url 'seguridad:logout' %}"><span class="icon mdi mdi-power"></span> Salir</a></li>
             </ul>
