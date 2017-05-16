@@ -3,7 +3,7 @@
 \*-----------------------------------------------*/
 
 
-var nova_sitio = null
+var appnova = null
 var galletita = ""
 
 
@@ -13,7 +13,7 @@ var galletita = ""
 
 $(document).ready(function () {
     
-    nova_sitio = new NovaSitio()
+    appnova = new NovaSitio()
 })
 
 
@@ -29,6 +29,7 @@ function NovaSitio() {
     this.$menu = $("#menu")
 
     this.set_ActivePage()
+    this.set_AlertifyConfig()
 }
 NovaSitio.prototype.set_ActivePage = function () {
 
@@ -40,4 +41,14 @@ NovaSitio.prototype.activar_Opcion = function (_option) {
 
     var $opcion = $("#" + _option)
     $opcion.addClass("active")
+}
+NovaSitio.prototype.set_AlertifyConfig = function() {
+
+    alertify.set('notifier', 'position', 'top-right')
+    alertify.set('notifier', 'delay', 10)   
+
+    alertify.defaults.theme.ok = "btn btn-primary";
+    alertify.defaults.theme.cancel = "btn btn-danger";
+    alertify.defaults.theme.input = "form-control";
+
 }
