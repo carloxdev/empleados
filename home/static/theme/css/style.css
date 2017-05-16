@@ -8266,7 +8266,7 @@ canvas {
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 2/1), (min-resolution: 192dpi) {
   .be-top-header .navbar-header .navbar-brand {
     background-image: url("/static/images/logos/logo_horizontal.png");
-    background-size: 102px 27px;
+    background-size: 135px 50px;
   }
 }
 @media (max-width: 767px) {

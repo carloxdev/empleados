@@ -363,27 +363,53 @@ class EmailForm(PasswordResetForm):
         Generates a one-use only link for resetting password and sends to the
         user.
         """
-        email = self.cleaned_data["email"]
-        cuenta = request.POST['usuario_clave']
-        for user in self.get_users(email, cuenta):
-            if not domain_override:
-                current_site = get_current_site(request)
-                site_name = current_site.name
-                domain = current_site.domain
-            else:
-                site_name = domain = domain_override
-            context = {
-                'email': user.email,
-                'domain': domain,
-                'site_name': site_name,
-                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-                'user': user,
-                'token': token_generator.make_token(user),
-                'protocol': 'https' if use_https else 'http',
-            }
-            if extra_email_context is not None:
-                context.update(extra_email_context)
-            self.send_mail(
-                subject_template_name, email_template_name, context, from_email,
-                user.email, html_email_template_name=html_email_template_name,
-            )
+        if request.POST['usuario_clave']:
+            cuenta = request.POST['usuario_clave']
+            email = self.cleaned_data["email"]
+            for user in self.get_users(email, cuenta):
+                if not domain_override:
+                    current_site = get_current_site(request)
+                    site_name = current_site.name
+                    domain = current_site.domain
+                else:
+                    site_name = domain = domain_override
+                context = {
+                    'email': user.email,
+                    'domain': domain,
+                    'site_name': site_name,
+                    'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                    'user': user,
+                    'token': token_generator.make_token(user),
+                    'protocol': 'https' if use_https else 'http',
+                }
+                if extra_email_context is not None:
+                    context.update(extra_email_context)
+                self.send_mail(
+                    subject_template_name, email_template_name, context, from_email,
+                    user.email, html_email_template_name=html_email_template_name,
+                )
+        elif request.POST['email']:
+            email = request.POST['email']
+            cuenta = User.objects.get(email=email)
+            for user in self.get_users(email, cuenta):
+                if not domain_override:
+                    current_site = get_current_site(request)
+                    site_name = current_site.name
+                    domain = current_site.domain
+                else:
+                    site_name = domain = domain_override
+                context = {
+                    'email': user.email,
+                    'domain': domain,
+                    'site_name': site_name,
+                    'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                    'user': user,
+                    'token': token_generator.make_token(user),
+                    'protocol': 'https' if use_https else 'http',
+                }
+                if extra_email_context is not None:
+                    context.update(extra_email_context)
+                self.send_mail(
+                    subject_template_name, email_template_name, context, from_email,
+                    user.email, html_email_template_name=html_email_template_name,
+                )

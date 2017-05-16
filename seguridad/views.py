@@ -444,57 +444,57 @@ class ResetContrasena(View):
         dato = request.POST['email']
 
         # Si son numeros entonces es una Clave de empleado
-        if dato.isdigit():
-            # Si el dato obtenido existe entonces procederá
-            if Profile.objects.filter(clave_rh=dato).exists():
-                profile = Profile.objects.get(clave_rh=dato)
-                request.POST._mutable = True
-                request.POST['usuario_clave'] = profile.usuario.username
-                request.POST['email'] = profile.usuario.email
-                request.POST._mutable = False
 
-                if form.is_valid():
+        
+        if Profile.objects.filter(clave_rh=dato).exists():
+            profile = Profile.objects.get(clave_rh=dato)
+            request.POST._mutable = True
+            request.POST['usuario_clave'] = profile.usuario.username
+            request.POST['email'] = profile.usuario.email
+            request.POST._mutable = False
 
-                    opts = {
-                        'use_https': request.is_secure(),
-                        'token_generator': default_token_generator,
-                        'from_email': None,
-                        'email_template_name': 'registration/contrasena_reset_email.html',
-                        'subject_template_name': 'registration/email_subject.txt',
-                        'request': request,
-                        'html_email_template_name': None,
-                    }
-                    form.save(**opts)
+            if form.is_valid():
 
-                    messages.success(
-                        request, 'El correo a sido enviado exitosamente')
+                opts = {
+                    'use_https': request.is_secure(),
+                    'token_generator': default_token_generator,
+                    'from_email': None,
+                    'email_template_name': 'registration/contrasena_reset_email.html',
+                    'subject_template_name': 'registration/email_subject.txt',
+                    'request': request,
+                    'html_email_template_name': None,
+                }
+                form.save(**opts)
 
-            else:
-                messages.error(
-                    request, 'La clave de empleado proporcionada no esta asociada a un usuario')
+                messages.success(
+                    request, 'El correo a sido enviado exitosamente')
+
         else:
-            # Si no es un número es un correo
-            # Si el dato obtenido existe entonces procederá
-            if User.objects.filter(email=dato).exists():
-                if form.is_valid():
+            messages.error(
+                request, 'La clave de empleado proporcionada no esta asociada a un usuario')
+        # else:
 
-                    opts = {
-                        'use_https': request.is_secure(),
-                        'token_generator': default_token_generator,
-                        'from_email': None,
-                        'email_template_name': 'registration/contrasena_reset_email.html',
-                        'subject_template_name': 'registration/email_subject.txt',
-                        'request': request,
-                        'html_email_template_name': None,
-                    }
-                    form.save(**opts)
+        #     if User.objects.filter(email=dato).exists():
+        #         usuario = User.objects.get(email=dato)
+        #         request.POST._mutable = True
+        #         request.POST['email'] = usuario.email
+        #         request.POST._mutable = False
 
-                    messages.success(
-                        request, 'El correo a sido enviado exitosamente')
+        #         if form.is_valid():
 
-            else:
-                messages.error(
-                    request, 'El email proporcionado no esta asociado a un usuario')
+        #             opts = {
+        #                 'use_https': request.is_secure(),
+        #                 'token_generator': default_token_generator,
+        #                 'from_email': None,
+        #                 'email_template_name': 'registration/contrasena_reset_email.html',
+        #                 'subject_template_name': 'registration/email_subject.txt',
+        #                 'request': request,
+        #                 'html_email_template_name': None,
+        #             }
+        #             form.save(**opts)
+
+        #             messages.success(
+        #                 request, 'El correo a sido enviado exitosamente')
 
         contexto = {
             'form': form,
