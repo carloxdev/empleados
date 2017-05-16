@@ -28,8 +28,7 @@ urlpatterns = [
     url(r'', include('seguridad.urls', namespace="seguridad")),
     url(r'', include('sgi.urls', namespace="sgi")),
     url(r'', include('capitalhumano.urls', namespace="capitalhumano")),
-    url(r'^', include('django.contrib.auth.urls'))
-
+    url(r'^', include('django.contrib.auth.urls')),
 ]
 
 

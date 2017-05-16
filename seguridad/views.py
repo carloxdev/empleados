@@ -311,7 +311,6 @@ class UsuarioPerfil(View):
             usuario.profile.clave_rh = datos_formulario.get('clave_rh')
             usuario.profile.clave_jde = datos_formulario.get('clave_jde')
             usuario.profile.fecha_nacimiento = usuario.profile.fecha_nacimiento
-            print datos_formulario.get('foto')
 
             if datos_formulario.get('foto') is not None:
                 usuario.profile.foto = datos_formulario.get('foto')
@@ -444,37 +443,57 @@ class ResetContrasena(View):
         form = EmailForm(request.POST)
         dato = request.POST['email']
 
+        # Si son numeros entonces es una Clave de empleado
         if dato.isdigit():
+            # Si el dato obtenido existe entonces procederá
             if Profile.objects.filter(clave_rh=dato).exists():
-
-                correo = Profile.objects.get(clave_rh=dato)
+                usuario = Profile.objects.get(clave_rh=dato)
                 request.POST._mutable = True
-                request.POST['email'] = correo.usuario.email
+                request.POST['email'] = usuario.usuario.email
                 request.POST._mutable = False
-                messages.success(request, 'El correo a sido enviado exitosamente')
+
+                if form.is_valid():
+
+                    opts = {
+                        'use_https': request.is_secure(),
+                        'token_generator': default_token_generator,
+                        'from_email': None,
+                        'email_template_name': 'registration/contrasena_reset_email.html',
+                        'subject_template_name': 'registration/email_subject.txt',
+                        'request': request,
+                        'html_email_template_name': None,
+                    }
+                    form.save(**opts)
+
+                    messages.success(
+                        request, 'El correo a sido enviado exitosamente')
 
             else:
                 messages.error(
-                    request, 'La clave de empleado proporcionada no existe')
+                    request, 'La clave de empleado proporcionada no esta asociada a un usuario')
         else:
-            if User.objects.filter(email=dato).exists() is False:
+            # Si no es un número es un correo
+            # Si el dato obtenido existe entonces procederá
+            if User.objects.filter(email=dato).exists():
+                if form.is_valid():
+
+                    opts = {
+                        'use_https': request.is_secure(),
+                        'token_generator': default_token_generator,
+                        'from_email': None,
+                        'email_template_name': 'registration/contrasena_reset_email.html',
+                        'subject_template_name': 'registration/email_subject.txt',
+                        'request': request,
+                        'html_email_template_name': None,
+                    }
+                    form.save(**opts)
+
+                    messages.success(
+                        request, 'El correo a sido enviado exitosamente')
+
+            else:
                 messages.error(
                     request, 'El email proporcionado no esta asociado a un usuario')
-            else:
-                messages.success(request, 'El correo a sido enviado exitosamente')
-
-        if form.is_valid():
-
-            opts = {
-                'use_https': request.is_secure(),
-                'token_generator': default_token_generator,
-                'from_email': None,
-                'email_template_name': 'registration/contrasena_reset_email.html',
-                'subject_template_name': 'registration/email_subject.txt',
-                'request': request,
-                'html_email_template_name': None,
-            }
-            form.save(**opts)
 
         contexto = {
             'form': form,
