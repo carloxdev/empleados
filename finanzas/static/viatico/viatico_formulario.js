@@ -26,10 +26,10 @@ function Formulario() {
     this.$empleado_descripcion = $('#id_empleado_descripcion')
     this.$unidad_negocio_clave = $('#id_unidad_negocio_clave')
     this.$unidad_negocio_descripcion = $('#id_unidad_negocio_descripcion')
-    // this.$fecha_partida = $('#id_fecha_partida')
-    // this.$fecha_partida_fecha = $('#id_fecha_partida-date')
+    this.$fecha_partida = $('#id_fecha_partida')
+    this.$fecha_partida_input = $('#id_fecha_partida_input')
     this.$fecha_regreso = $('#id_fecha_regreso')
-    this.$fecha_regreso_fecha = $('#id_fecha_regreso-date')
+    this.$fecha_regreso_input = $('#id_fecha_regreso_input')
     
     this.$ciudad_destino = $('#id_ciudad_destino')
     this.$proposito_viaje = $('#id_proposito_viaje')
@@ -42,20 +42,21 @@ Formulario.prototype.init_Components = function () {
     this.$empleado_clave.select2()
     this.$unidad_negocio_clave.select2()
     
-    this.$fecha_partida_fecha.mask(
+    this.$fecha_partida.mask(
         "9999-99-99",
         {
             placeholder:"aaaa/mm/dd"
         }
     )
-    this.$fecha_partida.datetimepicker(this.get_DateTimePickerConfig())
-    this.$fecha_regreso_fecha.mask(
+    this.$fecha_partida_input.datetimepicker(this.get_DateTimePickerConfig())
+
+    this.$fecha_regreso.mask(
         "9999-99-99",
         {
             placeholder:"aaaa/mm/dd"
         }
     )
-    this.$fecha_regreso.datetimepicker(this.get_DateTimePickerConfig())
+    this.$fecha_regreso_input.datetimepicker(this.get_DateTimePickerConfig())
 }
 Formulario.prototype.init_Events = function () {
 

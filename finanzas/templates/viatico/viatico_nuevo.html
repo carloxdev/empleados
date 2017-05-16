@@ -2,8 +2,6 @@
 
 {% load static from staticfiles %}
 
-{% load campos_personalizados %}
-
 {% block titulo %} Viaticos {% endblock titulo %}
 
 {% block title-page %} Nueva Solicitud de Viatico {% endblock title-page %}
@@ -15,9 +13,6 @@
 {% endblock css %}
 
 {% block contenido %}
-
-        {{ form.media }}
-
 
 <div class="be-content">
 
@@ -93,15 +88,33 @@
                                         <label class="col-sm-3 control-label">
                                             Fecha partida/regreso
                                         </label>
+
                                         <div class="col-sm-3 xs-pt-5">
-                                            {{ form.fecha_partida }}
+                                            <div class="input-group date" 
+                                            data-min-view="2" 
+                                            data-date-format="yyyy-mm-dd"
+                                            id="id_fecha_partida_input">
+                                                {{ form.fecha_partida }}
+                                                <span class="input-group-addon nova-addon-button">
+                                                    <span class="glyphicon glyphicon-calendar"></span>
+                                                </span>
+                                            </div>
                                         </div> 
                                         {% for error in form.fecha_partida.errors %}
                                             <span class="help-block">{{ error }}</span>
                                         {% endfor %}
+
                                         <div class="col-sm-3 xs-pt-5">
-                                            {{ form.fecha_regreso }}
-                                        </div> 
+                                            <div class="input-group date" 
+                                            data-min-view="2" 
+                                            data-date-format="yyyy-mm-dd"
+                                            id="id_fecha_regreso_input">
+                                                {{ form.fecha_regreso }}
+                                                <span class="input-group-addon nova-addon-button">
+                                                    <span class="glyphicon glyphicon-calendar"></span>
+                                                </span>
+                                            </div>
+                                        </div>
                                         {% for error in form.fecha_regreso.errors %}
                                             <span class="help-block">{{ error }}</span>
                                         {% endfor %}
@@ -161,7 +174,7 @@
                                 Guardar Encabezado
                             </button>
                         </div>
-                    </div>   
+                    </div>
 
                     <!-- Ocultos -->
                     <div>
@@ -185,6 +198,7 @@
     <script src="{% static 'theme/lib/jquery-ui/jquery-ui.min.js' %}"></script>
     <script src="{% static 'theme/lib/moment.js/min/moment.min.js' %}"></script>
     <script src="{% static 'theme/lib/datetimepicker/js/bootstrap-datetimepicker.min.js' %}"></script>
+    <script src="{% static 'theme/lib/datetimepicker/js/locales/bootstrap-datetimepicker.es.js' %}"></script>
     <script src="{% static 'theme/lib/jquery.maskedinput/jquery.maskedinput.min.js' %}"></script>
 
     <!-- InputMask -->

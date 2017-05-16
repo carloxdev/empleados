@@ -9,18 +9,18 @@ from .models import ViaticoCabecera
 
 class ViaticoCabeceraFilter(filters.FilterSet):
 
+    proposito_viaje = CharFilter(
+        name="proposito_viaje",
+        lookup_expr="icontains"
+    )
+
     empleado_clave = CharFilter(
         name="empleado_clave",
         lookup_expr="icontains"
     )
 
-    empleado_descripcion = CharFilter(
-        name="empleado_descripcion",
-        lookup_expr="icontains"
-    )
-
-    unidad_negocio = CharFilter(
-        name="unidad_negocio",
+    unidad_negocio_clave = CharFilter(
+        name="unidad_negocio_clave",
         lookup_expr="icontains"
     )
 
@@ -29,28 +29,30 @@ class ViaticoCabeceraFilter(filters.FilterSet):
         lookup_expr="icontains"
     )
 
-    autorizador = CharFilter(
-        name="autorizador",
+    autorizador_clave = CharFilter(
+        name="autorizador_clave",
         lookup_expr="icontains"
     )
 
-    created_date_mayorque = CharFilter(
-        name="created_date_mayorque",
+    creacion_fecha_mayorque = CharFilter(
+        label="Fecha Creacion mayor a",
+        name="creacion_fecha_mayorque",
         method='filter_fecha_mayorque'
     )
-    created_date_menorque = CharFilter(
-        name="created_date_menorque",
+    creacion_fecha_menorque = CharFilter(
+        label="Fecha Creacion menor a",
+        name="creacion_fecha_menorque",
         method='filter_fecha_menorque'
     )
 
     class Meta:
         model = ViaticoCabecera
         fields = [
+            'proposito_viaje',
             'empleado_clave',
-            'empleado_descripcion',
-            'unidad_negocio',
+            'unidad_negocio_clave',
             'ciudad_destino',
-            'autorizador',
+            'autorizador_clave',
         ]
 
     def filter_fecha_mayorque(self, queryset, name, value):

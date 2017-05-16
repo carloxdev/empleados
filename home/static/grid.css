@@ -2,10 +2,16 @@
 	font-size: 12px;
 	border-radius: 0 !important;
 }
+
 .k-reset{
 	line-height: 2.0em !important;
 }
-.grid-empy {
+
+.k-link > input {
+    margin-right: 5px;
+}
+
+.nova-grid-empy {
 	font-size: 32px;
 	text-align: center;
 	font-family: Helvetica Neue !important, sans-serif;
@@ -16,4 +22,5 @@
     color: white !important;
     width: 5px !important;
 }
+
 

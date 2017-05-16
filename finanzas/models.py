@@ -31,14 +31,14 @@ class ViaticoCabecera(models.Model):
     unidad_negocio_descripcion = models.CharField(max_length=144, null=True)
     ciudad_destino = models.CharField(max_length=150, blank=False, null=False)
     proposito_viaje = models.TextField(max_length=250, blank=False, null=False)
-    empresa = models.ForeignKey(Empresa, null=True)
+    empresa = models.ForeignKey(Empresa, blank=True, null=True)
 
-    rfc = models.CharField(max_length=13)
-    direccion = models.CharField(max_length=60, blank=False)
-    grupo = models.CharField(max_length=40)
+    rfc = models.CharField(max_length=13, blank=True, null=True)
+    direccion = models.CharField(max_length=60, blank=True, null=True)
+    grupo = models.CharField(max_length=40, blank=True, null=True)
 
-    autorizador_clave = models.IntegerField(default=0)
-    autorizador_descripcion = models.CharField(max_length=60, null=True)
+    autorizador_clave = models.IntegerField(default=0, blank=True)
+    autorizador_descripcion = models.CharField(max_length=60, blank=True, null=True)
 
     status = models.CharField(
         choices=VIATICO_ESTADOS,
@@ -46,13 +46,19 @@ class ViaticoCabecera(models.Model):
         max_length=3
     )
 
-    approved_by = models.ForeignKey(Profile, related_name='via_autorizador', null=True)
+    approved_by = models.ForeignKey(Profile, related_name='via_autorizador', blank=True, null=True)
     approved_date = models.DateTimeField(
         null=True,
         blank=True
     )
 
-    importe_total = models.DecimalField(max_digits=7, decimal_places=2, blank=False, null=False, default=0.0)
+    importe_total = models.DecimalField(
+        max_digits=7,
+        decimal_places=2,
+        blank=True,
+        null=True,
+        default=0.0
+    )
     created_by = models.ForeignKey(Profile, related_name='via_created_by', null=True)
     created_date = models.DateTimeField(
         auto_now=False,
