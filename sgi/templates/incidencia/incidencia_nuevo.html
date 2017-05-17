@@ -100,22 +100,32 @@
 				                            </div>
 									</div>
 								</div>-->
+                                
+                                
+                                 <!-- Fecha -->
                                 <div class="row">
-								<div class="form-group col-sx-12 col-sm-4 col-md-4 {% if form.fecha.field.required %} has-warning {% endif %} {% if form.fecha.errors %} has-error {% endif %} ">
-									<label for="{{ form.fecha.id_for_label}}">
+								  <div class="col-sm-4">
+                                   <div class="form-group {% if form.fecha.field.required %} has-warning {% endif %} {% if form.fecha.errors %} has-error {% endif %}">
+                                    <label class="control-label">
 									<i class="fa {% if form.fecha.field.required %} fa-asterisk {% endif %}"></i>
 									Fecha</label>
 									<div class="form-group input-group">
-						            	<div class="input-group-addon">
-						                	<i class="fa fa-calendar"></i>
-						            	</div>
-						                {{ form.fecha }}
-						            </div>
-						            {% for error in form.fecha.errors %}
-									    <span class="help-block">{{ error }}</span>
-										{% endfor %}						
-						        </div>
-						        </div>
+                                        <div class="input-group date" 
+	                                        data-min-view="2" 
+	                                        data-date-format="yyyy-mm-dd"
+	                                        id="fecha">
+                                            {{ form.fecha }}
+                                            <span class="input-group-addon nova-addon-button">
+                                                <span class="glyphicon glyphicon-calendar"></span>
+                                            </span>
+                                        </div>
+                                    </div> 
+                                    {% for error in form.fecha.errors %}
+                                        <span class="help-block">{{ error }}</span>
+                                    {% endfor %}
+                                    </div>
+                                  </div>
+                                </div>
 
 
                                 <div class="row">
@@ -479,17 +489,23 @@
 {% endblock contenido %}
 
 {% block scripts %}
+
+    <!-- Theme -->
+    <script src="{% static 'theme/lib/jquery-ui/jquery-ui.min.js' %}"></script>
+    <script src="{% static 'theme/lib/moment.js/min/moment.min.js' %}"></script>
+    <script src="{% static 'theme/lib/datetimepicker/js/bootstrap-datetimepicker.min.js' %}"></script>
+    <script src="{% static 'theme/lib/datetimepicker/js/locales/bootstrap-datetimepicker.es.js' %}"></script>
+    <script src="{% static 'theme/lib/jquery.maskedinput/jquery.maskedinput.min.js' %}"></script>
+    <script src="{% static 'theme/lib/select2/js/select2.min.js' %}"></script>
+
+    <!-- InputMask -->
+    <script src="{% static 'libs/plugins/input-mask/jquery.inputmask.js' %}"></script>
+
+
 	<!-- Kendo Js -->
 	<script src="{% static 'libs/kendo/2015.2.624/js/cultures/kendo.culture.es-MX.min.js' %}"></script>
 	<script src="{% static 'libs/kendo/2015.2.624/js/kendo.web.min.js' %}"></script>
 
-    <!-- Theme -->
-    <script src="{% static 'theme/lib/jquery-ui/jquery-ui.min.js' %}"></script>
-    <script src="{% static 'theme/lib/datetimepicker/js/bootstrap-datetimepicker.min.js' %}"></script>
-    <script src="{% static 'theme/lib/datetimepicker/js/locales/bootstrap-datetimepicker.es.js' %}"></script>
-    <script src="{% static 'theme/lib/daterangepicker/js/daterangepicker.js' %}"></script>
-    <script src="{% static 'theme/lib/moment.js/min/moment.min.js' %}"></script>
-    <script src="{% static 'theme/lib/select2/js/select2.min.js' %}"></script>
 
 	<!-- NOVA -->
 	<script src="{% static 'incidencia/incidencia_formulario.js' %}"></script>

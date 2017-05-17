@@ -41,15 +41,13 @@ TargetaIncidencia.prototype.init_Components = function () {
     
     
     //this.$fecha.inputmask("yyyy-mm-dd", {"placeholder": "yyyy-mm-dd"})
-    this.$fecha.datepicker(
+    this.$fecha.mask(
+        "9999-99-99",
         {
-            autoclose: true,
-            language: 'es',
-            todayHighlight: true,
-            clearBtn: true,
-            startDate: '2017-01-01',
+            placeholder:"aaaa/mm/dd"
         }
     )
+    this.$fecha.datetimepicker(this.get_DateTimePickerConfig())
 }
 TargetaIncidencia.prototype.init_Events = function () {
 
@@ -105,6 +103,15 @@ TargetaIncidencia.prototype.escoger_Zona = function (e) {
         }
 
     })
+}
+
+TargetaIncidencia.prototype.get_DateTimePickerConfig = function () {
+    return {
+        autoclose: true,
+        orientation: "bottom left",
+        minViewMode: 2,
+        format: "yyyy-mm-dd",
+    }
 }
 
 
