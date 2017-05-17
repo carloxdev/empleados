@@ -27,7 +27,7 @@ from .forms import ViaticoFilterForm
 
 # Serializadores:
 from .serializers import ViaticoCabeceraSerializer
-from .serializers import ViaticoLineaSerializer
+# from .serializers import ViaticoLineaSerializer
 
 # Filtros:
 from .filters import ViaticoCabeceraFilter
@@ -54,9 +54,6 @@ class ViaticoLista(View):
         }
 
         return render(request, self.template_name, contexto)
-
-    def post(self, request):
-        return render(request, self.template_name, {})
 
 
 class ViaticoNuevo(View):
@@ -90,59 +87,6 @@ class ViaticoNuevo(View):
             'form': formulario
         }
         return render(request, self.template_name, contexto)
-
-
-# class ViaticoNuevo(CreateView):
-#     model = ViaticoCabecera
-#     second_model = ViaticoLinea
-#     template_name = 'viatico/viatico_nuevo.html'
-#     form_class = ViaticoCabeceraForm
-#     second_form_class = ViaticoLineaForm
-#     operation = 'En edición'
-
-#     def get_context_data(self, **kwargs):
-#         context = super(ViaticoNuevo, self).get_context_data(**kwargs)
-#         if 'form' not in context:
-#             context['form'] = self.form_class(self.request.GET)
-#         if 'form2' not in context:
-#             context['form2'] = self.second_form_class(self.request.GET)
-#         if 'operation' not in context:
-#             context['operation'] = self.operation
-#         return context
-
-#     def post(self, request, *args, **kwargs):
-#         self.object = self.get_object
-#         form = self.form_class(request.POST)
-#         form2 = self.second_form_class()
-#         operation = self.operation
-
-#         if form.is_valid():
-#             formulario = form.cleaned_data
-#             viatico = ViaticoCabecera()
-#             viatico.empleado = formulario.get('empleado')
-#             viatico.fecha_partida = formulario.get('fecha_partida')
-#             viatico.fecha_regreso = formulario.get('fecha_regreso')
-#             viatico.unidad_negocio = formulario.get('unidad_negocio')
-#             viatico.ciudad_destino = formulario.get('ciudad_destino')
-#             viatico.proposito_viaje = formulario.get('proposito_viaje')
-#             viatico.nombre_empresa = formulario.get('nombre_empresa')
-#             viatico.rfc = formulario.get('rfc')
-#             viatico.direccion = formulario.get('direccion')
-#             viatico.grupo = formulario.get('grupo')
-#             viatico.autorizador = formulario.get('autorizador')
-#             viatico.status = formulario.get('status')
-
-#             viatico.save()
-
-#             return redirect(reverse('finanzas:viatico_editar', kwargs={'pk': viatico.id}))
-
-#         else:
-#             contexto = {
-#                 'form': form,
-#                 'form2': form2,
-#                 'operation': operation
-#             }
-#             return render(request, self.template_name, contexto)
 
 
 class ViaticoEditar(View):
@@ -191,22 +135,9 @@ class ViaticoCabeceraAPI(viewsets.ModelViewSet):
     filter_class = ViaticoCabeceraFilter
 
 
-class ViaticoLineaAPI(viewsets.ModelViewSet):
-    queryset = ViaticoLinea.objects.all()
-    serializer_class = ViaticoLineaSerializer
-
-
 class ViaticoCabeceraByPageAPI(viewsets.ModelViewSet):
     queryset = ViaticoCabecera.objects.all()
     serializer_class = ViaticoCabeceraSerializer
     filter_backends = (DjangoFilterBackend,)
     filter_class = ViaticoCabeceraFilter
     pagination_class = GenericPagination
-
-
-class ViaticoLineaByPageAPI(viewsets.ModelViewSet):
-    queryset = ViaticoLinea.objects.all()
-    serializer_class = ViaticoLineaSerializer
-    pagination_class = GenericPagination
-    filter_backends = (DjangoFilterBackend,)
-    filter_fields = ('cabecera',)

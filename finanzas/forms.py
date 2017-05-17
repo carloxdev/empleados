@@ -23,22 +23,6 @@ class ViaticoFilterForm(Form):
     empleado = ChoiceField(
         widget=Select(attrs={'class': 'select2'})
     )
-    fecha_partida_inicio = CharField(
-        widget=TextInput(attrs={'class': 'form-control input-xs',
-                                'readonly': ''})
-    )
-    fecha_partida_fin = CharField(
-        widget=TextInput(attrs={'class': 'form-control input-xs',
-                                'readonly': ''})
-    )
-    fecha_regreso_inicio = CharField(
-        widget=TextInput(attrs={'class': 'form-control input-xs',
-                                'readonly': ''})
-    )
-    fecha_regreso_fin = CharField(
-        widget=TextInput(attrs={'class': 'form-control input-xs',
-                                'readonly': ''})
-    )
     unidad_negocio = CharField(
         widget=TextInput(attrs={'class': 'form-control input-xs'})
     )
@@ -57,10 +41,7 @@ class ViaticoFilterForm(Form):
 
         valores = [('', '------')]
 
-        if settings.DEBUG:
-            empleados = VIEW_EMPLEADOS_SIMPLE.objects.using('ebs_d').all()
-        else:
-            empleados = VIEW_EMPLEADOS_SIMPLE.objects.using('ebs_p').all()
+        empleados = VIEW_EMPLEADOS_SIMPLE.objects.using('ebs_d').all()
 
         for empleado in empleados:
             valores.append(

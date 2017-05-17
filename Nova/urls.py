@@ -9,9 +9,7 @@ from rest_framework import routers
 
 # API Rest Vistas:
 from finanzas.views import ViaticoCabeceraAPI
-from finanzas.views import ViaticoLineaAPI
 from finanzas.views import ViaticoCabeceraByPageAPI
-from finanzas.views import ViaticoLineaByPageAPI
 
 from compras.views import CompraSeguimientoAPI
 from compras.views import CompraSeguimientoByPageAPI
@@ -60,20 +58,11 @@ router.register(
     ViaticoCabeceraAPI,
     'viaticocabecera'
 )
-router.register(
-    r'viaticolinea',
-    ViaticoLineaAPI,
-    'viaticolinea'
-)
+
 router.register(
     r'viaticocabecera_bypage',
     ViaticoCabeceraByPageAPI,
     'viaticocabecera_bypage'
-)
-router.register(
-    r'viaticolinea_bypage',
-    ViaticoLineaByPageAPI,
-    'viaticolinea_bypage'
 )
 
 # -------------- Compras -------------- #
