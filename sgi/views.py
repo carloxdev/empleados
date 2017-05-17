@@ -392,23 +392,45 @@ class IncidenciaResolucionNuevo(View):
 
     def post(self, request, incidencia_id):
 
-        form = IncidenciaResolucionForm(request.POST)
+        # form = IncidenciaResolucionForm(request.POST)
 
-        incidencia_resolucion = IncidenciaResolucion.objects.filter(incidencia=incidencia_id)
+        # incidencia_resolucion = IncidenciaResolucion.objects.filter(incidencia=incidencia_id)
 
-        if form.is_valid():
+        # if form.is_valid():
 
-            incidencia_resolucion = form.save(commit=False)
-            incidencia_resolucion.created_by = request.user.profile
-            incidencia_resolucion.save()
+        #     incidencia_resolucion = form.save(commit=False)
+        #     incidencia_resolucion.created_by = request.user.profile
+        #     incidencia_resolucion.save()
+
+        #     return redirect(reverse('sgi:incidencia_lista'))
+
+        # contexto = {
+        #     'form': form,
+        #     'incidencia_id': incidencia_id,
+        #     'anexos': incidencia_resolucion,
+        # }
+        formulario = IncidenciaResolucionForm(request.POST)
+
+        if formulario.is_valid():
+
+            datos_formulario = formulario.cleaned_data
+            Incidencia_Resolucion = IncidenciaResolucion()
+            Incidencia_Resolucion.incidencia_id = datos_formulario.get('incidencia_id')
+            Incidencia_Resolucion.mensaje = datos_formulario.get('mensaje')
+            Incidencia_Resolucion.tipo = datos_formulario.get('tipo')
+            Incidencia_Resolucion.status = datos_formulario.get('estatus')
+            Incidencia_Resolucion.created_by  = request.user.profile
+            Incidencia_Resolucion.save()
 
             return redirect(reverse('sgi:incidencia_lista'))
 
         contexto = {
-            'form': form,
-            'incidencia_id': incidencia_id,
-            'anexos': incidencia_resolucion,
-        }
+                    'form': formulario,
+                    'incidencia_id': incidencia_id,
+                    'anexos': incidencia_resolucion,
+                }
+
+
 
         return render(request, self.template_name, contexto)
 

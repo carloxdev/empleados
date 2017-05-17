@@ -50,16 +50,16 @@
 								<div class="col-sm-6">
 								
 
-									<div class="form-group {% if form.status.field.required %} has-warning {% endif %} {% if form.status.errors %} has-error {% endif %}">
+									<div class="form-group {% if form.estatus.field.required %} has-warning {% endif %} {% if form.estatus.errors %} has-error {% endif %}">
 
 									<label class="control-label">
-									<i class="fa {% if form.status.field.required %} fa-asterisk {% endif %} {% if form.status.errors %} fa-asterisk {% endif %}"></i> 
-										{{ form.status.label }} 
+									<i class="fa {% if form.estatus.field.required %} fa-asterisk {% endif %} {% if form.estatus.errors %} fa-asterisk {% endif %}"></i> 
+										{{ form.estatus.label }} 
 									</label>
 									<p>
-										{{ form.status }}	
+										{{ form.estatus }}	
 									</p>
-									{% for error in form.status.errors %}
+									{% for error in form.estatus.errors %}
 										<span class="help-block">{{ error }}</span>
 									{% endfor %}
 									</div>
