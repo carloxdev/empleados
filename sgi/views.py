@@ -137,8 +137,6 @@ class IncidenciaDocumentoNuevo(View):
                                 <table width='100%' cellpadding=0 cellspacing=0 border=0 bgcolor=cccccc><tr><td height=1></td></tr></table> 
                                 <table width='100%' cellpadding=10 cellspacing=0 border=0 bgcolor=eeeeee>  
                                 <tr><td align=center>  
-                                <table cellpadding=0 cellspacing=0 border=0><tr><td> 
-                                Empleado: """ + incidencia.empleado_nombre + """</td></tr></table> 
                                      <table class=style1 font-family=calibri> 
                                      <tr><td colspan=8 align=center><strong>   INCIDENCIAS  </strong></td></tr> 
                                      <tr>  
@@ -175,7 +173,6 @@ class IncidenciaDocumentoNuevo(View):
                             </html> 
                            """
 
-
             from_email = '"Notificaciones Nuvoil" <notificaciones@nuvoil.com>'
             to = 'janet.castro@nuvoil.com'
             msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
@@ -184,8 +181,9 @@ class IncidenciaDocumentoNuevo(View):
 
             #send_mail("Subject", "Email body", settings.EMAIL_HOST_USER, "janexa@gmail.com", fail_silently=False)
 
-            return redirect(reverse('sgi:incidencia_lista'))
-            # return redirect(reverse('incidencia_archivo', kwargs={'incidencia_id': id_incidencia}))
+            #return redirect(reverse('sgi:incidencia_lista'))
+            #return render(request, self.template_name2, contexto)
+            return redirect(reverse('sgi:incidencia_archivo', kwargs={'incidencia_id': incidencia.pk}))
 
         contexto = {
             'form': formulario
@@ -322,6 +320,7 @@ class IncidenciaDocumentoArchivo(View):
 
     def __init__(self):
         self.template_name = 'incidencia/incidencia_archivo.html'
+        
 
     def get(self, request, incidencia_id):
 

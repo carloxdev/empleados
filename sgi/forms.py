@@ -207,7 +207,6 @@ class IncidenciaArchivoForm(ModelForm):
 
 class IncidenciaResolucionForm(ModelForm):
 
-
     class Meta:
         model = IncidenciaResolucion
         fields = [
@@ -225,8 +224,35 @@ class IncidenciaResolucionForm(ModelForm):
             'incidencia': HiddenInput(),
             'mensaje': Textarea(attrs={'class': 'form-control input-xs'}),
             'tipo': Select(attrs={'class': 'form-control input-sm'}),
-            #'status': Select(attrs={'class': 'form-control input-sm'}),
+            'status': Select(attrs={'class': 'form-control input-sm'}),
         } 
+
+    # def __init__(self, *args, **kwargs):
+    #     super(IncidenciaResolucionForm, self).__init__(
+    #         *args, **kwargs)
+    #     self.fields['status'].choices = self.get_estatus()
+
+
+    # def get_estatus(self):
+
+    #     valores = [('', '-------')]
+
+    #     estados = IncidenciaDocumento.objects.all()
+
+    #     for estatus in estados:
+
+    #         descripcion = "%s - %s" % (
+    #             estatus.status,
+    #             estatus.status
+    #         )
+
+    #         valores.append(
+    #             (
+    #                 estatus.status
+    #             )
+    #         )
+
+    #     return valores
 
         
 
