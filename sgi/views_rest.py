@@ -1,8 +1,12 @@
-# Librerias/Clases de Terceros
+
+# Librerias de Terceros
+
+# Django API Rest:
 from rest_framework import viewsets
+from rest_framework.permissions import IsAuthenticated
 from django_filters.rest_framework import DjangoFilterBackend
 
-# Librerias/Clases Propias
+# Librerias Propias
 
 # Modelos:
 from .models import IncidenciaDocumento
@@ -11,11 +15,6 @@ from .models import CentroAtencion
 from .models import IncidenciaArchivo
 from .models import IncidenciaResolucion
 
-# Otros Modelos:
-from ebs.models import VIEW_EMPLEADOS_FULL
-from administracion.models import Zona
-from administracion.models import Empresa
-
 # Serializadores:
 from .serializers import IncidenciaDocumentoSerializer
 from .serializers import IncidenciaTipoSerializer
@@ -23,14 +22,12 @@ from .serializers import CentroAtencionSerializer
 from .serializers import IncidenciaArchivoSerializer
 from .serializers import IncidenciaResolucionSerializer
 
-# Filtros:
-from home.pagination import GenericPagination
+# Paginadores:
+from .pagination import GenericPagination
 
-# Paginacion:
-from .filters import IncidenciaDocumentoFilter
+# Filtros:
 from .filters import IncidenciaDocumentoFilter
 from .filters import IncidenciaArchivoFilter
-from .filters import IncidenciaResolucionFilter
 
 
 # -------------- INCIDENCIA DOCUMENTO - API REST -------------- #
@@ -40,6 +37,7 @@ class IncidenciaDocumentoAPI(viewsets.ModelViewSet):
     serializer_class = IncidenciaDocumentoSerializer
     filter_backends = (DjangoFilterBackend,)
     filter_class = IncidenciaDocumentoFilter
+    permission_classes = (IsAuthenticated,)
 
 
 class IncidenciaDocumentoByPageAPI(viewsets.ModelViewSet):
@@ -48,9 +46,10 @@ class IncidenciaDocumentoByPageAPI(viewsets.ModelViewSet):
     filter_backends = (DjangoFilterBackend,)
     filter_class = IncidenciaDocumentoFilter
     pagination_class = GenericPagination
+    permission_classes = (IsAuthenticated,)
+
 
 # -------------- INCIDENCIA ANEXO - API REST -------------- #
-
 
 class IncidenciaArchivoByPageAPI(viewsets.ModelViewSet):
     queryset = IncidenciaArchivo.objects.all()
@@ -58,6 +57,7 @@ class IncidenciaArchivoByPageAPI(viewsets.ModelViewSet):
     filter_backends = (DjangoFilterBackend,)
     filter_class = IncidenciaArchivoFilter
     pagination_class = GenericPagination
+    permission_classes = (IsAuthenticated,)
 
 
 class IncidenciaArchivoAPI(viewsets.ModelViewSet):
@@ -65,17 +65,21 @@ class IncidenciaArchivoAPI(viewsets.ModelViewSet):
     serializer_class = IncidenciaArchivoSerializer
     filter_backends = (DjangoFilterBackend,)
     filter_fields = ('id',)
+    permission_classes = (IsAuthenticated,)
+
 
 # -------------- INCIDENCIA TIPO - API REST -------------- #
 
 class IncidenciaTipoAPI(viewsets.ModelViewSet):
     queryset = IncidenciaTipo.objects.all()
     serializer_class = IncidenciaTipoSerializer
+    permission_classes = (IsAuthenticated,)
 
 
 class CentroAtencionAPI(viewsets.ModelViewSet):
     queryset = CentroAtencion.objects.all()
     serializer_class = CentroAtencionSerializer
+    permission_classes = (IsAuthenticated,)
 
 
 # -------------- INCIDENCIA RESOLUCION - API REST -------------- #
@@ -83,3 +87,4 @@ class CentroAtencionAPI(viewsets.ModelViewSet):
 class IncidenciaResolucionAPI(viewsets.ModelViewSet):
     queryset = IncidenciaResolucion.objects.all()
     serializer_class = IncidenciaResolucionSerializer
+    permission_classes = (IsAuthenticated,)

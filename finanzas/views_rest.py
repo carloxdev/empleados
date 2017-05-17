@@ -1,9 +1,10 @@
-# Librerias/Clases propias
 
-# Librerias/Clases de Terceros
+# Librerias de Terceros
+
+# Django API Rest:
 from rest_framework import viewsets
+from rest_framework.permissions import IsAuthenticated
 from django_filters.rest_framework import DjangoFilterBackend
-
 
 # Librerias Propias
 
@@ -15,11 +16,11 @@ from .models import ViaticoLinea
 from .serializers import ViaticoCabeceraSerializer
 from .serializers import ViaticoLineaSerializer
 
+# Paginacion:
+from .pagination import GenericPagination
+
 # Filtros:
 from .filters import ViaticoCabeceraFilter
-
-# Paginacion:
-from home.pagination import GenericPagination
 
 
 class ViaticoCabeceraAPI(viewsets.ModelViewSet):
@@ -27,11 +28,13 @@ class ViaticoCabeceraAPI(viewsets.ModelViewSet):
     serializer_class = ViaticoCabeceraSerializer
     filter_backends = (DjangoFilterBackend,)
     filter_class = ViaticoCabeceraFilter
+    permission_classes = (IsAuthenticated,)
 
 
 class ViaticoLineaAPI(viewsets.ModelViewSet):
     queryset = ViaticoLinea.objects.all()
     serializer_class = ViaticoLineaSerializer
+    permission_classes = (IsAuthenticated,)
 
 
 class ViaticoCabeceraByPageAPI(viewsets.ModelViewSet):
@@ -40,6 +43,7 @@ class ViaticoCabeceraByPageAPI(viewsets.ModelViewSet):
     filter_backends = (DjangoFilterBackend,)
     filter_class = ViaticoCabeceraFilter
     pagination_class = GenericPagination
+    permission_classes = (IsAuthenticated,)
 
 
 class ViaticoLineaByPageAPI(viewsets.ModelViewSet):
@@ -48,3 +52,4 @@ class ViaticoLineaByPageAPI(viewsets.ModelViewSet):
     pagination_class = GenericPagination
     filter_backends = (DjangoFilterBackend,)
     filter_fields = ('cabecera',)
+    permission_classes = (IsAuthenticated,)
