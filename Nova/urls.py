@@ -31,7 +31,6 @@ urlpatterns = [
     url(r'', include('seguridad.urls', namespace="seguridad")),
     url(r'', include('sgi.urls', namespace="sgi")),
     url(r'', include('capitalhumano.urls', namespace="capitalhumano")),
-
 ]
 
 

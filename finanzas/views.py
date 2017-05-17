@@ -15,25 +15,10 @@ from django.views.generic.base import View
 # Modelos:
 from .models import ViaticoCabecera
 
-
 # Formularios:
 from .forms import ViaticoCabeceraForm
 # from .forms import ViaticoLineaForm
 from .forms import ViaticoFilterForm
-
-<<<<<<< HEAD
-# Serializadores:
-from .serializers import ViaticoCabeceraSerializer
-# from .serializers import ViaticoLineaSerializer
-
-# Filtros:
-from .filters import ViaticoCabeceraFilter
-
-# Paginacion:
-from home.pagination import GenericPagination
-
-# from django.core.urlresolvers import reverse_lazy
-# from django.http import HttpResponse
 
 
 # -------------- VIATICO -------------- #
