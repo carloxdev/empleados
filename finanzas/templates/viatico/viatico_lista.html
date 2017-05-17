@@ -27,46 +27,60 @@
 
 <div class="be-content">
 
+    <input type="text" id="url_viaticocabecera_editar" class="hidden" value="{% url 'finanzas:viatico_editar' 0 %}">
+
 	<div class="page-head nova-page-head">
 		<h2 class="page-head-title nova-title">Solicitudes de Viaticos</h2>
 		<ol class="breadcrumb page-head-nav pull-right">
-			<li><a href="#">Inicio</a></li>
-			<li class="active">Solicitudes de Viaticos</li>
+			<li><a href="{% url 'home:inicio' %}">Inicio</a></li>
+			<li id="menu" data-opcion="viaticos_lista" class="active">Solicitudes de Viaticos</li>
 		</ol>	
 	</div>
 
     <!-- Targeta Resultados -->
-    <div class="main-content container-fluid nova-main-content">  
-		<div class="col-md-12 nova-col">
-                <div class="panel panel-default panel-table">
-                    <div class="panel-heading panel-border nova-panel-heading"> 
-                        <div class="tools pull-right nova-tools" id="toolbar">
+    <div class="main-content container-fluid nova-main-content">
 
-                            <a href="{% url 'finanzas:viatico_nuevo' %}" 
-                                class="btn nova-btn btn-rounded btn-space btn-default" id="boton_nuevo">
-                                <i class="icon icon-left mdi mdi-plus-circle nova-black"></i>Nuevo 
-                            </a>
+        <div class="row">
+            <div class="col-xs-12 nova-col">
+                    <div class="panel panel-default panel-table">
+                        <div class="panel-heading panel-border nova-panel-heading"> 
+                            <div class="tools pull-right nova-tools" id="toolbar">
 
-                            <a href="#tarjeta_filtros" 
-                                class="btn nova-btn btn-rounded btn-space btn-primary" data-toggle="modal" id="boton_filtros">
-                                <i class="icon icon-left mdi mdi-search nova-white"></i>Filtros
-                            </a>
+                                <a href="{% url 'finanzas:viatico_nuevo' %}" 
+                                    class="btn nova-btn btn-rounded btn-space btn-default" id="boton_nuevo">
+                                    <i class="icon icon-left mdi mdi-plus-circle nova-black"></i>Nuevo 
+                                </a>
 
-                            <button class="btn nova-btn btn-rounded btn-space btn-success" id="boton_excel">
-                                <i class="icon icon-left mdi mdi-download nova-white"></i>Exportar
-                            </button>
-                        </div>
-                        <div class="title hidden-xs">Registros</div>
-                    </div><!-- Panel Heading -->
+                                <a href="#tarjeta_filtros" 
+                                    class="btn nova-btn btn-rounded btn-space btn-primary" data-toggle="modal" id="boton_filtros">
+                                    <i class="icon icon-left mdi mdi-search nova-white"></i>Filtros
+                                </a>
 
+                                <button class="btn nova-btn btn-rounded btn-space btn-success" id="boton_excel">
+                                    <i class="icon icon-left mdi mdi-download nova-white"></i>Exportar
+                                </button>
+                            </div>
+                            <div class="title hidden-xs">Registros</div>
+                        </div><!-- Panel Heading -->
+
+                        <div id="grid_resultados">
+                        </div><!-- "Panel Body" -->
+                  </div> <!-- Panel -->
+            </div><!-- col md 12 -->            
+        </div>
+
+<<<<<<< HEAD
                     <div id="grid_resultados">
                     </div><!-- "Panel Body" -->
               </div> <!-- Panel -->
         </div><!-- col md 12 -->
 	</div>	
+=======
+	</div>
+>>>>>>> origin/master
 
     <!-- Targeta Filtros -->
-    <div id="tarjeta_filtros" role="dialog" class="modal fade colored-header colored-header-primary in">
+    <div id="tarjeta_filtros" role="dialog" class="modal fade colored-header colored-header-primary">
         <div class="modal-dialog custom-width">
             <div class="modal-content">
                 
@@ -78,29 +92,43 @@
                 <form id="formulario_filtro" class="modal-body form-horizontal">
 
                     <div class="form-group">
+                        <label class="col-sm-3 nova-col-filter control-label">Proposito del Viaje</label>
+                        <div class="col-sm-8 xs-pt-5">
+                            {{ form.proposito_viaje }}
+                        </div>
+                    </div>                
+
+                    <div class="form-group">
                         <label class="col-sm-3 nova-col-filter control-label">Empleado</label>
-                        <div class="col-sm-7 xs-pt-5">
+                        <div class="col-sm-8 xs-pt-5">
                             {{ form.empleado }}
                         </div>
                     </div>
 
                     <div class="form-group">
-                      <label class="col-sm-3 nova-col-filter control-label">Otra</label>
-                      <div class="col-sm-6 xs-pt-5">
-                        
+                      <label class="col-sm-3 nova-col-filter control-label">Unidad de Negocio</label>
+                      <div class="col-sm-8 xs-pt-5">
+                        {{ form.unidad_negocio }}
                       </div>
                     </div>
 
                     <div class="form-group">
-                      <label class="col-sm-3 nova-col-filter control-label">Otra cosa</label>
-                      <div class="col-sm-6 xs-pt-5">
-                        {{ form.empleado }}
+                      <label class="col-sm-3 nova-col-filter control-label">Destino</label>
+                      <div class="col-sm-8 xs-pt-5">
+                        {{ form.ciudad_destino }}
                       </div>
-                    </div>
+                    </div>                    
+
+                    <div class="form-group">
+                      <label class="col-sm-3 nova-col-filter control-label">Autorizador</label>
+                      <div class="col-sm-8 xs-pt-5">
+                        {{ form.autorizador }}
+                      </div>
+                    </div>                                        
 
                     <div class="form-group">
                         <label class="col-sm-3 nova-col-filter control-label">Fecha Creacion</label>
-                        <div class="col-sm-6 xs-pt-5">
+                        <div class="col-sm-8 xs-pt-5">
                             <div class="input-group"> 
                                 <input type="text" value="" readonly="" class="form-control input-xs" id="fecha_creacion">
                                 <span class="input-group-addon btn btn-primary">
@@ -113,13 +141,16 @@
                 </form><!-- Modal body-->
                 <div class="modal-footer nova-modal-footer">
                      <div class="row col-sm-12">
-                            <button type="button" id="boton_limpiar" class="btn btn-default pull-left">
+                            <button type="button" data-dismiss="modal" class="btn btn-default pull-left">
+                                Cancelar
+                            </button>
+
+                            <button type="button" id="boton_limpiar" class="btn btn-default nova-btn">
                                 <i class="fa fa-eraser"></i>
                                 Limpiar
                             </button>
-                            <button type="button" data-dismiss="modal" class="btn nova-btn btn-default">Cancelar</button>
-                            
-                            <button type="button" id="boton_buscar" class="btn nova-btn btn-primary btn-lg">
+
+                            <button type="button" id="boton_buscar" class="btn nova-btn btn-primary btn-lg pull-right">
                                 <i class="icon icon-left mdi mdi-search nova-white"></i>
                                 Buscar
                             </button>
@@ -145,13 +176,13 @@
 
     <!-- Theme -->
     <script src="{% static 'theme/lib/jquery-ui/jquery-ui.min.js' %}"></script>
+    <script src="{% static 'theme/lib/moment.js/min/moment.min.js' %}"></script>
     <script src="{% static 'theme/lib/datetimepicker/js/bootstrap-datetimepicker.min.js' %}"></script>
     <script src="{% static 'theme/lib/datetimepicker/js/locales/bootstrap-datetimepicker.es.js' %}"></script>
     <script src="{% static 'theme/lib/daterangepicker/js/daterangepicker.js' %}"></script>
-    <script src="{% static 'theme/lib/select2/js/select2.min.js' %}"></script>
+    
 
     <!-- Nova -->
     <script src="{% static 'viatico/viatico_lista.js' %}"></script>
-
 
 {% endblock scripts %}

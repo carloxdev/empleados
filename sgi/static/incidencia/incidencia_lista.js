@@ -5,19 +5,29 @@
 \*-----------------------------------------------*/
 
 // URLS:
-var url_incidenciadocumento = window.location.origin + "/api/incidenciadocumento/"
-var url_incidenciadocumento_bypage = window.location.origin + "/api/incidenciadocumento_bypage/"
-var url_viaticocabecera_editar = window.location.origin + "/viaticos/editar/"
+var url_incidenciadocumento = window.location.origin + "/api-sgi/incidenciadocumento/"
+var url_incidenciadocumento_bypage = window.location.origin + "/api-sgi/incidenciadocumento_bypage/"
+var url_incidencia_editar = window.location.origin + "/incidencias/"
+//var url_incidencia_editar = ""
+var url_anexos = window.location.origin + "/incidencias/incidencia_id/archivos/"
+var url_seguimiento = window.location.origin + "/incidencias/incidencia_id/seguimiento/"
+var url_excel = window.location.origin + "/api-sgi/incidenciadocumento/"
+
 
 // OBJS
+var grid = null
 var filtros = null
 var resultados = null
+var toolbar = null
+
+
 
 /*-----------------------------------------------*\
             LOAD
 \*-----------------------------------------------*/
 
 $(document).ready(function () {
+    //url_incidencia_editar = window.location.origin.toString() + $('#url_incidencia_editar').val()
 
     filtros = new TargetaFiltros()
     resultados = new TargetaResultados()
@@ -29,15 +39,16 @@ $(document).ready(function () {
 
 function TargetaFiltros () {
 
+    this.$id = $('#tarjeta_filtros')
     this.$numero = $('#id_numero')
     this.$tipo = $('#id_tipo')
-    this.$fecha_mayorque = $('#id_fecha_mayorque')
-    this.$fecha_menorque = $('#id_fecha_menorque')
+    this.$fecha_creacion = $('#fecha_creacion')
     this.$es_registrable = $('#id_es_registrable')
     this.$empleado_zona = $('#id_empleado_zona')
 
     this.$boton_buscar = $('#boton_buscar')
 
+  
     this.init_Components()
     this.init_Events()
 
@@ -45,19 +56,76 @@ function TargetaFiltros () {
 TargetaFiltros.prototype.init_Components = function () {
 
     // Estilos, Liberias
-    this.$fecha_mayorque.datepicker()
-    this.$fecha_menorque.datepicker()
+    //this.$fecha_mayorque.datepicker()
+    //this.$fecha_menorque.datepicker()
+   this.$fecha_creacion.daterangepicker(this.get_ConfDateRangePicker())   
 }
 TargetaFiltros.prototype.init_Events = function () {
 
+    this.$id.on("hidden.bs.modal", this, this.hide)
     // Asosciar Eventos
     this.$boton_buscar.on("click", this, this.click_BotonBuscar)
 }
+
+TargetaFiltros.prototype.hide = function (e) {
+    e.data.$fecha_creacion.data('daterangepicker').hide()
+}
+TargetaFiltros.prototype.get_ConfiguracionCalendario = function(){
+    
+    return{
+        language: 'es',
+        autoclose: true,
+        minView: 2,
+        format: 'yyyy-mm-dd'
+    }
+}
+TargetaFiltros.prototype.get_ConfDateRangePicker = function () {
+
+    return {
+        locale: {
+            format: 'YYYY-MM-DD',
+            applyLabel: "Aplicar",
+            cancelLabel: "Cancelar",
+            fromLabel: "Del",
+            separator: " al ",
+            toLabel: "Al",            
+            weekLabel: "S",
+            daysOfWeek: [
+                "Do",
+                "Lu",
+                "Ma",
+                "Mi",
+                "Ju",
+                "Vi",
+                "Sa"
+            ],
+            monthNames: [
+                "Enero",
+                "Febrero",
+                "Marzo",
+                "Abril",
+                "Mayo",
+                "Junio",
+                "Julio",
+                "Agosto",
+                "Septiembre",
+                "Octubre",
+                "Noviembre",
+                "Diciembre"
+            ],          
+        },
+        startDate: '2017-01-01'
+    }    
+}
+
+
+
 TargetaFiltros.prototype.click_BotonBuscar = function (e) {
 
     e.preventDefault()
-
     resultados.grid.buscar()
+    e.data.$id.modal('hide')
+   
 }
 TargetaFiltros.prototype.get_Values = function (_page) {
 
@@ -65,13 +133,23 @@ TargetaFiltros.prototype.get_Values = function (_page) {
         page: _page,
         id: this.$numero.val(),
         tipo: this.$tipo.val(),
-        fecha_mayorque: this.$fecha_mayorque.val(),
-        fecha_menorque: this.$fecha_menorque.val(),
+        fecha_creacion: this.$fecha_creacion.val(),
         es_registrable: this.$es_registrable.val(),
         empleado_zona: this.$empleado_zona.val(),
 
     }
 
+}
+
+TargetaFiltros.prototype.get_FiltrosExcel = function () {
+
+    return {
+        id: this.$numero.val(),
+        tipo: this.$tipo.val(),
+        fecha_creacion: this.$fecha_creacion.val(),
+        es_registrable: this.$es_registrable.val(),
+        empleado_zona: this.$empleado_zona.val(),
+    }
 }
 
 
@@ -86,14 +164,7 @@ function TargetaResultados () {
     this.grid = new Grid()
 }
 
-/*-----------------------------------------------*\
-            OBJETO: Toolbar
-\*-----------------------------------------------*/
 
-function Toolbar() {
-
-    this.$boton_excel = $('#boton_excel')
-}
 
 /*-----------------------------------------------*\
             OBJETO: Grid
@@ -103,6 +174,7 @@ function Grid() {
 
     this.$id = $('#grid_resultados')
     this.kfuente_datos = null
+    this.kfuente_datos_excel = null
     this.kgrid = null
 
     this.init_Components()
@@ -115,10 +187,26 @@ Grid.prototype.init_Components = function () {
 
     // Se inicializa la fuente da datos (datasource)
     this.kfuente_datos = new kendo.data.DataSource(this.get_DataSourceConfig())
+    this.kfuente_datos_excel = new kendo.data.DataSource(this.get_FuenteDatosExcel())
 
     // Se inicializa y configura el grid:
     this.kgrid = this.$id.kendoGrid(this.get_Configuracion())    
 }
+
+Grid.prototype.click_BotonAnexos = function (e) {
+
+    e.preventDefault()
+    var fila = this.dataItem($(e.currentTarget).closest('tr'))
+    window.location.href = url_anexos.replace("incidencia_id", fila.pk)
+}
+
+Grid.prototype.click_BotonSeguimiento = function (e) {
+
+    e.preventDefault()
+    var fila = this.dataItem($(e.currentTarget).closest('tr'))
+    window.location.href = url_seguimiento.replace("incidencia_id", fila.pk)
+}
+
 Grid.prototype.get_DataSourceConfig = function () {
 
     return {
@@ -150,6 +238,7 @@ Grid.prototype.get_DataSourceConfig = function () {
         },
     } 
 }
+
 Grid.prototype.get_Campos = function () {
 
     return {
@@ -159,7 +248,7 @@ Grid.prototype.get_Campos = function () {
         fecha : { type: "string" },
         empleado_id : { type: "number" },
         empleado_nombre : { type: "string" },
-        empleado_zona : { type: "string" },
+        zona : { type: "string" },
         empleado_proyecto : { type: "string" },
         empleado_proyecto_desc : { type: "string" },
         empleado_puesto : { type: "number" },
@@ -191,7 +280,7 @@ Grid.prototype.get_Configuracion = function () {
         noRecords: {
             template: "<div class='grid-empy'> No se encontraron registros </div>"
         },
-        // dataBound: this.set_Icons,
+        dataBound: this.set_Icons,
     }    
 }
 Grid.prototype.get_Columnas = function () {
@@ -200,31 +289,209 @@ Grid.prototype.get_Columnas = function () {
         { 
             field: "pk", 
             title: "Numero", 
-            width:"200px",
-            template: '<a class="nova-url" href="#=url_viaticocabecera_editar + pk#">#=pk#</a>',
+            width:"100px",
+            template: '<a class="nova-url" href="#=url_incidencia_editar  + pk + "/" + "editar/"  #">#=pk#</a>',
         },
-        { field: "tipo", title: "tipo", width:"200px" },
-        { field: "es_registrable", title: "es_registrable", width:"200px" },
-        { field: "fecha", title: "fecha", width:"200px" },
-        { field: "empleado_id", title: "empleado_id", width:"200px" },
-        { field: "empleado_nombre", title: "empleado_nombre", width:"200px" },
-        { field: "empleado_zona", title: "empleado_zona", width:"200px" },
-        { field: "empleado_proyecto", title: "empleado_proyecto", width:"200px" },
-        { field: "empleado_proyecto_desc", title: "empleado_proyecto_desc", width:"200px" },
-        { field: "empleado_puesto", title: "empleado_puesto", width:"200px" },
-        { field: "empleado_puesto_desc", title: "empleado_puesto_desc", width:"200px" },
-        { field: "empleado_un", title: "empleado_un", width:"200px" },
-        { field: "empleado_organizacion", title: "empleado_organizacion", width:"200px" },
-        { field: "area_id", title: "area_id", width:"200px" },
+        { field: "tipo", title: "Categoria", width:"200px" },
+        { field: "es_registrable", title: "Tipo", width:"100px" },
+        { field: "fecha", title: "fecha", width:"100px" },
+        { field: "empleado_id", title: "No Empleado", width:"70px" },
+        { field: "empleado_nombre", title: "Empleado", width:"220px" },
+        { field: "zona", title: "Zona Empleado", width:"100px" },
+        { field: "empleado_proyecto", title: "Id Proyecto", width:"70px" },
+        { field: "empleado_proyecto_desc", title: "Proyecto Empleado", width:"200px" },
+        { field: "empleado_puesto", title: "Id Puesto", width:"70px" },
+        { field: "empleado_puesto_desc", title: "Puesto", width:"200px" },
+        { field: "empleado_un", title: "UN", width:"70px" },
+        { field: "empleado_organizacion", title: "Organizacion Empleado", width:"200px" },
+        { field: "area_id", title: "Id Area", width:"90px" },
         { field: "area_descripcion", title: "area_descripcion", width:"200px" },
         { field: "lugar", title: "lugar", width:"200px" },
-        { field: "dias_incapcidad", title: "dias_incapcidad", width:"200px" },
-        { field: "centro_atencion", title: "centro_atencion", width:"200px" },
-        { field: "tiene_acr", title: "tiene_acr", width:"200px" },
-        { field: "status", title: "status", width:"200px" },
+        { field: "dias_incapcidad", title: "Dias Incapacidad", width:"80px" },
+        { field: "centro_atencion", title: "Centro Atencion", width:"100px" },
+        { field: "tiene_acr", title: "ACR", width:"50px" },
+        { field: "status", title: "status", width:"70px" },
+        {
+           command: [ 
+                {
+                   text: "Anexos",
+                   click: this.click_BotonAnexos,
+                   className: "btn btn-space btn-primary"
+                },          
+            ],           
+           title: " ",
+           width: "120px"
+        },
+        {
+           command: [ 
+                {
+                   text: "Seguimiento",
+                   click: this.click_BotonSeguimiento,
+                   className: "btn btn-space btn-primary"
+                },             
+            ],           
+           title: " ",
+           width: "120px"
+        },
     ]
 }
+
 Grid.prototype.buscar = function() {
     
     this.kfuente_datos.page(1)
+}
+
+Grid.prototype.leer_Datos = function() {
+    
+    this.kfuente_datos_excel.read()
+}
+
+
+Grid.prototype.get_FuenteDatosExcel = function (e) {
+
+    return {
+
+        transport: {
+            read: {
+
+                url: url_excel,
+                type: "GET",
+                dataType: "json",
+            },
+            parameterMap: function (data, action) {
+                if (action === "read") {
+
+                    return filtros.get_FiltrosExcel()
+                }
+            }
+        },
+        schema: {
+            model: {
+                fields: this.get_Campos()
+            }
+        },
+        error: function (e) {
+            alertify.error("Status: " + e.status + "; Error message: " + e.errorThrown)
+        },
+    }
+    
+}
+
+Grid.prototype.set_Icons = function (e) {
+
+    e.sender.tbody.find(".k-button.fa.fa-pencil").each(function(idx, element){
+        $(element).removeClass("fa fa-pencil").find("span").addClass("fa fa-pencil")
+    })   
+}
+/*-----------------------------------------------*\
+            OBJETO: TOOLBAR
+\*-----------------------------------------------*/
+
+function Toolbar() {
+
+    this.$boton_exportar = $("#boton_exportar")
+
+    this.init()
+}
+Toolbar.prototype.init = function (e) {
+
+    this.$boton_exportar.on("click", this, this.click_BotonExportar)
+}
+
+Toolbar.prototype.Inicializar_CeldasExcel = function (e) {
+
+    if (resultados.grid.get_Columnas != null)
+    {
+        if (resultados.grid.get_Columnas.length != 1) {
+            resultados.grid.get_Columnas.length = 0;
+        }
+    }
+
+    this.kRows = [{
+        cells: [
+            { value: 'Id'},
+            { value: 'Categoria' },
+            { value: 'Tipo' },
+            { value: 'Fecha' },
+            { value: 'Clave de Empleado' },
+            { value: 'Zona Empleado' },
+            { value: 'Id Proyecto' },
+            { value: 'Proyecto Empleado' },
+            { value: 'Id Puesto'},
+            { value: 'Unidad de Negocio'},
+            { value: 'Organizacion Empleado'},
+            { value: 'id Area'},
+            { value: 'Area Descripcion'},
+            { value: 'lugar'},
+            { value: 'Dias Incapacidad'},
+            { value: 'Centro de Atencion'},
+            { value: 'status'},
+        ]
+    }];
+}
+
+Toolbar.prototype.click_BotonExportar = function (e) {
+
+    resultados.grid.leer_Datos()
+    e.data.Inicializar_CeldasExcel();
+
+    resultados.grid.kfuente_datos_excel.fetch(function () {
+
+        var data = this.data();
+        for (var i = 0; i < data.length; i++) {
+
+            e.data.kRows.push({
+                cells: [
+                    { value: data[i].pk },
+                    { value: data[i].tipo },
+                    { value: data[i].es_registrable },
+                    { value: data[i].fecha },
+                    { value: data[i].empleado_id },
+                    { value: data[i].empleado_nombre },
+                    { value: data[i].empleado_proyecto },
+                    { value: data[i].empleado_proyecto_desc },
+                    { value: data[i].empleado_puesto },
+                    { value: data[i].empleado_puesto_desc },
+                    { value: data[i].empleado_un},
+                    { value: data[i].area_id},
+                    { value: data[i].area_descripcion},
+                    { value: data[i].lugar},
+                    { value: data[i].dias_incapcidad},
+                    { value: data[i].tiene_acr},
+                    { value: data[i].status},
+                ]
+            })
+        }
+        var workbook = new kendo.ooxml.Workbook({
+            sheets: [
+                {
+                    columns: [
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                        { autoWidth: true },
+                    ],
+                    title: "incidenciasregistradas",
+                    rows: e.data.kRows
+                }
+            ]
+        });
+        kendo.saveAs({
+            dataURI: workbook.toDataURL(),
+            fileName: "Incidencias_registradas.xlsx",
+        });
+    });
 }

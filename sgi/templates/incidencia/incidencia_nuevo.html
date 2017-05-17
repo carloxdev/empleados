@@ -14,8 +14,7 @@
 
     <!-- Theme -->
     <link rel="stylesheet" href="{% static 'theme/lib/datetimepicker/css/bootstrap-datetimepicker.min.css' %}"/>
-
-
+    <link rel="stylesheet" href="{% static 'theme/lib/daterangepicker/css/daterangepicker.css' %}"/>
 
 
 {% endblock css %}
@@ -29,8 +28,8 @@
         <h2 class="page-head-title">Nueva Incidencia</h2>
         <ol class="breadcrumb page-head-nav">
             <li><a href="#">Inicio</a></li>
-           {#  <li><a href="{% url 'finanzas:viatico_lista' %}">Viaticos</a></li> #}
-            <li class="active">{% if id_cabecera %}Edición {% else %} Nuevo {% endif %}</li>
+            <li><a href="{% url 'sgi:incidencia_lista' %}">Incidencias</a></li>
+            <li class="active">{% if id %}Edición {% else %} Nuevo {% endif %}</li>
         </ol>
     </div>
     <div class="main-content container-fluid">  
@@ -91,24 +90,48 @@
 
                                 
                                 <!-- Fecha -->
+                                <!--<div class="row">
+									<div class="col-sm-4">
+										<label for="{{ form.fecha.id_for_label }}"> Fecha: </label>
+				                            <div data-min-view="2" data-date-format="yyyy-mm-dd" class="input-group date datetimepicker">
+                         
+				                                    {{ form.fecha }}
+				                            <span class="input-group-addon btn btn-primary"><i class="icon-th mdi mdi-calendar"></i></span>
+				                            </div>
+									</div>
+								</div>-->
+                                
+                                
+                                 <!-- Fecha -->
                                 <div class="row">
-								<div class="col-sm-6">
-									<label for="{{ form.fecha.id_for_label }}"> Fecha: </label>
-			                            <div class="input-group datetimepicker nova-input-group-padding">
-			                                    {{ form.fecha }}
-			                            <span class="input-group-addon btn btn-primary"><i class="icon-th mdi mdi-calendar"></i></span>
-			                            </div>
-								</div>
-								</div>
+								  <div class="col-sm-4">
+                                   <div class="form-group {% if form.fecha.field.required %} has-warning {% endif %} {% if form.fecha.errors %} has-error {% endif %}">
+                                    <label class="control-label">
+									<i class="fa {% if form.fecha.field.required %} fa-asterisk {% endif %}"></i>
+									Fecha</label>
+									<div class="form-group input-group">
+                                        <div class="input-group date" 
+	                                        data-min-view="2" 
+	                                        data-date-format="yyyy-mm-dd"
+	                                        id="fecha">
+                                            {{ form.fecha }}
+                                            <span class="input-group-addon nova-addon-button">
+                                                <span class="glyphicon glyphicon-calendar"></span>
+                                            </span>
+                                        </div>
+                                    </div> 
+                                    {% for error in form.fecha.errors %}
+                                        <span class="help-block">{{ error }}</span>
+                                    {% endfor %}
+                                    </div>
+                                  </div>
+                                </div>
 
 
                                 <div class="row">
-
 								<!-- Empleado ID-->
 								<div class="col-sm-6">
-
 									<div class="form-group {% if form.empleado_id.field.required %} has-warning {% endif %} {% if form.empleado_id.errors %} has-error {% endif %}">
-
 									<label class="control-label">
 									<i class="fa {% if form.empleado_id.field.required %} fa-asterisk {% endif %} {% if form.empleado_id.errors %} fa-asterisk {% endif %}"></i> 
 										{{ form.empleado_id.label }} 
@@ -125,9 +148,9 @@
 								</div>
 
 								
-								<div class="row">
-
-								<!-- Empleado -->
+								
+								<!-- Nombre Empleado -->
+								<!--<div class="row">
 								<div class="col-sm-6">
 
 									<div class="form-group {% if form.empleado_nombre.field.required %} has-warning {% endif %} {% if form.empleado_nombre.errors %} has-error {% endif %}">
@@ -144,23 +167,23 @@
 									{% endfor %}
 									</div>
 								</div>
-								</div>
+								</div>-->
                                 
 
                                 <div class="row">
                                 <!-- Empleado Zona-->
 								<div class="col-sm-6">
 
-									<div class="form-group {% if form.empleado_zona.field.required %} has-warning {% endif %} {% if form.empleado_zona.errors %} has-error {% endif %}">
+									<div class="form-group {% if form.zona.field.required %} has-warning {% endif %} {% if form.zona.errors %} has-error {% endif %}">
 
 									<label class="control-label">
-									<i class="fa {% if form.empleado_zona.field.required %} fa-asterisk {% endif %} {% if form.empleado_zona.errors %} fa-asterisk {% endif %}"></i> 
-										{{ form.empleado_zona.label }} 
+									<i class="fa {% if form.zona.field.required %} fa-asterisk {% endif %} {% if form.zona.errors %} fa-asterisk {% endif %}"></i> 
+										{{ form.zona.label }} 
 									</label>
 									<p>
-										{{ form.empleado_zona }}	
+										{{ form.zona }}	
 									</p>
-									{% for error in form.empleado_zona.errors %}
+									{% for error in form.zona.errors %}
 										<span class="help-block">{{ error }}</span>
 									{% endfor %}
 									</div>
@@ -168,7 +191,7 @@
 								</div>
                                 
                                 <!-- Empleado proyecto id-->
-                                <div class="row">
+                                <!--<div class="row">
 								<div class="col-sm-6">
 
 									<div class="form-group {% if form.empleado_proyecto.field.required %} has-warning {% endif %} {% if form.empleado_proyecto.errors %} has-error {% endif %}">
@@ -185,10 +208,10 @@
 									{% endfor %}
 									</div>
 								</div>
-								</div>
+								</div>-->
 
 								<!-- Empleado proyecto -->
-								<div class="row">
+								<!--<div class="row">
 								<div class="col-sm-6">
 
 									<div class="form-group {% if form.empleado_proyecto_desc.field.required %} has-warning {% endif %} {% if form.empleado_proyecto_desc.errors %} has-error {% endif %}">
@@ -205,11 +228,11 @@
 									{% endfor %}
 									</div>
 								</div>
-								</div>
+								</div>-->
 
 
                                 <!-- Empleado puesto id -->
-                                <div class="row">
+                                <!--<div class="row">
 								<div class="col-sm-6">
 
 									<div class="form-group {% if form.empleado_puesto.field.required %} has-warning {% endif %} {% if form.empleado_puesto.errors %} has-error {% endif %}">
@@ -226,10 +249,10 @@
 									{% endfor %}
 									</div>
 								</div>
-								</div>
+								</div>-->
 
 								<!-- Empleado puesto -->
-								<div class="row">
+								<!--<div class="row">
 								<div class="col-sm-6">
 
 									<div class="form-group {% if form.empleado_puesto_desc.field.required %} has-warning {% endif %} {% if form.empleado_puesto_desc.errors %} has-error {% endif %}">
@@ -246,10 +269,10 @@
 									{% endfor %}
 									</div>
 								</div>
-								</div>
+								</div>-->
 
 								<!-- Empleado unidad negocio -->
-								<div class="row">
+								<!--<div class="row">
 								<div class="col-sm-6">
 
 									<div class="form-group {% if form.empleado_un.field.required %} has-warning {% endif %} {% if form.empleado_un.errors %} has-error {% endif %}">
@@ -266,11 +289,11 @@
 									{% endfor %}
 									</div>
 								</div>
-								</div>
+								</div>-->
 
 
 								<!-- Empleado organizacion -->
-								<div class="row">
+								<!--<div class="row">
 								<div class="col-sm-6">
 
 									<div class="form-group {% if form.empleado_organizacion.field.required %} has-warning {% endif %} {% if form.empleado_organizacion.errors %} has-error {% endif %}">
@@ -287,10 +310,10 @@
 									{% endfor %}
 									</div>
 								</div>
-								</div>
+								</div>-->
 
                                 <!-- area id -->
-                                <div class="row">
+                                <!--<div class="row">
 								<div class="col-sm-6">
 
 									<div class="form-group {% if form.area_id.field.required %} has-warning {% endif %} {% if form.area_id.errors %} has-error {% endif %}">
@@ -307,10 +330,10 @@
 									{% endfor %}
 									</div>
 								</div>
-								</div>
+								</div>-->
 
 								<!-- area descripcion -->
-								<div class="row">
+								<!-- <div class="row">
 								<div class="col-sm-6">
 
 									<div class="form-group {% if form.area_descripcion.field.required %} has-warning {% endif %} {% if form.area_descripcion.errors %} has-error {% endif %}">
@@ -327,7 +350,7 @@
 									{% endfor %}
 									</div>
 								</div>
-								</div>
+								</div>-->
 
 								<!-- lugar  -->
 								<div class="row">
@@ -410,6 +433,8 @@
 								</div>
 								</div>
 
+								
+
 								<!-- Status  -->
 								<div class="row">
 								<div class="col-sm-6">
@@ -458,25 +483,33 @@
               	</div> <!-- Panel Body -->
             </div>	<!-- Panel -->
 		</div>	<!-- col-sm-12 -->
-
-		
     </div>
 
 	
 {% endblock contenido %}
 
 {% block scripts %}
+
+    <!-- Theme -->
+    <script src="{% static 'theme/lib/jquery-ui/jquery-ui.min.js' %}"></script>
+    <script src="{% static 'theme/lib/moment.js/min/moment.min.js' %}"></script>
+    <script src="{% static 'theme/lib/datetimepicker/js/bootstrap-datetimepicker.min.js' %}"></script>
+    <script src="{% static 'theme/lib/datetimepicker/js/locales/bootstrap-datetimepicker.es.js' %}"></script>
+    <script src="{% static 'theme/lib/jquery.maskedinput/jquery.maskedinput.min.js' %}"></script>
+    <script src="{% static 'theme/lib/select2/js/select2.min.js' %}"></script>
+
+    <!-- InputMask -->
+    <script src="{% static 'libs/plugins/input-mask/jquery.inputmask.js' %}"></script>
+
+
 	<!-- Kendo Js -->
 	<script src="{% static 'libs/kendo/2015.2.624/js/cultures/kendo.culture.es-MX.min.js' %}"></script>
 	<script src="{% static 'libs/kendo/2015.2.624/js/kendo.web.min.js' %}"></script>
 
-    <!-- Theme -->
-    <script src="{% static 'theme/lib/datetimepicker/js/bootstrap-datetimepicker.min.js' %}"></script>
-    <script src="{% static 'theme/lib/jquery-ui/jquery-ui.min.js' %}"></script>
-    <script src="{% static 'theme/lib/moment.js/min/moment.min.js' %}"></script>
 
 	<!-- NOVA -->
-	<!-- <script src="{% static 'incidencia/incidencia_formulario.js' %}"></script>       -->
+	<script src="{% static 'incidencia/incidencia_formulario.js' %}"></script>
+
 
 {% endblock scripts %}
 

@@ -10,12 +10,15 @@ from django_filters import CharFilter
 # Modelos:
 from .models import IncidenciaDocumento
 from .models import CentroAtencion
+from administracion.models import Zona
+from .models import IncidenciaArchivo
+from .models import IncidenciaResolucion
 
 
 class IncidenciaDocumentoFilter(filters.FilterSet):
 
-    empleado_zona = CharFilter(
-        name="empleado_zona",
+    zona = CharFilter(
+        name="zona",
         lookup_expr="icontains"
     )
 
@@ -67,7 +70,7 @@ class IncidenciaDocumentoFilter(filters.FilterSet):
             'fecha_mayorque',
             'fecha_menorque',
             'es_registrable',
-            'empleado_zona',
+            'zona',
             'status',
             'empleado_nombre',
             'empleado_proyecto_desc',
@@ -118,4 +121,30 @@ class CentroAtencionFilter(filters.FilterSet):
             'id',
             'descripcion',
             'created_by',
-        ]        
+        ] 
+
+class IncidenciaArchivoFilter(filters.FilterSet):
+
+    id = CharFilter(
+        name="id",
+        lookup_expr="icontains"
+    )
+
+    class Meta:
+        model = IncidenciaArchivo
+        fields = [
+            'id',
+        ]               
+
+class IncidenciaResolucionFilter(filters.FilterSet):
+
+    id_incidencia = CharFilter(
+        name="incidencia",
+        lookup_expr="icontains"
+    )
+
+    class Meta:
+        model = IncidenciaResolucion
+        fields = [
+            'incidencia', 
+        ]               

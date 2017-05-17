@@ -5,12 +5,12 @@
 # Librerias/Clases Django
 from django.shortcuts import render
 from django.shortcuts import redirect
+from django.shortcuts import get_object_or_404
 from django.views.generic.base import View
 from django.core.urlresolvers import reverse
 
+
 # Librerias/Clases de Terceros
-from rest_framework import viewsets
-from django_filters.rest_framework import DjangoFilterBackend
 
 
 # Librerias/Clases propias
@@ -19,23 +19,26 @@ from django_filters.rest_framework import DjangoFilterBackend
 from .models import IncidenciaDocumento
 from .models import IncidenciaTipo
 from .models import CentroAtencion
+from .models import IncidenciaArchivo
+from .models import IncidenciaResolucion
+
+# Otros Modelos:
+from ebs.models import VIEW_EMPLEADOS_FULL
+from administracion.models import Zona
+from administracion.models import Empresa
 
 # Formularios:
 from .forms import IncidenciaDocumentoForm
 from .forms import IncidenciaDocumentoFilterForm
-
-# Serializadores:
-from .serializers import IncidenciaDocumentoSerializer
-from .serializers import IncidenciaTipoSerializer
-from .serializers import CentroAtencionSerializer
-
-# Filtros:
-from home.pagination import GenericPagination
-
-# Paginacion:
-from .filters import IncidenciaDocumentoFilter
+from .forms import IncidenciaArchivoForm
+from .forms import IncidenciaResolucionForm
 
 
+# Email:
+#from django.core.mail import send_mail
+from django.core.mail import EmailMultiAlternatives
+
+#from django.core.mail import send_mail
 # from django.shortcuts import get_object_or_404
 # from django.shortcuts import redirect
 
@@ -82,12 +85,105 @@ class IncidenciaDocumentoNuevo(View):
         formulario = IncidenciaDocumentoForm(request.POST)
 
         if formulario.is_valid():
-
             incidencia = formulario.save(commit=False)
+
+            empleado = get_object_or_404(
+                VIEW_EMPLEADOS_FULL.objects.using('ebs_d').all(),
+                pers_empleado_numero=incidencia.empleado_id
+            )
+
+            incidencia.empleado_nombre = empleado.pers_nombre_completo
+
+            incidencia.empleado_proyecto = empleado.grup_proyecto_code_jde
+            incidencia.empleado_proyecto_desc = empleado.grup_proyecto_jde
+            incidencia.empleado_puesto = empleado.asig_puesto_clave
+            incidencia.empleado_puesto_desc = empleado.asig_puesto_desc
+
+            #import ipdb; ipdb.set_trace()
+            empresa = Empresa.objects.filter(descripcion=empleado.grup_compania_jde)
+
+            incidencia.empresa = empresa[0]
+            incidencia.area_id = empleado.asig_ubicacion_clave
+            incidencia.area_descripcion = empleado.asig_ubicacion_desc
+            incidencia.empleado_un = empleado.grup_fase_jde
             incidencia.created_by = request.user.profile
+
             incidencia.save()
 
-            return redirect(reverse('sgi:incidencia_lista'))
+            #send_mail("Asunto", 
+            #"Mensaje...Probando linea 1 desde django", 
+            #'"Notificaciones Nuvoil" <notificaciones@nuvoil.com>',
+            #['janet.castro@nuvoil.com'])
+
+            subject = 'ALTA DE INCIDENCIA'
+            text_content = 'Mensaje...nLinea 2nLinea3'
+            #html_content = '<h2>Mensaje</2><p> Empleado: ' + incidencia.empleado_nombre + ' </p>'
+            html_content = """\
+                           <html>
+                           <body>
+                           <center> 
+                             <table width=650 cellpadding=0 cellspacing=2 border=0>  
+                                <tr>  
+                                <td width=1% valign=top><a href="mailto:ti@nuvoil.com"><img src="" alt=Nuvoil width=197 height=76 border=0 alt="Nuvoil"></a></td> 
+                                <td align=right><font face=arial size=-1><a href="mailto:ti@nuvoil.com">Enviarnos e-mail</a></font><hr size=4 noshade color="#D10018"></td> 
+                                </tr>   
+                            </table> 
+                            <br><br> 
+                            <table width=500 cellpadding=7 cellspacing=0 border=0> 
+                            <tr><td align=center><font face=arial size=+1><b>Notificaciones</b></font></td></tr>  
+                            <tr><td><font face=arial size=-1>El siguiente mensaje fue generado automaticamente, por favor no lo responda</font>  
+                            </td></tr> 
+                            <tr><td> 
+                                <table width='100%' cellpadding=0 cellspacing=0 border=0 bgcolor=cccccc><tr><td height=1></td></tr></table> 
+                                <table width='100%' cellpadding=10 cellspacing=0 border=0 bgcolor=eeeeee>  
+                                <tr><td align=center>  
+                                     <table class=style1 font-family=calibri> 
+                                     <tr><td colspan=8 align=center><strong>   INCIDENCIAS  </strong></td></tr> 
+                                     <tr>  
+                                     <td style=background-color: #C0C0C0> <strong>INCIDENCIA</strong></td> 
+                                     <td style=background-color: #C0C0C0> <strong>CATEGORIA</strong></td> 
+                                     <td style=background-color: #C0C0C0> <strong>DESCRIPCION</strong></td> 
+                                     <td style=background-color: #C0C0C0> <strong>EMPLEADO</strong></td>  
+                                     <td style=background-color: #C0C0C0> <strong>FECHA DE INCIDENCIA</strong></td>  
+                                     <td style=background-color: #C0C0C0> 
+                                     <strong>ZONA</strong></td> 
+                                     <td style=background-color: #C0C0C0>  
+                                     <strong>ESTATUS</strong></td> 
+                                     <tr>
+                                          <td> """ + str(incidencia.pk) + """ </td> 
+                                          <td> """ + str(incidencia.tipo) + """ </td> 
+                                          <td> """ + str(incidencia.es_registrable) + """ </td> 
+                                          <td> """ + incidencia.empleado_nombre + """ </td> 
+                                          <td> """ + str(incidencia.fecha) + """ </td> 
+                                          <td> """ + str(incidencia.zona) + """ </td> 
+                                          <td> """ + str(incidencia.status)  + """ </td>
+                                     </tr> 
+                                     <tr> 
+                                </td></tr>  
+                                </table>  
+                               <table width='100%' cellpadding=0 cellspacing=0 border=0 bgcolor=cccccc><tr><td height=1></td></tr></table>   
+                            </td></tr> 
+                            <tr><td align=center><font face=arial size=-1></font></td></tr> 
+                            </table> 
+                            <br>  
+                            <hr size=4 noshade width=650 color="#D10018"> 
+                            <font face=arial size=-2>Copyright &copy; 2017 Nuvoil</font>  
+                            </center>  
+                            </body> 
+                            </html> 
+                           """
+
+            from_email = '"Notificaciones Nuvoil" <notificaciones@nuvoil.com>'
+            to = 'janet.castro@nuvoil.com'
+            msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+            msg.attach_alternative(html_content, "text/html")
+            msg.send()
+
+            #send_mail("Subject", "Email body", settings.EMAIL_HOST_USER, "janexa@gmail.com", fail_silently=False)
+
+            #return redirect(reverse('sgi:incidencia_lista'))
+            #return render(request, self.template_name2, contexto)
+            return redirect(reverse('sgi:incidencia_archivo', kwargs={'incidencia_id': incidencia.pk}))
 
         contexto = {
             'form': formulario
@@ -162,30 +258,162 @@ class IncidenciaDocumentoNuevo(View):
 #             return render(request, self.template_name, contexto)
 
 
-# -------------- INCIDENCIA DOCUMENTO - API REST -------------- #
+class IncidenciaDocumentoEditar(View):
 
-class IncidenciaDocumentoAPI(viewsets.ModelViewSet):
-    queryset = IncidenciaDocumento.objects.all()
-    serializer_class = IncidenciaDocumentoSerializer
-    filter_backends = (DjangoFilterBackend,)
-    filter_class = IncidenciaDocumentoFilter
+    def __init__(self):
+        self.template_name = 'incidencia/incidencia_editar.html'
+
+    def get(self, request, pk):
+        empleado = get_object_or_404(IncidenciaDocumento, pk=pk)
+        formulario = IncidenciaDocumentoForm(instance=empleado)
+
+        #operation = viatico.get_status_display()
+
+        contexto = {
+            'form': formulario,
+        }
+        return render(request, self.template_name, contexto)
+
+    def post(self, request, pk):
+
+        # empleado = get_object_or_404(
+        #         VIEW_EMPLEADOS_FULL.objects.using('ebs_d').all(),
+        #         pers_empleado_numero=incidencia.empleado_id
+        #     )
+        empleado = get_object_or_404(IncidenciaDocumento, pk=pk)
+        formulario = IncidenciaDocumentoForm(request.POST, instance=empleado)
+
+        if formulario.is_valid():
+            incidencia = formulario.save(commit=False)
+
+            empleado = get_object_or_404(
+                VIEW_EMPLEADOS_FULL.objects.using('ebs_d').all(),
+                pers_empleado_numero=incidencia.empleado_id
+            )
+
+            incidencia.empleado_nombre = empleado.pers_nombre_completo
+
+            incidencia.empleado_proyecto = empleado.grup_proyecto_code_jde
+            incidencia.empleado_proyecto_desc = empleado.grup_proyecto_jde
+            incidencia.empleado_puesto = empleado.asig_puesto_clave
+            incidencia.empleado_puesto_desc = empleado.asig_puesto_desc
+
+            empresa = Empresa.objects.filter(descripcion=empleado.grup_compania_jde)
+
+            incidencia.empresa = empresa[0]
+            incidencia.area_id = empleado.asig_ubicacion_clave
+            incidencia.area_descripcion = empleado.asig_ubicacion_desc
+            incidencia.empleado_un = empleado.grup_fase_jde
+            incidencia.created_by = request.user.profile
+
+            incidencia.save()
+
+            return redirect(reverse('sgi:incidencia_lista'))
+
+        contexto = {
+            'form': formulario
+        }
+        return render(request, self.template_name, contexto)
 
 
-class IncidenciaDocumentoByPageAPI(viewsets.ModelViewSet):
-    queryset = IncidenciaDocumento.objects.all()
-    serializer_class = IncidenciaDocumentoSerializer
-    filter_backends = (DjangoFilterBackend,)
-    filter_class = IncidenciaDocumentoFilter
-    pagination_class = GenericPagination
+class IncidenciaDocumentoArchivo(View):
+
+    def __init__(self):
+        self.template_name = 'incidencia/incidencia_archivo.html'
+        
+
+    def get(self, request, incidencia_id):
+
+        incidencia = IncidenciaDocumento.objects.get(pk=incidencia_id)
+
+        # import ipdb; ipdb.set_trace()
+        incidencia_archivos = IncidenciaArchivo.objects.filter(incidencia=incidencia)
+
+        # anexos = IncidenciaArchivo.objects.filter(id=pk)
+        form = IncidenciaArchivoForm(
+            initial={
+                'incidencia': incidencia
+            }
+        )
+
+        contexto = {
+            'form': form,
+            'incidencia_id': incidencia_id,
+            'anexos': incidencia_archivos,
+        }
+
+        return render(request, self.template_name, contexto)
+
+    def post(self, request, incidencia_id):
+
+        form = IncidenciaArchivoForm(request.POST, request.FILES)
+
+        incidencia_archivos = IncidenciaArchivo.objects.filter(incidencia_id=incidencia_id)
+
+        if form.is_valid():
+
+            incidencia_archivo = form.save(commit=False)
+            incidencia_archivo.created_by = request.user.profile
+            incidencia_archivo.save()
+
+        contexto = {
+            'form': form,
+            'incidencia_id': incidencia_id,
+            'anexos': incidencia_archivos,
+        }
+
+        return render(request, self.template_name, contexto)
 
 
-# -------------- INCIDENCIA TIPO - API REST -------------- #
+class IncidenciaResolucionNuevo(View):
 
-class IncidenciaTipoAPI(viewsets.ModelViewSet):
-    queryset = IncidenciaTipo.objects.all()
-    serializer_class = IncidenciaTipoSerializer
+    def __init__(self):
+        self.template_name = 'incidencia/incidencia_seguimiento.html'
+
+    def get(self, request, incidencia_id):
+
+        incidencia = IncidenciaDocumento.objects.get(pk=incidencia_id)
+
+        # import ipdb; ipdb.set_trace()
+        incidencia_resolucion = IncidenciaResolucion.objects.filter(incidencia=incidencia)
+
+        form = IncidenciaResolucionForm(
+            initial={
+                'incidencia': incidencia
+            }
+        )
+
+        contexto = {
+            'form': form,
+            'incidencia_id': incidencia_id,
+        }
+
+        return render(request, self.template_name, contexto)
+
+    def post(self, request, incidencia_id):
+
+        form = IncidenciaResolucionForm(request.POST)
+
+        incidencia_resolucion = IncidenciaResolucion.objects.filter(incidencia=incidencia_id)
+
+        if form.is_valid():
+
+            incidencia_resolucion = form.save(commit=False)
+            incidencia_resolucion.created_by = request.user.profile
+            incidencia_resolucion.save()
+
+            return redirect(reverse('sgi:incidencia_lista'))
+
+        contexto = {
+            'form': form,
+            'incidencia_id': incidencia_id,
+            'anexos': incidencia_resolucion,
+        }
+
+        return render(request, self.template_name, contexto)
 
 
-class CentroAtencionAPI(viewsets.ModelViewSet):
-    queryset = CentroAtencion.objects.all()
-    serializer_class = CentroAtencionSerializer
+
+
+
+

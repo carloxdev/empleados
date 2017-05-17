@@ -21,11 +21,12 @@ class Profile(models.Model):
     clave_jde = models.CharField(
         max_length=144,
         null=True,
-        blank=True
+        blank=True,
     )
     foto = models.ImageField(
         upload_to='usuarios/fotos/',
-        blank=True
+        null=True,
+        blank=True,
     )
 
     fecha_nacimiento = models.DateField(null=True, blank=True)

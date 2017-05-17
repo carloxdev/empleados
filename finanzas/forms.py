@@ -1,113 +1,110 @@
 # -*- coding: utf-8 -*-
 
 # Librerias/Clases Django
+
 from django.forms import ModelForm
 from django.forms import TextInput
 from django.forms import Textarea
-from django.forms import Select
+# from django.forms import Select
 from django.forms import Form
 from django.forms import CharField
 from django.forms import ChoiceField
-
-from django.conf import settings
+from django.forms import HiddenInput
 
 # Librerias/Clases propias
 
 # Modelos:
 from .models import ViaticoCabecera
-from ebs.models import VIEW_EMPLEADOS_SIMPLE
+
+# Widgets Propios:
+from .forms_fields import SelectNova
+
+# Business Selects:
+from jde.business_selects import get_CentrosCostoJde
+from ebs.business_selects import get_EmpleadosEbs_Activos
+from ebs.business_selects import get_EmpleadosEbs_Todos
 
 
 class ViaticoFilterForm(Form):
 
-    empleado = ChoiceField(
-        widget=Select(attrs={'class': 'select2'})
-    )
-    unidad_negocio = CharField(
+    proposito_viaje = CharField(
         widget=TextInput(attrs={'class': 'form-control input-xs'})
     )
+
+    empleado = ChoiceField(
+        widget=SelectNova(attrs={'class': 'form-control input-xs'})
+    )
+
+    unidad_negocio = ChoiceField(
+        widget=SelectNova(attrs={'class': 'form-control input-xs'})
+    )
+
     ciudad_destino = CharField(
         widget=TextInput(attrs={'class': 'form-control input-xs'})
     )
-    autorizador = CharField(
+
+    autorizador = ChoiceField(
+        widget=SelectNova(attrs={'class': 'form-control input-xs'})
+    )
+
+    created_date_mayorque = CharField(
+        widget=TextInput(attrs={'class': 'form-control input-xs'})
+    )
+
+    created_date_menorque = CharField(
         widget=TextInput(attrs={'class': 'form-control input-xs'})
     )
 
     def __init__(self, *args, **kwargs):
         super(ViaticoFilterForm, self).__init__(*args, **kwargs)
-        self.fields['empleado'].choices = self.get_Empleados()
-
-    def get_Empleados(self):
-
-        valores = [('', '------')]
-
-        empleados = VIEW_EMPLEADOS_SIMPLE.objects.using('ebs_d').all()
-
-        for empleado in empleados:
-            valores.append(
-                (
-                    empleado.pers_clave,
-                    empleado.pers_nombre_completo
-                )
-            )
-
-        return valores
+        self.fields['empleado'].choices = get_EmpleadosEbs_Todos()
+        self.fields['unidad_negocio'].choices = get_CentrosCostoJde()
+        self.fields['autorizador'].choices = get_EmpleadosEbs_Todos()
 
 
 class ViaticoCabeceraForm(ModelForm):
+
+    empleado_clave = ChoiceField(
+        label="Empleado",
+        widget=SelectNova(
+            attrs={'class': 'form-control input-xs'}
+        )
+    )
+
+    unidad_negocio_clave = ChoiceField(
+        label="Unidad Negocio",
+        widget=SelectNova(
+            attrs={'class': 'form-control input-xs'}
+        )
+    )
 
     class Meta:
         model = ViaticoCabecera
 
         fields = [
-            'empleado',
+            'empleado_clave',
+            'empleado_descripcion',
+            'unidad_negocio_clave',
+            'unidad_negocio_descripcion',
             'fecha_partida',
             'fecha_regreso',
-            'unidad_negocio',
-            'ciudad_destino',
             'proposito_viaje',
-            'nombre_empresa',
-            'rfc',
-            'direccion',
-            'grupo',
-            'autorizador',
-            'status',
+            'ciudad_destino',
         ]
 
-        labels = {
-            'empleado': 'Empleado',
-            'fecha_partida': 'Fecha de partida',
-            'fecha_regreso': 'Fecha de regreso',
-            'unidad_negocio': 'Unidad de negocio',
-            'ciudad_destino': 'Ciudad de destino',
-            'proposito_viaje': 'Proposito del viaje',
-            'nombre_empresa': 'Empresa',
-            'rfc': 'RFC',
-            'direccion': 'Dirección',
-            'grupo': 'Grupo',
-            'autorizador': 'Autorizador',
-            'status': 'Estado',
+        widgets = {
+            'empleado_descripcion': HiddenInput(),
+            'unidad_negocio_descripcion': HiddenInput(),
+            'proposito_viaje': Textarea(attrs={'class': 'form-control'}),
+            'fecha_partida': TextInput(attrs={'class': 'form-control input-xs'}),
+            'fecha_regreso': TextInput(attrs={'class': 'form-control input-xs'}),
+            'ciudad_destino': TextInput(attrs={'class': 'form-control input-xs'}),
         }
 
-        widgets = {'empleado': TextInput(attrs={'class': 'form-control input-xs'}),
-                   'fecha_partida': TextInput(attrs={
-                       'class': 'form-control input-xs',
-                       'data-date-format': 'yyyy-mm-dd'
-                   }),
-                   'fecha_regreso': TextInput(attrs={
-                       'class': 'form-control input-xs',
-                       'data-date-format': 'yyyy-mm-dd'
-                   }),
-                   'unidad_negocio': TextInput(attrs={'class': 'form-control input-xs'}),
-                   'ciudad_destino': TextInput(attrs={'class': 'form-control input-xs'}),
-                   'proposito_viaje': Textarea(attrs={'class': 'form-control input-xs'}),
-                   'nombre_empresa': TextInput(attrs={'class': 'form-control input-xs'}),
-                   'rfc': TextInput(attrs={'class': 'form-control input-xs'}),
-                   'direccion': TextInput(attrs={'class': 'form-control input-xs'}),
-                   'grupo': TextInput(attrs={'class': 'form-control input-xs'}),
-                   'autorizador': TextInput(attrs={'class': 'form-control input-xs'}),
-                   'status': TextInput(attrs={'class': 'form-control input-xs'}),
-                   }
+    def __init__(self, *args, **kwargs):
+        super(ViaticoCabeceraForm, self).__init__(*args, **kwargs)
+        self.fields['empleado_clave'].choices = get_EmpleadosEbs_Activos()
+        self.fields['unidad_negocio_clave'].choices = get_CentrosCostoJde()
 
 
 class ViaticoLineaForm(Form):

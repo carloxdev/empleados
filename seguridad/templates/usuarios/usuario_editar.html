@@ -3,156 +3,199 @@
 {% block titulo %} Usuarios {% endblock titulo %}
 {% block title-page %} Editar usuario {% endblock title-page %}
 {% block css %}
-<!-- Kendo -->
-<link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.rtl.min.css' %}"/>
-<link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.common-bootstrap.min.css' %}"/>
-<link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.bootstrap.min.css' %}"/>
-<!-- Theme -->
-<link rel="stylesheet" href="{% static 'theme/lib/datetimepicker/css/bootstrap-datetimepicker.min.css' %}"/>
-<!-- Nova -->
-<link rel="stylesheet" href="{% static 'grid.css' %}"/>
+	<!-- Kendo -->
+	<link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.rtl.min.css' %}"/>
+	<link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.common-bootstrap.min.css' %}"/>
+	<link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.bootstrap.min.css' %}"/>
+	<!-- Theme -->
+	<link rel="stylesheet" href="{% static 'theme/lib/datetimepicker/css/bootstrap-datetimepicker.min.css' %}"/>
+	<link rel="stylesheet" href="{% static 'theme/lib/select2/css/select2.min.css' %}">
+	<!-- Nova -->
+	<link rel="stylesheet" href="{% static 'grid.css' %}"/>
 {% endblock css %}
 {% block contenido %}
+
 <div class="be-content">
-<div class="page-head">
-	<h2 class="page-head-title">Editar usuario</h2>
-	<ol class="breadcrumb page-head-nav">
-		<li><a href="#">Inicio</a></li>
-		<li><a href="#">Usuarios</a></li>
-		<li><a href="#">Editar usuario</a></li>
-	</ol>
-</div>
-<div class="col-md-12">
-	<div class="main-content container-fluid">
+	{% if request.user.is_staff == True %}
+		<div class="page-head">
+			<h2 class="page-head-title">Editar usuario</h2>
+			<ol class="breadcrumb page-head-nav">
+				<li><a href="{% url 'home:inicio' %}">Inicio</a></li>
+				<li><a href="{% url 'seguridad:usuario_lista' %}">Usuarios</a></li>
+				<li>Editar usuario</li>
+			</ol>
+		</div><!-- End Page head -->
 		<div class="col-md-12">
-			<div class="panel panel-default panel-table">
-				<div class="panel-heading panel-border nova-panel-heading">
-					<div class="title hidden-xs"> Editar usuario</div>
-					</div><!-- Panel Heading -->
+			<div class="main-content container-fluid">
+				<div class="col-md-12">
 					<div class="panel panel-default panel-table">
-						<form action="" method="POST" enctype="multipart/form-data"> {% csrf_token %}
-							<h4><b>Información de cuenta</b></h4>
-							<br>
-							<div class="form-group {% if form.password.errors %} has-error {% endif %}">
-								<label class="control-label">
-									{{form.password.label}}
-								</label>
-								<p>{{ form.password }}</p>
-								{% for error in form.password.errors %}
-									<span class="help-block">{{ error }}</span>
-								{% endfor %}
+						<div class="panel-heading panel-border nova-panel-heading">
+							<div class="title hidden-xs">Usuario <b>{{ user.username }}</b>
 							</div>
-					
-					
-							<h4><b>Información de usuario</b></h4>
-							<br>
-							<div class="form-group {% if form.clave_rh.errors %} has-error {% endif %}">
-								<label class="control-label">
-									{{form2.clave_rh.label}}
-								</label>
-								<p>{{ form2.clave_rh }}</p>
-								{% for error in form.clave_rh.errors %}
-									<span class="help-block">{{ error }}</span>
-								{% endfor %}
-							</div>
-							
-							<div class="form-group {% if form.first_name.errors %} has-error {% endif %}">
-								<label class="control-label">
-									{{form.first_name.label}}
-								</label>
-								<p>{{ form.first_name }}</p>
-								{% for error in form.first_name.errors %}
-									<span class="help-block">{{ error }}</span>
-								{% endfor %}
-							</div>
-							<div class="form-group {% if form.last_name.errors %} has-error {% endif %}">
-								<label class="control-label">
-									{{form.last_name.label}}
-								</label>
-								<p>{{ form.last_name }}</p>
-								{% for error in form.last_name.errors %}
-									<span class="help-block">{{ error }}</span>
-								{% endfor %}
-							</div>
-							<div class="form-group {% if form.fecha_nacimiento.errors %} has-error {% endif %}">
-								<label class="control-label">
-									{{ form2.fecha_nacimiento.label}}(Opcional)
-								</label>
-								<p>{{ form2.fecha_nacimiento}}</p>
-								{% for error in form.fecha_nacimiento.errors %}
-									<span class="help-block">{{ error }}</span>
-								{% endfor %}
-							</div>
-							<div class="form-group {% if form.email.errors %} has-error {% endif %}">
-								<label class="control-label">
-									{{form.email.label}}(Opcional)
-								</label>
-								<p>{{ form.email }}</p>
-								{% for error in form.email.errors %}
-									<span class="help-block">{{ error }}</span>
-								{% endfor %}
-							</div>
-							<div class="form-group {% if form.clave_jde.errors %} has-error {% endif %}">
-								<label class="control-label">
-									{{form2.clave_jde.label }}(Opcional)
-								</label>
-								<p>{{ form2.clave_jde }}</p>
-								{% for error in form.clave_jde.errors %}
-									<span class="help-block">{{ error }}</span>
-								{% endfor %}
-							</div>
-							<div class="form-group {% if form.is_active.errors %} has-error {% endif %}">
-								<div class="checkbox">
-									<label>
-										{{ form.is_active }}
-										<span class="etiqueta-checkbox">
-											{{ form.is_active.label }}
-										</span>
+						</div><!--End Panel heading -->
+						<div class="panel panel-default panel-table">
+							<form action="" method="POST" enctype="multipart/form-data"> {% csrf_token %}
+
+								<h4><b>Información de usuario</b></h4>
+
+								<!-- Clave_rh-->
+								<div class="form-group {% if fform.clave_rh.field.required %} has-warning {% endif %} {% if form.clave_rh.errors %} has-error {% endif %}">
+									<label class="control-label">
+										<i class="fa {% if form.clave_rh.field.required %} fa-asterisk {% endif %} {% if form.clave_rh.errors %} fa-asterisk {% endif %}"></i> 
+										{{form.clave_rh.label}}
 									</label>
+									<p>{{ form.clave_rh }}</p>
+									{% for error in form.clave_rh.errors %}
+										<span class="help-block">{{ error }}</span>
+									{% endfor %}
 								</div>
-								{% for error in form.is_active.errors %}
-									<span class="help-block">{{ error }}</span>
-								{% endfor %}
-							</div>
-							<div class="form-group {% if form.is_staff.errors %} has-error {% endif %}">
-								<div class="checkbox">
-									<label>
-										{{ form.is_staff }}
-										<span class="etiqueta-checkbox">
-											{{ form.is_staff.label }}
-										</span>
+								<!-- First_name-->
+								<div class="form-group {% if form.first_name.field.required %} has-warning {% endif %} {% if form.first_name.errors %} has-error {% endif %}">
+									<label class="control-label">
+										<i class="fa {% if form.first_name.field.required %} fa-asterisk {% endif %} {% if form.first_name.errors %} fa-asterisk {% endif %}"></i> 
+										{{form.first_name.label}}
 									</label>
+									<p>{{ form.first_name }}</p>
+									{% for error in form.first_name.errors %}
+										<span class="help-block">{{ error }}</span>
+									{% endfor %}
 								</div>
-								{% for error in form.is_staff.errors %}
-									<span class="help-block">{{ error }}</span>
-								{% endfor %}
-							</div>
-							<div class="form-group {% if form.foto.errors %} has-error {% endif %}">
-								<label class="control-label">
-									{{form2.foto.label }}
-								</label>
-								<p>{{ form2.foto }}</p>
-								{% for error in form.foto.errors %}
-									<span class="help-block">{{ error }}</span>
-								{% endfor %}
-							</div>
-				<br>
-				<a class="button" href="{% url 'seguridad:usuario_lista' %}"> Regresar </a>
-				<button type="submit" class="btn btn-primary" id="id_boton_guardar" >Guardar usuario</button>
-			</form>
-					</div>
-				</div>
-			</div>
+								<!-- Last_name-->
+								<div class="form-group {% if form.last_name.field.required %} has-warning {% endif %} {% if form.last_name.errors %} has-error {% endif %}">
+									<label class="control-label">
+										<i class="fa {% if form.last_name.field.required %} fa-asterisk {% endif %} {% if form.last_name.errors %} fa-asterisk {% endif %}"></i> 
+										{{form.last_name.label}}
+									</label>
+									<p>{{ form.last_name }}</p>
+									{% for error in form.last_name.errors %}
+										<span class="help-block">{{ error }}</span>
+									{% endfor %}
+								</div>
+								<!-- Fecha_nacimiento-->
+								<div class="form-group {% if form.fecha_nacimiento.field.required %} has-warning {% endif %} {% if form.fecha_nacimiento.errors %} has-error {% endif %}">
+									<label class="control-label">
+										<i class="fa {% if form.fecha_nacimiento.field.required %} fa-asterisk {% endif %} {% if form.fecha_nacimiento.errors %} fa-asterisk {% endif %}"></i> 
+										{{ form.fecha_nacimiento.label}}
+									</label>
+									<p>{{ form.fecha_nacimiento}}</p>
+									{% for error in form.fecha_nacimiento.errors %}
+										<span class="help-block">{{ error }}</span>
+									{% endfor %}
+								</div>
+								<!-- Email-->
+								<div class="form-group {% if form.email.field.required %} has-warning {% endif %} {% if form.email.errors %} has-error {% endif %}">
+									<label class="control-label">
+										<i class="fa {% if form.email.field.required %} fa-asterisk {% endif %} {% if form.email.errors %} fa-asterisk {% endif %}"></i> 
+										{{form.email.label}}
+									</label>
+									<p>{{ form.email }}</p>
+									{% for error in form.email.errors %}
+										<span class="help-block">{{ error }}</span>
+									{% endfor %}
+								</div>
+								<!-- Clave_jde-->
+								<div class="form-group {% if form.clave_jde.field.required %} has-warning {% endif %} {% if form.clave_jde.errors %} has-error {% endif %}">
+									<label class="control-label">
+										<i class="fa {% if form.clave_jde.field.required %} fa-asterisk {% endif %} {% if form.clave_jde.errors %} fa-asterisk {% endif %}"></i> 
+										{{form.clave_jde.label }}
+									</label>
+									<p>{{ form.clave_jde }}</p>
+									{% for error in form.clave_jde.errors %}
+										<span class="help-block">{{ error }}</span>
+									{% endfor %}
+								</div>
+								<!-- Foto-->
+								<div class="form-group {% if form.foto.field.required %} has-warning {% endif %} {% if form.foto.errors %} has-error {% endif %}">
+									<label class="control-label">
+										<i class="fa {% if form.foto.field.required %} fa-asterisk {% endif %} {% if form.foto.errors %} fa-asterisk {% endif %}"></i> 
+										{{form.foto.label }}
+									</label>
+									<p>{{ form.foto }}</p>
+									{% for error in form.foto.errors %}
+										<span class="help-block">{{ error }}</span>
+									{% endfor %}
+								</div>
+								<br>
+								<h4><b>Información de cuenta</b></h4>
+								<br>
+								<!-- Password-->
+								<div class="form-group {% if form.is_active.errors %} has-error {% endif %}">
+									<label class="control-label">Contraseña</label>
+									<br>
+									<a href="{% url 'seguridad:usuario_cambiar_contrasena' user.id %}"class="btn nova-btn btn-rounded btn-space btn-default" id="boton_nuevo">Cambiar contraseña</a>
+								</div>
+								<br>
+								<!-- Is_active-->
+								<div class="form-group {% if form.is_active.errors %} has-error {% endif %}">
+									<div class="checkbox">
+										<label>
+											{{ form.is_active }}
+											<span class="etiqueta-checkbox">
+												{{ form.is_active.label }}
+											</span>
+										</label>
+									</div>
+									{% for error in form.is_active.errors %}
+										<span class="help-block">{{ error }}</span>
+									{% endfor %}
+								</div>
+								<!-- Is_staff-->
+								<div class="form-group {% if form.is_staff.errors %} has-error {% endif %}">
+									<div class="checkbox">
+										<label>
+											{{ form.is_staff }}
+											<span class="etiqueta-checkbox">
+												{{ form.is_staff.label }}
+											</span>
+										</label>
+									</div>
+									{% for error in form.is_staff.errors %}
+										<span class="help-block">{{ error }}</span>
+									{% endfor %}
+								</div>
+								<!-- Is_superuser-->
+								<div class="form-group {% if form.is_superuser.errors %} has-error {% endif %}">
+									<div class="checkbox">
+										<label>
+											{{ form.is_superuser }}
+											<span class="etiqueta-checkbox">
+												{{ form.is_superuser.label }}
+											</span>
+										</label>
+									</div>
+									{% for error in form.is_superuser.errors %}
+										<span class="help-block">{{ error }}</span>
+									{% endfor %}
+								</div>
+								<br>
+								<!-- Botones de accion -->
+								<a class="button" href="{% url 'seguridad:usuario_lista' %}"> Regresar </a>
+								<button type="submit" class="btn btn-primary" id="id_boton_guardar" >Guardar cambios</button>
+							</form>
+						</div><!-- End Panel default -->
+					</div><!-- End Panel default -->
+				</div><!-- End Col-md-12 -->
+			</div><!-- End Main content -->
+		</div><!-- End Col-md-12 -->
+	{% else%}
+		<div class="col-md-12">
+			<h2> Usted no tiene acceso a esta sección </h2>
 		</div>
-		
-	{% endblock contenido %}
-	{% block scripts %}
-		<!-- Kendo Js -->
-		<script src="{% static 'libs/kendo/2015.2.624/js/cultures/kendo.culture.es-MX.min.js' %}"></script>
-		<script src="{% static 'libs/kendo/2015.2.624/js/kendo.web.min.js' %}"></script>
-		<!-- Theme -->
-		<script src="{% static 'theme/lib/jquery-ui/jquery-ui.min.js' %}"></script>
-		<script src="{% static 'theme/lib/moment.js/min/moment.min.js' %}"></script>
-		<!-- NOVA -->
-		
-	{% endblock scripts %}
+	{% endif %}
+</div><!-- End Be content -->
+{% endblock contenido %}
+{% block scripts %}
+	<!-- Kendo Js -->
+	<script src="{% static 'libs/kendo/2015.2.624/js/cultures/kendo.culture.es-MX.min.js' %}"></script>
+	<script src="{% static 'libs/kendo/2015.2.624/js/kendo.web.min.js' %}"></script>
+
+	<!-- Moment -->
+	<script src="{% static 'libs/momentjs/2.18.1/moment.js' %}"></script>
+
+	<!-- Theme -->
+	<script src="{% static 'theme/lib/jquery-ui/jquery-ui.min.js' %}"></script>
+	<script src="{% static 'theme/lib/select2/js/select2.min.js' %}"></script>
+	<script src="{% static 'theme/lib/select2/js/select2.full.min.js' %}"></script>
+	<!-- NOVA 
+	<script src="{% static 'usuarios/usuario_formulario.js' %}"></script>-->
+{% endblock scripts %}

@@ -8,23 +8,20 @@ from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.core.urlresolvers import reverse
 from django.views.generic.base import View
-from django.views.generic import CreateView
-
-# Librerias/Clases de Terceros
-from rest_framework import viewsets
-from django_filters.rest_framework import DjangoFilterBackend
+# from django.views.generic import CreateView
 
 # Librerias/Clases propias
 
 # Modelos:
 from .models import ViaticoCabecera
-from .models import ViaticoLinea
+
 
 # Formularios:
 from .forms import ViaticoCabeceraForm
-from .forms import ViaticoLineaForm
+# from .forms import ViaticoLineaForm
 from .forms import ViaticoFilterForm
 
+<<<<<<< HEAD
 # Serializadores:
 from .serializers import ViaticoCabeceraSerializer
 # from .serializers import ViaticoLineaSerializer
@@ -56,7 +53,7 @@ class ViaticoLista(View):
         return render(request, self.template_name, contexto)
 
 
-class ViaticoNuevo(View):
+class ViaticoCabeceraNuevo(View):
 
     def __init__(self):
         self.template_name = 'viatico/viatico_nuevo.html'
@@ -79,9 +76,10 @@ class ViaticoNuevo(View):
 
             viatico = formulario.save(commit=False)
             viatico.created_by = request.user.profile
+            viatico.updated_by = request.user.profile
             viatico.save()
 
-            return redirect(reverse('finanzas:viatico_editar', kwargs={'pk': viatico.id}))
+            return redirect(reverse('finanzas:viatico_lineas'))
 
         contexto = {
             'form': formulario
@@ -89,55 +87,52 @@ class ViaticoNuevo(View):
         return render(request, self.template_name, contexto)
 
 
-class ViaticoEditar(View):
+class ViaticoCabeceraEditar(View):
 
     def __init__(self):
         self.template_name = 'viatico/viatico_editar.html'
 
-    def get(self, request, pk):
+    def obtener_Viatico(self, pk):
         viatico = get_object_or_404(ViaticoCabecera, pk=pk)
-        formulario = ViaticoCabeceraForm(instance=viatico)
-        formulario2 = ViaticoLineaForm()
-        operation = viatico.get_status_display()
+
+        return viatico
+
+    def get(self, request, pk):
+
+        formulario = ViaticoCabeceraForm(instance=self.obtener_Viatico(pk))
 
         contexto = {
-            'form': formulario,
-            'form2': formulario2,
-            'operation': operation,
-            'id_cabecera': viatico.id,
+            'form': formulario
         }
         return render(request, self.template_name, contexto)
 
     def post(self, request, pk):
 
-        viatico = get_object_or_404(ViaticoCabecera, pk=pk)
-        formulario = ViaticoCabeceraForm(request.POST, instance=viatico)
-        operation = viatico.get_status_display()
+        formulario = ViaticoCabeceraForm(request.POST, instance=self.obtener_Viatico(pk))
 
         if formulario.is_valid():
-            viatico = formulario.save()
+            viatico = formulario.save(commit=False)
+            viatico.updated_by = request.user.profile
+            viatico.save()
+
             return redirect(reverse('finanzas:viatico_lista'))
 
         contexto = {
             'form': formulario,
-            'operation': operation,
-            'id_cabecera': viatico.id,
         }
         return render(request, self.template_name, contexto)
 
 
-# -------------- VIATICO - API REST -------------- #
+class ViaticoLineas(View):
+    def __init__(self):
+        self.template_name = 'viatico/viatico_lineas.html'
 
-class ViaticoCabeceraAPI(viewsets.ModelViewSet):
-    queryset = ViaticoCabecera.objects.all()
-    serializer_class = ViaticoCabeceraSerializer
-    filter_backends = (DjangoFilterBackend,)
-    filter_class = ViaticoCabeceraFilter
+    def get(self, request, pk):
 
+        # formulario = ViaticoFilterForm()
 
-class ViaticoCabeceraByPageAPI(viewsets.ModelViewSet):
-    queryset = ViaticoCabecera.objects.all()
-    serializer_class = ViaticoCabeceraSerializer
-    filter_backends = (DjangoFilterBackend,)
-    filter_class = ViaticoCabeceraFilter
-    pagination_class = GenericPagination
+        # contexto = {
+        #     'form': formulario
+        # }
+
+        return render(request, self.template_name, {})

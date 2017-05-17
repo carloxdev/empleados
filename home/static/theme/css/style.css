@@ -8255,17 +8255,18 @@ canvas {
 .be-top-header .navbar-header .navbar-brand {
   line-height: 60px;
   height: 60px;
-  width: 142px;
-  background-image: url("../img/logo.png");
+  width: 170px;
+  background-image: url("/static/images/logos/logo_horizontal.png");
   background-repeat: no-repeat;
   background-position: 20px center;
   padding: 0 20px;
   margin: 0;
+  background-size: 135px 50px 
 }
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 2/1), (min-resolution: 192dpi) {
   .be-top-header .navbar-header .navbar-brand {
-    background-image: url("../img/logo-xx.png");
-    background-size: 102px 27px;
+    background-image: url("/static/images/logos/logo_horizontal.png");
+    background-size: 135px 50px;
   }
 }
 @media (max-width: 767px) {
@@ -8928,17 +8929,18 @@ canvas {
   background-color: #4285f4;
   color: #ffffff;
   overflow: hidden;
-  padding: 20px 15px 14px;
+  padding: 0 15px 0;
   border-radius: 2px 2px 0 0;
   margin-bottom: 7px;
 }
 .be-user-nav > li.dropdown .dropdown-menu .user-info .user-name {
   display: block;
   font-size: 19px;
-  line-height: 22px;
-  text-overflow: ellipsis;
+  line-height: 10px;
+  text-align: center;
+  /*text-overflow: ellipsis;
   white-space: nowrap;
-  overflow: hidden;
+  overflow: hidden;*/
 }
 .be-user-nav > li.dropdown .dropdown-menu .user-info .user-position {
   display: block;

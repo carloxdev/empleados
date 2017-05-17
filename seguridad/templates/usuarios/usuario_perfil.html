@@ -1,48 +1,138 @@
 {% extends 'master.html' %}
 {% load static from staticfiles %}
 {% block titulo %} Perfil {% endblock titulo %}
-{% block title-page %} Detalles {% endblock title-page %}
+{% block title-page %} Editar perfil {% endblock title-page %}
 {% block css %}
 <!-- Kendo -->
 <link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.rtl.min.css' %}"/>
 <link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.common-bootstrap.min.css' %}"/>
 <link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.bootstrap.min.css' %}"/>
-<!-- Theme --P>
+<!-- Theme -->
 <link rel="stylesheet" href="{% static 'theme/lib/datetimepicker/css/bootstrap-datetimepicker.min.css' %}"/>
 <!-- Nova -->
 <link rel="stylesheet" href="{% static 'grid.css' %}"/>
 {% endblock css %}
 {% block contenido %}
+
 <div class="be-content">
-<div class="page-head">
-	<h2 class="page-head-title">Perfil de usuario</h2>
-</div>
-<div class="col-md-12">
-	<div class="main-content container-fluid">
-		<div class="col-md-12">
-			<div class="panel panel-default panel-table">
-				<div class="panel-heading panel-border nova-panel-heading">
-					<div class="tools pull-right nova-tools" id="toolbar">
-						<a href="{% url 'seguridad:usuario_editar_perfil' usuario.id %}"
-							class="btn nova-btn btn-rounded btn-space btn-default" id="boton_nuevo">
-							<i class="icon icon-left mdi mdi-plus-circle nova-black"></i>Editar
-						</a>
-					</div>
-					<div class="title hidden-xs">Usuario <b>{{usuario.username}}</b>
-					</div>
-					</div><!-- Panel Heading -->
-					<div>
-						<p> {{profile.foto}}</p>
-						<p><label>Nombre:</label> {{usuario.first_name}} {{usuario.last_name}}</p>
-						<p><label>Fecha de nacimiento:</label>{{profile.fecha_nacimiento}}</p>
-						<p><label>Correo electronico:</label>{{usuario.email}}</p>
-						<p><label>Clave RH:</label> {{profile.clave_rh}}</p>
-						<p><label>Clave JDE:</label> {{profile.clave_jde}}</p>
-						<p><label>Estado:</label>{{usuario.is_active}}</p>
-					</div>
-				</div>
-			</div>
-		</div>
+	<div class="page-head">
+		<h2 class="page-head-title">Perfil de usuario</h2>
+		<ol class="breadcrumb page-head-nav">
+			<li><a href="{% url 'home:inicio' %}">Inicio</a></li>
+			<li>Perfil de usuario</li>
+		</ol>
+	</div><!-- End Page head -->
+	<div class="col-md-12">
+		<div class="main-content container-fluid">
+			<div class="col-md-12">
+				<div class="panel panel-default panel-table">
+					<div class="panel-heading panel-border nova-panel-heading">
+						<div class="title hidden-xs">Usuario <b>{{request.user.username}}</b>
+						</div>
+					</div><!-- End Panel heading -->
+					<div class="panel panel-default panel-table">
+						<form action="" method="POST" enctype="multipart/form-data"> {% csrf_token %}
+	
+							<h4><b>Información de usuario</b></h4>
+
+							<!-- Clave_rh-->
+							<div class="form-group {% if form.clave_rh.field.required %} has-warning {% endif %} {% if form.clave_rh.errors %} has-error {% endif %}">
+								<label class="control-label">
+									<i class="fa {% if form.clave_rh.field.required %} fa-asterisk {% endif %} {% if form.clave_rh.errors %} fa-asterisk {% endif %}"></i> 
+									{{form.clave_rh.label}}
+								</label>
+								<p>{{ form.clave_rh }}</p>
+								{% for error in form.clave_rh.errors %}
+									<span class="help-block">{{ error }}</span>
+								{% endfor %}
+							</div>
+							<!-- First_name-->
+							<div class="form-group {% if form.first_name.field.required %} has-warning {% endif %} {% if form.first_name.errors %} has-error {% endif %}">
+								<label class="control-label">
+									<i class="fa {% if form.first_name.field.required %} fa-asterisk {% endif %} {% if form.first_name.errors %} fa-asterisk {% endif %}"></i> 
+									{{form.first_name.label}}
+								</label>
+								<p>{{ form.first_name }}</p>
+								{% for error in form.first_name.errors %}
+									<span class="help-block">{{ error }}</span>
+								{% endfor %}
+							</div>
+							<!-- Last_name-->
+							<div class="form-group {% if form.last_name.field.required %} has-warning {% endif %} {% if form.last_name.errors %} has-error {% endif %}">
+								<label class="control-label">
+									<i class="fa {% if form.last_name.field.required %} fa-asterisk {% endif %} {% if form.last_name.errors %} fa-asterisk {% endif %}"></i> 
+									{{form.last_name.label}}
+								</label>
+								<p>{{ form.last_name }}</p>
+								{% for error in form.last_name.errors %}
+									<span class="help-block">{{ error }}</span>
+								{% endfor %}
+							</div>
+							<!-- Fecha_nacimiento-->
+							<div class="form-group {% if form.fecha_nacimiento.field.required %} has-warning {% endif %} {% if form.fecha_nacimiento.errors %} has-error {% endif %}">
+								<label class="control-label">
+									<i class="fa {% if form.fecha_nacimiento.field.required %} fa-asterisk {% endif %} {% if form.fecha_nacimiento.errors %} fa-asterisk {% endif %}"></i> 
+									{{ form.fecha_nacimiento.label}}
+								</label>
+								<p>{{ form.fecha_nacimiento}}</p>
+								{% for error in form.fecha_nacimiento.errors %}
+									<span class="help-block">{{ error }}</span>
+								{% endfor %}
+							</div>
+							<!-- Email-->
+							<div class="form-group {% if form.email.field.required %} has-warning {% endif %} {% if form.email.errors %} has-error {% endif %}">
+								<label class="control-label">
+									<i class="fa {% if form.email.field.required %} fa-asterisk {% endif %} {% if form.email.errors %} fa-asterisk {% endif %}"></i> 
+									{{form.email.label}}
+								</label>
+								<p>{{ form.email }}</p>
+								{% for error in form.email.errors %}
+									<span class="help-block">{{ error }}</span>
+								{% endfor %}
+							</div>
+							<!-- Clave_jde-->
+							<div class="form-group {% if form.clave_jde.field.required %} has-warning {% endif %} {% if form.clave_jde.errors %} has-error {% endif %}">
+								<label class="control-label">
+									<i class="fa {% if form.clave_jde.field.required %} fa-asterisk {% endif %} {% if form.clave_jde.errors %} fa-asterisk {% endif %}"></i> 
+									{{form.clave_jde.label }}
+								</label>
+								<p>{{ form.clave_jde }}</p>
+								{% for error in form.clave_jde.errors %}
+									<span class="help-block">{{ error }}</span>
+								{% endfor %}
+							</div>
+							<!-- Foto-->
+							<div class="form-group {% if form.foto.field.required %} has-warning {% endif %} {% if form.foto.errors %} has-error {% endif %}">
+								<label class="control-label">
+									<i class="fa {% if form.foto.field.required %} fa-asterisk {% endif %} {% if form.foto.errors %} fa-asterisk {% endif %}"></i> 
+									{{form.foto.label }}
+								</label>
+								<p>{{ form.foto }}</p>
+								{% for error in form.foto.errors %}
+									<span class="help-block">{{ error }}</span>
+								{% endfor %}
+							</div>
+							<br>
+							<h4><b>Información de cuenta</b></h4>
+							<br>
+							<!-- Password-->
+							<div class="form-group {% if form.is_active.errors %} has-error {% endif %}">
+								<label class="control-label">Contraseña</label>
+								<br>
+								<a href="{% url 'seguridad:usuario_cambiar_contrasena_perfil' user.id %}"class="btn nova-btn btn-rounded btn-space btn-default" id="boton_nuevo">Cambiar contraseña</a>
+							</div>
+							<br>
+							<br>
+							<!-- Botones de accion -->
+							<a class="button" href="{% url 'home:inicio' %}"> Regresar </a>
+							<button type="submit" class="btn btn-primary" id="id_boton_guardar" >Guardar cambios</button>
+						</form>
+					</div><!-- End Panel default -->
+				</div><!-- End Panel default -->
+			</div><!-- End col-md-12 -->
+		</div><!-- End main content -->
+	</div><!-- End col-md-12 -->
+</div><!-- End Be content -->
 		
 	{% endblock contenido %}
 	{% block scripts %}
@@ -53,4 +143,5 @@
 		<script src="{% static 'theme/lib/jquery-ui/jquery-ui.min.js' %}"></script>
 		<script src="{% static 'theme/lib/moment.js/min/moment.min.js' %}"></script>
 		<!-- NOVA -->
+		
 	{% endblock scripts %}

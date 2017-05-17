@@ -31,6 +31,35 @@ class F0101(models.Model):
         return value
 
 
+class VIEW_CENTROSCOSTO(models.Model):
+
+    clave = models.CharField(max_length=12, primary_key=True)
+    descripcion = models.CharField(max_length=60)
+    compania = models.CharField(max_length=5)
+    tipo = models.CharField(max_length=2)
+    tipo_desc = models.CharField(max_length=60)
+    estado = models.CharField(max_length=1)
+    estado_desc = models.CharField(max_length=20)
+    proyecto = models.CharField(max_length=3)
+    proyecto_tipo = models.CharField(max_length=10)
+    proyecto_desc = models.CharField(max_length=30)
+    proyecto_zona = models.CharField(max_length=30)
+    estructura = models.CharField(max_length=10)
+    estructura_desc = models.CharField(max_length=60)
+
+    class Meta:
+        managed = False
+        db_table = u'"NUVPD"."VIEW_CENTROSCOSTO"'
+
+    def __str__(self):
+        value = "%s - %s" % (self.clave, self.descripcion)
+        return value
+
+    def __unicode__(self):
+        value = "%s - %s" % (self.clave, self.descripcion)
+        return value
+
+
 class VIEW_UNIDADES(models.Model):
     clave = models.CharField(
         max_length=12, primary_key=True, db_column='CLAVE')
@@ -644,5 +673,221 @@ class VIEW_COMPANIAS(models.Model):
         value = "%s - %s" % (
             self.comp_code,
             self.book_desc,
+        )
+        return value
+
+
+class VIEW_EMPRESAS(models.Model):
+    numero = models.CharField(max_length=5, primary_key=True)
+    descripcion = models.CharField(max_length=30)
+    ab_clave = models.IntegerField()
+    ab_desc = models.CharField(max_length=80)
+    rfc = models.CharField(max_length=20)
+    direccion = models.CharField(max_length=161)
+
+    class Meta:
+        managed = False
+        db_table = u'"NUVPD"."VIEW_EMPRESAS"'
+
+    def __str__(self):
+        value = "%s - %s" % (
+            self.numero,
+            self.descripcion,
+        )
+        return value
+
+    def __unicode__(self):
+        value = "%s - %s" % (
+            self.numero,
+            self.descripcion,
+        )
+        return value
+
+
+class VIEW_AUTORIZACIONES(models.Model):
+
+    orden = models.IntegerField()
+    ruta = models.CharField(max_length=12)
+    estado = models.CharField(max_length=2)
+    un = models.CharField(max_length=12)
+    oc_compania = models.CharField(max_length=5)
+    oc_tipo = models.CharField(max_length=2)
+    oc = models.IntegerField(primary_key=True)
+    oc_sufix = models.CharField(max_length=3)
+    autorizador = models.IntegerField()
+    autorizador_desc = models.CharField(max_length=40)
+    autorizacion_fecha = models.DateField()
+    autorizacion_hora = models.IntegerField()
+    lista_estados = models.CharField(max_length=4000)
+
+    class Meta:
+        managed = False
+        db_table = u'"NUVPD"."VIEW_AUTORIZACIONES"'
+
+    def __str__(self):
+        value = "%s - %s - %s - %s" % (
+            self.orden,
+            self.estado,
+            self.oc,
+            self.autorizador
+        )
+        return value
+
+    def __unicode__(self):
+        value = "%s - %s - %s - %s" % (
+            self.orden,
+            self.estado,
+            self.oc,
+            self.autorizador
+        )
+        return value
+
+
+class VIEW_RECEPCIONES(models.Model):
+
+    fecha_lm = models.DateField()
+    cantidad_recib = models.IntegerField()
+    udm_recib = models.CharField(max_length=2)
+    pu_ex = models.IntegerField()
+    monto_recib_ex = models.IntegerField()
+    moneda = models.CharField(max_length=3)
+    tasa = models.IntegerField()
+    pu_mx = models.IntegerField()
+    monto_recib_mx = models.IntegerField()
+    impuesto = models.CharField(max_length=10)
+    impuesto_flag = models.CharField(max_length=1)
+    batch = models.IntegerField()
+    batch_tipo = models.CharField(max_length=2)
+    activo = models.CharField(max_length=25)
+    ubicacion = models.CharField(max_length=20)
+    lote = models.CharField(max_length=30)
+    contenedor = models.CharField(max_length=20)
+    observaciones = models.CharField(max_length=30)
+    updater = models.CharField(max_length=10)
+    updater_desc = models.CharField(max_length=40)
+    fecha_update = models.DateField()
+    oc_compania = models.CharField(max_length=5)
+    oc_tipo = models.CharField(max_length=2)
+    oc = models.IntegerField(primary_key=True)
+    oc_linea = models.IntegerField()
+    oc_linea_tipo = models.CharField(max_length=2)
+    oc_sufix = models.CharField(max_length=3)
+    tran_compania = models.CharField(max_length=5)
+    tran_un = models.CharField(max_length=12)
+    tran_tipo = models.CharField(max_length=1)
+    tran_tipo_desc = models.CharField(max_length=19)
+    tran_linea = models.IntegerField()
+    doc_compania = models.CharField(max_length=5)
+    doc_tipo = models.CharField(max_length=2)
+    doc = models.IntegerField()
+    doc_linea = models.IntegerField()
+    doc_je_linea = models.IntegerField()
+    doc_factura = models.CharField(max_length=25)
+    proveedor = models.IntegerField()
+    item = models.IntegerField()
+    item_numero = models.CharField(max_length=25)
+    item_descripcion = models.CharField(max_length=60)
+    item_glclass = models.CharField(max_length=4)
+    originador = models.CharField(max_length=10)
+    originador_desc = models.CharField(max_length=40)
+    fecha_creacion = models.DateField()
+    fecha_tran = models.DateField()
+
+    class Meta:
+        managed = False
+        db_table = u'"NUVPD"."VIEW_RECEPCIONES"'
+
+    def __str__(self):
+        value = "%s - %s - %s - %s" % (
+            self.oc,
+            self.item,
+            self.originador,
+            self.proveedor
+        )
+        return value
+
+    def __unicode__(self):
+        value = "%s - %s - %s - %s" % (
+            self.oc,
+            self.item,
+            self.originador,
+            self.proveedor
+        )
+        return value
+
+
+class VIEW_USUARIOS(models.Model):
+    dir_tipo_desc = models.CharField(max_length=30)
+    dir_tipo = models.CharField(max_length=3)
+    dir_desc = models.CharField(max_length=40)
+    dir = models.IntegerField()
+    clave = models.CharField(max_length=10, primary_key=True)
+
+    class Meta:
+        managed = False
+        db_table = u'"NUVPD"."VIEW_USUARIOS"'
+
+    def __str__(self):
+        value = "%s - %s - %s"(
+            self.clave,
+            self.dir_desc,
+            self.dir_tipo,
+        )
+        return value
+
+    def __unicode__(self):
+        value = "%s - %s - %s"(
+            self.clave,
+            self.dir_desc,
+            self.dir_tipo,
+        )
+        return value
+
+
+class VIEW_ITEMS(models.Model):
+    proveedor_prin = models.CharField(max_length=3)
+    submercancia = models.CharField(max_length=3)
+    mercancia = models.CharField(max_length=3)
+    comprador = models.IntegerField()
+    udm_compra = models.CharField(max_length=2)
+    udm_secu = models.CharField(max_length=2)
+    udm_prim = models.CharField(max_length=2)
+    gl_codigo = models.CharField(max_length=4)
+    linea_tipo = models.CharField(max_length=2)
+    alm_tipo = models.CharField(max_length=1)
+    texto_busqueda = models.CharField(max_length=30)
+    modelo = models.CharField(max_length=30)
+    descripcion = models.CharField(max_length=30)
+    noparte = models.CharField(max_length=25)
+    numero = models.CharField(max_length=25)
+    clave = models.IntegerField(primary_key=True)
+    fijo_fariable = models.CharField(max_length=1)
+    nivel_plazo = models.IntegerField()
+    elim_mensaje_mrp = models.CharField(max_length=1)
+    limite_vislz_mensaje = models.IntegerField()
+    limite_congelacion = models.IntegerField()
+    regla_limite_planif = models.CharField(max_length=1)
+    cd_planif = models.CharField(max_length=1)
+    codigo_norma_ordenes = models.CharField(max_length=1)
+    mantto_clasif = models.CharField(max_length=3)
+
+    class Meta:
+        managed = False
+        db_table = u'"NUVPD"."VIEW_ITEMS"'
+
+    def __str__(self):
+        value = "%s - %s - %s"(
+            self.clave,
+            self.numero,
+            self.descripcion,
+        )
+
+        return value
+
+    def __unicode__(self):
+        value = "%s - %s - %s"(
+            self.clave,
+            self.numero,
+            self.descripcion,
         )
         return value

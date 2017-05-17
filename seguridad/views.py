@@ -9,12 +9,16 @@ from django.shortcuts import redirect
 from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404
 
+
 # Django Seguridad
+from django.contrib import messages
 from django.contrib.auth import authenticate
 from django.contrib.auth import login
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 # Django autorizacion
-from django.contrib.auth.hashers import make_password
+from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.hashers import check_password
 
 # Modelos
 from .models import Profile
@@ -22,31 +26,18 @@ from .models import Profile
 # Otros Modelo
 from django.contrib.auth.models import User
 
-# Librerias de Terceros:
-# Django API Rest
-from rest_framework import viewsets
-from django_filters.rest_framework import DjangoFilterBackend
-
-# Serializadores:
-from .serializers import UserSerializer
-from .serializers import ProfileSerializer
-
-# Filters:
-from .filters import ProfileFilter
-
-# Paginacion
-from .pagination import GenericPagination
-
-# Modelos:
-from .models import User
-from .models import Profile
-
 # Formularios:
-from .forms import UserForm
-from .forms import UsuarioForm
 from .forms import UserFormFilter
+from .forms import UserNuevoForm
+from .forms import UserRegistroForm
 from .forms import UserEditarForm
-#from .forms import ConfirmarForm
+from .forms import UserEditarPerfilForm
+from .forms import UserContrasenaActualForm
+from .forms import UserContrasenaNuevaForm
+from .forms import EmailForm
+
+# Tokens para correo
+from django.contrib.auth.tokens import default_token_generator
 
 
 class Login(View):
@@ -89,19 +80,7 @@ class Login(View):
 
         return render(request, self.template_name, contexto)
 
-# --------------  PROFILE VIEWS -------------- #
-
-
-class UsuarioDetallesPerfil(View):
-
-    def __init__(self):
-        self.template_name = 'usuarios/usuario_perfil.html'
-
-    def get(self, request):
-        usuario = User.objects.get(id=request.user.id)
-        perfil = Profile.objects.get(id=usuario.profile.id)
-        contexto = {'usuario': usuario, 'profile': perfil}
-        return render(request, self.template_name, contexto)
+# -------------- ADMINISTTRADOR VIEWS -------------- #
 
 
 class UsuarioLista(View):
@@ -110,8 +89,10 @@ class UsuarioLista(View):
         self.template_name = 'usuarios/usuario_lista.html'
 
     def get(self, request):
-        form_buscar = UserFormFilter()
-        contexto = {'form': form_buscar}
+
+        form_profile = UserFormFilter()
+
+        contexto = {'form': form_profile}
         return render(request, self.template_name, contexto)
 
 
@@ -120,66 +101,54 @@ class UsuarioNuevo(View):
     def __init__(self):
         self.template_name = 'usuarios/usuario_nuevo.html'
 
-    def obtener_UrlImagen(self, _imagen):
-        imagen = ''
-        if _imagen:
-            imagen = _imagen.url
-
-        return imagen
-
     def get(self, request):
-        form_usuario = UserForm()
-        form_perfil = UsuarioForm()
-        #form_confirmar = ConfirmarForm()
+
+        form_usuario = UserNuevoForm()
 
         contexto = {
             'form': form_usuario,
-            'form2': form_perfil,
         }
         return render(request, self.template_name, contexto)
 
     def post(self, request):
-        form_usuario = UserForm(request.POST)
-        form_perfil = UsuarioForm(request.POST, request.FILES)
 
-        if form_usuario.is_valid() and form_perfil.is_valid():
+        form_usuario = UserNuevoForm(request.POST, request.FILES)
+
+        if form_usuario.is_valid():
 
             datos_formulario = form_usuario.cleaned_data
 
-            usuario = User.objects.create_user(
-                username=datos_formulario.get('username'),
-                password=datos_formulario.get('password')
-            )
-            usuario.first_name = datos_formulario.get('first_name')
-            usuario.last_name = datos_formulario.get('last_name')
-            usuario.email = datos_formulario.get('email')
-            usuario.is_active = datos_formulario.get('is_active')
-            usuario.is_staff = datos_formulario.get('is_staff')
+            valor = datos_formulario.get('clave_rh')
+            clave = Profile.objects.filter(clave_rh=valor)
 
-            if datos_formulario.get('is_staff'):
-                usuario.is_superuser = True
-            else:
-                usuario.is_superuser = False
+            if not(valor and clave):
 
-            usuario.save()
+                usuario = User.objects.create_user(
+                    username=datos_formulario.get('username'),
+                    password=datos_formulario.get('password1')
+                )
 
-            datos_perfil = form_perfil.cleaned_data
+                usuario.first_name = datos_formulario.get('first_name')
+                usuario.last_name = datos_formulario.get('last_name')
+                usuario.email = datos_formulario.get('email')
+                usuario.is_active = datos_formulario.get('is_active')
+                usuario.is_staff = datos_formulario.get('is_staff')
+                usuario.is_superuser = datos_formulario.get('is_superuser')
+                usuario.save()
 
-            usuario.profile.clave_rh = datos_perfil.get('clave_rh')
-            usuario.profile.clave_jde = datos_perfil.get('clave_jde')
-            usuario.profile.fecha_nacimiento = datos_perfil.get(
-                'fecha_nacimiento')
-            usuario.profile.foto = datos_perfil.get('foto')
-            usuario.profile.save()
+                usuario.profile.clave_rh = datos_formulario.get('clave_rh')
+                usuario.profile.clave_jde = datos_formulario.get('clave_jde')
+                usuario.profile.fecha_nacimiento = datos_formulario.get(
+                    'fecha_nacimiento')
+                usuario.profile.foto = datos_formulario.get('foto')
+                usuario.profile.save()
 
-            return redirect(reverse('seguridad:usuario_lista'))
+                return redirect(reverse('seguridad:usuario_lista'))
 
-        else:
-            contexto = {
-                'form': form_usuario,
-                'form2': form_perfil,
-            }
-            return render(request, self.template_name, contexto)
+        contexto = {
+            'form': form_usuario,
+        }
+        return render(request, self.template_name, contexto)
 
 
 class UsuarioEditar(View):
@@ -198,64 +167,105 @@ class UsuarioEditar(View):
         usuario_id = get_object_or_404(User, pk=pk)
         form_usuario = UserEditarForm(
             initial={
+                'username': usuario_id.username,
                 'first_name': usuario_id.first_name,
                 'last_name': usuario_id.last_name,
                 'email': usuario_id.email,
                 'is_active': usuario_id.is_active,
                 'is_staff': usuario_id.is_staff,
+                'is_superuser': usuario_id.is_superuser,
+                'clave_rh': usuario_id.profile.clave_rh,
+                'clave_jde': usuario_id.profile.clave_jde,
+                'fecha_nacimiento': usuario_id.profile.fecha_nacimiento,
+                'foto': usuario_id.profile.foto
             }
         )
 
-        form_perfil = UsuarioForm(instance=usuario_id.profile)
+        user = usuario_id
 
         contexto = {
             'form': form_usuario,
-            'form2': form_perfil,
             'foto': self.obtener_UrlImagen(usuario_id.profile.foto),
+            'user': user,
+        }
+        return render(request, self.template_name, contexto)
+
+    def post(self, request, pk):
+        usuario = get_object_or_404(User, pk=pk)
+        form_usuario = UserEditarForm(
+            request.POST, request.FILES, instance=usuario)
+
+        if form_usuario.is_valid():
+
+            datos_formulario = form_usuario.cleaned_data
+
+            usuario.first_name = datos_formulario.get('first_name')
+            usuario.last_name = datos_formulario.get('last_name')
+            usuario.email = datos_formulario.get('email')
+            usuario.is_active = datos_formulario.get('is_active')
+            usuario.is_staff = datos_formulario.get('is_staff')
+            usuario.is_superuser = datos_formulario.get('is_superuser')
+            usuario.save()
+
+            usuario.profile.clave_rh = datos_formulario.get('clave_rh')
+            usuario.profile.clave_jde = datos_formulario.get('clave_jde')
+            usuario.profile.fecha_nacimiento = usuario.profile.fecha_nacimiento
+
+            if datos_formulario.get('foto') is not None:
+                usuario.profile.foto = datos_formulario.get('foto')
+
+            usuario.profile.save()
+
+            return redirect(reverse('seguridad:usuario_lista'))
+
+        contexto = {
+            'form': form_usuario,
+            'foto': self.obtener_UrlImagen(usuario.profile.foto),
+        }
+        return render(request, self.template_name, contexto)
+
+
+class UsuarioCambiarContrasenaAdmin(LoginRequiredMixin, View):
+
+    def __init__(self):
+        self.template_name = 'usuarios/usuario_cambiar_contraseña.html'
+
+    def get(self, request, pk):
+        usuario_id = get_object_or_404(User, pk=pk)
+        form_contrasena = UserContrasenaNuevaForm(usuario_id)
+
+        user = usuario_id
+
+        contexto = {
+            'form': form_contrasena,
+            'user': user,
         }
         return render(request, self.template_name, contexto)
 
     def post(self, request, pk):
         usuario = get_object_or_404(User, pk=pk)
 
-        form_usuario = UserEditarForm(request.POST, instance=usuario)
+        form_contrasena = UserContrasenaNuevaForm(usuario, request.POST)
 
-        form_perfil = UsuarioForm(
-            request.POST, request.FILES, instance=usuario.profile)
-
-        if form_usuario.is_valid() and form_perfil.is_valid():
-            usuario.first_name = form_usuario.cleaned_data.get('first_name')
-            usuario.last_name = form_usuario.cleaned_data.get('last_name')
-            usuario.email = form_usuario.cleaned_data.get('email')
-            usuario.is_active = form_usuario.cleaned_data.get('is_active')
-            usuario.is_staff = form_usuario.cleaned_data.get('is_staff')
-
-            if form_usuario.cleaned_data.get('is_staff'):
-                usuario.is_superuser = True
-            else:
-                usuario.is_superuser = False
-
-            if form_usuario.cleaned_data.get('password'):
-                usuario.password = make_password(
-                    form_usuario.cleaned_data.get('password'))
-
-            usuario.save()
-            usuario.profile = form_perfil.save()
-
+        if form_contrasena.is_valid():
+            usuario = form_contrasena.save()
+            if usuario.id == request.user.id:
+                update_session_auth_hash(request, form_contrasena.user)
             return redirect(reverse('seguridad:usuario_lista'))
 
         contexto = {
-            'form': form_usuario,
-            'form2': form_perfil,
-            'foto': self.obtener_UrlImagen(usuario.profile.foto),
+            'form': form_contrasena,
         }
         return render(request, self.template_name, contexto)
 
 
-class UsuarioEditarPerfil(View):
+# -------------- USUARIO VIEWS -------------- #
+
+
+class UsuarioPerfil(View):
 
     def __init__(self):
-        self.template_name = 'usuarios/usuario_editar_perfil.html'
+        self.template_name = 'usuarios/usuario_perfil.html'
 
     def obtener_UrlImagen(self, _imagen):
         imagen = ''
@@ -271,14 +281,14 @@ class UsuarioEditarPerfil(View):
                 'first_name': usuario_id.first_name,
                 'last_name': usuario_id.last_name,
                 'email': usuario_id.email,
+                'clave_rh': usuario_id.profile.clave_rh,
+                'clave_jde': usuario_id.profile.clave_jde,
+                'fecha_nacimiento': usuario_id.profile.fecha_nacimiento,
+                'foto': usuario_id.profile.foto,
             }
         )
-
-        form_perfil = UsuarioForm(instance=usuario_id.profile)
-
         contexto = {
             'form': form_usuario,
-            'form2': form_perfil,
             'foto': self.obtener_UrlImagen(usuario_id.profile.foto),
         }
         return render(request, self.template_name, contexto)
@@ -286,57 +296,203 @@ class UsuarioEditarPerfil(View):
     def post(self, request, pk):
         usuario = get_object_or_404(User, pk=pk)
 
-        form_usuario = UserEditarPerfilForm(request.POST, instance=usuario)
+        form_usuario = UserEditarPerfilForm(
+            request.POST, request.FILES, instance=usuario)
 
-        form_perfil = UsuarioForm(
-            request.POST, request.FILES, instance=usuario.profile)
+        if form_usuario.is_valid():
 
-        if form_usuario.is_valid() and form_perfil.is_valid():
-            usuario.first_name = form_usuario.cleaned_data.get('first_name')
-            usuario.last_name = form_usuario.cleaned_data.get('last_name')
-            usuario.email = form_usuario.cleaned_data.get('email')
+            datos_formulario = form_usuario.cleaned_data
 
-            if form_usuario.cleaned_data.get('password'):
-                usuario.password = make_password(
-                    form_usuario.cleaned_data.get('password'))
-
+            usuario.first_name = datos_formulario.get('first_name')
+            usuario.last_name = datos_formulario.get('last_name')
+            usuario.email = datos_formulario.get('email')
             usuario.save()
-            usuario.profile = form_perfil.save()
 
-            return redirect(reverse('seguridad:usuario_lista'))
+            usuario.profile.clave_rh = datos_formulario.get('clave_rh')
+            usuario.profile.clave_jde = datos_formulario.get('clave_jde')
+            usuario.profile.fecha_nacimiento = usuario.profile.fecha_nacimiento
+
+            if datos_formulario.get('foto') is not None:
+                usuario.profile.foto = datos_formulario.get('foto')
+
+            usuario.profile.save()
+
+            return redirect(reverse('home:inicio'))
 
         contexto = {
             'form': form_usuario,
-            'form2': form_perfil,
             'foto': self.obtener_UrlImagen(usuario.profile.foto),
         }
         return render(request, self.template_name, contexto)
-# -------------- SEGURIDAD API REST -------------- #
 
 
-class UserAPI(viewsets.ModelViewSet):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
+class UsuarioCambiarContrasenaPerfil(LoginRequiredMixin, View):
+
+    def __init__(self):
+        self.template_name = 'usuarios/usuario_cambiar_contraseña_perfil.html'
+
+    def get(self, request, pk):
+        usuario_id = get_object_or_404(User, pk=pk)
+        form_contrasena_actual = UserContrasenaActualForm()
+        form_contrasena_nueva = UserContrasenaNuevaForm(usuario_id)
+
+        user = usuario_id
+
+        contexto = {
+            'form': form_contrasena_actual,
+            'form2': form_contrasena_nueva,
+            'user': user,
+        }
+        return render(request, self.template_name, contexto)
+
+    def post(self, request, pk):
+        usuario = get_object_or_404(User, pk=pk)
+
+        form_contrasena_actual = UserContrasenaActualForm(request.POST)
+        form_contrasena_nueva = UserContrasenaNuevaForm(usuario, request.POST)
+
+        if form_contrasena_actual.is_valid() and form_contrasena_nueva.is_valid():
+            dato_contrasena_actual = form_contrasena_actual.cleaned_data
+
+            if usuario.check_password(dato_contrasena_actual.get('contrasena_actual')) is True:
+                usuario = form_contrasena_nueva.save()
+                update_session_auth_hash(request, form_contrasena_nueva.user)
+                return redirect(reverse('home:inicio'))
+            else:
+                messages.error(request, 'La contraseña actual es incorrecta')
+
+        contexto = {
+            'form': form_contrasena_actual,
+            'form2': form_contrasena_nueva,
+        }
+        return render(request, self.template_name, contexto)
 
 
-class UserByPageAPI(viewsets.ModelViewSet):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
-    filter_backends = (DjangoFilterBackend,)
-    filter_fields = ('username', 'is_active')
-    pagination_class = GenericPagination
+class UsuarioRegistro(View):
+
+    def __init__(self):
+        self.template_name = 'usuario_registro.html'
+
+    def get(self, request):
+
+        form_usuario = UserRegistroForm()
+
+        contexto = {
+            'form': form_usuario,
+        }
+        return render(request, self.template_name, contexto)
+
+    def post(self, request):
+
+        form_usuario = UserRegistroForm(request.POST, request.FILES)
+
+        if form_usuario.is_valid():
+
+            datos_formulario = form_usuario.cleaned_data
+
+            valor = datos_formulario.get('clave_rh')
+            clave = Profile.objects.filter(clave_rh=valor)
+
+            if not(valor and clave):
+
+                usuario = User.objects.create_user(
+                    username=datos_formulario.get('username'),
+                    password=datos_formulario.get('password1')
+                )
+
+                usuario.first_name = datos_formulario.get('first_name')
+                usuario.last_name = datos_formulario.get('last_name')
+                usuario.email = datos_formulario.get('email')
+                usuario.is_active = True
+                usuario.is_staff = False
+                usuario.is_superuser = False
+                usuario.save()
+
+                usuario.profile.clave_rh = datos_formulario.get('clave_rh')
+                usuario.profile.clave_jde = datos_formulario.get('clave_jde')
+                usuario.profile.fecha_nacimiento = datos_formulario.get(
+                    'fecha_nacimiento')
+                usuario.profile.foto = datos_formulario.get('foto')
+                usuario.profile.save()
+
+                return redirect(reverse('home:inicio'))
+            else:
+                messages.error(
+                    request, 'La clave de empleado ya se encuentra asociada a una cuenta')
+
+        contexto = {
+            'form': form_usuario,
+        }
+        return render(request, self.template_name, contexto)
 
 
-class ProfileAPI(viewsets.ModelViewSet):
-    queryset = Profile.objects.all()
-    serializer_class = ProfileSerializer
-    filter_backends = (DjangoFilterBackend,)
-    filter_class = ProfileFilter
+class ResetContrasena(View):
 
+    def __init__(self):
+        self.template_name = 'registration/contrasena_reset_form.html'
 
-class ProfileByPageAPI(viewsets.ModelViewSet):
-    queryset = Profile.objects.all()
-    serializer_class = ProfileSerializer
-    filter_backends = (DjangoFilterBackend,)
-    filter_class = ProfileFilter
-    pagination_class = GenericPagination
+    def get(self, request):
+        form = EmailForm()
+
+        contexto = {
+            'form': form,
+        }
+        return render(request, self.template_name, contexto)
+
+    def post(self, request):
+        form = EmailForm(request.POST)
+        dato = request.POST['email']
+
+        # Filtrado por "Nombre de usuario"
+        if User.objects.filter(username=dato).exists():
+            usuario = User.objects.get(username=dato)
+            request.POST._mutable = True
+            request.POST['usuario_clave'] = usuario.username
+            request.POST['email'] = usuario.email
+            request.POST._mutable = False
+
+            if form.is_valid():
+
+                opts = {
+                    'use_https': request.is_secure(),
+                    'token_generator': default_token_generator,
+                    'from_email': None,
+                    'email_template_name': 'registration/contrasena_reset_email.html',
+                    'subject_template_name': 'registration/email_subject.txt',
+                    'request': request,
+                    'html_email_template_name': None,
+                }
+                form.save(**opts)
+
+                messages.success(
+                    request, 'El correo a sido enviado exitosamente')
+
+        # Filtrado por "Correo electronico"
+        elif User.objects.filter(email=dato).exists():
+
+            request.POST._mutable = True
+            request.POST['usuario_clave'] = ""
+            request.POST._mutable = False
+
+            if form.is_valid():
+                opts = {
+                    'use_https': request.is_secure(),
+                    'token_generator': default_token_generator,
+                    'from_email': None,
+                    'email_template_name': 'registration/contrasena_reset_email.html',
+                    'subject_template_name': 'registration/email_subject.txt',
+                    'request': request,
+                    'html_email_template_name': None,
+                }
+                form.save(**opts)
+
+            messages.success(
+                request, 'El correo a sido enviado exitosamente')
+        else:
+            messages.error(
+                request, 'El usuario/correo electronico no se encuentra aosciado a un usuario.')
+
+        contexto = {
+            'form': form,
+        }
+        return render(request, self.template_name, contexto)

@@ -4,127 +4,38 @@ from django.conf.urls import url
 from django.contrib import admin
 from django.conf.urls import include
 
-# Librerias APi Rest:
-from rest_framework import routers
+from ebs.urls_rest import router_ebs
+from jde.urls_rest import router_jde
+from finanzas.urls_rest import router_finanzas
+from seguridad.urls_rest import router_seguridad
+from sgi.urls_rest import router_sgi
 
-# API Rest Vistas:
-from finanzas.views import ViaticoCabeceraAPI
-from finanzas.views import ViaticoCabeceraByPageAPI
+# Librerias necesarias para publicar Medias en DEBUG
+from django.conf.urls.static import static
+from django.conf import settings
 
-from compras.views import CompraSeguimientoAPI
-from compras.views import CompraSeguimientoByPageAPI
-from compras.views import CompraSeguimientoSucursalAPI
-from compras.views import CompraSeguimientoCompaniaAPI
-
-from sgi.views import IncidenciaDocumentoAPI
-from sgi.views import IncidenciaDocumentoByPageAPI
-from sgi.views import IncidenciaTipoAPI
-from sgi.views import CentroAtencionAPI
-
-from seguridad.views import UserAPI
-from seguridad.views import UserByPageAPI
-from seguridad.views import ProfileAPI
-from seguridad.views import ProfileByPageAPI
-
-router = routers.DefaultRouter()
-
-# -------------- Security -------------- #
-
-router.register(
-    r'user',
-    UserAPI,
-    'user'
-)
-router.register(
-    r'profile',
-    ProfileAPI,
-    'profile'
-)
-router.register(
-    r'user_bypage',
-    UserByPageAPI,
-    'user_bypage'
-)
-router.register(
-    r'profile_bypage',
-    ProfileByPageAPI,
-    'profile_bypage'
-)
-
-# -------------- Finanzas -------------- #
-
-router.register(
-    r'viaticocabecera',
-    ViaticoCabeceraAPI,
-    'viaticocabecera'
-)
-
-router.register(
-    r'viaticocabecera_bypage',
-    ViaticoCabeceraByPageAPI,
-    'viaticocabecera_bypage'
-)
-
-# -------------- Compras -------------- #
-
-router.register(
-    r'compraseguimiento',
-    CompraSeguimientoAPI,
-    'compraseguimiento'
-)
-
-router.register(
-    r'compraseguimiento_bypage',
-    CompraSeguimientoByPageAPI,
-    'compraseguimiento_bypage'
-)
-
-router.register(
-    r'compraseguimientocompania',
-    CompraSeguimientoCompaniaAPI,
-    'compraseguimientocompania'
-)
-
-router.register(
-    r'compraseguimientosucursal',
-    CompraSeguimientoSucursalAPI,
-    'compraseguimientosucursal',
-)
-
-# -------------- SGI -------------- #
-
-router.register(
-    r'incidenciadocumento',
-    IncidenciaDocumentoAPI,
-    'incidenciadocumento'
-)
-
-router.register(
-    r'incidenciadocumento_bypage',
-    IncidenciaDocumentoByPageAPI,
-    'incidenciadocumento_bypage'
-)
-
-router.register(
-    r'incidenciatipo',
-    IncidenciaTipoAPI,
-    'incidenciatipo'
-)
-
-router.register(
-    r'incidenciacentroatencion',
-    CentroAtencionAPI,
-    'incidenciacentroatencion'
-)
-# -------------- URLS -------------- #
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^api/', include(router.urls)),
+    url(r'^api-ebs/', include(router_ebs.urls)),
+    url(r'^api-jde/', include(router_jde.urls)),
+    url(r'^api-finanzas/', include(router_finanzas.urls)),
+    url(r'^api-seguridad/', include(router_seguridad.urls)),
+    url(r'^api-sgi/', include(router_sgi.urls)),
+
+    url(r'^', include('django.contrib.auth.urls')),
 
     url(r'', include('finanzas.urls', namespace="finanzas")),
     url(r'', include('compras.urls', namespace="compras")),
     url(r'', include('home.urls', namespace="home")),
     url(r'', include('seguridad.urls', namespace="seguridad")),
     url(r'', include('sgi.urls', namespace="sgi")),
+    url(r'', include('capitalhumano.urls', namespace="capitalhumano")),
+
 ]
+
+
+if settings.DEBUG:
+
+    urlpatterns = urlpatterns + \
+        static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

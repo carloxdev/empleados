@@ -4,400 +4,207 @@
 
 {% block titulo %} Viaticos {% endblock titulo %}
 
-{% block title-page %} Nuevo Viatico {% endblock title-page %}
+{% block title-page %} Nueva Solicitud de Viatico {% endblock title-page %}
 
 {% block css %}
-	<!-- Kendo -->
-	<link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.rtl.min.css' %}"/>
-	<link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.common-bootstrap.min.css' %}"/>
-	<link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.bootstrap.min.css' %}"/>
 
-    <!-- Theme -->
-    <link rel="stylesheet" href="{% static 'theme/lib/datetimepicker/css/bootstrap-datetimepicker.min.css' %}"/>
-
-    <!-- Nova -->
-    <link rel="stylesheet" href="{% static 'grid.css' %}"/>
-
-
+    <link rel="stylesheet" href="{% static 'theme/lib/datetimepicker/css/bootstrap-datetimepicker.min.css' %}" type="text/css"/>
 
 {% endblock css %}
 
-
 {% block contenido %}
 
-
 <div class="be-content">
-    <div class="page-head">
-        <h2 class="page-head-title">Nuevo Viatico</h2>
-        <ol class="breadcrumb page-head-nav">
-            <li><a href="#">Inicio</a></li>
+
+    <div class="page-head nova-page-head">
+        <h2 class="page-head-title nova-title">Nueva Solicitud</h2>
+        <ol class="breadcrumb page-head-nav pull-right">
+            <li><a href="{% url 'home:inicio' %}">Inicio</a></li>
             <li><a href="{% url 'finanzas:viatico_lista' %}">Viaticos</a></li>
-            <li class="active">{% if id_cabecera %}Edición {% else %} Nuevo {% endif %}</li>
+            <li class="active">Nuevo</li>
         </ol>
     </div>
-    <div class="main-content container-fluid">  
-			 
-		<div class="col-sm-12">
-			<div class="panel panel-border panel-contrast">
-	            <div class="panel-heading panel-heading-default nova-border-bottom">Solicitud de viaticos: {% if id_cabecera %}<strong value="{{ id_cabecera }}" id="id_cabecera">{{ id_cabecera }}</strong>{% endif %}
-	               	{% if operation != '' %} <span class="label label-primary nova-label-centrado">{{ operation }}</span> {% endif %}
-	               	<div class="tools" data-toggle="collapse" href="#cabecera_colapsible">{% if id_cabecera %}<span class="icon mdi mdi-caret-down-circle" id="boton_colapsible"></span>{% endif %}</div>
-	            </div> 
-	            <div class="panel-body collapse {% if not id_cabecera %}in{% endif %}" id="cabecera_colapsible">
 
-	                <form action="" method="POST"> {% csrf_token %}	
+	<!-- Targeta Formulario -->
+    <div class="main-content container-fluid nova-main-content">
 
-							<div class="row">
-													
-								<!-- Empleado -->
-								<div class="col-sm-4">
-
-									<div class="form-group {% if form.empleado.field.required %} has-warning {% endif %} {% if form.empleado.errors %} has-error {% endif %}">
-
-									<label class="control-label">
-									<i class="fa {% if form.empleado.field.required %} fa-asterisk {% endif %} {% if form.empleado.errors %} fa-asterisk {% endif %}"></i> 
-										{{ form.empleado.label }} 
-									</label>
-									<p>
-										{{ form.empleado }}	
-									</p>
-									{% for error in form.empleado.errors %}
-										<span class="help-block">{{ error }}</span>
-									{% endfor %}
-									</div>
-								</div>
-
-								<!-- Fecha Partida -->
-								<div class="col-sm-4">
-									<label for="{{ form.fecha_partida.id_for_label }}"> Fecha de partida inicio: </label>
-			                            <div class="input-group datetimepicker nova-input-group-padding">
-			                                    {{ form.fecha_partida }}
-			                            <span class="input-group-addon btn btn-primary"><i class="icon-th mdi mdi-calendar"></i></span>
-			                            </div>
-								</div>
-
-								<!-- Fecha fecha_regreso -->
-								<div class="col-sm-4">
-									
-			                            <label for="{{ form.fecha_regreso.id_for_label }}"> Fecha de partida inicio: </label>
-			                                <div data-min-view="2" data-date-format="yyyy-mm-dd" class="input-group date datetimepicker">
-			                                    {{ form.fecha_regreso }}
-			                                <span class="input-group-addon btn btn-primary"><i class="icon-th mdi mdi-calendar"></i></span>
-			                                </div>
-				                        
-									</div>
-								</div>
-
-								<div class="row">
-
-								<!-- Unidad de negocio -->
-								<div class="col-sm-6">
-
-									<div class="form-group {% if form.unidad_negocio.field.required %} has-warning {% endif %} {% if form.unidad_negocio.errors %} has-error {% endif %}">
-
-									<label class="control-label">
-									<i class="fa {% if form.unidad_negocio.field.required %} fa-asterisk {% endif %} {% if form.unidad_negocio.errors %} fa-asterisk {% endif %}"></i> 
-										{{ form.unidad_negocio.label }} 
-									</label>
-									<p>
-										{{ form.unidad_negocio }}	
-									</p>
-									{% for error in form.unidad_negocio.errors %}
-										<span class="help-block">{{ error }}</span>
-									{% endfor %}
-									</div>
-								</div>
-
-								<!-- Ciudad de destino -->
-								<div class="col-sm-6">
-
-									<div class="form-group {% if form.ciudad_destino.field.required %} has-warning {% endif %} {% if form.ciudad_destino.errors %} has-error {% endif %}">
-
-									<label class="control-label">
-									<i class="fa {% if form.ciudad_destino.field.required %} fa-asterisk {% endif %} {% if form.ciudad_destino.errors %} fa-asterisk {% endif %}"></i> 
-										{{ form.ciudad_destino.label }} 
-									</label>
-									<p>
-										{{ form.ciudad_destino }}	
-									</p>
-									{% for error in form.ciudad_destino.errors %}
-										<span class="help-block">{{ error }}</span>
-									{% endfor %}
-									</div>
-								</div>
-
-							</div>
-
-							<div class="row">
-
-								<!-- Proposito del viaje -->
-								<div class="col-sm-12">
-
-									<div class="form-group {% if form.proposito_viaje.field.required %} has-warning {% endif %} {% if form.proposito_viaje.errors %} has-error {% endif %}">
-
-									<label class="control-label">
-									<i class="fa {% if form.proposito_viaje.field.required %} fa-asterisk {% endif %} {% if form.proposito_viaje.errors %} fa-asterisk {% endif %}"></i> 
-										{{ form.proposito_viaje.label }} 
-									</label>
-										{{ form.proposito_viaje }}
-														  
-									{% for error in form.proposito_viaje.errors %}
-										<span class="help-block">{{ error }}</span>
-									{% endfor %}
-									</div>
-								</div>
-								
-							</div>
-
-							<div class="row">
-
-								<!-- Requiere vehiculo -->
-								<div class="col-sm-6">
-
-									<div class="form-group {% if form.requiere_vehiculo.field.required %} has-warning {% endif %} {% if form.requiere_vehiculo.errors %} has-error {% endif %}">
-
-								  	<label class="control-label">
-									<i class="fa {% if form.requiere_vehiculo.field.required %} fa-asterisk {% endif %} {% if form.requiere_vehiculo.errors %} fa-asterisk {% endif %}"></i> 
-										{{ form.requiere_vehiculo.label }} 
-									</label>
-										{{ form.requiere_vehiculo }}
-														  
-									{% for error in form.requiere_vehiculo.errors %}
-										<span class="help-block">{{ error }}</span>
-									{% endfor %}
-									</div>
-								</div>
-
-								<!-- No de vehiculo -->
-								<div class="col-sm-6">
-
-									<div class="form-group {% if form.no_vehiculo.field.required %} has-warning {% endif %} {% if form.no_vehiculo.errors %} has-error {% endif %}">
-
-									<label class="control-label">
-									<i class="fa {% if form.no_vehiculo.field.required %} fa-asterisk {% endif %} {% if form.no_vehiculo.errors %} fa-asterisk {% endif %}"></i> 
-										{{ form.no_vehiculo.label }} 
-									</label>
-									<p>
-										{{ form.no_vehiculo }}	
-									</p>
-									{% for error in form.no_vehiculo.errors %}
-										<span class="help-block">{{ error }}</span>
-									{% endfor %}
-									</div>
-								</div>
-							</div>
-
-							<div class="row">
-								<!-- Nombre empresa -->
-								<div class="col-sm-4">
-
-									<div class="form-group {% if form.nombre_empresa.field.required %} has-warning {% endif %} {% if form.nombre_empresa.errors %} has-error {% endif %}">
-
-									<label class="control-label">
-									<i class="fa {% if form.nombre_empresa.field.required %} fa-asterisk {% endif %} {% if form.nombre_empresa.errors %} fa-asterisk {% endif %}"></i> 
-										{{ form.nombre_empresa.label }} 
-									</label>
-									<p>
-										{{ form.nombre_empresa }}	
-									</p>
-									{% for error in form.nombre_empresa.errors %}
-										<span class="help-block">{{ error }}</span>
-									{% endfor %}
-									</div>
-								</div>
-
-								<!-- RFC -->
-								<div class="col-sm-4">
-
-									<div class="form-group {% if form.rfc.field.required %} has-warning {% endif %} {% if form.rfc.errors %} has-error {% endif %}">
-
-									<label class="control-label">
-									<i class="fa {% if form.rfc.field.required %} fa-asterisk {% endif %} {% if form.rfc.errors %} fa-asterisk {% endif %}"></i> 
-										{{ form.rfc.label }} 
-									</label>
-									<p>
-										{{ form.rfc }}	
-									</p>
-									{% for error in form.rfc.errors %}
-										<span class="help-block">{{ error }}</span>
-									{% endfor %}
-									</div>
-								</div>
-
-								<!-- Direccion -->
-								<div class="col-sm-4">
-
-									<div class="form-group {% if form.direccion.field.required %} has-warning {% endif %} {% if form.direccion.errors %} has-error {% endif %}">
-
-									<label class="control-label">
-									<i class="fa {% if form.direccion.field.required %} fa-asterisk {% endif %} {% if form.direccion.errors %} fa-asterisk {% endif %}"></i> 
-										{{ form.direccion.label }} 
-									</label>
-									<p>
-										{{ form.direccion }}	
-									</p>
-									{% for error in form.direccion.errors %}
-										<span class="help-block">{{ error }}</span>
-									{% endfor %}
-									</div>
-								</div>
-							</div>
-
-
-							<div class="row">
-								<!-- Grupo -->
-								<div class="col-sm-3">
-
-									<div class="form-group {% if form.grupo.field.required %} has-warning {% endif %} {% if form.grupo.errors %} has-error {% endif %}">
-
-									<label class="control-label">
-									<i class="fa {% if form.grupo.field.required %} fa-asterisk {% endif %} {% if form.grupo.errors %} fa-asterisk {% endif %}"></i> 
-										{{ form.grupo.label }} 
-									</label>
-									<p>
-										{{ form.grupo }}	
-									</p>
-									{% for error in form.grupo.errors %}
-										<span class="help-block">{{ error }}</span>
-									{% endfor %}
-									</div>
-								</div>
-
-								<!-- Autorizador -->
-								<div class="col-sm-3">
-
-									<div class="form-group {% if form.autorizador.field.required %} has-warning {% endif %} {% if form.autorizador.errors %} has-error {% endif %}">
-
-									<label class="control-label">
-									<i class="fa {% if form.autorizador.field.required %} fa-asterisk {% endif %} {% if form.autorizador.errors %} fa-asterisk {% endif %}"></i> 
-										{{ form.autorizador.label }} 
-									</label>
-									<p>
-										{{ form.autorizador }}	
-									</p>
-									{% for error in form.autorizador.errors %}
-										<span class="help-block">{{ error }}</span>
-									{% endfor %}
-									</div>
-								</div>
-
-								<!-- Estado de la solicitud -->
-								<div class="col-sm-3">
-
-									<div class="form-group {% if form.status.field.required %} has-warning {% endif %} {% if form.status.errors %} has-error {% endif %}">
-
-									<label class="control-label">
-									<i class="fa {% if form.status.field.required %} fa-asterisk {% endif %} {% if form.status.errors %} fa-asterisk {% endif %}"></i> 
-										{{ form.status.label }} 
-									</label>
-									<p>
-										{{ form.status }}	
-									</p>
-									{% for error in form.status.errors %}
-										<span class="help-block">{{ error }}</span>
-									{% endfor %}
-									</div>
-								</div>
-
-								<!-- Fecha de autorizacion -->
-								<div class="col-sm-3">
-
-									<div class="form-group">
-
-									<label class="control-label">
-										Fecha de autorización
-									</label>
-									<p>
-										<input class="form-control input-xs" id="id_fecha_autorizacion" type="text" name="fecha_autorizacion" readonly="True">
-									</p>
-									</div>
-								</div>
-
-							</div> <!-- Row -->
-
-
-					<div class="pull-right">
-						<button type="submit" class="btn btn-primary" >Guardar encabezado</button>
-					</div>
-						
-					</form>
-
-              	</div> <!-- Panel Body -->
-            </div>	<!-- Panel -->
-		</div>	<!-- col-sm-12 -->
-
-		{% block EditarViatico %}
-
-		{% endblock EditarViatico %}
-    </div>
-
-	<!-- PopUp -->
-    <div id="lineasModal" tabindex="-1" role="dialog" class="modal fade colored-header colored-header-primary in">
-          <div class="modal-dialog custom-width">
-            <div class="modal-content">
-                    <div class="modal-header nova-modal-header">
-                        <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close"></span></button>
-                        <h3 class="modal-title">Captura de lineas</h3>
-                    </div>
+        <div class="row wizard-row">
+            
+            <div class="col-md-12 fuelux">
+                <form class="block-wizard panel panel-default" action="" method="POST" > {% csrf_token %}
                     
-                    <div class="modal-body nova-modal-body-padding">
+                    <div id="wizard1" class="wizard wizard-ux">
+                        <ul class="steps">
 
-                        <form role="form" action=""> {% csrf_token %}                            
-                            <!-- Concepto -->
-		          			<div class="form-group">
-                                <label for="{{ form2.concepto.id_for_label }}" class="nova-label-margin-bottom">Concepto</label>
-                                {{ form2.concepto }}
+                            <li class="active">Numero:</li>
+
+                        </ul>
+                        <div class="actions">
+                            <button type="button" class="btn btn-xs btn-prev btn-default nova-active-tab">General</button>
+                            <button type="button" class="btn btn-xs btn-next btn-default">Lineas</button>
+                        </div>
+                        <div class="step-content">
+                            <div data-step="1" class="step-pane active">
+
+                                <div class="form-horizontal group-border-dashed">
+
+                                    <div class="form-group no-padding">
+                                        <div class="col-sm-7">
+                                            <h5 class="wizard-title">Informacion de la solicitud:</h5>
+                                        </div>
+                                    </div>
+
+                                    {{ form.non_field_errors }} 
+
+                                    <div class="form-group">
+                                        
+                                        <label class="col-sm-3 control-label" 
+                                            for="{{ form.empleado_clave.id_for_label }}">
+                                            {{ form.empleado_clave.label }}
+                                        </label>
+                                        <div class="col-sm-6 xs-pt-5">
+                                            {{ form.empleado_clave }}
+                                        </div>
+                                        {% for error in form.empleado_clave.errors %}
+                                            <span class="help-block">{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label" 
+                                            for="{{ form.unidad_negocio_clave.id_for_label }}">
+                                            {{ form.unidad_negocio_clave.label }}
+                                        </label>
+                                        <div class="col-sm-6 xs-pt-5">
+                                            {{ form.unidad_negocio_clave }}
+                                        </div> 
+                                        {% for error in form.unidad_negocio_clave.errors %}
+                                            <span class="help-block">{{ error }}</span>
+                                        {% endfor %}                                        
+                                    </div>
+
+                                    <div class="form-group">
+
+                                        <label class="col-sm-3 control-label">
+                                            Fecha partida/regreso
+                                        </label>
+
+                                        <div class="col-sm-3 xs-pt-5">
+                                            <div class="input-group date" 
+                                            data-min-view="2" 
+                                            data-date-format="yyyy-mm-dd"
+                                            id="id_fecha_partida_input">
+                                                {{ form.fecha_partida }}
+                                                <span class="input-group-addon nova-addon-button">
+                                                    <span class="glyphicon glyphicon-calendar"></span>
+                                                </span>
+                                            </div>
+                                        </div> 
+                                        {% for error in form.fecha_partida.errors %}
+                                            <span class="help-block">{{ error }}</span>
+                                        {% endfor %}
+
+                                        <div class="col-sm-3 xs-pt-5">
+                                            <div class="input-group date" 
+                                            data-min-view="2" 
+                                            data-date-format="yyyy-mm-dd"
+                                            id="id_fecha_regreso_input">
+                                                {{ form.fecha_regreso }}
+                                                <span class="input-group-addon nova-addon-button">
+                                                    <span class="glyphicon glyphicon-calendar"></span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        {% for error in form.fecha_regreso.errors %}
+                                            <span class="help-block">{{ error }}</span>
+                                        {% endfor %}
+
+                                        
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label" 
+                                            for="{{ form.ciudad_destino.id_for_label }}">
+                                            {{ form.ciudad_destino.label }}
+                                        </label>
+                                        <div class="col-sm-6 xs-pt-5">
+                                            {{ form.ciudad_destino }}
+                                        </div> 
+                                        {% for error in form.ciudad_destino.errors %}
+                                            <span class="help-block">{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label" 
+                                            for="{{ form.proposito_viaje.id_for_label }}">
+                                            {{ form.proposito_viaje.label }}
+                                        </label>
+                                        <div class="col-sm-6 xs-pt-5">
+                                            {{ form.proposito_viaje }}
+                                        </div>
+                                        {% for error in form.proposito_viaje.errors %}
+                                            <span class="help-block">{{ error }}</span>
+                                        {% endfor %}                                        
+                                    </div>
+
+                                    <div class="form-group no-padding">
+                                        <div class="col-sm-7">
+                                            <h5 class="wizard-title">Informacion de la autorizacion:</h5>
+                                        </div>
+                                    </div>
+
+                                </div>
                             </div>
-                               
-                            <!-- Observaciones -->
-		          			<div class="form-group">
-                                <label for="{{ form2.observaciones.id_for_label }}" class="nova-label-margin-bottom">Observaciones</label>
-                                {{ form2.observaciones }}
-                            </div>
+                        </div>
 
-                            <!-- Importe -->
-		          			<div class="form-group">
-                                <label for="{{ form2.importe.id_for_label }}" class="nova-label-margin-bottom">Importe</label>
-                                {{ form2.importe }}
-                            </div>
-
-                        </form>       
-                    </div><!-- Modal body-->
-
-                    <div class="modal-footer nova-modal-footer">
-                        <div class="row col-sm-12">
-                            <button type="button" data-dismiss="modal" id="boton_cancelar" class="btn btn-default pull-left">
-                            	<i class="mdi mdi-close"></i>
-                            	Cancelar
-                            </button>
-                            <button type="submit" data-dismiss="modal" id="boton_guardar" class="btn nova-btn btn-space btn-primary">
-                                <i class="mdi mdi-floppy"></i>
-                                Guardar
-                            </button>
-                       </div> 
                     </div>
-                </div> <!-- Modal content-->
-              </div> <!-- Modal dialog -->
-    		</div><!-- Modal -->
+                    <!-- Botones -->
+                    <div class="modal-footer nova-modal-footer">
 
-    		</div>
-  		</div>
-	</div>
+                        <div class="row col-sm-12">
+
+                            <button type="button" id="boton_limpiar" class="btn btn-default pull-left">
+                                <i class="icon mdi mdi-arrow-left"></i>
+                                Regresar
+                            </button>                        
+                            
+                            <button type="submit" id="boton_buscar" class="btn nova-btn btn-primary btn-lg pull-right">
+                                <i class="icon icon-left mdi mdi-save nova-white"></i>
+                                Guardar Encabezado
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Ocultos -->
+                    <div>
+                        {{ form.empleado_descripcion }}
+                        {{ form.unidad_negocio_descripcion }}
+                    </div>                    
+
+                </form>
+            </div>
+        </div>
+
+
+    </div>
 </div>
 
 {% endblock contenido %}
 
 {% block scripts %}
-	<!-- Kendo Js -->
-	<script src="{% static 'libs/kendo/2015.2.624/js/cultures/kendo.culture.es-MX.min.js' %}"></script>
-	<script src="{% static 'libs/kendo/2015.2.624/js/kendo.web.min.js' %}"></script>
 
     <!-- Theme -->
-    <script src="{% static 'theme/lib/datetimepicker/js/bootstrap-datetimepicker.min.js' %}"></script>
     <script src="{% static 'theme/lib/jquery-ui/jquery-ui.min.js' %}"></script>
     <script src="{% static 'theme/lib/moment.js/min/moment.min.js' %}"></script>
+    <script src="{% static 'theme/lib/datetimepicker/js/bootstrap-datetimepicker.min.js' %}"></script>
+    <script src="{% static 'theme/lib/datetimepicker/js/locales/bootstrap-datetimepicker.es.js' %}"></script>
+    <script src="{% static 'theme/lib/jquery.maskedinput/jquery.maskedinput.min.js' %}"></script>
 
-	<!-- NOVA -->
+    <!-- InputMask -->
+    <script src="{% static 'libs/plugins/input-mask/jquery.inputmask.js' %}"></script>
+
+	<!-- Nova -->
 	<script src="{% static 'viatico/viatico_formulario.js' %}"></script>      
 
 {% endblock scripts %}

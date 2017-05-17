@@ -5,6 +5,8 @@ from rest_framework import serializers
 from .models import IncidenciaDocumento
 from .models import IncidenciaTipo
 from .models import CentroAtencion
+from .models import IncidenciaArchivo
+from .models import IncidenciaResolucion
 
 
 class IncidenciaDocumentoSerializer(serializers.HyperlinkedModelSerializer):
@@ -21,13 +23,14 @@ class IncidenciaDocumentoSerializer(serializers.HyperlinkedModelSerializer):
             'fecha',
             'empleado_id',
             'empleado_nombre',
-            'empleado_zona',
+            #'zona',
+            # 'empleado_zona',
             'empleado_proyecto',
             'empleado_proyecto_desc',
             'empleado_puesto',
             'empleado_puesto_desc',
             'empleado_un',
-            'empleado_organizacion',
+            # 'empleado_organizacion',
             'area_id',
             'area_descripcion',
             'lugar',
@@ -71,3 +74,55 @@ class CentroAtencionSerializer(serializers.HyperlinkedModelSerializer):
         fields = (
             'descripcion',
         )
+
+class IncidenciaArchivoSerializer(serializers.HyperlinkedModelSerializer):
+
+    #tipo = serializers.SerializerMethodField()
+    id = serializers.SerializerMethodField()
+
+    class Meta:
+        model = IncidenciaArchivo
+        fields = (
+            'url',
+            'id',
+            'incidencia',
+            'tipo',
+            'archivo',
+            'created_by',
+            'created_date',
+            'updated_by',
+            'updated_date',
+        )
+
+    def get_id(self, obj):
+        try:
+            return obj.id.tag
+        except:
+            return ""    
+
+    # def get_tipo(self, obj):
+
+    #     return obj.tipo.tipo   
+
+class IncidenciaResolucionSerializer(serializers.HyperlinkedModelSerializer):
+
+    tipo = serializers.SerializerMethodField()
+    
+
+    class Meta:
+        model = IncidenciaResolucion
+        fields = (
+            'incidencia',
+            'mensaje',
+            'tipo',
+            'created_by',
+            'created_date',
+            'updated_by',
+            'updated_date',
+        )
+
+    def get_tipo(self, obj):
+
+        return obj.tipo.descripcion
+
+    

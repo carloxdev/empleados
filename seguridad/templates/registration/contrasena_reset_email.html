@@ -1,0 +1,15 @@
+{% autoescape off %}
+
+Tu cuenta de usuario es {{ user.get_username }} .
+
+Si solicitaste restablecimiento de contraseña.
+Click en el siguiente link para crear una nueva contraseña.
+
+{{ protocol }}://{{ domain }}{% url 'password_reset_confirm' uidb64=uid token=token %}
+
+
+¡Tenga buen dia!.
+
+Attentamente.
+Departamento de TI.
+{% endautoescape %}

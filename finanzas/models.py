@@ -9,6 +9,7 @@ from simple_history.models import HistoricalRecords
 
 # Otros Modelos:
 from seguridad.models import Profile
+from administracion.models import Empresa
 
 
 class ViaticoCabecera(models.Model):
@@ -22,25 +23,41 @@ class ViaticoCabecera(models.Model):
         ('can', 'Cancelado'),
     )
 
-    empleado = models.CharField(max_length=60)
+    empleado_clave = models.IntegerField(default=0)
+    empleado_descripcion = models.CharField(max_length=60, null=True)
     fecha_partida = models.DateField()
     fecha_regreso = models.DateField()
-    unidad_negocio = models.CharField(max_length=80, blank=False, null=False)
+    unidad_negocio_clave = models.CharField(max_length=80, blank=False, null=False)
+    unidad_negocio_descripcion = models.CharField(max_length=144, null=True)
     ciudad_destino = models.CharField(max_length=150, blank=False, null=False)
     proposito_viaje = models.TextField(max_length=250, blank=False, null=False)
-    nombre_empresa = models.CharField(max_length=80)
-    rfc = models.CharField(max_length=13)
-    direccion = models.CharField(max_length=60, blank=False)
-    grupo = models.CharField(max_length=40)
-    autorizador = models.CharField(max_length=60, blank=False)
-    importe_total = models.DecimalField(max_digits=7, decimal_places=2, blank=False, null=False, default=0.0)
+    empresa = models.ForeignKey(Empresa, blank=True, null=True)
+
+    rfc = models.CharField(max_length=13, blank=True, null=True)
+    direccion = models.CharField(max_length=60, blank=True, null=True)
+    grupo = models.CharField(max_length=40, blank=True, null=True)
+
+    autorizador_clave = models.IntegerField(default=0, blank=True)
+    autorizador_descripcion = models.CharField(max_length=60, blank=True, null=True)
+
     status = models.CharField(
         choices=VIATICO_ESTADOS,
         default="cap",
-        max_length=3)
-    fecha_autorizacion = models.DateTimeField(
+        max_length=3
+    )
+
+    approved_by = models.ForeignKey(Profile, related_name='via_autorizador', blank=True, null=True)
+    approved_date = models.DateTimeField(
         null=True,
         blank=True
+    )
+
+    importe_total = models.DecimalField(
+        max_digits=7,
+        decimal_places=2,
+        blank=True,
+        null=True,
+        default=0.0
     )
     created_by = models.ForeignKey(Profile, related_name='via_created_by', null=True)
     created_date = models.DateTimeField(
@@ -62,10 +79,10 @@ class ViaticoCabecera(models.Model):
         verbose_name_plural = "Viaticos Cabeceras"
 
     def __str__(self):
-        return "%s - %s" % (self.pk, self.empleado)
+        return "%s - %s" % (self.pk, self.empleado_descripcion)
 
     def __unicode__(self):
-        return "%s - %s" % (self.pk, self.empleado)
+        return "%s - %s" % (self.pk, self.empleado_descripcion)
 
 
 class ViaticoLinea(models.Model):

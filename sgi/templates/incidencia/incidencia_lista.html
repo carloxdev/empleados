@@ -35,12 +35,12 @@
     </div>
 
     <div>
-        <form action="">
+        <!--<form action="">-->
             
-            {{ form.as_p }}
-        </form>
+            {# {{ form.as_p }} #}
+        <!--</form>
 
-        <button type="button" id="boton_buscar"> Buscar </button>
+        <!--<button type="button" id="boton_buscarx2"> Buscar </button>-->
 
     </div>
 
@@ -61,7 +61,7 @@
                                 <i class="icon icon-left mdi mdi-search nova-white"></i>Filtros
                             </a>
 
-                            <button class="btn nova-btn btn-rounded btn-space btn-success" id="boton_excel">
+                            <button class="btn nova-btn btn-rounded btn-space btn-success" id="boton_exportar">
                                 <i class="icon icon-left mdi mdi-download nova-white"></i>Exportar
                             </button>
                         </div>
@@ -88,37 +88,38 @@
                 <!-- <div class="modal-body"> -->
 
                     <div class="form-group">
-                        <label class="col-sm-3 nova-col-filter control-label">No de Documento</label>
+                        <label class="col-sm-3 nova-col-filter control-label">No de Documento:</label>
                         <div class="col-sm-6 xs-pt-5">
                           {{ form.numero}}
                         </div>
                     </div>
 
                     <div class="form-group">
-                      <label class="col-sm-3 nova-col-filter control-label">Tipo</label>
+                      <label class="col-sm-3 nova-col-filter control-label">Tipo:</label>
                       <div class="col-sm-6 xs-pt-5">
                         {{ form.tipo }}
                       </div>
                     </div>
 
                     <div class="form-group">
-                        <label class="col-sm-3 nova-col-filter control-label">Fecha Mayor</label>
-                        <div class="col-sm-6 xs-pt-5">
-                            <div class="input-group">
-                                <input type="text" value="" readonly="" class="form-control input-xs" id="fecha_mayorque">
-                                <span class="input-group-addon btn btn-primary">
-                                    <i class="icon-th mdi mdi-calendar"></i>
-                                </span>
-                            </div>
-                        </div>
+                      <label class="col-sm-3 nova-col-filter control-label">Registrable:</label>
+                      <div class="col-sm-6 xs-pt-5">
+                        {{ form.es_registrable }}
+                      </div>
                     </div>
 
-                    
                     <div class="form-group">
-                        <label class="col-sm-3 nova-col-filter control-label">Fecha Menor</label>
+                      <label class="col-sm-3 nova-col-filter control-label">Zona:</label>
+                      <div class="col-sm-6 xs-pt-5">
+                        {{ form.zona }}
+                      </div>
+                    </div>
+
+                     <div class="form-group">
+                        <label class="col-sm-3 nova-col-filter control-label">Fecha: </label>
                         <div class="col-sm-6 xs-pt-5">
-                            <div class="input-group">
-                                <input type="text" value="" readonly="" class="form-control input-xs" id="fecha_menorque">
+                            <div class="input-group"> 
+                                <input type="text" value="" readonly="" class="form-control input-xs" id="fecha_creacion">
                                 <span class="input-group-addon btn btn-primary">
                                     <i class="icon-th mdi mdi-calendar"></i>
                                 </span>
@@ -140,16 +141,11 @@
                                 Buscar
                             </button>
 
-                            <button type="button" id="boton_buscar"> Buscar3 </button>
                     </div>
                 </div>
             </div> <!-- Modal content-->
         </div> <!-- Modal dialog -->
     </div><!-- Modal -->
-
-
-
-
 
 </div>
 
@@ -157,6 +153,8 @@
 
 {% block scripts %}
 
+    <!--JSZIP -->
+    <script src="{% static 'libs/kendo/2015.2.624/js/jszip.min.js' %}"></script>
     <!-- Kendo Js -->
     <script src="{% static 'libs/kendo/2015.2.624/js/cultures/kendo.culture.es-MX.min.js' %}"></script>
     <script src="{% static 'libs/kendo/2015.2.624/js/kendo.web.min.js' %}"></script>
