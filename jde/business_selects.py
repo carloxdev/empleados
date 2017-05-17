@@ -10,7 +10,7 @@ def get_CentrosCostoJde():
         excluye a los antigusos y
         los regresa ordenados por clave """
 
-    valores = [('', '------')]
+    valores = [('', '-------', '', '', ''), ]
 
     if settings.DEBUG:
         centros = VIEW_CENTROSCOSTO.objects.using('jde_p').exclude(
@@ -31,16 +31,31 @@ def get_CentrosCostoJde():
 
     for centro in centros:
 
-        descripcion = "%s : %s" % (
+        option_value = centro.clave
+        option_label = "%s : %s" % (
             centro.clave,
             centro.descripcion
         )
+        option_text = centro.descripcion
+        option_status = centro.estado
+        option_status_desc = get_StatusDescription(centro.estado)
 
         valores.append(
             (
-                centro.clave,
-                descripcion
+                option_value,
+                option_label,
+                option_text,
+                option_status,
+                option_status_desc
             )
         )
 
     return valores
+
+
+def get_StatusDescription(value):
+
+    if value == "N":
+        return "desactivado"
+    else:
+        return "activo"

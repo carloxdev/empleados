@@ -176,6 +176,10 @@
     overflow-y: scroll;
 }
 
+.nova-opt-disable {
+    background-color: red !important;
+    color: white !important;
+}
 
 @media (min-width: 768px) {
     
