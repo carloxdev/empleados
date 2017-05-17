@@ -6,6 +6,9 @@ from jde.models import VIEW_CENTROSCOSTO
 
 
 def get_CentrosCostoJde():
+    """ Funcion que devuelve solo a a centro de costos activos,
+        excluye a los antigusos y
+        los regresa ordenados por clave """
 
     valores = [('', '------')]
 

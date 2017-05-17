@@ -19,18 +19,22 @@
     
     <!-- Nova -->
     <link rel="stylesheet" href="{% static 'grid.css' %}"/>
+
 {% endblock css %}
 
 {% block contenido %}
 
 <div class="be-content">
+
     <div class="page-head">
         <h2 class="page-head-title">Compras</h2>
         <ol class="breadcrumb page-head-nav">
             <li class="active">Seguimiento</li>
         </ol>
     </div>
+
     <div class="main-content container-fluid">
+
         <div class="col-sm-12">
             <div class="panel panel-border panel-contrast">
                 <div class="panel-heading panel-heading-default nova-border-bottom">Filtros
@@ -433,7 +437,6 @@
         </div><!-- col sm 12-->
         {% endif %}
         
-
         <div id="popup_filtros" role="dialog" class="modal fade colored-header colored-header-primary in">
             <div class="modal-dialog custom-width">
                 <div class="modal-content">
@@ -458,6 +461,87 @@
             </div> <!-- Modal dialog -->
         </div><!-- Modal -->
 
+        <!-- Targeta Filtros -->
+        <div id="tarjeta_filtros" role="dialog" class="modal fade colored-header colored-header-primary">
+            <div class="modal-dialog custom-width">
+                <div class="modal-content">
+                    
+                    <div class="modal-header nova-modal-header">
+                        <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
+                        <h3 class="modal-title">Filtros</h3>
+                    </div>
+                        
+                    <form id="formulario_filtro" class="modal-body form-horizontal">
+
+                        <div class="form-group">
+                            <label class="col-sm-3 nova-col-filter control-label">Proposito del Viaje</label>
+                            <div class="col-sm-7 xs-pt-5">
+                                {{ form.proposito_viaje }}
+                            </div>
+                        </div>                
+
+                        <div class="form-group">
+                            <label class="col-sm-3 nova-col-filter control-label">Empleado</label>
+                            <div class="col-sm-7 xs-pt-5">
+                                {{ form.empleado }}
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                          <label class="col-sm-3 nova-col-filter control-label">Unidad de Negocio</label>
+                          <div class="col-sm-7 xs-pt-5">
+                            {{ form.unidad_negocio }}
+                          </div>
+                        </div>
+
+                        <div class="form-group">
+                          <label class="col-sm-3 nova-col-filter control-label">Destino</label>
+                          <div class="col-sm-7 xs-pt-5">
+                            {{ form.ciudad_destino }}
+                          </div>
+                        </div>                    
+
+                        <div class="form-group">
+                          <label class="col-sm-3 nova-col-filter control-label">Autorizador</label>
+                          <div class="col-sm-7 xs-pt-5">
+                            {{ form.autorizador }}
+                          </div>
+                        </div>                                        
+
+                        <div class="form-group">
+                            <label class="col-sm-3 nova-col-filter control-label">Fecha Creacion</label>
+                            <div class="col-sm-7 xs-pt-5">
+                                <div class="input-group"> 
+                                    <input type="text" value="" readonly="" class="form-control input-xs" id="fecha_creacion">
+                                    <span class="input-group-addon btn btn-primary">
+                                        <i class="icon-th mdi mdi-calendar"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </form><!-- Modal body-->
+                    <div class="modal-footer nova-modal-footer">
+                         <div class="row col-sm-12">
+                                <button type="button" data-dismiss="modal" class="btn btn-default pull-left">
+                                    Cancelar
+                                </button>
+
+                                <button type="button" id="boton_limpiar" class="btn btn-default nova-btn">
+                                    <i class="fa fa-eraser"></i>
+                                    Limpiar
+                                </button>
+
+                                <button type="button" id="boton_buscar" class="btn nova-btn btn-primary btn-lg pull-right">
+                                    <i class="icon icon-left mdi mdi-search nova-white"></i>
+                                    Buscar
+                                </button>
+                        </div>
+                    </div>
+                </div> <!-- Modal content-->
+            </div> <!-- Modal dialog -->
+        </div><!-- Modal -->
+
 
     </div>
 </div>
@@ -465,8 +549,10 @@
 {% endblock contenido %}
 
 {% block scripts %}
+
     <!--JSZIP -->
     <script src="{% static 'libs/kendo/2015.2.624/js/jszip.min.js' %}"></script>
+
     <!-- Kendo Js -->
     <script src="{% static 'libs/kendo/2015.2.624/js/cultures/kendo.culture.es-MX.min.js' %}"></script>
     <script src="{% static 'libs/kendo/2015.2.624/js/kendo.web.min.js' %}"></script>

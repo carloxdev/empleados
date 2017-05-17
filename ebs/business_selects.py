@@ -7,6 +7,10 @@ from ebs.models import VIEW_EMPLEADOS_SIMPLE
 
 
 def get_EmpleadosEbs():
+    """ Funcion que devuelve solo a empleados activos,
+        que tienen numero de empleado y
+        los regresa ordenados por nombre """
+
     valores = [('', '-------'), ]
 
     empleados = VIEW_EMPLEADOS_SIMPLE.objects.using('ebs_d').filter(

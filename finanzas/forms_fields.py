@@ -1,6 +1,12 @@
+# -*- coding: utf-8 -*-
+
+# Librerias/Clases Django
+
 from django import forms
 from django.utils.html import escape, conditional_escape
 from django.utils.encoding import force_unicode
+
+from django.forms import ChoiceField
 
 
 class SelectWithDescriptions(forms.Select):
@@ -25,3 +31,14 @@ class SelectWithDescriptions(forms.Select):
         return u'<option value="%s"%s%s>%s</option>' % (
             escape(option_value), title_html, selected_html,
             conditional_escape(force_unicode(option_label)))
+
+
+class ChoiceFieldNova(ChoiceField):
+
+    def __init__(self, choices=(), required=True, widget=None, label=None,
+                 initial=None, help_text='', *args, **kwargs):
+        super().__init__(
+            required=required, widget=widget, label=label, initial=initial,
+            help_text=help_text, *args, **kwargs
+        )
+        self.choices = choices

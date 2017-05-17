@@ -4,6 +4,9 @@ from django.contrib.auth.models import User
 
 
 def get_Usuarios():
+    """ Funcion que devuelve a todos los usuarios,
+        ordenados por cuenta
+    """
 
     valores = [('', '------')]
 
