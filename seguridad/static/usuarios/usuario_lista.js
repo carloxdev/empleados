@@ -18,9 +18,25 @@ var toolbar = null
 \*-----------------------------------------------*/
 
 $(document).ready(function () {
-	//toolbar = new Toolbar()
-    filtros = new TargetaFiltros()
+
+    filtros = new PopupFiltros()
     tarjeta_resultados = new TargetaResultados()
+
+    // Asigna eventos a teclas
+    $(document).keypress(function (e) {
+
+        // Tecla Enter
+        if (e.which == 13) {
+
+            if (filtros.$id.hasClass('in')) {
+                filtros.apply_Filters()
+            }
+
+        }
+        // Tecla ESC
+    })    
+
+    //alertify.confirm('Confirm Message')
 })
 
 
@@ -28,35 +44,100 @@ $(document).ready(function () {
             OBJETO: Targeta Filtros
 \*-----------------------------------------------*/
 
-function TargetaFiltros () {
+function PopupFiltros () {
+
+    this.$id = $('#tarjeta_filtros')
 
     this.$usuario__username = $('#id_usuario')
     this.$usuario__first_name = $('#id_usuario__first_name')
     this.$usuario__last_name = $('#id_usuario__last_name')
     this.$clave_rh = $('#id_clave_rh')
     this.$usuario__email = $('#id_usuario__email')
-    this.$usuario__date_joined_mayorque = $('#id_usuario__date_joined_mayorque')
-    this.$usuario__date_joined_menorque = $('#id_usuario__date_joined_menorque')
+    this.$fecha_creacion = $('#fecha_creacion')
 
     this.$boton_buscar = $('#boton_buscar')
+    this.$boton_limpiar = $('#boton_limpiar')
 
     this.init_Components()
     this.init_Events()
 
 }
-TargetaFiltros.prototype.init_Components = function () {
-    // Estilos, Liberias
+PopupFiltros.prototype.init_Components = function () {
+    
+    this.$fecha_creacion.daterangepicker(this.get_ConfDateRangePicker()) 
 }
-TargetaFiltros.prototype.init_Events = function () {
-    // Asosciar Eventos
+PopupFiltros.prototype.init_Events = function () {
+    
+    this.$id.on("hidden.bs.modal", this, this.hide)
+
     this.$boton_buscar.on("click", this, this.click_BotonBuscar)
+    this.$boton_limpiar.on("click", this, this.click_BotonLimpiar)
 }
-TargetaFiltros.prototype.click_BotonBuscar = function (e) {
-    //alert(e.data.$usuario__first_name.val())
+PopupFiltros.prototype.hide = function (e) {
+
+     e.data.$fecha_creacion.data('daterangepicker').hide()
+}
+PopupFiltros.prototype.get_ConfDateRangePicker = function () {
+
+    return {
+        locale: {
+            // format: 'YYYY-MM-DD',
+            format: 'DD-MM-YYYY',
+            applyLabel: "Aplicar",
+            cancelLabel: "Cancelar",
+            fromLabel: "Del",
+            separator: " al ",
+            toLabel: "Al",            
+            weekLabel: "S",
+            daysOfWeek: [
+                "Do",
+                "Lu",
+                "Ma",
+                "Mi",
+                "Ju",
+                "Vi",
+                "Sa"
+            ],
+            monthNames: [
+                "Enero",
+                "Febrero",
+                "Marzo",
+                "Abril",
+                "Mayo",
+                "Junio",
+                "Julio",
+                "Agosto",
+                "Septiembre",
+                "Octubre",
+                "Noviembre",
+                "Diciembre"
+            ],          
+        },
+        // startDate: '2017-01-01'
+        startDate: '01-01-2017'
+    }    
+}
+PopupFiltros.prototype.click_BotonBuscar = function (e) {
     e.preventDefault()
     tarjeta_resultados.grid.buscar()
 }
-TargetaFiltros.prototype.get_Values = function (_page) {
+PopupFiltros.prototype.click_BotonLimpiar = function (e) {
+    
+    e.preventDefault()
+
+    e.data.$usuario__username.val("")
+    e.data.$usuario__first_name.val("")
+    e.data.$usuario__last_name.val("")
+    e.data.$clave_rh.val("")
+    e.data.$usuario__email.val("")
+    e.data.$fecha_creacion.data('daterangepicker').setStartDate(
+        '01-01-2017'
+    )
+    e.data.$fecha_creacion.data('daterangepicker').setEndDate(
+        moment().format('DD-MM-YYYY')
+    )    
+}
+PopupFiltros.prototype.get_Values = function (_page) {
 
     return {
         page: _page,
@@ -65,11 +146,50 @@ TargetaFiltros.prototype.get_Values = function (_page) {
         usuario__last_name: this.$usuario__last_name.val(),
         clave_rh: this.$clave_rh.val(),
         usuario__email: this.$usuario__email.val(),
-        usuario__date_joined_mayorque: this.$usuario__date_joined_mayorque.val(),
-        usuario__date_joined_menorque: this.$usuario__date_joined_menorque.val(),
+        usuario__date_joined_mayorque: this.$fecha_creacion.data('daterangepicker').startDate.format('YYYY-MM-DD'),
+        usuario__date_joined_menorque: this.$fecha_creacion.data('daterangepicker').endDate.format('YYYY-MM-DD'),
     }
 }
-TargetaFiltros.prototype.get_FiltrosExcel = function () {
+PopupFiltros.prototype.get_NoFiltrosAplicados = function () {
+
+    cantidad = 0
+
+    if (this.$usuario__username.val() != "") {
+        cantidad += 1
+    }
+    if (this.$usuario__first_name.val() != "") {
+        cantidad += 1   
+    }
+    if (this.$usuario__last_name.val() != "" ) {
+        cantidad += 1
+    }
+    if (this.$clave_rh.val() !=  "") {
+        cantidad += 1
+    }
+    if (this.$usuario__email.val()  != "" ) {
+        cantidad += 1
+    }
+    if (this.$fecha_creacion.data('daterangepicker').startDate.format('YYYY-MM-DD') != '2017-01-01' || 
+        this.$fecha_creacion.data('daterangepicker').endDate.format('YYYY-MM-DD') != moment().format('YYYY-MM-DD') ) {
+        cantidad += 1
+    }
+
+    return cantidad
+}
+PopupFiltros.prototype.apply_Filters = function () {
+
+    tarjeta_resultados.grid.buscar()
+
+    no_filtros = this.get_NoFiltrosAplicados()
+    
+    this.$id.modal('hide')
+}
+PopupFiltros.prototype.click_BotonBuscar = function (e) {
+    
+    e.preventDefault()
+    e.data.apply_Filters()
+}
+PopupFiltros.prototype.get_FiltrosExcel = function () {
 
     return {
         usuario__first_name: this.$usuario__first_name.val(), 
@@ -86,6 +206,7 @@ TargetaFiltros.prototype.get_FiltrosExcel = function () {
 \*-----------------------------------------------*/
 
 function TargetaResultados(){
+
     this.toolbar = new Toolbar()
     this.grid = new Grid()
 }
@@ -244,11 +365,12 @@ Grid.prototype.get_FuenteDatosExcel = function (e) {
 
 function Toolbar() {
 
+    this.$boton_filtros = $('#boton_filtros')
     this.$boton_exportar = $("#boton_exportar")
 
-    this.init()
+    this.init_Events()
 }
-Toolbar.prototype.init = function (e) {
+Toolbar.prototype.init_Events = function (e) {
 
     this.$boton_exportar.on("click", this, this.click_BotonExportar)
 }

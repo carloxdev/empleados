@@ -37,11 +37,16 @@ from ebs.models import VIEW_EMPLEADOS_SIMPLE
 
 
 class UserFormFilter(forms.Form):
-    usuario = CharField(label="Nombre de usuario:")
-    usuario__first_name = CharField(label="Nombre:")
-    usuario__last_name = CharField(label="Apellidos:")
-    usuario__email = CharField(label="Email:")
-    clave_rh = CharField(label="Clave RH:")
+    usuario = CharField(label="Nombre de usuario:", widget=TextInput(
+        attrs={'class': 'form-control input-xs'}))
+    usuario__first_name = CharField(label="Nombre:", widget=TextInput(
+        attrs={'class': 'form-control input-xs'}))
+    usuario__last_name = CharField(label="Apellidos:", widget=TextInput(
+        attrs={'class': 'form-control input-xs'}))
+    usuario__email = CharField(label="Email:", widget=TextInput(
+        attrs={'class': 'form-control input-xs'}))
+    clave_rh = CharField(label="Clave RH:", widget=TextInput(
+        attrs={'class': 'form-control input-xs'}))
     usuario__date_joined_mayorque = CharField(
         label="Fecha de creación mayor a:")
     usuario__date_joined_menorque = CharField(
@@ -49,6 +54,10 @@ class UserFormFilter(forms.Form):
 
 
 class UserNuevoForm(UserCreationForm):
+    password1 = CharField(label="Contraseña", widget=PasswordInput(
+        attrs={'class': 'form-control input-xs'}))
+    password2 = CharField(label="Confirmacion",
+                          widget=PasswordInput(attrs={'class': 'form-control input-xs'}))
     clave_rh = ChoiceField(label="Clave de empleado:", widget=Select(
         attrs={'class': 'form-control input-xs'}))
     clave_jde = CharField(label="Clave de jde:", widget=TextInput(
@@ -56,19 +65,21 @@ class UserNuevoForm(UserCreationForm):
     fecha_nacimiento = CharField(label='Fecha de nacimiento', widget=DateInput(
         attrs={'class': 'form-control input-xs', 'data-date-format': 'yyyy-mm-dd', 'readonly': 'True'}),)
     foto = CharField(label="Foto", widget=FileInput(
-        attrs={'class': 'dropzone dz-clickable dz-started'}),)
+        attrs={'class': 'dropzone dz-clickable dz-started'}))
 
     class Meta:
         model = User
 
         fields = [  # User
-                    'username',
-                    'first_name',
+            'username',
+            'first_name',
                     'last_name',
                     'email',
                     'is_active',
                     'is_staff',
                     'is_superuser',
+                    'password1',
+                    'password2',
                     # Profile
                     'clave_rh',
                     'clave_jde',
@@ -77,13 +88,15 @@ class UserNuevoForm(UserCreationForm):
         ]
 
         labels = {  # User
-                    'username': 'Nombre de usuario',
-                    'first_name': 'Nombre',
+            'username': 'Nombre de usuario',
+            'first_name': 'Nombre',
                     'last_name': 'Apellidos',
                     'email': 'Email',
                     'is_active': 'Activo',
                     'is_staff': 'Administrador',
                     'is_superuser': 'Todos los privilegios',
+                    'password1': 'Contraseña',
+                    'password2': 'Confirmación',
                     # Profile
                     'clave_rh': 'Clave de empleado',
                     'clave_jde': 'Clave jde',
@@ -202,8 +215,8 @@ class UserRegistroForm(UserCreationForm):
         model = User
 
         fields = [  # User
-                    'username',
-                    'first_name',
+            'username',
+            'first_name',
                     'last_name',
                     'email',
                     # Profile
@@ -216,8 +229,8 @@ class UserRegistroForm(UserCreationForm):
         ]
 
         labels = {  # User
-                    'username': 'Nombre de usuario',
-                    'first_name': 'Nombre',
+            'username': 'Nombre de usuario',
+            'first_name': 'Nombre',
                     'last_name': 'Apellidos',
                     'email': 'Email',
                     # Profile
@@ -278,8 +291,8 @@ class UserEditarPerfilForm(ModelForm):
         model = User
 
         fields = [  # User
-                    'first_name',
-                    'last_name',
+            'first_name',
+            'last_name',
                     'email',
                     # Profile
                     'clave_rh',
