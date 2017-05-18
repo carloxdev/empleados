@@ -8,7 +8,7 @@
 var url_incidenciadocumento = window.location.origin + "/api-sgi/incidenciadocumento/"
 var url_incidenciadocumento_bypage = window.location.origin + "/api-sgi/incidenciadocumento_bypage/"
 var url_incidencia_editar = window.location.origin + "/incidencias/"
-//var url_incidencia_editar = ""
+//var url_incidencia_editar = "/editar/"
 var url_anexos = window.location.origin + "/incidencias/incidencia_id/archivos/"
 var url_seguimiento = window.location.origin + "/incidencias/incidencia_id/seguimiento/"
 var url_excel = window.location.origin + "/api-sgi/incidenciadocumento/"
@@ -27,10 +27,26 @@ var toolbar = null
 \*-----------------------------------------------*/
 
 $(document).ready(function () {
+    // Inicializar URLS:
     //url_incidencia_editar = window.location.origin.toString() + $('#url_incidencia_editar').val()
-
+    //alert(url_incidencia_editar)
+    
     filtros = new TargetaFiltros()
     resultados = new TargetaResultados()
+
+    // Asigna eventos a teclas
+    $(document).keypress(function (e) {
+
+        // Tecla Enter
+        if (e.which == 13) {
+
+            if (filtros.$id.hasClass('in')) {
+                filtros.apply_Filters()
+            }
+
+        }
+        // Tecla ESC
+    })
 })
 
 /*-----------------------------------------------*\
@@ -290,27 +306,9 @@ Grid.prototype.get_Columnas = function () {
             field: "pk", 
             title: "Numero", 
             width:"100px",
-            template: '<a class="nova-url" href="#=url_incidencia_editar  + pk + "/" + "editar/"  #">#=pk#</a>',
+            //template: '<a class="btn btn-default nova-url" href="#=Grid.prototype.get_EditUrl(pk)#">#=pk#</a>',
+            template: '<a class="btn btn-default nova-url" href="#=url_incidencia_editar  + pk + "/" + "editar/"  #">#=pk#</a>',
         },
-        { field: "tipo", title: "Categoria", width:"200px" },
-        { field: "es_registrable", title: "Tipo", width:"100px" },
-        { field: "fecha", title: "fecha", width:"100px" },
-        { field: "empleado_id", title: "No Empleado", width:"70px" },
-        { field: "empleado_nombre", title: "Empleado", width:"220px" },
-        { field: "zona", title: "Zona Empleado", width:"100px" },
-        { field: "empleado_proyecto", title: "Id Proyecto", width:"70px" },
-        { field: "empleado_proyecto_desc", title: "Proyecto Empleado", width:"200px" },
-        { field: "empleado_puesto", title: "Id Puesto", width:"70px" },
-        { field: "empleado_puesto_desc", title: "Puesto", width:"200px" },
-        { field: "empleado_un", title: "UN", width:"70px" },
-        { field: "empleado_organizacion", title: "Organizacion Empleado", width:"200px" },
-        { field: "area_id", title: "Id Area", width:"90px" },
-        { field: "area_descripcion", title: "area_descripcion", width:"200px" },
-        { field: "lugar", title: "lugar", width:"200px" },
-        { field: "dias_incapcidad", title: "Dias Incapacidad", width:"80px" },
-        { field: "centro_atencion", title: "Centro Atencion", width:"100px" },
-        { field: "tiene_acr", title: "ACR", width:"50px" },
-        { field: "status", title: "status", width:"70px" },
         {
            command: [ 
                 {
@@ -333,8 +331,33 @@ Grid.prototype.get_Columnas = function () {
            title: " ",
            width: "120px"
         },
+
+        { field: "tipo", title: "Categoria", width:"200px" },
+        { field: "es_registrable", title: "Tipo", width:"100px" },
+        { field: "fecha", title: "fecha", width:"100px", format: "{0:dd/MM/yyyy}" },
+        { field: "empleado_id", title: "No Empleado", width:"70px" },
+        { field: "empleado_nombre", title: "Empleado", width:"220px" },
+        { field: "zona", title: "Zona Empleado", width:"100px" },
+        { field: "empleado_proyecto", title: "Id Proyecto", width:"70px" },
+        { field: "empleado_proyecto_desc", title: "Proyecto Empleado", width:"200px" },
+        { field: "empleado_puesto", title: "Id Puesto", width:"70px" },
+        { field: "empleado_puesto_desc", title: "Puesto", width:"200px" },
+        { field: "empleado_un", title: "UN", width:"70px" },
+        { field: "empleado_organizacion", title: "Organizacion Empleado", width:"200px" },
+        { field: "area_id", title: "Id Area", width:"90px" },
+        { field: "area_descripcion", title: "area_descripcion", width:"200px" },
+        { field: "lugar", title: "lugar", width:"200px" },
+        { field: "dias_incapcidad", title: "Dias Incapacidad", width:"80px" },
+        { field: "centro_atencion", title: "Centro Atencion", width:"100px" },
+        { field: "tiene_acr", title: "ACR", width:"50px" },
+        { field: "status", title: "status", width:"70px" },
+        
     ]
 }
+
+Grid.prototype.get_EditUrl = function(_pk) {
+  return url_incidencia_editar.replace('/0/', '/' + _pk + '/')   
+} 
 
 Grid.prototype.buscar = function() {
     

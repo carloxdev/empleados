@@ -248,7 +248,7 @@ class IncidenciaResolucion(models.Model):
 
     def __str__(self):
         cadena2 = "%s" % (self.tipo)
-        return cadena3
+        return cadena2
 
     class Meta:
         verbose_name_plural = "Resoluciones"

@@ -409,30 +409,42 @@ class IncidenciaResolucionNuevo(View):
         #     'incidencia_id': incidencia_id,
         #     'anexos': incidencia_resolucion,
         # }
+        incidencia_documento = get_object_or_404(IncidenciaDocumento, pk=incidencia_id)
+        # print incidencia_documento
+        incidenciaid = incidencia_id
         formulario = IncidenciaResolucionForm(request.POST)
-
+    
         if formulario.is_valid():
 
             datos_formulario = formulario.cleaned_data
             Incidencia_Resolucion = IncidenciaResolucion()
-            Incidencia_Resolucion.incidencia_id = datos_formulario.get('incidencia_id')
+            Incidencia_Resolucion.incidencia_id = incidenciaid
             Incidencia_Resolucion.mensaje = datos_formulario.get('mensaje')
-            Incidencia_Resolucion.tipo = datos_formulario.get('tipo')
+            Incidencia_Resolucion.tipo_id = datos_formulario.get('tipo')
             Incidencia_Resolucion.status = datos_formulario.get('estatus')
             Incidencia_Resolucion.created_by  = request.user.profile
+
             Incidencia_Resolucion.save()
 
-            return redirect(reverse('sgi:incidencia_lista'))
+            # ACTUALIZO EL STATUS EN EL MODELO INCIDENCIADOCUMENTO
+            
+            incidencia_documento.status = Incidencia_Resolucion.status
+            incidencia_documento.save()
+            
 
-        contexto = {
-                    'form': formulario,
-                    'incidencia_id': incidencia_id,
-                    'anexos': incidencia_resolucion,
-                }
+            #return redirect(reverse('sgi:incidencia_lista'))
+            return redirect(reverse('sgi:incidencia_archivo', kwargs={'incidencia_id': Incidencia_Resolucion.incidencia_id }))
+
+        # contexto = {
+        #             'form': formulario,
+        #             'incidencia_id': incidencia_id,
+        #             'anexos': incidencia_resolucion,
+        #         }
 
 
 
-        return render(request, self.template_name, contexto)
+        #return render(request, self.template_name, contexto)
+        #return redirect(reverse('sgi:incidencia_archivo', kwargs={'incidencia_id': Incidencia_Resolucion.incidencia_id }))
 
 
 
