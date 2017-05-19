@@ -1,9 +1,0 @@
-empleado
-
-unidad negocion
-
-ciudad
-
-fecha creacion
-
-Autorizador
