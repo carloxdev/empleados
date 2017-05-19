@@ -19,7 +19,7 @@
 		<h2 class="page-head-title">Cambiar contraseña</h2>
 		<ol class="breadcrumb page-head-nav">
 			<li><a href="{% url 'home:inicio' %}">Inicio</a></li>
-			<li><a href="{% url 'seguridad:usuario_editar_perfil' request.user.id %}">Perfil de usuario</a></li>
+			<li><a href="{% url 'seguridad:usuario_perfil' request.user.id %}">Perfil de usuario</a></li>
 			<li>Cambiar contraseña</li>
 		</ol>
 	</div><!-- End Pahe head -->
@@ -57,7 +57,7 @@
 								<p> {{form2.password2}} </p>
 							</div>
 							<!-- Botones de accion -->
-							<a class="button" href="{% url 'seguridad:usuario_editar_perfil' request.user.id %}"> Regresar </a>
+							<a class="button" href="{% url 'seguridad:usuario_perfil' request.user.id %}"> Regresar </a>
 							<button type="submit" class="btn btn-primary" id="id_boton_guardar" >Guardar contraseña</button>
 						</form>
 					</div><!-- End Panel default -->

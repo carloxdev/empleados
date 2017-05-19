@@ -1,30 +1,33 @@
 # -*- coding: utf-8 -*-
 
-# Django Generic Views
+# Librerias Python
+import re
+
+# Librerias Django
+
+# Generic Views:
 from django.views.generic.base import View
 
-# Django shortcuts
+# Shortcuts:
 from django.shortcuts import render
 from django.shortcuts import redirect
-from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404
-
-
-# Django Seguridad
+from django.core.urlresolvers import reverse
 from django.contrib import messages
-from django.contrib.auth import authenticate
+
+# Seguridad:
 from django.contrib.auth import login
+from django.contrib.auth import authenticate
+from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.tokens import default_token_generator
+from django.contrib.auth.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-# Django autorizacion
-from django.contrib.auth import update_session_auth_hash
-from django.contrib.auth.hashers import check_password
 
-# Modelos
+# Librerias Propias
+
+# Modelos:
 from .models import Profile
-
-# Otros Modelo
-from django.contrib.auth.models import User
 
 # Formularios:
 from .forms import UserFormFilter
@@ -35,9 +38,6 @@ from .forms import UserEditarPerfilForm
 from .forms import UserContrasenaActualForm
 from .forms import UserContrasenaNuevaForm
 from .forms import EmailForm
-
-# Tokens para correo
-from django.contrib.auth.tokens import default_token_generator
 
 
 class Login(View):
@@ -80,7 +80,135 @@ class Login(View):
 
         return render(request, self.template_name, contexto)
 
-# -------------- ADMINISTTRADOR VIEWS -------------- #
+
+class Registro(View):
+
+    def __init__(self):
+        self.template_name = 'registro.html'
+
+    def get(self, request):
+
+        form_usuario = UserRegistroForm()
+
+        contexto = {
+            'form': form_usuario,
+        }
+        return render(request, self.template_name, contexto)
+
+    def post(self, request):
+
+        form_usuario = UserRegistroForm(request.POST, request.FILES)
+
+        if form_usuario.is_valid():
+
+            datos_formulario = form_usuario.cleaned_data
+
+            valor = datos_formulario.get('clave_rh')
+            clave = Profile.objects.filter(clave_rh=valor)
+
+            if not(valor and clave):
+
+                usuario = User.objects.create_user(
+                    username=datos_formulario.get('username'),
+                    password=datos_formulario.get('password1')
+                )
+
+                usuario.first_name = datos_formulario.get('first_name')
+                usuario.last_name = datos_formulario.get('last_name')
+                usuario.email = datos_formulario.get('email')
+                usuario.is_active = True
+                usuario.is_staff = False
+                usuario.is_superuser = False
+                usuario.save()
+
+                usuario.profile.clave_rh = datos_formulario.get('clave_rh')
+                usuario.profile.clave_jde = datos_formulario.get('clave_jde')
+                usuario.profile.fecha_nacimiento = datos_formulario.get(
+                    'fecha_nacimiento')
+                usuario.profile.foto = datos_formulario.get('foto')
+                usuario.profile.save()
+
+                return redirect(reverse('home:inicio'))
+            else:
+                messages.error(
+                    request, 'La clave de empleado ya se encuentra asociada a una cuenta')
+
+        contexto = {
+            'form': form_usuario,
+        }
+        return render(request, self.template_name, contexto)
+
+
+class ResetContrasena(View):
+
+    def __init__(self):
+        self.template_name = 'registration/contrasena_reset_form.html'
+
+    def get(self, request):
+        form = EmailForm()
+
+        contexto = {
+            'form': form,
+        }
+        return render(request, self.template_name, contexto)
+
+    def post(self, request):
+        form = EmailForm(request.POST)
+        dato = request.POST['email']
+
+        # Filtrado por "Nombre de usuario"
+        if User.objects.filter(username=dato).exists():
+            usuario = User.objects.get(username=dato)
+            request.POST._mutable = True
+            request.POST['usuario_clave'] = usuario.username
+            request.POST['email'] = usuario.email
+            request.POST._mutable = False
+
+            if form.is_valid():
+
+                opts = {
+                    'use_https': request.is_secure(),
+                    'token_generator': default_token_generator,
+                    'from_email': None,
+                    'email_template_name': 'registration/contrasena_reset_email.html',
+                    'subject_template_name': 'registration/email_subject.txt',
+                    'request': request,
+                    'html_email_template_name': None,
+                }
+                form.save(**opts)
+
+                messages.success(
+                    request, 'El correo a sido enviado exitosamente')
+
+        # Filtrado por "Correo electronico"
+        elif User.objects.filter(email=dato).exists():
+
+            request.POST._mutable = True
+            request.POST['usuario_clave'] = ""
+            request.POST._mutable = False
+
+            if form.is_valid():
+                opts = {
+                    'use_https': request.is_secure(),
+                    'token_generator': default_token_generator,
+                    'from_email': None,
+                    'email_template_name': 'registration/contrasena_reset_email.html',
+                    'subject_template_name': 'registration/email_subject.txt',
+                    'request': request,
+                    'html_email_template_name': None,
+                }
+                form.save(**opts)
+
+            messages.success(
+                request, 'El correo a sido enviado exitosamente')
+        else:
+            messages.error(
+                request, 'El usuario/correo electronico no se encuentra aosciado a un usuario.')
+
+        contexto = {
+            'form': form,
+        }
+        return render(request, self.template_name, contexto)
 
 
 class UsuarioLista(View):
@@ -225,10 +353,10 @@ class UsuarioEditar(View):
         return render(request, self.template_name, contexto)
 
 
-class UsuarioCambiarContrasenaAdmin(LoginRequiredMixin, View):
+class UsuarioEditarContrasena(LoginRequiredMixin, View):
 
     def __init__(self):
-        self.template_name = 'usuarios/usuario_cambiar_contraseña.html'
+        self.template_name = 'usuarios/usuario_editar_contrasena.html'
 
     def get(self, request, pk):
         usuario_id = get_object_or_404(User, pk=pk)
@@ -257,9 +385,6 @@ class UsuarioCambiarContrasenaAdmin(LoginRequiredMixin, View):
             'form': form_contrasena,
         }
         return render(request, self.template_name, contexto)
-
-
-# -------------- USUARIO VIEWS -------------- #
 
 
 class UsuarioPerfil(View):
@@ -326,10 +451,10 @@ class UsuarioPerfil(View):
         return render(request, self.template_name, contexto)
 
 
-class UsuarioCambiarContrasenaPerfil(LoginRequiredMixin, View):
+class UsuarioPerfilContrasena(LoginRequiredMixin, View):
 
     def __init__(self):
-        self.template_name = 'usuarios/usuario_cambiar_contraseña_perfil.html'
+        self.template_name = 'usuarios/usuario_perfil_contrasena.html'
 
     def get(self, request, pk):
         usuario_id = get_object_or_404(User, pk=pk)
@@ -364,135 +489,5 @@ class UsuarioCambiarContrasenaPerfil(LoginRequiredMixin, View):
         contexto = {
             'form': form_contrasena_actual,
             'form2': form_contrasena_nueva,
-        }
-        return render(request, self.template_name, contexto)
-
-
-class UsuarioRegistro(View):
-
-    def __init__(self):
-        self.template_name = 'usuario_registro.html'
-
-    def get(self, request):
-
-        form_usuario = UserRegistroForm()
-
-        contexto = {
-            'form': form_usuario,
-        }
-        return render(request, self.template_name, contexto)
-
-    def post(self, request):
-
-        form_usuario = UserRegistroForm(request.POST, request.FILES)
-
-        if form_usuario.is_valid():
-
-            datos_formulario = form_usuario.cleaned_data
-
-            valor = datos_formulario.get('clave_rh')
-            clave = Profile.objects.filter(clave_rh=valor)
-
-            if not(valor and clave):
-
-                usuario = User.objects.create_user(
-                    username=datos_formulario.get('username'),
-                    password=datos_formulario.get('password1')
-                )
-
-                usuario.first_name = datos_formulario.get('first_name')
-                usuario.last_name = datos_formulario.get('last_name')
-                usuario.email = datos_formulario.get('email')
-                usuario.is_active = True
-                usuario.is_staff = False
-                usuario.is_superuser = False
-                usuario.save()
-
-                usuario.profile.clave_rh = datos_formulario.get('clave_rh')
-                usuario.profile.clave_jde = datos_formulario.get('clave_jde')
-                usuario.profile.fecha_nacimiento = datos_formulario.get(
-                    'fecha_nacimiento')
-                usuario.profile.foto = datos_formulario.get('foto')
-                usuario.profile.save()
-
-                return redirect(reverse('home:inicio'))
-            else:
-                messages.error(
-                    request, 'La clave de empleado ya se encuentra asociada a una cuenta')
-
-        contexto = {
-            'form': form_usuario,
-        }
-        return render(request, self.template_name, contexto)
-
-
-class ResetContrasena(View):
-
-    def __init__(self):
-        self.template_name = 'registration/contrasena_reset_form.html'
-
-    def get(self, request):
-        form = EmailForm()
-
-        contexto = {
-            'form': form,
-        }
-        return render(request, self.template_name, contexto)
-
-    def post(self, request):
-        form = EmailForm(request.POST)
-        dato = request.POST['email']
-
-        # Filtrado por "Nombre de usuario"
-        if User.objects.filter(username=dato).exists():
-            usuario = User.objects.get(username=dato)
-            request.POST._mutable = True
-            request.POST['usuario_clave'] = usuario.username
-            request.POST['email'] = usuario.email
-            request.POST._mutable = False
-
-            if form.is_valid():
-
-                opts = {
-                    'use_https': request.is_secure(),
-                    'token_generator': default_token_generator,
-                    'from_email': None,
-                    'email_template_name': 'registration/contrasena_reset_email.html',
-                    'subject_template_name': 'registration/email_subject.txt',
-                    'request': request,
-                    'html_email_template_name': None,
-                }
-                form.save(**opts)
-
-                messages.success(
-                    request, 'El correo a sido enviado exitosamente')
-
-        # Filtrado por "Correo electronico"
-        elif User.objects.filter(email=dato).exists():
-
-            request.POST._mutable = True
-            request.POST['usuario_clave'] = ""
-            request.POST._mutable = False
-
-            if form.is_valid():
-                opts = {
-                    'use_https': request.is_secure(),
-                    'token_generator': default_token_generator,
-                    'from_email': None,
-                    'email_template_name': 'registration/contrasena_reset_email.html',
-                    'subject_template_name': 'registration/email_subject.txt',
-                    'request': request,
-                    'html_email_template_name': None,
-                }
-                form.save(**opts)
-
-            messages.success(
-                request, 'El correo a sido enviado exitosamente')
-        else:
-            messages.error(
-                request, 'El usuario/correo electronico no se encuentra aosciado a un usuario.')
-
-        contexto = {
-            'form': form,
         }
         return render(request, self.template_name, contexto)
