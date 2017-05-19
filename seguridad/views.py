@@ -139,10 +139,10 @@ class Registro(View):
         return render(request, self.template_name, contexto)
 
 
-class ResetContrasena(View):
+class ContrasenaReset(View):
 
     def __init__(self):
-        self.template_name = 'registration/contrasena_reset_form.html'
+        self.template_name = 'contrasena_reset.html'
 
     def get(self, request):
         form = EmailForm()
@@ -171,7 +171,7 @@ class ResetContrasena(View):
                     'token_generator': default_token_generator,
                     'from_email': None,
                     'email_template_name': 'registration/contrasena_reset_email.html',
-                    'subject_template_name': 'registration/email_subject.txt',
+                    'subject_template_name': 'contrasena_reset_subject.txt',
                     'request': request,
                     'html_email_template_name': None,
                 }
@@ -193,7 +193,7 @@ class ResetContrasena(View):
                     'token_generator': default_token_generator,
                     'from_email': None,
                     'email_template_name': 'registration/contrasena_reset_email.html',
-                    'subject_template_name': 'registration/email_subject.txt',
+                    'subject_template_name': 'contrasena_reset_subject.txt',
                     'request': request,
                     'html_email_template_name': None,
                 }

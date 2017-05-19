@@ -11,14 +11,13 @@ from django.contrib.auth import views as auth_views
 # Views:
 from .views import Login
 from .views import Registro
+from .views import ContrasenaReset
 from .views import UsuarioLista
 from .views import UsuarioNuevo
 from .views import UsuarioEditar
 from .views import UsuarioEditarContrasena
 from .views import UsuarioPerfil
-
 from .views import UsuarioPerfilContrasena
-from .views import ResetContrasena
 
 # Formularios:
 from .forms import UserContrasenaNuevaForm
@@ -44,9 +43,9 @@ urlpatterns = [
         name="usuario_registro"
     ),
     url(
-        r'^reset/$',
-        ResetContrasena.as_view(),
-        name='password_reset'
+        r'^contrasena_reset/$',
+        ContrasenaReset.as_view(),
+        name='contrasena_reset'
     ),
     # Pantalla de restablecimiento de contrasena.
     url(
