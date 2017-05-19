@@ -33,6 +33,7 @@ from .forms import IncidenciaDocumentoFilterForm
 from .forms import IncidenciaArchivoForm
 from .forms import IncidenciaResolucionForm
 
+from django.utils.formats import date_format
 
 # Email:
 #from django.core.mail import send_mail
@@ -372,20 +373,26 @@ class IncidenciaResolucionNuevo(View):
 
     def get(self, request, incidencia_id):
 
+
         incidencia = IncidenciaDocumento.objects.get(pk=incidencia_id)
 
         # import ipdb; ipdb.set_trace()
-        incidencia_resolucion = IncidenciaResolucion.objects.filter(incidencia=incidencia)
+        incidencia_resolucion = IncidenciaResolucion.objects.filter(incidencia_id=incidencia).order_by('-created_date')
+
+        # import ipdb; ipdb.set_trace()
+
+        print incidencia_resolucion
 
         form = IncidenciaResolucionForm(
             initial={
-                'incidencia': incidencia
+                'incidencia': incidencia,
             }
         )
 
         contexto = {
             'form': form,
             'incidencia_id': incidencia_id,
+            'resoluciones': incidencia_resolucion,
         }
 
         return render(request, self.template_name, contexto)
