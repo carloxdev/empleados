@@ -277,3 +277,31 @@ class ResolucionArchivo(models.Model):
 
     class Meta:
         verbose_name_plural = "Archivos de resolucion"
+
+
+class EmpleadosZona(models.Model):
+
+    totalempleado = models.IntegerField(default=0)
+    incidencias_registrables = models.IntegerField(default=0)
+    zona = models.ForeignKey(Zona, on_delete=models.PROTECT, null=True)
+    anio = models.IntegerField(default=0)
+    created_by = models.ForeignKey(Profile, related_name='empzon_created_by', null=True)
+    created_date = models.DateTimeField(
+        auto_now=False,
+        auto_now_add=True,
+        null=True,
+        blank=True
+    )
+    updated_by = models.ForeignKey(Profile, related_name='empzon_updated_by', null=True)
+    updated_date = models.DateTimeField(
+        auto_now=True,
+        auto_now_add=False,
+        null=True,
+        blank=True
+    )
+
+
+    class Meta:
+        verbose_name_plural = "Empleados por Zona"
+
+

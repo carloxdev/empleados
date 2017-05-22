@@ -453,7 +453,11 @@ class IncidenciaResolucionNuevo(View):
         #return render(request, self.template_name, contexto)
         #return redirect(reverse('sgi:incidencia_archivo', kwargs={'incidencia_id': Incidencia_Resolucion.incidencia_id }))
 
+class IncidenciaGraficas(View):
 
+    def get(self, request):
+
+        return render(request, 'incidencia/incidencia_grafica.html')
 
 
 

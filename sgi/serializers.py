@@ -7,6 +7,7 @@ from .models import IncidenciaTipo
 from .models import CentroAtencion
 from .models import IncidenciaArchivo
 from .models import IncidenciaResolucion
+from .models import EmpleadosZona
 
 
 class IncidenciaDocumentoSerializer(serializers.HyperlinkedModelSerializer):
@@ -124,5 +125,29 @@ class IncidenciaResolucionSerializer(serializers.HyperlinkedModelSerializer):
     def get_tipo(self, obj):
 
         return obj.tipo.descripcion
+
+
+class EmpleadosZonaSerializer(serializers.HyperlinkedModelSerializer):
+
+    zona = serializers.SerializerMethodField()
+
+    class Meta:
+        model = EmpleadosZona
+        fields = (
+            'totalempleado',
+            'incidencias_registrables',
+            'zona',
+            'anio',
+            'created_by',
+            'created_date',
+            'updated_by',
+            'updated_date',
+        )
+
+    def get_zona(self, obj):
+
+        return obj.zona.descripcion
+
+
 
     

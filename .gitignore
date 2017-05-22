@@ -24,6 +24,7 @@ Nova/settings.py
 
 # Migraciones
 administracion/migrations/*
+capitalhumano/migrations/*
 compras/migrations/*
 ebs/migrations/*
 finanzas/migrations/*

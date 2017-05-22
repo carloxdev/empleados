@@ -398,10 +398,16 @@ class EmailForm(PasswordResetForm):
                 }
                 if extra_email_context is not None:
                     context.update(extra_email_context)
-                self.send_mail(
-                    subject_template_name, email_template_name, context, from_email,
-                    user.email, html_email_template_name=html_email_template_name,
-                )
+
+                    self.send_mail(
+                        subject_template_name,
+                        email_template_name,
+                        context,
+                        from_email,
+                        user.email,
+                        html_email_template_name=html_email_template_name
+                    )
+
         elif request.POST['email']:
             email = request.POST['email']
             for user in self.get_users_email(email):
@@ -422,7 +428,12 @@ class EmailForm(PasswordResetForm):
                 }
                 if extra_email_context is not None:
                     context.update(extra_email_context)
+
                 self.send_mail(
-                    subject_template_name, email_template_name, context, from_email,
-                    user.email, html_email_template_name=html_email_template_name,
+                    subject_template_name,
+                    email_template_name,
+                    context,
+                    from_email,
+                    user.email,
+                    html_email_template_name=html_email_template_name
                 )

@@ -1,22 +1,26 @@
+# -*- coding: utf-8 -*-
+
+# Librerias Django
 from django.conf.urls import url
 from django.conf import settings
 from django.conf.urls.static import static
-
-# Views
-from .views import Login
-from .views import UsuarioLista
-from .views import UsuarioNuevo
-from .views import UsuarioRegistro
-from .views import UsuarioEditar
-from .views import UsuarioPerfil
-from .views import UsuarioCambiarContrasenaAdmin
-from .views import UsuarioCambiarContrasenaPerfil
-from .views import ResetContrasena
-
-# Autentificacion
 from django.contrib.auth import views as auth_views
 
-# Forms correo
+# Librerias Propias
+
+# Views:
+from .views import Login
+from .views import Registro
+from .views import UsuarioLista
+from .views import UsuarioNuevo
+from .views import UsuarioEditar
+from .views import UsuarioEditarContrasena
+from .views import UsuarioPerfil
+
+from .views import UsuarioPerfilContrasena
+from .views import ResetContrasena
+
+# Formularios:
 from .forms import UserContrasenaNuevaForm
 
 app_name = "seguridad"
@@ -34,44 +38,11 @@ urlpatterns = [
         {'next_page': settings.LOGIN_URL},
         name='logout'
     ),
-
-    url(
-        r'^usuarios/$',
-        UsuarioLista.as_view(),
-        name="usuario_lista"
-    ),
-    url(
-        r'^usuarios/nuevo/$',
-        UsuarioNuevo.as_view(),
-        name="usuario_nuevo"
-    ),
-    url(
-        r'^usuarios/(?P<pk>\d+)/editar/$',
-        UsuarioEditar.as_view(),
-        name="usuario_editar"
-    ),
-    url(
-        r'^usuarios/(?P<pk>\d+)/editar/contrasena/$',
-        UsuarioCambiarContrasenaAdmin.as_view(),
-        name="usuario_cambiar_contrasena"
-    ),
-    url(
-        r'^usuarios/(?P<pk>\d+)/perfil/$',
-        UsuarioPerfil.as_view(),
-        name="usuario_perfil"
-    ),
-    url(
-        r'^usuarios/(?P<pk>\d+)/perfil/contrasena/$',
-        UsuarioCambiarContrasenaPerfil.as_view(),
-        name="usuario_cambiar_contrasena_perfil"
-    ),
     url(
         r'^registro/$',
-        UsuarioRegistro.as_view(),
+        Registro.as_view(),
         name="usuario_registro"
     ),
-
-    # # ------------------ Reset contrasena email ------------------ #
     url(
         r'^reset/$',
         ResetContrasena.as_view(),
@@ -91,6 +62,36 @@ urlpatterns = [
         auth_views.password_reset_complete,
         {'template_name': 'registration/contrasena_reset_completado.html'},
         name='password_reset_complete'
+    ),
+    url(
+        r'^usuarios/$',
+        UsuarioLista.as_view(),
+        name="usuario_lista"
+    ),
+    url(
+        r'^usuarios/nuevo/$',
+        UsuarioNuevo.as_view(),
+        name="usuario_nuevo"
+    ),
+    url(
+        r'^usuarios/(?P<pk>\d+)/editar/$',
+        UsuarioEditar.as_view(),
+        name="usuario_editar"
+    ),
+    url(
+        r'^usuarios/(?P<pk>\d+)/editar/contrasena/$',
+        UsuarioEditarContrasena.as_view(),
+        name="usuario_editar_contrasena"
+    ),
+    url(
+        r'^usuarios/(?P<pk>\d+)/perfil/$',
+        UsuarioPerfil.as_view(),
+        name="usuario_perfil"
+    ),
+    url(
+        r'^usuarios/(?P<pk>\d+)/perfil/contrasena/$',
+        UsuarioPerfilContrasena.as_view(),
+        name="usuario_perfil_contrasena"
     ),
 ]
 

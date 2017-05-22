@@ -8,6 +8,7 @@ from .models import IncidenciaArchivo
 from .models import ResolucionTipo
 from .models import IncidenciaResolucion
 from .models import ResolucionArchivo
+from .models import EmpleadosZona
 
 
 @admin.register(CentroAtencion)
@@ -108,6 +109,18 @@ class ResolucionArchivoAdmin(admin.ModelAdmin):
     list_display = (
         'resolucion',
         'archivo',
+        'created_by',
+        'created_date',
+        'updated_by',
+        'updated_date',
+    )
+
+@admin.register(EmpleadosZona)
+class EmpleadosZonaAdmin(admin.ModelAdmin):
+    list_display = (
+        'totalempleado',
+        'zona',
+        'anio',
         'created_by',
         'created_date',
         'updated_by',
