@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Librerias API Rest
+# Librerias de Terceros
+
+# Django API Rest
 from rest_framework.pagination import PageNumberPagination
 
 

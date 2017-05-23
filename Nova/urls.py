@@ -11,8 +11,9 @@ from seguridad.urls_rest import router_seguridad
 from sgi.urls_rest import router_sgi
 
 # Librerias necesarias para publicar Medias en DEBUG
-from django.conf.urls.static import static
-from django.conf import settings
+# from django.conf.urls.static import static
+# from django.conf import settings
+
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -28,11 +29,10 @@ urlpatterns = [
     url(r'', include('seguridad.urls', namespace="seguridad")),
     url(r'', include('sgi.urls', namespace="sgi")),
     url(r'', include('capitalhumano.urls', namespace="capitalhumano")),
-    url(r'^', include('django.contrib.auth.urls')),
 ]
 
 
-if settings.DEBUG:
+# if settings.DEBUG:
 
-    urlpatterns = urlpatterns + \
-        static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+#     urlpatterns = urlpatterns + \
+#         static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

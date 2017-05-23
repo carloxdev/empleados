@@ -15,12 +15,13 @@ from django.views.generic.base import View
 # Modelos:
 from .models import ViaticoCabecera
 
-
 # Formularios:
 from .forms import ViaticoCabeceraForm
 # from .forms import ViaticoLineaForm
 from .forms import ViaticoFilterForm
 
+
+# -------------- VIATICO -------------- #
 
 class ViaticoLista(View):
     def __init__(self):
@@ -35,9 +36,6 @@ class ViaticoLista(View):
         }
 
         return render(request, self.template_name, contexto)
-
-    def post(self, request):
-        return render(request, self.template_name, {})
 
 
 class ViaticoCabeceraNuevo(View):

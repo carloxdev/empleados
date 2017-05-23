@@ -6,6 +6,7 @@ from ebs.views_rest import VIEW_EMPLEADOS_SIMPLE_ByPageAPI
 from ebs.views_rest import VIEW_EMPLEADOS_FULL_API
 from ebs.views_rest import VIEW_EMPLEADOS_FULL_ByPageAPI
 
+
 router_ebs = routers.DefaultRouter()
 
 router_ebs.register(

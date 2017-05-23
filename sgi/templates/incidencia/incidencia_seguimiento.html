@@ -50,16 +50,16 @@
 								<div class="col-sm-6">
 								
 
-									<div class="form-group {% if form.status.field.required %} has-warning {% endif %} {% if form.status.errors %} has-error {% endif %}">
+									<div class="form-group {% if form.estatus.field.required %} has-warning {% endif %} {% if form.estatus.errors %} has-error {% endif %}">
 
 									<label class="control-label">
-									<i class="fa {% if form.status.field.required %} fa-asterisk {% endif %} {% if form.status.errors %} fa-asterisk {% endif %}"></i> 
-										{{ form.status.label }} 
+									<i class="fa {% if form.estatus.field.required %} fa-asterisk {% endif %} {% if form.estatus.errors %} fa-asterisk {% endif %}"></i> 
+										{{ form.estatus.label }} 
 									</label>
 									<p>
-										{{ form.status }}	
+										{{ form.estatus }}	
 									</p>
-									{% for error in form.status.errors %}
+									{% for error in form.estatus.errors %}
 										<span class="help-block">{{ error }}</span>
 									{% endfor %}
 									</div>
@@ -143,6 +143,43 @@
        
     </div>
 
+
+  <div class="main-content container-fluid">
+          <div class="row">
+            <div class="col-md-12">
+              <ul class="timeline">
+                
+              
+               {% for resolucion in resoluciones %}
+
+                <li class="timeline-item timeline-item-detailed">
+                  <div class="timeline-date"><span>{{ resolucion.created_date|date:"SHORT_DATE_FORMAT" }}</span></div>
+                  <div class="timeline-content">
+                    <div class="timeline-avatar"><img src="{% static 'theme/img/avatar.png' %}" alt="Avatar" class="circle"></div>
+                    <div class="timeline-header"><span class="timeline-time">{{ resolucion.created_date|time:"H:i" }}</span><span class="timeline-autor">{{ resolucion.created_by }} </span>
+                      <p class="timeline-activity">{{ resolucion.status }}</p>
+                      <div class="timeline-summary">
+                        <p>{{ resolucion.mensaje }}</p>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+
+                {% endfor %}
+
+
+                
+                <li class="timeline-item timeline-loadmore"><a href="#" class="load-more-btn">Load more</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>   
+
+
+
+
+ 
 	
 {% endblock contenido %}
 

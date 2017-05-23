@@ -20,11 +20,13 @@ from .models import IncidenciaDocumento
 from .models import IncidenciaTipo
 from .models import IncidenciaArchivo
 from .models import IncidenciaResolucion
+from .models import ResolucionTipo
 
 from ebs.models import VIEW_EMPLEADOS_SIMPLE
 from administracion.models import Zona
 
 from django import forms
+from django.forms import Form
 
 
 class IncidenciaDocumentoFilterForm(forms.Form):
@@ -205,32 +207,64 @@ class IncidenciaArchivoForm(ModelForm):
             'archivo': FileInput(attrs={'class': 'dropzone dz-clickable dz-started'}),
         }
 
-class IncidenciaResolucionForm(ModelForm):
+class IncidenciaResolucionForm(Form):
 
-    class Meta:
-        model = IncidenciaResolucion
-        fields = [
-            'incidencia',
-            'mensaje',
-            'tipo',
-            #'status',
-        ]
-        labels = {
-            'tipo': 'Tipo de Seguimiento',
-            'mensaje': 'Nuevo Comentario',
-            #'status': 'Status',
-        }
-        widgets = {
-            'incidencia': HiddenInput(),
-            'mensaje': Textarea(attrs={'class': 'form-control input-xs'}),
-            'tipo': Select(attrs={'class': 'form-control input-sm'}),
-            'status': Select(attrs={'class': 'form-control input-sm'}),
-        } 
+    # incidencia = HiddenInput()
+    incidencia = CharField(
+        widget=HiddenInput()
+    )
+
+    mensaje = CharField(
+        widget=Textarea(attrs={'class': 'form-control input-xs'})
+    )
+
+    tipo = ChoiceField(widget=Select())
+    estatus = ChoiceField(widget=Select())
+    
+
+    def __init__(self, *args, **kwargs):
+        super(IncidenciaResolucionForm, self).__init__(
+            *args, **kwargs)
+        self.fields['tipo'].choices = self.get_Tipos()
+        self.fields['estatus'].choices = self.get_Estatus()
+
+
+    def get_Tipos(self):
+
+        valores = [('', '------')]
+
+        tipos = ResolucionTipo.objects.all()
+
+        for tipo in tipos:
+            valores.append(
+                (
+                    tipo.id,
+                    tipo.descripcion
+                )
+            )
+
+        return valores
+
+    def get_Estatus(self):
+
+        valores = [('', '------'),('abi', 'Abierto'), ('cer', 'Cerrado'),('pro', 'Proceso'),('can', 'Cancelado')]
+
+        return valores    
+
+        
+
+    # estatus = ChoiceField(
+    #     widget=Select(
+    #         attrs={'class': 'form-control input-sm'}
+    #     )
+    # )
+
+        
 
     # def __init__(self, *args, **kwargs):
     #     super(IncidenciaResolucionForm, self).__init__(
     #         *args, **kwargs)
-    #     self.fields['status'].choices = self.get_estatus()
+    #     self.fields['estatus'].choices = self.get_estatus()
 
 
     # def get_estatus(self):

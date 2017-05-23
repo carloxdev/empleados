@@ -33,6 +33,7 @@ from .forms import IncidenciaDocumentoFilterForm
 from .forms import IncidenciaArchivoForm
 from .forms import IncidenciaResolucionForm
 
+from django.utils.formats import date_format
 
 # Email:
 #from django.core.mail import send_mail
@@ -372,45 +373,88 @@ class IncidenciaResolucionNuevo(View):
 
     def get(self, request, incidencia_id):
 
+
         incidencia = IncidenciaDocumento.objects.get(pk=incidencia_id)
 
         # import ipdb; ipdb.set_trace()
-        incidencia_resolucion = IncidenciaResolucion.objects.filter(incidencia=incidencia)
+        incidencia_resolucion = IncidenciaResolucion.objects.filter(incidencia_id=incidencia).order_by('-created_date')
+
+        # import ipdb; ipdb.set_trace()
+
+        print incidencia_resolucion
 
         form = IncidenciaResolucionForm(
             initial={
-                'incidencia': incidencia
+                'incidencia': incidencia,
             }
         )
 
         contexto = {
             'form': form,
             'incidencia_id': incidencia_id,
+            'resoluciones': incidencia_resolucion,
         }
 
         return render(request, self.template_name, contexto)
 
     def post(self, request, incidencia_id):
 
-        form = IncidenciaResolucionForm(request.POST)
+        # form = IncidenciaResolucionForm(request.POST)
 
-        incidencia_resolucion = IncidenciaResolucion.objects.filter(incidencia=incidencia_id)
+        # incidencia_resolucion = IncidenciaResolucion.objects.filter(incidencia=incidencia_id)
 
-        if form.is_valid():
+        # if form.is_valid():
 
-            incidencia_resolucion = form.save(commit=False)
-            incidencia_resolucion.created_by = request.user.profile
-            incidencia_resolucion.save()
+        #     incidencia_resolucion = form.save(commit=False)
+        #     incidencia_resolucion.created_by = request.user.profile
+        #     incidencia_resolucion.save()
 
-            return redirect(reverse('sgi:incidencia_lista'))
+        #     return redirect(reverse('sgi:incidencia_lista'))
 
-        contexto = {
-            'form': form,
-            'incidencia_id': incidencia_id,
-            'anexos': incidencia_resolucion,
-        }
+        # contexto = {
+        #     'form': form,
+        #     'incidencia_id': incidencia_id,
+        #     'anexos': incidencia_resolucion,
+        # }
+        incidencia_documento = get_object_or_404(IncidenciaDocumento, pk=incidencia_id)
+        # print incidencia_documento
+        incidenciaid = incidencia_id
+        formulario = IncidenciaResolucionForm(request.POST)
+    
+        if formulario.is_valid():
 
-        return render(request, self.template_name, contexto)
+            datos_formulario = formulario.cleaned_data
+            Incidencia_Resolucion = IncidenciaResolucion()
+            Incidencia_Resolucion.incidencia_id = incidenciaid
+            Incidencia_Resolucion.mensaje = datos_formulario.get('mensaje')
+            Incidencia_Resolucion.tipo_id = datos_formulario.get('tipo')
+            Incidencia_Resolucion.status = datos_formulario.get('estatus')
+            Incidencia_Resolucion.created_by  = request.user.profile
+
+            Incidencia_Resolucion.save()
+
+            # ACTUALIZO EL STATUS EN EL MODELO INCIDENCIADOCUMENTO
+            
+            incidencia_documento.status = Incidencia_Resolucion.status
+            incidencia_documento.save()
+            
+
+            #return redirect(reverse('sgi:incidencia_lista'))
+            return redirect(reverse('sgi:incidencia_archivo', kwargs={'incidencia_id': Incidencia_Resolucion.incidencia_id }))
+
+        # contexto = {
+        #             'form': formulario,
+        #             'incidencia_id': incidencia_id,
+        #             'anexos': incidencia_resolucion,
+        #         }
+                #return render(request, self.template_name, contexto)
+        #return redirect(reverse('sgi:incidencia_archivo', kwargs={'incidencia_id': Incidencia_Resolucion.incidencia_id }))
+
+class IncidenciaGraficas(View):
+
+    def get(self, request):
+
+        return render(request, 'incidencia/incidencia_grafica.html')
 
 
 class AuditoriaLista(View):

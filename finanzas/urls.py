@@ -5,6 +5,7 @@ from .views import ViaticoCabeceraNuevo
 from .views import ViaticoCabeceraEditar
 from .views import ViaticoLineas
 
+app_name = "finanzas"
 
 urlpatterns = [
     url(r'^viaticos/$', ViaticoLista.as_view(), name="viatico_lista"),
