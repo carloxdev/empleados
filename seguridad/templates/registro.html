@@ -1,155 +1,343 @@
 {% extends 'login.html' %}
+
 {% load static from staticfiles %}
+
+{% load field_legends %}
+
 {% block titulo %} Registro {% endblock titulo %}
-{% block title-page %} Registro de usuario {% endblock title-page %}
+
+{% block title-page %} Registro de Usuario {% endblock title-page %}
+
 {% block css %}
-  <!-- Theme -->
-  <link rel="stylesheet" href="{% static 'theme/lib/select2/css/select2.min.css' %}">
+
+   <!-- Select 2 -->
+   <link rel="stylesheet" href="{% static 'theme/lib/select2/css/select2.min.css' %}"/>
+
+   <!-- Pace -->
+   <link rel="stylesheet" href="{% static 'libs/pace/1.0.0/pace.css' %}" type="text/css"/>
+
+   <!-- Awesome Icons -->
+   <link rel="stylesheet" href="{% static 'libs/awesome-icons/4.7.0/css/font-awesome.min.css' %}" type="text/css">
+
+   <!-- Alertifyjs -->
+   <link rel="stylesheet" href="{% static 'libs/alertifyjs/1.10.0/css/alertify.min.css' %}" type="text/css"/>
+   <link rel="stylesheet" href="{% static 'libs/alertifyjs/1.10.0/css/themes/bootstrap.min.css' %}" type="text/css"/>
+
+   <!-- Nova -->
+   <link rel="stylesheet" href="{% static 'master.css' %}"/>   
+
 {% endblock css %}
 
 {% block contenido %}
-  <div class="page-head">
-    <h2 class="page-head-title">Registro de usuario</h2>
-    <ol class="breadcrumb page-head-nav">
-      <li><a href="{% url 'seguridad:login' %}">Login</a></li>
-      <li>Registro de usuario</li>
-    </ol>
-  </div>
-<div class="col-md-12">
-  <div class="main-content container-fluid">
-    <div class="col-md-12">
-      <div class="panel panel-default panel-table">
-        
-          <div class="panel panel-default panel-table">
-            <form action="" method="POST" enctype="multipart/form-data"> {% csrf_token %}
-  
-              <h4><b>Información de usuario</b></h4>
 
-              <!-- Clave_rh-->
-              <div class="form-group {% if form.clave_rh.field.required %} has-warning {% endif %} {% if form.clave_rh.errors %} has-error {% endif %}">
-                <label class="control-label">
-                  <i class="fa {% if form.clave_rh.field.required %} fa-asterisk {% endif %} {% if form.clave_rh.errors %} fa-asterisk {% endif %}"></i> 
-                  {{form.clave_rh.label}}
-                </label>
-                <p>{{ form.clave_rh }}</p>
-              </div>
-              <!-- First_name-->
-              <div class="form-group {% if form.first_name.field.required %} has-warning {% endif %} {% if form.first_name.errors %} has-error {% endif %}">
-                <label class="control-label">
-                  <i class="fa {% if form.first_name.field.required %} fa-asterisk {% endif %} {% if form.first_name.errors %} fa-asterisk {% endif %}"></i> 
-                  {{form.first_name.label}}
-                </label>
-                <p>{{ form.first_name }}</p>
-              </div>
-              <!-- Last_name-->
-              <div class="form-group {% if form.last_name.field.required %} has-warning {% endif %} {% if form.last_name.errors %} has-error {% endif %}">
-                <label class="control-label">
-                  <i class="fa {% if form.last_name.field.required %} fa-asterisk {% endif %} {% if form.last_name.errors %} fa-asterisk {% endif %}"></i> 
-                  {{form.last_name.label}}
-                </label>
-                <p>{{ form.last_name }}</p>
-              </div>
-              <!-- Fecha_nacimiento-->
-              <div class="form-group {% if form.fecha_nacimiento.field.required %} has-warning {% endif %} {% if form.fecha_nacimiento.errors %} has-error {% endif %}">
-                <label class="control-label">
-                  <i class="fa {% if form.fecha_nacimiento.field.required %} fa-asterisk {% endif %} {% if form.fecha_nacimiento.errors %} fa-asterisk {% endif %}"></i> 
-                  {{ form.fecha_nacimiento.label}}
-                </label>
-                <p>{{ form.fecha_nacimiento}}</p>
-              </div>
-              <!-- Email-->
-              <div class="form-group {% if form.email.field.required %} has-warning {% endif %} {% if form.email.errors %} has-error {% endif %}">
-                <label class="control-label">
-                  <i class="fa {% if form.email.field.required %} fa-asterisk {% endif %} {% if form.email.errors %} fa-asterisk {% endif %}"></i> 
-                  {{form.email.label}}
-                </label>
-                <p>{{ form.email }}</p>
-              </div>
-              <!-- Clave_jde -->
-              <div class="hidden">
-                <p>{{ form.clave_jde }}</p>
-              </div>
-              <!-- Foto-->
-              <div class="form-group {% if form.foto.field.required %} has-warning {% endif %} {% if form.foto.errors %} has-error {% endif %}">
-                <label class="control-label">
-                  <i class="fa {% if form.foto.field.required %} fa-asterisk {% endif %} {% if form.foto.errors %} fa-asterisk {% endif %}"></i> 
-                  {{form.foto.label }}
-                </label>
-                <p>{{ form.foto }}</p>
-              </div>
-              <br>
-              <h4><b>Información de cuenta</b></h4>
-              <br>
-              <!-- Username-->
-              <div class="form-group {% if form.username.field.required %} has-warning {% endif %} {% if form.username.errors %} has-error {% endif %}">
-                <label class="control-label">
-                  <i class="fa {% if form.username.field.required %} fa-asterisk {% endif %} {% if form.username.errors %} fa-asterisk {% endif %}"></i> 
-                  {{ form.username.label }}
-                </label>
-                <p>{{ form.username}}</p>
-              </div>
-              <!-- Password-->
-              <div class="form-group {% if form.password1.field.required %} has-warning {% endif %} {% if form.password1.errors %} has-error {% endif %}">
-                <label class="control-label">
-                  <i class="fa {% if form.password1.field.required %} fa-asterisk {% endif %} {% if form.password1.errors %} fa-asterisk {% endif %}"></i> 
-                  {{form.password1.label}}
-                </label>
-                <p>{{ form.password1 }}</p>
-              </div>
-              <!-- Confirmar Password-->
-              <div class="form-group {% if form.password2.field.required %} has-warning {% endif %} {% if form.password2.errors %} has-error {% endif %}">
-                <label class="control-label">
-                  <i class="fa {% if form.password2.field.required %} fa-asterisk {% endif %} {% if form.password2.errors %} fa-asterisk {% endif %}"></i> 
-                  {{form.password2.label}}
-                </label>
-                <p> {{form.password2}} </p>
-              </div>
-              <br>
-              <!-- Botones de acción -->
-              <a class="button" href="{% url 'seguridad:login' %}"> Regresar </a>
-              <button type="submit" class="btn btn-primary" id="id_boton_guardar" >Guardar usuario</button>
-            </form>
-          </div>
-         <!-- Mensajes de errores-->
-          <p>
-            {% if form.errors %}
-              <div class="alert alert-danger">
-                {% for field in form %}
-                    {% for error in field.errors %}
-                      <strong>{{ error|escape }}</strong>
-                       <br>
-                    {% endfor %}
-                {% endfor %}
-                {% for error in form.non_field_errors %}
-                    <div class="alert alert-danger">
-                        <strong>{{ error|escape }}</strong>
+   <div class="main-content container-fluid">
+
+      <div class="row">
+         <div class="page-head">
+            <h1 class="page-head-title">Registro de Usuario</h1>
+         </div>
+      </div>
+
+      <div class="row">
+         <form action="" method="POST" enctype="multipart/form-data"> {% csrf_token %}   
+
+            <div class="col-md-6">
+            
+
+               <div class="panel panel-border panel-contrast">
+              
+                  <div class="panel-heading panel-heading-default nova-border-bottom">
+                     Información del Usuario
+                  </div> 
+
+                  <div class="panel-body collapse in" id="cabecera_colapsible">
+                  
+
+
+                  </div>
+                  
+               </div>
+            
+            </div>
+
+            <div class="col-md-6">
+               <div class="panel panel-border panel-contrast">
+                  
+                  <div class="panel-heading panel-heading-default nova-border-bottom">
+                     Información de cuenta
+                  </div>
+
+                  <div class="panel-body collapse in" id="cabecera_colapsible">
+
+
+                  
+                  </div>
+
+                  <!-- Botones -->
+                  <div class="modal-footer nova-modal-footer">
+
+                     <div class="row col-sm-12">
+
+                        <!-- Botones de acción -->
+                        
+                        <button type="submit" id="boton_buscar" class="btn nova-btn btn-primary btn-lg pull-right">
+                           <i class="icon icon-left mdi mdi-save nova-white"></i>
+                           Guardar
+                        </button>
+                     </div>
+                  </div>                  
+                     
+               </div>
+               
+            </div>
+         </form>
+      </div>
+   </div>
+
+
+   <!-- Mensajes de errores-->
+   <p>
+      {% if form.errors %}
+         <div class="alert alert-danger">
+            {% for field in form %}
+               {% for error in field.errors %}
+                  <strong>{{ error|escape }}</strong>
+                  <br>
+               {% endfor %}
+            {% endfor %}
+            {% for error in form.non_field_errors %}
+               <div class="alert alert-danger">
+                  <strong>{{ error|escape }}</strong>
+               </div>
+            {% endfor %}
+         </div>
+      {% endif %} 
+      {% if messages %}
+         {% for message in messages %}
+            <div class="alert alert-danger">
+               <strong>{{message}}</strong>
+            </div>
+         {% endfor %}
+      {% endif %}        
+   </p>  
+
+  <div class="main-content container-fluid">
+    <div class="row wizard-row">
+      <div class="col-md-12 fuelux">
+        <div class="block-wizard panel panel-default">
+          <div id="wizard1" class="wizard wizard-ux">
+            <ul class="steps">
+              <li data-step="1" class="active">Paso 1<span class="chevron"></span></li>
+              <li data-step="2">Paso 2<span class="chevron"></span></li>
+            </ul>
+            <div class="actions">
+              <button type="button" class="btn btn-xs btn-prev btn-default"><i class="icon mdi mdi-chevron-left"></i>Anterior</button>
+              <button type="button" data-last="Finish" class="btn btn-xs btn-next btn-default">Siguiente<i class="icon mdi mdi-chevron-right"></i></button>
+            </div>
+            <div class="step-content">
+              <div data-step="1" class="step-pane active">
+                <div action="#" data-parsley-namespace="data-parsley-" data-parsley-validate="" novalidate="" class="form-horizontal group-border-dashed">
+                  <div class="form-group no-padding">
+                    <div class="col-sm-7">
+                      <h3 class="wizard-title">Informacion del Empleado</h3>
                     </div>
-                {% endfor %}
+                  </div>
+
+                  <div class="form-group">
+
+                     <div class="col-sm-9">
+
+                         <!-- Clave_rh-->
+                         <div class="form-group {% if form.email.errors %} has-error {% endif %}">
+                            <label class="col-sm-3 control-label">
+                               {{form.clave_rh.label}}
+                              {% if form.clave_rh.field.required is False %}
+                              <span>(Opcional)</span>
+                              {% endif %}
+                            </label>
+                            <div class="col-sm-6 xs-pt-5">
+                              {{ form.clave_rh }}
+                            </div>
+                         </div>
+
+                         <!-- First_name-->
+                         <div class="form-group">
+                            <label class="col-sm-3 control-label">
+                               {{form.first_name.label}}
+                            </label>
+                            <div class="col-sm-6 xs-pt-5">
+                              {{ form.first_name }}
+                            </div>
+                         </div>
+
+                         <!-- Last_name-->
+                         <div class="form-group">
+                            <label class="col-sm-3 control-label">
+                               {{form.last_name.label}}
+                            </label>
+                            <div class="col-sm-6 xs-pt-5">
+                              {{ form.last_name }}
+                            </div>
+                         </div>
+                         
+                         <!-- Fecha_nacimiento-->
+                         <div class="form-group">
+                            <label class="col-sm-3 control-label">
+                               {{ form.fecha_nacimiento.label}}
+                            </label>
+                            <div class="col-sm-6 xs-pt-5">
+                              {{ form.fecha_nacimiento}}
+                            </div>
+                         </div>
+
+                        <!-- Clave_jde -->
+                        <div class="form-group {% if form.email.errors %} has-error {% endif %}">
+                           <label class="col-sm-3 control-label">
+                              {{ form.clave_jde.label }}
+
+                              {% if form.clave_jde.field.required is False %}
+                              <span>(Opcional)</span>
+                              {% endif %}
+                           </label>
+                           <div class="col-sm-6 xs-pt-5">
+                              {{ form.clave_jde }}
+
+                              {% tag_legend_field_optional form.clave_jde %}
+
+                              
+                           </div>                        
+                        </div>
+
+                     </div>
+
+                     <div class="col-sm-3">
+                        
+                        <!-- Foto-->
+                        <div class="form-group {% if form.foto.field.required %} has-warning {% endif %} {% if form.foto.errors %} has-error {% endif %}">
+                           <label class="control-label">
+                              {{form.foto.label }}
+                           </label>
+
+                           {% if imagen %}
+                           <img id="img_preview" class="user-image img-responsive img-thumbnail" src="{{ imagen }}" alt="IFBD">
+                           
+                           {% else %}
+                           <img id="img_preview" class="user-image img-responsive img-thumbnail" src="{% static 'images/decoradores/no-image-user.jpg' %}" alt="User Image">
+                           {% endif %}  
+
+                           <div class="col-sm-6">
+                              {{ form.foto }}
+                           </div>
+                        </div>
+
+                     </div>
+
+                  </div>
+
+                  <div class="form-group">
+                    <div class="col-sm-12">
+
+                        <a class="btn btn-default btn-space" href="{% url 'seguridad:login' %}">
+                           <i class="icon mdi mdi-arrow-left"></i>
+                           Regresar a Login
+                        </a>
+
+                        <button data-wizard="#wizard1" class="btn btn-primary btn-space wizard-next">
+                           <i class="icon mdi mdi-arrow-right"></i>
+                           Siguiente
+                        </button>
+                    </div>
+                  </div>                  
                 </div>
-            {% endif %} 
-            {% if messages %}
-              {% for message in messages %}
-                <div class="alert alert-danger">
-                    <strong>{{message}}</strong>
+              </div>
+
+              <div data-step="2" class="step-pane">
+                <div action="#" data-parsley-namespace="data-parsley-" data-parsley-validate="" novalidate="" class="form-horizontal group-border-dashed">
+
+                  <div class="form-group no-padding">
+                    <div class="col-sm-7">
+                      <h3 class="wizard-title">Informacion de la Cuenta</h3>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+
+                     <!-- Username-->
+                     <div class="form-group {% if form.username.field.required %} has-warning {% endif %} {% if form.username.errors %} has-error {% endif %}">
+                        <label class="col-sm-3 control-label">
+                           <i class="fa {% if form.username.field.required %} fa-asterisk {% endif %} {% if form.username.errors %} fa-asterisk {% endif %}"></i> 
+                           {{ form.username.label }}
+                        </label>
+                        <div class="col-sm-6">
+                           {{ form.username}}
+                        </div>
+                     </div>
+
+                     <!-- Password-->
+                     <div class="form-group {% if form.password1.field.required %} has-warning {% endif %} {% if form.password1.errors %} has-error {% endif %}">
+                        <label class="col-sm-3 control-label">
+                           <i class="fa {% if form.password1.field.required %} fa-asterisk {% endif %} {% if form.password1.errors %} fa-asterisk {% endif %}"></i> 
+                           {{form.password1.label}}
+                        </label>
+                        <div class="col-sm-6">
+                           {{ form.password1 }}
+                        </div>
+                     </div>
+                    
+                     <!-- Confirmar Password-->
+                     <div class="form-group {% if form.password2.field.required %} has-warning {% endif %} {% if form.password2.errors %} has-error {% endif %}">
+                        <label class="col-sm-3 control-label">
+                           <i class="fa {% if form.password2.field.required %} fa-asterisk {% endif %} {% if form.password2.errors %} fa-asterisk {% endif %}"></i> 
+                           {{form.password2.label}}
+                        </label>
+                        <div class="col-sm-6">
+                            {{form.password2}} 
+                        </div>
+                     </div>
+                     <br>
+
+                     <!-- Email-->
+                     <div class="form-group {% if form.email.field.required %} has-warning {% endif %} {% if form.email.errors %} has-error {% endif %}">
+                        <label class="col-sm-3 control-label">
+                           <i class="fa {% if form.email.field.required %} fa-asterisk {% endif %} {% if form.email.errors %} fa-asterisk {% endif %}"></i> 
+                           {{form.email.label}}
+                        </label>
+                        <div class="col-sm-6">
+                           {{ form.email }}
+                        </div>
+                     </div>                  
+                  </div>
+
+                  <div class="form-group">
+                    <div class="col-sm-12">
+                      <button data-wizard="#wizard1" class="btn btn-default btn-space wizard-previous">Previous</button>
+                      <button data-wizard="#wizard1" class="btn btn-success btn-space wizard-next">Complete</button>
+                    </div>
+                  </div>
                 </div>
-              {% endfor %}
-            {% endif %}        
-          </p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
-  {% endblock contenido%}
+
+{% endblock contenido%}
+
 {% block scripts %}
 
-  <!-- Moment -->
-  <script src="{% static 'libs/momentjs/2.18.1/moment.js' %}"></script>
+   <!-- jQuery-UI -->
+   <script src="{% static 'theme/lib/jquery-ui/jquery-ui.min.js' %}"></script>
 
-  <!-- Theme -->
-  <script src="{% static 'theme/lib/jquery-ui/jquery-ui.min.js' %}"></script>
-  <script src="{% static 'theme/lib/select2/js/select2.min.js' %}"></script>
-  <script src="{% static 'theme/lib/select2/js/select2.full.min.js' %}"></script>
-  <!-- NOVA -->
-  <script src="{% static 'usuarios/usuario_formulario.js' %}"></script>
+   <!-- Alertify -->
+   <script src="{% static 'libs/alertifyjs/1.10.0/alertify.min.js' %}"></script>
+
+   <!-- Wizard -->
+   <script src="{% static 'theme/lib/fuelux/js/wizard.js' %}"></script>
+
+   <!-- Nova -->
+   <script src="{% static 'registro.js' %}"></script>
+
 {% endblock scripts %}

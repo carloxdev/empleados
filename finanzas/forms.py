@@ -12,15 +12,11 @@ from django.forms import ChoiceField
 from django.forms import HiddenInput
 
 # Librerias/Clases propias
-
-# Modelos:
 from .models import ViaticoCabecera
 
-# Widgets Propios:
-from .forms_fields import SelectNova
+from home.forms_fields import SelectCustom
 
-# Business Selects:
-from jde.business_selects import get_CentrosCostoJde
+from jde.business_selects import get_CentrosCostoJde_Activos
 from ebs.business_selects import get_EmpleadosEbs_Activos
 from ebs.business_selects import get_EmpleadosEbs_Todos
 
@@ -32,11 +28,11 @@ class ViaticoFilterForm(Form):
     )
 
     empleado = ChoiceField(
-        widget=SelectNova(attrs={'class': 'form-control input-xs'})
+        widget=SelectCustom(attrs={'class': 'form-control input-xs'})
     )
 
     unidad_negocio = ChoiceField(
-        widget=SelectNova(attrs={'class': 'form-control input-xs'})
+        widget=SelectCustom(attrs={'class': 'form-control input-xs'})
     )
 
     ciudad_destino = CharField(
@@ -44,7 +40,7 @@ class ViaticoFilterForm(Form):
     )
 
     autorizador = ChoiceField(
-        widget=SelectNova(attrs={'class': 'form-control input-xs'})
+        widget=SelectCustom(attrs={'class': 'form-control input-xs'})
     )
 
     created_date_mayorque = CharField(
@@ -58,7 +54,7 @@ class ViaticoFilterForm(Form):
     def __init__(self, *args, **kwargs):
         super(ViaticoFilterForm, self).__init__(*args, **kwargs)
         self.fields['empleado'].choices = get_EmpleadosEbs_Todos()
-        self.fields['unidad_negocio'].choices = get_CentrosCostoJde()
+        self.fields['unidad_negocio'].choices = get_CentrosCostoJde_Activos()
         self.fields['autorizador'].choices = get_EmpleadosEbs_Todos()
 
 
@@ -66,14 +62,14 @@ class ViaticoCabeceraForm(ModelForm):
 
     empleado_clave = ChoiceField(
         label="Empleado",
-        widget=SelectNova(
+        widget=SelectCustom(
             attrs={'class': 'form-control input-xs'}
         )
     )
 
     unidad_negocio_clave = ChoiceField(
         label="Unidad Negocio",
-        widget=SelectNova(
+        widget=SelectCustom(
             attrs={'class': 'form-control input-xs'}
         )
     )
@@ -104,7 +100,7 @@ class ViaticoCabeceraForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super(ViaticoCabeceraForm, self).__init__(*args, **kwargs)
         self.fields['empleado_clave'].choices = get_EmpleadosEbs_Activos()
-        self.fields['unidad_negocio_clave'].choices = get_CentrosCostoJde()
+        self.fields['unidad_negocio_clave'].choices = get_CentrosCostoJde_Activos()
 
 
 class ViaticoLineaForm(Form):
