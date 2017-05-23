@@ -309,12 +309,9 @@ class UsuarioEditar(View):
             }
         )
 
-        user = usuario_id
-
         contexto = {
             'form': form_usuario,
             'foto': self.obtener_UrlImagen(usuario_id.profile.foto),
-            'user': user,
         }
         return render(request, self.template_name, contexto)
 
