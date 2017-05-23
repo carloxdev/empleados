@@ -45,6 +45,10 @@
     /* background: #4285f4; */
     /* border-color: #4285f4; */
 }
+.nova-a-tab {
+    margin-right: 0px !important;
+    border-right: 1px solid #d4d4d4 !important;
+}
 
 /* 
 .nova-col {
