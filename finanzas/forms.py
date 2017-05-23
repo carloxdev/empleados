@@ -16,9 +16,9 @@ from .models import ViaticoCabecera
 
 from home.forms_fields import SelectCustom
 
-from jde.business_selects import get_CentrosCostoJde_Activos
-from ebs.business_selects import get_EmpleadosEbs_Activos
-from ebs.business_selects import get_EmpleadosEbs_Todos
+# from jde.business_selects import get_CentrosCostoJde_Activos
+# from ebs.business_selects import get_EmpleadosEbs_Activos
+# from ebs.business_selects import get_EmpleadosEbs_Todos
 
 
 class ViaticoFilterForm(Form):
@@ -53,9 +53,9 @@ class ViaticoFilterForm(Form):
 
     def __init__(self, *args, **kwargs):
         super(ViaticoFilterForm, self).__init__(*args, **kwargs)
-        self.fields['empleado'].choices = get_EmpleadosEbs_Todos()
-        self.fields['unidad_negocio'].choices = get_CentrosCostoJde_Activos()
-        self.fields['autorizador'].choices = get_EmpleadosEbs_Todos()
+        # self.fields['empleado'].choices = get_EmpleadosEbs_Todos()
+        # self.fields['unidad_negocio'].choices = get_CentrosCostoJde_Activos()
+        # self.fields['autorizador'].choices = get_EmpleadosEbs_Todos()
 
 
 class ViaticoCabeceraForm(ModelForm):
@@ -99,8 +99,8 @@ class ViaticoCabeceraForm(ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(ViaticoCabeceraForm, self).__init__(*args, **kwargs)
-        self.fields['empleado_clave'].choices = get_EmpleadosEbs_Activos()
-        self.fields['unidad_negocio_clave'].choices = get_CentrosCostoJde_Activos()
+        # self.fields['empleado_clave'].choices = get_EmpleadosEbs_Activos()
+        # self.fields['unidad_negocio_clave'].choices = get_CentrosCostoJde_Activos()
 
 
 class ViaticoLineaForm(Form):
