@@ -41,6 +41,8 @@ class SelectNova(forms.Select):
         selected_choices = set(force_text(v) for v in selected_choices)
         output = []
 
+        import ipdb; ipdb.set_trace()
+
         for option_value, option_label, option_text, option_status, option_status_desc in self.choices:
             if isinstance(option_label, (list, tuple)):
                 output.append(format_html('<optgroup label="{}">', force_text(option_value)))
