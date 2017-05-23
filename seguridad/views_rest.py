@@ -43,7 +43,7 @@ class ProfileAPI(viewsets.ModelViewSet):
     serializer_class = ProfileSerializer
     filter_backends = (DjangoFilterBackend,)
     filter_class = ProfileFilter
-    permission_classes = (IsAuthenticated,)
+    # permission_classes = (IsAuthenticated,)
 
 
 class ProfileByPageAPI(viewsets.ModelViewSet):

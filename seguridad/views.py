@@ -5,17 +5,15 @@ import re
 
 # Librerias Django
 
-# Generic Views:
 from django.views.generic.base import View
 
-# Shortcuts:
 from django.shortcuts import render
 from django.shortcuts import redirect
 from django.shortcuts import get_object_or_404
 from django.core.urlresolvers import reverse
 from django.contrib import messages
+from django.urls import reverse_lazy
 
-# Seguridad:
 from django.contrib.auth import login
 from django.contrib.auth import authenticate
 from django.contrib.auth import update_session_auth_hash
@@ -23,6 +21,8 @@ from django.contrib.auth.tokens import default_token_generator
 from django.contrib.auth.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin
 
+from django.contrib.auth.views import PasswordResetConfirmView
+from django.contrib.auth.views import PasswordResetCompleteView
 
 # Librerias Propias
 
@@ -30,14 +30,14 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Profile
 
 # Formularios:
-from .forms import UserFormFilter
+from .forms import UserFilterForm
 from .forms import UserNuevoForm
 from .forms import UserRegistroForm
 from .forms import UserEditarForm
-from .forms import UserEditarPerfilForm
+from .forms import UserPerfilForm
 from .forms import UserContrasenaActualForm
-from .forms import UserContrasenaNuevaForm
-from .forms import EmailForm
+from .forms import UserContrasenaResetForm
+from .forms import UserContrasenaResetConfirmForm
 
 
 class Login(View):
@@ -145,7 +145,7 @@ class ContrasenaReset(View):
         self.template_name = 'contrasena_reset.html'
 
     def get(self, request):
-        form = EmailForm()
+        form = UserContrasenaResetForm()
 
         contexto = {
             'form': form,
@@ -153,7 +153,7 @@ class ContrasenaReset(View):
         return render(request, self.template_name, contexto)
 
     def post(self, request):
-        form = EmailForm(request.POST)
+        form = UserContrasenaResetForm(request.POST)
         dato = request.POST['email']
 
         # Filtrado por "Nombre de usuario"
@@ -170,7 +170,7 @@ class ContrasenaReset(View):
                     'use_https': request.is_secure(),
                     'token_generator': default_token_generator,
                     'from_email': None,
-                    'email_template_name': 'registration/contrasena_reset_email.html',
+                    'email_template_name': 'contrasena_reset_email.html',
                     'subject_template_name': 'contrasena_reset_subject.txt',
                     'request': request,
                     'html_email_template_name': None,
@@ -192,7 +192,7 @@ class ContrasenaReset(View):
                     'use_https': request.is_secure(),
                     'token_generator': default_token_generator,
                     'from_email': None,
-                    'email_template_name': 'registration/contrasena_reset_email.html',
+                    'email_template_name': 'contrasena_reset_email.html',
                     'subject_template_name': 'contrasena_reset_subject.txt',
                     'request': request,
                     'html_email_template_name': None,
@@ -211,14 +211,25 @@ class ContrasenaReset(View):
         return render(request, self.template_name, contexto)
 
 
+class ContrasenaResetConfirm(PasswordResetConfirmView):
+    form_class = UserContrasenaResetConfirmForm
+    template_name = 'contrasena_reset_confirm.html'
+    email_template_name = 'contrasena_reset_email.html'
+    success_url = reverse_lazy('seguridad:contrasena_reset_complete')
+
+
+class ContrasenaResetComplete(PasswordResetCompleteView):
+    template_name = 'contrasena_reset_complete.html'
+
+
 class UsuarioLista(View):
 
     def __init__(self):
-        self.template_name = 'usuarios/usuario_lista.html'
+        self.template_name = 'usuario/usuario_lista.html'
 
     def get(self, request):
 
-        form_profile = UserFormFilter()
+        form_profile = UserFilterForm()
 
         contexto = {'form': form_profile}
         return render(request, self.template_name, contexto)
@@ -227,7 +238,7 @@ class UsuarioLista(View):
 class UsuarioNuevo(View):
 
     def __init__(self):
-        self.template_name = 'usuarios/usuario_nuevo.html'
+        self.template_name = 'usuario/usuario_nuevo.html'
 
     def get(self, request):
 
@@ -282,7 +293,7 @@ class UsuarioNuevo(View):
 class UsuarioEditar(View):
 
     def __init__(self):
-        self.template_name = 'usuarios/usuario_editar.html'
+        self.template_name = 'usuario/usuario_editar.html'
 
     def obtener_UrlImagen(self, _imagen):
         imagen = ''
@@ -356,11 +367,11 @@ class UsuarioEditar(View):
 class UsuarioEditarContrasena(LoginRequiredMixin, View):
 
     def __init__(self):
-        self.template_name = 'usuarios/usuario_editar_contrasena.html'
+        self.template_name = 'usuario/usuario_editar_contrasena.html'
 
     def get(self, request, pk):
         usuario_id = get_object_or_404(User, pk=pk)
-        form_contrasena = UserContrasenaNuevaForm(usuario_id)
+        form_contrasena = UserContrasenaResetConfirmForm(usuario_id)
 
         user = usuario_id
 
@@ -373,7 +384,7 @@ class UsuarioEditarContrasena(LoginRequiredMixin, View):
     def post(self, request, pk):
         usuario = get_object_or_404(User, pk=pk)
 
-        form_contrasena = UserContrasenaNuevaForm(usuario, request.POST)
+        form_contrasena = UserContrasenaResetConfirmForm(usuario, request.POST)
 
         if form_contrasena.is_valid():
             usuario = form_contrasena.save()
@@ -390,7 +401,7 @@ class UsuarioEditarContrasena(LoginRequiredMixin, View):
 class UsuarioPerfil(View):
 
     def __init__(self):
-        self.template_name = 'usuarios/usuario_perfil.html'
+        self.template_name = 'usuario/usuario_perfil.html'
 
     def obtener_UrlImagen(self, _imagen):
         imagen = ''
@@ -401,7 +412,7 @@ class UsuarioPerfil(View):
 
     def get(self, request, pk):
         usuario_id = get_object_or_404(User, pk=pk)
-        form_usuario = UserEditarPerfilForm(
+        form_usuario = UserPerfilForm(
             initial={
                 'first_name': usuario_id.first_name,
                 'last_name': usuario_id.last_name,
@@ -421,7 +432,7 @@ class UsuarioPerfil(View):
     def post(self, request, pk):
         usuario = get_object_or_404(User, pk=pk)
 
-        form_usuario = UserEditarPerfilForm(
+        form_usuario = UserPerfilForm(
             request.POST, request.FILES, instance=usuario)
 
         if form_usuario.is_valid():
@@ -454,12 +465,12 @@ class UsuarioPerfil(View):
 class UsuarioPerfilContrasena(LoginRequiredMixin, View):
 
     def __init__(self):
-        self.template_name = 'usuarios/usuario_perfil_contrasena.html'
+        self.template_name = 'usuario/usuario_perfil_contrasena.html'
 
     def get(self, request, pk):
         usuario_id = get_object_or_404(User, pk=pk)
         form_contrasena_actual = UserContrasenaActualForm()
-        form_contrasena_nueva = UserContrasenaNuevaForm(usuario_id)
+        form_contrasena_nueva = UserContrasenaResetConfirmForm(usuario_id)
 
         user = usuario_id
 
@@ -474,7 +485,7 @@ class UsuarioPerfilContrasena(LoginRequiredMixin, View):
         usuario = get_object_or_404(User, pk=pk)
 
         form_contrasena_actual = UserContrasenaActualForm(request.POST)
-        form_contrasena_nueva = UserContrasenaNuevaForm(usuario, request.POST)
+        form_contrasena_nueva = UserContrasenaResetConfirmForm(usuario, request.POST)
 
         if form_contrasena_actual.is_valid() and form_contrasena_nueva.is_valid():
             dato_contrasena_actual = form_contrasena_actual.cleaned_data

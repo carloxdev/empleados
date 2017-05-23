@@ -5,7 +5,7 @@ Tu cuenta de usuario es {{ user.get_username }} .
 Si solicitaste restablecimiento de contraseña.
 Click en el siguiente link para crear una nueva contraseña.
 
-{{ protocol }}://{{ domain }}{% url 'seguridad:password_reset_confirm' uidb64=uid token=token %}
+{{ protocol }}://{{ domain }}{% url 'seguridad:contrasena_reset_confirm' uidb64=uid token=token %}
 
 
 ¡Tenga buen dia!.

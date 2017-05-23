@@ -12,6 +12,8 @@ from django.contrib.auth import views as auth_views
 from .views import Login
 from .views import Registro
 from .views import ContrasenaReset
+from .views import ContrasenaResetConfirm
+from .views import ContrasenaResetComplete
 from .views import UsuarioLista
 from .views import UsuarioNuevo
 from .views import UsuarioEditar
@@ -19,8 +21,6 @@ from .views import UsuarioEditarContrasena
 from .views import UsuarioPerfil
 from .views import UsuarioPerfilContrasena
 
-# Formularios:
-from .forms import UserContrasenaNuevaForm
 
 app_name = "seguridad"
 
@@ -50,17 +50,23 @@ urlpatterns = [
     # Pantalla de restablecimiento de contrasena.
     url(
         r'^reset/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
-        auth_views.password_reset_confirm,
-        {'template_name': 'registration/contrasena_reset_confirmar.html',
-         'set_password_form': UserContrasenaNuevaForm},
-        name='password_reset_confirm'
+        ContrasenaResetConfirm.as_view(),
+        # auth_views.password_reset_confirm,
+        # {
+        #     'template_name': 'registration/contrasena_reset_confirmar.html',
+        #     'set_password_form': UserContrasenaNuevaForm
+        # },
+        name='contrasena_reset_confirm'
     ),
     # Mensaje 'success' de contrasena cambiada.
     url(
         r'^reset/done/$',
-        auth_views.password_reset_complete,
-        {'template_name': 'registration/contrasena_reset_completado.html'},
-        name='password_reset_complete'
+        ContrasenaResetComplete.as_view(),
+        # auth_views.password_reset_complete,
+        # {
+        #     'template_name': 'registration/contrasena_reset_completado.html'
+        # },
+        name='contrasena_reset_complete'
     ),
     url(
         r'^usuarios/$',
