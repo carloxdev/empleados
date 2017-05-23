@@ -15,6 +15,7 @@ from .forms import EmpleadoFilterForm
 # -------------- EMPLEADOS -------------- #
 
 class EmpleadoLista(View):
+
     def __init__(self):
         self.template_name = 'empleado_lista.html'
 
@@ -24,6 +25,21 @@ class EmpleadoLista(View):
 
         contexto = {
             'form': formulario
+        }
+
+        return render(request, self.template_name, contexto)
+
+# -------------- INDICADORES -------------- #
+
+
+class EmpleadoDashboard(View):
+
+    def __init__(self):
+        self.template_name = 'empleado_dashboard.html'
+
+    def get(self, request):
+
+        contexto = {
         }
 
         return render(request, self.template_name, contexto)

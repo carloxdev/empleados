@@ -5,6 +5,7 @@ from .views import IncidenciaDocumentoLista
 from .views import IncidenciaDocumentoEditar
 from .views import IncidenciaDocumentoArchivo
 from .views import IncidenciaResolucionNuevo
+from .views import IncidenciaGraficas
 
 
 urlpatterns = [
@@ -21,4 +22,10 @@ urlpatterns = [
         IncidenciaResolucionNuevo.as_view(),
         name='incidencia_seguimiento'
     ),
+    url(
+        r'^incidencias/graficas/$',
+        IncidenciaGraficas.as_view(),
+        name='incidencia_grafica'
+    ),
+
 ]
