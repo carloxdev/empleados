@@ -62,6 +62,21 @@ IndicadorTotal.prototype.buscar_Empleados = function () {
                 alert("Ocurrio error al consultar")
             }
     })  
+    // para el grid
+    $.ajax({
+            url: url_incidenciazonaemp,
+            method: "GET",
+            success: function (response) {
+
+				Set_Grid(response)
+                //Highcharts.chart('container-totalzona',indicador_total.get_IndicadorConfig(dato))
+                //indicador_total.$campo_total.val(dato)
+
+            },
+            error: function (response) {
+                alert("Ocurrio error al consultar")
+            }
+    })  
 }
 
 
@@ -132,7 +147,122 @@ IndicadorTotal.prototype.set_Total2= function (response) {
 
 }
 
+//IndicadorTotal.prototype.set_Grid= function (response) {
 
+function Set_Grid(response) {
+
+    //// GRID resultados /////////////////////////
+
+    $("#grid").kendoGrid({
+
+        columns: [
+
+          {
+              field: "zona",
+              title: "Zona",
+              headerAttributes: { style: "text-align:center" }
+          },
+          {
+              headerAttributes: { style: "text-align:center" },
+              field: "totalempleado",
+              title: "Total Empleado",
+
+              template: '<div style="text-align:center;">#= totalempleado #</div>'
+
+          },
+
+          {headerAttributes: { style: "text-align:center" },
+          field: "incidencias_registrables",
+          title: "Numero de Accidentes Reg",
+
+          template: '<div style="text-align:center;">#= incidencias_registrables #</span>'
+      },
+         
+
+        ],
+
+        dataSource: {
+            data: response
+        },
+        pageable: {
+            pageSize: 13,
+            pageSizes: false,
+            buttonCount: 7
+        },
+        
+        //aggregate: [{ field: "totalempleado", aggregate: "sum" },
+        //            { field: "incidencias_registrables", aggregate: "sum" }  ] 
+                        
+        sortable: false,
+        columnMenu: false,
+        scrollable: false,
+        resizable: false,
+        filterable: false
+
+    });
+
+    //// Grafica resultados /////////////////////////
+
+
+    var aData = response;
+        var arr = []
+         var datosGrafica = new Array();
+         var ProyectoData = new Array();
+        //alert("Entro success");
+
+
+        $.map(aData, function (item, index) {
+            var i = [item.zona, item.incidencias_registrables];
+            var obj = {};
+
+            //alert(item.zona);
+
+            if (item.incidencias_registrables == "--") {
+                item.incidencias_registrables = "0";
+            }
+
+            obj.name = item.zona + " - " + item.incidencias_registrables;
+            obj.stack = item.zona;
+            obj.y = parseFloat(item.incidencias_registrables);
+            arr.push(obj);
+
+            //alert(obj);
+            ProyectoData[i] = item.zona;
+
+        });
+
+        datosGrafica.push({ "stack": ProyectoData });
+        var myJsonString = JSON.stringify(arr);
+        var jsonArray = JSON.parse(JSON.stringify(arr));
+
+        
+        console.log(jsonArray)
+        console.log(jsonArray[0].stack)
+        console.log(datosGrafica[0])
+
+       
+    Highcharts.chart('container-trir', {
+    chart: {
+        type: 'column'
+    },
+    title: {
+        text: 'TRIR de acuerdo al total de personal por zona'
+    },
+     xAxis: {
+     	  categories: datosGrafica[0].stack
+        //categories: [jsonArray[0].stack, jsonArray[1].stack, jsonArray[2].stack, jsonArray[3].stack]
+    },
+    credits: {
+        enabled: false
+    },
+    series: [{
+    	    name: "TRIR por Zona",
+            colorByPoint: true,
+            data: jsonArray 
+        }]
+});
+
+}
 
 function drawPieChart(seriesData) {
 
@@ -175,7 +305,7 @@ function drawPieChart(seriesData) {
         }]
     });
 
-
+  
 
 }
 
