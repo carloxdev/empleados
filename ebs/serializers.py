@@ -6,6 +6,7 @@ from rest_framework import serializers
 # Modelos:
 from models import VIEW_EMPLEADOS_SIMPLE
 from models import VIEW_EMPLEADOS_FULL
+from models import VIEW_EMPLEADOS_GRADO
 
 
 class VIEW_EMPLEADOS_SIMPLE_Serializer(serializers.HyperlinkedModelSerializer):
@@ -133,3 +134,20 @@ class VIEW_EMPLEADOS_FULL_Serializer(serializers.HyperlinkedModelSerializer):
             'metodo_tipo_cuenta_id',
             'metodo_clabe',
         )
+    
+
+class VIEW_EMPLEADOS_GRADO_Serializer(serializers.HyperlinkedModelSerializer):
+
+    class Meta:
+        model = VIEW_EMPLEADOS_GRADO
+        fields = (
+            'pers_clave',
+            'pers_empleado_numero',
+            'pers_nombre_completo',
+            'asig_puesto_desc',
+            'qua_grado_academico',
+            'qua_ultimo_estudio',
+            'qua_especialidad',
+            'qua_version_num',
+        )
+

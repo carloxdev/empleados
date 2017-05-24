@@ -5,6 +5,7 @@ from ebs.views_rest import VIEW_EMPLEADOS_SIMPLE_API
 from ebs.views_rest import VIEW_EMPLEADOS_SIMPLE_ByPageAPI
 from ebs.views_rest import VIEW_EMPLEADOS_FULL_API
 from ebs.views_rest import VIEW_EMPLEADOS_FULL_ByPageAPI
+from ebs.views_rest import VIEW_EMPLEADOS_GRADO_API
 
 
 router_ebs = routers.DefaultRouter()
@@ -28,7 +29,7 @@ router_ebs.register(
 )
 
 router_ebs.register(
-    r'viewempleadosfull_bypage',
-    VIEW_EMPLEADOS_FULL_ByPageAPI,
-    'viewempleadosfull_bypage'
+    r'viewempleadosgrado',
+    VIEW_EMPLEADOS_GRADO_API,
+    'viewempleadosgrado'
 )
