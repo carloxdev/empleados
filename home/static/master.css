@@ -198,12 +198,7 @@
 }
 
 .size-highcharts{
-    min-width: 500px;
-    min-height: 350px;
-    max-width: 600px;
-    max-height: 600px;
     margin: 10px 20px;
-    display:inline-block;
 }
 .size-highchart-org{
     min-width: 1000px;
