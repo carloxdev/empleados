@@ -13,7 +13,6 @@ var indicador_rango_edad=null
 var indicador_sexo=null
 var indicador_organizacion = null
 
-
 /*-----------------------------------------------*\
             LOAD
 \*-----------------------------------------------*/
@@ -94,7 +93,7 @@ Indicadores.prototype.indicador_Sexo = function (_response) {
     return dato_sexo
 }
 Indicadores.prototype.indicador_Organizacion = function (_response) {
-    //Empleados pr organizacion
+    //Empleados por organizacion
     empleado_org = indicador_organizacion.set_EmpleadoOrganizacion(_response)
     // Organizaciones existentes
     organizaciones = indicador_organizacion.ordena_Organizaciones(_response)
@@ -399,13 +398,13 @@ IndicadorSexo.prototype.get_IndicadorConfig = function (_empleado_sexo) {
 IndicadorSexo.prototype.get_DataConfig = function (_empleado_sexo) {
 
     return [    {
-                    name: 'Hombre',
+                    name: 'Hombres',
                     y: _empleado_sexo[0],
-                    drilldown: 'Hombre'},
+                    drilldown: 'Hombres'},
                 {
-                    name: 'Mujer',
+                    name: 'Mujeres',
                     y: _empleado_sexo[1],
-                    drilldown: 'Mujer',
+                    drilldown: 'Mujeres',
                 }
             ]
 }
@@ -443,9 +442,13 @@ IndicadorOrganizacion.prototype.set_EmpleadoOrganizacion = function (_response) 
 IndicadorOrganizacion.prototype.asigna_Organizaciones = function(_response) {
     //Coloca en un array las organizaciones existentes(REPETIDAS)
     var organizaciones = []
+    var cont = 0
     
     for (var i = 0; i < _response.length; i++) {
-            organizaciones[i] = _response[i].asig_organizacion_desc
+        if(_response[i].asig_organizacion_desc != ""){
+            organizaciones[cont] = _response[i].asig_organizacion_desc
+            cont+=1
+        }
     }
     return organizaciones
 }
@@ -460,7 +463,7 @@ IndicadorOrganizacion.prototype.ordena_Organizaciones = function(_response) {
             organizacion.push(organizaciones[i]);
         }
     }
-    return organizacion;
+    return organizacion
 }
 IndicadorOrganizacion.prototype.get_IndicadorConfig = function (_organizacion,_empleado_org) {
 

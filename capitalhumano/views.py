@@ -39,7 +39,14 @@ class EmpleadoDashboard(View):
 
     def get(self, request):
 
-        contexto = {
-        }
+        return render(request, self.template_name)
 
-        return render(request, self.template_name, contexto)
+
+class EmpleadoOrganigrama(View):
+
+    def __init__(self):
+        self.template_name = 'empleado_organigrama.html'
+
+    def get(self, request):
+
+        return render(request, self.template_name)

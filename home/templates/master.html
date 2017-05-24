@@ -204,8 +204,13 @@
           <li class="parent"><a href="#"><i class="icon mdi mdi-accounts"></i></i><span>Capital humano</span></a>
             <ul class="sub-menu">
               <li id="capitalhumano_dashboard">
-                <a href="{% url 'capitalhumano:dashboard' %}">
+                <a href="{% url 'capitalhumano:empleado_dashboard' %}">
                   <span>Dashboard</span>
+                </a>
+              </li>
+              <li id="capitalhumano_organigrama">
+                <a href="{% url 'capitalhumano:empleado_organigrama' %}">
+                  <span>Organigrama</span>
                 </a>
               </li>
               <li>
