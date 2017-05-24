@@ -9,6 +9,8 @@ from sgi.views_rest import CentroAtencionAPI
 from sgi.views_rest import IncidenciaArchivoByPageAPI
 from sgi.views_rest import IncidenciaArchivoAPI
 from sgi.views_rest import IncidenciaEmpleadosZonaAPI
+from sgi.views_rest import VIEW_INCIDENCIAS_ZONAAPI
+
 
 
 router_sgi = routers.DefaultRouter()
@@ -54,4 +56,10 @@ router_sgi.register(
     r'incidenciaempleadoszona',
     IncidenciaEmpleadosZonaAPI,
     'incidenciaempleadoszona'
+)
+
+router_sgi.register(
+    r'viewincidenciasporzona',
+    VIEW_INCIDENCIAS_ZONAAPI,
+    'viewincidenciasporzona'
 )

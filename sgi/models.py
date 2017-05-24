@@ -304,4 +304,16 @@ class EmpleadosZona(models.Model):
     class Meta:
         verbose_name_plural = "Empleados por Zona"
 
+class VIEW_INCIDENCIAS_ZONA(models.Model):
+    id = models.IntegerField(primary_key=True)
+    trir = models.CharField(max_length=240)
+    total_incidencias = models.CharField(max_length=240)
+    descripcion = models.CharField(max_length=240)
+    anio = models.CharField(max_length=240)
+    totalempleado = models.CharField(max_length=240)
+
+    class Meta:
+        managed = False
+        db_table = "VIEW_INCIDENCIAS_ZONA"      
+
 

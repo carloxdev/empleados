@@ -8,6 +8,7 @@ from .models import CentroAtencion
 from .models import IncidenciaArchivo
 from .models import IncidenciaResolucion
 from .models import EmpleadosZona
+from .models import VIEW_INCIDENCIAS_ZONA
 
 
 class IncidenciaDocumentoSerializer(serializers.HyperlinkedModelSerializer):
@@ -147,6 +148,20 @@ class EmpleadosZonaSerializer(serializers.HyperlinkedModelSerializer):
     def get_zona(self, obj):
 
         return obj.zona.descripcion
+
+
+class VIEW_INCIDENCIAS_ZONASerializer(serializers.HyperlinkedModelSerializer):
+
+    class Meta:
+        model = VIEW_INCIDENCIAS_ZONA
+        fields = (
+            'id',
+            'trir',
+            'total_incidencias',
+            'descripcion',
+            'anio',
+            'totalempleado',
+        )       
 
 
 

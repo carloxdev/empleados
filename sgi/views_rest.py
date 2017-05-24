@@ -15,6 +15,7 @@ from .models import CentroAtencion
 from .models import IncidenciaArchivo
 from .models import IncidenciaResolucion
 from .models import EmpleadosZona
+from .models import VIEW_INCIDENCIAS_ZONA
 
 # Serializadores:
 from .serializers import IncidenciaDocumentoSerializer
@@ -23,6 +24,7 @@ from .serializers import CentroAtencionSerializer
 from .serializers import IncidenciaArchivoSerializer
 from .serializers import IncidenciaResolucionSerializer
 from .serializers import EmpleadosZonaSerializer
+from .serializers import VIEW_INCIDENCIAS_ZONASerializer
 
 # Paginadores:
 from .pagination import GenericPagination
@@ -98,3 +100,10 @@ class IncidenciaEmpleadosZonaAPI(viewsets.ModelViewSet):
     queryset = EmpleadosZona.objects.all()
     serializer_class = EmpleadosZonaSerializer
     permission_classes = (IsAuthenticated,)
+
+# -------------- INCIDENCIA EMPLEADOS ZONA - API REST -------------- #
+
+class VIEW_INCIDENCIAS_ZONAAPI(viewsets.ModelViewSet):
+    queryset = VIEW_INCIDENCIAS_ZONA.objects.all()
+    serializer_class = VIEW_INCIDENCIAS_ZONASerializer
+    permission_classes = (IsAuthenticated,)    
