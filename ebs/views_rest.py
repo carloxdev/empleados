@@ -24,6 +24,7 @@ from .pagination import GenericPagination
 # Filtros:
 from .filters import VIEW_EMPLEADOS_SIMPLE_Filter
 from .filters import VIEW_EMPLEADOS_FULL_Filter
+from .filters import VIEW_EMPLEADOS_GRADO_Filter
 
 
 class VIEW_EMPLEADOS_SIMPLE_API(viewsets.ModelViewSet):
@@ -62,6 +63,10 @@ class VIEW_EMPLEADOS_FULL_ByPageAPI(viewsets.ModelViewSet):
 class VIEW_EMPLEADOS_GRADO_API(viewsets.ModelViewSet):
     queryset = VIEW_EMPLEADOS_GRADO.objects.using('ebs_d').all()
     serializer_class = VIEW_EMPLEADOS_GRADO_Serializer
+    filter_backends = (DjangoFilterBackend,)
+    filter_class = VIEW_EMPLEADOS_GRADO_Filter
+    pagination_class = GenericPagination
+    permission_classes = (IsAuthenticated,)
     
 
 

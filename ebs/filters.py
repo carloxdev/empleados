@@ -9,6 +9,7 @@ from django_filters import NumberFilter
 # Modelos:
 from .models import VIEW_EMPLEADOS_SIMPLE
 from .models import VIEW_EMPLEADOS_FULL
+from .models import VIEW_EMPLEADOS_GRADO
 
 
 class VIEW_EMPLEADOS_SIMPLE_Filter(filters.FilterSet):
@@ -201,4 +202,25 @@ class VIEW_EMPLEADOS_FULL_Filter(filters.FilterSet):
             'metodo_banco',
             'metodo_tipo_cuenta_id',
             'metodo_clabe',
+        ]
+
+
+class VIEW_EMPLEADOS_GRADO_Filter(filters.FilterSet):
+
+    pers_empleado_numero = CharFilter(
+        name="pers_empleado_numero",
+        lookup_expr="icontains"
+    )
+
+    class Meta:
+        model = VIEW_EMPLEADOS_GRADO
+        fields = [
+            'pers_clave',
+            'pers_empleado_numero',
+            'pers_nombre_completo',
+            'asig_puesto_desc',
+            'qua_grado_academico',
+            'qua_ultimo_estudio',
+            'qua_especialidad',
+            'qua_version_num',
         ]
