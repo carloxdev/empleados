@@ -29,6 +29,84 @@ from django.forms import FileField
 from ebs.business import EmpleadoBusiness
 
 
+class UserRegistroForm(UserCreationForm):
+
+    clave_rh = ChoiceField(
+        label="Clave de Empleado",
+        widget=Select(
+            attrs={'class': 'form-control input-xs'}
+        )
+    )
+    clave_jde = CharField(
+        label="Clave de JDE",
+        widget=TextInput(
+            attrs={'class': 'form-control input-xs'}
+        )
+    )
+    fecha_nacimiento = CharField(
+        label='Fecha Nacimiento',
+        widget=DateInput(
+            attrs={'class': 'form-control input-xs', 'data-date-format': 'yyyy-mm-dd', 'readonly': 'True'}
+        )
+    )
+    foto = CharField(
+        label="Foto",
+        widget=FileInput(
+            attrs={'class': 'dropzone dz-clickable dz-started'}
+        )
+    )
+    password1 = CharField(
+        label="Contraseña",
+        widget=PasswordInput(
+            attrs={'class': 'form-control input-xs'}
+        )
+    )
+    password2 = CharField(
+        label="Confirmar Contraseña",
+        widget=PasswordInput(
+            attrs={'class': 'form-control input-xs'}
+        )
+    )
+
+    class Meta:
+        model = User
+
+        fields = [
+            'username',
+            'first_name',
+            'last_name',
+            'email',
+            'clave_rh',
+            'clave_jde',
+            'fecha_nacimiento',
+            'foto',
+            'password1',
+            'password2',
+        ]
+
+        labels = {
+            'username': 'Cuenta',
+            'first_name': 'Nombre',
+            'last_name': 'Apellidos',
+            'email': 'Email',
+        }
+
+        widgets = {
+            'username': TextInput(attrs={'class': 'form-control input-xs'}),
+            'first_name': TextInput(attrs={'class': 'form-control input-xs', 'readonly': 'True'}),
+            'last_name': TextInput(attrs={'class': 'form-control input-xs', 'readonly': 'True'}),
+            'email': TextInput(attrs={'class': 'form-control input-xs'}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super(UserRegistroForm, self).__init__(*args, **kwargs)
+        self.fields['clave_rh'].choices = EmpleadoBusiness.get_Activos_ForSelect()
+        self.fields['email'].required = True
+        self.fields['fecha_nacimiento'].required = False
+        self.fields['foto'].required = False
+        self.fields['clave_jde'].required = False
+
+
 class UserFilterForm(forms.Form):
     usuario = CharField(
         label="Nombre de usuario:",
@@ -227,108 +305,6 @@ class UserEditarForm(ModelForm):
         self.fields['clave_jde'].required = False
         self.fields['fecha_nacimiento'].required = False
         self.fields['foto'].required = False
-
-
-class UserRegistroForm(UserCreationForm):
-    clave_rh = ChoiceField(
-        label="Clave de empleado:",
-        widget=Select(
-            attrs={'class': 'form-control input-xs'}
-        )
-    )
-    clave_jde = CharField(
-        label="Clave de jde:",
-        widget=TextInput(
-            attrs={'class': 'form-control input-xs'}
-        )
-    )
-    fecha_nacimiento = CharField(
-        label='Fecha de nacimiento',
-        widget=DateInput(
-            attrs={'class': 'form-control input-xs', 'data-date-format': 'yyyy-mm-dd', 'readonly': 'True'}
-        )
-    )
-    foto = CharField(
-        label="Foto",
-        widget=FileInput(
-            attrs={'class': 'dropzone dz-clickable dz-started'}
-        )
-    )
-    password1 = CharField(
-        label="Contraseña",
-        widget=PasswordInput(
-            attrs={'class': 'form-control input-xs'}
-        )
-    )
-    password2 = CharField(
-        label="Confirmar contraseña",
-        widget=PasswordInput(
-            attrs={'class': 'form-control input-xs'}
-        )
-    )
-
-    class Meta:
-        model = User
-
-        fields = [
-            'username',
-            'first_name',
-            'last_name',
-            'email',
-            'clave_rh',
-            'clave_jde',
-            'fecha_nacimiento',
-            'foto',
-            'password1',
-            'password2',
-        ]
-
-        labels = {
-            'username': 'Nombre de usuario',
-            'first_name': 'Nombre',
-            'last_name': 'Apellidos',
-            'email': 'Email',
-            'clave_rh': 'Clave de empleado',
-            'clave_jde': 'Clave jde',
-            'fecha_nacimiento': 'Fecha de nacimiento',
-            'foto': 'Foto',
-            'password1': 'Contraseña',
-            'password2': 'Confirmar de contraseña',
-        }
-
-        widgets = {
-            'username': TextInput(attrs={'class': 'form-control input-xs'}),
-            'first_name': TextInput(attrs={'class': 'form-control input-xs', 'readonly': 'True'}),
-            'last_name': TextInput(attrs={'class': 'form-control input-xs', 'readonly': 'True'}),
-            'email': TextInput(attrs={'class': 'form-control input-xs', 'readonly': 'True'}),
-        }
-
-    def __init__(self, *args, **kwargs):
-        super(UserRegistroForm, self).__init__(*args, **kwargs)
-        self.fields['username'].widget.attrs.pop("autofocus", None)
-        self.fields['fecha_nacimiento'].required = False
-        self.fields['clave_jde'].required = False
-        self.fields['foto'].required = False
-        self.fields['clave_rh'].choices = EmpleadoBusiness.get_Activos_ForSelect()
-
-    # def get_EmpleadosEbs(self):
-    #     valores = [('', '-------')]
-
-    #     empleados = VIEW_EMPLEADOS_SIMPLE.objects.using('ebs_d').all()
-    #     for empleado in empleados:
-
-    #         descripcion = "%s - %s" % (
-    #             empleado.pers_empleado_numero,
-    #             empleado.pers_nombre_completo
-    #         )
-
-    #         valores.append(
-    #             (
-    #                 empleado.pers_empleado_numero,
-    #                 descripcion,
-    #             )
-    #         )
-    #     return valores
 
 
 class UserPerfilForm(ModelForm):

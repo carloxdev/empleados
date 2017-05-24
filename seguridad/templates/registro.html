@@ -2,7 +2,7 @@
 
 {% load static from staticfiles %}
 
-{% load field_legends %}
+{% load custom_tags %}
 
 {% block titulo %} Registro {% endblock titulo %}
 
@@ -23,76 +23,13 @@
    <link rel="stylesheet" href="{% static 'libs/alertifyjs/1.10.0/css/alertify.min.css' %}" type="text/css"/>
    <link rel="stylesheet" href="{% static 'libs/alertifyjs/1.10.0/css/themes/bootstrap.min.css' %}" type="text/css"/>
 
-   <!-- Nova -->
-   <link rel="stylesheet" href="{% static 'master.css' %}"/>   
+   <!-- Nova' Styles -->
+   <link rel="stylesheet" href="{% static 'registro.css' %}"/>      
 
 {% endblock css %}
 
 {% block contenido %}
 
-   <div class="main-content container-fluid">
-
-      <div class="row">
-         <div class="page-head">
-            <h1 class="page-head-title">Registro de Usuario</h1>
-         </div>
-      </div>
-
-      <div class="row">
-         <form action="" method="POST" enctype="multipart/form-data"> {% csrf_token %}   
-
-            <div class="col-md-6">
-            
-
-               <div class="panel panel-border panel-contrast">
-              
-                  <div class="panel-heading panel-heading-default nova-border-bottom">
-                     Información del Usuario
-                  </div> 
-
-                  <div class="panel-body collapse in" id="cabecera_colapsible">
-                  
-
-
-                  </div>
-                  
-               </div>
-            
-            </div>
-
-            <div class="col-md-6">
-               <div class="panel panel-border panel-contrast">
-                  
-                  <div class="panel-heading panel-heading-default nova-border-bottom">
-                     Información de cuenta
-                  </div>
-
-                  <div class="panel-body collapse in" id="cabecera_colapsible">
-
-
-                  
-                  </div>
-
-                  <!-- Botones -->
-                  <div class="modal-footer nova-modal-footer">
-
-                     <div class="row col-sm-12">
-
-                        <!-- Botones de acción -->
-                        
-                        <button type="submit" id="boton_buscar" class="btn nova-btn btn-primary btn-lg pull-right">
-                           <i class="icon icon-left mdi mdi-save nova-white"></i>
-                           Guardar
-                        </button>
-                     </div>
-                  </div>                  
-                     
-               </div>
-               
-            </div>
-         </form>
-      </div>
-   </div>
 
 
    <!-- Mensajes de errores-->
@@ -121,8 +58,18 @@
       {% endif %}        
    </p>  
 
-  <div class="main-content container-fluid">
+
+
+<div class="main-content container-fluid">
+
+   <div class="row">
+     <div class="page-head">
+        <h1 class="page-head-title">Registro de Usuario</h1>
+     </div>
+   </div>
+
     <div class="row wizard-row">
+
       <div class="col-md-12 fuelux">
         <div class="block-wizard panel panel-default">
           <div id="wizard1" class="wizard wizard-ux">
@@ -132,9 +79,11 @@
             </ul>
             <div class="actions">
               <button type="button" class="btn btn-xs btn-prev btn-default"><i class="icon mdi mdi-chevron-left"></i>Anterior</button>
-              <button type="button" data-last="Finish" class="btn btn-xs btn-next btn-default">Siguiente<i class="icon mdi mdi-chevron-right"></i></button>
+              <button type="button" data-last="Finalizar" class="btn btn-xs btn-next btn-default">Siguiente<i class="icon mdi mdi-chevron-right"></i></button>
             </div>
+            <form action="" method="POST"> {% csrf_token %}
             <div class="step-content">
+            
               <div data-step="1" class="step-pane active">
                 <div action="#" data-parsley-namespace="data-parsley-" data-parsley-validate="" novalidate="" class="form-horizontal group-border-dashed">
                   <div class="form-group no-padding">
@@ -145,89 +94,74 @@
 
                   <div class="form-group">
 
-                     <div class="col-sm-9">
+                     <div class="col-sm-8">
 
                          <!-- Clave_rh-->
-                         <div class="form-group {% if form.email.errors %} has-error {% endif %}">
-                            <label class="col-sm-3 control-label">
-                               {{form.clave_rh.label}}
-                              {% if form.clave_rh.field.required is False %}
-                              <span>(Opcional)</span>
-                              {% endif %}
-                            </label>
-                            <div class="col-sm-6 xs-pt-5">
+                         <div class="form-group {% if form.clave_rh.errors %} has-error {% endif %}">
+
+                           {% tag_label_registro form.clave_rh 3 %}
+
+                            <div class="col-sm-8 xs-pt-5">
                               {{ form.clave_rh }}
+                              {% tag_field_legend_error form.clave_rh %}
                             </div>
                          </div>
 
                          <!-- First_name-->
-                         <div class="form-group">
-                            <label class="col-sm-3 control-label">
-                               {{form.first_name.label}}
-                            </label>
-                            <div class="col-sm-6 xs-pt-5">
+                         <div class="form-group {% if form.first_name.errors %} has-error {% endif %}">
+                           
+                           {% tag_label_registro_nreq form.first_name 3 %}
+
+                            <div class="col-sm-8 xs-pt-5">
                               {{ form.first_name }}
+                              {% tag_field_legend_error form.first_name %}
                             </div>
                          </div>
 
                          <!-- Last_name-->
-                         <div class="form-group">
-                            <label class="col-sm-3 control-label">
-                               {{form.last_name.label}}
-                            </label>
-                            <div class="col-sm-6 xs-pt-5">
+                         <div class="form-group {% if form.last_name.errors %} has-error {% endif %}">
+
+                           {% tag_label_registro_nreq form.last_name 3 %}
+                           
+                            <div class="col-sm-8 xs-pt-5">
                               {{ form.last_name }}
+                              {% tag_field_legend_error form.last_name %}
                             </div>
                          </div>
                          
                          <!-- Fecha_nacimiento-->
-                         <div class="form-group">
-                            <label class="col-sm-3 control-label">
-                               {{ form.fecha_nacimiento.label}}
-                            </label>
-                            <div class="col-sm-6 xs-pt-5">
+                         <div class="form-group {% if form.fecha_nacimiento.errors %} has-error {% endif %}">
+
+                            {% tag_label_registro_nreq form.fecha_nacimiento 3 %}
+
+                            <div class="col-sm-8 xs-pt-5">
                               {{ form.fecha_nacimiento}}
+                              {% tag_field_legend_error form.fecha_nacimiento %}
                             </div>
                          </div>
 
                         <!-- Clave_jde -->
-                        <div class="form-group {% if form.email.errors %} has-error {% endif %}">
-                           <label class="col-sm-3 control-label">
-                              {{ form.clave_jde.label }}
-
-                              {% if form.clave_jde.field.required is False %}
-                              <span>(Opcional)</span>
-                              {% endif %}
-                           </label>
-                           <div class="col-sm-6 xs-pt-5">
-                              {{ form.clave_jde }}
-
-                              {% tag_legend_field_optional form.clave_jde %}
-
-                              
-                           </div>                        
-                        </div>
+                        {% tag_field_registro form.clave_jde 3 8 %}
 
                      </div>
 
-                     <div class="col-sm-3">
+                     <div class="col-sm-4">
                         
                         <!-- Foto-->
-                        <div class="form-group {% if form.foto.field.required %} has-warning {% endif %} {% if form.foto.errors %} has-error {% endif %}">
-                           <label class="control-label">
-                              {{form.foto.label }}
-                           </label>
+                        <div class="form-group {% if form.foto.errors %} has-error {% endif %}">
 
                            {% if imagen %}
-                           <img id="img_preview" class="user-image img-responsive img-thumbnail" src="{{ imagen }}" alt="IFBD">
+                           <img id="img_preview" class="user-image img-responsive img-thumbnail nova-img" src="{{ imagen }}" alt="IFBD">
                            
                            {% else %}
-                           <img id="img_preview" class="user-image img-responsive img-thumbnail" src="{% static 'images/decoradores/no-image-user.jpg' %}" alt="User Image">
+                           <img id="img_preview" class="user-image img-responsive img-thumbnail nova-img" src="{% static 'images/decoradores/no-image-user.jpg' %}" alt="User Image">
                            {% endif %}  
 
-                           <div class="col-sm-6">
+                           <div class="col-sm-8">
                               {{ form.foto }}
+                              {% tag_field_legend_error form.foto %}
                            </div>
+
                         </div>
 
                      </div>
@@ -244,7 +178,7 @@
 
                         <button data-wizard="#wizard1" class="btn btn-primary btn-space wizard-next">
                            <i class="icon mdi mdi-arrow-right"></i>
-                           Siguiente
+                           Siguiente Paso
                         </button>
                     </div>
                   </div>                  
@@ -263,60 +197,70 @@
                   <div class="form-group">
 
                      <!-- Username-->
-                     <div class="form-group {% if form.username.field.required %} has-warning {% endif %} {% if form.username.errors %} has-error {% endif %}">
-                        <label class="col-sm-3 control-label">
-                           <i class="fa {% if form.username.field.required %} fa-asterisk {% endif %} {% if form.username.errors %} fa-asterisk {% endif %}"></i> 
-                           {{ form.username.label }}
-                        </label>
+                     <div class="form-group {% if form.username.errors %} has-error {% endif %}">
+
+                        {% tag_label_registro form.username 3 %}
+
                         <div class="col-sm-6">
                            {{ form.username}}
+
+                           {% tag_field_legend_error form.username %}
                         </div>
                      </div>
 
                      <!-- Password-->
-                     <div class="form-group {% if form.password1.field.required %} has-warning {% endif %} {% if form.password1.errors %} has-error {% endif %}">
-                        <label class="col-sm-3 control-label">
-                           <i class="fa {% if form.password1.field.required %} fa-asterisk {% endif %} {% if form.password1.errors %} fa-asterisk {% endif %}"></i> 
-                           {{form.password1.label}}
-                        </label>
+                     <div class="form-group {% if form.password1.errors %} has-error {% endif %}">
+
+                        {% tag_label_registro form.password1 3 %}
+                        
                         <div class="col-sm-6">
                            {{ form.password1 }}
+
+                           {% tag_field_legend_error form.password1 %}
                         </div>
                      </div>
                     
                      <!-- Confirmar Password-->
-                     <div class="form-group {% if form.password2.field.required %} has-warning {% endif %} {% if form.password2.errors %} has-error {% endif %}">
-                        <label class="col-sm-3 control-label">
-                           <i class="fa {% if form.password2.field.required %} fa-asterisk {% endif %} {% if form.password2.errors %} fa-asterisk {% endif %}"></i> 
-                           {{form.password2.label}}
-                        </label>
+                     <div class="form-group {% if form.password2.errors %} has-error {% endif %}">
+                        
+                        {% tag_label_registro form.password2 3 %}
+                        
                         <div class="col-sm-6">
                             {{form.password2}} 
+
+                            {% tag_field_legend_error form.password2 %}
+                        </div>
+                     </div>
+
+                     <!-- Email-->
+                     <div class="form-group {% if form.email.errors %} has-error {% endif %}">
+                        
+                        {% tag_label_registro form.email 3 %}
+                        
+                        <div class="col-sm-6">
+                            {{form.email}} 
+
+                            {% tag_field_legend_error form.email %}
                         </div>
                      </div>
                      <br>
 
-                     <!-- Email-->
-                     <div class="form-group {% if form.email.field.required %} has-warning {% endif %} {% if form.email.errors %} has-error {% endif %}">
-                        <label class="col-sm-3 control-label">
-                           <i class="fa {% if form.email.field.required %} fa-asterisk {% endif %} {% if form.email.errors %} fa-asterisk {% endif %}"></i> 
-                           {{form.email.label}}
-                        </label>
-                        <div class="col-sm-6">
-                           {{ form.email }}
-                        </div>
-                     </div>                  
                   </div>
 
                   <div class="form-group">
                     <div class="col-sm-12">
-                      <button data-wizard="#wizard1" class="btn btn-default btn-space wizard-previous">Previous</button>
-                      <button data-wizard="#wizard1" class="btn btn-success btn-space wizard-next">Complete</button>
+                      <button data-wizard="#wizard1" class="btn btn-default btn-space wizard-previous">
+                        <i class="icon mdi mdi-arrow-left"></i>
+                        Anterior Paso
+                     </button>
+                      <button type="submit" class="btn btn-success">Finalizar Registro</button>
                     </div>
                   </div>
                 </div>
               </div>
+            
             </div>
+            </form>
           </div>
         </div>
       </div>

@@ -1,0 +1,8 @@
+
+<label class="col-sm-{{size}} control-label">
+  {{ campo.label }}
+
+  {% if campo.field.required is False %}
+  <span>(Opcional):</span>
+  {% endif %}
+</label>

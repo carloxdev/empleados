@@ -1,0 +1,23 @@
+
+<!-- Clave_jde -->
+<div class="form-group {% if campo.errors %} has-error {% endif %}">
+
+    <label class="col-sm-{{size_label}} control-label">
+      {{ campo.label }}
+
+    </label>
+
+   <div class="col-sm-{{size_field}} xs-pt-5">
+      {{ campo }}
+
+        {% if campo.errors %}
+         <ul class="parsley-errors-list filled">
+         {% for error in campo.errors %}
+            <li class="parsley-required">
+               {{ error }}
+            </li>
+         {% endfor %}
+         </ul>
+        {% endif %}
+   </div>                        
+</div>

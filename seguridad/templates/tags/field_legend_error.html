@@ -1,0 +1,10 @@
+
+{% if campo.errors %}
+ <ul class="parsley-errors-list filled">
+ {% for error in campo.errors %}
+    <li class="parsley-required">
+       {{ error }}
+    </li>
+ {% endfor %}
+ </ul>
+{% endif %}

@@ -1,6 +1,7 @@
 
 # Own's Libraries
 from ebs.models import VIEW_EMPLEADOS_SIMPLE
+from seguridad.business import UserBusiness
 
 
 class EmpleadoBusiness(object):
@@ -29,7 +30,7 @@ class EmpleadoBusiness(object):
         return empleados
 
     @classmethod
-    def get_Todos_ForSelect(self):
+    def get_Todos_ForSelectCustom(self):
         """ Funcion que devuelve una lista de Tuplas,
             con ciertos datos del empleado y
             los regresa ordenados por nombre """
@@ -72,6 +73,8 @@ class EmpleadoBusiness(object):
 
         for empleado in empleados:
 
+            option_value = empleado.pers_empleado_numero
+
             option_label = "%s : %s" % (
                 empleado.pers_empleado_numero,
                 empleado.pers_nombre_completo
@@ -79,7 +82,7 @@ class EmpleadoBusiness(object):
 
             valores.append(
                 (
-                    empleado.pers_empleado_numero,
+                    option_value,
                     option_label
                 ),
             )
@@ -96,19 +99,34 @@ class EmpleadoBusiness(object):
             return ""
 
     @classmethod
-    def get_SinUsuario(self):
-        pass
-        # """ Funcion que devuelve a Empleados,
-        #     que no tienen un usuario ligado
-        # """
+    def get_SinUsuario_ForSelect(self):
+        """ Funcion que devuelve una lista de tuplas,
+            con los Empleados que no tienen
+            usuario asignado
+        """
 
-        # valores = [('', '------')]
+        valores = [('', '------')]
 
-        # lista = get_RhClaves_Users()
+        lista = UserBusiness.get_RhClaves()
 
-        # empleados = 
+        empleados = VIEW_EMPLEADOS_SIMPLE.objects.filter(
+            pers_empleado_numero__in=lista
+        )
 
-        # for empleado in 
+        for empleado in empleados:
 
-        # return valores
-        #     
+            option_value = empleado.pers_empleado_numero
+
+            option_label = "%s : %s" % (
+                empleado.pers_empleado_numero,
+                empleado.pers_nombre_completo
+            )
+
+            valores.append(
+                (
+                    option_value,
+                    option_label
+                )
+            )
+
+        return valores
