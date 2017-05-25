@@ -1,0 +1,289 @@
+{% extends 'master.html' %}
+
+{% load static from staticfiles %}
+
+{% block titulo %} Procesos de la Auditoría {% endblock titulo %}
+
+{% block title-page %} Procesos de la Auditoría {% endblock title-page %}
+
+{% block css %}
+
+   <!-- Beagle Theme -->
+   <link rel="stylesheet" href="{% static 'theme/lib/daterangepicker/css/daterangepicker.css' %}"/>
+
+{% endblock css %}
+
+{% block contenido %}
+
+<div class="be-content">
+
+   <div class="page-head nova-page-head">
+      <h2 class="page-head-title nova-title">Procesos de la Auditoría</h2>
+      <ol class="breadcrumb page-head-nav pull-right">
+         <li><a href="{% url 'home:inicio' %}">Inicio</a></li>
+         <li id="menu" data-opcion="auditorias_lista"><a href="{% url 'sgi:auditoria_lista' %}">Solicitudes de Auditorías</a></li>
+         <li class="active">Procesos</li>
+      </ol>
+   </div>
+
+   <div class="main-content container-fluid nova-main-content">
+      
+      <div class="row wizard-row">
+         <!-- Tarjeta resultados-->
+         <div class="col-md-12 fuelux">
+
+            <div id="wizard1" class="wizard wizard-ux">
+               <ul class="steps">
+
+                  <li class="active">Auditoría No:</li>
+
+               </ul>
+               <div class="actions">
+                  <a href="{% url 'sgi:auditoria_nuevo' %}" class="btn btn-xs btn-prev btn-default nova-a-tab">Generales</a>
+                  <a href="{% url 'sgi:equipo_auditor_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab">Equipo Auditor</a>
+                  <a class="btn btn-xs btn-next btn-default nova-a-tab nova-active-tab">Procesos</a>
+                  <a href="#" class="btn btn-xs btn-next btn-default nova-a-tab">Seguimiento</a>
+                  <a href="#" class="btn btn-xs btn-next btn-default nova-a-tab">Anexos</a>
+               </div>
+               
+
+            </div>
+            
+            <div class="panel panel-default panel-table">
+               <div class="panel-heading panel-border nova-panel-heading">
+                  <div class="tools pull-right" id="toolbar">
+                     <a href="#tarjeta_nuevo_proceso"
+                        class="btn nova-btn btn-rounded btn-space btn-default" data-toggle="modal" id="boton_nuevo">
+                        <i class="icon icon-left mdi mdi-plus-circle nova-black"></i>Nuevo
+                     </a>
+                  </div>
+                  <div class="title hidden-xs">Registros</div>
+                  </div><!-- Panel Heading -->
+                  <div id="grid_resultados" class="nova-div-overflow">
+                     <table class="table table-bordered">
+                        <thead>
+                           <tr>
+                              <th>No</th>
+                              <th>Proceso</th>
+                              <th>Área</th>
+                              <th>Jefe del departamento</th>
+                              <th>Representante del área</th>
+                              <th>Acciones</th>
+                           </tr>
+                        </thead>
+                        <tbody>
+                           <tr>
+                           <th scope="row">1</th>
+                              <td>Capital humano</td>
+                              <td>Capacitación, Selección y Reclutamiento</td>
+                              <td>Armando Villanueva Jimenez</td>
+                              <td>Lucia Zamora Jimenez</td>
+                                 <td width="400px">
+                                    <a href="{% url 'sgi:requisito_lista' %}" class="btn nova-btn btn-rounded btn-space btn-default" id="boton_nuevo">
+                                       <i class="icon icon-left mdi mdi-plus-circle nova-black"></i> Requisitos
+                                    </a>
+                                    <a href="{% url 'sgi:auditoria_nuevo' %}" class="btn nova-btn btn-rounded btn-space btn-success" id="boton_excel">
+                                       <i class="icon icon-left mdi mdi-collection-pdf nova-white"></i> Check-list
+                                    </a>
+                                    <a href="{% url 'sgi:auditoria_nuevo' %}" class="btn nova-btn btn-rounded btn-space btn-success" id="boton_excel">
+                                       <i class="icon icon-left mdi mdi-collection-pdf nova-white"></i> Reporte auditoria
+                                    </a>
+                                 </td>
+                           </tr>
+                           <tr>
+                              <th scope="row">2</th>
+                              <td>Tecnologías de la Información</td>
+                              <td>Redes y Telecomunicaciones</td>
+                              <td>Claudia Villegas</td>
+                              <td>Luis Abendaño</td>
+                              <td>
+                                 <a href="{% url 'sgi:requisito_lista' %}" class="btn nova-btn btn-rounded btn-space btn-default" id="boton_nuevo">
+                                    <i class="icon icon-left mdi mdi-plus-circle nova-black"></i> Requisitos
+                                 </a>
+                                 <a href="{% url 'sgi:auditoria_nuevo' %}" class="btn nova-btn btn-rounded btn-space btn-success" id="boton_excel">
+                                    <i class="icon icon-left mdi mdi-collection-pdf nova-white"></i> Check-list
+                                 </a>
+                                 <a href="{% url 'sgi:auditoria_nuevo' %}" class="btn nova-btn btn-rounded btn-space btn-success" id="boton_excel">
+                                    <i class="icon icon-left mdi mdi-collection-pdf nova-white"></i> Reporte auditoria
+                                 </a>
+                              </td>
+                           </tr>
+                           <tr>
+                              <th scope="row">3</th>
+                              <td>Suministro, Logística y Control</td>
+                              <td>Compras y Almacén</td>
+                              <td>Antonio Corcino Donato</td>
+                              <td>Ingrid Coliaza Reyes</td>
+                              <td>
+                                 <a href="{% url 'sgi:requisito_lista' %}" class="btn nova-btn btn-rounded btn-space btn-default" id="boton_nuevo">
+                                    <i class="icon icon-left mdi mdi-plus-circle nova-black"></i> Requisitos
+                                 </a>
+                                 <a href="{% url 'sgi:auditoria_nuevo' %}" class="btn nova-btn btn-rounded btn-space btn-success" id="boton_excel">
+                                    <i class="icon icon-left mdi mdi-collection-pdf nova-white"></i> Check-list
+                                 </a>
+                                 <a href="{% url 'sgi:auditoria_nuevo' %}" class="btn nova-btn btn-rounded btn-space btn-success" id="boton_excel">
+                                    <i class="icon icon-left mdi mdi-collection-pdf nova-white"></i> Reporte auditoria
+                                 </a>
+                              </td>
+                           </tr>
+                           <tr>
+                              <th scope="row">4</th>
+                              <td>Facturación y Cobranza</td>
+                              <td>Facturación y Cobranza</td>
+                              <td>Julio Cabrera Mendez</td>
+                              <td>Fernanda Fuentes Rocio</td>
+                              <td>
+                                 <a href="{% url 'sgi:requisito_lista' %}" class="btn nova-btn btn-rounded btn-space btn-default" id="boton_nuevo">
+                                    <i class="icon icon-left mdi mdi-plus-circle nova-black"></i> Requisitos
+                                 </a>
+                                 <a href="{% url 'sgi:auditoria_nuevo' %}" class="btn nova-btn btn-rounded btn-space btn-success" id="boton_excel">
+                                    <i class="icon icon-left mdi mdi-collection-pdf nova-white"></i> Check-list
+                                 </a>
+                                 <a href="{% url 'sgi:auditoria_nuevo' %}" class="btn nova-btn btn-rounded btn-space btn-success" id="boton_excel">
+                                    <i class="icon icon-left mdi mdi-collection-pdf nova-white"></i> Reporte auditoria
+                                 </a>
+                              </td>
+                           </tr>
+                        </tbody>
+                     </table>
+                  </div>
+               <div class="panel-footer panel-border nova-panel-footer panel-border">
+               </div><!-- Panel Footer -->
+            </div> <!-- Panel -->
+         </div> <!-- col sm 12-->
+      </div>
+   </div> <!-- main content -->
+   
+   <!-- Targeta Nuevo -->
+   <div id="tarjeta_nuevo_proceso" role="dialog" class="modal fade colored-header colored-header-primary">
+      <div class="modal-dialog custom-width">
+         <div class="modal-content">
+            
+            <div class="modal-header nova-modal-header">
+               <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
+               <h3 class="modal-title">Nuevo proceso</h3>
+            </div>
+               
+            <form id="formulario_proceso" class="modal-body form-horizontal">
+
+               <div class="form-group">
+                  <label class="col-sm-3 nova-col-filter control-label">Proceso</label>
+                  <div class="col-sm-8 xs-pt-5">
+                     <select class="select2 select2-hidden-accessible" tabindex="-1" aria-hidden="true" id="id_proceso">
+                        <option value="" selected="selected">-------</option>
+                        <option value="JPJ">Capital humano</option>
+                        <option value="LALG">Tecnologías de la Información</option>
+                        <option value="LALG">Suministro, Logística y Control</option>
+                     </select>
+                  </div>
+               </div>                
+
+               <div class="form-group">
+                  <label class="col-sm-3 nova-col-filter control-label">Área</label>
+                  <div class="col-sm-8 xs-pt-5">
+                     <select class="select2 select2-hidden-accessible" tabindex="-1" aria-hidden="true" id="id_area">
+                           <option value="" selected="selected">-------</option>
+                           <option value="JPJ">Capacitación, Selección y Reclutamiento</option>
+                     </select>
+                  </div>
+               </div>
+
+               <div class="form-group">
+                  <label class="col-sm-3 nova-col-filter control-label">Representante del área</label>
+                  <div class="col-sm-8 xs-pt-5">
+                     <select class="select2 select2-hidden-accessible" tabindex="-1" aria-hidden="true" id="id_representante_area">
+                           <option value="" selected="selected">-------</option>
+                           <option value="JPJ">Juan Perez Jimenez</option>
+                           <option value="LALG">Luis Alberto Lopez Gonzalez</option>
+                     </select>
+                  </div>
+               </div>
+
+               <!-- fecha_desde_hasta -->    
+               <div class="form-group">
+
+                  <label class="col-sm-3 control-label">
+                     Fecha Programada desde/hasta
+                  </label>
+
+                  <div class="col-sm-4 xs-pt-5">
+                     <div class="input-group date" 
+                     data-min-view="2" 
+                     data-date-format="yyyy-mm-dd"
+                     id="id_fecha_planificada_desde_input">
+                        {{ form.fecha_partida }}
+                        <input type="text" name="fecha_planificada_desde" required="" class="form-control input-xs" id="id_fecha_planificada_desde">
+                        <span class="input-group-addon nova-addon-button">
+                           <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                     </div>
+                  </div> 
+
+                  <div class="col-sm-4 xs-pt-5">
+                     <div class="input-group date" 
+                     data-min-view="2" 
+                     data-date-format="yyyy-mm-dd"
+                     id="id_fecha_planificada_hasta_input">
+                        {{ form.fecha_regreso }}
+                        <input type="text" name="fecha_planificada_hasta" required="" class="form-control input-xs" id="id_fecha_planificada_hasta">
+                        <span class="input-group-addon nova-addon-button">
+                           <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                     </div>
+                  </div>
+
+               </div>
+
+               <div class="form-group">
+                  <label class="col-sm-3 nova-col-filter control-label">Auditor</label>
+                  <div class="col-sm-8 xs-pt-5">
+                     <select class="select2 select2-hidden-accessible" tabindex="-1" aria-hidden="true" id="id_auditor">
+                           <option value="" selected="selected">-------</option>
+                           <option value="JPJ">Juan Perez Jimenez</option>
+                           <option value="LALG">Luis Alberto Lopez Gonzalez</option>
+                     </select>
+                  </div>
+               </div>
+
+               <div class="form-group">
+                  <label class="col-sm-3 nova-col-filter control-label">Sitio</label>
+                  <div class="col-sm-8 xs-pt-5">
+                     <select class="select2 select2-hidden-accessible" tabindex="-1" aria-hidden="true" id="id_sitio">
+                           <option value="" selected="selected">-------</option>
+                           <option value="JPJ">Sala de juntas</option>
+                           <option value="LALG">Oficinas</option>
+                     </select>
+                  </div>
+               </div>
+
+            </form><!-- Modal body-->
+            <div class="modal-footer nova-modal-footer">
+                <div class="row col-sm-12">
+                     <button type="button" data-dismiss="modal" class="btn btn-default pull-left">
+                        Cerrar
+                     </button>
+
+                     <button type="button" id="boton_modal_guardar" class="btn nova-btn btn-primary btn-lg pull-right">
+                        <i class="icon icon-left mdi mdi-floppy nova-white"></i>
+                        Guardar
+                     </button>
+               </div>
+            </div>
+         </div> <!-- Modal content-->
+      </div> <!-- Modal dialog -->
+   </div><!-- Modal -->
+
+</div> <!-- be-content -->
+
+{% endblock contenido %}
+
+{% block scripts %}
+   
+   <!-- Beagle Theme -->
+   <script src="{% static 'theme/lib/datetimepicker/js/bootstrap-datetimepicker.min.js' %}"></script>
+   <script src="{% static 'theme/lib/jquery.maskedinput/jquery.maskedinput.min.js' %}"></script>
+
+   <!-- JS Template -->
+   <script src="{% static 'auditoria/proceso_lista.js' %}"></script>
+
+{% endblock scripts %}

@@ -489,7 +489,7 @@ class AuditoriaNuevo(View):
 
 class EquipoAuditorLista(View):
     def __init__(self):
-        self.template_name = 'auditoria/equipo_auditor/equipo_auditor_formulario.html'
+        self.template_name = 'auditoria/equipo_auditor_formulario.html'
 
     def get(self, request):
 
@@ -504,7 +504,7 @@ class EquipoAuditorLista(View):
 
 class ProcesoLista(View):
     def __init__(self):
-        self.template_name = 'auditoria/proceso/proceso_lista.html'
+        self.template_name = 'auditoria/proceso_lista.html'
 
     def get(self, request):
 
@@ -519,7 +519,7 @@ class ProcesoLista(View):
 
 class RequisitoLista(View):
     def __init__(self):
-        self.template_name = 'auditoria/requisito/requisito_lista.html'
+        self.template_name = 'requisito_auditoria/requisito_lista.html'
 
     def get(self, request):
 
@@ -534,7 +534,7 @@ class RequisitoLista(View):
 
 class HallazgoLista(View):
     def __init__(self):
-        self.template_name = 'auditoria/hallazgo/hallazgo_lista.html'
+        self.template_name = 'hallazgo/hallazgo_formulario.html'
 
     def get(self, request):
 
@@ -549,7 +549,7 @@ class HallazgoLista(View):
 
 class ProgramaLista(View):
     def __init__(self):
-        self.template_name = 'auditoria/programa_lista.html'
+        self.template_name = 'programa_lista.html'
 
     def get(self, request):
 
@@ -564,7 +564,7 @@ class ProgramaLista(View):
 
 class ConfiguracionNormasDetallesRequisitos(View):
     def __init__(self):
-        self.template_name = 'configuracion/norma_detalle_requisito/configuracion_norma_detalle_requisito.html'
+        self.template_name = 'requisito_auditoria/norma_y_requisito_configuracion.html'
 
     def get(self, request):
 

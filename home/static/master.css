@@ -205,3 +205,12 @@
     min-height: 700px;
     margin: 10px 20px;
 }
+
+.nova-panel-heading-titulo{
+    font-size: 18px;
+    font-weight: 300;
+    padding: 10px;
+    margin: 0 20px;
+    border-bottom-width: 0;
+    border-radius: 3px 3px 0 0;
+}

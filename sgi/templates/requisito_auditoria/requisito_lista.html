@@ -1,0 +1,180 @@
+{% extends 'master.html' %}
+
+{% load static from staticfiles %}
+
+{% block titulo %} Requisitos del Proceso {% endblock titulo %}
+
+{% block title-page %} Requisitos del Proceso  {% endblock title-page %}
+
+{% block css %}
+
+
+{% endblock css %}
+
+{% block contenido %}
+
+<div class="be-content">
+
+   <div class="page-head nova-page-head">
+      <h2 class="page-head-title nova-title">Requisitos del Proceso</h2>
+      <ol class="breadcrumb page-head-nav pull-right">
+         <li><a href="{% url 'home:inicio' %}">Inicio</a></li>
+         <li id="menu" data-opcion="auditorias_lista"><a href="{% url 'sgi:auditoria_lista' %}">Solicitudes de Auditorías</a></li>
+         <li><a href="{% url 'sgi:proceso_lista' %}">Procesos</a></li>
+         <li class="active"><a>Requisitos</a></li>
+      </ol>
+   </div>
+
+   <div class="main-content container-fluid nova-main-content">
+      
+      <div class="row">
+         <!-- Tarjeta titulo-->
+         <div class="col-sm-12 nova-col">
+            <div class="panel panel-default panel-border-color panel-border-color-primary">
+               <div class="nova-panel-heading-titulo">Requisitos del proceso <strong>1</strong> Tecnologías de la información de la auditoria <strong>01 - 17</strong>
+                  
+               </div>
+            </div>  <!-- Panel -->
+         </div>  <!-- col-sm-12 -->
+
+         <!-- Tarjeta resultados-->
+         <div class="col-sm-12 nova-col">
+            <div class="panel panel-default panel-table">
+               <div class="panel-heading panel-border nova-panel-heading">
+                  <div class="tools pull-right" id="toolbar">
+                     
+                     <a href="#tarjeta_nuevo_requisito"
+                        class="btn nova-btn btn-rounded btn-space btn-default" data-toggle="modal" id="boton_nuevo">
+                        <i class="icon icon-left mdi mdi-plus-circle nova-black"></i>Nuevo
+                     </a>
+                  </div>
+                  <div class="title hidden-xs">Registros</div>
+               </div><!-- Panel Heading -->
+               <div id="grid_resultados">
+                  <table class="table table-bordered">
+                     <thead>
+                        <tr>
+                           <th>No</th>
+                           <th>Norma</th>
+                           <th>Requisito</th>
+                           <th>Hallazgo</th>
+                        </tr>
+                     </thead>
+                     <tbody>
+                        <tr>
+                           <th scope="row">1</th>
+                           <td>ISO 9001:2008</td>
+                           <td>Requisito 12.1</td>
+                           <td>
+                              <a href="{% url 'sgi:hallazgo_lista' %}" class="btn nova-btn btn-rounded btn-space btn-default" id="boton_nuevo">
+                                 <i class="icon icon-left mdi mdi-plus-circle nova-black"></i> Hallazgos
+                              </a>
+                           </td>
+                        </tr>
+                        <tr>
+                           <th scope="row">2</th>
+                           <td>ISO 14001:2004</td>
+                           <td>Requisito 12.3</td>
+                           <td>
+                              <a href="{% url 'sgi:hallazgo_lista' %}" class="btn nova-btn btn-rounded btn-space btn-default" id="boton_nuevo">
+                                 <i class="icon icon-left mdi mdi-plus-circle nova-black"></i> Hallazgos
+                              </a>
+                           </td>
+                        </tr>
+                        <tr>
+                           <th scope="row">3</th>
+                           <td>ISO 14001:2004</td>
+                           <td>Requisito 1.2</td>
+                           <td>
+                              <a href="{% url 'sgi:hallazgo_lista' %}" class="btn nova-btn btn-rounded btn-space btn-default" id="boton_nuevo">
+                                 <i class="icon icon-left mdi mdi-plus-circle nova-black"></i> Hallazgos
+                              </a>
+                           </td>
+                        </tr>
+                        <tr>
+                           <th scope="row">4</th>
+                           <td>OHSAS 18001:2007</td>
+                           <td>Requisito 1.1</td>
+                           <td>
+                              <a href="{% url 'sgi:hallazgo_lista' %}" class="btn nova-btn btn-rounded btn-space btn-default" id="boton_nuevo">
+                                 <i class="icon icon-left mdi mdi-plus-circle nova-black"></i> Hallazgos
+                              </a>
+                           </td>
+                        </tr>
+                     </tbody>
+                  </table>
+               </div>
+               <div class="panel-footer panel-border nova-panel-footer panel-border">
+               </div><!-- Panel Footer -->
+            </div> <!-- Panel -->
+         </div> <!-- col sm 12-->
+      </div>
+   </div> <!-- main content -->
+
+   <!-- Tarjeta Nuevo-->
+   <div id="tarjeta_nuevo_requisito" role="dialog" class="modal fade colored-header colored-header-primary">
+      <div class="modal-dialog custom-width">
+         <div class="modal-content">
+            
+            <div class="modal-header nova-modal-header">
+               <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
+               <h3 class="modal-title">Nuevo requisito</h3>
+            </div>
+               
+            <form id="formulario_proceso" class="modal-body form-horizontal">
+
+               <div class="form-group">
+                  <label class="col-sm-3 nova-col-filter control-label">Norma</label>
+                  <div class="col-sm-7 xs-pt-5">
+                     <select class="select2 select2-hidden-accessible" tabindex="-1" aria-hidden="true" id="id_norma">
+                        <option value="ISO 9001:2008">ISO 9001:2008</option>
+                        <option value="ISO 14001:2004">ISO 14001:2004</option>
+                        <option value="OHSAS 18001:2007">OHSAS 18001:2007</option>
+                     </select>
+                  </div>
+               </div>                
+
+               <div class="form-group">
+                  <label class="col-sm-3 nova-col-filter control-label">Requisito</label>
+                  <div class="col-sm-7 xs-pt-5">
+                     <select class="select2 select2-hidden-accessible" tabindex="-1" aria-hidden="true" id="id_requisito">
+                        <option value="ISO9001-14-1">Requisito 14.1 Demostrar que los documentos</option>
+                        <option value="ISO9001-14-1">Requisito 12.2 Demostrar que los documentos</option>
+                        <option value="ISO9001-14-1">Requisito 16.5 Demostrar que los documentos</option>
+                        <option value="ISO9001-14-1">Requisito 1.6 Demostrar que los documentos</option>
+                        <option value="ISO9001-14-1">Requisito 9.1 Demostrar que los documentos</option>
+                        <option value="ISO9001-14-1">Requisito 2.1 Demostrar que los documentos</option>
+                     </select>
+                  </div>
+               </div>
+
+            </form><!-- Modal body-->
+            <div class="modal-footer nova-modal-footer">
+                <div class="row col-sm-12">
+                     <button type="button" data-dismiss="modal" class="btn btn-default pull-left">
+                        Cerrar
+                     </button>
+
+                     <button type="button" id="boton_modal_guardar" class="btn nova-btn btn-primary btn-lg pull-right">
+                        <i class="icon icon-left mdi mdi-floppy nova-white"></i>
+                        Guardar
+                     </button>
+               </div>
+            </div>
+         </div> <!-- Modal content-->
+      </div> <!-- Modal dialog -->
+   </div><!-- Modal -->
+
+</div> <!-- be-content -->
+
+{% endblock contenido %}
+
+{% block scripts %}
+   
+   <!-- Beagle Theme -->
+   <script src="{% static 'theme/lib/daterangepicker/js/daterangepicker.js' %}"></script>
+
+   <!-- JS Template -->
+   <script src="{% static 'requisito_auditoria/requisito_lista.js' %}"></script>
+
+{% endblock scripts %}

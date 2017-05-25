@@ -171,18 +171,18 @@
                     <span>Inicio</span>
                   </a>
                 </li>
-                <li class="parent"><a href="#"><i class="icon mdi mdi-airplane"></i></i><span>Viaticos</span></a>
-                <ul class="sub-menu">
-                  <li id="viaticos_lista">
-                    <a href="{% url 'finanzas:viatico_lista' %}">
-                      <span>Solicitudes</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">Autorizacion</a>
-                  </li>
-                </ul>
-              </li>
+               <li class="parent"><a href="#"><i class="icon mdi mdi-airplane"></i><span>Viaticos</span></a>
+                  <ul class="sub-menu">
+                     <li id="viaticos_lista">
+                        <a href="{% url 'finanzas:viatico_lista' %}">
+                           <span>Solicitudes</span>
+                        </a>
+                     </li>
+                     <li>
+                        <a href="#">Autorizacion</a>
+                     </li>
+                   </ul>
+               </li>
               <li class="parent"><a href="#"><i class="icon mdi mdi-shopping-cart"></i></i><span>Compras</span></a>
               <ul class="sub-menu">
                 <li>
@@ -222,20 +222,25 @@
           </li>
           <li class="parent"><a href="#"><i class="icon fa fa-certificate"></i><span>Calidad</span></a>
               <ul class="sub-menu">
-                  <li>
+                  <li id="auditorias_lista">
                       <a href="{% url 'sgi:auditoria_lista' %}">
                         <!--<i class="icon lrg mdi-search-in-file"></i>-->
                         <span> Auditorias</span>
                       </a>
+                  </li>
+                  <li id="programa_lista">
                       <a href="{% url 'sgi:programa_lista' %}">
                         <!--<i class="icon lrg mdi-search-in-file"></i>-->
                         <span> Programa</span>
                       </a>
+                  </li>
+                  <li id="configuracion">
                       <a href="{% url 'sgi:configuracion' %}">
                         <!--<i class="icon lrg mdi-search-in-file"></i>-->
                         <span> Configuración</span>
                       </a>
                   </li>
+                  
               </ul> 
           </li>
           <li class="parent"><a href="#"><i class="icon fa fa-heartbeat"></i><span>Salud</span></a>
