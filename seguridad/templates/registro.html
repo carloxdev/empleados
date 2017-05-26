@@ -9,265 +9,167 @@
 {% block title-page %} Registro de Usuario {% endblock title-page %}
 
 {% block css %}
-
-   <!-- Select 2 -->
-   <link rel="stylesheet" href="{% static 'theme/lib/select2/css/select2.min.css' %}"/>
-
+   
    <!-- Pace -->
    <link rel="stylesheet" href="{% static 'libs/pace/1.0.0/pace.css' %}" type="text/css"/>
 
    <!-- Awesome Icons -->
    <link rel="stylesheet" href="{% static 'libs/awesome-icons/4.7.0/css/font-awesome.min.css' %}" type="text/css">
 
+   <!-- Select 2 -->
+   <link rel="stylesheet" href="{% static 'theme/lib/select2/css/select2.min.css' %}"/>
+
    <!-- Alertifyjs -->
    <link rel="stylesheet" href="{% static 'libs/alertifyjs/1.10.0/css/alertify.min.css' %}" type="text/css"/>
    <link rel="stylesheet" href="{% static 'libs/alertifyjs/1.10.0/css/themes/bootstrap.min.css' %}" type="text/css"/>
 
+    <!-- Main Theme CSS -->
+    <link rel="stylesheet" href="{% static 'theme/css/style.css' %}" type="text/css"/>
+
    <!-- Nova' Styles -->
-   <link rel="stylesheet" href="{% static 'registro.css' %}"/>      
+   <link rel="stylesheet" href="{% static 'master.css' %}"/>
+   <link rel="stylesheet" href="{% static 'registro.css' %}"/>
+
 
 {% endblock css %}
 
 {% block contenido %}
 
-
-
-   <!-- Mensajes de errores-->
-   <p>
-      {% if form.errors %}
-         <div class="alert alert-danger">
-            {% for field in form %}
-               {% for error in field.errors %}
-                  <strong>{{ error|escape }}</strong>
-                  <br>
-               {% endfor %}
-            {% endfor %}
-            {% for error in form.non_field_errors %}
-               <div class="alert alert-danger">
-                  <strong>{{ error|escape }}</strong>
-               </div>
-            {% endfor %}
-         </div>
-      {% endif %} 
-      {% if messages %}
-         {% for message in messages %}
-            <div class="alert alert-danger">
-               <strong>{{message}}</strong>
-            </div>
-         {% endfor %}
-      {% endif %}        
-   </p>  
-
-
-
 <div class="main-content container-fluid">
 
    <div class="row">
-     <div class="page-head">
-        <h1 class="page-head-title">Registro de Usuario</h1>
-     </div>
+      <div class="col-sm-12 text-center">
+        <div class="page-head">
+           <h1 class="page-head-title">Registro de Usuario</h1>
+        </div>         
+      </div>
+
    </div>
 
-    <div class="row wizard-row">
-
+   <div class="row wizard-row">
       <div class="col-md-12 fuelux">
-        <div class="block-wizard panel panel-default">
-          <div id="wizard1" class="wizard wizard-ux">
-            <ul class="steps">
-              <li data-step="1" class="active">Paso 1<span class="chevron"></span></li>
-              <li data-step="2">Paso 2<span class="chevron"></span></li>
-            </ul>
-            <div class="actions">
-              <button type="button" class="btn btn-xs btn-prev btn-default"><i class="icon mdi mdi-chevron-left"></i>Anterior</button>
-              <button type="button" data-last="Finalizar" class="btn btn-xs btn-next btn-default">Siguiente<i class="icon mdi mdi-chevron-right"></i></button>
-            </div>
-            <form action="" method="POST"> {% csrf_token %}
-            <div class="step-content">
+
+         <div class="panel panel-border panel-contrast">
             
-              <div data-step="1" class="step-pane active">
-                <div action="#" data-parsley-namespace="data-parsley-" data-parsley-validate="" novalidate="" class="form-horizontal group-border-dashed">
-                  <div class="form-group no-padding">
-                    <div class="col-sm-7">
-                      <h3 class="wizard-title">Informacion del Empleado</h3>
-                    </div>
-                  </div>
-
-                  <div class="form-group">
-
-                     <div class="col-sm-8">
-
-                         <!-- Clave_rh-->
-                         <div class="form-group {% if form.clave_rh.errors %} has-error {% endif %}">
-
-                           {% tag_label_registro form.clave_rh 3 %}
-
-                            <div class="col-sm-8 xs-pt-5">
-                              {{ form.clave_rh }}
-                              {% tag_field_legend_error form.clave_rh %}
-                            </div>
-                         </div>
-
-                         <!-- First_name-->
-                         <div class="form-group {% if form.first_name.errors %} has-error {% endif %}">
+            <form action="" method="POST" novalidate> {% csrf_token %}
+               <div class="panel-body collapse in">
+                     <div class="step-content">
                            
-                           {% tag_label_registro_nreq form.first_name 3 %}
-
-                            <div class="col-sm-8 xs-pt-5">
-                              {{ form.first_name }}
-                              {% tag_field_legend_error form.first_name %}
-                            </div>
-                         </div>
-
-                         <!-- Last_name-->
-                         <div class="form-group {% if form.last_name.errors %} has-error {% endif %}">
-
-                           {% tag_label_registro_nreq form.last_name 3 %}
+                        <div data-step="1" class="step-pane">
                            
-                            <div class="col-sm-8 xs-pt-5">
-                              {{ form.last_name }}
-                              {% tag_field_legend_error form.last_name %}
-                            </div>
-                         </div>
-                         
-                         <!-- Fecha_nacimiento-->
-                         <div class="form-group {% if form.fecha_nacimiento.errors %} has-error {% endif %}">
+                           <div action="#" data-parsley-namespace="data-parsley-" data-parsley-validate="" novalidate="" class="form-horizontal group-border-dashed">
 
-                            {% tag_label_registro_nreq form.fecha_nacimiento 3 %}
+                              <div class="form-group no-padding">
+                                 <div class="col-sm-7">
+                                    <h3 class="wizard-title">Informacion del Empleado</h3>
+                                 </div>
+                              </div>
+                              
+                              <div class="form-group">
 
-                            <div class="col-sm-8 xs-pt-5">
-                              {{ form.fecha_nacimiento}}
-                              {% tag_field_legend_error form.fecha_nacimiento %}
-                            </div>
-                         </div>
+                                 <div class="col-sm-9">
 
-                        <!-- Clave_jde -->
-                        {% tag_field_registro form.clave_jde 3 8 %}
+                                    <!-- Clave_rh-->
+                                    {% tag_field_registro form.clave_rh 4 8 %}
+
+                                    <!-- First_name-->
+                                    {% tag_field_registro_nval form.first_name 4 8 %}
+
+                                    <!-- Last_name-->
+                                    {% tag_field_registro_nval form.last_name 4 8 %}
+
+                                    <!-- Fecha_nacimiento-->
+                                    {% tag_field_registro_nval form.fecha_nacimiento 4 8 %}
+
+                                    <!-- Clave_jde -->
+                                    {% tag_field_registro form.clave_jde 4 8 %}
+
+                                 </div>
+
+                                 <div class="col-sm-3">
+                                       
+                                    <!-- Foto-->
+                                    <div class="form-group {% if form.foto.errors %} has-error {% endif %}">
+
+                                       <div class="col-sm-12">
+
+                                          {% if imagen %}
+                                          <img id="img_preview" class="user-image img-responsive img-thumbnail nova-img" src="{{ imagen }}" alt="IFBD">
+                                          
+                                          {% else %}
+                                          <img id="img_preview" class="user-image img-responsive img-thumbnail nova-img" src="{% static 'images/decoradores/no-image-user.jpg' %}" alt="User Image">
+                                          {% endif %}  
+
+
+                                          {{ form.foto }}
+                                          {% tag_field_legend_error form.foto %}
+
+                                       </div>
+
+                                    </div>
+
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
 
                      </div>
+               </div>
+              <!-- Botones -->
+              <div class="panel-body collapse in nova-panel-2ndseccion">
+                  <div class="step-content">
+                     <div data-step="1" class="step-pane">
+                        <div action="#" data-parsley-namespace="data-parsley-" data-parsley-validate="" novalidate="" class="form-horizontal group-border-dashed">
 
-                     <div class="col-sm-4">
-                        
-                        <!-- Foto-->
-                        <div class="form-group {% if form.foto.errors %} has-error {% endif %}">
+                           <div class="form-group no-padding">
+                             <div class="col-sm-7">
+                               <h3 class="wizard-title">Informacion de la Cuenta</h3>
+                             </div>
+                           </div>
 
-                           {% if imagen %}
-                           <img id="img_preview" class="user-image img-responsive img-thumbnail nova-img" src="{{ imagen }}" alt="IFBD">
-                           
-                           {% else %}
-                           <img id="img_preview" class="user-image img-responsive img-thumbnail nova-img" src="{% static 'images/decoradores/no-image-user.jpg' %}" alt="User Image">
-                           {% endif %}  
+                           <div class="form-group">
 
-                           <div class="col-sm-8">
-                              {{ form.foto }}
-                              {% tag_field_legend_error form.foto %}
+                              <div class="col-sm-12">
+                              <!-- Username-->
+                                 {% tag_field_registro form.username 3 6 %}
+
+                                 <!-- Email-->
+                                 {% tag_field_registro form.email 3 6 %}                     
+
+                                 <!-- Password-->
+                                 {% tag_field_registro form.password1 3 6 %}
+                                
+                                 <!-- Confirmar Password-->
+                                 {% tag_field_registro form.password2 3 6 %}                              
+                                    
+                              </div>
+
                            </div>
 
                         </div>
-
-                     </div>
-
-                  </div>
-
-                  <div class="form-group">
-                    <div class="col-sm-12">
-
-                        <a class="btn btn-default btn-space" href="{% url 'seguridad:login' %}">
-                           <i class="icon mdi mdi-arrow-left"></i>
-                           Regresar a Login
-                        </a>
-
-                        <button data-wizard="#wizard1" class="btn btn-primary btn-space wizard-next">
-                           <i class="icon mdi mdi-arrow-right"></i>
-                           Siguiente Paso
-                        </button>
-                    </div>
-                  </div>                  
-                </div>
+                     </div>                     
+                  </div>               
               </div>
+              <div class="modal-footer nova-modal-footer">
 
-              <div data-step="2" class="step-pane">
-                <div action="#" data-parsley-namespace="data-parsley-" data-parsley-validate="" novalidate="" class="form-horizontal group-border-dashed">
+                  <div class="row col-sm-12">
 
-                  <div class="form-group no-padding">
-                    <div class="col-sm-7">
-                      <h3 class="wizard-title">Informacion de la Cuenta</h3>
-                    </div>
+                      <a href=" {% url 'finanzas:viatico_lista' %}" class="btn btn-default">
+                          <i class="icon mdi mdi-arrow-left"></i>
+                          Regresar a Login
+                      </a>                     
+                      
+                      <button type="submit" id="btn_registrar" class="btn nova-btn btn-success btn-lg pull-right">
+                          Registrar
+                      </button>
                   </div>
-
-                  <div class="form-group">
-
-                     <!-- Username-->
-                     <div class="form-group {% if form.username.errors %} has-error {% endif %}">
-
-                        {% tag_label_registro form.username 3 %}
-
-                        <div class="col-sm-6">
-                           {{ form.username}}
-
-                           {% tag_field_legend_error form.username %}
-                        </div>
-                     </div>
-
-                     <!-- Password-->
-                     <div class="form-group {% if form.password1.errors %} has-error {% endif %}">
-
-                        {% tag_label_registro form.password1 3 %}
-                        
-                        <div class="col-sm-6">
-                           {{ form.password1 }}
-
-                           {% tag_field_legend_error form.password1 %}
-                        </div>
-                     </div>
-                    
-                     <!-- Confirmar Password-->
-                     <div class="form-group {% if form.password2.errors %} has-error {% endif %}">
-                        
-                        {% tag_label_registro form.password2 3 %}
-                        
-                        <div class="col-sm-6">
-                            {{form.password2}} 
-
-                            {% tag_field_legend_error form.password2 %}
-                        </div>
-                     </div>
-
-                     <!-- Email-->
-                     <div class="form-group {% if form.email.errors %} has-error {% endif %}">
-                        
-                        {% tag_label_registro form.email 3 %}
-                        
-                        <div class="col-sm-6">
-                            {{form.email}} 
-
-                            {% tag_field_legend_error form.email %}
-                        </div>
-                     </div>
-                     <br>
-
-                  </div>
-
-                  <div class="form-group">
-                    <div class="col-sm-12">
-                      <button data-wizard="#wizard1" class="btn btn-default btn-space wizard-previous">
-                        <i class="icon mdi mdi-arrow-left"></i>
-                        Anterior Paso
-                     </button>
-                      <button type="submit" class="btn btn-success">Finalizar Registro</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            
-            </div>
-            </form>
-          </div>
-        </div>
+              </div>     
+            </form>        
+         </div>
       </div>
-    </div>
-  </div>
+   </div>
 
-
+</div>
 {% endblock contenido%}
 
 {% block scripts %}
@@ -275,12 +177,18 @@
    <!-- jQuery-UI -->
    <script src="{% static 'theme/lib/jquery-ui/jquery-ui.min.js' %}"></script>
 
+   <!-- Moment -->
+   <script src="{% static 'libs/momentjs/2.18.1/moment.js' %}"></script>
+
+   <!-- Select 2 -->
+   <script src="{% static 'theme/lib/select2/js/select2.min.js' %}"></script>      
+
    <!-- Alertify -->
    <script src="{% static 'libs/alertifyjs/1.10.0/alertify.min.js' %}"></script>
 
    <!-- Wizard -->
    <script src="{% static 'theme/lib/fuelux/js/wizard.js' %}"></script>
-
+   
    <!-- Nova -->
    <script src="{% static 'registro.js' %}"></script>
 

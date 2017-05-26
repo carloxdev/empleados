@@ -100,7 +100,7 @@ class UserRegistroForm(UserCreationForm):
 
     def __init__(self, *args, **kwargs):
         super(UserRegistroForm, self).__init__(*args, **kwargs)
-        self.fields['clave_rh'].choices = EmpleadoBusiness.get_Activos_ForSelect()
+        self.fields['clave_rh'].choices = EmpleadoBusiness.get_SinUsuario_ForSelect()
         self.fields['email'].required = True
         self.fields['fecha_nacimiento'].required = False
         self.fields['foto'].required = False

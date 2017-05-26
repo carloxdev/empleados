@@ -99,8 +99,6 @@ class Registro(View):
 
         form_usuario = UserRegistroForm(request.POST, request.FILES)
 
-        import ipdb; ipdb.set_trace()
-
         if form_usuario.is_valid():
 
             datos_formulario = form_usuario.cleaned_data

@@ -1,3 +1,26 @@
+
+.select2-container {
+    width: 100% !important;
+}
+
+.select2-container--default .select2-selection--single {
+    height: 30px !important;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    height: 30px !important;
+    line-height: 30px;
+    padding: 0 30px 0 7px;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+    height: 30px !important;
+    top: -7px;
+    right: -7px;    
+}
+
+
 .nova-img {
     width: 60%;
 }
+

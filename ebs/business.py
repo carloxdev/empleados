@@ -109,7 +109,7 @@ class EmpleadoBusiness(object):
 
         lista = UserBusiness.get_RhClaves()
 
-        empleados = VIEW_EMPLEADOS_SIMPLE.objects.filter(
+        empleados = VIEW_EMPLEADOS_SIMPLE.objects.using('ebs_d').exclude(
             pers_empleado_numero__in=lista
         )
 

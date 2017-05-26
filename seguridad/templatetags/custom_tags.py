@@ -30,9 +30,9 @@ def tag_label_registro(_field, _size):
 
 
 @register.inclusion_tag(
-    'tags/label_registro_nreq.html',
+    'tags/label_registro_nval.html',
     takes_context=False)
-def tag_label_registro_nreq(_field, _size):
+def tag_label_registro_nval(_field, _size):
 
     contexto = {
         'size': _size,
@@ -55,9 +55,9 @@ def tag_field_registro(_field, _size_label, _size_field):
 
 
 @register.inclusion_tag(
-    'tags/field_registro_nreq.html',
+    'tags/field_registro_nval.html',
     takes_context=False)
-def tag_field_registro_nreq(_field, _size_label, _size_field):
+def tag_field_registro_nval(_field, _size_label, _size_field):
 
     contexto = {
         'campo': _field,
