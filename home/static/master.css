@@ -196,16 +196,9 @@
     }
 
 }
-/*Indicadores capital humano*/
-.margin-highcharts{
-    margin: 10px 20px;
+.nova-margin-highcharts{
+    margin: 20px 10px 20px ;
 }
-.size-highchart-org{
-    min-width: 1000px;
-    min-height: 700px;
-    margin: 10px 20px;
-}
-
 .nova-panel-heading-titulo{
     font-size: 18px;
     font-weight: 300;

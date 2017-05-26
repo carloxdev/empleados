@@ -52,7 +52,7 @@ class EmpleadoOrganigrama(View):
 
         form = CronogramaFilterForm()
 
-        contexto ={
+        contexto = {
             'form': form,
         }
         return render(request, self.template_name, contexto)

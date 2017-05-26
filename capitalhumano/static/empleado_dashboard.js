@@ -614,6 +614,7 @@ IndicadorOrganizacion.prototype.cuenta_EmpleadoOrganizacion = function (_organiz
 }
 IndicadorOrganizacion.prototype.get_EmpleadoOrganizacion = function (_empleado) {
    var empleados = []
+   var cont = 0
 
    for (var i = 0; i < _empleado.length; i++) {
       if ((_empleado[i].pers_tipo_codigo != '1123') && 
@@ -621,7 +622,8 @@ IndicadorOrganizacion.prototype.get_EmpleadoOrganizacion = function (_empleado) 
          (_empleado[i].pers_tipo_codigo != '1125') &&
          (_empleado[i].pers_tipo_codigo != '1118')){
 
-         empleados[i] = _empleado[i].asig_organizacion_clave
+         empleados[cont] = _empleado[i].asig_organizacion_clave
+         cont += 1
       }
    }
    
@@ -631,6 +633,7 @@ IndicadorOrganizacion.prototype.get_IndicadorConfig = function (_organizacion,_e
 
    return {
       chart: {
+         height: 600,
          type: 'column',
       },
       title: {
@@ -639,7 +642,7 @@ IndicadorOrganizacion.prototype.get_IndicadorConfig = function (_organizacion,_e
       xAxis: {
          type: 'category',
          labels: {
-         autoRotation: [-61]
+         autoRotation: [-60]
       }
       },
       yAxis: {
