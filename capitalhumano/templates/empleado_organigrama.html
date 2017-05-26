@@ -3,9 +3,6 @@
 {% block titulo %} Capital humano {% endblock titulo %}
 {% block title-page %} Organigrama  {% endblock title-page %}
 {% block css %}
-	<link rel="stylesheet" href="{% static 'lib/kendo/2015.2.624/styles/kendo.rtl.min.css' %}"/>
-	<link rel="stylesheet" href="{% static 'lib/kendo/2015.2.624/styles/kendo.common-bootstrap.min.css' %}"/>
-	<link rel="stylesheet" href="{% static 'lib/kendo/2015.2.624/styles/kendo.bootstrap.min.css' %}"/>
 {% endblock css %}
 {% block contenido %}
 <div class="be-content">
@@ -19,6 +16,9 @@
    <div class="main-content container-fluid">
       <div class="col-sm-12">
          <div class="panel panel-default panel-table">
+         	
+         	{{ form.organizaciones.label }}
+         	{{ form.organizaciones }}
 
          	<div id="example">
 	    		<div id="diagram"></div>

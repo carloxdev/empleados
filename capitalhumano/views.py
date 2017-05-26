@@ -10,6 +10,7 @@ from django.views.generic.base import View
 
 # Formularios
 from .forms import EmpleadoFilterForm
+from .forms import CronogramaFilterForm
 
 
 # -------------- EMPLEADOS -------------- #
@@ -49,4 +50,9 @@ class EmpleadoOrganigrama(View):
 
     def get(self, request):
 
-        return render(request, self.template_name)
+        form = CronogramaFilterForm()
+
+        contexto ={
+            'form': form,
+        }
+        return render(request, self.template_name, contexto)

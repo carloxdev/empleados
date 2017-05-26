@@ -158,6 +158,7 @@ class VIEW_ORGANIZACIONES(models.Model):
         managed = False
         db_table = u'"NUVAPP"."VIEW_ORGANIZACIONES"'
 
+
 class VIEW_GRADO_ACADEMICO(models.Model):
     clave_grado = models.IntegerField(primary_key=True)
     desc_grado = models.CharField(max_length=240)
@@ -165,6 +166,7 @@ class VIEW_GRADO_ACADEMICO(models.Model):
     class Meta:
         managed = False
         db_table = u'"NUVAPP"."VIEW_GRADO_ACADEMICO"'
+
 
 class VIEW_EMPLEADOS_GRADO(models.Model):
     pers_clave = models.IntegerField(primary_key=True)
@@ -178,5 +180,4 @@ class VIEW_EMPLEADOS_GRADO(models.Model):
 
     class Meta:
         managed = False
-        db_table = u'"NUVAPP"."VIEW_EMPLEADOS_GRADO"'        
-
+        db_table = u'"NUVAPP"."VIEW_EMPLEADOS_GRADO"'

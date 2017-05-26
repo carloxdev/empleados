@@ -1,10 +1,50 @@
+/*-----------------------------------------------*\
+            GLOBAL VARIABLES
+\*-----------------------------------------------*/
 
+var url_empleados = window.location.origin + "/api-ebs/viewempleadosfull/"
+
+//OBJS
 var organigrama = null
+var tarjeta_filtros = null
 
+/*-----------------------------------------------*\
+            LOAD
+\*-----------------------------------------------*/
 
 $(document).ready(function(){
-   organigrama = new Organigrama()
+   tarjeta_filtros = new TarjetaFiltros()
+   //organigrama = new Organigrama()
 })
+
+/*-----------------------------------------------*\
+            OBJETO: TARJETA FILTROS
+\*-----------------------------------------------*/
+
+
+function TarjetaFiltros(){
+
+   this.$organizaciones = $('#id_organizaciones')
+
+   this.init_Components()
+}
+TarjetaFiltros.prototype.init_Components = function () {
+   this.$organizaciones.select(this.get_ConfSelect2())
+}
+TarjetaFiltros.prototype.get_ConfSelect2 = function () {
+    return {
+        width: '100%'
+    }
+}
+TarjetaFiltros.prototype.llenar_Select = function(){
+
+}
+
+
+/*-----------------------------------------------*\
+            OBJETO: ORGANIGRAMA
+\*-----------------------------------------------*/
+
 
 function Organigrama(){
    this.init_Components()
@@ -32,7 +72,7 @@ Organigrama.prototype.crear_Diagrama = function (){
       },
       connectionDefaults: {
          stroke: {
-            color: "#979797",
+            color: "#979797",//Color gris
             width: 2
          }
       }
@@ -50,7 +90,7 @@ Organigrama.prototype.get_Data = function (){
             firstName: "Antonio",
             lastName: "Moreno",
             title: "Team Lead",
-            colorScheme: "#1696d3",
+            colorScheme: "#1696d3",//Color azul
             items: [{
                firstName: "Elizabeth",
                lastName: "Brown",
@@ -121,7 +161,7 @@ Organigrama.prototype.visual_Template = function (){
          text: dataItem.firstName + " " + dataItem.lastName,
          x: 85,
          y: 20,
-         fill: "#fff"
+         fill: "#fff" //Color blanco
       }))
 
       g.append(new dataviz.diagram.TextBlock({
@@ -136,4 +176,3 @@ Organigrama.prototype.visual_Template = function (){
 
    return var_template
 }
-
