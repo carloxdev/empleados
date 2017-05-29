@@ -20,7 +20,10 @@
 }
 
 
-.nova-img {
+.nova-registro-img {
     width: 60%;
 }
 
+.nova-registro-img-btn {
+    margin-top: 1em;
+}

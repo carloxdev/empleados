@@ -28,6 +28,7 @@ $(document).ready(function () {
 function TargetaWizzard() {
 
    this.$id = $('#targeta_wizard')
+
    this.$clave_rh = $('#id_clave_rh')
 
    this.$username = $('#id_username')
@@ -40,6 +41,9 @@ function TargetaWizzard() {
 
    this.$btn_registrar = $('#btn_registrar')
 
+   this.$foto = $('#id_foto')
+   this.$foto_preview = $('#img_preview')
+
    this.init_Components()
    this.init_Events()
 }
@@ -50,6 +54,7 @@ TargetaWizzard.prototype.init_Components = function () {
 TargetaWizzard.prototype.init_Events = function () {
 
    this.$clave_rh.on("change", this, this.obtener_EmpleadoEbs)
+   this.$foto.on("change",this, this.set_PreviewImagen)
 }
 TargetaWizzard.prototype.obtener_EmpleadoEbs = function (_e) {
 
@@ -89,18 +94,19 @@ TargetaWizzard.prototype.obtener_EmpleadoEbs = function (_e) {
 }
 TargetaWizzard.prototype.fill_Campos = function (_data) {
 
-   this.$first_name.val((_data[0].pers_primer_nombre +" "+ _data[0].pers_segundo_nombre).split(" -")[0])
-   this.$last_name.val(_data[0].pers_apellido_paterno +" "+ _data[0].pers_apellido_materno)
-   this.$fecha_nacimiento.val((_data[0].pers_fecha_nacimiento).split(" ")[0])
-   this.$email.val(_data[0].pers_email)
-    
+    this.$username.val(_data[0].pers_empleado_numero)
+    this.$first_name.val((_data[0].pers_primer_nombre +" "+ _data[0].pers_segundo_nombre).split(" -")[0])
+    this.$last_name.val(_data[0].pers_apellido_paterno +" "+ _data[0].pers_apellido_materno)
+    this.$fecha_nacimiento.val((_data[0].pers_fecha_nacimiento).split(" ")[0])
+    this.$email.val(_data[0].pers_email)   
 }
 TargetaWizzard.prototype.clear_Campos = function () {
-   this.$first_name.val("")
-   this.$last_name.val("")
-   this.$fecha_nacimiento.val("")
-   this.$email.val("")
-   this.$clave_jde.val("")
+    this.$username.val("")
+    this.$first_name.val("")
+    this.$last_name.val("")
+    this.$fecha_nacimiento.val("")
+    this.$email.val("")
+    this.$clave_jde.val("")
 }
 TargetaWizzard.prototype.obtener_ClaveJDE = function (_value) {
 
@@ -128,5 +134,18 @@ TargetaWizzard.prototype.obtener_ClaveJDE = function (_value) {
 
     })
 }
+TargetaWizzard.prototype.set_PreviewImagen = function (e) {
 
+    if (this.files && this.files[0]) {
+        
+        var reader = new FileReader()
+
+        reader.onload = function (e) {
+            targeta.$foto_preview.attr('src', e.target.result)
+        }
+
+        reader.readAsDataURL(this.files[0])
+
+    }
+}
 

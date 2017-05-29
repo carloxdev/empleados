@@ -21,8 +21,6 @@ from .forms import ViaticoCabeceraForm
 from .forms import ViaticoFilterForm
 
 
-# -------------- VIATICO -------------- #
-
 class ViaticoLista(View):
     def __init__(self):
         self.template_name = 'viatico/viatico_lista.html'

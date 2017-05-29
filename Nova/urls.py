@@ -1,19 +1,15 @@
 
-# Liberias Django
+# Django's Libraries
 from django.conf.urls import url
 from django.contrib import admin
 from django.conf.urls import include
 
+# Own's Libraries
 from ebs.urls_rest import router_ebs
 from jde.urls_rest import router_jde
 from finanzas.urls_rest import router_finanzas
 from seguridad.urls_rest import router_seguridad
 from sgi.urls_rest import router_sgi
-
-# Librerias necesarias para publicar Medias en DEBUG
-# from django.conf.urls.static import static
-# from django.conf import settings
-
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -30,9 +26,3 @@ urlpatterns = [
     url(r'', include('sgi.urls', namespace="sgi")),
     url(r'', include('capitalhumano.urls', namespace="capitalhumano")),
 ]
-
-
-# if settings.DEBUG:
-
-#     urlpatterns = urlpatterns + \
-#         static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

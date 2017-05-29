@@ -191,7 +191,7 @@ class VIEW_USUARIOS_API(viewsets.ModelViewSet):
     serializer_class = VIEW_USUARIOS_Serializer
     filter_backends = (filters.DjangoFilterBackend,)
     filter_class = VIEW_USUARIOS_Filter
-    permission_classes = (IsAuthenticated,)
+    # permission_classes = (IsAuthenticated,)
 
 
 class VIEWS_COMPRAS_API(viewsets.ModelViewSet):

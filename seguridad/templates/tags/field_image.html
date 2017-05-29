@@ -1,0 +1,32 @@
+<!-- Foto-->
+<div class="form-group {% if form.foto.errors %} has-error {% endif %}">
+
+    <div class="col-sm-12">
+
+        {% if imagen %}
+        <img id="img_preview" class="user-image img-responsive img-thumbnail nova-img" src="{{ imagen }}" alt="IFBD">
+        
+        {% else %}
+        <img id="img_preview" class="user-image img-responsive img-thumbnail nova-img" src="{% static 'images/decoradores/no-image-user.jpg' %}" alt="User Image">
+        {% endif %}  
+
+        <div class="input">
+           {{form.foto|attr:"class:inputfile"}}
+           <label for="id_foto">
+              <span>Seleccionar archivo…</span>
+           </label>
+        </div>
+    
+        {% if campo.errors %}
+         <ul class="parsley-errors-list filled">
+         {% for error in campo.errors %}
+            <li class="parsley-required">
+               {{ error }}
+            </li>
+         {% endfor %}
+         </ul>
+        {% endif %}
+
+ </div>
+
+</div>
