@@ -18,16 +18,16 @@ from ebs.models import VIEW_ORGANIZACIONES
 from administracion.models import Empresa
 
 
-class CronogramaFilterForm(Form):
+class OrganizacionesFilterForm(Form):
     organizaciones = ChoiceField(label='Organizaciones', widget=Select(
         attrs={'class': 'select2 nova-select2'}))
 
     def __init__(self, *args, **kwargs):
-        super(CronogramaFilterForm, self).__init__(*args, **kwargs)
+        super(OrganizacionesFilterForm, self).__init__(*args, **kwargs)
         self.fields['organizaciones'].choices = self.get_Organizaciones()
 
     def get_Organizaciones(self):
-        valores = [('', '-------')]
+        valores = [('0', 'TODAS LAS ORGANIZACIONES')]
 
         organizaciones = VIEW_ORGANIZACIONES.objects.using('ebs_d').all()
         for organizacion in organizaciones:

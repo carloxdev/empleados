@@ -15,6 +15,7 @@ var indicador_estado_civil=null
 var indicador_rango_edad=null
 var indicador_sexo=null
 var indicador_organizacion = null
+var organizacion = 0
 
 /*-----------------------------------------------*\
          LOAD
@@ -23,7 +24,7 @@ var indicador_organizacion = null
 $(document).ready(function () {
    indicadores = new Indicadores()
    indicador_total = new IndicadorTotal()
-   indicador_grado = new IndicadorGradoEstudios()
+   indicador_grado = new IndicadorGradoAcademico()
    indicador_estado_civil = new IndicadorEstadoCivil()
    indicador_rango_edad = new IndicadorRangoEdad()
    indicador_sexo = new IndicadorSexo()
@@ -37,13 +38,31 @@ $(document).ready(function () {
 
 function Indicadores () {
 
+   this.$organizaciones = $('#id_organizaciones')
+   this.buscar_Empleados(organizacion)
    this.init_Components()
+   this.init_Events()
 }
 Indicadores.prototype.init_Components = function () {
 
-   this.buscar_Empleados()
+   this.$organizaciones.select(this.get_ConfSelect2())
 }
-Indicadores.prototype.buscar_Empleados = function () {
+Indicadores.prototype.get_ConfSelect2 = function () {
+    return {
+        width: '100%'
+    }
+}
+Indicadores.prototype.init_Events = function () {
+   this.$organizaciones.on("change", this, this.filtro)
+}
+Indicadores.prototype.filtro = function (e) {
+   organizacion = e.data.$organizaciones.val()
+   indicadores.buscar_Empleados(organizacion)
+}
+
+Indicadores.prototype.buscar_Empleados = function (_organizacion) {
+   
+   organizacion = _organizacion
 
    $.ajax({
          url: url_empleados_full,
@@ -51,59 +70,82 @@ Indicadores.prototype.buscar_Empleados = function () {
          success: function (response) {
 
             //Total de empleados
-            indicadores.indicador_Total(response)
+            if( organizacion== 0){
+               indicadores.indicador_Total(response, organizacion)
 
-            //Rotacion de empleados
-            indicadores.indicador_Rotacion(response)
+               //Rotacion de empleados
+               indicadores.indicador_Rotacion(response, organizacion)
 
-            //Distribucion por grado de estudios
-            indicadores.indicador_GradoEstudios()
+               //Distribucion por grado de estudios
+               indicadores.indicador_GradoAcademico(response, organizacion)
 
-            //Disribucion por estado civil
-            indicadores.indicador_EstadoCivil(response)
+               //Disribucion por estado civil
+               indicadores.indicador_EstadoCivil(response, organizacion)
 
-            //Disribucion por rango de edad
-            indicadores.indicador_RangoEdad(response)
+               //Disribucion por rango de edad
+               indicadores.indicador_RangoEdad(response, organizacion)
 
-            //Disribucion por sexo
-            indicadores.indicador_Sexo(response)
+               //Disribucion por sexo
+               indicadores.indicador_Sexo(response, organizacion)
 
-            //Disribucion por organizacion
-            indicadores.indicador_Organizacion(response)
+               $('#container-organizacion').show()
+                  //Disribucion por organizacion
+               indicadores.indicador_Organizacion(response)
+
+            }else if(organizacion != 0){
+               indicadores.indicador_Total(response, organizacion)
+
+               //Rotacion de empleados
+               indicadores.indicador_Rotacion(response, organizacion)
+
+               //Distribucion por grado de estudios
+               indicadores.indicador_GradoAcademico(response, organizacion)
+
+               //Disribucion por estado civil
+               indicadores.indicador_EstadoCivil(response, organizacion)
+
+               //Disribucion por rango de edad
+               indicadores.indicador_RangoEdad(response, organizacion)
+
+               //Disribucion por sexo
+               indicadores.indicador_Sexo(response, organizacion)
+
+               $('#container-organizacion').hide()
+            }
             
          },
          error: function (response) {
-            alert("Ocurrio error al consultar")
+            alertify("Ocurrio error al consultar")
          }
    })  
 }
-Indicadores.prototype.indicador_Total = function (_response) {
+Indicadores.prototype.indicador_Total = function (_response, _organizacion) {
 
-   dato_total = indicador_total.get_Total(_response)
-   document.getElementById('container-total-ac').innerHTML=dato_total[0]
+   dato_total = indicador_total.get_Total(_response, _organizacion)
+   document.getElementById('container-total-ac').innerHTML=dato_total
 }
-Indicadores.prototype.indicador_Rotacion = function (_response) {
+Indicadores.prototype.indicador_Rotacion = function (_response, _organizacion) {
 
    dato_rotacion = 0 //indicador_total.get_Rotacion(_response)
    document.getElementById('container-rotacion').innerHTML=dato_rotacion
 }
-Indicadores.prototype.indicador_GradoEstudios = function () {
+Indicadores.prototype.indicador_GradoAcademico = function (_response, _organizacion) {
    
-   indicador_grado.buscar_Empleados()
+   indicador_grado.buscar_GradoAcademico(_response, _organizacion)
 }
-Indicadores.prototype.indicador_EstadoCivil = function (_response) {
+Indicadores.prototype.indicador_EstadoCivil = function (_response, _organizacion) {
 
-   dato_estado = indicador_estado_civil.get_EstadoCivil(_response) 
+   dato_estado = indicador_estado_civil.get_EstadoCivil(_response, _organizacion) 
    Highcharts.chart('container-estado',
                indicador_estado_civil.get_IndicadorConfig(dato_estado))
 }
-Indicadores.prototype.indicador_RangoEdad = function (_response) {
-   dato_edad = indicador_rango_edad.get_RangoEdad(_response)
+Indicadores.prototype.indicador_RangoEdad = function (_response, _organizacion) {
+   dato_edad = indicador_rango_edad.get_RangoEdad(_response, _organizacion)
    Highcharts.chart('container-edad',
                indicador_rango_edad.get_IndicadorConfig(dato_edad))
 }
-Indicadores.prototype.indicador_Sexo = function (_response) {
-   dato_sexo = indicador_sexo.get_Sexo(_response)
+Indicadores.prototype.indicador_Sexo = function (_response, _organizacion) {
+   dato_sexo = indicador_sexo.get_Sexo(_response, _organizacion)
    Highcharts.chart('container-sexo',
                indicador_sexo.get_IndicadorConfig(dato_sexo))
 }
@@ -114,24 +156,23 @@ Indicadores.prototype.indicador_Organizacion = function (_response) {
 }
 
 /*-----------------------------------------------*\
-         OBJETO: INDICADOR POR ESTADO CIVIL
+         OBJETO: INDICADOR TOTAL DE EMPLEADOS
 \*-----------------------------------------------*/
 
 function IndicadorTotal () {
 }
-IndicadorTotal.prototype.get_Total= function (response) {
+IndicadorTotal.prototype.get_Total= function (_response, _organizacion) {
    // Empleados activos, inactivos
-   var total = [0,0]
-   for (var i = 0; i < response.length; i++) {
+   var total = 0
+   for (var i = 0; i < _response.length; i++) {
       //Excluye aquellos empleados que esten inactivos
-      if ((response[i].pers_tipo_codigo != '1123') && 
-         (response[i].pers_tipo_codigo != '1124') &&
-         (response[i].pers_tipo_codigo != '1125') &&
-         (response[i].pers_tipo_codigo != '1118')){
-         
-         total[0]+=1
-      }else{
-         total[1]+=1
+      if ((_response[i].pers_tipo_codigo != '1123') && 
+         (_response[i].pers_tipo_codigo != '1124') &&
+         (_response[i].pers_tipo_codigo != '1125') &&
+         (_response[i].pers_tipo_codigo != '1118')){
+         if((_response[i].asig_organizacion_clave == _organizacion) || (_organizacion == 0)){
+            total+=1
+         }
       }
    }
    return total
@@ -142,16 +183,16 @@ IndicadorTotal.prototype.get_Total= function (response) {
          OBJETO: INDICADOR POR GRADO DE ESTUDIOS
 \*-----------------------------------------------*/
 
-function IndicadorGradoEstudios () {
+function IndicadorGradoAcademico () {
 }
-IndicadorGradoEstudios.prototype.buscar_Empleados = function (){
+IndicadorGradoAcademico.prototype.buscar_GradoAcademico = function (_response_empleados, _organizacion){
    $.ajax({
          url: url_empledos_grado_academico ,
          method: "GET",
          success: function (response) {
 
              // Empleados por grado de estudios
-            empleado_grado = indicador_grado.get_EmpleadoGrado(response)
+            empleado_grado = indicador_grado.get_EmpleadoGrado(response, _response_empleados, _organizacion)
             // Grados de estudios existentes
             grado_estudios = indicador_grado.ordena_GradoEstudios(response)
 
@@ -160,11 +201,11 @@ IndicadorGradoEstudios.prototype.buscar_Empleados = function (){
   
          },
          error: function (response) {
-            alert("Ocurrio error al consultar")
+            alertify("Ocurrio error al consultar")
          }
    })  
 }
-IndicadorGradoEstudios.prototype.get_EmpleadoGrado = function (_response) {
+IndicadorGradoAcademico.prototype.get_EmpleadoGrado = function (_response, _response_empleados, _organizacion) {
    // Contiene num de empleados por grado academico
    var num = []
    //Contiene grados academicos(SIN REPETIR)
@@ -182,7 +223,7 @@ IndicadorGradoEstudios.prototype.get_EmpleadoGrado = function (_response) {
    }
    return num
 }
-IndicadorGradoEstudios.prototype.asigna_GradoEstudios = function(_response) {
+IndicadorGradoAcademico.prototype.asigna_GradoEstudios = function(_response) {
    //Coloca en un array los grados academicos (REPETIDAS)
    var grados_estudios = []
    var cont = 0
@@ -195,7 +236,7 @@ IndicadorGradoEstudios.prototype.asigna_GradoEstudios = function(_response) {
    }
    return grados_estudios
 }
-IndicadorGradoEstudios.prototype.ordena_GradoEstudios = function(_response) {
+IndicadorGradoAcademico.prototype.ordena_GradoEstudios = function(_response) {
    //Coloca en un array los grados academicos existentes(SIN REPETIRSE)
    var grado = []; 
    var grados_estudios = indicador_grado.asigna_GradoEstudios(_response)
@@ -207,7 +248,7 @@ IndicadorGradoEstudios.prototype.ordena_GradoEstudios = function(_response) {
    }
    return grado
 }
-IndicadorGradoEstudios.prototype.get_IndicadorConfig = function (_grados,_empleado_grado) {
+IndicadorGradoAcademico.prototype.get_IndicadorConfig = function (_grados,_empleado_grado) {
 
    return {
       chart: {
@@ -252,7 +293,7 @@ IndicadorGradoEstudios.prototype.get_IndicadorConfig = function (_grados,_emplea
       }]
    }
 }
-IndicadorGradoEstudios.prototype.get_DataConfig = function (_grados,_empleado_grado) {
+IndicadorGradoAcademico.prototype.get_DataConfig = function (_grados,_empleado_grado) {
    var datos = []
    for (var i = 0; i < _grados.length; i++) {
                datos.push( 
@@ -271,7 +312,7 @@ IndicadorGradoEstudios.prototype.get_DataConfig = function (_grados,_empleado_gr
 
 function IndicadorEstadoCivil () {
 }
-IndicadorEstadoCivil.prototype.get_EstadoCivil = function (_response) {
+IndicadorEstadoCivil.prototype.get_EstadoCivil = function (_response, _organizacion) {
    // Estado empleados: Casado, Soltero, Desconocido
    var estado = [0,0,0]
    for (var i = 0; i < _response.length; i++) {
@@ -280,15 +321,16 @@ IndicadorEstadoCivil.prototype.get_EstadoCivil = function (_response) {
          (_response[i].pers_tipo_codigo != '1124') &&
          (_response[i].pers_tipo_codigo != '1125') &&
          (_response[i].pers_tipo_codigo != '1118')){
-
-         // Cuenta el numero de empleados separados por su estado civil
-         if (_response[i].pers_estado_civil_desc == 'Cazad@'){
-            estado[0] += 1
-         } else if (_response[i].pers_estado_civil_desc == 'Solter@'){
-            estado[1] += 1
-         } else if (_response[i].pers_estado_civil_desc == '-'){
-            estado[2] += 1
-         }
+            if((_response[i].asig_organizacion_clave == _organizacion) || (_organizacion == 0)){
+               // Cuenta el numero de empleados separados por su estado civil
+               if (_response[i].pers_estado_civil_desc == 'Cazad@'){
+                  estado[0] += 1
+               } else if (_response[i].pers_estado_civil_desc == 'Solter@'){
+                  estado[1] += 1
+               } else if (_response[i].pers_estado_civil_desc == '-'){
+                  estado[2] += 1
+               }
+            }
       }
    }
    return estado
@@ -347,7 +389,7 @@ IndicadorEstadoCivil.prototype.get_DataConfig = function (_estado) {
 
 function IndicadorRangoEdad () {
 }
-IndicadorRangoEdad.prototype.get_RangoEdad = function (_response) {
+IndicadorRangoEdad.prototype.get_RangoEdad = function (_response, _organizacion) {
    // Rango de edades: (19-30),(30-40),(40-50),(50-60),(60-70),(70-80)
    var rango_edades = [0,0,0,0,0,0]
    var fecha_actual = new Date()
@@ -360,27 +402,29 @@ IndicadorRangoEdad.prototype.get_RangoEdad = function (_response) {
          (_response[i].pers_tipo_codigo != '1125') &&
          (_response[i].pers_tipo_codigo != '1118')){
 
-         anio_nacimiento = (_response[i].pers_fecha_nacimiento).split("-")[0]
-         mes_nacimiento = (_response[i].pers_fecha_nacimiento).split("-")[1]
-         edad = fecha_actual.getFullYear() - anio_nacimiento
-         
-         //Validar si el empleado ya cumplio años o aun los cumplira
-         if (fecha_actual.getMonth()<mes_nacimiento)
-            edad= edad-1
+         if((_response[i].asig_organizacion_clave == _organizacion) || (_organizacion == 0)){
+            anio_nacimiento = (_response[i].pers_fecha_nacimiento).split("-")[0]
+            mes_nacimiento = (_response[i].pers_fecha_nacimiento).split("-")[1]
+            edad = fecha_actual.getFullYear() - anio_nacimiento
+            
+            //Validar si el empleado ya cumplio años o aun los cumplira
+            if (fecha_actual.getMonth()<mes_nacimiento)
+               edad= edad-1
 
-         //Validar en que rango de edad se encuentra el empleado
-         if((edad>=18) && (edad<30)){
-            rango_edades[0] += 1
-         }else if ((edad>=30) && (edad<40)){
-            rango_edades[1] += 1
-         }else if ((edad>=40) && (edad<50)){
-            rango_edades[2] += 1
-         }else if ((edad>=50) && (edad<60)){
-            rango_edades[3] += 1
-         }else if ((edad>=60) && (edad<70)){
-            rango_edades[4] += 1
-         }else if ((edad>=70) && (edad<80)){
-            rango_edades[5] += 1
+            //Validar en que rango de edad se encuentra el empleado
+            if((edad>=18) && (edad<30)){
+               rango_edades[0] += 1
+            }else if ((edad>=30) && (edad<40)){
+               rango_edades[1] += 1
+            }else if ((edad>=40) && (edad<50)){
+               rango_edades[2] += 1
+            }else if ((edad>=50) && (edad<60)){
+               rango_edades[3] += 1
+            }else if ((edad>=60) && (edad<70)){
+               rango_edades[4] += 1
+            }else if ((edad>=70) && (edad<80)){
+               rango_edades[5] += 1
+            }
          }
       }
    }
@@ -468,7 +512,7 @@ IndicadorRangoEdad.prototype.get_DataConfig = function (_rango_edades) {
 
 function IndicadorSexo () {
 }
-IndicadorSexo.prototype.get_Sexo = function (_response) {
+IndicadorSexo.prototype.get_Sexo = function (_response, _organizacion) {
    // Empleado por sexo
    var empleado_sexo = [0,0]
 
@@ -479,12 +523,14 @@ IndicadorSexo.prototype.get_Sexo = function (_response) {
          (_response[i].pers_tipo_codigo != '1125') &&
          (_response[i].pers_tipo_codigo != '1118')){
 
-         sexo = _response[i].pers_genero_clave
+         if((_response[i].asig_organizacion_clave == _organizacion) || (_organizacion == 0)){
+            sexo = _response[i].pers_genero_clave
 
-         if(sexo == 'M'){
-            empleado_sexo[0] += 1
-         } else if(sexo == 'F'){
-            empleado_sexo[1] += 1
+            if(sexo == 'M'){
+               empleado_sexo[0] += 1
+            } else if(sexo == 'F'){
+               empleado_sexo[1] += 1
+            }
          }
       }
    }
@@ -569,7 +615,7 @@ IndicadorOrganizacion.prototype.buscar_Organizaciones = function (_empleados) {
            
          },
          error: function (response) {
-            alert("Ocurrio error al consultar")
+            alertify("Ocurrio error al consultar")
          }
    }) 
 }

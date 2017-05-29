@@ -15,7 +15,16 @@
    </div>
    <div class="main-content container-fluid">
       <div class="col-sm-12">
-         <div class="panel panel-default panel-table">
+         <div class="">
+            <!-- Filtro por organizaciones  -->
+            <div class="col-sm-8">
+               <div class="widget size-highcharts">
+                  <label> <h3>Filtros</h3></label>
+                  <p>
+                  {{ form.organizaciones.label }}
+                  {{ form.organizaciones }}</p>
+               </div>
+            </div>
             <!-- Indicador total de empleados -->
             <div class="col-sm-6">
                <div class="widget size-highcharts">
