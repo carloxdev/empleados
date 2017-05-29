@@ -3,7 +3,7 @@
 \*-----------------------------------------------*/
 
 
-var url_incidenciazonaemp = window.location.origin + "/api-sgi/incidenciaempleadoszona/"
+var url_incidenciazonaemp = window.location.origin + "/api-sgi/viewincidenciasporzona/"
 
 // OBJS
 var indicador_total = null
@@ -90,7 +90,7 @@ IndicadorTotal.prototype.set_Total= function (response) {
 
 
         $.map(aData, function (item, index) {
-            var i = [item.zona, item.totalempleado];
+            var i = [item.descripcion, item.totalempleado];
             var obj = {};
 
             //alert(item.zona);
@@ -100,7 +100,7 @@ IndicadorTotal.prototype.set_Total= function (response) {
             }
 
 
-            obj.name = item.totalempleado + " - " + item.zona;
+            obj.name = item.totalempleado + " - " + item.descripcion;
             obj.y = parseFloat(item.totalempleado);
             arr.push(obj);
 
@@ -123,18 +123,18 @@ IndicadorTotal.prototype.set_Total2= function (response) {
 
 
         $.map(aData, function (item, index) {
-            var i = [item.zona, item.incidencias_registrables];
+            var i = [item.descripcion, item.total_incidencias];
             var obj = {};
 
             //alert(item.zona);
 
-            if (item.incidencias_registrables == "--") {
-                item.incidencias_registrables = "0";
+            if (item.total_incidencias == "--") {
+                item.total_incidencias = "0";
             }
 
 
-            obj.name = item.incidencias_registrables + " - " + item.zona;
-            obj.y = parseFloat(item.incidencias_registrables);
+            obj.name = item.total_incidencias + " - " + item.descripcion;
+            obj.y = parseFloat(item.total_incidencias);
             arr.push(obj);
 
             //alert(obj);
@@ -158,7 +158,7 @@ function Set_Grid(response) {
         columns: [
 
           {
-              field: "zona",
+              field: "descripcion",
               title: "Zona",
               headerAttributes: { style: "text-align:center" }
           },
@@ -171,12 +171,20 @@ function Set_Grid(response) {
 
           },
 
-          {headerAttributes: { style: "text-align:center" },
-          field: "incidencias_registrables",
-          title: "Numero de Accidentes Reg",
+              {headerAttributes: { style: "text-align:center" },
+              field: "total_incidencias",
+              title: "Numero de Accidentes Reg",
 
-          template: '<div style="text-align:center;">#= incidencias_registrables #</span>'
-      },
+              template: '<div style="text-align:center;">#= total_incidencias #</span>'
+          },
+          {
+              headerAttributes: { style: "text-align:center" },
+              field: "trir",
+              title: "TRIR",
+
+              template: '<div style="text-align:center;">#= trir #</div>'
+
+          },
          
 
         ],
@@ -212,22 +220,22 @@ function Set_Grid(response) {
 
 
         $.map(aData, function (item, index) {
-            var i = [item.zona, item.incidencias_registrables];
+            var i = [item.descripcion, item.trir];
             var obj = {};
 
             //alert(item.zona);
 
-            if (item.incidencias_registrables == "--") {
-                item.incidencias_registrables = "0";
+            if (item.trir == "--") {
+                item.trir = "0";
             }
 
-            obj.name = item.zona + " - " + item.incidencias_registrables;
-            obj.stack = item.zona;
-            obj.y = parseFloat(item.incidencias_registrables);
+            obj.name = item.descripcion + " - " + item.trir;
+            obj.stack = item.descripcion;
+            obj.y = parseFloat(item.trir);
             arr.push(obj);
 
             //alert(obj);
-            ProyectoData[i] = item.zona;
+            ProyectoData[i] = item.descripcion;
 
         });
 
