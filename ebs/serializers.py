@@ -155,6 +155,7 @@ class VIEW_EMPLEADOS_GRADO_Serializer(serializers.HyperlinkedModelSerializer):
             'pers_clave',
             'pers_empleado_numero',
             'pers_nombre_completo',
+            'asig_organizacion_id',
             'asig_organizacion_desc',
             'asig_puesto_desc',
             'qua_grado_academico',

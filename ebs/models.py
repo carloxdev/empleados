@@ -173,6 +173,7 @@ class VIEW_EMPLEADOS_GRADO(models.Model):
     pers_empleado_numero = models.CharField(max_length=30)
     pers_nombre_completo = models.CharField(max_length=240)
     asig_puesto_desc = models.CharField(max_length=240)
+    asig_organizacion_id = models.IntegerField()
     asig_organizacion_desc = models.CharField(max_length=240)
     qua_grado_academico = models.CharField(max_length=240)
     qua_ultimo_estudio = models.CharField(max_length=240)
