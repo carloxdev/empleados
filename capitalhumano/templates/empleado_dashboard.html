@@ -17,32 +17,36 @@
       <div class="col-sm-12">
          <div class="">
             <!-- Filtro por organizaciones  -->
-            <div class="col-sm-8">
+            <div class="col-sm-12">
                <div class="widget size-highcharts">
                   <label> <h3>Filtros</h3></label>
                   <p>
                   {{ form.organizaciones.label }}
                   {{ form.organizaciones }}</p>
+                  <h3 id="container-mensaje"></h3>
                </div>
+               
             </div>
+            <!-- Mensaje -->
+
             <!-- Indicador total de empleados -->
             <div class="col-sm-6">
-               <div class="widget size-highcharts">
+               <div class="widget size-highcharts" id="container-total">
                   <div class="data-info">
                      <div class="desc"><h2>Total de empleados</h2></div>
                      <div class="value" >
-                        <b><h2 id="container-total-ac"></h2></b>
+                        <b><h2 id="resultado-total-ac"></h2></b>
                      </div>
                   </div>
                </div>
             </div>
             <!-- Indicador rotacion de personal -->
             <div class="col-sm-6">
-               <div class="widget nova-size-highcharts">
+               <div class="widget nova-size-highcharts" id="container-rotacion">
                   <div class="data-info">
                      <div class="desc"><h2>Rotación de personal</h2></div>
                      <div class="value" >
-                        <b><h2 id="container-rotacion"></h2></b>
+                        <b><h2 id="resultado-rotacion"></h2></b>
                      </div>
                   </div>
                </div>
@@ -64,7 +68,6 @@
                <div class="nova-margin-highcharts" id="container-sexo"></div>
             </div>
             <!-- Indicador organizacion -->
-
             <div id="container-organizacion"></div>
 
          </div><!-- Panel default -->

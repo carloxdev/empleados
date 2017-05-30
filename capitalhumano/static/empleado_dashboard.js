@@ -69,15 +69,20 @@ Indicadores.prototype.buscar_Empleados = function (_organizacion) {
          method: "GET",
          success: function (response) {
 
-            //Total de empleados
+            
             if( organizacion== 0){
-               indicadores.indicador_Total(response, organizacion)
+               //Total de empleados
+               total = indicadores.indicador_Total(response, organizacion)
+
+               indicadores.mostrar_Mensaje()
+
+               indicadores. ocultar_Graficas(total, organizacion)
 
                //Rotacion de empleados
                indicadores.indicador_Rotacion(response, organizacion)
 
                //Distribucion por grado de estudios
-               indicadores.indicador_GradoAcademico(response, organizacion)
+               indicadores.indicador_GradoAcademico(organizacion)
 
                //Disribucion por estado civil
                indicadores.indicador_EstadoCivil(response, organizacion)
@@ -93,13 +98,18 @@ Indicadores.prototype.buscar_Empleados = function (_organizacion) {
                indicadores.indicador_Organizacion(response)
 
             }else if(organizacion != 0){
-               indicadores.indicador_Total(response, organizacion)
+               //Total de empleados
+               total = indicadores.indicador_Total(response, organizacion)
+
+               indicadores.mostrar_Mensaje()
+
+               indicadores. ocultar_Graficas(total, organizacion)
 
                //Rotacion de empleados
                indicadores.indicador_Rotacion(response, organizacion)
 
                //Distribucion por grado de estudios
-               indicadores.indicador_GradoAcademico(response, organizacion)
+               indicadores.indicador_GradoAcademico(organizacion)
 
                //Disribucion por estado civil
                indicadores.indicador_EstadoCivil(response, organizacion)
@@ -122,16 +132,18 @@ Indicadores.prototype.buscar_Empleados = function (_organizacion) {
 Indicadores.prototype.indicador_Total = function (_response, _organizacion) {
 
    dato_total = indicador_total.get_Total(_response, _organizacion)
-   document.getElementById('container-total-ac').innerHTML=dato_total
+   document.getElementById('resultado-total-ac').innerHTML=dato_total
+
+   return dato_total
 }
 Indicadores.prototype.indicador_Rotacion = function (_response, _organizacion) {
 
    dato_rotacion = 0 //indicador_total.get_Rotacion(_response)
-   document.getElementById('container-rotacion').innerHTML=dato_rotacion
+   document.getElementById('resultado-rotacion').innerHTML=dato_rotacion
 }
-Indicadores.prototype.indicador_GradoAcademico = function (_response, _organizacion) {
+Indicadores.prototype.indicador_GradoAcademico = function (_organizacion) {
    
-   indicador_grado.buscar_GradoAcademico(_response, _organizacion)
+   indicador_grado.buscar_GradoAcademico(_organizacion)
 }
 Indicadores.prototype.indicador_EstadoCivil = function (_response, _organizacion) {
 
@@ -153,6 +165,31 @@ Indicadores.prototype.indicador_Organizacion = function (_response) {
 
    indicador_organizacion.buscar_Organizaciones(_response)
 
+}
+Indicadores.prototype.mostrar_Mensaje = function (){
+
+   if(total == 0){
+      document.getElementById('container-mensaje').innerHTML='La organización no cuenta con empleados'
+   }else{
+      document.getElementById('container-mensaje').innerHTML=' '
+   }
+}
+Indicadores.prototype.ocultar_Graficas = function (_total, _organizacion){
+   if(total==0){
+      $('#container-total').hide()
+      $('#container-rotacion').hide()
+      $('#container-grado').hide()
+      $('#container-estado').hide()
+      $('#container-edad').hide()
+      $('#container-sexo').hide()
+   }else if((total=!0) || (_organizacion == 0)){
+      $('#container-total').show()
+      $('#container-rotacion').show()
+      $('#container-grado').show()
+      $('#container-estado').show()
+      $('#container-edad').show()
+      $('#container-sexo').show()
+   }
 }
 
 /*-----------------------------------------------*\
@@ -185,14 +222,15 @@ IndicadorTotal.prototype.get_Total= function (_response, _organizacion) {
 
 function IndicadorGradoAcademico () {
 }
-IndicadorGradoAcademico.prototype.buscar_GradoAcademico = function (_response_empleados, _organizacion){
+IndicadorGradoAcademico.prototype.buscar_GradoAcademico = function (_organizacion){
+
    $.ajax({
          url: url_empledos_grado_academico ,
          method: "GET",
          success: function (response) {
-
+            
              // Empleados por grado de estudios
-            empleado_grado = indicador_grado.get_EmpleadoGrado(response, _response_empleados, _organizacion)
+            empleado_grado = indicador_grado.get_EmpleadoGrado(response, _organizacion)
             // Grados de estudios existentes
             grado_estudios = indicador_grado.ordena_GradoEstudios(response)
 
@@ -205,7 +243,7 @@ IndicadorGradoAcademico.prototype.buscar_GradoAcademico = function (_response_em
          }
    })  
 }
-IndicadorGradoAcademico.prototype.get_EmpleadoGrado = function (_response, _response_empleados, _organizacion) {
+IndicadorGradoAcademico.prototype.get_EmpleadoGrado = function (_response, _organizacion) {
    // Contiene num de empleados por grado academico
    var num = []
    //Contiene grados academicos(SIN REPETIR)
@@ -214,10 +252,11 @@ IndicadorGradoAcademico.prototype.get_EmpleadoGrado = function (_response, _resp
    for (var i = 0; i < dato.length; i++) {
       num[i] = 0
       for(var j=0; j < _response.length; j++){
+         if((_response[j].asig_organizacion_id == _organizacion) || (_organizacion == 0)){
+            if(dato[i] == _response[j].qua_grado_academico){
 
-         if(dato[i] == _response[j].qua_grado_academico){
-
-            num [i] +=1
+               num [i] +=1
+            }
          }
       }
    }
