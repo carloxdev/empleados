@@ -157,6 +157,20 @@ class ContrasenaReset(View):
 
     template_name = 'contrasena_reset.html'
 
+    def get_OpcionesForReset(self, request, usuarios):
+        opts = {
+            'use_https': request.is_secure(),
+            'token_generator': default_token_generator,
+            'from_email': None,
+            'email_template_name': 'contrasena_reset_email.html',
+            'subject_template_name': 'contrasena_reset_subject.txt',
+            'request': request,
+            'html_email_template_name': None,
+            'usuarios': usuarios,
+        }
+
+        return opts
+
     def get(self, _request):
         form = UserContrasenaResetForm()
 
@@ -167,56 +181,62 @@ class ContrasenaReset(View):
 
     def post(self, _request):
         form = UserContrasenaResetForm(_request.POST)
-        dato = _request.POST['email']
 
-        # Filtrado por "Nombre de usuario"
-        if User.objects.filter(username=dato).exists():
-            usuario = User.objects.get(username=dato)
-            _request.POST._mutable = True
-            _request.POST['usuario_clave'] = usuario.username
-            _request.POST['email'] = usuario.email
-            _request.POST._mutable = False
+        if form.is_valid():
 
-            if form.is_valid():
+            dato = _request.POST['email']
 
-                opts = {
-                    'use_https': _request.is_secure(),
-                    'token_generator': default_token_generator,
-                    'from_email': None,
-                    'email_template_name': 'contrasena_reset_email.html',
-                    'subject_template_name': 'contrasena_reset_subject.txt',
-                    'request': _request,
-                    'html_email_template_name': None,
-                }
-                form.save(**opts)
+            if not re.match(r"[^@]+@[^@]+\.[^@]+", dato):
 
-                messages.success(
-                    _request, 'El correo a sido enviado exitosamente')
+                # Consulta la cuenta:
+                usuarios = User.objects.filter(
+                    username=dato,
+                    is_active=True
+                )
 
-        # Filtrado por "Correo electronico"
-        elif User.objects.filter(email=dato).exists():
+                if len(usuarios) > 0:
+                    _request.POST._mutable = True
+                    _request.POST['cuenta'] = usuarios[0].username
+                    _request.POST._mutable = False
 
-            _request.POST._mutable = True
-            _request.POST['usuario_clave'] = ""
-            _request.POST._mutable = False
+                    form.save(**self.get_OpcionesForReset(_request, usuarios))
+                    messages.success(
+                        _request,
+                        'Se envio un link al correo %s con el cual podra cambiar su contraseña' % (
+                            usuarios[0].email
+                        )
+                    )
 
-            if form.is_valid():
-                opts = {
-                    'use_https': _request.is_secure(),
-                    'token_generator': default_token_generator,
-                    'from_email': None,
-                    'email_template_name': 'contrasena_reset_email.html',
-                    'subject_template_name': 'contrasena_reset_subject.txt',
-                    'request': _request,
-                    'html_email_template_name': None,
-                }
-                form.save(**opts)
+                else:
+                    messages.error(
+                        _request,
+                        'El usuario/correo electronico no se encuentra aosciado a un usuario activo.'
+                    )
 
-            messages.success(
-                _request, 'El correo a sido enviado exitosamente')
-        else:
-            messages.error(
-                _request, 'El usuario/correo electronico no se encuentra aosciado a un usuario.')
+            else:
+
+                # Consultar correo:
+                usuarios = User.objects.filter(
+                    email=dato,
+                    is_active=True
+                )
+
+                if len(usuarios) > 0:
+
+                    form.save(**self.get_OpcionesForReset(_request, usuarios))
+
+                    messages.success(
+                        _request,
+                        'Se envio un link al correo %s con el cual podra cambiar su contraseña' % (
+                            dato.encode('utf-8')
+                        )
+                    )
+
+                else:
+                    messages.error(
+                        _request,
+                        'El usuario/correo electronico no se encuentra aosciado a un usuario activo.'
+                    )
 
         contexto = {
             'form': form,
