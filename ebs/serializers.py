@@ -179,6 +179,8 @@ class VIEW_ORGANIGRAMA_Serializer(serializers.HyperlinkedModelSerializer):
             'grup_compania_jde',
             'grup_proyecto_jde',
             'asig_jefe_directo_clave',
+            'jefe_nombre_completo',
+            'nivel_estructura',
             'ruta',
             'ruta2',
         )
