@@ -198,7 +198,7 @@ class VIEW_ORGANIGRAMA(models.Model):
     nivel_estructura = models.IntegerField()
     ruta = models.CharField(max_length=240)
     ruta2 = models.CharField(max_length=240)
-
+    asig_organizacion_clave = models.IntegerField()
 
     class Meta:
         managed = False

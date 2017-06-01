@@ -175,6 +175,7 @@ class VIEW_ORGANIGRAMA_Serializer(serializers.HyperlinkedModelSerializer):
             'asig_trabajo_desc',
             'pers_clave',
             'asig_organizacion_desc',
+            'asig_organizacion_clave',
             'asig_puesto_desc',
             'grup_compania_jde',
             'grup_proyecto_jde',
