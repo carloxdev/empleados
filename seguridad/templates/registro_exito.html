@@ -1,0 +1,67 @@
+{% extends 'login.html' %}
+
+{% load static from staticfiles %}
+
+{% block titulo %} Usuario Registrado {% endblock titulo %}
+
+{% block title-page %} Usuario Registrado {% endblock title-page %}
+
+{% block css %}
+
+    <!-- Pace -->
+    <link rel="stylesheet" href="{% static 'libs/pace/1.0.0/pace.css' %}" type="text/css"/>
+
+    <!-- Nova' Styles -->
+    <link rel="stylesheet" href="{% static 'master.css' %}"/>
+    <link rel="stylesheet" href="{% static 'registro.css' %}"/>
+
+{% endblock css %}
+
+{% block contenido %}
+
+<div class="main-content container-fluid">
+
+    <nav class="navbar navbar-default navbar-fixed-top be-top-header">
+        <div class="container-fluid">
+  
+            <div class="navbar-header">
+                <a class="navbar-brand" href="{% url 'home:inicio' %}"></a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="nova-contenido">
+
+        <div class="row">
+            <div class="col-sm-12 text-center">
+                <div class="page-head">
+                    <h1 class="page-head-title">Bienvenido a Nova <span class="nova-usuario">{{ record.get_full_name }}</span></h1>
+                </div>         
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12 col-md-8 col-md-offset-2">
+                <div class="panel panel-border panel-contrast nova-panel-info">
+                    <h4>
+                        Ahora puedes ingresar a Nova con tu Nombre de Usuario y Contraseña.
+                    </h4>
+                    
+                    <a href=" {% url 'seguridad:login' %}" class="btn btn-success btn-lg">
+                        <i class="icon mdi mdi-square-right"></i>
+                        Ir al Login
+                    </a> 
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock contenido%}
+
+{% block scripts %}
+
+
+
+{% endblock scripts %}

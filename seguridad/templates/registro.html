@@ -10,26 +10,24 @@
 
 {% block css %}
    
-   <!-- Pace -->
-   <link rel="stylesheet" href="{% static 'libs/pace/1.0.0/pace.css' %}" type="text/css"/>
+    <!-- Pace -->
+    <link rel="stylesheet" href="{% static 'libs/pace/1.0.0/pace.css' %}" type="text/css"/>
 
-   <!-- Awesome Icons -->
-   <link rel="stylesheet" href="{% static 'libs/awesome-icons/4.7.0/css/font-awesome.min.css' %}" type="text/css">
-
-   <!-- Select 2 -->
-   <link rel="stylesheet" href="{% static 'theme/lib/select2/css/select2.min.css' %}"/>
-
-   <!-- Alertifyjs -->
-   <link rel="stylesheet" href="{% static 'libs/alertifyjs/1.10.0/css/alertify.min.css' %}" type="text/css"/>
-   <link rel="stylesheet" href="{% static 'libs/alertifyjs/1.10.0/css/themes/bootstrap.min.css' %}" type="text/css"/>
+    <!-- Alertifyjs -->
+    <link rel="stylesheet" href="{% static 'libs/alertifyjs/1.10.0/css/alertify.min.css' %}" type="text/css"/>
+    <link rel="stylesheet" href="{% static 'libs/alertifyjs/1.10.0/css/themes/bootstrap.min.css' %}" type="text/css"/>
 
     <!-- Main Theme CSS -->
     <link rel="stylesheet" href="{% static 'theme/css/style.css' %}" type="text/css"/>
 
-   <!-- Nova' Styles -->
-   <link rel="stylesheet" href="{% static 'master.css' %}"/>
-   <link rel="stylesheet" href="{% static 'registro.css' %}"/>
+    <!-- Nova' Styles -->
+    <link rel="stylesheet" href="{% static 'master.css' %}"/>
+    <link rel="stylesheet" href="{% static 'registro.css' %}"/>
 
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->     
 
 {% endblock css %}
 
@@ -37,142 +35,131 @@
 
 <div class="main-content container-fluid">
 
-   <div class="row">
-      <div class="col-sm-12 text-center">
-        <div class="page-head">
-           <h1 class="page-head-title">Registro de Usuario</h1>
-        </div>         
-      </div>
+    <nav class="navbar navbar-default navbar-fixed-top be-top-header">
+        <div class="container-fluid">
+  
+            <div class="navbar-header">
+                <a class="navbar-brand" href="{% url 'home:inicio' %}"></a>
+            </div>
+        </div>
+    </nav>
 
-   </div>
+    <div class="nova-contenido">
 
-   <div class="row wizard-row">
-      <div class="col-md-12 fuelux">
+        <div class="row">
+            <div class="col-sm-12 text-center">
+                <div class="page-head">
+                    <h1 class="page-head-title">Registro de Usuario</h1>
+                </div>         
+            </div>
+        </div>
 
-         <div class="panel panel-border panel-contrast">
-            
-            <form action="" method="POST" novalidate> {% csrf_token %}
-               <div class="panel-body collapse in">
-                     <div class="step-content">
-                           
-                        <div data-step="1" class="step-pane">
-                           
-                           <div action="#" data-parsley-namespace="data-parsley-" data-parsley-validate="" novalidate="" class="form-horizontal group-border-dashed">
+        <div class="row wizard-row">
+            <div class="col-md-12 fuelux">
+                <div class="panel panel-border panel-contrast">
+                    <form action="" method="POST" novalidate> {% csrf_token %}
+                        <div class="panel-body collapse in">
+                            <div class="step-content">
+                                <div data-step="1" class="step-pane">
+                                    <div action="#" data-parsley-namespace="data-parsley-" data-parsley-validate="" novalidate="" class="form-horizontal group-border-dashed">
+                                        <div class="form-group no-padding">
+                                            <div class="col-sm-7">
+                                                <h3 class="wizard-title">Informacion del Empleado</h3>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-sm-9">
 
-                              <div class="form-group no-padding">
-                                 <div class="col-sm-7">
-                                    <h3 class="wizard-title">Informacion del Empleado</h3>
-                                 </div>
-                              </div>
-                              
-                              <div class="form-group">
+                                                <!-- Clave_rh-->
+                                                {% tag_field_registro form.clave_rh 4 8 %}
 
-                                 <div class="col-sm-9">
+                                                <!-- First_name-->
+                                                {% tag_field_registro_nval form.first_name 4 8 %}
 
-                                    <!-- Clave_rh-->
-                                    {% tag_field_registro form.clave_rh 4 8 %}
+                                                <!-- Last_name-->
+                                                {% tag_field_registro_nval form.last_name 4 8 %}
 
-                                    <!-- First_name-->
-                                    {% tag_field_registro_nval form.first_name 4 8 %}
+                                                <!-- Fecha_nacimiento-->
+                                                {% tag_field_registro_nval form.fecha_nacimiento 4 8 %}
 
-                                    <!-- Last_name-->
-                                    {% tag_field_registro_nval form.last_name 4 8 %}
+                                                <!-- Clave_jde -->
+                                                {% tag_field_registro form.clave_jde 4 8 %}
+                                            </div>
 
-                                    <!-- Fecha_nacimiento-->
-                                    {% tag_field_registro_nval form.fecha_nacimiento 4 8 %}
-
-                                    <!-- Clave_jde -->
-                                    {% tag_field_registro form.clave_jde 4 8 %}
-
-                                 </div>
-
-                                 <div class="col-sm-3">
-                                       
-                                   {% tag_field_image_registro form.foto %} 
-        
-                                 </div>
-                              </div>
-                           </div>
+                                            <div class="col-sm-3">                                       
+                                               {% tag_field_image_registro form.foto %} 
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
-                     </div>
-               </div>
-              <!-- Botones -->
-              <div class="panel-body collapse in nova-panel-2ndseccion">
-                  <div class="step-content">
-                     <div data-step="1" class="step-pane">
-                        <div action="#" data-parsley-namespace="data-parsley-" data-parsley-validate="" novalidate="" class="form-horizontal group-border-dashed">
+                        <!-- Botones -->
+                        <div class="panel-body collapse in nova-panel-2ndseccion">
+                            <div class="step-content">
+                                <div data-step="1" class="step-pane">
+                                    <div action="#" data-parsley-namespace="data-parsley-" data-parsley-validate="" novalidate="" class="form-horizontal group-border-dashed">
+                                        <div class="form-group no-padding">
+                                            <div class="col-sm-7">
+                                                <h3 class="wizard-title">Informacion de la Cuenta</h3>
+                                            </div>
+                                        </div>
 
-                           <div class="form-group no-padding">
-                             <div class="col-sm-7">
-                               <h3 class="wizard-title">Informacion de la Cuenta</h3>
-                             </div>
-                           </div>
+                                        <div class="form-group">
+                                            <div class="col-sm-12">
+                                      
+                                                 <!-- Username-->
+                                                 {% tag_field_registro form.username 3 6 %}
 
-                           <div class="form-group">
+                                                 <!-- Email-->
+                                                 {% tag_field_registro form.email 3 6 %}                     
 
-                              <div class="col-sm-12">
-                              
-                                 <!-- Username-->
-                                 {% tag_field_registro form.username 3 6 %}
-
-                                 <!-- Email-->
-                                 {% tag_field_registro form.email 3 6 %}                     
-
-                                 <!-- Password-->
-                                 {% tag_field_registro form.password1 3 6 %}
-                                
-                                 <!-- Confirmar Password-->
-                                 {% tag_field_registro form.password2 3 6 %}                              
-                                    
-                              </div>
-
-                           </div>
-
+                                                 <!-- Password-->
+                                                 {% tag_field_registro form.password1 3 6 %}
+                                                
+                                                 <!-- Confirmar Password-->
+                                                 {% tag_field_registro form.password2 3 6 %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                     </div>                     
-                  </div>               
-              </div>
-              <div class="modal-footer nova-modal-footer">
 
-                  <div class="row col-sm-12">
+                        <div class="modal-footer nova-modal-footer">
 
-                      <a href=" {% url 'finanzas:viatico_lista' %}" class="btn btn-default">
-                          <i class="icon mdi mdi-arrow-left"></i>
-                          Regresar a Login
-                      </a>                     
-                      
-                      <button type="submit" id="btn_registrar" class="btn nova-btn btn-success btn-lg pull-right">
-                          Registrar
-                      </button>
-                  </div>
-              </div>     
-            </form>        
-         </div>
-      </div>
-   </div>
+                            <div class="row col-sm-12">
+
+                                <a href=" {% url 'seguridad:login' %}" class="btn btn-default">
+                                    <i class="icon mdi mdi-arrow-left"></i>
+                                    Regresar a Login
+                                </a>
+                          
+                                <button type="submit" id="btn_registrar" class="btn nova-btn btn-success btn-lg pull-right">
+                                    <i class="icon mdi mdi-assignment-check"></i>
+                                    Registrarse
+                                </button>
+                            </div>
+                        </div>     
+                    </form>        
+                </div>
+            </div>
+        </div>        
+    </div>
 
 </div>
 {% endblock contenido%}
 
 {% block scripts %}
 
-   <!-- jQuery-UI -->
-   <script src="{% static 'theme/lib/jquery-ui/jquery-ui.min.js' %}"></script>
+    <!-- jQuery-UI -->
+    <script src="{% static 'theme/lib/jquery-ui/jquery-ui.min.js' %}"></script>
 
-   <!-- Moment -->
-   <script src="{% static 'libs/momentjs/2.18.1/moment.js' %}"></script>
+    <!-- Alertify -->
+    <script src="{% static 'libs/alertifyjs/1.10.0/alertify.min.js' %}"></script>
 
-   <!-- Select 2 -->
-   <script src="{% static 'theme/lib/select2/js/select2.min.js' %}"></script>      
-
-   <!-- Alertify -->
-   <script src="{% static 'libs/alertifyjs/1.10.0/alertify.min.js' %}"></script>
-
-   <!-- Wizard -->
-   <script src="{% static 'theme/lib/fuelux/js/wizard.js' %}"></script>
-   
-   <!-- Nova -->
-   <script src="{% static 'registro.js' %}"></script>
+    <!-- Nova -->
+    <script src="{% static 'registro.js' %}"></script>
 
 {% endblock scripts %}

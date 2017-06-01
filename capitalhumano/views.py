@@ -61,3 +61,29 @@ class EmpleadoOrganigrama(View):
             'form': form,
         }
         return render(request, self.template_name, contexto)
+
+
+class PerfilPuesto(View):
+
+    def get(self, request):
+
+        return render(request, 'perfilpuesto/perfil_lista.html')   
+
+class PerfilPuestoNuevo(View):
+
+    def get(self, request):
+
+        return render(request, 'perfilpuesto/perfil_nuevo.html') 
+
+class PerfilPuestoNuevo2(View):
+
+    def get(self, request):
+
+        return render(request, 'perfilpuesto/perfil_nuevo2.html')   
+
+class PerfilPuestoConfiguraciones(View):
+
+    def get(self, request):
+
+        return render(request, 'perfilpuesto/perfil_configuracion.html')                   
+

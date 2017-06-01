@@ -19,11 +19,31 @@
     right: -7px;    
 }
 
-
 .nova-registro-img {
     width: 60%;
 }
 
 .nova-registro-img-btn {
     margin-top: 1em;
+}
+
+.nova-panel-info {
+    padding: 3em;
+    text-align: center;
+}
+
+    .nova-panel-info a {
+        margin-top: 1em;
+    }
+
+.nova-contenido {
+    margin-top: 2em;
+}
+
+.nova-usuario {
+    font-weight: bold;
+}
+
+.nova-mensajes {
+    margin-top: 2em;
 }
