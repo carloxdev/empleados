@@ -42,30 +42,29 @@ from .forms import UserContrasenaResetConfirmForm
 
 class Login(View):
 
-    def __init__(self):
-        self.template_name = 'login.html'
+    template_name = 'login.html'
 
-    def get(self, request):
+    def get(self, _request):
 
-        if request.user.is_authenticated():
+        if _request.user.is_authenticated():
             return redirect(
                 reverse('home:inicio')
             )
-        return render(request, self.template_name, {})
+        return render(_request, self.template_name, {})
 
-    def post(self, request):
+    def post(self, _request):
 
         mensaje = ""
 
-        usuario = request.POST.get('usuario')
-        contrasena = request.POST.get('password')
+        usuario = _request.POST.get('usuario')
+        contrasena = _request.POST.get('password')
 
         user_obj = authenticate(username=usuario, password=contrasena)
 
         if user_obj is not None:
 
             if user_obj.is_active:
-                login(request, user_obj)
+                login(_request, user_obj)
                 return redirect(
                     reverse('home:inicio')
                 )
@@ -78,26 +77,25 @@ class Login(View):
             'mensaje': mensaje
         }
 
-        return render(request, self.template_name, contexto)
+        return render(_request, self.template_name, contexto)
 
 
 class Registro(View):
 
-    def __init__(self):
-        self.template_name = 'registro.html'
+    template_name = 'registro.html'
 
-    def get(self, request):
+    def get(self, _request):
 
         form_usuario = UserRegistroForm()
 
         contexto = {
             'form': form_usuario,
         }
-        return render(request, self.template_name, contexto)
+        return render(_request, self.template_name, contexto)
 
-    def post(self, request):
+    def post(self, _request):
 
-        form_usuario = UserRegistroForm(request.POST, request.FILES)
+        form_usuario = UserRegistroForm(_request.POST, _request.FILES)
 
         if form_usuario.is_valid():
 
@@ -128,87 +126,102 @@ class Registro(View):
                 usuario.profile.foto = datos_formulario.get('foto')
                 usuario.profile.save()
 
-                return redirect(reverse('home:inicio'))
+                return redirect(reverse('seguridad:usuario_registro_exito', kwargs={'_pk': usuario.pk}))
+
             else:
                 messages.error(
-                    request, 'La clave de empleado ya se encuentra asociada a una cuenta')
+                    _request, 'La clave de empleado ya se encuentra asociada a una cuenta')
 
         contexto = {
             'form': form_usuario,
         }
-        return render(request, self.template_name, contexto)
+        return render(_request, self.template_name, contexto)
+
+
+class RegistroExito(View):
+
+    template_name = 'registro_exito.html'
+
+    def get(self, _request, _pk):
+
+        usuario = User.objects.get(pk=_pk)
+
+        contexto = {
+            'record': usuario
+        }
+
+        return render(_request, self.template_name, contexto)
 
 
 class ContrasenaReset(View):
 
-    def __init__(self):
-        self.template_name = 'contrasena_reset.html'
+    template_name = 'contrasena_reset.html'
 
-    def get(self, request):
+    def get(self, _request):
         form = UserContrasenaResetForm()
 
         contexto = {
             'form': form,
         }
-        return render(request, self.template_name, contexto)
+        return render(_request, self.template_name, contexto)
 
-    def post(self, request):
-        form = UserContrasenaResetForm(request.POST)
-        dato = request.POST['email']
+    def post(self, _request):
+        form = UserContrasenaResetForm(_request.POST)
+        dato = _request.POST['email']
 
         # Filtrado por "Nombre de usuario"
         if User.objects.filter(username=dato).exists():
             usuario = User.objects.get(username=dato)
-            request.POST._mutable = True
-            request.POST['usuario_clave'] = usuario.username
-            request.POST['email'] = usuario.email
-            request.POST._mutable = False
+            _request.POST._mutable = True
+            _request.POST['usuario_clave'] = usuario.username
+            _request.POST['email'] = usuario.email
+            _request.POST._mutable = False
 
             if form.is_valid():
 
                 opts = {
-                    'use_https': request.is_secure(),
+                    'use_https': _request.is_secure(),
                     'token_generator': default_token_generator,
                     'from_email': None,
                     'email_template_name': 'contrasena_reset_email.html',
                     'subject_template_name': 'contrasena_reset_subject.txt',
-                    'request': request,
+                    'request': _request,
                     'html_email_template_name': None,
                 }
                 form.save(**opts)
 
                 messages.success(
-                    request, 'El correo a sido enviado exitosamente')
+                    _request, 'El correo a sido enviado exitosamente')
 
         # Filtrado por "Correo electronico"
         elif User.objects.filter(email=dato).exists():
 
-            request.POST._mutable = True
-            request.POST['usuario_clave'] = ""
-            request.POST._mutable = False
+            _request.POST._mutable = True
+            _request.POST['usuario_clave'] = ""
+            _request.POST._mutable = False
 
             if form.is_valid():
                 opts = {
-                    'use_https': request.is_secure(),
+                    'use_https': _request.is_secure(),
                     'token_generator': default_token_generator,
                     'from_email': None,
                     'email_template_name': 'contrasena_reset_email.html',
                     'subject_template_name': 'contrasena_reset_subject.txt',
-                    'request': request,
+                    'request': _request,
                     'html_email_template_name': None,
                 }
                 form.save(**opts)
 
             messages.success(
-                request, 'El correo a sido enviado exitosamente')
+                _request, 'El correo a sido enviado exitosamente')
         else:
             messages.error(
-                request, 'El usuario/correo electronico no se encuentra aosciado a un usuario.')
+                _request, 'El usuario/correo electronico no se encuentra aosciado a un usuario.')
 
         contexto = {
             'form': form,
         }
-        return render(request, self.template_name, contexto)
+        return render(_request, self.template_name, contexto)
 
 
 class ContrasenaResetConfirm(PasswordResetConfirmView):
@@ -227,12 +240,12 @@ class UsuarioLista(View):
     def __init__(self):
         self.template_name = 'usuario/usuario_lista.html'
 
-    def get(self, request):
+    def get(self, _request):
 
         form_profile = UserFilterForm()
 
         contexto = {'form': form_profile}
-        return render(request, self.template_name, contexto)
+        return render(_request, self.template_name, contexto)
 
 
 class UsuarioNuevo(View):
@@ -240,18 +253,18 @@ class UsuarioNuevo(View):
     def __init__(self):
         self.template_name = 'usuario/usuario_nuevo.html'
 
-    def get(self, request):
+    def get(self, _request):
 
         form_usuario = UserNuevoForm()
 
         contexto = {
             'form': form_usuario,
         }
-        return render(request, self.template_name, contexto)
+        return render(_request, self.template_name, contexto)
 
-    def post(self, request):
+    def post(self, _request):
 
-        form_usuario = UserNuevoForm(request.POST, request.FILES)
+        form_usuario = UserNuevoForm(_request.POST, _request.FILES)
 
         if form_usuario.is_valid():
 
@@ -287,7 +300,7 @@ class UsuarioNuevo(View):
         contexto = {
             'form': form_usuario,
         }
-        return render(request, self.template_name, contexto)
+        return render(_request, self.template_name, contexto)
 
 
 class UsuarioEditar(View):
@@ -302,8 +315,8 @@ class UsuarioEditar(View):
 
         return imagen
 
-    def get(self, request, pk):
-        usuario_id = get_object_or_404(User, pk=pk)
+    def get(self, request, _pk):
+        usuario_id = get_object_or_404(User, pk=_pk)
         form_usuario = UserEditarForm(
             initial={
                 'username': usuario_id.username,
@@ -326,8 +339,8 @@ class UsuarioEditar(View):
         }
         return render(request, self.template_name, contexto)
 
-    def post(self, request, pk):
-        usuario = get_object_or_404(User, pk=pk)
+    def post(self, request, _pk):
+        usuario = get_object_or_404(User, pk=_pk)
         form_usuario = UserEditarForm(
             request.POST, request.FILES, instance=usuario)
 
@@ -363,11 +376,10 @@ class UsuarioEditar(View):
 
 class UsuarioEditarContrasena(LoginRequiredMixin, View):
 
-    def __init__(self):
-        self.template_name = 'usuario/usuario_editar_contrasena.html'
+    template_name = 'usuario/usuario_editar_contrasena.html'
 
-    def get(self, request, pk):
-        usuario_id = get_object_or_404(User, pk=pk)
+    def get(self, _request, _pk):
+        usuario_id = get_object_or_404(User, pk=_pk)
         form_contrasena = UserContrasenaResetConfirmForm(usuario_id)
 
         user = usuario_id
@@ -376,29 +388,28 @@ class UsuarioEditarContrasena(LoginRequiredMixin, View):
             'form': form_contrasena,
             'user': user,
         }
-        return render(request, self.template_name, contexto)
+        return render(_request, self.template_name, contexto)
 
-    def post(self, request, pk):
-        usuario = get_object_or_404(User, pk=pk)
+    def post(self, _request, _pk):
+        usuario = get_object_or_404(User, pk=_pk)
 
-        form_contrasena = UserContrasenaResetConfirmForm(usuario, request.POST)
+        form_contrasena = UserContrasenaResetConfirmForm(usuario, _request.POST)
 
         if form_contrasena.is_valid():
             usuario = form_contrasena.save()
-            if usuario.id == request.user.id:
-                update_session_auth_hash(request, form_contrasena.user)
+            if usuario.id == _request.user.id:
+                update_session_auth_hash(_request, form_contrasena.user)
             return redirect(reverse('seguridad:usuario_lista'))
 
         contexto = {
             'form': form_contrasena,
         }
-        return render(request, self.template_name, contexto)
+        return render(_request, self.template_name, contexto)
 
 
 class UsuarioPerfil(View):
 
-    def __init__(self):
-        self.template_name = 'usuario/usuario_perfil.html'
+    template_name = 'usuario/usuario_perfil.html'
 
     def obtener_UrlImagen(self, _imagen):
         imagen = ''
@@ -407,8 +418,8 @@ class UsuarioPerfil(View):
 
         return imagen
 
-    def get(self, request, pk):
-        usuario_id = get_object_or_404(User, pk=pk)
+    def get(self, _request, _pk):
+        usuario_id = get_object_or_404(User, pk=_pk)
         form_usuario = UserPerfilForm(
             initial={
                 'first_name': usuario_id.first_name,
@@ -424,13 +435,13 @@ class UsuarioPerfil(View):
             'form': form_usuario,
             'foto': self.obtener_UrlImagen(usuario_id.profile.foto),
         }
-        return render(request, self.template_name, contexto)
+        return render(_request, self.template_name, contexto)
 
-    def post(self, request, pk):
-        usuario = get_object_or_404(User, pk=pk)
+    def post(self, _request, _pk):
+        usuario = get_object_or_404(User, pk=_pk)
 
         form_usuario = UserPerfilForm(
-            request.POST, request.FILES, instance=usuario)
+            _request.POST, _request.FILES, instance=usuario)
 
         if form_usuario.is_valid():
 
@@ -456,16 +467,15 @@ class UsuarioPerfil(View):
             'form': form_usuario,
             'foto': self.obtener_UrlImagen(usuario.profile.foto),
         }
-        return render(request, self.template_name, contexto)
+        return render(_request, self.template_name, contexto)
 
 
 class UsuarioPerfilContrasena(LoginRequiredMixin, View):
 
-    def __init__(self):
-        self.template_name = 'usuario/usuario_perfil_contrasena.html'
+    template_name = 'usuario/usuario_perfil_contrasena.html'
 
-    def get(self, request, pk):
-        usuario_id = get_object_or_404(User, pk=pk)
+    def get(self, _request, _pk):
+        usuario_id = get_object_or_404(User, pk=_pk)
         form_contrasena_actual = UserContrasenaActualForm()
         form_contrasena_nueva = UserContrasenaResetConfirmForm(usuario_id)
 
@@ -476,26 +486,26 @@ class UsuarioPerfilContrasena(LoginRequiredMixin, View):
             'form2': form_contrasena_nueva,
             'user': user,
         }
-        return render(request, self.template_name, contexto)
+        return render(_request, self.template_name, contexto)
 
-    def post(self, request, pk):
-        usuario = get_object_or_404(User, pk=pk)
+    def post(self, _request, _pk):
+        usuario = get_object_or_404(User, pk=_pk)
 
-        form_contrasena_actual = UserContrasenaActualForm(request.POST)
-        form_contrasena_nueva = UserContrasenaResetConfirmForm(usuario, request.POST)
+        form_contrasena_actual = UserContrasenaActualForm(_request.POST)
+        form_contrasena_nueva = UserContrasenaResetConfirmForm(usuario, _request.POST)
 
         if form_contrasena_actual.is_valid() and form_contrasena_nueva.is_valid():
             dato_contrasena_actual = form_contrasena_actual.cleaned_data
 
             if usuario.check_password(dato_contrasena_actual.get('contrasena_actual')) is True:
                 usuario = form_contrasena_nueva.save()
-                update_session_auth_hash(request, form_contrasena_nueva.user)
+                update_session_auth_hash(_request, form_contrasena_nueva.user)
                 return redirect(reverse('home:inicio'))
             else:
-                messages.error(request, 'La contraseña actual es incorrecta')
+                messages.error(_request, 'La contraseña actual es incorrecta')
 
         contexto = {
             'form': form_contrasena_actual,
             'form2': form_contrasena_nueva,
         }
-        return render(request, self.template_name, contexto)
+        return render(_request, self.template_name, contexto)
