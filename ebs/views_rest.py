@@ -13,12 +13,14 @@ from .models import VIEW_EMPLEADOS_SIMPLE
 from .models import VIEW_EMPLEADOS_FULL
 from .models import VIEW_EMPLEADOS_GRADO
 from .models import VIEW_ORGANIZACIONES
+from .models import VIEW_ORGANIGRAMA
 
 # Serializadores:
 from .serializers import VIEW_EMPLEADOS_SIMPLE_Serializer
 from .serializers import VIEW_EMPLEADOS_FULL_Serializer
 from .serializers import VIEW_EMPLEADOS_GRADO_Serializer
 from .serializers import VIEW_ORGANIZACIONES_Serializer
+from .serializers import VIEW_ORGANIGRAMA_Serializer
 
 # Paginacion:
 from .pagination import GenericPagination
@@ -70,3 +72,8 @@ class VIEW_ORGANIZACIONES_API(viewsets.ModelViewSet):
 class VIEW_EMPLEADOS_GRADO_API(viewsets.ModelViewSet):
     queryset = VIEW_EMPLEADOS_GRADO.objects.using('ebs_d').all()
     serializer_class = VIEW_EMPLEADOS_GRADO_Serializer
+
+
+class VIEW_ORGANIGRAMA_API(viewsets.ModelViewSet):
+    queryset = VIEW_ORGANIGRAMA.objects.using('ebs_d').all()
+    serializer_class = VIEW_ORGANIGRAMA_Serializer

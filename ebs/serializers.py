@@ -8,6 +8,7 @@ from models import VIEW_EMPLEADOS_SIMPLE
 from models import VIEW_EMPLEADOS_FULL
 from models import VIEW_EMPLEADOS_GRADO
 from models import VIEW_ORGANIZACIONES
+from models import VIEW_ORGANIGRAMA
 
 
 class VIEW_EMPLEADOS_SIMPLE_Serializer(serializers.HyperlinkedModelSerializer):
@@ -162,4 +163,22 @@ class VIEW_EMPLEADOS_GRADO_Serializer(serializers.HyperlinkedModelSerializer):
             'qua_ultimo_estudio',
             'qua_especialidad',
             'qua_version_num',
+        )
+
+
+class VIEW_ORGANIGRAMA_Serializer(serializers.HyperlinkedModelSerializer):
+
+    class Meta:
+        model = VIEW_ORGANIGRAMA
+        fields = (
+            'pers_nombre_completo',
+            'asig_trabajo_desc',
+            'pers_clave',
+            'asig_organizacion_desc',
+            'asig_puesto_desc',
+            'grup_compania_jde',
+            'grup_proyecto_jde',
+            'asig_jefe_directo_clave',
+            'ruta',
+            'ruta2',
         )

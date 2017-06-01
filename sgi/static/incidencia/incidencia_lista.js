@@ -63,7 +63,7 @@ function TargetaFiltros () {
     this.$empleado_zona = $('#id_empleado_zona')
 
     this.$boton_buscar = $('#boton_buscar')
-
+    this.$boton_limpiar = $('#boton_limpiar')
   
     this.init_Components()
     this.init_Events()
@@ -81,11 +81,13 @@ TargetaFiltros.prototype.init_Events = function () {
     this.$id.on("hidden.bs.modal", this, this.hide)
     // Asosciar Eventos
     this.$boton_buscar.on("click", this, this.click_BotonBuscar)
+    this.$boton_limpiar.on("click", this, this.click_BotonLimpiar)
 }
 
 TargetaFiltros.prototype.hide = function (e) {
     e.data.$fecha_creacion.data('daterangepicker').hide()
 }
+
 TargetaFiltros.prototype.get_ConfiguracionCalendario = function(){
     
     return{
@@ -143,6 +145,21 @@ TargetaFiltros.prototype.click_BotonBuscar = function (e) {
     e.data.$id.modal('hide')
    
 }
+
+TargetaFiltros.prototype.click_BotonLimpiar = function (e) {
+    
+    e.preventDefault()
+alert("entro");
+    e.data.$numero.val("")
+    e.data.$tipo.val("").trigger("change")
+    e.data.$es_registrable.val("").trigger("change")
+    e.data.$empleado_zona.val("").trigger("change")
+    e.data.$fecha_creacion.data('daterangepicker').setStartDate(
+        '01-01-2017'
+    )
+      
+}
+
 TargetaFiltros.prototype.get_Values = function (_page) {
 
     return {
