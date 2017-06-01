@@ -1,0 +1,339 @@
+{% load static from staticfiles %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="Portal Nova - Nuvoil">
+    <meta name="author" content="IT Team Nuvoil">
+    <title>{% block titulo %}  {% endblock titulo %}</title>
+
+    <link rel="shortcut icon" href="{% static 'images/decoradores/favicon.png' %}">
+    
+    <!-- Material Desing Icons -->
+    <link rel="stylesheet" href="{% static 'theme/lib/material-design-icons/css/material-design-iconic-font.min.css' %}" type="text/css" />
+
+    <!-- Perfect Scrollbar -->
+    <link rel="stylesheet" href="{% static 'theme/lib/perfect-scrollbar/css/perfect-scrollbar.min.css' %}" type="text/css" />
+
+    <!-- Awesome Icons -->
+    <link rel="stylesheet" href="{% static 'libs/awesome-icons/4.7.0/css/font-awesome.min.css' %}" type="text/css">
+
+    <!-- Pace -->
+    <link rel="stylesheet" href="{% static 'libs/pace/1.0.0/pace.css' %}" type="text/css"/>
+
+    <!-- Alertify -->
+    <link rel="stylesheet" href="{% static 'libs/alertifyjs/1.10.0/css/alertify.min.css' %}" type="text/css"/>
+    <link rel="stylesheet" href="{% static 'libs/alertifyjs/1.10.0/css/themes/bootstrap.min.css' %}" type="text/css"/>
+
+    <!-- Select 2 -->
+    <link rel="stylesheet" href="{% static 'theme/lib/select2/css/select2.min.css' %}"/>
+
+    <!-- Main Theme CSS -->
+    <link rel="stylesheet" href="{% static 'theme/css/style.css' %}" type="text/css"/>
+
+    <!-- Nova -->
+    <link rel="stylesheet" href="{% static 'master.css' %}"/>
+
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+  {% block css %}
+  {% endblock css %}
+</head>
+<body>
+    <div class="be-wrapper nova-be-wrapper be-collapsible-sidebar be-fixed-sidebar">
+        <nav class="navbar navbar-default navbar-fixed-top be-top-header">
+            <div class="container-fluid">
+      
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="{% url 'home:inicio' %}"></a>
+                    <a href="#" class="be-toggle-left-sidebar">
+                        <span class="icon mdi mdi-menu"></span>
+                    </a>
+                </div>
+
+                <div class="be-right-navbar">
+                    <ul class="nav navbar-nav navbar-right be-user-nav">
+                        <li class="dropdown">
+                            <a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="dropdown-toggle">
+
+                              <!--{% if user.profile.foto %}
+                                <img class="user-image" src="{{ MEDIA_URL }}{{ user.profile.foto }}" alt="User Image">
+                              {% else %}
+                                <img src="{% static 'theme/img/avatar.png' %}" alt="User Image">
+                              {% endif %} --> 
+                                <img src="{% static 'theme/img/avatar.png' %}" alt="Avatar"/>
+                                <span class="user-name">{{ user.username }}</span>
+                            </a>
+                            <ul role="menu" class="dropdown-menu">
+                                <li>
+                                    <div class="user-info">
+                                        <div class="user-name">
+                                            {% if user.username == 'root' %}
+                                            <h4>ADMINISTRADOR</h4>
+                                            {% else %}
+
+                                                {% if user.get_full_name %}
+                                                <h5>{{ user.get_full_name }}</h5>
+                                                {% else %} 
+                                                <h5> {{ user.username|upper }}  </h5>
+                                                {% endif%}
+                                  
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </li>
+                      
+                                {% if user.is_superuser %}
+                                <li><a href="{% url 'seguridad:usuario_lista' %}"><span class="icon mdi mdi-accounts"></span> Usuarios</a></li>
+                                {% endif %}
+                                <li><a href="{% url 'seguridad:usuario_perfil' _pk=user.id %}"><span class="icon mdi mdi-face"></span> Perfil</a></li>
+                                <li><a href="#"><span class="icon mdi mdi-settings"></span> Configuracion</a></li>
+                                <li><a href="{% url 'seguridad:logout' %}"><span class="icon mdi mdi-power"></span> Salir</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <!-- <div class="page-title"><span>Blank Page</span></div> -->
+                    <ul class="nav navbar-nav navbar-right be-icons-nav">
+                        <li class="dropdown"><a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="dropdown-toggle"><span class="icon mdi mdi-notifications"></span><span class="indicator"></span></a>
+                            <ul class="dropdown-menu be-notifications">
+                                <li>
+                                    <div class="title">Notifications<span class="badge">3</span></div>
+                                    <div class="list">
+                                        <div class="be-scroller">
+                                            <div class="content">
+                                                <ul>
+                                                    <li class="notification notification-unread">
+                                                        <a href="#">
+                                                            <div class="image"><img src="{% static 'theme/img/avatar2.png' %}" alt="Avatar"></div>
+                                                            <div class="notification-info">
+                                                                <div class="text"><span class="user-name">Jessica Caruso</span> accepted your invitation to join the team.</div><span class="date">2 min ago</span>
+                                                            </div>
+                                                        </a>
+                                                    </li>
+                                                    <li class="notification">
+                                                        <a href="#">
+                                                            <div class="image"><img src="{% static 'theme/img/avatar3.png' %}" alt="Avatar"></div>
+                                                            <div class="notification-info">
+                                                                <div class="text"><span class="user-name">Joel King</span> is now following you</div><span class="date">2 days ago</span>
+                                                            </div>
+                                                        </a>
+                                                    </li>
+                                                    <li class="notification">
+                                                        <a href="#">
+                                                            <div class="image"><img src="{% static 'theme/img/avatar4.png' %}" alt="Avatar"></div>
+                                                            <div class="notification-info">
+                                                                <div class="text"><span class="user-name">John Doe</span> is watching your main repository</div><span class="date">2 days ago</span>
+                                                            </div>
+                                                        </a>
+                                                    </li>
+                                                    <li class="notification">
+                                                        <a href="#">
+                                                            <div class="image"><img src="{% static 'theme/img/avatar5.png' %}" alt="Avatar"></div>
+                                                            <div class="notification-info"><span class="text"><span class="user-name">Emily Carter</span> is now following you</span><span class="date">5 days ago</span></div>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="footer"> <a href="#">Ver notificaciones</a></div>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="dropdown"><a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="dropdown-toggle"><span class="icon mdi mdi-apps"></span></a>
+                            <ul class="dropdown-menu be-connections">
+                                <li>
+                                    <div class="list">
+                                        <div class="content">
+                                            <div class="row">
+                                                <div class="col-xs-4"><a href="http://jde.nuvoil.com:97/jde/E1Menu.maf?" class="connection-item"><img src="{% static 'theme/img/github.png' %}" alt="JDE"><span>JD Edwards</span></a></div>
+                                                <div class="col-xs-4"><a href="http://ebs.nuvoil.com:8000" class="connection-item"><img src="{% static 'theme/img/bitbucket.png' %}" alt="EBS"><span>EBS</span></a></div>
+                                                <div class="col-xs-4"><a href="http://helpdesk.nuvoil.com/portal" class="connection-item"><img src="{% static 'theme/img/slack.png' %}" alt="HelpDesk"><span>Help Desk</span></a></div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-4"><a href="http://intranet.nuvoil.com/" class="connection-item"><img src="{% static 'theme/img/dribbble.png' %}" alt="Intranet"><span>Intranet</span></a></div>
+                                                <div class="col-xs-4"><a href="http://calidad.nuvoil.com" class="connection-item"><img src="{% static 'theme/img/mail_chimp.png' %}" alt="Calidad"><span>Calidad</span></a></div>
+                                                <div class="col-xs-4"><a href="http://proveedores.nuvoil.com" class="connection-item"><img src="{% static 'theme/img/dropbox.png' %}" alt="Proveedores"><span>Proveedores</span></a></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- <div class="footer"> <a href="#">Mas</a></div> -->
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <div class="be-left-sidebar nova-be-left-sidebar">
+            <div class="left-sidebar-wrapper"><a href="#" class="left-sidebar-toggle">{% block title-page %}  {% endblock title-page %}</a>
+                <div class="left-sidebar-spacer">
+                    <div class="left-sidebar-scroll">
+                        <div class="left-sidebar-content">
+                            <ul class="sidebar-elements nova-sidebar-elements">
+                                <li class="divider">Menu</li>
+                                <li id="inicio">
+                                    <a href="{% url 'home:inicio' %}">
+                                        <i class="icon mdi mdi-home"></i>
+                                        <span>Inicio</span>
+                                    </a>
+                                </li>
+                                <li class="parent"><a href="#"><i class="icon mdi mdi-airplane"></i><span>Viaticos</span></a>
+                                    <ul class="sub-menu">
+                                        <li id="viaticos_lista">
+                                            <a href="{% url 'finanzas:viatico_lista' %}">
+                                                <span>Solicitudes</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">Autorizacion</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="parent"><a href="#"><i class="icon mdi mdi-shopping-cart"></i></i><span>Compras</span></a>
+                                    <ul class="sub-menu">
+                                        <li id="compras_seguimiento">
+                                            <a href="{% url 'compras:seguimiento_compras_lista' %}">
+                                                <span>Seguimiento</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="parent"><a href="#"><i class="icon mdi mdi-alert-triangle"></i></i><span>Incidencias</span></a>
+                                    <ul class="sub-menu">
+                                        <li>
+                                            <a href="{% url 'sgi:incidencia_lista' %}">
+                                                <span>Documentos</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="parent"><a href="#"><i class="icon mdi mdi-accounts"></i></i><span>Capital humano</span></a>
+                                    <ul class="sub-menu">
+                                        <li id="capitalhumano_dashboard">
+                                            <a href="{% url 'capitalhumano:empleado_dashboard' %}">
+                                                <span>Dashboard</span>
+                                            </a>
+                                        </li>
+                                        <li id="capitalhumano_organigrama">
+                                            <a href="{% url 'capitalhumano:empleado_organigrama' %}">
+                                                <span>Organigrama</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="{% url 'capitalhumano:empleado_lista' %}">
+                                                <span>Empleados</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="parent"><a href="#"><i class="icon fa fa-check"></i><span>Calidad</span></a>
+                                    <ul class="sub-menu">
+                                        <li id="auditorias_lista">
+                                            <a href="{% url 'sgi:auditoria_lista' %}">
+                                                <!--<i class="icon lrg mdi-search-in-file"></i>-->
+                                                <span> Auditorias</span>
+                                            </a>
+                                        </li>
+                                        <li id="programa_lista">
+                                            <a href="{% url 'sgi:programa_lista' %}">
+                                                <!--<i class="icon lrg mdi-search-in-file"></i>-->
+                                                <span> Programa</span>
+                                            </a>
+                                        </li>
+                                        <li id="configuracion">
+                                            <a href="{% url 'sgi:configuracion' %}">
+                                                <!--<i class="icon lrg mdi-search-in-file"></i>-->
+                                                <span> Configuración</span>
+                                            </a>
+                                        </li>
+                                    </ul> 
+                                </li>
+                                <li class="parent"><a href="#"><i class="icon fa fa-heartbeat"></i><span>Salud</span></a>
+                                    <ul class="sub-menu">
+                                        <li>
+                                            <a href="#">
+                                                <span>Salud</span>
+                                            </a>
+                                        </li>
+                                    </ul> 
+                                </li>
+                                <li class="parent"><a href="#"><i class="icon fa fa-shield"></i><span>Seguridad</span></a>
+                                    <ul class="sub-menu">
+                                        <li>
+                                            <a href="#">
+                                                <span>Seguridad</span>
+                                            </a>
+                                        </li>
+                                    </ul> 
+                                </li>
+                                <li class="parent"><a href="#"><i class="icon fa fa-tree"></i><span>Ambiental</span></a>
+                                    <ul class="sub-menu">
+                                        <li>
+                                            <a href="#">
+                                                <span>Ambiental</span>
+                                            </a>
+                                        </li>
+                                    </ul> 
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% block contenido %}
+        {% endblock contenido %}     
+    </div>
+            
+    <!-- jQuery -->
+    <script src="{% static 'theme/lib/jquery/jquery.min.js' %}" type="text/javascript"></script>
+
+    <!-- jQuery-Cookie -->
+    <script src="{% static 'libs/jquery-cookie/1.4.1/jquery.cookie.js' %}"></script>            
+
+    <!-- Bootstrap-->
+    <script src="{% static 'theme/lib/bootstrap/dist/js/bootstrap.min.js' %}" type="text/javascript"></script>
+    
+    <!-- Perfect Scrollbar -->
+    <script src="{% static 'theme/lib/perfect-scrollbar/js/perfect-scrollbar.jquery.min.js' %}" type="text/javascript"></script>
+
+    <!-- Pace -->
+    <script src="{% static 'libs/pace/1.0.0/pace.js' %} " type="text/javascript"></script>
+    
+    <!-- Alertify -->
+    <script src="{% static 'libs/alertifyjs/1.10.0/alertify.min.js' %}"></script>
+
+    <!-- Moment -->
+    <script src="{% static 'libs/momentjs/2.18.1/moment.js' %}"></script>
+
+    <!-- Select 2 -->
+    <script src="{% static 'theme/lib/select2/js/select2.min.js' %}"></script>
+
+    <!-- Main Theme js -->
+    <script src="{% static 'theme/js/main.js' %}"></script>
+
+    <!-- Nova -->
+    <script src="{% static 'master.js' %}" type="text/javascript"></script>
+
+    <script type="text/javascript">
+
+        $(document).ready(function(){
+            //initialize the javascript
+            App.init();
+        });
+    
+    </script>
+    {% block scripts %}
+      
+    {% endblock scripts %}
+</body>
+</html>
