@@ -2,10 +2,9 @@
          GLOBAL VARIABLES
 \*-----------------------------------------------*/
 
-// URLS:api-ebs/viewempleadosfull/
+// URLS:api-ebs/
 var url_empleados_full = window.location.origin + "/api-ebs/viewempleadosfull/"
 var url_empledos_grado_academico = window.location.origin + "/api-ebs/viewempleadosgrado/"
-var url_organizaciones = window.location.origin + "/api-ebs/vieworganizaciones/"
 
 // OBJS
 var indicadores = null
@@ -39,65 +38,131 @@ $(document).ready(function () {
 function Indicadores () {
 
    this.$organizaciones = $('#id_organizaciones')
-   this.buscar_Empleados(organizacion)
+   this.$spark1 = $('#spark1')
+   this.$spark2 = $('#spark2')
+   this.$spark3 = $('#spark3')
+
+   this.buscar_EmpleadosGeneral(organizacion)
    this.init_Components()
    this.init_Events()
 }
 Indicadores.prototype.init_Components = function () {
 
-   this.$organizaciones.select(this.get_ConfSelect2())
+   sparks = this.get_ConfSparkLine()
+
+   this.$spark1.sparkline([0,5,3,7,5,10,3,6,5,10],sparks[0])
+   this.$spark2.sparkline([2,3,4,5,4,3,2,3,4,5,6,5,4,3,4,5,6,5,4,4,5,10,10],sparks[1])
+   this.$spark3.sparkline([2,3,0,5,4,4,5,10,10,10,6,5,4,3,0,5,6,5,4,4,5],sparks[2])
+   this.$organizaciones.select2(this.get_ConfSelect2())
 }
 Indicadores.prototype.get_ConfSelect2 = function () {
     return {
         width: '100%'
     }
 }
+Indicadores.prototype.get_ConfSparkLine = function (){
+
+   var spark = []
+   spark[0] = {
+               width: '85',
+               height: '35',
+               lineColor: '#0080FF',
+               highlightSpotColor: '#0080FF',
+               highlightLineColor: '#0080FF',
+               fillColor: false,
+               spotColor: false,
+               minSpotColor: false,
+               maxSpotColor: false,
+               lineWidth: 1.15
+         }
+   spark[1] = {
+              type: 'discrete', 
+              width: '85',
+              height: '35',
+              lineHeight: 20,
+              lineColor: '#3ADF00',
+              xwidth: 18 
+         }
+   spark[2] = {
+              type: 'discrete', 
+              width: '85',
+              height: '35',
+              lineHeight: 20,
+              lineColor: '#FF8000',
+              xwidth: 18 
+         }
+   return spark
+}
 Indicadores.prototype.init_Events = function () {
+
    this.$organizaciones.on("change", this, this.filtro)
 }
 Indicadores.prototype.filtro = function (e) {
-   organizacion = e.data.$organizaciones.val()
-   indicadores.buscar_Empleados(organizacion)
-}
 
-Indicadores.prototype.buscar_Empleados = function (_organizacion) {
+   organizacion = e.data.$organizaciones.val()
+
+   if (organizacion == 0){
+      indicadores.buscar_EmpleadosGeneral(organizacion)
+   }else if (organizacion != 0){
+      indicadores.buscar_EmpleadosFiltro(organizacion)
+   }
+}
+Indicadores.prototype.buscar_EmpleadosGeneral = function (_organizacion){
+   organizacion = _organizacion
+
+   $.ajax({
+         url: url_empleados_full,
+         method: "GET",
+         dataType: "json",
+         success: function (response) {
+            
+            //Total de empleados
+            total = indicadores.indicador_Total(response, organizacion)
+
+            indicadores.mostrar_Mensaje()
+
+            indicadores. ocultar_Graficas(total, organizacion)
+
+            //Rotacion de empleados
+            indicadores.indicador_Rotacion(response, organizacion)
+
+            //Distribucion por grado de estudios
+            indicadores.indicador_GradoAcademico(organizacion)
+
+            //Disribucion por estado civil
+            indicadores.indicador_EstadoCivil(response, organizacion)
+
+            //Disribucion por rango de edad
+            indicadores.indicador_RangoEdad(response, organizacion)
+
+            //Disribucion por sexo
+            indicadores.indicador_Sexo(response, organizacion)
+
+            $('#container-organizacion').show()
+
+            //Disribucion por organizacion
+            indicadores.indicador_Organizacion(response)
+
+         },
+         error: function (response) {
+            alertify("Ocurrio error al consultar")
+         }
+   })  
+}
+Indicadores.prototype.buscar_EmpleadosFiltro = function (_organizacion) {
    
    organizacion = _organizacion
 
    $.ajax({
          url: url_empleados_full,
          method: "GET",
+         dataType: "json",
+         data: {
+            asig_organizacion_clave:organizacion
+         },
          success: function (response) {
 
-            
-            if( organizacion== 0){
-               //Total de empleados
-               total = indicadores.indicador_Total(response, organizacion)
-
-               indicadores.mostrar_Mensaje()
-
-               indicadores. ocultar_Graficas(total, organizacion)
-
-               //Rotacion de empleados
-               indicadores.indicador_Rotacion(response, organizacion)
-
-               //Distribucion por grado de estudios
-               indicadores.indicador_GradoAcademico(organizacion)
-
-               //Disribucion por estado civil
-               indicadores.indicador_EstadoCivil(response, organizacion)
-
-               //Disribucion por rango de edad
-               indicadores.indicador_RangoEdad(response, organizacion)
-
-               //Disribucion por sexo
-               indicadores.indicador_Sexo(response, organizacion)
-
-               $('#container-organizacion').show()
-                  //Disribucion por organizacion
-               indicadores.indicador_Organizacion(response)
-
-            }else if(organizacion != 0){
+            if(organizacion != 0){
                //Total de empleados
                total = indicadores.indicador_Total(response, organizacion)
 
@@ -163,8 +228,13 @@ Indicadores.prototype.indicador_Sexo = function (_response, _organizacion) {
 }
 Indicadores.prototype.indicador_Organizacion = function (_response) {
 
-   indicador_organizacion.buscar_Organizaciones(_response)
+   //Numero de empleados por organizacion
+   empleado_org = indicador_organizacion.get_EmpleadoOrganizacion(_response)
+   // Organizaciones existentes
+   organizaciones = indicador_organizacion.ordena_Organizaciones(_response)
 
+   Highcharts.chart('container-organizacion',
+        indicador_organizacion.get_IndicadorConfig(organizaciones,empleado_org))
 }
 Indicadores.prototype.mostrar_Mensaje = function (){
 
@@ -177,14 +247,16 @@ Indicadores.prototype.mostrar_Mensaje = function (){
 Indicadores.prototype.ocultar_Graficas = function (_total, _organizacion){
    if(total==0){
       $('#container-total').hide()
-      $('#container-rotacion').hide()
+      $('#container-rotacion-total').hide()
+      $('#container-rotacion-renuncia').hide()
       $('#container-grado').hide()
       $('#container-estado').hide()
       $('#container-edad').hide()
       $('#container-sexo').hide()
    }else if((total=!0) || (_organizacion == 0)){
       $('#container-total').show()
-      $('#container-rotacion').show()
+      $('#container-rotacion-total').show()
+      $('#container-rotacion-renuncia').show()
       $('#container-grado').show()
       $('#container-estado').show()
       $('#container-edad').show()
@@ -638,81 +710,54 @@ IndicadorSexo.prototype.get_DataConfig = function (_empleado_sexo) {
 
 function IndicadorOrganizacion () {
 }
-IndicadorOrganizacion.prototype.buscar_Organizaciones = function (_empleados) {
+IndicadorOrganizacion.prototype.get_EmpleadoOrganizacion = function (_response) {
+    // Contiene num de empleados por organizacion
+    var num = []
+    //Contiene organizaciones(SIN REPETIR)
+    dato = indicador_organizacion.ordena_Organizaciones(_response)
 
-   $.ajax({
-         url: url_organizaciones,
-         method: "GET",
-         success: function (response) {
+    for (var i = 0; i < dato.length; i++) {
+       num[i] = 0
+        for(var j=0; j < _response.length; j++){
 
-            organizacion_clave = indicador_organizacion.get_ClaveOrganizaciones(response)
-            organizacion_nombre = indicador_organizacion.get_NombreOrganizaciones(response)
-            empleados_org = indicador_organizacion.cuenta_EmpleadoOrganizacion(organizacion_clave,_empleados)
+            if ((_response[j].pers_tipo_codigo != '1123') && 
+                (_response[j].pers_tipo_codigo != '1124') &&
+                (_response[j].pers_tipo_codigo != '1125') &&
+                (_response[j].pers_tipo_codigo != '1118')){
 
-            Highcharts.chart('container-organizacion',
-                 indicador_organizacion.get_IndicadorConfig(organizacion_nombre,empleados_org))
-           
-         },
-         error: function (response) {
-            alertify("Ocurrio error al consultar")
-         }
-   }) 
+                if(dato[i] == _response[j].asig_organizacion_desc){
+
+                    num [i] +=1
+                }
+            }
+        }
+    }
+    return num
 }
-IndicadorOrganizacion.prototype.get_ClaveOrganizaciones = function (_response) {
-
-   organizaciones = []
-
-   for (var i = 0; i < _response.length; i++) {
-      organizaciones[i] = _response[i].clave_org
-   }   
-
-   return organizaciones 
-}
-IndicadorOrganizacion.prototype.get_NombreOrganizaciones = function (_response) {
-
-   organizaciones = []
-
-   for (var i = 0; i < _response.length; i++) {
-      organizaciones[i] = _response[i].desc_org
-   }   
-
-   return organizaciones 
-}
-IndicadorOrganizacion.prototype.cuenta_EmpleadoOrganizacion = function (_organizacion, _empleados){
-
-   cont = []
-   empleado = indicador_organizacion.get_EmpleadoOrganizacion(_empleados)
-
-
-   for (var i = 0; i < _organizacion.length; i++) {
-      cont[i] = 0
-      for (var j = 0; j < empleado.length; j++) {
-      
-         if (_organizacion[i] == empleado[j]){
-             
-            cont[i] +=1
+IndicadorOrganizacion.prototype.asigna_Organizaciones = function(_response) {
+    //Calcula en un array las organizaciones existentes(REPETIDAS)
+    var organizaciones = []
+    var num = 0
+    
+    for (var i = 0; i < _response.length; i++) {
+         if(_response[i].asig_organizacion_desc != ''){
+            organizaciones[num] = _response[i].asig_organizacion_desc
+            num+=1
          }
       }
-   }
-   
-   return cont
+
+        
+    return organizaciones
 }
-IndicadorOrganizacion.prototype.get_EmpleadoOrganizacion = function (_empleado) {
-   var empleados = []
-   var cont = 0
+IndicadorOrganizacion.prototype.ordena_Organizaciones = function(_response) {
+    //Ordena en un array las organizaciones existentes(SIN REPETIRSE)
+    var organizacion = []; 
+    var organizaciones = indicador_organizacion.asigna_Organizaciones(_response)
 
-   for (var i = 0; i < _empleado.length; i++) {
-      if ((_empleado[i].pers_tipo_codigo != '1123') && 
-         (_empleado[i].pers_tipo_codigo != '1124') &&
-         (_empleado[i].pers_tipo_codigo != '1125') &&
-         (_empleado[i].pers_tipo_codigo != '1118')){
-
-         empleados[cont] = _empleado[i].asig_organizacion_clave
-         cont += 1
-      }
-   }
-   
-   return empleados
+    for(var i = 0; i < organizaciones.length; i++) {
+        if (organizacion.indexOf(organizaciones[i]) == -1) organizacion.push(organizaciones[i]);
+    }
+    return organizacion;
 }
 IndicadorOrganizacion.prototype.get_IndicadorConfig = function (_organizacion,_empleado_org) {
 
@@ -727,7 +772,7 @@ IndicadorOrganizacion.prototype.get_IndicadorConfig = function (_organizacion,_e
       xAxis: {
          type: 'category',
          labels: {
-         autoRotation: [-60]
+         autoRotation: [-65]
       }
       },
       yAxis: {
@@ -764,7 +809,7 @@ IndicadorOrganizacion.prototype.get_DataConfig = function (_organizacion,_emplea
    var datos = []
    for (var i = 0; i < _organizacion.length; i++) {
                datos.push( 
-                  {   name: _organizacion[i],
+                  {  name: _organizacion[i],
                      y: _empleado_org[i],
                   }
                

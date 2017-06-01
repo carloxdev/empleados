@@ -201,7 +201,13 @@
 
 }
 .nova-margin-highcharts{
-    margin: 20px 10px 20px ;
+    margin: 10px 0px 20px ;
+}
+.nova-sparkline{
+    display: inline-block; 
+    width: 85px; 
+    height: 35px; 
+    vertical-align: top;
 }
 .nova-panel-heading-titulo{
     font-size: 18px;
