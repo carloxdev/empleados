@@ -2,6 +2,7 @@
 
 # Django Atajos:
 from django.shortcuts import render
+from django.http import HttpResponse
 
 # Librerias de Django
 from django.views.generic.base import View
@@ -11,6 +12,14 @@ from django.views.generic.base import View
 # Formularios
 from .forms import EmpleadoFilterForm
 from .forms import OrganizacionesFilterForm
+# from .forms import EmpresasFilterForm
+
+# Serializer
+from ebs.serializers import VIEW_ORGANIGRAMA_SERIALIZADO
+
+# Modelos
+from ebs.models import VIEW_ORGANIGRAMA
+from ebs.models import VIEW_EMPLEADOS_FULL
 
 
 # -------------- EMPLEADOS -------------- #
@@ -55,9 +64,27 @@ class EmpleadoOrganigrama(View):
 
     def get(self, request):
 
-        form = OrganizacionesFilterForm()
+        form_organizaciones = OrganizacionesFilterForm()
+        # form_empresas = EmpresasFilterForm()
 
         contexto = {
-            'form': form,
+            'form': form_organizaciones,
+            # 'form2': form_empresas,
         }
         return render(request, self.template_name, contexto)
+
+
+class EmpleadoOrganigramaAPI(View):
+
+    def get(self, request, pk):
+
+        daddies = VIEW_ORGANIGRAMA.objects.using(
+            'ebs_d').filter(asig_organizacion_clave=pk)
+
+        serializador = VIEW_ORGANIGRAMA_SERIALIZADO()
+        lista_json = serializador.get_Json(daddies)
+
+        return HttpResponse(
+            lista_json,
+            content_type="application/json"
+        )

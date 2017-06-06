@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+# Librerias Python:
+import sys
+import json
 
 # Librerias API REST:
 from rest_framework import serializers
@@ -168,6 +171,8 @@ class VIEW_EMPLEADOS_GRADO_Serializer(serializers.HyperlinkedModelSerializer):
 
 class VIEW_ORGANIGRAMA_Serializer(serializers.HyperlinkedModelSerializer):
 
+    jefe_nombre_completo = serializers.SerializerMethodField()
+
     class Meta:
         model = VIEW_ORGANIGRAMA
         fields = (
@@ -185,3 +190,89 @@ class VIEW_ORGANIGRAMA_Serializer(serializers.HyperlinkedModelSerializer):
             'ruta',
             'ruta2',
         )
+
+    def get_jefe_nombre_completo(self, obj):
+
+        try:
+            pers_nombre_completo = obj.jefe_nombre_completo.pers_nombre_completo
+            asig_trabajo_desc = obj.jefe_nombre_completo.asig_trabajo_desc
+            asig_jefe_directo_clave = obj.jefe_nombre_completo.asig_jefe_directo_clave
+            return "%s %s %s" % (pers_nombre_completo, asig_trabajo_desc, asig_jefe_directo_clave)
+
+        except:
+            return ""
+
+
+class VIEW_ORGANIGRAMA_SERIALIZADO(object):
+
+    def get_NivelEstructuraPadre(self, _daddies):
+        nivel = 6
+        padre = _daddies[0]
+        cont = 0
+
+        for persona in _daddies:
+            if persona.nivel_estructura < nivel:
+                nivel = persona.nivel_estructura
+
+        for posicion in _daddies:
+            if posicion.nivel_estructura == nivel:
+                padre == _daddies[cont]
+            cont += 1
+
+        return padre
+
+    def get_Descendencia(self, _daddies, _hijos, _nodo_jefe_nombre_completo):
+
+        lista_desendencia = []
+
+        for hijo in _hijos:
+
+            nodo = {}
+            hijos = []
+
+            for persona in _daddies:
+                if persona.jefe_nombre_completo == hijo.pers_nombre_completo:
+                    hijos.append(persona)
+
+            nodo["name"] = "%s" % (hijo.pers_nombre_completo)
+            nodo["title"] = "%s" % (hijo.asig_trabajo_desc)
+
+            if len(hijos):
+                nodo["children"] = self.get_Descendencia(_daddies, hijos, nodo)
+
+            lista_desendencia.append(nodo)
+
+        return lista_desendencia
+
+    def get_Json(self, _daddies):
+
+        sys.setrecursionlimit(1500)
+
+        #self.lista = []
+
+        hijos = []
+        nodo = {}
+        padre = self.get_NivelEstructuraPadre(_daddies)
+
+        jefe = VIEW_EMPLEADOS_FULL.objects.using('ebs_d').filter(
+            pers_clave=padre.asig_jefe_directo_clave)
+
+        for persona in _daddies:
+            if persona.jefe_nombre_completo == padre.pers_nombre_completo:
+                hijos.append(persona)
+                print persona.jefe_nombre_completo.encode('utf-8')
+
+        if len(hijos):
+            nodo["name"] = "%s" % (padre.pers_nombre_completo)
+            nodo["title"] = "%s" % (padre.asig_trabajo_desc)
+            nodo["children"] = self.get_Descendencia(_daddies, hijos, nodo)
+
+        else:
+            nodo["name"] = padre.pers_nombre_completo
+            nodo["title"] = padre.asig_trabajo_desc
+            # print padre.pers_nombre_completo.encode('utf-8')
+
+
+        lista_json = json.dumps(nodo)
+
+        return lista_json

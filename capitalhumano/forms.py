@@ -15,6 +15,7 @@ from jde.models import VIEW_UNIDADES
 from ebs.models import VIEW_TIPO_PERSONAS
 from ebs.models import VIEW_PUESTOS
 from ebs.models import VIEW_ORGANIZACIONES
+from ebs.models import VIEW_ORGANIGRAMA
 from administracion.models import Empresa
 
 
@@ -36,6 +37,29 @@ class OrganizacionesFilterForm(Form):
                 (
                     organizacion.clave_org,
                     organizacion.desc_org,
+                )
+            )
+        return valores
+
+
+class EmpresasFilterForm(Form):
+    empresas = ChoiceField(label='Empresas', widget=Select(
+        attrs={'class': 'select2 nova-select2'}))
+
+    def __init__(self, *args, **kwargs):
+        super(EmpresasFilterForm, self).__init__(*args, **kwargs)
+        self.fields['empresas'].choices = self.get_Empresas()
+
+    def get_Empresas(self):
+        valores = [('0', 'TODAS LAS EMPRESAS')]
+
+        empresas = VIEW_ORGANIGRAMA.objects.using('ebs_d').order_by('grup_compania_jde')
+        for empresa in empresas:
+
+            valores.append(
+                (
+                    empresa.grup_compania_jde,
+                    empresa.grup_compania_jde,
                 )
             )
         return valores

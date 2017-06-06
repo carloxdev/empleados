@@ -28,6 +28,7 @@ from .pagination import GenericPagination
 # Filtros:
 from .filters import VIEW_EMPLEADOS_SIMPLE_Filter
 from .filters import VIEW_EMPLEADOS_FULL_Filter
+from .filters import VIEW_ORGANIGRAMA_Filter
 
 
 class VIEW_EMPLEADOS_SIMPLE_API(viewsets.ModelViewSet):
@@ -77,3 +78,5 @@ class VIEW_EMPLEADOS_GRADO_API(viewsets.ModelViewSet):
 class VIEW_ORGANIGRAMA_API(viewsets.ModelViewSet):
     queryset = VIEW_ORGANIGRAMA.objects.using('ebs_d').all()
     serializer_class = VIEW_ORGANIGRAMA_Serializer
+    filter_backends = (DjangoFilterBackend,)
+    filter_class = VIEW_ORGANIGRAMA_Filter

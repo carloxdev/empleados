@@ -1,218 +1,161 @@
 /*-----------------------------------------------*\
-                           GLOBAL VARIABLES
+               GLOBAL VARIABLES
 \*-----------------------------------------------*/
 
-var url_empleados = window.location.origin + "/api-ebs/viewempleadosfull/"
+var url_organigrama = window.location.origin + "/api-ebs/vieworganigrama/"
+var url_datos = window.location.origin + "/organigrama/json/"
 
 //OBJS
 var organigrama = null
 var tarjeta_filtros = null
+var organizacion = 0
 
 /*-----------------------------------------------*\
-                           LOAD
+               LOAD
 \*-----------------------------------------------*/
 
 $(document).ready(function(){
-      tarjeta_filtros = new TarjetaFiltros()
-      organigrama = new Organigrama()
+   organigrama = new Organigrama()
+   tarjeta_filtros = new TarjetaFiltros()
+   organigrama.crear_Diagrama()
+         
 })
 
 /*-----------------------------------------------*\
-                           OBJETO: TARJETA FILTROS
+               OBJETO: TARJETA FILTROS
 \*-----------------------------------------------*/
 
 
 function TarjetaFiltros(){
 
-      this.$organizaciones = $('#id_organizaciones')
+   this.$organizaciones = $('#id_organizaciones')
+   this.$empresas = $('id_empresas')
 
-      this.init_Components()
-      this.init_Events()
+   this.init_Components()
+   this.init_Events()
 }
 TarjetaFiltros.prototype.init_Components = function () {
-      this.$organizaciones.select2(this.get_ConfSelect2())
+   this.$organizaciones.select2(this.get_ConfSelect2())
+   this.$empresas.select2(this.get_ConfSelect2())
 }
 TarjetaFiltros.prototype.init_Events = function () {
-         this.$organizaciones.on("change", this, this.buscar_Empleados)
+   this.$organizaciones.on("change", this, organigrama.empleados_Organizacion)
+   //this.$empresas.on("change", this, organigrama.buscar_Empleados)
 }
 TarjetaFiltros.prototype.get_ConfSelect2 = function () {
-         return {
-                  width: '100%'
-         }
+   return {
+      width: '100%'
+   }
 }
-TarjetaFiltros.prototype.buscar_Empleados = function (e){
-    organizacion = e.data.$organizaciones.val()
-
-         $.ajax({
-                  url: url_empleados,
-                  method: "GET",
-                  dataType: "json",
-                  data: {
-                     asig_organizacion_clave:organizacion
-                  },
-                  success: function (response) {
-
-                      for (var i = 0; i < response.length; i++) {
-                           if ((response[i].pers_tipo_codigo != '1123') && 
-                               (response[i].pers_tipo_codigo != '1124') &&
-                               (response[i].pers_tipo_codigo != '1125') &&
-                               (response[i].pers_tipo_codigo != '1118')){
-                                    console.log(response[i].pers_nombre_completo) 
-                           }   
-                      }
-                  },
-                  error: function (response) {
-                           alert("Ocurrio error al consultar")
-                  }
-
-         })
-}
-
-
-
 /*-----------------------------------------------*\
-                           OBJETO: ORGANIGRAMA
+               OBJETO: ORGANIGRAMA
 \*-----------------------------------------------*/
 
 
 function Organigrama(){
-      this.init_Components()
 }
-Organigrama.prototype.init_Components = function () {
+Organigrama.prototype.empleados_Organizacion = function(e){
 
-         this.crear_Diagrama()
+  organizacion = e.data.$organizaciones.val()
+
+   $.ajax({
+            url: url_organigrama,
+            data: {
+              asig_organizacion_clave:organizacion
+            },
+            dataType: "json",
+            type: "GET",
+            contentType: "application/json; charset=utf-8",
+            context: this,
+            success: function (response) {
+
+              cont = 0
+              for (var i = 0; i < response.length; i++) {
+                cont+=1
+              }
+
+              if (cont == 0)
+                organigrama.mostrar_Mensaje(cont)
+              else{
+                organigrama.mostrar_Mensaje(cont)
+                organigrama.buscar_Empleados(organizacion)
+              }
+              
+            },
+            error: function (response) {
+
+                         alert("Ocurrio error al consultar ")
+                  }
+
+    })
 }
-Organigrama.prototype.crear_Diagrama = function (){
+Organigrama.prototype.buscar_Empleados = function (_organizacion){
 
-      $("#diagram").kendoDiagram({
-             dataSource: new kendo.data.HierarchicalDataSource({
-                   data: this.get_Data(),
-                   schema: {
-                           model: {
-                                 children: "items"
-                           }
-                   }
-             }),
-             layout: {
-                   type: "layered"
-             },
-             shapeDefaults: {
-                   visual: this.visual_Template()
-             },
-             connectionDefaults: {
-                   stroke: {
-                           color: "#979797",//Color gris
-                           width: 2
-                   }
-             }
-      });
+   var url = url_datos + _organizacion + "/"
 
-      var diagram = $("#diagram").getKendoDiagram()
-      diagram.bringIntoView(diagram.shapes)
+   $.ajax({
+            url: url,
+            data: {},
+            dataType: "json",
+            type: "GET",
+            contentType: "application/json; charset=utf-8",
+            context: this,
+            success: function (response) {
 
+              console.log(JSON.stringify(response))
+              //organigrama.crear_Diagrama(response)
+            },
+            error: function (response) {
+
+                         alert("Ocurrio error al consultar")
+                  }
+
+    })
 }
-Organigrama.prototype.get_Data = function (){
-
-  var data =[]
-  
-   // for (var i = 0; i < _organizacion.length; i++) {
-   //             datos.push( 
-   //                {  name: _organizacion[i],
-   //                   y: _empleado_org[i],
-   //                }
-               
-   //             )
-   //          }              
-
-      
-      
-      data= [{
-                           firstName: "Antonio",
-                           lastName: "Moreno",
-                           title: "Team Lead",
-                           //colorScheme: "#1696d3",//Color azul
-                           items: [{
-                                 firstName: "Elizabeth",
-                                 lastName: "Brown",
-                                 title: "Design Lead",
-                                 colorScheme: "#ef6944",
-                                 items: [{
-                                        firstName: "Ann",
-                                        lastName: "Devon",
-                                        title: "UI Designer",
-                                        colorScheme: "#ef6944"
-                                 }]
-                           }, {
-                                 firstName: "Diego",
-                                 lastName: "Roel",
-                                 title: "QA Engineer",
-                                 colorScheme: "#ee587b",
-                                 items: [{
-                                        firstName: "Fran",
-                                        lastName: "Wilson",
-                                        title: "QA Intern",
-                                        colorScheme: "#ee587b"
-                                 }]
-                           }, {
-                                 firstName: "Felipe",
-                                 lastName: "Izquiedro",
-                                 title: "Senior Developer",
-                                 colorScheme: "#75be16",
-                                 items: [{
-                                        firstName: "Daniel",
-                                        lastName: "Tonini",
-                                        title: "Developer",
-                                        colorScheme: "#75be16"
-                                 }]
-                           }]
-                   }]
-      return data
+Organigrama.prototype.crear_Diagrama = function(){
+  $('#content-data').orgchart({
+    'data' : this.get_Data(),
+    'depth': 2,
+    'nodeTitle': 'title',
+    'nodeContent': 'name',
+    'toggleSiblingsResp': true,
+    'zoom': false,
+    'pan': true
+  })
 }
-Organigrama.prototype.visual_Template = function (){
+Organigrama.prototype.get_Data = function(){
 
-      var var_template = function (options){
-             var dataviz = kendo.dataviz
-             var g = new dataviz.diagram.Group()
-             var dataItem = options.dataItem
+var datasource2 =
+{ "name":"VILLEGAS RASCON CLAUDIA ANGELICA  <br> COSA",
+  "title":"COORDINADOR jajaj aja ja. aja ja jajaj ajaj ajaja. jajja",
+  "children":[
+    {"name":"JIMENEZ HERRERA ZAIRA","title":"AUXILIAR"},
+    {"name":"AVENDAÑO CRUZ LUIS ALBERTO","title":"JEFE","collapsed": false,
+      "children":[
+        {"name":"MARTINEZ GUTIERREZ EDWIN","title":"TECNICO ESPECIALISTA"}
+        ],
+    },
+    {"name":"MARTINEZ HERNANDEZ JORGE JESUS","title":"JEFE",
+      "children":[
+        {"name":"ARIAS ZACARIAS ZACHARIEL","title":"ANALISTA"},
+        {"name":"CASTRO CASTILLO JANET","title":"ANALISTA"},
+        {"name":"CRUZ GOXCON MIGUEL ANGEL","title":"TECNICO ESPECIALISTA"},
+        {"name":"CORDOVA QUIROZ NADIA","title":"ANALISTA"},
+        {"name":"MARTINEZ JIMENEZ CARLOS ANDRES","title":"ANALISTA"}
+        ],
+    }
+  ],
+}
+  return datasource2
+}
+Organigrama.prototype.mostrar_Mensaje = function (_total){
 
-             g.append(new dataviz.diagram.Rectangle({
-                   width: 210,
-                   height: 75,
-                   stroke: {
-                           width: 0
-                   },
-                   fill: {
-                           gradient: {
-                                 type: "linear",
-                                 stops: [{
-                                        color: dataItem.colorScheme,
-                                        offset: 0,
-                                        opacity: 0.5
-                                 }, {
-                                        color: dataItem.colorScheme,
-                                        offset: 1,
-                                        opacity: 1
-                                 }]
-                           }
-                   }
-             }))
+   if(_total == 0){
+      document.getElementById('container-mensaje').innerHTML='La organización no cuenta con empleados'
+      $('#contenedor').hide()
 
-             g.append(new dataviz.diagram.TextBlock({
-                   text: dataItem.firstName + " " + dataItem.lastName,
-                   x: 85,
-                   y: 20,
-                   fill: "#fff" //Color blanco
-             }))
-
-             g.append(new dataviz.diagram.TextBlock({
-                   text: dataItem.title,
-                   x: 85,
-                   y: 40,
-                   fill: "#fff"
-             }))
-
-             return g
-      }
-
-      return var_template
+   }else{
+      document.getElementById('container-mensaje').innerHTML=' '
+      $('#contenedor').show()
+   }
 }
