@@ -1,0 +1,361 @@
+{% extends 'master.html' %}
+
+{% load static from staticfiles %}
+
+{% block titulo %} Capital humano {% endblock titulo %}
+
+{% block title-page %} Perfiles  {% endblock title-page %}
+
+{% block css %}
+    <!-- Kendo -->
+    <link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.rtl.min.css' %}"/>
+    <link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.common-bootstrap.min.css' %}"/>
+    <link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.bootstrap.min.css' %}"/>
+
+    <!-- Theme -->
+    <link rel="stylesheet" href="{% static 'theme/lib/datetimepicker/css/bootstrap-datetimepicker.min.css' %}"/>
+    <link rel="stylesheet" href="{% static 'theme/lib/daterangepicker/css/daterangepicker.css' %}"/>
+    <link rel="stylesheet" href="{% static 'theme/lib/select2/css/select2.min.css' %}">
+    
+    <!-- Nova -->
+    <link rel="stylesheet" href="{% static 'grid.css' %}"/>
+{% endblock css %}
+
+{% block contenido %}
+
+<div class="be-content">
+    <div class="page-head">
+        <h2 class="page-head-title">Capital Humano</h2>
+        <ol class="breadcrumb page-head-nav">
+            <li class="active" >Perfiles / Configuraciones </li>
+        </ol>
+    </div>
+    
+
+
+<div class="main-content container-fluid">
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="panel panel-default panel-table">
+                <div class="panel-heading">Catalogo de Areas de Experiencias 
+                 <div class="tools"><span class="icon mdi mdi-download"></span><span class="icon mdi mdi-more-vert"></span></div><span class="panel-subtitle">Administrativas</span>
+                </div>
+                <div class="panel-body">
+                  <table id="table1" class="table table-striped table-hover table-fw-widget">
+                    <thead>
+                      <tr>
+                        <th>Descripcion</th>
+                        <th>Porcentaje</th>
+                        <th>Nivel</th>
+                       
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr class="odd gradeX">
+                        <td>Liderazgo</td>
+                        <td>
+                          60%
+                        </td>
+                        <td>1</td>
+                        
+                      </tr>
+                      <tr class="even gradeC">
+                        <td>Manejo y administracion de Personal</td>
+                        <td>
+                          N/A
+                        </td>
+                        <td>2</td>
+                        
+                       
+                      </tr>
+                      <tr class="odd gradeA">
+                        <td>Seguridad Industrial Higiene y Medio Ambiente</td>
+                        <td>
+                          50%
+                        </td>
+                        <td>1</td>
+                        
+                        
+                      </tr>
+                      <tr class="even gradeA">
+                        <td>Normatividad ISO 9001</td>
+                        <td>
+                          50%
+                        </td>
+                        <td>3</td>
+                        
+                      </tr>
+                      <tr class="odd gradeA">
+                        <td>Planear y Programar</td>
+                        <td>60%</td>
+                        <td>4</td>
+                        
+                      </tr>
+                      
+                      
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="panel panel-default panel-table">
+                <div class="panel-heading">Catalogo de Areas de Experiencias 
+                  <div class="tools"><span class="icon mdi mdi-download"></span><span class="icon mdi mdi-more-vert"></span></div><span class="panel-subtitle">Tecnicas</span>
+                </div>
+                <div class="panel-body">
+                  <table id="table2" class="table table-striped table-hover table-fw-widget">
+                    <thead>
+                      <tr>
+                        <th>Descripcion</th>
+                        <th>Porcentaje</th>
+                        <th>Nivel</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr class="odd gradeX">
+                        <td>Aleman (hablado y escrito)</td>
+                        <td>
+                          40%
+                        </td>
+                        <td>1</td>
+                       
+                      </tr>
+                      <tr class="even gradeC">
+                        <td>Ingles (hablado y escrito)</td>
+                        <td>
+                          80%
+                        </td>
+                        <td>2</td>
+                        
+                      </tr>
+                      <tr class="odd gradeA">
+                        <td>Manejo de Excel</td>
+                        <td>
+                          90%
+                        </td>
+                        <td>1</td>
+                      
+                      </tr>
+                      <tr class="even gradeA">
+                        <td>Manejo de ERP JDE</td>
+                        <td>
+                          70%
+                        </td>
+                        <td>3</td>
+                       
+                      </tr>
+                      <tr class="odd gradeA">
+                        <td>Comunicacion efectiva</td>
+                        <td>60%</td>
+                        <td>4</td>
+                       
+                      </tr>
+                      <tr class="even gradeA">
+                        <td>Habilidades de negociacion</td>
+                        <td>70%</td>
+                        <td>1</td>
+                       
+                      </tr>
+                     
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+         
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="panel panel-default panel-table">
+                <div class="panel-heading">Catalogo Grados Academicos (E-Business Suite) 
+                  <div class="tools"><span class="icon mdi mdi-download"></span><span class="icon mdi mdi-more-vert"></span></div>
+                </div>
+                <div class="panel-body">
+                  <table id="table3" class="table table-striped table-hover table-fw-widget">
+                    <thead>
+                      <tr>
+                        <th>Clave</th>
+                        <th>Descripcion grado</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr class="odd gradeX">
+                        <td>1</td>
+                        <td>
+                         Ninguna
+                        </td>
+                     </tr>
+                      <tr class="even gradeC">
+                        <td>2</td>
+                        <td>
+                          Leer y Escribir
+                        </td>
+                        
+                      </tr>
+                      <tr class="odd gradeA">
+                        <td>3</td>
+                        <td>
+                         Primaria
+                        </td>
+                        
+                      </tr>
+                      <tr class="even gradeA">
+                        <td>4</td>
+                        <td>
+                         Secundaria
+                        </td>
+                        
+                      </tr>
+                      <tr class="odd gradeA">
+                        <td>5</td>
+                        <td>Bachillerato</td>
+                       
+                      </tr>
+                      <tr class="even gradeA">
+                        <td>6</td>
+                        <td>Tecnica</td>
+                        
+                      </tr>
+                     
+                      <tr class="gradeU">
+                        <td>7</td>
+                        <td>Licenciatura</td>
+                       
+                      </tr>
+
+                       <tr class="gradeU">
+                        <td>8</td>
+                        <td>Especialidad</td>
+                        
+                      </tr>
+
+                       <tr class="gradeU">
+                        <td>9</td>
+                        <td>Maestria</td>
+                        
+                      </tr>
+
+                       <tr class="gradeU">
+                        <td>10</td>
+                        <td>Doctorado</td>
+                       
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+           <div class="row">
+            <div class="col-sm-12">
+              <div class="panel panel-default panel-table">
+                <div class="panel-heading">Catalogo Ultimos Estudios (E-Business Suite)
+                  <div class="tools"><span class="icon mdi mdi-download"></span><span class="icon mdi mdi-more-vert"></span></div>
+                </div>
+                <div class="panel-body">
+                  <table id="table3" class="table table-striped table-hover table-fw-widget">
+                    <thead>
+                      <tr>
+                        <th>Tipo</th>
+                        <th>Numero de Empleado</th>
+                        <th>Nombre Completo</th>
+                        <th>Puesto</th>
+                        <th>Ultimo Estudio</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr class="odd gradeX">
+                        <td>Administrativo</td>
+                        <td>
+                          200297
+                        </td>
+                        <td>DELGADO CHAVEZ ANGEL GABRIEL</td>
+                        <td class="center"> 77.107.TECNICO OPERADOR DE MOTOCOMPRESORES </td>
+                        <td class="center"></td>
+                      </tr>
+                      <tr class="even gradeC">
+                        <td>Administrativo</td>
+                        <td>
+                          200299
+                        </td>
+                        <td>GOMEZ SUAREZ VICTOR</td>
+                        <td class="center">76.101.SUPERVISOR OPERATIVO</td>
+                        <td class="center">INGENIERO</td>
+                      </tr>
+                      <tr class="odd gradeA">
+                        <td>Administrativo</td>
+                        <td>
+                         200287
+                        </td>
+                        <td>PEREZ MALAGA ROQUE</td>
+                        <td class="center">78.101.SUPERVISOR OPERATIVO</td>
+                        <td class="center">INGENIERO</td>
+                      </tr>
+                      <tr class="even gradeA">
+                        <td>Administrativo</td>
+                        <td>
+                         200423
+                        </td>
+                        <td>GARCIA GARCIA VICTORIA</td>
+                        <td class="center">76.08.ANALISTA DE DATOS</td>
+                        <td class="center">TECNICO EN TELEMATICA</td>
+                      </tr>
+                      <tr class="odd gradeA">
+                        <td>Administrativo</td>
+                        <td>200445</td>
+                        <td>DEL ANGEL CASTILLO ROSALBA ISAI</td>
+                        <td class="center">78.101.SUPERVISOR OPERATIVO</td>
+                        <td class="center">INGENIERO</td>
+                      </tr>
+                      <tr class="even gradeA">
+                        <td>Administrativo</td>
+                        <td>200482</td>
+                        <td>OVANDO MEJIA JOSE DANIEL</td>
+                        <td class="center">78.101.SUPERVISOR OPERATIVO</td>
+                        <td class="center">INGENIERO</td>
+                      </tr>
+                     
+                      <tr class="gradeU">
+                        <td>Administrativo</td>
+                        <td>201031</td>
+                        <td>FLORES BADAL JOSE ASUNCION</td>
+                        <td class="center">76.105.TECNICO MECANICO</td>
+                        <td class="center">TECNICO EN ELECTRICIDAD</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+</div>
+
+{% endblock contenido %}
+
+{% block scripts %}
+    <!--JSZIP -->
+    <script src="{% static 'libs/kendo/2015.2.624/js/jszip.min.js' %}"></script>
+    <!-- Kendo Js -->
+    <script src="{% static 'libs/kendo/2015.2.624/js/cultures/kendo.culture.es-MX.min.js' %}"></script>
+    <script src="{% static 'libs/kendo/2015.2.624/js/kendo.web.min.js' %}"></script>
+
+    <!-- Moment -->
+    <script src="{% static 'libs/momentjs/2.18.1/moment.js' %}"></script>    
+
+    <!-- Theme -->
+    <script src="{% static 'theme/lib/jquery-ui/jquery-ui.min.js' %}"></script>
+    <script src="{% static 'theme/lib/datetimepicker/js/bootstrap-datetimepicker.min.js' %}"></script>
+    <script src="{% static 'theme/lib/datetimepicker/js/locales/bootstrap-datetimepicker.es.js' %}"></script>
+    <script src="{% static 'theme/lib/daterangepicker/js/daterangepicker.js' %}"></script>
+    <script src="{% static 'theme/lib/select2/js/select2.min.js' %}"></script>
+    <script src="{% static 'theme/lib/select2/js/select2.full.min.js' %}"></script>
+
+    <!-- NOVA -->
+    <script src="{% static 'empleados_filtro.js' %}"></script>
+
+{% endblock scripts %}

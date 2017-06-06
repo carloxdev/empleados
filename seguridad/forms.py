@@ -400,28 +400,15 @@ class UserContrasenaActualForm(forms.Form):
 
 class UserContrasenaResetForm(PasswordResetForm):
 
-    email = CharField(label='',
-                      widget=forms.TextInput(
-                          attrs={'class': 'form-control input-xs'}))
-
-    # Nombre de usuario
-    def get_user_clave(self, email, cuenta):
-        active_users = get_user_model()._default_manager.filter(
-            email__iexact=email,
-            username__iexact=cuenta,
-            is_active=True
+    email = CharField(
+        label='',
+        widget=forms.TextInput(
+            attrs={'class': 'form-control input-xs'}
         )
-        return (u for u in active_users if u.has_usable_password())
+    )
 
-    # Email
-    def get_users_email(self, email):
-        active_users = get_user_model()._default_manager.filter(
-            email__iexact=email,
-            is_active=True
-        )
-        return (u for u in active_users if u.has_usable_password())
-
-    def save(self, domain_override=None,
+    def save(self,
+             domain_override=None,
              subject_template_name='registration/password_reset_subject.txt',
              email_template_name='registration/password_reset_email.html',
              use_https=False,
@@ -429,65 +416,34 @@ class UserContrasenaResetForm(PasswordResetForm):
              from_email=None,
              request=None,
              html_email_template_name=None,
-             extra_email_context=None):
+             extra_email_context=None,
+             usuarios=None):
 
-        if request.POST['usuario_clave']:
-            cuenta = request.POST['usuario_clave']
-            email = self.cleaned_data["email"]
-            for user in self.get_user_clave(email, cuenta):
-                if not domain_override:
-                    current_site = get_current_site(request)
-                    site_name = current_site.name
-                    domain = current_site.domain
-                else:
-                    site_name = domain = domain_override
-                context = {
-                    'email': user.email,
-                    'domain': domain,
-                    'site_name': site_name,
-                    'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-                    'user': user,
-                    'token': token_generator.make_token(user),
-                    'protocol': 'https' if use_https else 'http',
-                }
-                if extra_email_context is not None:
-                    context.update(extra_email_context)
+        for usuario in usuarios:
 
-                    self.send_mail(
-                        subject_template_name,
-                        email_template_name,
-                        context,
-                        from_email,
-                        user.email,
-                        html_email_template_name=html_email_template_name
-                    )
+            if not domain_override:
+                current_site = get_current_site(request)
+                site_name = current_site.name
+                domain = current_site.domain
+            else:
+                site_name = domain = domain_override
 
-        elif request.POST['email']:
-            email = request.POST['email']
-            for user in self.get_users_email(email):
-                if not domain_override:
-                    current_site = get_current_site(request)
-                    site_name = current_site.name
-                    domain = current_site.domain
-                else:
-                    site_name = domain = domain_override
-                context = {
-                    'email': user.email,
-                    'domain': domain,
-                    'site_name': site_name,
-                    'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-                    'user': user,
-                    'token': token_generator.make_token(user),
-                    'protocol': 'https' if use_https else 'http',
-                }
-                if extra_email_context is not None:
-                    context.update(extra_email_context)
-
-                self.send_mail(
-                    subject_template_name,
-                    email_template_name,
-                    context,
-                    from_email,
-                    user.email,
-                    html_email_template_name=html_email_template_name
-                )
+            context = {
+                'email': usuario.email,
+                'domain': domain,
+                'site_name': site_name,
+                'uid': urlsafe_base64_encode(force_bytes(usuario.pk)),
+                'user': usuario,
+                'token': token_generator.make_token(usuario),
+                'protocol': 'https' if use_https else 'http',
+            }
+            if extra_email_context is not None:
+                context.update(extra_email_context)
+            self.send_mail(
+                subject_template_name,
+                email_template_name,
+                context,
+                from_email,
+                usuario.email,
+                html_email_template_name=html_email_template_name,
+            )
