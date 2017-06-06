@@ -74,7 +74,6 @@ class EmpleadoOrganigrama(View):
         return render(request, self.template_name, contexto)
 
 
-<<<<<<< HEAD
 class EmpleadoOrganigramaAPI(View):
 
     def get(self, request, pk):
@@ -89,29 +88,32 @@ class EmpleadoOrganigramaAPI(View):
             lista_json,
             content_type="application/json"
         )
-=======
+
+
 class PerfilPuesto(View):
 
     def get(self, request):
 
-        return render(request, 'perfilpuesto/perfil_lista.html')   
+        return render(request, 'perfilpuesto/perfil_lista.html')
+
 
 class PerfilPuestoNuevo(View):
 
     def get(self, request):
 
-        return render(request, 'perfilpuesto/perfil_nuevo.html') 
+        return render(request, 'perfilpuesto/perfil_nuevo.html')
+
 
 class PerfilPuestoNuevo2(View):
 
     def get(self, request):
 
-        return render(request, 'perfilpuesto/perfil_nuevo2.html')   
+        return render(request, 'perfilpuesto/perfil_nuevo2.html')
+
 
 class PerfilPuestoConfiguraciones(View):
 
     def get(self, request):
 
-        return render(request, 'perfilpuesto/perfil_configuracion.html')                   
+        return render(request, 'perfilpuesto/perfil_configuracion.html')
 
->>>>>>> origin/master
