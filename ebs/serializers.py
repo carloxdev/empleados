@@ -12,7 +12,6 @@ from models import VIEW_EMPLEADOS_FULL
 from models import VIEW_EMPLEADOS_GRADO
 from models import VIEW_ORGANIZACIONES
 from models import VIEW_ORGANIGRAMA
-from models import VIEW_COMPANIAS
 
 
 class VIEW_EMPLEADOS_SIMPLE_Serializer(serializers.HyperlinkedModelSerializer):
@@ -278,11 +277,3 @@ class VIEW_ORGANIGRAMA_SERIALIZADO(object):
 
         return lista_json
 
-
-class VIEW_COMPANIAS_Serializer(serializers.HyperlinkedModelSerializer):
-
-    class Meta:
-        model = VIEW_COMPANIAS
-        fields = (
-            'DESC_COMPANIA',
-        )
