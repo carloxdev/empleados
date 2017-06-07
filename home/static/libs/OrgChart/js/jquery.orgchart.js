@@ -631,9 +631,9 @@
       .addClass('node ' + (nodeData.className || '') +  (level >= opts.depth ? ' slide-up' : ''))
       .append('<div class="title">' + nodeData[opts.nodeTitle] + '</div>')
       .append(typeof opts.nodeNombre !== 'None' ? '<div class="content">' 
-              + '<div class="col-sm-3"><img class="avatar" src="' + (nodeData[opts.nodeFoto] +'"></div>' || '')
-              + '<div class="col-sm-9"><b>' + (nodeData[opts.nodeNombre] +'</b></div>' || '')
-              + '<br>' +(nodeData[opts.nodeNumEmpleado] || '')
+              + '<div class="col-sm-3"><img class="avatar" src="{% static ' + (nodeData[opts.nodeFoto] +'%}"></div>' || '')
+              + '<div class="col-sm-9"><b>' + (nodeData[opts.nodeNombre] +'</b>' || '')
+              + '<br>' +(nodeData[opts.nodeNumEmpleado] || '') +'</div>'
               + '<br>' +(nodeData[opts.nodeCompania] || '')
               + '<br>' +(nodeData[opts.nodeDepartamento] || '') +'</div>' : '')
 //url imagen /Users/ncordovaq/Documents/imagen2.png    

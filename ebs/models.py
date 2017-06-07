@@ -184,6 +184,7 @@ class VIEW_EMPLEADOS_GRADO(models.Model):
         managed = False
         db_table = u'"NUVAPP"."VIEW_EMPLEADOS_GRADO"'
 
+
 class VIEW_ORGANIGRAMA(models.Model):
 
     pers_clave = models.IntegerField(primary_key=True)

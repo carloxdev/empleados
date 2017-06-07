@@ -1,5 +1,9 @@
 from django.conf.urls import url
 
+# STATIC
+from django.conf import settings
+from django.conf.urls.static import static
+
 # VISTAS
 from .views import EmpleadoLista
 from .views import EmpleadoDashboard
@@ -34,6 +38,12 @@ urlpatterns = [
 
     url(r'^perfilpuesto/$', PerfilPuesto.as_view(), name="perfil_lista"),
     url(r'^perfilpuesto/nuevo/$', PerfilPuestoNuevo.as_view(), name="perfil_nuevo"),
-    url(r'^perfilpuesto/nuevo2/$', PerfilPuestoNuevo2.as_view(), name="perfil_nuevo2"),
-    url(r'^perfilpuesto/configuraciones/$', PerfilPuestoConfiguraciones.as_view(), name="perfil_configuracion"),
+    url(r'^perfilpuesto/nuevo2/$',
+        PerfilPuestoNuevo2.as_view(), name="perfil_nuevo2"),
+    url(r'^perfilpuesto/configuraciones/$',
+        PerfilPuestoConfiguraciones.as_view(), name="perfil_configuracion"),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL,
+                          document_root=settings.MEDIA_ROOT)

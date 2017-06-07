@@ -78,4 +78,5 @@ class VIEW_EMPLEADOS_GRADO_API(viewsets.ModelViewSet):
 class VIEW_ORGANIGRAMA_API(viewsets.ModelViewSet):
     queryset = VIEW_ORGANIGRAMA.objects.using('ebs_d').all()
     serializer_class = VIEW_ORGANIGRAMA_Serializer
-
+    filter_backends = (DjangoFilterBackend,)
+    filter_class = VIEW_ORGANIGRAMA_Filter

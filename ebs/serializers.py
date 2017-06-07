@@ -234,8 +234,11 @@ class VIEW_ORGANIGRAMA_SERIALIZADO(object):
                 if persona.jefe_nombre_completo == hijo.pers_nombre_completo:
                     hijos.append(persona)
 
-            nodo["name"] = "%s" % (hijo.pers_nombre_completo)
-            nodo["title"] = "%s" % (hijo.asig_trabajo_desc)
+            nodo["nombre"] = "%s" % (hijo.pers_nombre_completo)
+            nodo["num_empleado"] = "%s" % (hijo.pers_clave)
+            nodo["compania"] = "%s" % (hijo.grup_compania_jde)
+            nodo["departamento"] = "%s" % (hijo.asig_organizacion_desc)
+            nodo["puesto"] = "%s" % (hijo.asig_puesto_desc)
 
             if len(hijos):
                 nodo["children"] = self.get_Descendencia(_daddies, hijos, nodo)
@@ -247,8 +250,6 @@ class VIEW_ORGANIGRAMA_SERIALIZADO(object):
     def get_Json(self, _daddies):
 
         sys.setrecursionlimit(1500)
-
-        #self.lista = []
 
         hijos = []
         nodo = {}
@@ -263,17 +264,21 @@ class VIEW_ORGANIGRAMA_SERIALIZADO(object):
                 print persona.jefe_nombre_completo.encode('utf-8')
 
         if len(hijos):
-            nodo["name"] = "%s" % (padre.pers_nombre_completo)
-            nodo["title"] = "%s" % (padre.asig_trabajo_desc)
+            nodo["nombre"] = "%s" % (padre.pers_nombre_completo)
+            nodo["num_empleado"] = "%s" % (padre.pers_clave)
+            nodo["compania"] = "%s" % (padre.grup_compania_jde)
+            nodo["departamento"] = "%s" % (padre.asig_organizacion_desc)
+            nodo["puesto"] = "%s" % (padre.asig_puesto_desc)
             nodo["children"] = self.get_Descendencia(_daddies, hijos, nodo)
 
         else:
-            nodo["name"] = padre.pers_nombre_completo
-            nodo["title"] = padre.asig_trabajo_desc
+            nodo["nombre"] = "%s" % (padre.pers_nombre_completo)
+            nodo["num_empleado"] = "%s" % (padre.pers_clave)
+            nodo["compania"] = "%s" % (padre.grup_compania_jde)
+            nodo["departamento"] = "%s" % (padre.asig_organizacion_desc)
+            nodo["puesto"] = "%s" % (padre.asig_puesto_desc)
             # print padre.pers_nombre_completo.encode('utf-8')
-
 
         lista_json = json.dumps(nodo)
 
         return lista_json
-

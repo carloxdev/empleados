@@ -17,7 +17,7 @@ var organizacion = 0
 $(document).ready(function(){
    organigrama = new Organigrama()
    tarjeta_filtros = new TarjetaFiltros()
-   organigrama.crear_Diagrama()
+   //organigrama.crear_Diagrama()
          
 })
 
@@ -103,7 +103,7 @@ Organigrama.prototype.buscar_Empleados = function (_organizacion){
             success: function (response) {
 
               console.log(JSON.stringify(response))
-              //organigrama.crear_Diagrama(response)
+              organigrama.crear_Diagrama(response)
             },
             error: function (response) {
 
@@ -112,10 +112,10 @@ Organigrama.prototype.buscar_Empleados = function (_organizacion){
 
     })
 }
-Organigrama.prototype.crear_Diagrama = function(){
+Organigrama.prototype.crear_Diagrama = function(_response){
   $('#content-data').orgchart({
-    'data' : this.get_Data(),
-    'depth': 2,
+    'data' : _response,
+    'depth': 4,
     'nodeTitle': 'puesto',
     'nodeFoto':'foto',
     'nodeNombre': 'nombre',
@@ -131,7 +131,7 @@ Organigrama.prototype.get_Data = function(){
 
 var datasource2 =
 { "nombre":"VILLEGAS RASCON CLAUDIA ANGELICA",
-  "foto":"/Users/ncordovaq/Documents/imagen2.png",
+  "foto":"usuarios/fotos/imagen2.png",
   "puesto":"COORDINADOR",
   "num_empleado": "202000",
   "compania":"SIC",
