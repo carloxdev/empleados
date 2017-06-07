@@ -74,7 +74,7 @@ class EmpleadoOrganigrama(View):
         return render(request, self.template_name, contexto)
 
 
-<<<<<<< HEAD
+
 class EmpleadoOrganigramaAPI(View):
 
     def get(self, request, pk):
@@ -89,7 +89,7 @@ class EmpleadoOrganigramaAPI(View):
             lista_json,
             content_type="application/json"
         )
-=======
+
 class PerfilPuesto(View):
 
     def get(self, request):
@@ -114,4 +114,4 @@ class PerfilPuestoConfiguraciones(View):
 
         return render(request, 'perfilpuesto/perfil_configuracion.html')                   
 
->>>>>>> origin/master
+

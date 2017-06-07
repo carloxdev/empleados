@@ -80,17 +80,9 @@ class VIEW_EMPLEADOS_GRADO_API(viewsets.ModelViewSet):
 class VIEW_ORGANIGRAMA_API(viewsets.ModelViewSet):
     queryset = VIEW_ORGANIGRAMA.objects.using('ebs_d').all()
     serializer_class = VIEW_ORGANIGRAMA_Serializer
-<<<<<<< Updated upstream
-    filter_backends = (DjangoFilterBackend,)
-    filter_class = VIEW_ORGANIGRAMA_Filter
-=======
-<<<<<<< HEAD
+
 
 class VIEW_COMPANIAS_API(viewsets.ModelViewSet):
     queryset = VIEW_COMPANIAS.objects.using('ebs_d').all()
     serializer_class = VIEW_COMPANIAS_Serializer
-=======
-    filter_backends = (DjangoFilterBackend,)
-    filter_class = VIEW_ORGANIGRAMA_Filter
->>>>>>> origin/master
->>>>>>> Stashed changes
+
