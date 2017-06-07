@@ -204,3 +204,11 @@ class VIEW_ORGANIGRAMA(models.Model):
         managed = False
         db_table = u'"NUVAPP"."VIEW_ORGANIGRAMA"'
 
+
+class VIEW_COMPANIAS(models.Model):
+
+    desc_compania = models.CharField(max_length=240)
+
+    class Meta:
+        managed = False
+        db_table = u'"NUVAPP"."VIEW_COMPANIAS"'

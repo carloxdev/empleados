@@ -12,6 +12,7 @@ from models import VIEW_EMPLEADOS_FULL
 from models import VIEW_EMPLEADOS_GRADO
 from models import VIEW_ORGANIZACIONES
 from models import VIEW_ORGANIGRAMA
+from models import VIEW_COMPANIAS
 
 
 class VIEW_EMPLEADOS_SIMPLE_Serializer(serializers.HyperlinkedModelSerializer):
@@ -191,6 +192,20 @@ class VIEW_ORGANIGRAMA_Serializer(serializers.HyperlinkedModelSerializer):
             'ruta2',
         )
 
+<<<<<<< Updated upstream
+=======
+<<<<<<< HEAD
+class VIEW_COMPANIAS_Serializer(serializers.HyperlinkedModelSerializer):
+
+    class Meta:
+        model = VIEW_COMPANIAS
+        fields = (
+            'DESC_COMPANIA',
+        )
+
+
+=======
+>>>>>>> Stashed changes
     def get_jefe_nombre_completo(self, obj):
 
         try:
@@ -276,3 +291,7 @@ class VIEW_ORGANIGRAMA_SERIALIZADO(object):
         lista_json = json.dumps(nodo)
 
         return lista_json
+<<<<<<< Updated upstream
+=======
+>>>>>>> origin/master
+>>>>>>> Stashed changes

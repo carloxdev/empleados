@@ -8,7 +8,7 @@ from ebs.views_rest import VIEW_EMPLEADOS_FULL_ByPageAPI
 from ebs.views_rest import VIEW_ORGANIZACIONES_API
 from ebs.views_rest import VIEW_EMPLEADOS_GRADO_API
 from ebs.views_rest import VIEW_ORGANIGRAMA_API
-
+from ebs.views_rest import VIEW_COMPANIAS_API
 
 
 router_ebs = routers.DefaultRouter()
@@ -42,4 +42,9 @@ router_ebs.register(
     r'vieworganigrama',
     VIEW_ORGANIGRAMA_API,
     'vieworganigrama'
+)
+router_ebs.register(
+    r'viewcompanias',
+    VIEW_COMPANIAS_API,
+    'viewcompanias'
 )
