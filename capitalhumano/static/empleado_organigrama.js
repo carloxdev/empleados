@@ -116,8 +116,12 @@ Organigrama.prototype.crear_Diagrama = function(){
   $('#content-data').orgchart({
     'data' : this.get_Data(),
     'depth': 2,
-    'nodeTitle': 'title',
-    'nodeContent': 'name',
+    'nodeTitle': 'puesto',
+    'nodeFoto':'foto',
+    'nodeNombre': 'nombre',
+    'nodeNumEmpleado':'num_empleado',
+    'nodeCompania':'compania',
+    'nodeDepartamento':'departamento',
     'toggleSiblingsResp': true,
     'zoom': false,
     'pan': true
@@ -126,22 +130,26 @@ Organigrama.prototype.crear_Diagrama = function(){
 Organigrama.prototype.get_Data = function(){
 
 var datasource2 =
-{ "name":"VILLEGAS RASCON CLAUDIA ANGELICA  <br> COSA",
-  "title":"COORDINADOR jajaj aja ja. aja ja jajaj ajaj ajaja. jajja",
+{ "nombre":"VILLEGAS RASCON CLAUDIA ANGELICA",
+  "foto":"/Users/ncordovaq/Documents/imagen2.png",
+  "puesto":"COORDINADOR",
+  "num_empleado": "202000",
+  "compania":"SIC",
+  "departamento": "TECNOLOGIA DE INFORMACION",
   "children":[
-    {"name":"JIMENEZ HERRERA ZAIRA","title":"AUXILIAR"},
-    {"name":"AVENDAÑO CRUZ LUIS ALBERTO","title":"JEFE","collapsed": false,
+    {"nombre":"JIMENEZ HERRERA ZAIRA","puesto":"AUXILIAR"},
+    {"nombre":"AVENDAÑO CRUZ LUIS ALBERTO","puesto":"JEFE",
       "children":[
-        {"name":"MARTINEZ GUTIERREZ EDWIN","title":"TECNICO ESPECIALISTA"}
+        {"nombre":"MARTINEZ GUTIERREZ EDWIN","puesto":"TECNICO ESPECIALISTA"}
         ],
     },
-    {"name":"MARTINEZ HERNANDEZ JORGE JESUS","title":"JEFE",
+    {"nombre":"MARTINEZ HERNANDEZ JORGE JESUS","puesto":"JEFE",
       "children":[
-        {"name":"ARIAS ZACARIAS ZACHARIEL","title":"ANALISTA"},
-        {"name":"CASTRO CASTILLO JANET","title":"ANALISTA"},
-        {"name":"CRUZ GOXCON MIGUEL ANGEL","title":"TECNICO ESPECIALISTA"},
-        {"name":"CORDOVA QUIROZ NADIA","title":"ANALISTA"},
-        {"name":"MARTINEZ JIMENEZ CARLOS ANDRES","title":"ANALISTA"}
+        {"nombre":"ARIAS ZACARIAS ZACHARIEL","puesto":"ANALISTA"},
+        {"nombre":"CASTRO CASTILLO JANET","puesto":"ANALISTA"},
+        {"nombre":"CRUZ GOXCON MIGUEL ANGEL","puesto":"TECNICO ESPECIALISTA"},
+        {"nombre":"CORDOVA QUIROZ NADIA","puesto":"ANALISTA"},
+        {"nombre":"MARTINEZ JIMENEZ CARLOS ANDRES","puesto":"ANALISTA"}
         ],
     }
   ],

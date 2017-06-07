@@ -19,7 +19,6 @@ from ebs.serializers import VIEW_ORGANIGRAMA_SERIALIZADO
 
 # Modelos
 from ebs.models import VIEW_ORGANIGRAMA
-from ebs.models import VIEW_EMPLEADOS_FULL
 
 
 # -------------- EMPLEADOS -------------- #
@@ -116,4 +115,3 @@ class PerfilPuestoConfiguraciones(View):
     def get(self, request):
 
         return render(request, 'perfilpuesto/perfil_configuracion.html')
-

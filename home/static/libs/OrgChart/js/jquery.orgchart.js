@@ -630,7 +630,14 @@
     var $nodeDiv = $('<div' + (opts.draggable ? ' draggable="true"' : '') + (nodeData[opts.nodeId] ? ' id="' + nodeData[opts.nodeId] + '"' : '') + (nodeData.parentId ? ' data-parent="' + nodeData.parentId + '"' : '') + '>')
       .addClass('node ' + (nodeData.className || '') +  (level >= opts.depth ? ' slide-up' : ''))
       .append('<div class="title">' + nodeData[opts.nodeTitle] + '</div>')
-      .append(typeof opts.nodeContent !== 'undefined' ? '<div class="content">' + (nodeData[opts.nodeContent] || '') + '</div>' : '');
+      .append(typeof opts.nodeNombre !== 'None' ? '<div class="content">' 
+              + '<div class="col-sm-3"><img class="avatar" src="' + (nodeData[opts.nodeFoto] +'"></div>' || '')
+              + '<div class="col-sm-9"><b>' + (nodeData[opts.nodeNombre] +'</b></div>' || '')
+              + '<br>' +(nodeData[opts.nodeNumEmpleado] || '')
+              + '<br>' +(nodeData[opts.nodeCompania] || '')
+              + '<br>' +(nodeData[opts.nodeDepartamento] || '') +'</div>' : '')
+//url imagen /Users/ncordovaq/Documents/imagen2.png    
+
     // append 4 direction arrows or expand/collapse buttons
     var flags = nodeData.relationship || '';
     if (opts.verticalDepth && (level + 2) > opts.verticalDepth) {

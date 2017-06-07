@@ -32,8 +32,24 @@ urlpatterns = [
         EmpleadoOrganigramaAPI.as_view(),
         name='organigrama_json'
     ),
-    url(r'^perfilpuesto/$', PerfilPuesto.as_view(), name="perfil_lista"),
-    url(r'^perfilpuesto/nuevo/$', PerfilPuestoNuevo.as_view(), name="perfil_nuevo"),
-    url(r'^perfilpuesto/nuevo2/$', PerfilPuestoNuevo2.as_view(), name="perfil_nuevo2"),
-    url(r'^perfilpuesto/configuraciones/$', PerfilPuestoConfiguraciones.as_view(), name="perfil_configuracion"),
+    url(
+        r'^perfilpuesto/$',
+        PerfilPuesto.as_view(),
+        name="perfil_lista"
+    ),
+    url(
+        r'^perfilpuesto/nuevo/$',
+        PerfilPuestoNuevo.as_view(),
+        name="perfil_nuevo"
+    ),
+    url(
+        r'^perfilpuesto/nuevo2/$',
+        PerfilPuestoNuevo2.as_view(),
+        name="perfil_nuevo2"
+    ),
+    url(
+        r'^perfilpuesto/configuraciones/$',
+        PerfilPuestoConfiguraciones.as_view(),
+        name="perfil_configuracion"
+    ),
 ]
