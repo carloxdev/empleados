@@ -188,6 +188,7 @@ class VIEW_EMPLEADOS_GRADO(models.Model):
 class VIEW_ORGANIGRAMA(models.Model):
 
     pers_clave = models.IntegerField(primary_key=True)
+    pers_empleado_numero = models.IntegerField(primary_key=True)
     pers_nombre_completo = models.CharField(max_length=240)
     asig_trabajo_desc = models.CharField(max_length=240)
     asig_organizacion_desc = models.CharField(max_length=240)

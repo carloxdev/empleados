@@ -176,6 +176,7 @@ class VIEW_ORGANIGRAMA_Serializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = VIEW_ORGANIGRAMA
         fields = (
+            'pers_empleado_numero',
             'pers_nombre_completo',
             'asig_trabajo_desc',
             'pers_clave',
