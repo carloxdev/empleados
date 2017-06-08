@@ -3,7 +3,6 @@
 from django.forms import TextInput
 from django.forms import Select
 from django.forms import Form
-
 from django.forms import CharField
 from django.forms import IntegerField
 from django.forms import NumberInput
@@ -15,7 +14,6 @@ from jde.models import VIEW_UNIDADES
 from ebs.models import VIEW_TIPO_PERSONAS
 from ebs.models import VIEW_PUESTOS
 from ebs.models import VIEW_ORGANIZACIONES
-from ebs.models import VIEW_ORGANIGRAMA
 from administracion.models import Empresa
 
 
@@ -36,7 +34,7 @@ class OrganizacionesFilterForm(Form):
             valores.append(
                 (
                     organizacion.clave_org,
-                    organizacion.desc_org,
+                    str(int(organizacion.clave_org)) + ' : ' + organizacion.desc_org
                 )
             )
         return valores
@@ -53,13 +51,13 @@ class EmpresasFilterForm(Form):
     def get_Empresas(self):
         valores = [('0', 'TODAS LAS EMPRESAS')]
 
-        empresas = VIEW_ORGANIGRAMA.objects.using('ebs_d').order_by('grup_compania_jde')
+        empresas = Empresa.objects.all()
         for empresa in empresas:
 
             valores.append(
                 (
-                    empresa.grup_compania_jde,
-                    empresa.grup_compania_jde,
+                    empresa.descripcion_ebs,
+                    str(int(empresa.clave)) + ' : ' + empresa.descripcion,
                 )
             )
         return valores

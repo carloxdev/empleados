@@ -171,8 +171,6 @@ class VIEW_EMPLEADOS_GRADO_Serializer(serializers.HyperlinkedModelSerializer):
 
 class VIEW_ORGANIGRAMA_Serializer(serializers.HyperlinkedModelSerializer):
 
-    jefe_nombre_completo = serializers.SerializerMethodField()
-
     class Meta:
         model = VIEW_ORGANIGRAMA
         fields = (
@@ -192,19 +190,7 @@ class VIEW_ORGANIGRAMA_Serializer(serializers.HyperlinkedModelSerializer):
             'ruta2',
         )
 
-    def get_jefe_nombre_completo(self, obj):
-
-        try:
-            pers_nombre_completo = obj.jefe_nombre_completo.pers_nombre_completo
-            asig_trabajo_desc = obj.jefe_nombre_completo.asig_trabajo_desc
-            asig_jefe_directo_clave = obj.jefe_nombre_completo.asig_jefe_directo_clave
-            return "%s %s %s" % (pers_nombre_completo, asig_trabajo_desc, asig_jefe_directo_clave)
-
-        except:
-            return ""
-
-
-class VIEW_ORGANIGRAMA_SERIALIZADO(object):
+class VIEW_ORGANIGRAMA_ORG_SERIALIZADO(object):
 
     def get_NivelEstructuraPadre(self, _daddies):
         nivel = 6
@@ -217,14 +203,104 @@ class VIEW_ORGANIGRAMA_SERIALIZADO(object):
 
         for posicion in _daddies:
             if posicion.nivel_estructura == nivel:
-                padre == _daddies[cont]
+                padre = _daddies[cont]
             cont += 1
 
         return padre
 
     def get_Descendencia(self, _daddies, _hijos, _nodo_jefe_nombre_completo):
 
-        lista_desendencia = []
+        lista_descendencia = []
+
+        for hijo in _hijos:
+
+            nodo = {}
+            hijos = []
+
+            for persona in _daddies:
+                if persona.jefe_nombre_completo == hijo.pers_nombre_completo:
+                    hijos.append(persona)
+
+                nodo["nombre"] = "%s" % (hijo.pers_nombre_completo)
+                nodo["num_empleado"] = "%s" % (hijo.pers_clave)
+                nodo["compania"] = "%s" % (hijo.grup_compania_jde)
+                nodo["departamento"] = "%s" % (hijo.asig_organizacion_desc)
+                nodo["puesto"] = "%s" % (hijo.asig_puesto_desc)
+
+            if len(hijos):
+                nodo["children"] = self.get_Descendencia(_daddies, hijos, nodo)
+
+            lista_descendencia.append(nodo)
+
+        return lista_descendencia
+
+    def get_Json(self, _daddies):
+
+        sys.setrecursionlimit(1500)
+
+        jefe = {}
+        hijos = []
+        nodo = {}
+        padre = self.get_NivelEstructuraPadre(_daddies)
+        
+        jefePadre = VIEW_EMPLEADOS_FULL.objects.using('ebs_d').filter(
+            pers_clave=padre.asig_jefe_directo_clave)
+
+        for persona in _daddies:
+            if persona.jefe_nombre_completo == padre.pers_nombre_completo:
+                hijos.append(persona)
+                print 'jefe'+persona.jefe_nombre_completo.encode('utf-8')
+
+        if len(hijos):
+            nodo["nombre"] = "%s" % (padre.pers_nombre_completo)
+            nodo["num_empleado"] = "%s" % (padre.pers_clave)
+            nodo["compania"] = "%s" % (padre.grup_compania_jde)
+            nodo["departamento"] = "%s" % (padre.asig_organizacion_desc)
+            nodo["puesto"] = "%s" % (padre.asig_puesto_desc)
+            nodo["children"] = self.get_Descendencia(_daddies, hijos, nodo)
+
+        else:
+            nodo["nombre"] = "%s" % (padre.pers_nombre_completo)
+            nodo["num_empleado"] = "%s" % (padre.pers_clave)
+            nodo["compania"] = "%s" % (padre.grup_compania_jde)
+            nodo["departamento"] = "%s" % (padre.asig_organizacion_desc)
+            nodo["puesto"] = "%s" % (padre.asig_puesto_desc)
+
+        for dato in jefePadre:
+            jefe["nombre"] = "%s" % (dato.pers_nombre_completo)
+            jefe["num_empleado"] = "%s" % (padre.pers_clave)
+            jefe["compania"] = "%s" % (dato.grup_compania_jde)
+            jefe["departamento"] = "%s" % (dato.asig_organizacion_desc)
+            jefe["puesto"] = "%s" % (dato.asig_puesto_desc)
+            jefe["children"] = [nodo]
+            # jefe["children"] = [nodo]
+
+        # print jefe
+        lista_json = json.dumps(jefe)
+
+        return lista_json
+
+class VIEW_ORGANIGRAMA_EMP_SERIALIZADO(object):
+
+    def get_NivelEstructuraPadre(self, _daddies):
+        nivel = 6
+        padre = _daddies[0]
+        cont = 0
+
+        for persona in _daddies:
+            if persona.nivel_estructura < nivel:
+                nivel = persona.nivel_estructura
+
+        for posicion in _daddies:
+            if posicion.nivel_estructura == nivel:
+                padre = _daddies[cont]
+            cont += 1
+
+        return padre
+
+    def get_Descendencia(self, _daddies, _hijos, _nodo_jefe_nombre_completo):
+
+        lista_descendencia = []
 
         for hijo in _hijos:
 
@@ -244,9 +320,9 @@ class VIEW_ORGANIGRAMA_SERIALIZADO(object):
             if len(hijos):
                 nodo["children"] = self.get_Descendencia(_daddies, hijos, nodo)
 
-            lista_desendencia.append(nodo)
+            lista_descendencia.append(nodo)
 
-        return lista_desendencia
+        return lista_descendencia
 
     def get_Json(self, _daddies):
 
@@ -256,13 +332,10 @@ class VIEW_ORGANIGRAMA_SERIALIZADO(object):
         nodo = {}
         padre = self.get_NivelEstructuraPadre(_daddies)
 
-        jefe = VIEW_EMPLEADOS_FULL.objects.using('ebs_d').filter(
-            pers_clave=padre.asig_jefe_directo_clave)
-
         for persona in _daddies:
             if persona.jefe_nombre_completo == padre.pers_nombre_completo:
                 hijos.append(persona)
-                print persona.jefe_nombre_completo.encode('utf-8')
+                # print persona.jefe_nombre_completo.encode('utf-8')
 
         if len(hijos):
             nodo["nombre"] = "%s" % (padre.pers_nombre_completo)
@@ -278,7 +351,6 @@ class VIEW_ORGANIGRAMA_SERIALIZADO(object):
             nodo["compania"] = "%s" % (padre.grup_compania_jde)
             nodo["departamento"] = "%s" % (padre.asig_organizacion_desc)
             nodo["puesto"] = "%s" % (padre.asig_puesto_desc)
-            # print padre.pers_nombre_completo.encode('utf-8')
 
         lista_json = json.dumps(nodo)
 

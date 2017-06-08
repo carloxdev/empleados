@@ -3,7 +3,8 @@
 \*-----------------------------------------------*/
 
 var url_organigrama = window.location.origin + "/api-ebs/vieworganigrama/"
-var url_datos = window.location.origin + "/organigrama/json/"
+var url_datos_org = window.location.origin + "/organigrama/json-org/"
+var url_datos_emp = window.location.origin + "/organigrama/json-emp/"
 
 //OBJS
 var organigrama = null
@@ -17,8 +18,6 @@ var organizacion = 0
 $(document).ready(function(){
    organigrama = new Organigrama()
    tarjeta_filtros = new TarjetaFiltros()
-   //organigrama.crear_Diagrama()
-         
 })
 
 /*-----------------------------------------------*\
@@ -29,7 +28,7 @@ $(document).ready(function(){
 function TarjetaFiltros(){
 
    this.$organizaciones = $('#id_organizaciones')
-   this.$empresas = $('id_empresas')
+   this.$empresas = $('#id_empresas')
 
    this.init_Components()
    this.init_Events()
@@ -40,7 +39,7 @@ TarjetaFiltros.prototype.init_Components = function () {
 }
 TarjetaFiltros.prototype.init_Events = function () {
    this.$organizaciones.on("change", this, organigrama.empleados_Organizacion)
-   //this.$empresas.on("change", this, organigrama.buscar_Empleados)
+   this.$empresas.on("change", this, organigrama.empleados_Empresa)
 }
 TarjetaFiltros.prototype.get_ConfSelect2 = function () {
    return {
@@ -55,8 +54,10 @@ TarjetaFiltros.prototype.get_ConfSelect2 = function () {
 function Organigrama(){
 }
 Organigrama.prototype.empleados_Organizacion = function(e){
-
   organizacion = e.data.$organizaciones.val()
+  $('#content-data').empty()
+
+  var url = url_datos_org + organizacion + "/"
 
    $.ajax({
             url: url_organigrama,
@@ -74,11 +75,13 @@ Organigrama.prototype.empleados_Organizacion = function(e){
                 cont+=1
               }
 
-              if (cont == 0)
+              if (cont == 0){
                 organigrama.mostrar_Mensaje(cont)
+              }
               else{
                 organigrama.mostrar_Mensaje(cont)
-                organigrama.buscar_Empleados(organizacion)
+                //organigrama.buscar_Empleados(organizacion)
+                organigrama.crear_Diagrama(url)
               }
               
             },
@@ -89,33 +92,50 @@ Organigrama.prototype.empleados_Organizacion = function(e){
 
     })
 }
-Organigrama.prototype.buscar_Empleados = function (_organizacion){
-
-   var url = url_datos + _organizacion + "/"
+Organigrama.prototype.empleados_Empresa = function(e){
+  empresa = e.data.$empresas.val()
+  $('#content-data').empty()
+  alert(empresa)
+  var url = url_datos_emp + empresa + "/"
 
    $.ajax({
-            url: url,
-            data: {},
+            url: url_organigrama,
+            data: {
+              grup_compania_jde:empresa
+            },
             dataType: "json",
             type: "GET",
             contentType: "application/json; charset=utf-8",
             context: this,
             success: function (response) {
 
-              console.log(JSON.stringify(response))
-              organigrama.crear_Diagrama(response)
+              cont = 0
+              for (var i = 0; i < response.length; i++) {
+                cont+=1
+              }
+
+              if (cont == 0){
+                organigrama.mostrar_Mensaje(cont)
+              }
+              else{
+                organigrama.mostrar_Mensaje(cont)
+                organigrama.crear_Diagrama(url)
+              }
+
+              
             },
             error: function (response) {
 
-                         alert("Ocurrio error al consultar")
+                         alert("Ocurrio error al consultar ")
                   }
 
     })
 }
-Organigrama.prototype.crear_Diagrama = function(_response){
+Organigrama.prototype.crear_Diagrama = function(_url){
+
   $('#content-data').orgchart({
-    'data' : _response,
-    'depth': 4,
+    'data' : _url,
+    'depth': 3,
     'nodeTitle': 'puesto',
     'nodeFoto':'foto',
     'nodeNombre': 'nombre',
@@ -123,8 +143,6 @@ Organigrama.prototype.crear_Diagrama = function(_response){
     'nodeCompania':'compania',
     'nodeDepartamento':'departamento',
     'toggleSiblingsResp': true,
-    'zoom': false,
-    'pan': true
   })
 }
 Organigrama.prototype.get_Data = function(){
@@ -167,3 +185,27 @@ Organigrama.prototype.mostrar_Mensaje = function (_total){
       $('#contenedor').show()
    }
 }
+
+// Organigrama.prototype.buscar_Empleados = function (_organizacion){
+
+//    var url = url_datos + _organizacion + "/"
+
+//    $.ajax({
+//             url: url,
+//             data: {},
+//             dataType: "json",
+//             type: "GET",
+//             contentType: "application/json; charset=utf-8",
+//             context: this,
+//             success: function (response) {
+
+//               console.log(JSON.stringify(response))
+//               organigrama.crear_Diagrama(response)
+//             },
+//             error: function (response) {
+
+//                          alert("Ocurrio error al consultar")
+//                   }
+
+//     })
+// }

@@ -28,6 +28,11 @@ router_ebs.register(
     'viewempleadossimple_bypage'
 )
 router_ebs.register(
+    r'viewempleadosfull_bypage',
+    VIEW_EMPLEADOS_FULL_ByPageAPI,
+    'viewempleadosfull_bypage'
+)
+router_ebs.register(
     r'vieworganizaciones',
     VIEW_ORGANIZACIONES_API,
     'vieworganizaciones'

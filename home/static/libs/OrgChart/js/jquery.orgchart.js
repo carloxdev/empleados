@@ -97,7 +97,7 @@
         'url': data,
         'dataType': 'json',
         'beforeSend': function () {
-          $chart.append('<i class="fa fa-circle-o-notch fa-spin spinner"></i>');
+          //$chart.append('<i class="fa fa-circle-o-notch fa-spin spinner"></i>');
         }
       })
       .done(function(data, textStatus, jqXHR) {
@@ -107,7 +107,7 @@
         console.log(errorThrown);
       })
       .always(function() {
-        $chart.children('.spinner').remove();
+        //$chart.children('.spinner').remove();
       });
     }
     $chartContainer.append($chart);

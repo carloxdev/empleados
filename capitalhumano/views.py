@@ -12,13 +12,15 @@ from django.views.generic.base import View
 # Formularios
 from .forms import EmpleadoFilterForm
 from .forms import OrganizacionesFilterForm
-# from .forms import EmpresasFilterForm
+from .forms import EmpresasFilterForm
 
-# Serializer
-from ebs.serializers import VIEW_ORGANIGRAMA_SERIALIZADO
+# Serializer crear organigrama
+from ebs.serializers import VIEW_ORGANIGRAMA_ORG_SERIALIZADO
+from ebs.serializers import VIEW_ORGANIGRAMA_EMP_SERIALIZADO
 
 # Modelos
 from ebs.models import VIEW_ORGANIGRAMA
+from administracion.models import Empresa
 
 
 # -------------- EMPLEADOS -------------- #
@@ -64,23 +66,37 @@ class EmpleadoOrganigrama(View):
     def get(self, request):
 
         form_organizaciones = OrganizacionesFilterForm()
-        # form_empresas = EmpresasFilterForm()
+        form_empresas = EmpresasFilterForm()
 
         contexto = {
             'form': form_organizaciones,
-            # 'form2': form_empresas,
+            'form2': form_empresas,
         }
         return render(request, self.template_name, contexto)
 
 
-class EmpleadoOrganigramaAPI(View):
+class EmpleadoOrganigramaOrgAPI(View):
 
     def get(self, request, pk):
 
         daddies = VIEW_ORGANIGRAMA.objects.using(
             'ebs_d').filter(asig_organizacion_clave=pk)
 
-        serializador = VIEW_ORGANIGRAMA_SERIALIZADO()
+        serializador = VIEW_ORGANIGRAMA_ORG_SERIALIZADO()
+        lista_json = serializador.get_Json(daddies)
+
+        return HttpResponse(
+            lista_json,
+            content_type="application/json"
+        )
+
+class EmpleadoOrganigramaEmpAPI(View):
+
+    def get(self, request, pk):
+        print pk+'AQUI ESTA LA EMPRESA'
+        daddies = Empresa.objects.filter(grup_compania_jde=pk)
+
+        serializador = VIEW_ORGANIGRAMA_EMP_SERIALIZADO()
         lista_json = serializador.get_Json(daddies)
 
         return HttpResponse(

@@ -8,7 +8,8 @@ from django.conf.urls.static import static
 from .views import EmpleadoLista
 from .views import EmpleadoDashboard
 from .views import EmpleadoOrganigrama
-from .views import EmpleadoOrganigramaAPI
+from .views import EmpleadoOrganigramaOrgAPI
+from .views import EmpleadoOrganigramaEmpAPI
 from .views import PerfilPuesto
 from .views import PerfilPuestoNuevo
 from .views import PerfilPuestoNuevo2
@@ -31,9 +32,14 @@ urlpatterns = [
         name="empleado_lista"
     ),
     url(
-        r'^organigrama/json/(?P<pk>\d+)/$',
-        EmpleadoOrganigramaAPI.as_view(),
-        name='organigrama_json'
+        r'^organigrama/json-org/(?P<pk>\d+)/$',
+        EmpleadoOrganigramaOrgAPI.as_view(),
+        name='organigrama_json_org'
+    ),
+    url(
+        r'^organigrama/json-emp/(?P<pk>\d+)/$',
+        EmpleadoOrganigramaEmpAPI.as_view(),
+        name='organigrama_json_emp'
     ),
 
     url(r'^perfilpuesto/$', PerfilPuesto.as_view(), name="perfil_lista"),
