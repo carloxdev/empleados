@@ -94,7 +94,8 @@ class EmpleadoOrganigramaEmpAPI(View):
 
     def get(self, request, pk):
         print pk+'AQUI ESTA LA EMPRESA'
-        daddies = Empresa.objects.filter(grup_compania_jde=pk)
+        daddies = VIEW_ORGANIGRAMA.objects.using(
+            'ebs_d').filter(grup_compania_jde=pk) 
 
         serializador = VIEW_ORGANIGRAMA_EMP_SERIALIZADO()
         lista_json = serializador.get_Json(daddies)

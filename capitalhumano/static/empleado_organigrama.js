@@ -80,7 +80,6 @@ Organigrama.prototype.empleados_Organizacion = function(e){
               }
               else{
                 organigrama.mostrar_Mensaje(cont)
-                //organigrama.buscar_Empleados(organizacion)
                 organigrama.crear_Diagrama(url)
               }
               
@@ -95,7 +94,7 @@ Organigrama.prototype.empleados_Organizacion = function(e){
 Organigrama.prototype.empleados_Empresa = function(e){
   empresa = e.data.$empresas.val()
   $('#content-data').empty()
-  alert(empresa)
+
   var url = url_datos_emp + empresa + "/"
 
    $.ajax({
@@ -121,8 +120,7 @@ Organigrama.prototype.empleados_Empresa = function(e){
                 organigrama.mostrar_Mensaje(cont)
                 organigrama.crear_Diagrama(url)
               }
-
-              
+             
             },
             error: function (response) {
 
@@ -177,7 +175,7 @@ var datasource2 =
 Organigrama.prototype.mostrar_Mensaje = function (_total){
 
    if(_total == 0){
-      document.getElementById('container-mensaje').innerHTML='La organización no cuenta con empleados'
+      document.getElementById('container-mensaje').innerHTML='La organización/empresa no cuenta con empleados'
       $('#contenedor').hide()
 
    }else{

@@ -194,22 +194,6 @@ class VIEW_ORGANIGRAMA_Serializer(serializers.HyperlinkedModelSerializer):
 
 class VIEW_ORGANIGRAMA_ORG_SERIALIZADO(object):
 
-    def get_NivelEstructuraPadre(self, _daddies):
-        nivel = 6
-        padre = _daddies[0]
-        cont = 0
-
-        for persona in _daddies:
-            if persona.nivel_estructura < nivel:
-                nivel = persona.nivel_estructura
-
-        for posicion in _daddies:
-            if posicion.nivel_estructura == nivel:
-                padre = _daddies[cont]
-            cont += 1
-
-        return padre
-
     def get_Descendencia(self, _daddies, _hijos, _nodo_jefe_nombre_completo):
 
         lista_descendencia = []
@@ -223,11 +207,7 @@ class VIEW_ORGANIGRAMA_ORG_SERIALIZADO(object):
                 if persona.jefe_nombre_completo == hijo.pers_nombre_completo:
                     hijos.append(persona)
 
-                nodo["nombre"] = "%s" % (hijo.pers_nombre_completo)
-                nodo["num_empleado"] = "%s" % (hijo.pers_clave)
-                nodo["compania"] = "%s" % (hijo.grup_compania_jde)
-                nodo["departamento"] = "%s" % (hijo.asig_organizacion_desc)
-                nodo["puesto"] = "%s" % (hijo.asig_puesto_desc)
+                self.get_Estructura(nodo,hijo)
 
             if len(hijos):
                 nodo["children"] = self.get_Descendencia(_daddies, hijos, nodo)
@@ -243,48 +223,41 @@ class VIEW_ORGANIGRAMA_ORG_SERIALIZADO(object):
         jefe = {}
         hijos = []
         nodo = {}
-        padre = self.get_NivelEstructuraPadre(_daddies)
+        padre = self.get_NivelPadre(_daddies)
         
         jefePadre = VIEW_EMPLEADOS_FULL.objects.using('ebs_d').filter(
             pers_clave=padre.asig_jefe_directo_clave)
+        for dato in jefePadre:
+            print dato.pers_nombre_completo
+            print padre.asig_jefe_directo_clave
 
         for persona in _daddies:
             if persona.jefe_nombre_completo == padre.pers_nombre_completo:
                 hijos.append(persona)
-                print 'jefe'+persona.jefe_nombre_completo.encode('utf-8')
+                print 'jefe'+persona.pers_nombre_completo.encode('utf-8')
 
         if len(hijos):
-            nodo["nombre"] = "%s" % (padre.pers_nombre_completo)
-            nodo["num_empleado"] = "%s" % (padre.pers_clave)
-            nodo["compania"] = "%s" % (padre.grup_compania_jde)
-            nodo["departamento"] = "%s" % (padre.asig_organizacion_desc)
-            nodo["puesto"] = "%s" % (padre.asig_puesto_desc)
+            self.get_Estructura(nodo,padre)
             nodo["children"] = self.get_Descendencia(_daddies, hijos, nodo)
-
         else:
-            nodo["nombre"] = "%s" % (padre.pers_nombre_completo)
-            nodo["num_empleado"] = "%s" % (padre.pers_clave)
-            nodo["compania"] = "%s" % (padre.grup_compania_jde)
-            nodo["departamento"] = "%s" % (padre.asig_organizacion_desc)
-            nodo["puesto"] = "%s" % (padre.asig_puesto_desc)
+            self.get_Estructura(nodo,padre)
 
         for dato in jefePadre:
-            jefe["nombre"] = "%s" % (dato.pers_nombre_completo)
-            jefe["num_empleado"] = "%s" % (padre.pers_clave)
-            jefe["compania"] = "%s" % (dato.grup_compania_jde)
-            jefe["departamento"] = "%s" % (dato.asig_organizacion_desc)
-            jefe["puesto"] = "%s" % (dato.asig_puesto_desc)
+            self.get_Estructura(jefe,dato)
             jefe["children"] = [nodo]
-            # jefe["children"] = [nodo]
 
-        # print jefe
         lista_json = json.dumps(jefe)
 
         return lista_json
 
-class VIEW_ORGANIGRAMA_EMP_SERIALIZADO(object):
-
-    def get_NivelEstructuraPadre(self, _daddies):
+    def get_Estructura(self,_nodo, _datos):
+        _nodo["nombre"] = "%s" % (_datos.pers_nombre_completo)
+        _nodo["num_empleado"] = "%s" % (_datos.pers_empleado_numero)
+        _nodo["compania"] = "%s" % (_datos.grup_compania_jde)
+        _nodo["departamento"] = "%s" % (_datos.asig_organizacion_desc)
+        _nodo["puesto"] = "%s" % (_datos.asig_puesto_desc)
+        
+    def get_NivelPadre(self, _daddies):
         nivel = 6
         padre = _daddies[0]
         cont = 0
@@ -300,6 +273,8 @@ class VIEW_ORGANIGRAMA_EMP_SERIALIZADO(object):
 
         return padre
 
+class VIEW_ORGANIGRAMA_EMP_SERIALIZADO(object):
+
     def get_Descendencia(self, _daddies, _hijos, _nodo_jefe_nombre_completo):
 
         lista_descendencia = []
@@ -313,11 +288,7 @@ class VIEW_ORGANIGRAMA_EMP_SERIALIZADO(object):
                 if persona.jefe_nombre_completo == hijo.pers_nombre_completo:
                     hijos.append(persona)
 
-            nodo["nombre"] = "%s" % (hijo.pers_nombre_completo)
-            nodo["num_empleado"] = "%s" % (hijo.pers_clave)
-            nodo["compania"] = "%s" % (hijo.grup_compania_jde)
-            nodo["departamento"] = "%s" % (hijo.asig_organizacion_desc)
-            nodo["puesto"] = "%s" % (hijo.asig_puesto_desc)
+                self.get_Estructura(nodo,hijo)
 
             if len(hijos):
                 nodo["children"] = self.get_Descendencia(_daddies, hijos, nodo)
@@ -330,30 +301,45 @@ class VIEW_ORGANIGRAMA_EMP_SERIALIZADO(object):
 
         sys.setrecursionlimit(1500)
 
+        jefe = {}
         hijos = []
         nodo = {}
-        padre = self.get_NivelEstructuraPadre(_daddies)
+        padre = self.get_NivelPadre(_daddies)
 
         for persona in _daddies:
             if persona.jefe_nombre_completo == padre.pers_nombre_completo:
                 hijos.append(persona)
-                # print persona.jefe_nombre_completo.encode('utf-8')
+                # print 'jefe'+persona.pers_nombre_completo.encode('utf-8')
 
         if len(hijos):
-            nodo["nombre"] = "%s" % (padre.pers_nombre_completo)
-            nodo["num_empleado"] = "%s" % (padre.pers_clave)
-            nodo["compania"] = "%s" % (padre.grup_compania_jde)
-            nodo["departamento"] = "%s" % (padre.asig_organizacion_desc)
-            nodo["puesto"] = "%s" % (padre.asig_puesto_desc)
+            self.get_Estructura(nodo,padre)
             nodo["children"] = self.get_Descendencia(_daddies, hijos, nodo)
-
         else:
-            nodo["nombre"] = "%s" % (padre.pers_nombre_completo)
-            nodo["num_empleado"] = "%s" % (padre.pers_clave)
-            nodo["compania"] = "%s" % (padre.grup_compania_jde)
-            nodo["departamento"] = "%s" % (padre.asig_organizacion_desc)
-            nodo["puesto"] = "%s" % (padre.asig_puesto_desc)
+            self.get_Estructura(nodo,padre)
 
         lista_json = json.dumps(nodo)
 
         return lista_json
+
+    def get_Estructura(self,_nodo, _datos):
+        _nodo["nombre"] = "%s" % (_datos.pers_nombre_completo)
+        _nodo["num_empleado"] = "%s" % (_datos.pers_empleado_numero)
+        _nodo["compania"] = "%s" % (_datos.grup_compania_jde)
+        _nodo["departamento"] = "%s" % (_datos.asig_organizacion_desc)
+        _nodo["puesto"] = "%s" % (_datos.asig_puesto_desc)
+        
+    def get_NivelPadre(self, _daddies):
+        nivel = 6
+        padre = _daddies[0]
+        cont = 0
+
+        for persona in _daddies:
+            if persona.nivel_estructura < nivel:
+                nivel = persona.nivel_estructura
+
+        for posicion in _daddies:
+            if posicion.nivel_estructura == nivel:
+                padre = _daddies[cont]
+            cont += 1
+
+        return padre
