@@ -250,4 +250,7 @@ class VIEW_ORGANIGRAMA_Filter(filters.FilterSet):
             'nivel_estructura',
             'ruta',
             'ruta2',
+            'grup_fase_jde',
+            'asig_ubicacion_desc',
+            'tipo',
         ]
