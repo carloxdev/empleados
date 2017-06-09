@@ -188,6 +188,8 @@ class VIEW_ORGANIGRAMA_Serializer(serializers.HyperlinkedModelSerializer):
             'nivel_estructura',
             'ruta',
             'ruta2',
+            'grup_fase_jde',
+            'asig_ubicacion_desc',
         )
 
 class VIEW_ORGANIGRAMA_ORG_SERIALIZADO(object):

@@ -201,6 +201,8 @@ class VIEW_ORGANIGRAMA(models.Model):
     ruta = models.CharField(max_length=240)
     ruta2 = models.CharField(max_length=240)
     asig_organizacion_clave = models.IntegerField()
+    grup_fase_jde = models.CharField(max_length=240)
+    asig_ubicacion_desc = models.CharField(max_length=240)
 
     class Meta:
         managed = False
