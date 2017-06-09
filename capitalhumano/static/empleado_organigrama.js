@@ -140,37 +140,40 @@ Organigrama.prototype.crear_Diagrama = function(_url){
     'nodeNumEmpleado':'num_empleado',
     'nodeCompania':'compania',
     'nodeDepartamento':'departamento',
+    'nodeCentroCostos': 'centro_costos',
+    'nodeUbicacion': 'ubicacion',
+    'nodeStaff': 'staff',
     'toggleSiblingsResp': true,
   })
 }
 Organigrama.prototype.get_Data = function(){
 
-var datasource2 =
-{ "nombre":"VILLEGAS RASCON CLAUDIA ANGELICA",
-  "foto":"usuarios/fotos/imagen2.png",
-  "puesto":"COORDINADOR",
-  "num_empleado": "202000",
-  "compania":"SIC",
-  "departamento": "TECNOLOGIA DE INFORMACION",
-  "children":[
-    {"nombre":"JIMENEZ HERRERA ZAIRA","puesto":"AUXILIAR"},
-    {"nombre":"AVENDAÑO CRUZ LUIS ALBERTO","puesto":"JEFE",
-      "children":[
-        {"nombre":"MARTINEZ GUTIERREZ EDWIN","puesto":"TECNICO ESPECIALISTA"}
-        ],
-    },
-    {"nombre":"MARTINEZ HERNANDEZ JORGE JESUS","puesto":"JEFE",
-      "children":[
-        {"nombre":"ARIAS ZACARIAS ZACHARIEL","puesto":"ANALISTA"},
-        {"nombre":"CASTRO CASTILLO JANET","puesto":"ANALISTA"},
-        {"nombre":"CRUZ GOXCON MIGUEL ANGEL","puesto":"TECNICO ESPECIALISTA"},
-        {"nombre":"CORDOVA QUIROZ NADIA","puesto":"ANALISTA"},
-        {"nombre":"MARTINEZ JIMENEZ CARLOS ANDRES","puesto":"ANALISTA"}
-        ],
-    }
-  ],
-}
-  return datasource2
+// var datasource2 =
+// { "nombre":"VILLEGAS RASCON CLAUDIA ANGELICA",
+//   "foto":"usuarios/fotos/imagen2.png",
+//   "puesto":"COORDINADOR",
+//   "num_empleado": "202000",
+//   "compania":"SIC",
+//   "departamento": "TECNOLOGIA DE INFORMACION",
+//   "children":[
+//     {"nombre":"JIMENEZ HERRERA ZAIRA","puesto":"AUXILIAR"},
+//     {"nombre":"AVENDAÑO CRUZ LUIS ALBERTO","puesto":"JEFE",
+//       "children":[
+//         {"nombre":"MARTINEZ GUTIERREZ EDWIN","puesto":"TECNICO ESPECIALISTA"}
+//         ],
+//     },
+//     {"nombre":"MARTINEZ HERNANDEZ JORGE JESUS","puesto":"JEFE",
+//       "children":[
+//         {"nombre":"ARIAS ZACARIAS ZACHARIEL","puesto":"ANALISTA"},
+//         {"nombre":"CASTRO CASTILLO JANET","puesto":"ANALISTA"},
+//         {"nombre":"CRUZ GOXCON MIGUEL ANGEL","puesto":"TECNICO ESPECIALISTA"},
+//         {"nombre":"CORDOVA QUIROZ NADIA","puesto":"ANALISTA"},
+//         {"nombre":"MARTINEZ JIMENEZ CARLOS ANDRES","puesto":"ANALISTA"}
+//         ],
+//     }
+//   ],
+// }
+  return datasource
 }
 Organigrama.prototype.mostrar_Mensaje = function (_total){
 

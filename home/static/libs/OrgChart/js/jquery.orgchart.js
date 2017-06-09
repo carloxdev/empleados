@@ -634,8 +634,11 @@
               + '<div class="col-sm-3"><img class="avatar" src="{% static ' + (nodeData[opts.nodeFoto] +'%}"></div>' || '')
               + '<div class="col-sm-9"><b>' + (nodeData[opts.nodeNombre] +'</b>' || '')
               + '<br>' +(nodeData[opts.nodeNumEmpleado] || '') +'</div>'
+              + '<br>' +(nodeData[opts.nodeCentroCostos] || '') 
               + '<br>' +(nodeData[opts.nodeCompania] || '')
-              + '<br>' +(nodeData[opts.nodeDepartamento] || '') +'</div>' : '')
+              + '<br>' +(nodeData[opts.nodeDepartamento] || '')
+              + '<br>' +(nodeData[opts.nodeUbicacion] || '')
+              + '<br>' +(nodeData[opts.nodeStaff] || '')+'</div>' : '')
 //url imagen /Users/ncordovaq/Documents/imagen2.png    
 
     // append 4 direction arrows or expand/collapse buttons

@@ -147,23 +147,23 @@
 /*Propiedades de las lineas, color,tamaño, etc*/
 
 .orgchart tr.lines td.topLine {
-  border-top: 2px solid rgba(217, 83, 79, 0.8);
+  border-top: 2px solid rgba(38, 51, 107, 0.8);
 }
 
 .orgchart tr.lines td.rightLine {
-  border-right: 1px solid rgba(217, 83, 79, 0.8);
+  border-right: 1px solid rgba(38, 51, 107, 0.8);
   float: none;
   border-radius: 0px;
 }
 
 .orgchart tr.lines td.leftLine {
-  border-left: 1px solid rgba(217, 83, 79, 0.8);
+  border-left: 1px solid rgba(38, 51, 107, 0.8);
   float: none;
   border-radius: 0px;
 }
 
 .orgchart tr.lines .downLine {
-  background-color: rgba(217, 83, 79, 0.8); 
+  background-color: rgba(38, 51, 107, 0.8); 
   margin: 0px auto;
   height: 20px;
   width: 2px;
@@ -475,6 +475,25 @@
   opacity: 1;
   top: 0;
   left: 0;
+}
+
+.orgchart .top-level .title {
+  background-color: #006699;
+}
+.orgchart .top-level .content {
+  border-color: #006699;
+}
+.orgchart .middle-level .title {
+  background-color: #009933;
+}
+.orgchart .middle-level .content {
+  border-color: #009933;
+}
+.orgchart .bottom-level .title {
+  background-color: #993366;
+}
+.orgchart .bottom-level .content {
+  border-color: #993366;
 }
 
 .orgchart .slide-down {

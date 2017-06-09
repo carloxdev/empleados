@@ -211,7 +211,12 @@ class VIEW_ORGANIGRAMA_ORG_SERIALIZADO(object):
                 self.get_Estructura(nodo,hijo)
 
             if len(hijos):
+                nodo["className"]= 'middle-level'
                 nodo["children"] = self.get_Descendencia(_daddies, hijos, nodo)
+            else:
+                nodo["className"]= 'bottom-level'
+                #nodo["staff"] = 'Soy staff'
+                #print 'staff'+hijo.pers_nombre_completo.encode('utf-8')
 
             lista_descendencia.append(nodo)
 
@@ -228,23 +233,23 @@ class VIEW_ORGANIGRAMA_ORG_SERIALIZADO(object):
         
         jefePadre = VIEW_EMPLEADOS_FULL.objects.using('ebs_d').filter(
             pers_clave=padre.asig_jefe_directo_clave)
-        for dato in jefePadre:
-            print dato.pers_nombre_completo
-            print padre.asig_jefe_directo_clave
 
         for persona in _daddies:
             if persona.jefe_nombre_completo == padre.pers_nombre_completo:
                 hijos.append(persona)
-                print 'jefe'+persona.pers_nombre_completo.encode('utf-8')
+                # print 'staff'+persona.pers_nombre_completo.encode('utf-8')
 
         if len(hijos):
             self.get_Estructura(nodo,padre)
+            nodo["className"]= 'top-level'
             nodo["children"] = self.get_Descendencia(_daddies, hijos, nodo)
         else:
+            nodo["className"]= 'bottom-level'
             self.get_Estructura(nodo,padre)
 
         for dato in jefePadre:
             self.get_Estructura(jefe,dato)
+            nodo["className"]= 'top-level'
             jefe["children"] = [nodo]
 
         lista_json = json.dumps(jefe)
@@ -257,6 +262,8 @@ class VIEW_ORGANIGRAMA_ORG_SERIALIZADO(object):
         _nodo["compania"] = "%s" % (_datos.grup_compania_jde)
         _nodo["departamento"] = "%s" % (_datos.asig_organizacion_desc)
         _nodo["puesto"] = "%s" % (_datos.asig_puesto_desc)
+        _nodo["centro_costos"] = "%s" % (_datos.grup_fase_jde)
+        _nodo["ubicacion"] = "%s" % (_datos.asig_ubicacion_desc)
         
     def get_NivelPadre(self, _daddies):
         nivel = 6
@@ -292,7 +299,11 @@ class VIEW_ORGANIGRAMA_EMP_SERIALIZADO(object):
                 self.get_Estructura(nodo,hijo)
 
             if len(hijos):
+                nodo["className"]= 'middle-level'
                 nodo["children"] = self.get_Descendencia(_daddies, hijos, nodo)
+            else:
+                nodo["className"]= 'bottom-level'
+
 
             lista_descendencia.append(nodo)
 
@@ -314,6 +325,7 @@ class VIEW_ORGANIGRAMA_EMP_SERIALIZADO(object):
 
         if len(hijos):
             self.get_Estructura(nodo,padre)
+            nodo["className"]= 'top-level'
             nodo["children"] = self.get_Descendencia(_daddies, hijos, nodo)
         else:
             self.get_Estructura(nodo,padre)
@@ -328,6 +340,8 @@ class VIEW_ORGANIGRAMA_EMP_SERIALIZADO(object):
         _nodo["compania"] = "%s" % (_datos.grup_compania_jde)
         _nodo["departamento"] = "%s" % (_datos.asig_organizacion_desc)
         _nodo["puesto"] = "%s" % (_datos.asig_puesto_desc)
+        _nodo["centro_costos"] = "%s" % (_datos.grup_fase_jde)
+        _nodo["ubicacion"] = "%s" % (_datos.asig_ubicacion_desc)
         
     def get_NivelPadre(self, _daddies):
         nivel = 6
