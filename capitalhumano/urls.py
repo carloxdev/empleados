@@ -14,6 +14,8 @@ from .views import PerfilPuesto
 from .views import PerfilPuestoNuevo
 from .views import PerfilPuestoNuevo2
 from .views import PerfilPuestoConfiguraciones
+from .views import PerfilPuestoCompetencias
+from .views import PerfilPuestoCargos
 
 urlpatterns = [
     url(
@@ -44,10 +46,11 @@ urlpatterns = [
 
     url(r'^perfilpuesto/$', PerfilPuesto.as_view(), name="perfil_lista"),
     url(r'^perfilpuesto/nuevo/$', PerfilPuestoNuevo.as_view(), name="perfil_nuevo"),
-    url(r'^perfilpuesto/nuevo2/$',
-        PerfilPuestoNuevo2.as_view(), name="perfil_nuevo2"),
+    url(r'^perfilpuesto/nuevo2/$',PerfilPuestoNuevo2.as_view(), name="perfil_nuevo2"),
     url(r'^perfilpuesto/configuraciones/$',
         PerfilPuestoConfiguraciones.as_view(), name="perfil_configuracion"),
+    url(r'^perfilpuesto/competencia/$', PerfilPuestoCompetencias.as_view(), name="perfil_competencia"),
+    url(r'^perfilpuesto/puestocargo/$', PerfilPuestoCargos.as_view(), name="perfil_cargo"),
 ]
 
 if settings.DEBUG:

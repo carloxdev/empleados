@@ -37,10 +37,10 @@
               <div class="block-wizard panel panel-default">
                 <div id="wizard1" class="wizard wizard-ux">
                   <ul class="steps">
-                    <li data-step="1" class="active">General<span class="chevron"></span></li>
-                    <li data-step="2">Requerimiento<span class="chevron"></span></li>
-                    <li data-step="3">Competencias<span class="chevron"></span></li>
-                    <li data-step="3">Puestos a Cargo<span class="chevron"></span></li>
+                    <li data-step="1" class="complete">General<span class="chevron"></span></li>
+                    <li data-step="2" class="complete">Requerimiento<span class="chevron"></span></li>
+                    <li data-step="3" class="active">Competencias<span class="chevron"></span></li>
+                    <li data-step="4">Puestos a Cargo<span class="chevron"></span></li>
                     
                   </ul>
                   <div class="actions">
@@ -52,77 +52,142 @@
                       <form action="#" data-parsley-namespace="data-parsley-" data-parsley-validate="" novalidate="" class="form-horizontal group-border-dashed">
                         <div class="form-group no-padding">
                           <div class="col-sm-7">
-                            <h3 class="wizard-title">Descripcion del Puesto</h3>
+                            <h3 class="wizard-title">Competencias</h3>
                           </div>
-                        </div>
-                        <div class="form-group">
-                          <label class="col-sm-3 control-label">Puesto</label>
-                          <div class="col-sm-6">
-                            <select class="form-control">
-                                <option value="p0">Seleccione</option>
-                                <option value="p1">54.192.COORDINADOR DE TECNOLOGIA DE INFORMACION </option>
-                                <option value="p2">59.95.SUPERVISOR DE CONSTRUCCION</option>
-                                <option value="p3">59.223.JEFE DE CONTROL DE CALIDAD</option>
-                                <option value="p4">59.104.TECNICO INSTRUMENTISTA</option>
-                            </select>
-                          </div>  
-                            <div class="col-sm-3 xs-pt-15">
-                               <button class="btn btn-primary btn-space wizard-next">Copiar</button>
-                            </div>
                         </div>
                         
-              
-                        
                         <div class="form-group">
-                          <label class="col-sm-3 control-label">Reporta a:</label>
-                          <div class="col-sm-6">
-                             <select class="form-control">
-                                     <option value="p1">01.184.DIRECTOR JURIDICO </option>
-                                     <option value="p1">01.34.DIRECTOR DE NUEVOS NEGOCIOS </option>
-                                     <option value="p1">01.35.DIRECTOR DE OPERACION Y CONSTRUCCION </option>
-                                     <option value="p1">01.36.DIRECTOR DE PLANEACION, ADMINISTRACION Y FINANZAS </option>
-                                     <option value="p1">01.38.DIRECTOR GENERAL </option>
-                                     <option value="p1">Capital Humano</option>
-                                     <option value="p2">Juridico</option>
-                                     <option value="p3">Tecnologia de Informacion</option>
-                            </select>
-                          </div>
+                          <label class="col-sm-3 control-label"> Competencias Administrativas</label>
+                           
+                            <div class="main-content container-fluid">
+                                      <div class="row">
+                                        <div class="col-sm-6">
+                                          <div class="panel panel-default panel-table">
+                                            <div class="panel-heading">Administrativas
+                                              <div class="tools"><span class="icon mdi mdi-download"></span><span class="icon mdi mdi-more-vert"></span></div>
+                                            </div>
+                                            <div class="panel-body">
+                                              <table class="table">
+                                                <thead>
+                                                  <tr>
+                                                    <th style="width:50%;">Descripcion</th>
+                                                    <th style="width:10%;">Porcentaje</th>
+                                                    <th class="number">Nivel</th>
+                                                  </tr>
+                                                </thead>
+                                                <tbody>
+                                                  <tr>
+                                                    <td>Liderazgo</td>
+                                                    <td>60%</td>
+                                                    <td class="number">1</td>
+                                                    <td class="actions"><a href="#" class="icon"><i class="mdi mdi-delete"></i></a></td>
+                                                  </tr>
+                                                  <tr>
+                                                    <td>Manejo y administracion de Personal</td>
+                                                    <td>N/A</td>
+                                                    <td class="number">2</td>
+                                                    <td class="actions"><a href="#" class="icon"><i class="mdi mdi-delete"></i></a></td>
+                                                  </tr>
+                                                  <tr>
+                                                    <td>Seguridad Industrial Higiene y Medio Ambiente</td>
+                                                    <td>50 %</td>
+                                                    <td class="number">1</td>
+                                                    <td class="actions"><a href="#" class="icon"><i class="mdi mdi-delete"></i></a></td>
+                                                  </tr>
+                                                  <tr>
+                                                    <td>Normatividad ISO 9001</td>
+                                                    <td>50 %</td>
+                                                    <td class="number">3</td>
+                                                    <td class="actions"><a href="#" class="icon"><i class="mdi mdi-delete"></i></a></td>
+                                                  </tr>
+                                                   <tr>
+                                                    <td>Planear y Programar</td>
+                                                    <td>60</td>
+                                                    <td class="number">4</td>
+                                                    <td class="actions"><a href="#" class="icon"><i class="mdi mdi-delete"></i></a></td>
+                                                  </tr>
+                                                </tbody>
+                                              </table>
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div class="row">
+                                           <div class="col-sm-3 xs-pt-15">
+                                             <button class="btn btn-primary btn-space wizard-next">Agregar</button>
+                                           </div>
+                                        </div>
+                                      </div>
+                            </div> 
                         </div>
 
-                        
+                         <div class="form-group">
+                            <label class="col-sm-3 control-label"> Competencias Tecnicas </label>
+                             <div class="main-content container-fluid">
+                                      <div class="row">
+                                        <div class="col-sm-6">
+                                          <div class="panel panel-default panel-table">
+                                            <div class="panel-heading">Administrativas
+                                              <div class="tools"><span class="icon mdi mdi-download"></span><span class="icon mdi mdi-more-vert"></span></div>
+                                            </div>
+                                            <div class="panel-body">
+                                              <table class="table">
+                                                <thead>
+                                                  <tr>
+                                                    <th style="width:50%;">Descripcion</th>
+                                                    <th style="width:10%;">Porcentaje</th>
+                                                    <th class="number">Nivel</th>
+                                                  </tr>
+                                                </thead>
+                                                <tbody>
+                                                  <tr>
+                                                    <td>Ingles (hablado y escrito)</td>
+                                                    <td>40%</td>
+                                                    <td class="number">1</td>
+                                                    <td class="actions"><a href="#" class="icon"><i class="mdi mdi-delete"></i></a></td>
+                                                  </tr>
+                                                  <tr>
+                                                    <td>Manejo de Excel</td>
+                                                    <td>50%</td>
+                                                    <td class="number">2</td>
+                                                    <td class="actions"><a href="#" class="icon"><i class="mdi mdi-delete"></i></a></td>
+                                                  </tr>
+                                                  <tr>
+                                                    <td>Manejo de ERP JDE</td>
+                                                    <td>0%</td>
+                                                    <td class="number">1</td>
+                                                    <td class="actions"><a href="#" class="icon"><i class="mdi mdi-delete"></i></a></td>
+                                                  </tr>
+                                                  <tr>
+                                                    <td>Comunicacion efectiva</td>
+                                                    <td>70%</td>
+                                                    <td class="number">3</td>
+                                                    <td class="actions"><a href="#" class="icon"><i class="mdi mdi-delete"></i></a></td>
+                                                  </tr>
+                                                   <tr>
+                                                    <td>Habilidades de negociacion</td>
+                                                    <td>60</td>
+                                                    <td class="number">4</td>
+                                                    <td class="actions"><a href="#" class="icon"><i class="mdi mdi-delete"></i></a></td>
+                                                  </tr>
+                                                </tbody>
+                                              </table>
+                                            </div>
+                                          </div>
+                                        </div>
+                                         <div class="row">
+                                           <div class="col-sm-3 xs-pt-15">
+                                             <button class="btn btn-primary btn-space wizard-next">Agregar</button>
+                                           </div>
+                                        </div>
+                                      </div>
 
-                        <div class="form-group">
-                          <label class="col-sm-3 control-label">Proposito del Puesto:</label>
-                          <div class="col-sm-6">
-                            <input type="text" placeholder="Proposito" class="form-control">
-                          </div>
+                                </div>
                         </div>
-
-                        <div class="form-group">
-                          <label class="col-sm-3 control-label">Funciones</label>
-                          <div class="col-sm-6">
-                            <textarea class="form-control"></textarea>
-                          </div>
-                        </div>
-                        <div class="form-group">
-                          <label class="col-sm-3 control-label">Responsabilidades</label>
-                          <div class="col-sm-6">
-                            <input type="text" placeholder="Escribe Brevemente" class="form-control">
-                          </div>
-                        </div>
-
-                        <div class="form-group">
-                          <label class="col-sm-3 control-label">Reporte / Indicadores</label>
-                          <div class="col-sm-6">
-                            <input type="text" placeholder="Escribe Brevemente" class="form-control">
-                          </div>
-                        </div>
-
 
                         <div class="form-group">
                           <div class="col-sm-offset-2 col-sm-10">
-                            <button class="btn btn-default btn-space">Cancel</button>
-                            <a href="{% url 'capitalhumano:perfil_nuevo2' %}"><input  class="btn btn-primary btn-space wizard-next" value="Siguiente"></a>
+                            <a href="{% url 'capitalhumano:perfil_nuevo2' %}"><input  class="btn btn-default btn-space wizard-previous" value="Previo"></a>
+                            <a href="{% url 'capitalhumano:perfil_cargo' %}"><input  class="btn btn-primary btn-space wizard-next" value="Siguiente"></a>
                           </div>
                         </div>
 

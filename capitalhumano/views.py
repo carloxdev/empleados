@@ -132,3 +132,15 @@ class PerfilPuestoConfiguraciones(View):
     def get(self, request):
 
         return render(request, 'perfilpuesto/perfil_configuracion.html')
+
+class PerfilPuestoCompetencias(View):
+
+    def get(self, request):
+
+        return render(request, 'perfilpuesto/perfil_competencias.html')  
+
+class PerfilPuestoCargos(View):
+
+    def get(self, request):
+
+        return render(request, 'perfilpuesto/perfil_puestoscargo.html')           

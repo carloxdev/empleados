@@ -37,12 +37,12 @@
               <div class="block-wizard panel panel-default">
                 <div id="wizard1" class="wizard wizard-ux">
                   <ul class="steps">
-                    <li data-step="1" class="active">General<span class="chevron"></span></li>
-                    <li data-step="2">Requerimiento<span class="chevron"></span></li>
-                    <li data-step="3">Competencias<span class="chevron"></span></li>
-                    <li data-step="3">Puestos a Cargo<span class="chevron"></span></li>
-                    
+                    <li data-step="1" class="complete">General<span class="chevron"></span></li>
+                    <li data-step="2" class="complete">Requerimiento<span class="chevron"></span></li>
+                    <li data-step="3" class="complete">Competencias<span class="chevron"></span></li>
+                    <li data-step="3" class="active">Puestos a Cargo<span class="chevron"></span></li>
                   </ul>
+
                   <div class="actions">
                     <button type="button" class="btn btn-xs btn-prev btn-default"><i class="icon mdi mdi-chevron-left"></i>Prev</button>
                     <button type="button" data-last="Finish" class="btn btn-xs btn-next btn-default">Next<i class="icon mdi mdi-chevron-right"></i></button>
@@ -52,249 +52,76 @@
                       <form action="#" data-parsley-namespace="data-parsley-" data-parsley-validate="" novalidate="" class="form-horizontal group-border-dashed">
                         <div class="form-group no-padding">
                           <div class="col-sm-7">
-                            <h3 class="wizard-title">Descripcion del Puesto</h3>
-                          </div>
-                        </div>
-                        <div class="form-group">
-                          <label class="col-sm-3 control-label">Puesto</label>
-                          <div class="col-sm-6">
-                            <select class="form-control">
-                                <option value="p0">Seleccione</option>
-                                <option value="p1">54.192.COORDINADOR DE TECNOLOGIA DE INFORMACION </option>
-                                <option value="p2">59.95.SUPERVISOR DE CONSTRUCCION</option>
-                                <option value="p3">59.223.JEFE DE CONTROL DE CALIDAD</option>
-                                <option value="p4">59.104.TECNICO INSTRUMENTISTA</option>
-                            </select>
-                          </div>  
-                            <div class="col-sm-3 xs-pt-15">
-                               <button class="btn btn-primary btn-space wizard-next">Copiar</button>
-                            </div>
-                        </div>
-                        
-              
-                        
-                        <div class="form-group">
-                          <label class="col-sm-3 control-label">Reporta a:</label>
-                          <div class="col-sm-6">
-                             <select class="form-control">
-                                     <option value="p1">01.184.DIRECTOR JURIDICO </option>
-                                     <option value="p1">01.34.DIRECTOR DE NUEVOS NEGOCIOS </option>
-                                     <option value="p1">01.35.DIRECTOR DE OPERACION Y CONSTRUCCION </option>
-                                     <option value="p1">01.36.DIRECTOR DE PLANEACION, ADMINISTRACION Y FINANZAS </option>
-                                     <option value="p1">01.38.DIRECTOR GENERAL </option>
-                                     <option value="p1">Capital Humano</option>
-                                     <option value="p2">Juridico</option>
-                                     <option value="p3">Tecnologia de Informacion</option>
-                            </select>
+                            <h3 class="wizard-title">Puestos a cargo</h3>
                           </div>
                         </div>
 
-                        
 
                         <div class="form-group">
-                          <label class="col-sm-3 control-label">Proposito del Puesto:</label>
                           <div class="col-sm-6">
-                            <input type="text" placeholder="Proposito" class="form-control">
+                             <div class="form-group">
+                         
+                           
+                                  <div class="main-content container-fluid">
+                                            <div class="row">
+                                              <div class="col-sm-6">
+                                                <div class="panel panel-default panel-table">
+                                                  <div class="panel-heading">Puestos
+                                                    <div class="tools"><span class="icon mdi mdi-download"></span><span class="icon mdi mdi-more-vert"></span></div>
+                                                  </div>
+                                                  <div class="panel-body">
+                                                    <table class="table">
+                                                      <thead>
+                                                        <tr>
+                                                          <th style="width:50%;">Descripcion</th>
+                                                        </tr>
+                                                      </thead>
+                                                      <tbody>
+                                                        <tr>
+                                                          <td>54.15.AUXILIAR ADMINISTRATIVO</td>
+                                                          <td class="actions"><a href="#" class="icon"><i class="mdi mdi-delete"></i></a></td>
+                                                        </tr>
+                                                        <tr>
+                                                          <td>54.138.JEFE DE SOPORTE DE INFRAESTRUCTURA</td>
+                                                          <td class="actions"><a href="#" class="icon"><i class="mdi mdi-delete"></i></a></td>
+                                                        </tr>
+                                                        <tr>
+                                                          <td>54.139.JEFE DE APLICACIONES TI</td>
+                                                          <td class="actions"><a href="#" class="icon"><i class="mdi mdi-delete"></i></a></td>
+                                                        </tr>
+                                                        <tr>
+                                                          <td>76.08.ANALISTA DE DATOS</td>
+                                                          <td class="actions"><a href="#" class="icon"><i class="mdi mdi-delete"></i></a></td>
+                                                        </tr>
+                                                         
+                                                      </tbody>
+                                                    </table>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                              <div class="row">
+                                                 <div class="col-sm-3 xs-pt-15">
+                                                   <button class="btn btn-primary btn-space wizard-next">Agregar</button>
+                                                 </div>
+                                              </div>
+                                            </div>
+                                  </div> 
+                        </div>
                           </div>
                         </div>
 
-                        <div class="form-group">
-                          <label class="col-sm-3 control-label">Funciones</label>
-                          <div class="col-sm-6">
-                            <textarea class="form-control"></textarea>
-                          </div>
-                        </div>
-                        <div class="form-group">
-                          <label class="col-sm-3 control-label">Responsabilidades</label>
-                          <div class="col-sm-6">
-                            <input type="text" placeholder="Escribe Brevemente" class="form-control">
-                          </div>
-                        </div>
-
-                        <div class="form-group">
-                          <label class="col-sm-3 control-label">Reporte / Indicadores</label>
-                          <div class="col-sm-6">
-                            <input type="text" placeholder="Escribe Brevemente" class="form-control">
-                          </div>
-                        </div>
-
+                     
 
                         <div class="form-group">
                           <div class="col-sm-offset-2 col-sm-10">
-                            <button class="btn btn-default btn-space">Cancel</button>
-                            <a href="{% url 'capitalhumano:perfil_nuevo2' %}"><input  class="btn btn-primary btn-space wizard-next" value="Siguiente"></a>
+                            <a href="{% url 'capitalhumano:perfil_competencia' %}"><input  class="btn btn-default btn-space wizard-previous" value="Previo"></a>
+                            <a href="{% url 'capitalhumano:perfil_nuevo' %}"><input  class="btn btn-primary btn-space wizard-next" value="Finalizar"></a>
                           </div>
                         </div>
 
                       </form>
                     </div>
-                    <div data-step="2" class="step-pane">
-                      <form action="#" data-parsley-namespace="data-parsley-" data-parsley-validate="" novalidate="" class="form-horizontal group-border-dashed">
-                        <div class="form-group no-padding">
-                          <div class="col-sm-7">
-                            <h3 class="wizard-title">Requerimentos</h3>
-                          </div>
-                        </div>
-                        <div class="form-group">
-                          <div class="col-sm-3 xs-pt-15">
-                            <label class="control-label">Edad Minima</label>
-                           <input type="text" placeholder="edad minima" class="form-control">
-                          </div>
-                        
-                          <div class="col-sm-3 xs-pt-15">
-                            <label class="control-label">Edad Maxima</label>
-                           <input type="text" placeholder="edad maxima" class="form-control">
-                          </div>
-
-                        </div>
-
-                        <div class="form-group">
-                          <div class="col-sm-7">
-                            <label class="control-label">Nivel de Estudios</label>
-                          
-                            <select class="select2">
-                                  <option value="n0">Indistinto</option>
-                                  <option value="n1">Trunco</option>
-                                  <option value="n2">Pasante</option>
-                                  <option value="n3">Titulado</option>
-                             </select>
-                          </div>
-                        </div>
-
-                        <div class="form-group">
-                          <div class="col-sm-7">
-                            <label class="control-label">Estado Civil</label>                        
-                            <select class="select2">
-                                  <option value="n0">Indistinto</option>
-                                  <option value="n1">Soltero</option>
-                                  <option value="n2">Casado</option>
-                                  <option value="n3">Indistinto</option>
-                                  <option value="n3">Viudo</option>
-                                  <option value="n3">Divorciado</option>
-                                  <option value="n3">Union Libre</option>
-                             </select>
-                          </div>
-                        </div>
-
-                         <div class="form-group">
-                          <div class="col-sm-7">
-                            <label class="control-label">Sexo/Genero </label>
-                            <p>
-                                 <input type="radio" id="indistinct" name="sex" value="0" checked="checked">
-                                 <label class="control-label">Indistinto</label>
-                                 
-                                 <input type="radio" id="male" name="sex" value="1" >
-                                 <label class="control-label">Hombre </label>
-                                 
-                                 <input type="radio" id="female" name="sex" value="2" >
-                                 <label class="control-label">Mujer </label>
-                            </p> 
-                          </div>
-                        </div>
-
-                        <div class="form-group">
-                          <div class="col-sm-7">
-                            <label class="control-label">Disponibilidad para cambiar de residencia</label>                        
-                             <input type="checkbox"  >
-                          </div>
-                        </div>
-
-                        <div class="form-group">
-                          <div class="col-sm-7">
-                            <label class="control-label">Disponibilidad para viajar</label>                        
-                             <input type="checkbox"  >
-                          </div>
-                        </div>
-
-                        <div class="form-group">
-                          <div class="col-sm-7">
-                            <label class="control-label">Otros Requerimientos</label>                        
-                            <textarea class="form-control"></textarea>
-                          </div>
-                        </div>
-
-                        <div class="form-group">
-                          <div class="col-sm-7">
-                            <label class="control-label">Areas de Experiencia</label>                        
-                            <select class="select2">
-                                  <option value="n0">Administracion y Finanzas</option>
-                                  <option value="n1">Administracion general</option>
-                                  <option value="n2">Auditoria</option>
-                                  <option value="n3">Finanzas</option>
-                                
-                             </select>
-                          </div>
-                        </div>
-
-                        <div class="form-group">
-                          <div class="col-sm-7">
-                            <label class="control-label">Años de Experiencia:</label>
-                            <input type="text" placeholder="Años de Experiencia" class="form-control">
-                          </div>
-                        </div>
-
-
-                        <div class="form-group">
-                          <div class="col-sm-12">
-                            <button data-wizard="#wizard1" class="btn btn-default btn-space wizard-previous">Previous</button>
-                            <button data-wizard="#wizard1" class="btn btn-primary btn-space wizard-next">Next Step</button>
-                          </div>
-                        </div>
-                      </form>
-                    </div>
-                    <div data-step="3" class="step-pane">
-                      <form action="#" data-parsley-namespace="data-parsley-" data-parsley-validate="" novalidate="" class="form-horizontal group-border-dashed">
-                        <div class="form-group no-padding">
-                          <div class="col-sm-7">
-                            <h3 class="wizard-title">Configuration</h3>
-                          </div>
-                        </div>
-                        <div class="form-group">
-                          <div class="col-sm-6">
-                            <label class="control-label">Buy Credits: <span id="credits">$30</span></label>
-                            <p>This option allow you to buy an amount of credits.</p>
-                            <input id="credit_slider" type="text" value="30" class="bslider form-control">
-                          </div>
-                          <div class="col-sm-6">
-                            <label class="control-label">Change Plan</label>
-                            <p>Change your plan many times as you want.</p>
-                            <select class="select2">
-                              <optgroup label="Personal">
-                                <option value="p1">Basic</option>
-                                <option value="p2">Medium</option>
-                              </optgroup>
-                              <optgroup label="Company">
-                                <option value="p3">Standard</option>
-                                <option value="p4">Silver</option>
-                                <option value="p5">Gold</option>
-                              </optgroup>
-                            </select>
-                          </div>
-                        </div>
-                        <div class="form-group">
-                          <div class="col-sm-6">
-                            <label class="control-label">Payment Rate: <span id="rate">5%</span></label>
-                            <p>Choose your payment rate to calculate how much money you will recieve.</p>
-                            <input id="rate_slider" data-slider-min="0" data-slider-max="100" type="text" value="5" class="bslider form-control">
-                          </div>
-                          <div class="col-sm-6">
-                            <label class="control-label">Keywords</label>
-                            <p>Write your keywords to do a successful SEO with web search engines.</p>
-                            <select multiple="" class="tags">
-                              <option value="1">Twitter</option>
-                              <option value="2">Google</option>
-                              <option value="3">Facebook</option>
-                            </select>
-                          </div>
-                        </div>
-                        <div class="form-group">
-                          <div class="col-sm-12">
-                            <button data-wizard="#wizard1" class="btn btn-default btn-space wizard-previous">Previous</button>
-                            <button data-wizard="#wizard1" class="btn btn-success btn-space wizard-next">Complete</button>
-                          </div>
-                        </div>
-                      </form>
-                    </div>
+                   
                   </div>
                 </div>
               </div>

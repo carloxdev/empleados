@@ -203,6 +203,7 @@ class VIEW_ORGANIGRAMA(models.Model):
     asig_organizacion_clave = models.IntegerField()
     grup_fase_jde = models.CharField(max_length=240)
     asig_ubicacion_desc = models.CharField(max_length=240)
+    tipo = models.CharField(max_length=40)
 
     class Meta:
         managed = False

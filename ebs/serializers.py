@@ -190,6 +190,7 @@ class VIEW_ORGANIGRAMA_Serializer(serializers.HyperlinkedModelSerializer):
             'ruta2',
             'grup_fase_jde',
             'asig_ubicacion_desc',
+            'tipo',
         )
 
 class VIEW_ORGANIGRAMA_ORG_SERIALIZADO(object):
