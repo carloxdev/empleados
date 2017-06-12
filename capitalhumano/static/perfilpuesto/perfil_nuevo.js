@@ -8,6 +8,7 @@
 // OBJS
 var formulario = null
 var organigrama = null
+var select_componente = null
 
 
 /*-----------------------------------------------*\
@@ -17,7 +18,28 @@ var organigrama = null
 $(document).ready(function () {
     
     formulario = new Formulario()
+    select_componente = new Componente()
 })
+
+/*-----------------------------------------------*\
+            OBJETO: Targeta filtros
+\*-----------------------------------------------*/
+
+function Componente(){
+    this.$puesto = $('#id_puesto')
+    this.$reportar = $('#id_reportar')
+    
+    this.init_Components()
+}  
+Componente.prototype.init_Components= function(){
+    this.$puesto.select2(this.get_ConfSelect2())
+    this.$reportar.select2(this.get_ConfSelect2())
+}
+Componente.prototype.get_ConfSelect2 = function () {
+   return {
+      width: '100%'
+    }
+}
 
 /*-----------------------------------------------*\
             OBJETO: auditoria_general

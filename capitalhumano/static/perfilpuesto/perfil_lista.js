@@ -25,15 +25,36 @@ var toolbar = null
 \*-----------------------------------------------*/
 
 $(document).ready(function () {
-
     
-    //filtros = new TargetaFiltros()
+    filtros = new TarjetaFiltros()
     resultados = new TargetaResultados()
-
   
 })
 
 
+/*-----------------------------------------------*\
+            OBJETO: Targeta filtros
+\*-----------------------------------------------*/
+
+function TarjetaFiltros(){
+    this.$puesto = $('#id_puesto')
+    this.$departamento = $('#id_departamento')
+    this.$nivel_estudios = $('#id_estudios')
+    this.$experiencia = $('#id_experiencia')
+    
+    this.init_Components()
+}  
+TarjetaFiltros.prototype.init_Components= function(){
+    this.$puesto.select2(this.get_ConfSelect2())
+    this.$departamento.select2(this.get_ConfSelect2())
+    this.$nivel_estudios.select2(this.get_ConfSelect2())
+    this.$experiencia.select2(this.get_ConfSelect2())
+}
+TarjetaFiltros.prototype.get_ConfSelect2 = function () {
+   return {
+      width: '100%'
+    }
+}
 
 /*-----------------------------------------------*\
             OBJETO: Targeta Resultados
