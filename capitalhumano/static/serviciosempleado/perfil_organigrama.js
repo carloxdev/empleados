@@ -2,6 +2,9 @@
             GLOBAL VARIABLES
 \*-----------------------------------------------*/
 
+// URLS:api-
+var url_organigrama = window.location.origin + "/api-ebs/vieworganigrama/"
+
 // OBJS
 var organigrama = null
 

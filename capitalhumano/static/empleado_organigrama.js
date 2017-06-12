@@ -158,7 +158,7 @@ var datasource2 =
   "centro_costos": "C01TI",
   "ubicacion":"OFICINA VERACRUZ",
   "children":[
-    { "nombre":"JIMENEZ HERRERA ZAIRA"
+    { "nombre":"JIMENEZ HERRERA ZAIRA",
       "foto":"' images/decoradores/no-image-user.jpg '",
       "puesto":"54.15.AUXILIAR ADMINISTRATIVO",
       "num_empleado": "200185",
@@ -176,7 +176,7 @@ var datasource2 =
       "centro_costos": "C01TI",
       "ubicacion":"OFICINA VERACRUZ",
       "children":[
-          { "nombre":"MARTINEZ GUTIERREZ EDWIN","puesto":"TECNICO ESPECIALISTA"
+          { "nombre":"MARTINEZ GUTIERREZ EDWIN","puesto":"TECNICO ESPECIALISTA",
             "foto":"' images/decoradores/no-image-user.jpg '",
             "puesto":"54.61.SOPORTE DE INFRAESTRUCTURA SENIOR",
             "num_empleado": "200181",
@@ -205,7 +205,7 @@ var datasource2 =
           "centro_costos": "C01TI",
           "ubicacion":"OFICINA VERACRUZ",
         },
-        { "nombre":"CASTRO CASTILLO JANET","puesto":"ANALISTA"
+        { "nombre":"CASTRO CASTILLO JANET","puesto":"ANALISTA",
           "foto":"' images/decoradores/no-image-user.jpg '",
           "puesto":"54.09.ANALISTA PROGRAMADOR JR",
           "num_empleado": "201289",

@@ -18,6 +18,7 @@ from .views import PerfilPuestoCompetencias
 from .views import PerfilPuestoCargos
 from .views import EmpleadoPerfilrh
 from .views import PerfilOrganigrama
+from .views import PerfilOrganigrama2
 
 urlpatterns = [
     url(
@@ -48,13 +49,20 @@ urlpatterns = [
 
     url(r'^perfilpuesto/$', PerfilPuesto.as_view(), name="perfil_lista"),
     url(r'^perfilpuesto/nuevo/$', PerfilPuestoNuevo.as_view(), name="perfil_nuevo"),
-    url(r'^perfilpuesto/nuevo2/$',PerfilPuestoNuevo2.as_view(), name="perfil_nuevo2"),
+    url(r'^perfilpuesto/nuevo2/$',
+        PerfilPuestoNuevo2.as_view(), name="perfil_nuevo2"),
     url(r'^perfilpuesto/configuraciones/$',
         PerfilPuestoConfiguraciones.as_view(), name="perfil_configuracion"),
-    url(r'^perfilpuesto/competencia/$', PerfilPuestoCompetencias.as_view(), name="perfil_competencia"),
-    url(r'^perfilpuesto/puestocargo/$', PerfilPuestoCargos.as_view(), name="perfil_cargo"),
-    url(r'^empleado/perfilrh/$', EmpleadoPerfilrh.as_view(), name="empleado_perfilrh"),
-    url(r'^perfil/organigrama/$',PerfilOrganigrama.as_view(), name="perfil_organigrama"),
+    url(r'^perfilpuesto/competencia/$',
+        PerfilPuestoCompetencias.as_view(), name="perfil_competencia"),
+    url(r'^perfilpuesto/puestocargo/$',
+        PerfilPuestoCargos.as_view(), name="perfil_cargo"),
+    url(r'^empleado/perfilrh/$', EmpleadoPerfilrh.as_view(),
+        name="empleado_perfilrh"),
+    url(r'^perfil/organigrama/$', PerfilOrganigrama.as_view(),
+        name="perfil_organigrama"),
+    url(r'^perfil/organigrama-empleado/$', PerfilOrganigrama2.as_view(),
+        name="perfil_organigrama2"),
 ]
 
 if settings.DEBUG:
