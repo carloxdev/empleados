@@ -161,6 +161,13 @@
             <div class="panel panel-default panel-table">
                 <div class="panel-heading panel-border nova-panel-heading">
                     <div class="tools pull-right" id="toolbar">
+
+
+                        <a href="{% url 'capitalhumano:perfil_nuevo' %}" 
+                            class="btn nova-btn btn-rounded btn-space btn-default" id="boton_nuevo">
+                            <i class="icon icon-left mdi mdi-plus-circle nova-black"></i>Nuevo 
+                        </a>
+
                         <button class="btn nova-btn btn-rounded btn-space btn-success" id="boton_excel">
                             <i class="icon icon-left mdi mdi-download nova-white"></i>Exportar
                         </button>
@@ -198,7 +205,7 @@
     <script src="{% static 'theme/lib/select2/js/select2.full.min.js' %}"></script>
 
     <!-- NOVA -->
-    <script src="{% static 'empleados_filtro.js' %}"></script>
+    <script src="{% static 'perfilpuesto/perfil_lista.js' %}"></script>
 
 {% endblock scripts %}
 
