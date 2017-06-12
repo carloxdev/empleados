@@ -172,10 +172,63 @@
                             <i class="icon icon-left mdi mdi-download nova-white"></i>Exportar
                         </button>
                     </div>
-                    <div class="title hidden-xs">Registros</div>
-                </div><!-- Panel Heading -->
-                <div id="grid_resultados">
-                </div>
+                   
+   
+   <div class="title hidden-xs">Registros</div>
+            </div><!-- Panel Heading -->
+            <div id="grid_resultados2">
+            <table class="table table-bordered">
+               <thead>
+                  <tr>
+                     <th>Id</th>
+                     <th>Puesto</th>
+                     <th>Reporta A</th>
+                     <th>Proposito</th>
+                     <th>Funciones</th>
+                     <th>Responsabilidades</th>
+                     <th>Nivel Estudio</th>
+                     <th>Estado Civil</th>
+                     <th>Cambio Residencia</th>
+
+                     <th>Acciones</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  <tr>
+                     <th scope="row">01</th>
+                     <td>54.192 COORDINADOR DE TECNOLOGIAS DE INFORMACION</td>
+                     <td>01.36 DIRECTOR DE PLANEACION, ADMINISTRACION Y FINANZAS</td>
+                     <td>Administrar eficazmente los recursos tecnologicos</td>
+                     <td>Gestionar eficazmente los recursos, Manejo y administracion de persona</td>
+                     <td>Manejo y administracin de personal</td>
+                     <td>Licenciatura</td>
+                     <td>Indistinto</td>
+                     <td>No</td>
+                     <td>
+                        <a href="{% url 'sgi:auditoria_lista' %}" class="btn nova-btn btn-rounded btn-space btn-default" id="boton_nuevo">
+                           <i class="icon icon-left mdi mdi-edit nova-black"></i> Editar
+                        </a>
+                         <button class="btn nova-btn btn-rounded btn-space btn-success" id="boton_excel">
+                        <i class="icon icon-left mdi mdi-collection-pdf nova-white"></i>Formato
+                        </button>
+                         <a href="{% url 'sgi:auditoria_lista' %}" class="btn nova-btn btn-rounded btn-space btn-default" id="boton_nuevo">
+                           Competencias
+                        </a>
+                         <a href="{% url 'sgi:auditoria_lista' %}" class="btn nova-btn btn-rounded btn-space btn-default" id="boton_nuevo">
+                           Areas de Experiencias
+                        </a>
+                         <a href="{% url 'sgi:auditoria_lista' %}" class="btn nova-btn btn-rounded btn-space btn-default" id="boton_nuevo">
+                           Puestos a cargo
+                        </a>
+                       
+                       
+                     </td>
+                  </tr>
+                  
+               </tbody>
+            </table>
+            </div>
+
                 <div class="panel-footer panel-border nova-panel-footer panel-border">
                 </div><!-- Panel Footer -->
             </div> <!-- Panel -->

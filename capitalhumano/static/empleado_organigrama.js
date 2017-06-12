@@ -146,6 +146,7 @@ Organigrama.prototype.crear_Diagrama = function(_url){
     'toggleSiblingsResp': true,
   })
 }
+<<<<<<< Updated upstream
 Organigrama.prototype.get_Data = function(){
 
 var datasource2 =
@@ -247,6 +248,9 @@ var datasource2 =
 }
   return datasource
 }
+=======
+
+>>>>>>> Stashed changes
 Organigrama.prototype.mostrar_Mensaje = function (_total){
 
    if(_total == 0){
