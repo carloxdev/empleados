@@ -38,9 +38,10 @@
                 <div id="wizard1" class="wizard wizard-ux">
                   <ul class="steps">
                     <li data-step="1" class="active">General<span class="chevron"></span></li>
-                    <li data-step="2">Requerimiento<span class="chevron"></span></li>
-                    <li data-step="3">Competencias<span class="chevron"></span></li>
-                    <li data-step="3">Puestos a Cargo<span class="chevron"></span></li>
+                    <li data-step="2">Organigrama<span class="chevron"></span></li>
+                    <li data-step="3">Requerimiento<span class="chevron"></span></li>
+                    <li data-step="4">Competencias<span class="chevron"></span></li>
+                    
                     
                   </ul>
                   <div class="actions">
@@ -132,7 +133,7 @@
                         <div class="form-group">
                           <div class="col-sm-offset-2 col-sm-10">
                             <button class="btn btn-default btn-space">Cancel</button>
-                            <a href="{% url 'capitalhumano:perfil_nuevo2' %}"><input  class="btn btn-primary btn-space wizard-next" value="Siguiente"></a>
+                            <a href="{% url 'capitalhumano:perfil_organigrama' %}"><input  class="btn btn-primary btn-space wizard-next" value="Siguiente"></a>
                           </div>
                         </div>
 
@@ -242,6 +243,60 @@
                             <input type="text" placeholder="Años de Experiencia" class="form-control">
                           </div>
                         </div>
+
+                        <div class="form-group">
+                          <div class="col-sm-6">
+                             <div class="form-group">
+                         
+                           
+                                  <div class="main-content container-fluid">
+                                            <div class="row">
+                                              <div class="col-sm-6">
+                                                <div class="panel panel-default panel-table">
+                                                  <div class="panel-heading">Puestos
+                                                    <div class="tools"><span class="icon mdi mdi-download"></span><span class="icon mdi mdi-more-vert"></span></div>
+                                                  </div>
+                                                  <div class="panel-body">
+                                                    <table class="table">
+                                                      <thead>
+                                                        <tr>
+                                                          <th style="width:50%;">Descripcion</th>
+                                                        </tr>
+                                                      </thead>
+                                                      <tbody>
+                                                        <tr>
+                                                          <td>54.15.AUXILIAR ADMINISTRATIVO</td>
+                                                          <td class="actions"><a href="#" class="icon"><i class="mdi mdi-delete"></i></a></td>
+                                                        </tr>
+                                                        <tr>
+                                                          <td>54.138.JEFE DE SOPORTE DE INFRAESTRUCTURA</td>
+                                                          <td class="actions"><a href="#" class="icon"><i class="mdi mdi-delete"></i></a></td>
+                                                        </tr>
+                                                        <tr>
+                                                          <td>54.139.JEFE DE APLICACIONES TI</td>
+                                                          <td class="actions"><a href="#" class="icon"><i class="mdi mdi-delete"></i></a></td>
+                                                        </tr>
+                                                        <tr>
+                                                          <td>76.08.ANALISTA DE DATOS</td>
+                                                          <td class="actions"><a href="#" class="icon"><i class="mdi mdi-delete"></i></a></td>
+                                                        </tr>
+                                                         
+                                                      </tbody>
+                                                    </table>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                              <div class="row">
+                                                 <div class="col-sm-3 xs-pt-15">
+                                                   <button class="btn btn-primary btn-space wizard-next">Agregar</button>
+                                                 </div>
+                                              </div>
+                                            </div>
+                                  </div> 
+                        </div>
+                          </div>
+                        </div>
+
 
 
                         <div class="form-group">

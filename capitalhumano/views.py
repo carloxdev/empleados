@@ -155,4 +155,10 @@ class EmpleadoPerfil(View):
 
     def get(self, request):
 
-        return render(request, 'perfilpuesto/perfil_puestoscargo.html')          
+        return render(request, 'perfilpuesto/perfil_puestoscargo.html')  
+
+class PerfilOrganigrama(View):
+
+    def get(self, request):
+
+        return render(request, 'perfilpuesto/perfil_organigrama.html')                  

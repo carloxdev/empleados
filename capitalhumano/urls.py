@@ -17,6 +17,7 @@ from .views import PerfilPuestoConfiguraciones
 from .views import PerfilPuestoCompetencias
 from .views import PerfilPuestoCargos
 from .views import EmpleadoPerfil
+from .views import PerfilOrganigrama
 
 urlpatterns = [
     url(
@@ -53,6 +54,7 @@ urlpatterns = [
     url(r'^perfilpuesto/competencia/$', PerfilPuestoCompetencias.as_view(), name="perfil_competencia"),
     url(r'^perfilpuesto/puestocargo/$', PerfilPuestoCargos.as_view(), name="perfil_cargo"),
     url(r'^empleado/$', EmpleadoPerfil.as_view(), name="empleado_perfil"),
+    url(r'^perfil/organigrama/$',PerfilOrganigrama.as_view(), name="perfil_organigrama"),
 ]
 
 if settings.DEBUG:

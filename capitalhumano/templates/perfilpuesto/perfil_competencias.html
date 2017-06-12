@@ -38,9 +38,10 @@
                 <div id="wizard1" class="wizard wizard-ux">
                   <ul class="steps">
                     <li data-step="1" class="complete">General<span class="chevron"></span></li>
-                    <li data-step="2" class="complete">Requerimiento<span class="chevron"></span></li>
-                    <li data-step="3" class="active">Competencias<span class="chevron"></span></li>
-                    <li data-step="4">Puestos a Cargo<span class="chevron"></span></li>
+                    <li data-step="2" class="complete">Organigrama<span class="chevron"></span></li>
+                    <li data-step="3" class="complete">Requerimiento<span class="chevron"></span></li>
+                    <li data-step="4" class="active">Competencias<span class="chevron"></span></li>
+                   
                     
                   </ul>
                   <div class="actions">
@@ -187,7 +188,7 @@
                         <div class="form-group">
                           <div class="col-sm-offset-2 col-sm-10">
                             <a href="{% url 'capitalhumano:perfil_nuevo2' %}"><input  class="btn btn-default btn-space wizard-previous" value="Previo"></a>
-                            <a href="{% url 'capitalhumano:perfil_cargo' %}"><input  class="btn btn-primary btn-space wizard-next" value="Siguiente"></a>
+                            <a href="{% url 'capitalhumano:perfil_competencia' %}"><input  class="btn btn-primary btn-space wizard-next" value="Siguiente"></a>
                           </div>
                         </div>
 
