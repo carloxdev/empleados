@@ -107,20 +107,21 @@ class EmpleadoOrganigramaEmpAPI(View):
         )
 
 
-
 # -------------- PERFILES DE PUESTOS DOCUMENTO  -------------- #
 
 class PerfilPuesto(View):
-   
+
     def get(self, request):
 
         return render(request, 'perfilpuesto/perfil_lista.html')
+
 
 class PerfilPuestoNuevo(View):
 
     def get(self, request):
 
         return render(request, 'perfilpuesto/perfil_nuevo.html')
+
 
 class PerfilPuestoNuevo2(View):
 
@@ -147,18 +148,18 @@ class PerfilPuestoCargos(View):
 
     def get(self, request):
 
-
-        return render(request, 'perfilpuesto/perfil_puestoscargo.html')       
+        return render(request, 'perfilpuesto/perfil_puestoscargo.html')
 
 
 class EmpleadoPerfil(View):
 
     def get(self, request):
 
-        return render(request, 'perfilpuesto/perfil_puestoscargo.html')  
+        return render(request, 'perfilpuesto/perfil_puestoscargo.html')
+
 
 class PerfilOrganigrama(View):
 
     def get(self, request):
 
-        return render(request, 'perfilpuesto/perfil_organigrama.html')                  
+        return render(request, 'perfilpuesto/perfil_organigrama.html')
