@@ -55,6 +55,7 @@
                             <h3 class="wizard-title">Descripcion del Puesto</h3>
                           </div>
                         </div>
+
                         <div class="form-group">
                           <label class="col-sm-3 control-label">Puesto</label>
                           <div class="col-sm-6">
@@ -71,7 +72,7 @@
                             </div>
                         </div>
                         
-              
+                    
                         
                         <div class="form-group">
                           <label class="col-sm-3 control-label">Reporta a:</label>
@@ -82,9 +83,7 @@
                                      <option value="p1">01.35.DIRECTOR DE OPERACION Y CONSTRUCCION </option>
                                      <option value="p1">01.36.DIRECTOR DE PLANEACION, ADMINISTRACION Y FINANZAS </option>
                                      <option value="p1">01.38.DIRECTOR GENERAL </option>
-                                     <option value="p1">Capital Humano</option>
-                                     <option value="p2">Juridico</option>
-                                     <option value="p3">Tecnologia de Informacion</option>
+                                     
                             </select>
                           </div>
                         </div>
@@ -114,6 +113,7 @@
                             <textarea class="form-control"></textarea>
                           </div>
                         </div>
+
                         <div class="form-group">
                           <label class="col-sm-3 control-label">Responsabilidades</label>
                           <div class="col-sm-6">
@@ -128,134 +128,25 @@
                           </div>
                         </div>
 
-
                         <div class="form-group">
-                          <div class="col-sm-offset-2 col-sm-10">
-                            <button class="btn btn-default btn-space">Cancel</button>
-                            <a href="{% url 'capitalhumano:perfil_organigrama' %}"><input  class="btn btn-primary btn-space wizard-next" value="Siguiente"></a>
-                          </div>
-                        </div>
-
-                      </form>
-                    </div>
-                    <div data-step="2" class="step-pane">
-                      <form action="#" data-parsley-namespace="data-parsley-" data-parsley-validate="" novalidate="" class="form-horizontal group-border-dashed">
-                        <div class="form-group no-padding">
-                          <div class="col-sm-7">
-                            <h3 class="wizard-title">Requerimentos</h3>
-                          </div>
-                        </div>
-                        <div class="form-group">
-                          <div class="col-sm-3 xs-pt-15">
-                            <label class="control-label">Edad Minima</label>
-                           <input type="text" placeholder="edad minima" class="form-control">
-                          </div>
-                        
-                          <div class="col-sm-3 xs-pt-15">
-                            <label class="control-label">Edad Maxima</label>
-                           <input type="text" placeholder="edad maxima" class="form-control">
-                          </div>
-
-                        </div>
-
-                        <div class="form-group">
-                          <div class="col-sm-7">
-                            <label class="control-label">Nivel de Estudios</label>
-                          
-                            <select class="select2">
-                                  <option value="n0">Indistinto</option>
-                                  <option value="n1">Trunco</option>
-                                  <option value="n2">Pasante</option>
-                                  <option value="n3">Titulado</option>
-                             </select>
-                          </div>
-                        </div>
-
-                        <div class="form-group">
-                          <div class="col-sm-7">
-                            <label class="control-label">Estado Civil</label>                        
-                            <select class="select2">
-                                  <option value="n0">Indistinto</option>
-                                  <option value="n1">Soltero</option>
-                                  <option value="n2">Casado</option>
-                                  <option value="n3">Indistinto</option>
-                                  <option value="n3">Viudo</option>
-                                  <option value="n3">Divorciado</option>
-                                  <option value="n3">Union Libre</option>
-                             </select>
+                          <label class="col-sm-3 control-label">Posicion</label>
+                          <div class="col-sm-6">
+                            <input type="radio" id="staff" name="posicion" value="1" >
+                                 <label class="control-label">Staff </label>
                           </div>
                         </div>
 
                          <div class="form-group">
-                          <div class="col-sm-7">
-                            <label class="control-label">Sexo/Genero </label>
-                            <p>
-                                 <input type="radio" id="indistinct" name="sex" value="0" checked="checked">
-                                 <label class="control-label">Indistinto</label>
-                                 
-                                 <input type="radio" id="male" name="sex" value="1" >
-                                 <label class="control-label">Hombre </label>
-                                 
-                                 <input type="radio" id="female" name="sex" value="2" >
-                                 <label class="control-label">Mujer </label>
-                            </p> 
-                          </div>
-                        </div>
+                            <label class="col-sm-3 control-label"> Puestos a cargo </label>
+                             <div class="main-content container-fluid">
+                                      <div class="row">
+                                        <div class="col-sm-6">
+                                          <div class="panel panel-default panel-table">
+                                            <div class="panel-heading">
 
-                        <div class="form-group">
-                          <div class="col-sm-7">
-                            <label class="control-label">Disponibilidad para cambiar de residencia</label>                        
-                             <input type="checkbox"  >
-                          </div>
-                        </div>
-
-                        <div class="form-group">
-                          <div class="col-sm-7">
-                            <label class="control-label">Disponibilidad para viajar</label>                        
-                             <input type="checkbox"  >
-                          </div>
-                        </div>
-
-                        <div class="form-group">
-                          <div class="col-sm-7">
-                            <label class="control-label">Otros Requerimientos</label>                        
-                            <textarea class="form-control"></textarea>
-                          </div>
-                        </div>
-
-                        <div class="form-group">
-                          <div class="col-sm-7">
-                            <label class="control-label">Areas de Experiencia</label>                        
-                            <select class="select2">
-                                  <option value="n0">Administracion y Finanzas</option>
-                                  <option value="n1">Administracion general</option>
-                                  <option value="n2">Auditoria</option>
-                                  <option value="n3">Finanzas</option>
-                                
-                             </select>
-                          </div>
-                        </div>
-
-                        <div class="form-group">
-                          <div class="col-sm-7">
-                            <label class="control-label">Años de Experiencia:</label>
-                            <input type="text" placeholder="Años de Experiencia" class="form-control">
-                          </div>
-                        </div>
-
-                        <div class="form-group">
-                          <div class="col-sm-6">
-                             <div class="form-group">
-                         
-                           
-                                  <div class="main-content container-fluid">
-                                            <div class="row">
-                                              <div class="col-sm-6">
-                                                <div class="panel panel-default panel-table">
-                                                  <div class="panel-heading">Puestos
-                                                    <div class="tools"><span class="icon mdi mdi-download"></span><span class="icon mdi mdi-more-vert"></span></div>
-                                                  </div>
-                                                  <div class="panel-body">
+                                              <div class="tools"><span class="icon mdi mdi-download"></span><span class="icon mdi mdi-more-vert"></span></div>
+                                            </div>
+                                            <div class="panel-body">
                                                     <table class="table">
                                                       <thead>
                                                         <tr>
@@ -283,82 +174,27 @@
                                                       </tbody>
                                                     </table>
                                                   </div>
-                                                </div>
-                                              </div>
-                                              <div class="row">
-                                                 <div class="col-sm-3 xs-pt-15">
-                                                   <button class="btn btn-primary btn-space wizard-next">Agregar</button>
-                                                 </div>
-                                              </div>
-                                            </div>
-                                  </div> 
-                        </div>
-                          </div>
-                        </div>
+                                          </div>
+                                          </div>
+                                        </div>
+                                        
+                                      </div>
 
+                                </div>
+                        </div>
 
 
                         <div class="form-group">
-                          <div class="col-sm-12">
-                            <button data-wizard="#wizard1" class="btn btn-default btn-space wizard-previous">Previous</button>
-                            <button data-wizard="#wizard1" class="btn btn-primary btn-space wizard-next">Next Step</button>
+                          <div class="col-sm-offset-2 col-sm-10">
+                            <button class="btn btn-default btn-space">Cancel</button>
+                            <a href="{% url 'capitalhumano:perfil_organigrama' %}"><input  class="btn btn-primary btn-space wizard-next" value="Siguiente"></a>
                           </div>
                         </div>
+
                       </form>
                     </div>
-                    <div data-step="3" class="step-pane">
-                      <form action="#" data-parsley-namespace="data-parsley-" data-parsley-validate="" novalidate="" class="form-horizontal group-border-dashed">
-                        <div class="form-group no-padding">
-                          <div class="col-sm-7">
-                            <h3 class="wizard-title">Configuration</h3>
-                          </div>
-                        </div>
-                        <div class="form-group">
-                          <div class="col-sm-6">
-                            <label class="control-label">Buy Credits: <span id="credits">$30</span></label>
-                            <p>This option allow you to buy an amount of credits.</p>
-                            <input id="credit_slider" type="text" value="30" class="bslider form-control">
-                          </div>
-                          <div class="col-sm-6">
-                            <label class="control-label">Change Plan</label>
-                            <p>Change your plan many times as you want.</p>
-                            <select class="select2">
-                              <optgroup label="Personal">
-                                <option value="p1">Basic</option>
-                                <option value="p2">Medium</option>
-                              </optgroup>
-                              <optgroup label="Company">
-                                <option value="p3">Standard</option>
-                                <option value="p4">Silver</option>
-                                <option value="p5">Gold</option>
-                              </optgroup>
-                            </select>
-                          </div>
-                        </div>
-                        <div class="form-group">
-                          <div class="col-sm-6">
-                            <label class="control-label">Payment Rate: <span id="rate">5%</span></label>
-                            <p>Choose your payment rate to calculate how much money you will recieve.</p>
-                            <input id="rate_slider" data-slider-min="0" data-slider-max="100" type="text" value="5" class="bslider form-control">
-                          </div>
-                          <div class="col-sm-6">
-                            <label class="control-label">Keywords</label>
-                            <p>Write your keywords to do a successful SEO with web search engines.</p>
-                            <select multiple="" class="tags">
-                              <option value="1">Twitter</option>
-                              <option value="2">Google</option>
-                              <option value="3">Facebook</option>
-                            </select>
-                          </div>
-                        </div>
-                        <div class="form-group">
-                          <div class="col-sm-12">
-                            <button data-wizard="#wizard1" class="btn btn-default btn-space wizard-previous">Previous</button>
-                            <button data-wizard="#wizard1" class="btn btn-success btn-space wizard-next">Complete</button>
-                          </div>
-                        </div>
-                      </form>
-                    </div>
+                  
+                    
                   </div>
                 </div>
               </div>
@@ -366,205 +202,7 @@
           </div>
         </div>
       </div>
-      <nav class="be-right-sidebar">
-        <div class="sb-content">
-          <div class="tab-navigation">
-            <ul role="tablist" class="nav nav-tabs nav-justified">
-              <li role="presentation" class="active"><a href="#tab1" aria-controls="tab1" role="tab" data-toggle="tab">Chat</a></li>
-              <li role="presentation"><a href="#tab2" aria-controls="tab2" role="tab" data-toggle="tab">Todo</a></li>
-              <li role="presentation"><a href="#tab3" aria-controls="tab3" role="tab" data-toggle="tab">Settings</a></li>
-            </ul>
-          </div>
-          <div class="tab-panel">
-            <div class="tab-content">
-              <div id="tab1" role="tabpanel" class="tab-pane tab-chat active">
-                <div class="chat-contacts">
-                  <div class="chat-sections">
-                    <div class="be-scroller">
-                      <div class="content">
-                        <h2>Recent</h2>
-                        <div class="contact-list contact-list-recent">
-                          <div class="user"><a href="#"><img src="assets/img/avatar1.png" alt="Avatar">
-                              <div class="user-data"><span class="status away"></span><span class="name">Claire Sassu</span><span class="message">Can you share the...</span></div></a></div>
-                          <div class="user"><a href="#"><img src="assets/img/avatar2.png" alt="Avatar">
-                              <div class="user-data"><span class="status"></span><span class="name">Maggie jackson</span><span class="message">I confirmed the info.</span></div></a></div>
-                          <div class="user"><a href="#"><img src="assets/img/avatar3.png" alt="Avatar">
-                              <div class="user-data"><span class="status offline"></span><span class="name">Joel King       </span><span class="message">Ready for the meeti...</span></div></a></div>
-                        </div>
-                        <h2>Contacts</h2>
-                        <div class="contact-list">
-                          <div class="user"><a href="#"><img src="assets/img/avatar4.png" alt="Avatar">
-                              <div class="user-data2"><span class="status"></span><span class="name">Mike Bolthort</span></div></a></div>
-                          <div class="user"><a href="#"><img src="assets/img/avatar5.png" alt="Avatar">
-                              <div class="user-data2"><span class="status"></span><span class="name">Maggie jackson</span></div></a></div>
-                          <div class="user"><a href="#"><img src="assets/img/avatar6.png" alt="Avatar">
-                              <div class="user-data2"><span class="status offline"></span><span class="name">Jhon Voltemar</span></div></a></div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="bottom-input">
-                    <input type="text" placeholder="Search..." name="q"><span class="mdi mdi-search"></span>
-                  </div>
-                </div>
-                <div class="chat-window">
-                  <div class="title">
-                    <div class="user"><img src="assets/img/avatar2.png" alt="Avatar">
-                      <h2>Maggie jackson</h2><span>Active 1h ago</span>
-                    </div><span class="icon return mdi mdi-chevron-left"></span>
-                  </div>
-                  <div class="chat-messages">
-                    <div class="be-scroller">
-                      <div class="content">
-                        <ul>
-                          <li class="friend">
-                            <div class="msg">Hello</div>
-                          </li>
-                          <li class="self">
-                            <div class="msg">Hi, how are you?</div>
-                          </li>
-                          <li class="friend">
-                            <div class="msg">Good, I'll need support with my pc</div>
-                          </li>
-                          <li class="self">
-                            <div class="msg">Sure, just tell me what is going on with your computer?</div>
-                          </li>
-                          <li class="friend">
-                            <div class="msg">I don't know it just turns off suddenly</div>
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="chat-input">
-                    <div class="input-wrapper"><span class="photo mdi mdi-camera"></span>
-                      <input type="text" placeholder="Message..." name="q" autocomplete="off"><span class="send-msg mdi mdi-mail-send"></span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div id="tab2" role="tabpanel" class="tab-pane tab-todo">
-                <div class="todo-container">
-                  <div class="todo-wrapper">
-                    <div class="be-scroller">
-                      <div class="todo-content"><span class="category-title">Today</span>
-                        <ul class="todo-list">
-                          <li>
-                            <div class="be-checkbox be-checkbox-sm"><span class="delete mdi mdi-delete"></span>
-                              <input id="todo1" type="checkbox" checked="">
-                              <label for="todo1">Initialize the project</label>
-                            </div>
-                          </li>
-                          <li>
-                            <div class="be-checkbox be-checkbox-sm"><span class="delete mdi mdi-delete"></span>
-                              <input id="todo2" type="checkbox">
-                              <label for="todo2">Create the main structure</label>
-                            </div>
-                          </li>
-                          <li>
-                            <div class="be-checkbox be-checkbox-sm"><span class="delete mdi mdi-delete"></span>
-                              <input id="todo3" type="checkbox">
-                              <label for="todo3">Updates changes to GitHub</label>
-                            </div>
-                          </li>
-                        </ul><span class="category-title">Tomorrow</span>
-                        <ul class="todo-list">
-                          <li>
-                            <div class="be-checkbox be-checkbox-sm"><span class="delete mdi mdi-delete"></span>
-                              <input id="todo4" type="checkbox">
-                              <label for="todo4">Initialize the project</label>
-                            </div>
-                          </li>
-                          <li>
-                            <div class="be-checkbox be-checkbox-sm"><span class="delete mdi mdi-delete"></span>
-                              <input id="todo5" type="checkbox">
-                              <label for="todo5">Create the main structure</label>
-                            </div>
-                          </li>
-                          <li>
-                            <div class="be-checkbox be-checkbox-sm"><span class="delete mdi mdi-delete"></span>
-                              <input id="todo6" type="checkbox">
-                              <label for="todo6">Updates changes to GitHub</label>
-                            </div>
-                          </li>
-                          <li>
-                            <div class="be-checkbox be-checkbox-sm"><span class="delete mdi mdi-delete"></span>
-                              <input id="todo7" type="checkbox">
-                              <label for="todo7" title="This task is too long to be displayed in a normal space!">This task is too long to be displayed in a normal space!</label>
-                            </div>
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="bottom-input">
-                    <input type="text" placeholder="Create new task..." name="q"><span class="mdi mdi-plus"></span>
-                  </div>
-                </div>
-              </div>
-              <div id="tab3" role="tabpanel" class="tab-pane tab-settings">
-                <div class="settings-wrapper">
-                  <div class="be-scroller"><span class="category-title">General</span>
-                    <ul class="settings-list">
-                      <li>
-                        <div class="switch-button switch-button-sm">
-                          <input type="checkbox" checked="" name="st1" id="st1"><span>
-                            <label for="st1"></label></span>
-                        </div><span class="name">Available</span>
-                      </li>
-                      <li>
-                        <div class="switch-button switch-button-sm">
-                          <input type="checkbox" checked="" name="st2" id="st2"><span>
-                            <label for="st2"></label></span>
-                        </div><span class="name">Enable notifications</span>
-                      </li>
-                      <li>
-                        <div class="switch-button switch-button-sm">
-                          <input type="checkbox" checked="" name="st3" id="st3"><span>
-                            <label for="st3"></label></span>
-                        </div><span class="name">Login with Facebook</span>
-                      </li>
-                    </ul><span class="category-title">Notifications</span>
-                    <ul class="settings-list">
-                      <li>
-                        <div class="switch-button switch-button-sm">
-                          <input type="checkbox" name="st4" id="st4"><span>
-                            <label for="st4"></label></span>
-                        </div><span class="name">Email notifications</span>
-                      </li>
-                      <li>
-                        <div class="switch-button switch-button-sm">
-                          <input type="checkbox" checked="" name="st5" id="st5"><span>
-                            <label for="st5"></label></span>
-                        </div><span class="name">Project updates</span>
-                      </li>
-                      <li>
-                        <div class="switch-button switch-button-sm">
-                          <input type="checkbox" checked="" name="st6" id="st6"><span>
-                            <label for="st6"></label></span>
-                        </div><span class="name">New comments</span>
-                      </li>
-                      <li>
-                        <div class="switch-button switch-button-sm">
-                          <input type="checkbox" name="st7" id="st7"><span>
-                            <label for="st7"></label></span>
-                        </div><span class="name">Chat messages</span>
-                      </li>
-                    </ul><span class="category-title">Workflow</span>
-                    <ul class="settings-list">
-                      <li>
-                        <div class="switch-button switch-button-sm">
-                          <input type="checkbox" name="st8" id="st8"><span>
-                            <label for="st8"></label></span>
-                        </div><span class="name">Deploy on commit</span>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+      
       </nav>
 
 
