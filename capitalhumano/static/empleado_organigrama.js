@@ -150,25 +150,97 @@ Organigrama.prototype.get_Data = function(){
 
 var datasource2 =
 { "nombre":"VILLEGAS RASCON CLAUDIA ANGELICA",
-  "foto":"usuarios/fotos/imagen2.png",
-  "puesto":"COORDINADOR",
-  "num_empleado": "202000",
-  "compania":"SIC",
+  "foto":"' images/decoradores/no-image-user.jpg '",
+  "puesto":"54.192.COORDINADOR DE TECNOLOGIA DE INFORMACION",
+  "num_empleado": "200006",
+  "compania":"SISTEMAS INTEGRALES DE COMPRESION",
   "departamento": "TECNOLOGIA DE INFORMACION",
+  "centro_costos": "C01TI",
+  "ubicacion":"OFICINA VERACRUZ",
   "children":[
-    {"nombre":"JIMENEZ HERRERA ZAIRA","puesto":"AUXILIAR"},
-    {"nombre":"AVENDAÑO CRUZ LUIS ALBERTO","puesto":"JEFE",
+    { "nombre":"JIMENEZ HERRERA ZAIRA"
+      "foto":"' images/decoradores/no-image-user.jpg '",
+      "puesto":"54.15.AUXILIAR ADMINISTRATIVO",
+      "num_empleado": "200185",
+      "compania":"SISTEMAS INTEGRALES DE COMPRESION",
+      "departamento": "TECNOLOGIA DE INFORMACION",
+      "centro_costos": "C01TI",
+      "ubicacion":"OFICINA VERACRUZ",
+    },
+    { "nombre":"AVENDAÑO CRUZ LUIS ALBERTO",
+      "foto":"' images/decoradores/no-image-user.jpg '",
+      "puesto":"54.138.JEFE DE SOPORTE DE INFRAESTRUCTURA",
+      "num_empleado": "200971",
+      "compania":"SISTEMAS INTEGRALES DE COMPRESION",
+      "departamento": "TECNOLOGIA DE INFORMACION",
+      "centro_costos": "C01TI",
+      "ubicacion":"OFICINA VERACRUZ",
       "children":[
-        {"nombre":"MARTINEZ GUTIERREZ EDWIN","puesto":"TECNICO ESPECIALISTA"}
+          { "nombre":"MARTINEZ GUTIERREZ EDWIN","puesto":"TECNICO ESPECIALISTA"
+            "foto":"' images/decoradores/no-image-user.jpg '",
+            "puesto":"54.61.SOPORTE DE INFRAESTRUCTURA SENIOR",
+            "num_empleado": "200181",
+            "compania":"SISTEMAS INTEGRALES DE COMPRESION",
+            "departamento": "TECNOLOGIA DE INFORMACION",
+            "centro_costos": "C01TI",
+            "ubicacion":"OFICINA VERACRUZ",
+          }
         ],
     },
-    {"nombre":"MARTINEZ HERNANDEZ JORGE JESUS","puesto":"JEFE",
+    { "nombre":"MARTINEZ HERNANDEZ JORGE JESUS",
+      "foto":"' images/decoradores/no-image-user.jpg '",
+      "puesto":"54.139.JEFE DE APLICACIONES TI",
+      "num_empleado": "200200",
+      "compania":"SISTEMAS INTEGRALES DE COMPRESION",
+      "departamento": "TECNOLOGIA DE INFORMACION",
+      "centro_costos": "C01TI",
+      "ubicacion":"OFICINA VERACRUZ",
       "children":[
-        {"nombre":"ARIAS ZACARIAS ZACHARIEL","puesto":"ANALISTA"},
-        {"nombre":"CASTRO CASTILLO JANET","puesto":"ANALISTA"},
-        {"nombre":"CRUZ GOXCON MIGUEL ANGEL","puesto":"TECNICO ESPECIALISTA"},
-        {"nombre":"CORDOVA QUIROZ NADIA","puesto":"ANALISTA"},
-        {"nombre":"MARTINEZ JIMENEZ CARLOS ANDRES","puesto":"ANALISTA"}
+        { "nombre":"ARIAS ZACARIAS ZACHARIEL",
+          "foto":"' images/decoradores/no-image-user.jpg '",
+          "puesto":"54.09.ANALISTA PROGRAMADOR JR",
+          "num_empleado": "202054",
+          "compania":"SISTEMAS INTEGRALES DE COMPRESION",
+          "departamento": "TECNOLOGIA DE INFORMACION",
+          "centro_costos": "C01TI",
+          "ubicacion":"OFICINA VERACRUZ",
+        },
+        { "nombre":"CASTRO CASTILLO JANET","puesto":"ANALISTA"
+          "foto":"' images/decoradores/no-image-user.jpg '",
+          "puesto":"54.09.ANALISTA PROGRAMADOR JR",
+          "num_empleado": "201289",
+          "compania":"SISTEMAS INTEGRALES DE COMPRESION",
+          "departamento": "TECNOLOGIA DE INFORMACION",
+          "centro_costos": "C01TI",
+          "ubicacion":"OFICINA VERACRUZ",
+        },
+        { "nombre":"CRUZ GOXCON MIGUEL ANGEL",
+          "foto":"' images/decoradores/no-image-user.jpg '",
+          "puesto":"54.10.ANALISTA PROGRAMADOR SENIOR",
+          "num_empleado": "200721",
+          "compania":"SISTEMAS INTEGRALES DE COMPRESION",
+          "departamento": "TECNOLOGIA DE INFORMACION",
+          "centro_costos": "C01TI",
+          "ubicacion":"OFICINA VERACRUZ",
+        },
+        { "nombre":"CORDOVA QUIROZ NADIA",
+          "foto":"' images/decoradores/no-image-user.jpg '",
+          "puesto":"54.09.ANALISTA PROGRAMADOR JR",
+          "num_empleado": "202070",
+          "compania":"SISTEMAS INTEGRALES DE COMPRESION",
+          "departamento": "TECNOLOGIA DE INFORMACION",
+          "centro_costos": "C01TI",
+          "ubicacion":"OFICINA VERACRUZ",
+        },
+        { "nombre":"MARTINEZ JIMENEZ CARLOS ANDRES",
+          "foto":"' images/decoradores/no-image-user.jpg '",
+          "puesto":"54.09.ANALISTA PROGRAMADOR JR",
+          "num_empleado": "200836",
+          "compania":"SISTEMAS INTEGRALES DE COMPRESION",
+          "departamento": "TECNOLOGIA DE INFORMACION",
+          "centro_costos": "C01TI",
+          "ubicacion":"OFICINA VERACRUZ",
+        }
         ],
     }
   ],
@@ -187,8 +259,8 @@ Organigrama.prototype.mostrar_Mensaje = function (_total){
    }
 }
 
-// Organigrama.prototype.buscar_Empleados = function (_organizacion){
-
+// Organigrama.prototype.buscar_Empleados = function (){
+//   _organizacion = '130'
 //    var url = url_datos + _organizacion + "/"
 
 //    $.ajax({
