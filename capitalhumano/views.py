@@ -155,12 +155,8 @@ class EmpleadoPerfilrh(View):
 
     def get(self, request):
 
-<<<<<<< Updated upstream
-        return render(request, 'perfilpuesto/perfil_puestoscargo.html')
-
-=======
         return render(request, 'empleado_perfil.html')  
->>>>>>> Stashed changes
+
 
 class PerfilOrganigrama(View):
 
