@@ -69,7 +69,6 @@ Organigrama.prototype.empleados_Organizacion = function(e){
             contentType: "application/json; charset=utf-8",
             context: this,
             success: function (response) {
-
               cont = 0
               for (var i = 0; i < response.length; i++) {
                 cont+=1
@@ -107,7 +106,6 @@ Organigrama.prototype.empleados_Empresa = function(e){
             contentType: "application/json; charset=utf-8",
             context: this,
             success: function (response) {
-
               cont = 0
               for (var i = 0; i < response.length; i++) {
                 cont+=1
@@ -115,10 +113,12 @@ Organigrama.prototype.empleados_Empresa = function(e){
 
               if (cont == 0){
                 organigrama.mostrar_Mensaje(cont)
+
               }
               else{
                 organigrama.mostrar_Mensaje(cont)
                 organigrama.crear_Diagrama(url)
+
               }
              
             },
@@ -140,6 +140,9 @@ Organigrama.prototype.crear_Diagrama = function(_url){
     'nodeNumEmpleado':'num_empleado',
     'nodeCompania':'compania',
     'nodeDepartamento':'departamento',
+    'nodeCentroCostos': 'centro_costos',
+    'nodeUbicacion': 'ubicacion',
+    'nodeStaff': 'staff',
     'toggleSiblingsResp': true,
   })
 }
@@ -170,7 +173,7 @@ var datasource2 =
     }
   ],
 }
-  return datasource2
+  return datasource
 }
 Organigrama.prototype.mostrar_Mensaje = function (_total){
 

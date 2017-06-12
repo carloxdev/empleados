@@ -631,11 +631,14 @@
       .addClass('node ' + (nodeData.className || '') +  (level >= opts.depth ? ' slide-up' : ''))
       .append('<div class="title">' + nodeData[opts.nodeTitle] + '</div>')
       .append(typeof opts.nodeNombre !== 'None' ? '<div class="content">' 
-              + '<div class="col-sm-3"><img class="avatar" src="{% static ' + (nodeData[opts.nodeFoto] +'%}"></div>' || '')
-              + '<div class="col-sm-9"><b>' + (nodeData[opts.nodeNombre] +'</b>' || '')
-              + '<br>' +(nodeData[opts.nodeNumEmpleado] || '') +'</div>'
-              + '<br>' +(nodeData[opts.nodeCompania] || '')
-              + '<br>' +(nodeData[opts.nodeDepartamento] || '') +'</div>' : '')
+              + '<div class="col-sm-3 orgchart-no-imagen-user"></div>'
+              + '<div class="col-sm-8"><b>' + (nodeData[opts.nodeNombre] +'</b>' || '')
+              + '<br>' +(nodeData[opts.nodeNumEmpleado] || '')
+              + '<br>' +(nodeData[opts.nodeCentroCostos] || '') +'</div>'
+              + '<br><br><br><br>' +(nodeData[opts.nodeCompania] || '')
+              + '<br>' +(nodeData[opts.nodeDepartamento] || '')
+              + '<br>' +(nodeData[opts.nodeUbicacion] || '')
+              + '<br>' +(nodeData[opts.nodeStaff] || '')+'</div></div>' : '')
 //url imagen /Users/ncordovaq/Documents/imagen2.png    
 
     // append 4 direction arrows or expand/collapse buttons
@@ -977,6 +980,7 @@
     dtd.resolve($nodeDiv);
     return dtd.promise();
   }
+  //CONTRUCCIÓN DEL ARBOL
   // recursively build the tree
   function buildHierarchy ($appendTo, nodeData, level, opts, callback) {
     var $nodeWrapper;

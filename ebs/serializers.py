@@ -193,6 +193,7 @@ class VIEW_ORGANIGRAMA_Serializer(serializers.HyperlinkedModelSerializer):
             'tipo',
         )
 
+
 class VIEW_ORGANIGRAMA_ORG_SERIALIZADO(object):
 
     def get_Descendencia(self, _daddies, _hijos, _nodo_jefe_nombre_completo):
@@ -208,10 +209,19 @@ class VIEW_ORGANIGRAMA_ORG_SERIALIZADO(object):
                 if persona.jefe_nombre_completo == hijo.pers_nombre_completo:
                     hijos.append(persona)
 
-                self.get_Estructura(nodo,hijo)
+                self.get_Estructura(nodo, hijo)
 
             if len(hijos):
+                self.get_ColorNivel(nodo, hijo)
                 nodo["children"] = self.get_Descendencia(_daddies, hijos, nodo)
+            else:
+                if hijo.tipo == 'STAFF':
+                    nodo["staff"] = 'STAFF'
+                    nodo["className"] = 'staff-level'
+                else:
+                    self.get_ColorNivel(nodo, hijo)
+
+                # print 'staff'+hijo.pers_nombre_completo.encode('utf-8')
 
             lista_descendencia.append(nodo)
 
@@ -225,39 +235,56 @@ class VIEW_ORGANIGRAMA_ORG_SERIALIZADO(object):
         hijos = []
         nodo = {}
         padre = self.get_NivelPadre(_daddies)
-        
+        clave = ''
+
         jefePadre = VIEW_EMPLEADOS_FULL.objects.using('ebs_d').filter(
             pers_clave=padre.asig_jefe_directo_clave)
-        for dato in jefePadre:
-            print dato.pers_nombre_completo
-            print padre.asig_jefe_directo_clave
 
         for persona in _daddies:
             if persona.jefe_nombre_completo == padre.pers_nombre_completo:
                 hijos.append(persona)
-                print 'jefe'+persona.pers_nombre_completo.encode('utf-8')
 
         if len(hijos):
-            self.get_Estructura(nodo,padre)
+            self.get_Estructura(nodo, padre)
+            self.get_ColorNivel(nodo, padre)
             nodo["children"] = self.get_Descendencia(_daddies, hijos, nodo)
         else:
-            self.get_Estructura(nodo,padre)
+            self.get_Estructura(nodo, padre)
+            self.get_ColorNivel(nodo, padre)
 
         for dato in jefePadre:
-            self.get_Estructura(jefe,dato)
-            jefe["children"] = [nodo]
-
-        lista_json = json.dumps(jefe)
+            clave = dato.pers_empleado_numero
+        print clave
+        if clave == '200817':
+            lista_json = json.dumps(nodo)
+        else:
+            for dato in jefePadre:
+                self.get_Estructura(jefe, dato)
+                jefe["className"] = 'padre-jefe'
+                jefe["children"] = [nodo]
+            lista_json = json.dumps(jefe)
 
         return lista_json
 
-    def get_Estructura(self,_nodo, _datos):
+    def get_Estructura(self, _nodo, _datos):
         _nodo["nombre"] = "%s" % (_datos.pers_nombre_completo)
         _nodo["num_empleado"] = "%s" % (_datos.pers_empleado_numero)
         _nodo["compania"] = "%s" % (_datos.grup_compania_jde)
         _nodo["departamento"] = "%s" % (_datos.asig_organizacion_desc)
         _nodo["puesto"] = "%s" % (_datos.asig_puesto_desc)
-        
+        _nodo["centro_costos"] = "%s" % (_datos.grup_fase_jde)
+        _nodo["ubicacion"] = "%s" % (_datos.asig_ubicacion_desc)
+
+    def get_ColorNivel(self, _nodo, _dato):
+        if _dato.nivel_estructura == 1:
+            _nodo["className"] = 'nivel-1'
+        elif (_dato.nivel_estructura == 2) or \
+                (_dato.nivel_estructura == 3) or \
+                (_dato.nivel_estructura == 4) or \
+                (_dato.nivel_estructura == 5) or \
+                (_dato.nivel_estructura == 6):
+            _nodo["className"] = 'niveles'
+
     def get_NivelPadre(self, _daddies):
         nivel = 6
         padre = _daddies[0]
@@ -274,6 +301,7 @@ class VIEW_ORGANIGRAMA_ORG_SERIALIZADO(object):
 
         return padre
 
+
 class VIEW_ORGANIGRAMA_EMP_SERIALIZADO(object):
 
     def get_Descendencia(self, _daddies, _hijos, _nodo_jefe_nombre_completo):
@@ -289,10 +317,16 @@ class VIEW_ORGANIGRAMA_EMP_SERIALIZADO(object):
                 if persona.jefe_nombre_completo == hijo.pers_nombre_completo:
                     hijos.append(persona)
 
-                self.get_Estructura(nodo,hijo)
+                self.get_Estructura(nodo, hijo)
+                self.get_ColorNivel(nodo, hijo)
 
             if len(hijos):
+                self.get_ColorNivel(nodo, hijo)
                 nodo["children"] = self.get_Descendencia(_daddies, hijos, nodo)
+            else:
+                if hijo.tipo == 'STAFF':
+                    nodo["staff"] = 'STAFF'
+                    nodo["className"] = 'staff-level'
 
             lista_descendencia.append(nodo)
 
@@ -302,7 +336,6 @@ class VIEW_ORGANIGRAMA_EMP_SERIALIZADO(object):
 
         sys.setrecursionlimit(1500)
 
-        jefe = {}
         hijos = []
         nodo = {}
         padre = self.get_NivelPadre(_daddies)
@@ -313,22 +346,37 @@ class VIEW_ORGANIGRAMA_EMP_SERIALIZADO(object):
                 # print 'jefe'+persona.pers_nombre_completo.encode('utf-8')
 
         if len(hijos):
-            self.get_Estructura(nodo,padre)
+            self.get_Estructura(nodo, padre)
+            self.get_ColorNivel(nodo, padre)
             nodo["children"] = self.get_Descendencia(_daddies, hijos, nodo)
         else:
-            self.get_Estructura(nodo,padre)
+            self.get_Estructura(nodo, padre)
+            self.get_ColorNivel(nodo, padre)
 
         lista_json = json.dumps(nodo)
 
         return lista_json
 
-    def get_Estructura(self,_nodo, _datos):
+    def get_Estructura(self, _nodo, _datos):
         _nodo["nombre"] = "%s" % (_datos.pers_nombre_completo)
         _nodo["num_empleado"] = "%s" % (_datos.pers_empleado_numero)
         _nodo["compania"] = "%s" % (_datos.grup_compania_jde)
         _nodo["departamento"] = "%s" % (_datos.asig_organizacion_desc)
         _nodo["puesto"] = "%s" % (_datos.asig_puesto_desc)
-        
+        _nodo["centro_costos"] = "%s" % (_datos.grup_fase_jde)
+        _nodo["ubicacion"] = "%s" % (_datos.asig_ubicacion_desc)
+        _nodo["foto"] = "' images/decoradores/no-image-user.jpg '"
+
+    def get_ColorNivel(self, _nodo, _dato):
+        if _dato.nivel_estructura == 1:
+            _nodo["className"] = 'nivel-1'
+        elif (_dato.nivel_estructura == 2) or \
+                (_dato.nivel_estructura == 3) or \
+                (_dato.nivel_estructura == 4) or \
+                (_dato.nivel_estructura == 5) or \
+                (_dato.nivel_estructura == 6):
+            _nodo["className"] = 'niveles'
+
     def get_NivelPadre(self, _daddies):
         nivel = 6
         padre = _daddies[0]

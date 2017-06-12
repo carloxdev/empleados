@@ -18,15 +18,27 @@
    <div class="main-content container-fluid">
       <div class="col-sm-12">
          <div class="panel panel-default panel-table">
-            <div class="widget size-highcharts">
-                  <label> <h3>Filtros</h3></label>
-            	
-                  <p>{{ form.organizaciones.label }} {{ form.organizaciones }}</p>
-
-                  <p>{{ form2.organizaciones.label }} {{ form2.empresas }}</p>
+            
+            <div class="widget">
+                  <div class="col-sm-12">
+                     <label> <h3>Filtros</h3></label>
+                  </div>
+            	  <div class="col-sm-6">
+                     <label>Organizaciones:</label>
+                     {{ form.organizaciones }}
+                  </div>
+                 <div class="col-sm-6">
+                     <label>Empresas:</label>
+                     {{ form2.empresas }}
+                  </div>
+                  
+                  <br>
                   <br>
                   <h3 id="container-mensaje"></h3>
-            </div>
+                  <br>
+                  <br>
+                  .
+            </div>    
          </div>
          <div class="nova-contenedor-organigrama" id="content-data"></div>
       </div>  <!-- End col-sm-12 -->

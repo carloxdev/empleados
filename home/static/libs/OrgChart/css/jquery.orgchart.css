@@ -147,23 +147,23 @@
 /*Propiedades de las lineas, color,tamaño, etc*/
 
 .orgchart tr.lines td.topLine {
-  border-top: 2px solid rgba(217, 83, 79, 0.8);
+  border-top: 2px solid rgba(38, 51, 107, 0.8);
 }
 
 .orgchart tr.lines td.rightLine {
-  border-right: 1px solid rgba(217, 83, 79, 0.8);
+  border-right: 1px solid rgba(38, 51, 107, 0.8);
   float: none;
   border-radius: 0px;
 }
 
 .orgchart tr.lines td.leftLine {
-  border-left: 1px solid rgba(217, 83, 79, 0.8);
+  border-left: 1px solid rgba(38, 51, 107, 0.8);
   float: none;
   border-radius: 0px;
 }
 
 .orgchart tr.lines .downLine {
-  background-color: rgba(217, 83, 79, 0.8); 
+  background-color: rgba(38, 51, 107, 0.8); 
   margin: 0px auto;
   height: 20px;
   width: 2px;
@@ -477,6 +477,38 @@
   left: 0;
 }
 
+.orgchart .nivel-1 .title {
+  background-color: #B40404;
+}
+.orgchart .nivel-1 .content {
+  border-color: #B40404;
+}
+.orgchart .niveles .title {
+  background-color: #DF7401;
+}
+.orgchart .niveles .content {
+  border-color: #DF7401;
+}
+.orgchart .staff-level .title {
+  background-color: #848484;
+}
+.orgchart .staff-level .content {
+  border-color: #848484;
+  border-style: dashed;
+}
+.orgchart .padre-jefe .title {
+  background-color: #DF7401;
+}
+.orgchart .padre-jefe .content {
+  border-color: #DF7401;
+}
+.orgchart-no-imagen-user{
+  height: 70px;
+  width: 70px;
+  background-image: url("/static/images/decoradores/no-image-user.jpg");
+  background-repeat: no-repeat;
+  background-size: 70px 70px ;
+}
 .orgchart .slide-down {
   opacity: 0;
   top: 40px;
