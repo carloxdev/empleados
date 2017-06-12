@@ -477,25 +477,38 @@
   left: 0;
 }
 
-.orgchart .top-level .title {
-  background-color: #006699;
+.orgchart .nivel-1 .title {
+  background-color: #B40404;
 }
-.orgchart .top-level .content {
-  border-color: #006699;
+.orgchart .nivel-1 .content {
+  border-color: #B40404;
 }
-.orgchart .middle-level .title {
-  background-color: #009933;
+.orgchart .niveles .title {
+  background-color: #DF7401;
 }
-.orgchart .middle-level .content {
-  border-color: #009933;
+.orgchart .niveles .content {
+  border-color: #DF7401;
 }
-.orgchart .bottom-level .title {
-  background-color: #993366;
+.orgchart .staff-level .title {
+  background-color: #848484;
 }
-.orgchart .bottom-level .content {
-  border-color: #993366;
+.orgchart .staff-level .content {
+  border-color: #848484;
+  border-style: dashed;
 }
-
+.orgchart .padre-jefe .title {
+  background-color: #DF7401;
+}
+.orgchart .padre-jefe .content {
+  border-color: #DF7401;
+}
+.orgchart-no-imagen-user{
+  height: 70px;
+  width: 70px;
+  background-image: url("/static/images/decoradores/no-image-user.jpg");
+  background-repeat: no-repeat;
+  background-size: 70px 70px ;
+}
 .orgchart .slide-down {
   opacity: 0;
   top: 40px;

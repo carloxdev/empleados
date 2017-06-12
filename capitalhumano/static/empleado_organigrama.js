@@ -69,7 +69,6 @@ Organigrama.prototype.empleados_Organizacion = function(e){
             contentType: "application/json; charset=utf-8",
             context: this,
             success: function (response) {
-
               cont = 0
               for (var i = 0; i < response.length; i++) {
                 cont+=1
@@ -107,7 +106,6 @@ Organigrama.prototype.empleados_Empresa = function(e){
             contentType: "application/json; charset=utf-8",
             context: this,
             success: function (response) {
-
               cont = 0
               for (var i = 0; i < response.length; i++) {
                 cont+=1
@@ -115,10 +113,12 @@ Organigrama.prototype.empleados_Empresa = function(e){
 
               if (cont == 0){
                 organigrama.mostrar_Mensaje(cont)
+
               }
               else{
                 organigrama.mostrar_Mensaje(cont)
                 organigrama.crear_Diagrama(url)
+
               }
              
             },
@@ -148,31 +148,31 @@ Organigrama.prototype.crear_Diagrama = function(_url){
 }
 Organigrama.prototype.get_Data = function(){
 
-// var datasource2 =
-// { "nombre":"VILLEGAS RASCON CLAUDIA ANGELICA",
-//   "foto":"usuarios/fotos/imagen2.png",
-//   "puesto":"COORDINADOR",
-//   "num_empleado": "202000",
-//   "compania":"SIC",
-//   "departamento": "TECNOLOGIA DE INFORMACION",
-//   "children":[
-//     {"nombre":"JIMENEZ HERRERA ZAIRA","puesto":"AUXILIAR"},
-//     {"nombre":"AVENDAÑO CRUZ LUIS ALBERTO","puesto":"JEFE",
-//       "children":[
-//         {"nombre":"MARTINEZ GUTIERREZ EDWIN","puesto":"TECNICO ESPECIALISTA"}
-//         ],
-//     },
-//     {"nombre":"MARTINEZ HERNANDEZ JORGE JESUS","puesto":"JEFE",
-//       "children":[
-//         {"nombre":"ARIAS ZACARIAS ZACHARIEL","puesto":"ANALISTA"},
-//         {"nombre":"CASTRO CASTILLO JANET","puesto":"ANALISTA"},
-//         {"nombre":"CRUZ GOXCON MIGUEL ANGEL","puesto":"TECNICO ESPECIALISTA"},
-//         {"nombre":"CORDOVA QUIROZ NADIA","puesto":"ANALISTA"},
-//         {"nombre":"MARTINEZ JIMENEZ CARLOS ANDRES","puesto":"ANALISTA"}
-//         ],
-//     }
-//   ],
-// }
+var datasource2 =
+{ "nombre":"VILLEGAS RASCON CLAUDIA ANGELICA",
+  "foto":"usuarios/fotos/imagen2.png",
+  "puesto":"COORDINADOR",
+  "num_empleado": "202000",
+  "compania":"SIC",
+  "departamento": "TECNOLOGIA DE INFORMACION",
+  "children":[
+    {"nombre":"JIMENEZ HERRERA ZAIRA","puesto":"AUXILIAR"},
+    {"nombre":"AVENDAÑO CRUZ LUIS ALBERTO","puesto":"JEFE",
+      "children":[
+        {"nombre":"MARTINEZ GUTIERREZ EDWIN","puesto":"TECNICO ESPECIALISTA"}
+        ],
+    },
+    {"nombre":"MARTINEZ HERNANDEZ JORGE JESUS","puesto":"JEFE",
+      "children":[
+        {"nombre":"ARIAS ZACARIAS ZACHARIEL","puesto":"ANALISTA"},
+        {"nombre":"CASTRO CASTILLO JANET","puesto":"ANALISTA"},
+        {"nombre":"CRUZ GOXCON MIGUEL ANGEL","puesto":"TECNICO ESPECIALISTA"},
+        {"nombre":"CORDOVA QUIROZ NADIA","puesto":"ANALISTA"},
+        {"nombre":"MARTINEZ JIMENEZ CARLOS ANDRES","puesto":"ANALISTA"}
+        ],
+    }
+  ],
+}
   return datasource
 }
 Organigrama.prototype.mostrar_Mensaje = function (_total){

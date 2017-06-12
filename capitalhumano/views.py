@@ -90,12 +90,13 @@ class EmpleadoOrganigramaOrgAPI(View):
             content_type="application/json"
         )
 
+
 class EmpleadoOrganigramaEmpAPI(View):
 
     def get(self, request, pk):
-        print pk+'AQUI ESTA LA EMPRESA'
+
         daddies = VIEW_ORGANIGRAMA.objects.using(
-            'ebs_d').filter(grup_compania_jde=pk) 
+            'ebs_d').filter(grup_compania_jde=pk)
 
         serializador = VIEW_ORGANIGRAMA_EMP_SERIALIZADO()
         lista_json = serializador.get_Json(daddies)
@@ -133,14 +134,16 @@ class PerfilPuestoConfiguraciones(View):
 
         return render(request, 'perfilpuesto/perfil_configuracion.html')
 
+
 class PerfilPuestoCompetencias(View):
 
     def get(self, request):
 
-        return render(request, 'perfilpuesto/perfil_competencias.html')  
+        return render(request, 'perfilpuesto/perfil_competencias.html')
+
 
 class PerfilPuestoCargos(View):
 
     def get(self, request):
 
-        return render(request, 'perfilpuesto/perfil_puestoscargo.html')           
+        return render(request, 'perfilpuesto/perfil_puestoscargo.html')
