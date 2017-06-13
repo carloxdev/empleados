@@ -18,66 +18,68 @@
 <div class="main-content container-fluid">
 	<div class="user-profile">
 		<div class="row">
+			{% for dato in empleado %}
 			<div class="col-md-12">
 				<div class="user-display">
 					<div class="user-display-bottom">
 						<div class="user-display-avatar"><img src="{% static 'theme/img/avatar-150.png' %}" alt="Avatar"></div>
 						<div class="user-display-info">
-							<div class="name">Cesar Diaz</div>
-							<div class="nick"><span class="mdi mdi-account"></span> CDiaz</div>
+							<div class="name">{{ dato.pers_nombre_completo }}</div>
+							<div class="nick"><span class="mdi mdi-account"></span> {{ request.user }}</div>
 						</div>
 						<div class="row user-display-details">
 							<div class="col-xs-4">
 								<div class="title">No Empleado</div>
-								<div class="counter">204727</div>
+								<div class="counter">{{ dato.pers_empleado_numero }}</div>
 							</div>
 							<div class="col-xs-4">
 								<div class="title">Fecha Ingreso</div>
-								<div class="counter">15/03/2008</div>
+								<div class="counter">{{ dato.asig_fecha_inicio }}</div>
 							</div>
 							<div class="col-xs-4">
-								<div class="title">UN</div>
-								<div class="counter">C01TI</div>
+								<div class="title">Centro costos</div>
+								<div class="counter">{{ dato.grup_fase_jde }}</div>
 							</div>
 						</div>
 					</div>
 				</div>
 				<div class="user-info-list panel panel-default">
-					<div class="panel-heading panel-heading-divider">Informacion Basica<span class="panel-subtitle">I am a web developer and designer based in Montreal - Canada, I like read books, good music and nature.</span></div>
+					<div class="panel-heading panel-heading-divider">Informacion Basica
+					<!-- Theme <span class="panel-subtitle">I am a web developer and designer based in Montreal - Canada, I like read books, good music and nature.</span>--></div>
 					<div class="panel-body">
 						<table class="no-border no-strip skills">
 							<tbody class="no-border-x no-border-y">
 								<tr>
 									<td class="icon"><span class="mdi mdi-case"></span></td>
 									<td class="item">Ocupacion<span class="icon s7-portfolio"></span></td>
-									<td>03.30.COORDINADOR DE CONTRATOS</td>
+									<td>{{ dato.asig_puesto_desc }}</td>
 								</tr>
 								<tr>
 									<td class="icon"><span class="mdi mdi-cake"></span></td>
 									<td class="item">Fecha de Nacimiento<span class="icon s7-gift"></span></td>
-									<td>16 Septiembre 1989</td>
+									<td>{{ request.user.profile.fecha_nacimiento}}</td>
 								</tr>
 								<tr>
 									<td class="icon"><span class="mdi mdi-smartphone-android"></span></td>
 									<td class="item">Telefono Movil<span class="icon s7-phone"></span></td>
-									<td>(229) 980-9794</td>
+									<td>(000) 000 0000 </td>
 								</tr>
 								<tr>
 									<td class="icon"><span class="mdi mdi-globe-alt"></span></td>
-									<td class="item">Nacimiento<span class="icon s7-map-marker"></span></td>
-									<td>Boca del Rio, Veracruz</td>
+									<td class="item">Lugar de nacimiento<span class="icon s7-map-marker"></span></td>
+									<td>{{ dato.pers_ciudad_nacimiento }}, {{ dato.pers_estado_nacimiento }}</td>
 								</tr>
 								<tr>
 									<td class="icon"><span class="mdi mdi-pin"></span></td>
 									<td class="item">Correo<span class="icon s7-global"></span></td>
-									<td>cesar.diaz@nuvoil.com</td>
+									<td>{{ dato.pers_email }}</td>
 								</tr>
 							</tbody>
 						</table>
 					</div>
 				</div>
 			</div>
-			
+			{% endfor %}
 		</div>
 		<div class="main-content container-fluid">
 			<div class="row">
