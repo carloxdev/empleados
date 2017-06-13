@@ -28,6 +28,7 @@ $(document).ready(function () {
 function Componente(){
     this.$puesto = $('#id_puesto')
     this.$reportar = $('#id_reportar')
+    this.$funciones = $('#funciones')
     
     this.init_Components()
 }  
@@ -47,6 +48,10 @@ Componente.prototype.get_ConfSelect2 = function () {
 function Formulario() {
 
     this.$id_objetivo = $("#id_objetivo")
+    this.$funciones = $("#funciones")
+    this.$id_objetivo2 = $("#id_objetivo2")
+    this.$id_responsabilidades = $("#id_responsabilidades")
+    this.$id_reporte = $("#id_reporte")
 
 
     this.init_Components()
@@ -56,6 +61,10 @@ Formulario.prototype.init_Components = function () {
 
     
     this.$id_objetivo.wysihtml5(this.get_ConfWysi())
+    this.$funciones.wysihtml5(this.get_ConfWysi())
+    this.$id_objetivo2.wysihtml5(this.get_ConfWysi())
+    this.$id_responsabilidades.wysihtml5(this.get_ConfWysi())
+    this.$id_reporte.wysihtml5(this.get_ConfWysi())
     
     
 }

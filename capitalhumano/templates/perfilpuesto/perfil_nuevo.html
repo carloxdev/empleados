@@ -19,6 +19,11 @@
     
     <!-- Nova -->
     <link rel="stylesheet" href="{% static 'grid.css' %}"/>
+
+    <!-- wysihtml5 -->
+    <link rel="stylesheet" href="{% static 'libs/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css' %}">
+
+
 {% endblock css %}
 
 {% block contenido %}
@@ -107,25 +112,52 @@
                            </div>
 
                         <div class="form-group">
-                          <label class="col-sm-3 control-label">Funciones</label>
-                          <div class="col-sm-6">
-                            <textarea class="form-control"></textarea>
-                          </div>
-                        </div>
+                              <label class="col-sm-3 control-label" 
+                                 for="{{ form.objetivo2.id_for_label }}">
+                                 {{ form.objetivo2.label }}
+                                 Funciones
+                              </label>
+                              <div class="col-sm-6 xs-pt-5">
+                                 {{ form.objetivo2 }}
+                                 <textarea class="form-control input-sm" cols="40" id="id_objetivo2" rows="7">
+                                 </textarea>
+                              </div> 
+                              {% for error in form.objetivo2.errors %}
+                                 <span class="help-block">{{ error }}</span>
+                              {% endfor %}                                        
+                           </div>
 
-                        <div class="form-group">
-                          <label class="col-sm-3 control-label">Responsabilidades</label>
-                          <div class="col-sm-6">
-                            <input type="text" placeholder="Escribe Brevemente" class="form-control">
-                          </div>
-                        </div>
+                           <div class="form-group">
+                              <label class="col-sm-3 control-label" 
+                                 for="{{ form.objetivo2.id_for_label }}">
+                                 {{ form.objetivo2.label }}
+                                 Responsabilidades
+                              </label>
+                              <div class="col-sm-6 xs-pt-5">
+                                 {{ form.objetivo2 }}
+                                 <textarea class="form-control input-sm" cols="40" id="id_responsabilidades" rows="7">
+                                 </textarea>
+                              </div> 
+                              {% for error in form.objetivo2.errors %}
+                                 <span class="help-block">{{ error }}</span>
+                              {% endfor %}                                        
+                           </div>
 
-                        <div class="form-group">
-                          <label class="col-sm-3 control-label">Reporte / Indicadores</label>
-                          <div class="col-sm-6">
-                            <input type="text" placeholder="Escribe Brevemente" class="form-control">
-                          </div>
-                        </div>
+                         <div class="form-group">
+                              <label class="col-sm-3 control-label" 
+                                 for="{{ form.objetivo2.id_for_label }}">
+                                 {{ form.objetivo2.label }}
+                                 Reporte
+                              </label>
+                              <div class="col-sm-6 xs-pt-5">
+                                 {{ form.objetivo2 }}
+                                 <textarea class="form-control input-sm" cols="40" id="id_reporte" rows="7">
+                                 </textarea>
+                              </div> 
+                              {% for error in form.objetivo2.errors %}
+                                 <span class="help-block">{{ error }}</span>
+                              {% endfor %}                                        
+                           </div>
 
                         <div class="form-group">
                           <label class="col-sm-3 control-label">Posicion</label>
