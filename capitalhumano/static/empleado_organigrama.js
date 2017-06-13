@@ -10,6 +10,7 @@ var url_datos_emp = window.location.origin + "/organigrama/json-emp/"
 var organigrama = null
 var tarjeta_filtros = null
 var organizacion = 0
+var empresa = ''
 
 /*-----------------------------------------------*\
                LOAD
@@ -150,7 +151,7 @@ Organigrama.prototype.crear_Diagrama = function(_url){
 Organigrama.prototype.mostrar_Mensaje = function (_total){
 
    if(_total == 0){
-      document.getElementById('container-mensaje').innerHTML='La organización/empresa no cuenta con empleados'
+      document.getElementById('container-mensaje').innerHTML='<br>La organización/empresa no cuenta con empleados'
       $('#contenedor').hide()
 
    }else{
@@ -158,27 +159,3 @@ Organigrama.prototype.mostrar_Mensaje = function (_total){
       $('#contenedor').show()
    }
 }
-
-// Organigrama.prototype.buscar_Empleados = function (){
-//   _organizacion = '130'
-//    var url = url_datos + _organizacion + "/"
-
-//    $.ajax({
-//             url: url,
-//             data: {},
-//             dataType: "json",
-//             type: "GET",
-//             contentType: "application/json; charset=utf-8",
-//             context: this,
-//             success: function (response) {
-
-//               console.log(JSON.stringify(response))
-//               organigrama.crear_Diagrama(response)
-//             },
-//             error: function (response) {
-
-//                          alert("Ocurrio error al consultar")
-//                   }
-
-//     })
-// }

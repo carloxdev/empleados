@@ -295,7 +295,6 @@ class VIEW_ORGANIGRAMA_ORG_SERIALIZADO(object):
         for personaMismo in personasMismoNivel:
             for todo in _daddies:
                 if personaMismo.jefe_nombre_completo == todo.pers_nombre_completo:
-                    print str(personaMismo.asig_jefe_directo_clave) + " aqui"
                     personasSinJefe.remove(personaMismo)
 
         for dato in personasSinJefe:

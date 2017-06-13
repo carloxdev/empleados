@@ -169,4 +169,4 @@ class PerfilOrganigrama2(View):
 
     def get(self, request):
 
-        return render(request, 'serviciosempleado/perfil_organigrama.html')
+        return render(request, 'empleado_perfil_organigrama.html')
