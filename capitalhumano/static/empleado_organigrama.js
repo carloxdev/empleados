@@ -91,9 +91,9 @@ Organigrama.prototype.empleados_Organizacion = function(e){
     })
 }
 Organigrama.prototype.empleados_Empresa = function(e){
+
   empresa = e.data.$empresas.val()
   $('#content-data').empty()
-
   var url = url_datos_emp + empresa + "/"
 
    $.ajax({

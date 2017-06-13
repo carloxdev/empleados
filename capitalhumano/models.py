@@ -6,11 +6,6 @@ from __future__ import unicode_literals
 # Librerias/Clases Django
 from django.db import models
 
-# Librerias/Clases propias
-from seguridad.models import Profile
-
-# Librerias/Clases de Terceros
-from simple_history.models import HistoricalRecords
 
 class PerfilPuestoDocumento(models.Model):
 
@@ -39,7 +34,7 @@ class PerfilPuestoDocumento(models.Model):
     edad_maxima = models.CharField(max_length=10)
     nivel_estudio = models.CharField(max_length=144)
     estado_civil = models.CharField(
-        choices= ESTADO_OPCIONES,
+        choices=ESTADO_OPCIONES,
         default="ind",
         max_length=3
     )
@@ -51,7 +46,6 @@ class PerfilPuestoDocumento(models.Model):
     cambio_residencia = models.BooleanField(default=False)
     disponibilidad_viajar = models.BooleanField(default=False)
     requerimentos = models.CharField(max_length=144)
-    
 
     def __unicode__(self):
         cadena = "%s" % (self.id)

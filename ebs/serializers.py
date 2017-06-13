@@ -231,14 +231,9 @@ class VIEW_ORGANIGRAMA_ORG_SERIALIZADO(object):
 
         sys.setrecursionlimit(1500)
 
-        jefe = {}
         hijos = []
         nodo = {}
-        padre = self.get_NivelPadre(_daddies)
-        clave = ''
-
-        jefePadre = VIEW_EMPLEADOS_FULL.objects.using('ebs_d').filter(
-            pers_clave=padre.asig_jefe_directo_clave)
+        padre = self.get_Padre(_daddies)
 
         for persona in _daddies:
             if persona.jefe_nombre_completo == padre.pers_nombre_completo:
@@ -252,17 +247,17 @@ class VIEW_ORGANIGRAMA_ORG_SERIALIZADO(object):
             self.get_Estructura(nodo, padre)
             self.get_ColorNivel(nodo, padre)
 
-        for dato in jefePadre:
-            clave = dato.pers_empleado_numero
-        print clave
-        if clave == '200817':
-            lista_json = json.dumps(nodo)
-        else:
-            for dato in jefePadre:
-                self.get_Estructura(jefe, dato)
-                jefe["className"] = 'padre-jefe'
-                jefe["children"] = [nodo]
-            lista_json = json.dumps(jefe)
+        # for dato in jefePadre:
+        #     clave = dato.pers_empleado_numero
+        # print clave
+        # if clave == '200817':
+        #     lista_json = json.dumps(nodo)
+        # else:
+        #     for dato in jefePadre:
+        #         self.get_Estructura(jefe, dato)
+        #         jefe["className"] = 'padre-jefe'
+        #         jefe["children"] = [nodo]
+        lista_json = json.dumps(nodo)
 
         return lista_json
 
@@ -285,19 +280,32 @@ class VIEW_ORGANIGRAMA_ORG_SERIALIZADO(object):
                 (_dato.nivel_estructura == 6):
             _nodo["className"] = 'niveles'
 
-    def get_NivelPadre(self, _daddies):
+    def get_Padre(self, _daddies):
+
         nivel = 6
-        padre = _daddies[0]
-        cont = 0
+        personaMenorNivel = []
+        personasMismoNivel = []
+        personasSinJefe = []
+        padre = []
+
+        for personaNivel in _daddies:
+            if personaNivel.nivel_estructura < nivel:
+                nivel = personaNivel.nivel_estructura
+                personaMenorNivel = personaNivel
 
         for persona in _daddies:
-            if persona.nivel_estructura < nivel:
-                nivel = persona.nivel_estructura
+            if persona.nivel_estructura == personaMenorNivel.nivel_estructura:
+                personasMismoNivel.append(persona)
 
-        for posicion in _daddies:
-            if posicion.nivel_estructura == nivel:
-                padre = _daddies[cont]
-            cont += 1
+        personasSinJefe = personasMismoNivel
+
+        for personaMismo in personasMismoNivel:
+            for todo in _daddies:
+                if personaMismo.asig_jefe_directo_desc == todo.pers_nombre_completo:
+                    personasSinJefe.remove(personaMismo)
+
+        padre = VIEW_EMPLEADOS_FULL.objects.using('ebs_d').filter(
+            pers_clave=personasSinJefe.asig_jefe_directo_clave)
 
         return padre
 
