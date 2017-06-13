@@ -221,8 +221,6 @@ class VIEW_ORGANIGRAMA_ORG_SERIALIZADO(object):
                 else:
                     self.get_ColorNivel(nodo, hijo)
 
-                # print 'staff'+hijo.pers_nombre_completo.encode('utf-8')
-
             lista_descendencia.append(nodo)
 
         return lista_descendencia
@@ -235,28 +233,23 @@ class VIEW_ORGANIGRAMA_ORG_SERIALIZADO(object):
         nodo = {}
         padre = self.get_Padre(_daddies)
 
-        for persona in _daddies:
-            if persona.jefe_nombre_completo == padre.pers_nombre_completo:
-                hijos.append(persona)
+        for dato in padre:
+            for persona in _daddies:
+                if persona.jefe_nombre_completo == dato.pers_nombre_completo:
+                    hijos.append(persona)
 
         if len(hijos):
-            self.get_Estructura(nodo, padre)
-            self.get_ColorNivel(nodo, padre)
+            for dato in padre:
+                self.get_Estructura(nodo, dato)
+                if dato.pers_empleado_numero == '200817':
+                    nodo["className"] = 'nivel-1'
+                else:
+                    nodo["className"] = 'niveles'
             nodo["children"] = self.get_Descendencia(_daddies, hijos, nodo)
         else:
             self.get_Estructura(nodo, padre)
             self.get_ColorNivel(nodo, padre)
 
-        # for dato in jefePadre:
-        #     clave = dato.pers_empleado_numero
-        # print clave
-        # if clave == '200817':
-        #     lista_json = json.dumps(nodo)
-        # else:
-        #     for dato in jefePadre:
-        #         self.get_Estructura(jefe, dato)
-        #         jefe["className"] = 'padre-jefe'
-        #         jefe["children"] = [nodo]
         lista_json = json.dumps(nodo)
 
         return lista_json
@@ -301,11 +294,14 @@ class VIEW_ORGANIGRAMA_ORG_SERIALIZADO(object):
 
         for personaMismo in personasMismoNivel:
             for todo in _daddies:
-                if personaMismo.asig_jefe_directo_desc == todo.pers_nombre_completo:
+                if personaMismo.jefe_nombre_completo == todo.pers_nombre_completo:
+                    print str(personaMismo.asig_jefe_directo_clave) + " aqui"
                     personasSinJefe.remove(personaMismo)
 
-        padre = VIEW_EMPLEADOS_FULL.objects.using('ebs_d').filter(
-            pers_clave=personasSinJefe.asig_jefe_directo_clave)
+        for dato in personasSinJefe:
+
+            padre = VIEW_EMPLEADOS_FULL.objects.using('ebs_d').filter(
+                pers_clave=dato.asig_jefe_directo_clave)
 
         return padre
 
