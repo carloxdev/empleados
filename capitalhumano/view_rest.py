@@ -22,8 +22,6 @@ from .pagination import GenericPagination
 from .filters import PerfilpuestoDocumentoFilter
 
 
-
-
 # -------------- DOCUMENTO PERFIL PUESTOS - API REST -------------- #
 
 class VIEW_DOCUMENTO_PERFIL_PUESTO_ByPageAPI(viewsets.ModelViewSet):
@@ -32,8 +30,4 @@ class VIEW_DOCUMENTO_PERFIL_PUESTO_ByPageAPI(viewsets.ModelViewSet):
     filter_backends = (DjangoFilterBackend,)
     filter_class = PerfilpuestoDocumentoFilter
     pagination_class = GenericPagination
-    permission_classes = (IsAuthenticated,)    
-
-
-
-
+    permission_classes = (IsAuthenticated,)

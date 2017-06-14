@@ -20,8 +20,6 @@ from ebs.serializers import VIEW_ORGANIGRAMA_EMP_SERIALIZADO
 
 # Modelos
 from ebs.models import VIEW_ORGANIGRAMA
-from ebs.models import VIEW_EMPLEADOS_FULL
-from seguridad.models import Profile
 
 
 # -------------- EMPLEADOS -------------- #
@@ -167,17 +165,3 @@ class PerfilOrganigrama2(View):
     def get(self, request):
 
         return render(request, 'empleado_perfil_organigrama.html')
-
-# -------------- MI EXPEDIENTE  -------------- #
-
-
-class EmpleadoPerfilrh(View):
-
-    def get(self, request):
-        logeado = request.user
-        empleado = VIEW_EMPLEADOS_FULL.objects.using('ebs_d').filter(
-            pers_empleado_numero=logeado.profile.clave_rh)
-        contexto = {
-            'empleado': empleado,
-        }
-        return render(request, 'empleado_perfil.html', contexto)

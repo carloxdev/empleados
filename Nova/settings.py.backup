@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'sgi.apps.SgiConfig',
     'compras.apps.ComprasConfig',
     'capitalhumano.apps.CapitalhumanoConfig',
+    'serviciosempleado.apps.ServiciosempleadoConfig',
     'administracion.apps.AdministracionConfig',
     'rest_framework',
     'django_filters',
