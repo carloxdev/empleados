@@ -32,3 +32,9 @@ home/migrations/*
 jde/migrations/*
 seguridad/migrations/*
 sgi/migrations/*
+
+capitalhumano/templates/perfilpuesto/perfil_nuevo.html
+
+capitalhumano/templates/empleado_organigrama.html
+
+capitalhumano/templates/perfilpuesto/perfil_nuevo.html

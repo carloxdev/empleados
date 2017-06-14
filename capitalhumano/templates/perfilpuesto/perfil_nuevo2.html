@@ -37,8 +37,11 @@
               <div class="block-wizard panel panel-default">
                 <div id="wizard1" class="wizard wizard-ux">
                   <ul class="steps">
-                    <li data-step="1" >General<span class="chevron"></span></li>
-                    <li data-step="2" class="active">Requerimiento<span class="chevron"></span></li>
+                    <li data-step="1" class="complete">General<span class="chevron"></span></li>
+                    <li data-step="2" class="complete">Organigrama<span class="chevron"></span></li>
+                    <li data-step="3" class="active">Requerimiento<span class="chevron"></span></li>
+                    <li data-step="4">Competencias<span class="chevron"></span></li>
+                   
                     
                   </ul>
                   <div class="actions">
@@ -131,31 +134,71 @@
                           </div>
                         </div>
 
-                        <div class="form-group">
-                          <div class="col-sm-7">
-                            <label class="control-label">Areas de Experiencia</label>                        
-                            <select class="form-control">
-                                  <option value="n0">Administracion y Finanzas</option>
-                                  <option value="n1">Administracion general</option>
-                                  <option value="n2">Auditoria</option>
-                                  <option value="n3">Finanzas</option>
-                                
-                             </select>
-                          </div>
-                        </div>
-
-                        <div class="form-group">
-                          <div class="col-sm-7">
-                            <label class="control-label">Años de Experiencia:</label>
-                            <input type="text" placeholder="Años de Experiencia" class="form-control">
-                          </div>
-                        </div>
-
-
+                        
+                        
+                          <div class="main-content container-fluid">
+                                      <div class="row">
+                                        <div class="col-sm-6">
+                                          <div class="panel panel-default panel-table">
+                                            <div class="panel-heading">Areas de Experiencia
+                                              <div class="tools"><span class="icon mdi mdi-download"></span><span class="icon mdi mdi-more-vert"></span></div>
+                                            </div>
+                                            <div class="panel-body">
+                                              <table class="table">
+                                                <thead>
+                                                  <tr>
+                                                    <th style="width:50%;">Area</th>
+                                                    <th style="width:10%;">Años</th>
+                                                  </tr>
+                                                </thead>
+                                                <tbody>
+                                                  <tr>
+                                                    <td>Administracion y Finanzas</td>
+                                                    <td>3</td>
+                                                    
+                                                    <td class="actions"><a href="#" class="icon"><i class="mdi mdi-delete"></i></a></td>
+                                                  </tr>
+                                                  <tr>
+                                                    <td>Manejo y administracion de Personal</td>
+                                                    <td>5</td>
+                                                    
+                                                    <td class="actions"><a href="#" class="icon"><i class="mdi mdi-delete"></i></a></td>
+                                                  </tr>
+                                                  <tr>
+                                                    <td>Seguridad Industrial Higiene y Medio Ambiente</td>
+                                                    <td>1</td>
+                                                    
+                                                    <td class="actions"><a href="#" class="icon"><i class="mdi mdi-delete"></i></a></td>
+                                                  </tr>
+                                                  <tr>
+                                                    <td>Normatividad ISO 9001</td>
+                                                    <td>2</td>
+                                                    
+                                                    <td class="actions"><a href="#" class="icon"><i class="mdi mdi-delete"></i></a></td>
+                                                  </tr>
+                                                   <tr>
+                                                    <td>Planear y Programar</td>
+                                                    <td>5</td>
+                                                    
+                                                    <td class="actions"><a href="#" class="icon"><i class="mdi mdi-delete"></i></a></td>
+                                                  </tr>
+                                                </tbody>
+                                              </table>
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div class="row">
+                                           <div class="col-sm-3 xs-pt-15">
+                                             <button class="btn btn-primary btn-space wizard-next">Agregar</button>
+                                           </div>
+                                        </div>
+                                      </div>
+                            </div> 
+                      
                         <div class="form-group">
                           <div class="col-sm-12">
-                            <a href="{% url 'capitalhumano:perfil_nuevo' %}"><input  class="btn btn-default btn-space wizard-previous" value="Previo"></a>
-                            <a href="{% url 'capitalhumano:perfil_nuevo2' %}"><input  class="btn btn-primary btn-space wizard-next" value="Guardar"></a>
+                            <a href="{% url 'capitalhumano:perfil_organigrama' %}"><input  class="btn btn-default btn-space wizard-previous" value="Previo"></a>
+                            <a href="{% url 'capitalhumano:perfil_competencia' %}"><input  class="btn btn-primary btn-space wizard-next" value="Siguiente"></a>
                           </div>
                         </div>
                       </form>

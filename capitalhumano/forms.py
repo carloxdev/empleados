@@ -3,7 +3,6 @@
 from django.forms import TextInput
 from django.forms import Select
 from django.forms import Form
-
 from django.forms import CharField
 from django.forms import IntegerField
 from django.forms import NumberInput
@@ -35,7 +34,30 @@ class OrganizacionesFilterForm(Form):
             valores.append(
                 (
                     organizacion.clave_org,
-                    organizacion.desc_org,
+                    str(int(organizacion.clave_org)) + ' : ' + organizacion.desc_org
+                )
+            )
+        return valores
+
+
+class EmpresasFilterForm(Form):
+    empresas = ChoiceField(label='Empresas', widget=Select(
+        attrs={'class': 'select2 nova-select2'}))
+
+    def __init__(self, *args, **kwargs):
+        super(EmpresasFilterForm, self).__init__(*args, **kwargs)
+        self.fields['empresas'].choices = self.get_Empresas()
+
+    def get_Empresas(self):
+        valores = [('0', 'TODAS LAS EMPRESAS')]
+
+        empresas = Empresa.objects.all()
+        for empresa in empresas:
+
+            valores.append(
+                (
+                    empresa.descripcion_ebs,
+                    str(int(empresa.clave)) + ' : ' + empresa.descripcion,
                 )
             )
         return valores
