@@ -1,0 +1,10 @@
+[Unit]
+Description=nova gunicorn daemon
+
+[Service]
+Type=simple
+User=goxcon
+ExecStart=/webapps/nova/test/run/nova
+
+[Install]
+WantedBy=multi-user.target
