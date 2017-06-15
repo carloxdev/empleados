@@ -20,6 +20,7 @@
 		<div class="row">
 			{% for dato in empleado %}
 			<div class="col-md-12">
+				<!-- Encabezado perfil -->
 				<div class="user-display">
 					<div class="user-display-bottom">
 						<div class="user-display-avatar"><img src="{% static 'theme/img/avatar-150.png' %}" alt="Avatar"></div>
@@ -43,41 +44,102 @@
 						</div>
 					</div>
 				</div>
-				<div class="user-info-list panel panel-default">
-					<div class="panel-heading panel-heading-divider">Informacion Basica</div>
-					<div class="panel-body">
-						<table class="no-border no-strip skills">
-							<tbody class="no-border-x no-border-y">
-								<tr>
-									<td class="icon"><span class="mdi mdi-case"></span></td>
-									<td class="item">Ocupacion<span class="icon s7-portfolio"></span></td>
-									<td>{{ dato.asig_puesto_desc }}</td>
-								</tr>
-								<tr>
-									<td class="icon"><span class="mdi mdi-cake"></span></td>
-									<td class="item">Fecha de Nacimiento<span class="icon s7-gift"></span></td>
-									<td>{{ request.user.profile.fecha_nacimiento}}</td>
-								</tr>
-								<tr>
-									<td class="icon"><span class="mdi mdi-smartphone-android"></span></td>
-									<td class="item">Telefono Movil<span class="icon s7-phone"></span></td>
-									<td>(000) 000 0000 </td>
-								</tr>
-								<tr>
-									<td class="icon"><span class="mdi mdi-globe-alt"></span></td>
-									<td class="item">Lugar de nacimiento<span class="icon s7-map-marker"></span></td>
-									<td>{{ dato.pers_ciudad_nacimiento }}, {{ dato.pers_estado_nacimiento }}</td>
-								</tr>
-								<tr>
-									<td class="icon"><span class="mdi mdi-pin"></span></td>
-									<td class="item">Correo<span class="icon s7-global"></span></td>
-									<td>{{ dato.pers_email }}</td>
-								</tr>
-							</tbody>
-						</table>
+			</div>
+
+				<!-- Informacion perfil -->
+				<div class="col-md-6">
+					<div class="user-info-list panel panel-default">
+						<div class="panel-heading panel-heading-divider">Informacion personal</div>
+						<div class="panel-body">
+							<table class="no-border no-strip skills">
+								<tbody class="no-border-x no-border-y">
+									<tr>
+										<td class="icon"><span class="mdi mdi-face"></span></td>
+										<td class="item">Genero</td>
+										<td>{{ dato.pers_genero_desc }}</td>
+									</tr>
+									<tr>
+										<td class="icon"><span class="mdi mdi-collection-text"></span></td>
+										<td class="item">CURP</td>
+										<td>{{ dato.pers_curp }}</td>
+									</tr>
+									<tr>
+										<td class="icon"><span class="mdi mdi-male-female"></span></td>
+										<td class="item">Estado civil</td>
+										<td>{{ dato.pers_estado_civil_desc }}</td>
+									</tr>
+									<tr>
+										<td class="icon"><span class="mdi mdi-cake"></span></td>
+										<td class="item">Fecha de Nacimiento</td>
+										<td>{{ request.user.profile.fecha_nacimiento}}</td>
+									</tr>
+									<tr>
+										<td class="icon"><span class="mdi mdi-globe-alt"></span></td>
+										<td class="item">Lugar de nacimiento</td>
+										<td>{{ dato.pers_ciudad_nacimiento }}, {{ dato.pers_estado_nacimiento }}</td>
+									</tr>
+									<tr>
+										<td class="icon"><span class="icon mdi mdi-globe"></span></td>
+										<td class="item">Pais de nacimiento</td>
+										<td>{{ dato.pers_pais_nacimiento_clave }}</td>
+									</tr>
+									<tr>
+										<td class="icon"><span class="mdi mdi-email"></span></td>
+										<td class="item">Correo</td>
+										<td>{{ dato.pers_email }}</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
 					</div>
 				</div>
-			</div>
+				<div class="col-md-6">
+					<div class="user-info-list panel panel-default">
+						<div class="panel-heading panel-heading-divider">Informacion del trabajo</div>
+						<div class="panel-body">
+							<table class="no-border no-strip skills">
+								<tbody class="no-border-x no-border-y">
+									<tr>
+										<td class="icon"><span class="mdi mdi-case"></span></td>
+										<td class="item">Puesto</td>
+										<td>{{ dato.asig_puesto_desc }}</td>
+									</tr>
+									<tr>
+										<td class="icon"><span class="mdi mdi-collection-text"></span></td>
+										<td class="item">RFC</td>
+										<td>{{ dato.pers_rfc }}</td>
+									</tr>
+									<tr>
+										<td class="icon"><span class="mdi mdi-collection-text"></span></td>
+										<td class="item">IMSS</td>
+										<td>{{ dato.pers_numero_imss }}</td>
+									</tr>
+									<tr>
+										<td class="icon"><span class="mdi mdi-home"></span></td>
+										<td class="item">Organizacion</td>
+										<td>{{ dato.asig_organizacion_desc }}</td>
+									</tr>
+									<tr>
+										<td class="icon"><span class="mdi mdi-collection-text"></span></td>
+										<td class="item">Grado</td>
+										<td>{{ dato.asig_grado_desc }}</td>
+									</tr>
+									<tr>
+										<td class="icon"><span class="mdi mdi-pin"></span></td>
+										<td class="item">Ubicacion</td>
+										<td>{{ dato.asig_ubicacion_desc }}</td>
+									</tr>
+									<tr>
+										<td class="icon"><span class="mdi mdi-male-alt"></span></td>
+										<td class="item">Jefe directo</td>
+										<td>{{ dato.asig_jefe_directo_desc }}</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			
 			{% endfor %}
 		</div>
 		<div class="main-content container-fluid">
@@ -87,16 +149,15 @@
 						<div class="panel-heading">Opciones</div>
 						<div class="tab-container">
 							<ul class="nav nav-tabs">
-								<li class="active"><a href="#home" data-toggle="tab">Cursos</a></li>
-								<li><a href="#profile" data-toggle="tab">Documentos Personales</a></li>
+								<li class="active"><a href="#documentos" data-toggle="tab">Documentos Personales</a></li>
+								<li><a href="#capacitaciones" data-toggle="tab">Capacitaciones</a></li>
 								<li><a href="#incidencias" data-toggle="tab">Seguimiento Incidencias</a></li>
 								<li><a href="#evaluacion" data-toggle="tab">Evaluacion Desempeño</a></li>
-								<li><a href="#permisos" data-toggle="tab">Permisos</a></li>
 							</ul>
 							<div class="tab-content">
-								<div id="home" class="tab-pane active cont">
+								<div id="capacitaciones" class="tab-pane cont">
 									<div class="panel panel-default panel-table">
-										<div class="panel-heading">Cursos y Capacitaciones
+										<div class="panel-heading">Capacitaciones
 											<div class="tools"><span class="icon mdi mdi-download"></span><span class="icon mdi mdi-more-vert"></span></div>
 										</div>
 										<div class="panel-body">
@@ -171,7 +232,7 @@
 									</div>
 									
 								</div>
-								<div id="profile" class="tab-pane cont">
+								<div id="documentos" class="tab-pane active cont">
 									
 									<div class="panel panel-default panel-table">
 										<div class="panel-heading">Catalogo de Areas de Experiencias
@@ -254,26 +315,7 @@
 						<div id="evaluacion" class="tab-pane cont">
 							<div class="panel-heading panel-heading-divider">Evaluacion de Desempeño<span class="panel-subtitle">Timeline</span></div>
 							<div class="panel-body">
-								<ul class="user-timeline">
-									<li class="latest">
-										<div class="user-timeline-date">2016 </div>
-										<div class="user-timeline-title">Calificacion (Valores / Indicador)</div>
-										<div class="user-timeline-description">Retener 49 Cumple D Supero significativamente la meta establecida</div>
-										<div class="user-timeline-description">Existe mucha aptitud</div>
-									</li>
-									<li>
-										<div class="user-timeline-date">2015 - 15:35</div>
-										<div class="user-timeline-title">Calificacion (Valores / Indicador)</div>
-										<div class="user-timeline-description">Reconocer y Desarrollar 50 cumple -C casi llega a la meta establecida</div>
-										<div class="user-timeline-description">Lider natural, comprometido</div>
-									</li>
-									<li>
-										<div class="user-timeline-date">2014 - 10:41</div>
-										<div class="user-timeline-title">Calificacion (Valores / Indicador)</div>
-										<div class="user-timeline-description">Reconocer y Desarrollar 51 Supera las expectativas</div>
-										<div class="user-timeline-description">Entusiasta</div>
-									</li>
-								</ul>
+								
 							</div>
 						</div>
 					</div>
@@ -289,6 +331,6 @@
 </div>
 {% endblock contenido %}
 {% block scripts %}
-<!-- Theme -->
-<script src="{% static 'theme/lib/jquery-ui/jquery-ui.min.js' %}"></script>
+	<!-- Theme -->
+	<script src="{% static 'theme/lib/jquery-ui/jquery-ui.min.js' %}"></script>
 {% endblock scripts %}
