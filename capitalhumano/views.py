@@ -13,10 +13,11 @@ from django.views.generic.base import View
 from .forms import EmpleadoFilterForm
 from .forms import OrganizacionesFilterForm
 from .forms import EmpresasFilterForm
+from .forms import ExpedientesFilterForm
 
 # Serializer crear organigrama
-from ebs.serializers import VIEW_ORGANIGRAMA_ORG_SERIALIZADO
-from ebs.serializers import VIEW_ORGANIGRAMA_EMP_SERIALIZADO
+from serializers import VIEW_ORGANIGRAMA_ORG_SERIALIZADO
+from serializers import VIEW_ORGANIGRAMA_EMP_SERIALIZADO
 
 # Modelos
 from ebs.models import VIEW_ORGANIGRAMA
@@ -108,8 +109,25 @@ class EmpleadoOrganigramaEmpAPI(View):
             content_type="application/json"
         )
 
+# --------------  EXPEDIENTES EMPLEADOS -------------- #
+
+
+class EmpleadoExpedientes(View):
+
+    def __init__(self):
+        self.template_name = 'empleado_expedientes.html'
+
+    def get(self, request):
+        form = ExpedientesFilterForm()
+
+        contexto = {
+            'form': form
+        }
+
+        return render(request, self.template_name, contexto)
 
 # -------------- PERFILES DE PUESTOS DOCUMENTO  -------------- #
+
 
 class PerfilPuesto(View):
 

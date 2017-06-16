@@ -34,7 +34,8 @@ class OrganizacionesFilterForm(Form):
             valores.append(
                 (
                     organizacion.clave_org,
-                    str(int(organizacion.clave_org)) + ' : ' + organizacion.desc_org
+                    str(int(organizacion.clave_org)) +
+                    ' : ' + organizacion.desc_org
                 )
             )
         return valores
@@ -186,3 +187,42 @@ class EmpleadoFilterForm(Form):
                 )
             )
         return valores
+
+
+class ExpedientesFilterForm(Form):
+    pers_primer_nombre = CharField(
+        label="Primer nombre:",
+        widget=TextInput(
+            attrs={'class': 'form-control input-xs'}
+        )
+    )
+    pers_segundo_nombre = CharField(
+        label="Segundo nombre:",
+        widget=TextInput(
+            attrs={'class': 'form-control input-xs'}
+        )
+    )
+    pers_apellido_paterno = CharField(
+        label="Apellido paterno:",
+        widget=TextInput(
+            attrs={'class': 'form-control input-xs'}
+        )
+    )
+    pers_apellido_materno = CharField(
+        label="Apellido materno:",
+        widget=TextInput(
+            attrs={'class': 'form-control input-xs'}
+        )
+    )
+    pers_email = CharField(
+        label="Email:",
+        widget=TextInput(
+            attrs={'class': 'form-control input-xs'}
+        )
+    )
+    pers_empleado_numero = CharField(
+        label="Numero de empleado:",
+        widget=TextInput(
+            attrs={'class': 'form-control input-xs'}
+        )
+    )

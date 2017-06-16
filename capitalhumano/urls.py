@@ -17,6 +17,7 @@ from .views import PerfilPuestoConfiguraciones
 from .views import PerfilPuestoCompetencias
 from .views import PerfilPuestoCargos
 from .views import PerfilOrganigrama
+from .views import EmpleadoExpedientes
 
 urlpatterns = [
     url(
@@ -44,7 +45,11 @@ urlpatterns = [
         EmpleadoOrganigramaEmpAPI.as_view(),
         name='organigrama_json_emp'
     ),
-
+    url(
+        r'^expedientes/$',
+        EmpleadoExpedientes.as_view(),
+        name='empleado_expedientes'
+    ),
     url(
         r'^perfilpuesto/$',
         PerfilPuesto.as_view(),

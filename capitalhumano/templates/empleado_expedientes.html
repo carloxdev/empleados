@@ -1,0 +1,70 @@
+{% extends 'master.html' %}
+{% load static from staticfiles %}
+{% block titulo %} Capital humano {% endblock titulo %}
+{% block title-page %} Expedientes  {% endblock title-page %}
+{% block css %}
+{% endblock css %}
+{% block contenido %}
+<div class="be-content">
+	<div class="page-head">
+		<h2 class="page-head-title">Expedientes</h2>
+		<br>
+		<ol class="breadcrumb page-head-nav pull-right">
+			<li><a href="{% url 'home:inicio'%}">Inicio</a></li>
+			<li class="active" id="menu" data-opcion="capitalhumano_expedientes">Expedientes</li>
+		</ol>
+	</div>
+
+	<!-- Filtro -->
+
+	    <div class="main-content container-fluid">
+
+        <div class="col-sm-12">
+            <div class="panel panel-border panel-contrast">
+                <div class="panel-heading panel-heading-default nova-border-bottom">Filtros
+                    <div class="tools" data-toggle="collapse" href="#cabecera_colapsible"><span class="icon mdi mdi-caret-down-circle" id="boton_colapsible"></span>
+                    </div>
+                </div> 
+                <div class="panel-body collapse in" id="cabecera_colapsible">
+
+                    <form action="" method="POST"> {% csrf_token %} 
+
+                        <div class="row">
+                                
+                            <div class="row nova-padding-row">
+                                <!-- Formulario 
+                                <div class="col-sm-3"><label class="control-label">Compañia</label>-->
+                                <div class="">
+                                	<p>
+                                        {{ form.as_p }} 
+                                    </p>
+                                </div>
+                                
+                                    
+                            </div>
+                        </div>
+                        <button type="button" id="boton_limpiar" class="btn btn-default pull-left">
+                            <i class="fa fa-eraser"></i>
+                            Limpiar
+                        </button>
+
+                        <button type="button" id="boton_buscar" class="btn nova-btn btn-primary btn-lg pull-right" method='POST'>
+                            <i class="icon icon-left mdi mdi-search nova-white"></i>
+                            Buscar
+                        </button>
+                    </form>
+                </div> <!-- Panel Body -->
+            </div>  <!-- Panel -->
+        </div>  <!-- col-sm-12 -->
+    </div>
+    
+    {% block perfil %}
+    {% endblock perfil %}
+
+
+</div>
+{% endblock contenido %}
+{% block scripts %}
+	<!-- Theme -->
+	<script src="{% static 'theme/lib/jquery-ui/jquery-ui.min.js' %}"></script>
+{% endblock scripts %}

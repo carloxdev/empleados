@@ -1,6 +1,6 @@
 {% extends 'master.html' %}
 {% load static from staticfiles %}
-{% block titulo %} Capital humano {% endblock titulo %}
+{% block titulo %} Servicios empleado {% endblock titulo %}
 {% block title-page %} Mi expediente  {% endblock title-page %}
 {% block css %}
 {% endblock css %}
@@ -10,7 +10,7 @@
 	<h2 class="page-head-title">Mi expediente</h2>
 	<br>
 	<ol class="breadcrumb page-head-nav pull-right">
-	 <li class="active"> <a href="{% url 'home:inicio'%}">Inicio</a></li>
+	 <li> <a href="{% url 'home:inicio'%}">Inicio</a></li>
 	 <li class="active" id="menu" data-opcion="serviciosempleado_miexpediente">Mi expediente</li>
 	</ol>
 </div>
@@ -49,42 +49,42 @@
 				<!-- Informacion perfil -->
 				<div class="col-md-6">
 					<div class="user-info-list panel panel-default">
-						<div class="panel-heading panel-heading-divider">Informacion personal</div>
+						<div class="panel-heading nova-panel-heading-divider">Información personal</div>
 						<div class="panel-body">
 							<table class="no-border no-strip skills">
 								<tbody class="no-border-x no-border-y">
 									<tr>
-										<td class="icon"><span class="mdi mdi-face"></span></td>
+										<td class="icon nova-icon-gray"><span class="mdi mdi-face"></span></td>
 										<td class="item">Genero</td>
 										<td>{{ dato.pers_genero_desc }}</td>
 									</tr>
 									<tr>
-										<td class="icon"><span class="mdi mdi-collection-text"></span></td>
+										<td class="icon nova-icon-gray"><span class="mdi mdi-collection-text"></span></td>
 										<td class="item">CURP</td>
 										<td>{{ dato.pers_curp }}</td>
 									</tr>
 									<tr>
-										<td class="icon"><span class="mdi mdi-male-female"></span></td>
+										<td class="icon nova-icon-gray"><span class="mdi mdi-male-female"></span></td>
 										<td class="item">Estado civil</td>
 										<td>{{ dato.pers_estado_civil_desc }}</td>
 									</tr>
 									<tr>
-										<td class="icon"><span class="mdi mdi-cake"></span></td>
+										<td class="icon nova-icon-gray"><span class="mdi mdi-cake"></span></td>
 										<td class="item">Fecha de Nacimiento</td>
 										<td>{{ request.user.profile.fecha_nacimiento}}</td>
 									</tr>
 									<tr>
-										<td class="icon"><span class="mdi mdi-globe-alt"></span></td>
+										<td class="icon nova-icon-gray"><span class="mdi mdi-globe-alt"></span></td>
 										<td class="item">Lugar de nacimiento</td>
 										<td>{{ dato.pers_ciudad_nacimiento }}, {{ dato.pers_estado_nacimiento }}</td>
 									</tr>
 									<tr>
-										<td class="icon"><span class="icon mdi mdi-globe"></span></td>
+										<td class="icon nova-icon-gray"><span class="icon mdi mdi-globe"></span></td>
 										<td class="item">Pais de nacimiento</td>
 										<td>{{ dato.pers_pais_nacimiento_clave }}</td>
 									</tr>
 									<tr>
-										<td class="icon"><span class="mdi mdi-email"></span></td>
+										<td class="icon nova-icon-gray"><span class="mdi mdi-email"></span></td>
 										<td class="item">Correo</td>
 										<td>{{ dato.pers_email }}</td>
 									</tr>
@@ -95,53 +95,93 @@
 				</div>
 				<div class="col-md-6">
 					<div class="user-info-list panel panel-default">
-						<div class="panel-heading panel-heading-divider">Informacion del trabajo</div>
+						<div class="panel-heading nova-panel-heading-divider">Información del trabajo</div>
 						<div class="panel-body">
 							<table class="no-border no-strip skills">
 								<tbody class="no-border-x no-border-y">
 									<tr>
-										<td class="icon"><span class="mdi mdi-case"></span></td>
-										<td class="item">Puesto</td>
-										<td>{{ dato.asig_puesto_desc }}</td>
-									</tr>
-									<tr>
-										<td class="icon"><span class="mdi mdi-collection-text"></span></td>
-										<td class="item">RFC</td>
-										<td>{{ dato.pers_rfc }}</td>
-									</tr>
-									<tr>
-										<td class="icon"><span class="mdi mdi-collection-text"></span></td>
-										<td class="item">IMSS</td>
-										<td>{{ dato.pers_numero_imss }}</td>
-									</tr>
-									<tr>
-										<td class="icon"><span class="mdi mdi-home"></span></td>
+										<td class="icon nova-icon-gray"><span class="mdi mdi-home "></span></td>
 										<td class="item">Organizacion</td>
 										<td>{{ dato.asig_organizacion_desc }}</td>
 									</tr>
 									<tr>
-										<td class="icon"><span class="mdi mdi-collection-text"></span></td>
-										<td class="item">Grado</td>
-										<td>{{ dato.asig_grado_desc }}</td>
+										<td class="icon nova-icon-gray"><span class="mdi mdi-case"></span></td>
+										<td class="item">Puesto</td>
+										<td>{{ dato.asig_puesto_desc }}</td>
 									</tr>
+
 									<tr>
-										<td class="icon"><span class="mdi mdi-pin"></span></td>
+										<td class="icon nova-icon-gray"><span class="mdi mdi-pin"></span></td>
 										<td class="item">Ubicacion</td>
 										<td>{{ dato.asig_ubicacion_desc }}</td>
 									</tr>
 									<tr>
-										<td class="icon"><span class="mdi mdi-male-alt"></span></td>
+										<td class="icon nova-icon-gray"><span class="mdi mdi-male-alt"></span></td>
 										<td class="item">Jefe directo</td>
 										<td>{{ dato.asig_jefe_directo_desc }}</td>
+									</tr>
+									<tr>
+										<td class="icon nova-icon-gray"><span class="mdi mdi-collection-text"></span></td>
+										<td class="item">Grado</td>
+										<td>{{ dato.asig_grado_desc }}</td>
+									</tr>
+									<tr>
+										<td class="icon nova-icon-gray"><span class="mdi mdi-collection-text"></span></td>
+										<td class="item">RFC</td>
+										<td>{{ dato.pers_rfc }}</td>
+									</tr>
+									<tr>
+										<td class="icon nova-icon-gray"><span class="mdi mdi-collection-text"></span></td>
+										<td class="item">IMSS</td>
+										<td>{{ dato.pers_numero_imss }}</td>
 									</tr>
 								</tbody>
 							</table>
 						</div>
 					</div>
 				</div>
-			
 			{% endfor %}
 		</div>
+		<!-- Panel con tabs -->
+		<div class="fuelux">   
+               <div id="wizard1" class="wizard wizard-ux">
+                  <ul class="steps">
+                     <li class="active">Documentos personales</li>
+                  </ul>
+                  <div class="actions">
+                     <a class="btn btn-xs btn-prev btn-default nova-a-tab nova-active-tab">Documentos personales</a>
+                     <a href="#" class="btn btn-xs btn-next btn-default nova-a-tab">Capacitaciones</a>
+                     <a href="#" class="btn btn-xs btn-next btn-default nova-a-tab">Seguimiento incidencias</a>
+                     <a href="#" class="btn btn-xs btn-next btn-default nova-a-tab">Evaluacion desempeño</a>
+                  </div>
+                  <div class="step-content">
+                     <div data-step="1" class="step-pane active">
+
+                        <div class="form-horizontal group-border-dashed">
+
+                           <div class="form-group no-padding">
+                              <div class="col-sm-7">
+                                 <h5 class="wizard-title">Información de.....:</h5>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+
+               </div>
+               <!-- Botones 
+               <div class="modal-footer nova-modal-footer">
+
+                  <div class="row col-sm-12">                       
+                     
+                     <button type="submit" id="boton_guardar" class="btn nova-btn btn-primary btn-lg pull-right">
+                        <i class="icon icon-left mdi mdi-save nova-white"></i>
+                        Guardar
+                     </button>
+                  </div>
+               </div>-->
+         </div>
+		<!-- tab para hacer
 		<div class="main-content container-fluid">
 			<div class="row">
 				<div class="col-sm-17">
@@ -321,7 +361,7 @@
 					</div>
 				</div>
 			</div>
-		</div>
+		</div>-->
 	</div>
 </div>
 
@@ -331,6 +371,10 @@
 </div>
 {% endblock contenido %}
 {% block scripts %}
+<script src="{% static 'theme/lib/jquery.maskedinput/jquery.maskedinput.min.js' %}"></script>
+
+   <!-- InputMask -->
+   <script src="{% static 'libs/plugins/input-mask/jquery.inputmask.js' %}"></script>
 	<!-- Theme -->
 	<script src="{% static 'theme/lib/jquery-ui/jquery-ui.min.js' %}"></script>
 {% endblock scripts %}
