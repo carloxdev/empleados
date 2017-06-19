@@ -52,13 +52,14 @@ function Formulario() {
     this.$id_objetivo2 = $("#id_objetivo2")
     this.$id_responsabilidades = $("#id_responsabilidades")
     this.$id_reporte = $("#id_reporte")
-
+    this.$desc_puesto = $("#desc_puesto")
 
     this.init_Components()
     this.init_Events()
 }
 Formulario.prototype.init_Components = function () {
-
+  
+   this.$desc_puesto.select2()
     
     this.$id_objetivo.wysihtml5(this.get_ConfWysi())
     this.$funciones.wysihtml5(this.get_ConfWysi())

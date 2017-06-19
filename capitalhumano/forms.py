@@ -8,6 +8,12 @@ from django.forms import IntegerField
 from django.forms import NumberInput
 from django.forms import ChoiceField
 from django.forms import RadioSelect
+from django.forms import ModelForm
+from django.forms import CheckboxInput
+
+# Librerias Propias:
+from django import forms
+from django.forms import Form
 
 # Modelos
 from jde.models import VIEW_UNIDADES
@@ -15,6 +21,7 @@ from ebs.models import VIEW_TIPO_PERSONAS
 from ebs.models import VIEW_PUESTOS
 from ebs.models import VIEW_ORGANIZACIONES
 from administracion.models import Empresa
+from capitalhumano.models import PerfilPuestoDocumento
 
 
 class OrganizacionesFilterForm(Form):
@@ -186,3 +193,90 @@ class EmpleadoFilterForm(Form):
                 )
             )
         return valores
+
+
+class PerfilPuestoDocumentoForm(Form):
+
+    desc_puesto = ChoiceField(
+        label='Empleado: ',
+        widget=Select(attrs={'class': 'form-control input-sm'})
+    )
+
+    def __init__(self, *args, **kwargs):
+        super(PerfilPuestoDocumentoForm, self).__init__(
+            *args, **kwargs)
+        self.fields['desc_puesto'].choices = self.get_Puestos()
+        # self.fields['zona'].choices = self.get_Zonas()
+
+    def get_Puestos(self):
+
+        valores = [('', '-------')]
+
+        puestos = VIEW_PUESTOS.objects.using('ebs_d').all()
+
+        for puesto in puestos:
+
+            valores.append(
+                (
+                    puesto.clave_puesto,
+                    str(int(puesto.clave_puesto)) + ' - ' + puesto.desc_puesto,
+                )
+            )
+        return valores
+
+    class Meta:
+        model = PerfilPuestoDocumento
+
+        fields = [
+            'desc_puesto',
+            'reporta',
+            'proposito',
+            'funciones',
+            'responsabilidades',
+            'reporte',
+            'edad_minima',
+            'edad_maxima',
+            'nivel_estudio',
+            'estado_civil',
+            'genero',
+            'cambio_residencia',
+            'disponibilidad_viajar',
+            'requerimentos'
+        ]
+        # 'created_by',
+        # 'created_date',
+        # 'updated_by',
+        # 'updated_date' ]
+
+        labels = {
+           
+            'reporta': 'Reporta a :',
+            'proposito': 'Proposito :',
+            'funciones': 'Funciones :',
+            'responsabilidades': 'Responsabilidades :',
+            'reporte': 'Reporte :',
+            'edad_minima': 'Edad Minima:',
+            'edad_maxima': 'Edad Maxima:',
+            'nivel_estudio': 'Nivel Estudio:',
+            'estado_civil': 'Estado Civil:',
+            'genero': 'Genero:',
+            'cambio_residencia': 'Cambio Residencia:',
+            'disponibilidad_viajar': 'disponibilidad viajar:',
+            'requerimentos': 'Requerimentos:',
+     
+        }
+
+        widgets = {
+            'reporta': Select(attrs={'class': 'form-control input-sm'}),
+            'proposito': TextInput(attrs={'class': 'form-control input-xs'}),
+            'funciones': TextInput(attrs={'class': 'form-control input-xs'}),
+            'responsabilidades': TextInput(attrs={'class': 'form-control input-xs'}),
+            'edad_minima': TextInput(attrs={'class': 'form-control input-xs'}),
+            'edad_maxima': TextInput(attrs={'class': 'form-control input-xs'}),
+            'nivel_estudio': TextInput(attrs={'class': 'form-control input-xs'}),
+            'estado_civil': TextInput(attrs={'class': 'form-control input-xs'}),
+            'genero': TextInput(attrs={'class': 'form-control input-xs'}),
+            'cambio_residencia': CheckboxInput(),
+            'disponibilidad_viajar': TextInput(attrs={'class': 'form-control input-xs'}),
+            'requerimentos': TextInput(attrs={'class': 'form-control input-xs'}),
+        }    

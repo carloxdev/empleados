@@ -13,6 +13,7 @@ from django.views.generic.base import View
 from .forms import EmpleadoFilterForm
 from .forms import OrganizacionesFilterForm
 from .forms import EmpresasFilterForm
+from .forms import PerfilPuestoDocumentoForm
 
 # Serializer crear organigrama
 from ebs.serializers import VIEW_ORGANIGRAMA_ORG_SERIALIZADO
@@ -120,9 +121,19 @@ class PerfilPuesto(View):
 
 class PerfilPuestoNuevo(View):
 
+    def __init__(self):
+
+        self.template_name = 'perfilpuesto/perfil_nuevo.html'
+
     def get(self, request):
 
-        return render(request, 'perfilpuesto/perfil_nuevo.html')
+        formulario = PerfilPuestoDocumentoForm()
+
+        contexto = {
+            'form': formulario
+        }
+
+        return render(request, self.template_name, contexto)
 
 
 class PerfilPuestoNuevo2(View):
