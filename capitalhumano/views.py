@@ -14,6 +14,8 @@ from .forms import EmpleadoFilterForm
 from .forms import OrganizacionesFilterForm
 from .forms import EmpresasFilterForm
 from .forms import ExpedientesFilterForm
+from .forms import PerfilPuestoDocumentoForm
+from .forms import ExpedientesFilterForm
 
 # Serializer crear organigrama
 from serializers import VIEW_ORGANIGRAMA_ORG_SERIALIZADO
