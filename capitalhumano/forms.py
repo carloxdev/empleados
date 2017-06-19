@@ -21,11 +21,8 @@ from ebs.models import VIEW_TIPO_PERSONAS
 from ebs.models import VIEW_PUESTOS
 from ebs.models import VIEW_ORGANIZACIONES
 from administracion.models import Empresa
-<<<<<<< HEAD
 from capitalhumano.models import PerfilPuestoDocumento
-=======
 from ebs.models import VIEW_EMPLEADOS_FULL
->>>>>>> origin/master
 
 
 class OrganizacionesFilterForm(Form):
@@ -226,6 +223,10 @@ class PerfilPuestoDocumentoForm(Form):
                 (
                     puesto.clave_puesto,
                     str(int(puesto.clave_puesto)) + ' - ' + puesto.desc_puesto,
+                )
+            )
+        return valores
+
 
 class ExpedientesFilterForm(Form):
 
@@ -302,13 +303,12 @@ class ExpedientesFilterForm(Form):
             valores.append(
                 (
                     organizacion.clave_org,
-                    organizacion.desc_org
->>>>>>> origin/master
+                    organizacion.desc_org,
                 )
             )
         return valores
 
-<<<<<<< HEAD
+
     class Meta:
         model = PerfilPuestoDocumento
 
@@ -365,7 +365,7 @@ class ExpedientesFilterForm(Form):
             'disponibilidad_viajar': TextInput(attrs={'class': 'form-control input-xs'}),
             'requerimentos': TextInput(attrs={'class': 'form-control input-xs'}),
         }    
-=======
+
     def get_TipoEmpleado(self):
         valores = [('0', '------------')]
 
@@ -382,4 +382,3 @@ class ExpedientesFilterForm(Form):
                 )
             )
         return valores
->>>>>>> origin/master
