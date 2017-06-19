@@ -13,14 +13,19 @@ from django.views.generic.base import View
 from .forms import EmpleadoFilterForm
 from .forms import OrganizacionesFilterForm
 from .forms import EmpresasFilterForm
+<<<<<<< HEAD
 from .forms import PerfilPuestoDocumentoForm
+=======
+from .forms import ExpedientesFilterForm
+>>>>>>> origin/master
 
 # Serializer crear organigrama
-from ebs.serializers import VIEW_ORGANIGRAMA_ORG_SERIALIZADO
-from ebs.serializers import VIEW_ORGANIGRAMA_EMP_SERIALIZADO
+from serializers import VIEW_ORGANIGRAMA_ORG_SERIALIZADO
+from serializers import VIEW_ORGANIGRAMA_EMP_SERIALIZADO
 
 # Modelos
 from ebs.models import VIEW_ORGANIGRAMA
+from ebs.models import VIEW_EMPLEADOS_FULL
 
 
 # -------------- EMPLEADOS -------------- #
@@ -110,7 +115,53 @@ class EmpleadoOrganigramaEmpAPI(View):
         )
 
 
+# --------------  EXPEDIENTES EMPLEADOS -------------- #
+
+
+class EmpleadoExpedientes(View):
+
+    def __init__(self):
+        self.template_name = 'empleado_expedientes.html'
+
+    def get(self, request):
+        form = ExpedientesFilterForm()
+
+        contexto = {
+            'form': form
+        }
+
+        return render(request, self.template_name, contexto)
+
+    def post(self, request):
+        form = ExpedientesFilterForm(request.POST)
+
+        contexto = {
+            'form': form
+        }
+
+        return render(request, self.template_name, contexto)
+
+
+class EmpleadoExpediente(View):
+
+    def __init__(self):
+        self.template_name = 'empleado_expediente.html'
+
+    def get(self, request, pk):
+
+        empleado = VIEW_EMPLEADOS_FULL.objects.using(
+            "ebs_d").filter(pers_empleado_numero=pk)
+
+        contexto = {
+            'empleado': empleado,
+        }
+
+        return render(request, self.template_name, contexto)
+
+
+
 # -------------- PERFILES DE PUESTOS DOCUMENTO  -------------- #
+
 
 class PerfilPuesto(View):
 
