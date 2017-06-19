@@ -220,8 +220,14 @@
               </li>
             </ul>
           </li>
-          <li class="parent"><a href="#"><i class="icon fa fa-certificate"></i><span>Calidad</span></a>
+          <li class="parent"><a><i class="icon fa fa-certificate"></i><span>Calidad</span></a>
               <ul class="sub-menu">
+                  <li id="calidad_dashboard">
+                      <a href="{% url 'sgi:calidad_dashboard' %}">
+                        <!--<i class="icon lrg mdi-search-in-file"></i>-->
+                        <span> Dashboard</span>
+                      </a>
+                  </li>
                   <li id="auditorias_lista">
                       <a href="{% url 'sgi:auditoria_lista' %}">
                         <!--<i class="icon lrg mdi-search-in-file"></i>-->
@@ -235,7 +241,7 @@
                       </a>
                   </li>
                   <li id="configuracion">
-                      <a href="{% url 'sgi:configuracion' %}">
+                      <a href="{% url 'sgi:configuracion_requisito_lista' %}">
                         <!--<i class="icon lrg mdi-search-in-file"></i>-->
                         <span> Configuración</span>
                       </a>

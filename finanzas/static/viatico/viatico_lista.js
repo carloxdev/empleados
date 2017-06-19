@@ -57,7 +57,6 @@ function PopupFiltros() {
     this.$boton_buscar = $('#boton_buscar')
     this.$boton_limpiar = $('#boton_limpiar')
 
-
     this.init_Components()
     this.init_Events()
 }
@@ -346,7 +345,7 @@ Grid.prototype.get_Columnas = function () {
             width: "90px",
             template: '<a class="btn btn-default nova-url" href="#=Grid.prototype.get_EditUrl(pk)#">#="VIA-" + pk#</a>',
         },
-        { 
+        {
             field: "empleado_descripcion", 
             title: "Empleado",
             width:"300px" 

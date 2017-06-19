@@ -23,4 +23,22 @@
     width: 5px !important;
 }
 
+/*Prueba para el menu de acciones*/
+
+.k-grid tr td {
+	overflow: visible;
+}
+/*
+.k-grid-content {
+	position: relative;
+}
+*/
+/*.k-grid-header{*/
+	/*padding-right: 0px !important; Buscar el padding rigth que da 15 en esta clase*/
+/*}*/
+
+
+   	
+   
+   
 

@@ -52,3 +52,8 @@ NovaSitio.prototype.set_AlertifyConfig = function() {
     alertify.defaults.theme.input = "form-control";
 
 }
+NovaSitio.prototype.get_ConfigSelect2 = function() {
+    return {
+        width: '100%'
+    }
+}

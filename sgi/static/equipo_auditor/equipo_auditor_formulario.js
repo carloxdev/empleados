@@ -19,10 +19,11 @@ $(document).ready(function () {
 })
 
 /*-----------------------------------------------*\
-            OBJETO: auditoria_general
+            OBJETO: formulario
 \*-----------------------------------------------*/
 function Formulario() {
 
+    this.$id_auditor_lider = $("#id_auditor_lider")
     this.$id_auditores = $("#id_auditores")
     this.$id_auditores_colaboradores = $("#id_auditores_colaboradores")
 
@@ -31,13 +32,9 @@ function Formulario() {
 }
 Formulario.prototype.init_Components = function () {
 
-    this.$id_auditores.select2(this.get_ConfSelect2())
-    this.$id_auditores_colaboradores.select2(this.get_ConfSelect2())
-}
-Formulario.prototype.get_ConfSelect2 = function () {
-    return {
-        width: '100%'
-    }
+    this.$id_auditor_lider.select2(appnova.get_ConfigSelect2())
+    this.$id_auditores.select2(appnova.get_ConfigSelect2())
+    this.$id_auditores_colaboradores.select2(appnova.get_ConfigSelect2())
 }
 Formulario.prototype.init_Events = function () {
     return {
