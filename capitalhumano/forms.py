@@ -8,6 +8,7 @@ from django.forms import IntegerField
 from django.forms import NumberInput
 from django.forms import ChoiceField
 from django.forms import RadioSelect
+from django.forms import CheckboxInput
 
 # Modelos
 from jde.models import VIEW_UNIDADES
@@ -191,15 +192,71 @@ class EmpleadoFilterForm(Form):
         return valores
 
 
-<<<<<<< HEAD
-=======
-
 class PerfilPuestoDocumentoForm(Form):
 
     desc_puesto = ChoiceField(
         label='Empleado: ',
         widget=Select(attrs={'class': 'form-control input-sm'})
     )
+
+
+    class Meta:
+        model = PerfilPuestoDocumento
+
+        fields = [
+            'desc_puesto',
+            'reporta',
+            'proposito',
+            'funciones',
+            'responsabilidades',
+            'reporte',
+            'edad_minima',
+            'edad_maxima',
+            'nivel_estudio',
+            'estado_civil',
+            'genero',
+            'cambio_residencia',
+            'disponibilidad_viajar',
+            'requerimentos'
+        ]
+        # 'created_by',
+        # 'created_date',
+        # 'updated_by',
+        # 'updated_date' ]
+
+        labels = {
+           
+            'reporta': 'Reporta a :',
+            'proposito': 'Proposito :',
+            'funciones': 'Funciones :',
+            'responsabilidades': 'Responsabilidades :',
+            'reporte': 'Reporte :',
+            'edad_minima': 'Edad Minima:',
+            'edad_maxima': 'Edad Maxima:',
+            'nivel_estudio': 'Nivel Estudio:',
+            'estado_civil': 'Estado Civil:',
+            'genero': 'Genero:',
+            'cambio_residencia': 'Cambio Residencia:',
+            'disponibilidad_viajar': 'disponibilidad viajar:',
+            'requerimentos': 'Requerimentos:',
+     
+        }
+
+        widgets = {
+            'reporta': Select(attrs={'class': 'form-control input-sm'}),
+            'proposito': TextInput(attrs={'class': 'form-control input-xs'}),
+            'funciones': TextInput(attrs={'class': 'form-control input-xs'}),
+            'responsabilidades': TextInput(attrs={'class': 'form-control input-xs'}),
+            'edad_minima': TextInput(attrs={'class': 'form-control input-xs'}),
+            'edad_maxima': TextInput(attrs={'class': 'form-control input-xs'}),
+            'nivel_estudio': TextInput(attrs={'class': 'form-control input-xs'}),
+            'estado_civil': TextInput(attrs={'class': 'form-control input-xs'}),
+            'genero': TextInput(attrs={'class': 'form-control input-xs'}),
+            'cambio_residencia': CheckboxInput(),
+            'disponibilidad_viajar': TextInput(attrs={'class': 'form-control input-xs'}),
+            'requerimentos': TextInput(attrs={'class': 'form-control input-xs'}),
+        }    
+
 
     def __init__(self, *args, **kwargs):
         super(PerfilPuestoDocumentoForm, self).__init__(
@@ -224,7 +281,6 @@ class PerfilPuestoDocumentoForm(Form):
         return valores
 
 
->>>>>>> origin/master
 class ExpedientesFilterForm(Form):
 
     TIPO_CHOICES = (
@@ -300,76 +356,12 @@ class ExpedientesFilterForm(Form):
             valores.append(
                 (
                     organizacion.clave_org,
-<<<<<<< HEAD
-                    organizacion.desc_org
-=======
+
                     organizacion.desc_org,
->>>>>>> origin/master
                 )
             )
         return valores
 
-<<<<<<< HEAD
-=======
-
-    class Meta:
-        model = PerfilPuestoDocumento
-
-        fields = [
-            'desc_puesto',
-            'reporta',
-            'proposito',
-            'funciones',
-            'responsabilidades',
-            'reporte',
-            'edad_minima',
-            'edad_maxima',
-            'nivel_estudio',
-            'estado_civil',
-            'genero',
-            'cambio_residencia',
-            'disponibilidad_viajar',
-            'requerimentos'
-        ]
-        # 'created_by',
-        # 'created_date',
-        # 'updated_by',
-        # 'updated_date' ]
-
-        labels = {
-           
-            'reporta': 'Reporta a :',
-            'proposito': 'Proposito :',
-            'funciones': 'Funciones :',
-            'responsabilidades': 'Responsabilidades :',
-            'reporte': 'Reporte :',
-            'edad_minima': 'Edad Minima:',
-            'edad_maxima': 'Edad Maxima:',
-            'nivel_estudio': 'Nivel Estudio:',
-            'estado_civil': 'Estado Civil:',
-            'genero': 'Genero:',
-            'cambio_residencia': 'Cambio Residencia:',
-            'disponibilidad_viajar': 'disponibilidad viajar:',
-            'requerimentos': 'Requerimentos:',
-     
-        }
-
-        widgets = {
-            'reporta': Select(attrs={'class': 'form-control input-sm'}),
-            'proposito': TextInput(attrs={'class': 'form-control input-xs'}),
-            'funciones': TextInput(attrs={'class': 'form-control input-xs'}),
-            'responsabilidades': TextInput(attrs={'class': 'form-control input-xs'}),
-            'edad_minima': TextInput(attrs={'class': 'form-control input-xs'}),
-            'edad_maxima': TextInput(attrs={'class': 'form-control input-xs'}),
-            'nivel_estudio': TextInput(attrs={'class': 'form-control input-xs'}),
-            'estado_civil': TextInput(attrs={'class': 'form-control input-xs'}),
-            'genero': TextInput(attrs={'class': 'form-control input-xs'}),
-            'cambio_residencia': CheckboxInput(),
-            'disponibilidad_viajar': TextInput(attrs={'class': 'form-control input-xs'}),
-            'requerimentos': TextInput(attrs={'class': 'form-control input-xs'}),
-        }    
-
->>>>>>> origin/master
     def get_TipoEmpleado(self):
         valores = [('0', '------------')]
 
