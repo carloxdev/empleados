@@ -8,6 +8,10 @@ from django.views.generic.base import View
 
 # Modelos
 from ebs.models import VIEW_EMPLEADOS_FULL
+from ebs.models import VIEW_ORGANIGRAMA
+
+# Serializers 
+from serializers import VIEW_ORGANIGRAMA_ORG_SERIALIZADO
 
 
 class EmpleadoPerfil(View):
@@ -33,3 +37,19 @@ class EmpleadoOrganigrama(View):
     def get(self, request):
 
         return render(request, self.template_name)
+
+
+class EmpleadoOrganigramaOrgAPI(View):
+
+    def get(self, request, pk):
+
+        daddies = VIEW_ORGANIGRAMA.objects.using(
+            'ebs_d').filter(asig_organizacion_clave=pk)
+
+        serializador = VIEW_ORGANIGRAMA_ORG_SERIALIZADO()
+        lista_json = serializador.get_Json(daddies)
+
+        return HttpResponse(
+            lista_json,
+            content_type="application/json"
+        )

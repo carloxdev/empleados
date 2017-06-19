@@ -161,14 +161,17 @@
                         <div class="form-horizontal group-border-dashed">
 							<div class="form-group no-padding">
 								<div class="col-sm-12 tools pull-right nova-tools">
-									<a href=""
+									<a href="#modal_nuevo" data-toggle="modal"
 										class="btn nova-btn btn-rounded btn-space btn-default" id="boton_nuevo">
 										<i class="icon icon-left mdi mdi-plus-circle nova-black"></i>Nuevo documento
 									</a>
 								</div>
 	                            <div class="col-sm-12">
-	                                <h5 class="wizard-title">Información de.....:</h5>
-	                            </div>
+								    <div class="panel panel-default panel-table" id="div_documentos">
+										<div id="grid_resultados">
+										</div>
+									</div><!-- End Panel default (GRID) -->
+								</div>
                            </div>
                         </div>
                      </div>
@@ -177,17 +180,76 @@
          </div>
 	</div>
 </div>
-
-</div>
 </div>
 
-</div>
+<!-- Modal -->
+    <div id="modal_nuevo" role="dialog" class="modal fade colored-header colored-header-primary ">
+        <div class="modal-dialog custom-width">
+            <div class="modal-content">
+                
+                <div class="modal-header nova-modal-header">
+                    <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
+                    <h3 class="modal-title">Nuevo documento</h3>
+                </div>
+                    
+                <form action="" method="POST" enctype="multipart/form-data"> {% csrf_token %}
+        			<div class="col-sm-12">
+						<!-- Vigencia -->
+						<div class="form-group">
+	                        <label class="col-sm-3 nova-col-filter control-label">Vigencias</label>
+	                        <div class="col-sm-7 xs-pt-5">
+	                            <input/>
+	                        </div>
+	                    </div> 
+	                    <!-- Subtipo -->
+						<div class="form-group">
+	                        <label class="col-sm-3 nova-col-filter control-label">Subtipo documento</label>
+	                        <div class="col-sm-7 xs-pt-5">
+	                            <input/>
+	                        </div>
+	                    </div> 
+	                    <!-- Agrupador -->
+						<div class="form-group">
+	                        <label class="col-sm-3 nova-col-filter control-label">Agrupador</label>
+	                        <div class="col-sm-7 xs-pt-5">
+	                            <input/>
+	                        </div>
+	                    </div> 
+	                    <!-- Documento -->
+						<div class="form-group">
+	                        <label class="col-sm-3 nova-col-filter control-label">Documento</label>
+	                        <div class="col-sm-7 xs-pt-5">
+	                            <input type="file" />
+	                        </div>
+	                    </div>  
+	                </div>
+
+	                <!-- Botones de acción -->
+	                <div class="modal-footer nova-modal-footer">
+	                     <div class="row col-sm-12">
+                            <button type="button" data-dismiss="modal" class="btn btn-default pull-left">
+                                Cancelar
+                            </button>
+
+                            <button type="submit" class="btn btn-primary" id="id_boton_guardar" >Guardar</button>
+	                    </div>
+	                </div>
+	            </form>
+            </div> <!-- Modal content-->
+        </div> <!-- Modal dialog -->
+    </div><!-- Modal -->
+
 {% endblock contenido %}
 {% block scripts %}
 	<!-- Theme InputMask -->
 	<script src="{% static 'theme/lib/jquery.maskedinput/jquery.maskedinput.min.js' %}"></script>
-   <!-- InputMask -->
-   <script src="{% static 'libs/plugins/input-mask/jquery.inputmask.js' %}"></script>
+
+   	<!-- InputMask -->
+   	<script src="{% static 'libs/plugins/input-mask/jquery.inputmask.js' %}"></script>
+
 	<!-- Theme -->
 	<script src="{% static 'theme/lib/jquery-ui/jquery-ui.min.js' %}"></script>
+
+	<!-- NOVA-->
+   	<script src="{% static 'empleado_expediente.js' %}"></script>
 {% endblock scripts %}
