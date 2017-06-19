@@ -2,14 +2,15 @@
 
 <!DOCTYPE html>
 <html lang="es">
-  <head>
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="description" content="Portal Nova - Nuvoil">
     <meta name="author" content="IT Team Nuvoil">
     <title>{% block titulo %}  {% endblock titulo %}</title>
-    <link rel="shortcut icon" href="{% static 'theme/img/logo-fav.png' %}">
+
+    <link rel="shortcut icon" href="{% static 'images/decoradores/favicon.png' %}">
     
     <!-- Material Desing Icons -->
     <link rel="stylesheet" href="{% static 'theme/lib/material-design-icons/css/material-design-iconic-font.min.css' %}" type="text/css" />
@@ -45,496 +46,331 @@
   {% endblock css %}
 </head>
 <body>
-  <div class="be-wrapper nova-be-wrapper be-collapsible-sidebar be-fixed-sidebar">
-    <nav class="navbar navbar-default navbar-fixed-top be-top-header">
-      <div class="container-fluid">
+    <div class="be-wrapper nova-be-wrapper be-collapsible-sidebar be-fixed-sidebar">
+        <nav class="navbar navbar-default navbar-fixed-top be-top-header">
+            <div class="container-fluid">
       
-        <div class="navbar-header">
-          <a class="navbar-brand" href="{% url 'home:inicio' %}"></a>
-          <a href="#" class="be-toggle-left-sidebar">
-            <span class="icon mdi mdi-menu"></span>
-          </a>
-        </div>
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="{% url 'home:inicio' %}"></a>
+                    <a href="#" class="be-toggle-left-sidebar">
+                        <span class="icon mdi mdi-menu"></span>
+                    </a>
+                </div>
 
-      <div class="be-right-navbar">
-        <ul class="nav navbar-nav navbar-right be-user-nav">
-          <li class="dropdown"><a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="dropdown-toggle">
+                <div class="be-right-navbar">
+                    <ul class="nav navbar-nav navbar-right be-user-nav">
+                        <li class="dropdown">
+                            <a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="dropdown-toggle">
 
-          <!--{% if user.profile.foto %}
-            <img class="user-image" src="{{ MEDIA_URL }}{{ user.profile.foto }}" alt="User Image">
-          {% else %}
-            <img src="{% static 'theme/img/avatar.png' %}" alt="User Image">
-          {% endif %} --> 
+                              <!--{% if user.profile.foto %}
+                                <img class="user-image" src="{{ MEDIA_URL }}{{ user.profile.foto }}" alt="User Image">
+                              {% else %}
+                                <img src="{% static 'theme/img/avatar.png' %}" alt="User Image">
+                              {% endif %} --> 
+                                <img src="{% static 'theme/img/avatar.png' %}" alt="Avatar"/>
+                                <span class="user-name">{{ user.username }}</span>
+                            </a>
+                            <ul role="menu" class="dropdown-menu">
+                                <li>
+                                    <div class="user-info">
+                                        <div class="user-name">
+                                            {% if user.username == 'root' %}
+                                            <h4>ADMINISTRADOR</h4>
+                                            {% else %}
 
-            <img src="{% static 'theme/img/avatar.png' %}" alt="Avatar"/><span class="user-name">{{ user.username }}</span></a>
-            <ul role="menu" class="dropdown-menu">
-              <li>
-                <div class="user-info">
-                  <div class="user-name">
-                    {% if user.username == 'root' %}
-                      <h4>ADMINISTRADOR</h4>
-                    {% else %}
-
-                        {% if user.get_full_name %}
-                            <h5>{{ user.get_full_name }}</h5>
-                        {% else %} 
-                            <h5> {{ user.username|upper }}  </h5>
-                        {% endif%}
+                                                {% if user.get_full_name %}
+                                                <h5>{{ user.get_full_name }}</h5>
+                                                {% else %} 
+                                                <h5> {{ user.username|upper }}  </h5>
+                                                {% endif%}
+                                  
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </li>
                       
-                    {% endif %}
-                  </div>
-                </div>
-              </li>
-              
-              {% if user.is_superuser %}
-                <li><a href="{% url 'seguridad:usuario_lista' %}"><span class="icon mdi mdi-accounts"></span> Usuarios</a></li>
-              {% endif %}
-              <li><a href="{% url 'seguridad:usuario_perfil' pk=user.id %}"><span class="icon mdi mdi-face"></span> Perfil</a></li>
-              <li><a href="#"><span class="icon mdi mdi-settings"></span> Configuracion</a></li>
-              <li><a href="{% url 'seguridad:logout' %}"><span class="icon mdi mdi-power"></span> Salir</a></li>
-            </ul>
-          </li>
-        </ul>
-        <!-- <div class="page-title"><span>Blank Page</span></div> -->
-        <ul class="nav navbar-nav navbar-right be-icons-nav">
-          <li class="dropdown"><a href="#" role="button" aria-expanded="false" class="be-toggle-right-sidebar"><span class="icon mdi mdi-settings"></span></a></li>
-          <li class="dropdown"><a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="dropdown-toggle"><span class="icon mdi mdi-notifications"></span><span class="indicator"></span></a>
-          <ul class="dropdown-menu be-notifications">
-            <li>
-              <div class="title">Notifications<span class="badge">3</span></div>
-              <div class="list">
-                <div class="be-scroller">
-                  <div class="content">
-                    <ul>
-                      <li class="notification notification-unread"><a href="#">
-                        <div class="image"><img src="{% static 'theme/img/avatar2.png' %}" alt="Avatar"></div>
-                        <div class="notification-info">
-                          <div class="text"><span class="user-name">Jessica Caruso</span> accepted your invitation to join the team.</div><span class="date">2 min ago</span>
-                        </div></a></li>
-                        <li class="notification"><a href="#">
-                          <div class="image"><img src="{% static 'theme/img/avatar3.png' %}" alt="Avatar"></div>
-                          <div class="notification-info">
-                            <div class="text"><span class="user-name">Joel King</span> is now following you</div><span class="date">2 days ago</span>
-                          </div></a></li>
-                          <li class="notification"><a href="#">
-                            <div class="image"><img src="{% static 'theme/img/avatar4.png' %}" alt="Avatar"></div>
-                            <div class="notification-info">
-                              <div class="text"><span class="user-name">John Doe</span> is watching your main repository</div><span class="date">2 days ago</span>
-                            </div></a></li>
-                            <li class="notification"><a href="#">
-                              <div class="image"><img src="{% static 'theme/img/avatar5.png' %}" alt="Avatar"></div>
-                              <div class="notification-info"><span class="text"><span class="user-name">Emily Carter</span> is now following you</span><span class="date">5 days ago</span></div></a></li>
+                                {% if user.is_superuser %}
+                                <li><a href="{% url 'seguridad:usuario_lista' %}"><span class="icon mdi mdi-accounts"></span> Usuarios</a></li>
+                                {% endif %}
+                                <li></li>
+                                <li><a href="#"><span class="icon mdi mdi-settings"></span> Configuracion</a></li>
+                                <li><a href="{% url 'seguridad:logout' %}"><span class="icon mdi mdi-power"></span> Salir</a></li>
                             </ul>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="footer"> <a href="#">Ver notificaciones</a></div>
-                    </li>
-                  </ul>
-                </li>
-                <li class="dropdown"><a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="dropdown-toggle"><span class="icon mdi mdi-apps"></span></a>
-                <ul class="dropdown-menu be-connections">
-                  <li>
-                    <div class="list">
-                      <div class="content">
-                        <div class="row">
-                          <div class="col-xs-4"><a href="#" class="connection-item"><img src="{% static 'theme/img/github.png' %}" alt="Github"><span>GitHub</span></a></div>
-                          <div class="col-xs-4"><a href="#" class="connection-item"><img src="{% static 'theme/img/bitbucket.png' %}" alt="Bitbucket"><span>Bitbucket</span></a></div>
-                          <div class="col-xs-4"><a href="#" class="connection-item"><img src="{% static 'theme/img/slack.png' %}" alt="Slack"><span>Slack</span></a></div>
-                        </div>
-                        <div class="row">
-                          <div class="col-xs-4"><a href="#" class="connection-item"><img src="{% static 'theme/img/dribbble.png' %}" alt="Dribbble"><span>Dribbble</span></a></div>
-                          <div class="col-xs-4"><a href="#" class="connection-item"><img src="{% static 'theme/img/mail_chimp.png' %}" alt="Mail Chimp"><span>Mail Chimp</span></a></div>
-                          <div class="col-xs-4"><a href="#" class="connection-item"><img src="{% static 'theme/img/dropbox.png' %}" alt="Dropbox"><span>Dropbox</span></a></div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="footer"> <a href="#">Mas</a></div>
-                  </li>
-                </ul>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </nav>
-
-      <div class="be-left-sidebar nova-be-left-sidebar">
-        <div class="left-sidebar-wrapper"><a href="#" class="left-sidebar-toggle">{% block title-page %}  {% endblock title-page %}</a>
-        <div class="left-sidebar-spacer">
-          <div class="left-sidebar-scroll">
-            <div class="left-sidebar-content">
-              <ul class="sidebar-elements">
-                <li class="divider">Menu</li>
-                <li id="inicio">
-                  <a href="{% url 'home:inicio' %}">
-                    <i class="icon mdi mdi-home"></i>
-                    <span>Inicio</span>
-                  </a>
-                </li>
-               <li class="parent"><a href="#"><i class="icon mdi mdi-airplane"></i><span>Viaticos</span></a>
-                  <ul class="sub-menu">
-                     <li id="viaticos_lista">
-                        <a href="{% url 'finanzas:viatico_lista' %}">
-                           <span>Solicitudes</span>
-                        </a>
-                     </li>
-                     <li>
-                        <a href="#">Autorizacion</a>
-                     </li>
-                   </ul>
-               </li>
-              <li class="parent"><a href="#"><i class="icon mdi mdi-shopping-cart"></i></i><span>Compras</span></a>
-              <ul class="sub-menu">
-                <li>
-                  <a href="{% url 'compras:seguimiento_compras_lista' %}">
-                    <span>Seguimiento</span>
-                  </a>
-                </li>
-              </ul>
-            </li>
-            <li class="parent"><a href="#"><i class="icon mdi mdi-alert-triangle"></i></i><span>Incidencias</span></a>
-            <ul class="sub-menu">
-              <li>
-                <a href="{% url 'sgi:incidencia_lista' %}">
-                  <span>Documentos</span>
-                </a>
-              </li>
-            </ul>
-          </li>
-          <li class="parent"><a href="#"><i class="icon mdi mdi-accounts"></i></i><span>Capital humano</span></a>
-            <ul class="sub-menu">
-              <li id="capitalhumano_dashboard">
-                <a href="{% url 'capitalhumano:empleado_dashboard' %}">
-                  <span>Dashboard</span>
-                </a>
-              </li>
-              <li id="capitalhumano_organigrama">
-                <a href="{% url 'capitalhumano:empleado_organigrama' %}">
-                  <span>Organigrama</span>
-                </a>
-              </li>
-              <li>
-                <a href="{% url 'capitalhumano:empleado_lista' %}">
-                  <span>Empleados</span>
-                </a>
-              </li>
-            </ul>
-          </li>
-          <li class="parent"><a><i class="icon fa fa-certificate"></i><span>Calidad</span></a>
-              <ul class="sub-menu">
-                  <li id="calidad_dashboard">
-                      <a href="{% url 'sgi:calidad_dashboard' %}">
-                        <!--<i class="icon lrg mdi-search-in-file"></i>-->
-                        <span> Dashboard</span>
-                      </a>
-                  </li>
-                  <li id="auditorias_lista">
-                      <a href="{% url 'sgi:auditoria_lista' %}">
-                        <!--<i class="icon lrg mdi-search-in-file"></i>-->
-                        <span> Auditorias</span>
-                      </a>
-                  </li>
-                  <li id="programa_lista">
-                      <a href="{% url 'sgi:programa_lista' %}">
-                        <!--<i class="icon lrg mdi-search-in-file"></i>-->
-                        <span> Programa</span>
-                      </a>
-                  </li>
-                  <li id="configuracion">
-                      <a href="{% url 'sgi:configuracion_requisito_lista' %}">
-                        <!--<i class="icon lrg mdi-search-in-file"></i>-->
-                        <span> Configuración</span>
-                      </a>
-                  </li>
-                  
-              </ul> 
-          </li>
-          <li class="parent"><a href="#"><i class="icon fa fa-heartbeat"></i><span>Salud</span></a>
-              <ul class="sub-menu">
-                  <li>
-                      <a href="#">
-                        <span>Salud</span>
-                      </a>
-                  </li>
-                  
-              </ul> 
-          </li>
-          <li class="parent"><a href="#"><i class="icon fa fa-shield"></i><span>Seguridad</span></a>
-              <ul class="sub-menu">
-                  <li>
-                      <a href="#">
-                        <span>Seguridad</span>
-                      </a>
-                  </li>
-                  
-              </ul> 
-          </li>
-          <li class="parent"><a href="#"><i class="icon fa fa-tree"></i><span>Ambiental</span></a>
-              <ul class="sub-menu">
-                  <li>
-                      <a href="#">
-                        <span>Ambiental</span>
-                      </a>
-                  </li>
-                  
-              </ul> 
-          </li>
-        </ul>
-      </div>
-    </div>
-  </div>
-  <!-- <div class="progress-widget">
-    <div class="progress-data"><span class="progress-value">60%</span><span class="name">Current Project</span></div>
-    <div class="progress">
-      <div style="width: 60%;" class="progress-bar progress-bar-primary"></div>
-    </div>
-  </div> -->
-</div>
-</div>
-{% block contenido %}
-{% endblock contenido %}
-<nav class="be-right-sidebar">
-<div class="sb-content">
-  <div class="tab-navigation">
-    <ul role="tablist" class="nav nav-tabs nav-justified">
-      <li role="presentation" class="active"><a href="#tab1" aria-controls="tab1" role="tab" data-toggle="tab">Chat</a></li>
-      <li role="presentation"><a href="#tab2" aria-controls="tab2" role="tab" data-toggle="tab">Todo</a></li>
-      <li role="presentation"><a href="#tab3" aria-controls="tab3" role="tab" data-toggle="tab">Settings</a></li>
-    </ul>
-  </div>
-  <div class="tab-panel">
-    <div class="tab-content">
-      <div id="tab1" role="tabpanel" class="tab-pane tab-chat active">
-        <div class="chat-contacts">
-          <div class="chat-sections">
-            <div class="be-scroller">
-              <div class="content">
-                <h2>Recent</h2>
-                <div class="contact-list contact-list-recent">
-                  <div class="user"><a href="#"><img src="{% static 'theme/img/avatar1.png' %}" alt="Avatar">
-                    <div class="user-data"><span class="status away"></span><span class="name">Claire Sassu</span><span class="message">Can you share the...</span></div></a></div>
-                    <div class="user"><a href="#"><img src="{% static 'theme/img/avatar2.png' %}" alt="Avatar">
-                      <div class="user-data"><span class="status"></span><span class="name">Maggie jackson</span><span class="message">I confirmed the info.</span></div></a></div>
-                      <div class="user"><a href="#"><img src="{% static 'theme/img/avatar3.png' %}" alt="Avatar">
-                        <div class="user-data"><span class="status offline"></span><span class="name">Joel King   </span><span class="message">Ready for the meeti...</span></div></a></div>
-                      </div>
-                      <h2>Contacts</h2>
-                      <div class="contact-list">
-                        <div class="user"><a href="#"><img src="{% static 'theme/img/avatar4.png' %}" alt="Avatar">
-                          <div class="user-data2"><span class="status"></span><span class="name">Mike Bolthort</span></div></a></div>
-                          <div class="user"><a href="#"><img src="{% static 'theme/img/avatar5.png' %}" alt="Avatar">
-                            <div class="user-data2"><span class="status"></span><span class="name">Maggie jackson</span></div></a></div>
-                            <div class="user"><a href="#"><img src="{% static 'theme/img/avatar6.png' %}" alt="Avatar">
-                              <div class="user-data2"><span class="status offline"></span><span class="name">Jhon Voltemar</span></div></a></div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="bottom-input">
-                        <input type="text" placeholder="Search..." name="q"><span class="mdi mdi-search"></span>
-                      </div>
-                    </div>
-                    <div class="chat-window">
-                      <div class="title">
-                        <div class="user"><img src="{% static 'theme/img/avatar2.png' %}" alt="Avatar">
-                          <h2>Maggie jackson</h2><span>Active 1h ago</span>
-                          </div><span class="icon return mdi mdi-chevron-left"></span>
-                        </div>
-                        <div class="chat-messages">
-                          <div class="be-scroller">
-                            <div class="content">
-                              <ul>
-                                <li class="friend">
-                                  <div class="msg">Hello</div>
-                                </li>
-                                <li class="self">
-                                  <div class="msg">Hi, how are you?</div>
-                                </li>
-                                <li class="friend">
-                                  <div class="msg">Good, I'll need support with my pc</div>
-                                </li>
-                                <li class="self">
-                                  <div class="msg">Sure, just tell me what is going on with your computer?</div>
-                                </li>
-                                <li class="friend">
-                                  <div class="msg">I don't know it just turns off suddenly</div>
-                                </li>
-                              </ul>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="chat-input">
-                          <div class="input-wrapper"><span class="photo mdi mdi-camera"></span>
-                          <input type="text" placeholder="Message..." name="q" autocomplete="off"><span class="send-msg mdi mdi-mail-send"></span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div id="tab2" role="tabpanel" class="tab-pane tab-todo">
-                    <div class="todo-container">
-                      <div class="todo-wrapper">
-                        <div class="be-scroller">
-                          <div class="todo-content"><span class="category-title">Today</span>
-                          <ul class="todo-list">
-                            <li>
-                              <div class="be-checkbox be-checkbox-sm"><span class="delete mdi mdi-delete"></span>
-                              <input id="todo1" type="checkbox" checked="">
-                              <label for="todo1">Initialize the project</label>
-                            </div>
-                          </li>
-                          <li>
-                            <div class="be-checkbox be-checkbox-sm"><span class="delete mdi mdi-delete"></span>
-                            <input id="todo2" type="checkbox">
-                            <label for="todo2">Create the main structure</label>
-                          </div>
                         </li>
-                        <li>
-                          <div class="be-checkbox be-checkbox-sm"><span class="delete mdi mdi-delete"></span>
-                          <input id="todo3" type="checkbox">
-                          <label for="todo3">Updates changes to GitHub</label>
-                        </div>
-                      </li>
-                      </ul><span class="category-title">Tomorrow</span>
-                      <ul class="todo-list">
-                        <li>
-                          <div class="be-checkbox be-checkbox-sm"><span class="delete mdi mdi-delete"></span>
-                          <input id="todo4" type="checkbox">
-                          <label for="todo4">Initialize the project</label>
-                        </div>
-                      </li>
-                      <li>
-                        <div class="be-checkbox be-checkbox-sm"><span class="delete mdi mdi-delete"></span>
-                        <input id="todo5" type="checkbox">
-                        <label for="todo5">Create the main structure</label>
-                      </div>
-                    </li>
-                    <li>
-                      <div class="be-checkbox be-checkbox-sm"><span class="delete mdi mdi-delete"></span>
-                      <input id="todo6" type="checkbox">
-                      <label for="todo6">Updates changes to GitHub</label>
-                    </div>
-                  </li>
-                  <li>
-                    <div class="be-checkbox be-checkbox-sm"><span class="delete mdi mdi-delete"></span>
-                    <input id="todo7" type="checkbox">
-                    <label for="todo7" title="This task is too long to be displayed in a normal space!">This task is too long to be displayed in a normal space!</label>
-                  </div>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-        <div class="bottom-input">
-          <input type="text" placeholder="Create new task..." name="q"><span class="mdi mdi-plus"></span>
-        </div>
-      </div>
-    </div>
-    <div id="tab3" role="tabpanel" class="tab-pane tab-settings">
-      <div class="settings-wrapper">
-        <div class="be-scroller"><span class="category-title">General</span>
-        <ul class="settings-list">
-          <li>
-            <div class="switch-button switch-button-sm">
-              <input type="checkbox" checked="" name="st1" id="st1"><span>
-              <label for="st1"></label></span>
-              </div><span class="name">Available</span>
-            </li>
-            <li>
-              <div class="switch-button switch-button-sm">
-                <input type="checkbox" checked="" name="st2" id="st2"><span>
-                <label for="st2"></label></span>
-                </div><span class="name">Enable notifications</span>
-              </li>
-              <li>
-                <div class="switch-button switch-button-sm">
-                  <input type="checkbox" checked="" name="st3" id="st3"><span>
-                  <label for="st3"></label></span>
-                  </div><span class="name">Login with Facebook</span>
-                </li>
-                </ul><span class="category-title">Notifications</span>
-                <ul class="settings-list">
-                  <li>
-                    <div class="switch-button switch-button-sm">
-                      <input type="checkbox" name="st4" id="st4"><span>
-                      <label for="st4"></label></span>
-                      </div><span class="name">Email notifications</span>
-                    </li>
-                    <li>
-                      <div class="switch-button switch-button-sm">
-                        <input type="checkbox" checked="" name="st5" id="st5"><span>
-                        <label for="st5"></label></span>
-                        </div><span class="name">Project updates</span>
-                      </li>
-                      <li>
-                        <div class="switch-button switch-button-sm">
-                          <input type="checkbox" checked="" name="st6" id="st6"><span>
-                          <label for="st6"></label></span>
-                          </div><span class="name">New comments</span>
-                        </li>
-                        <li>
-                          <div class="switch-button switch-button-sm">
-                            <input type="checkbox" name="st7" id="st7"><span>
-                            <label for="st7"></label></span>
-                            </div><span class="name">Chat messages</span>
-                          </li>
-                          </ul><span class="category-title">Workflow</span>
-                          <ul class="settings-list">
-                            <li>
-                              <div class="switch-button switch-button-sm">
-                                <input type="checkbox" name="st8" id="st8"><span>
-                                <label for="st8"></label></span>
-                                </div><span class="name">Deploy on commit</span>
-                              </li>
+                    </ul>
+                    <!-- <div class="page-title"><span>Blank Page</span></div> -->
+                    <ul class="nav navbar-nav navbar-right be-icons-nav">
+                        <li class="dropdown"><a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="dropdown-toggle"><span class="icon mdi mdi-notifications"></span><span class="indicator"></span></a>
+                            <ul class="dropdown-menu be-notifications">
+                                <li>
+                                    <div class="title">Notifications<span class="badge">3</span></div>
+                                    <div class="list">
+                                        <div class="be-scroller">
+                                            <div class="content">
+                                                <ul>
+                                                    <li class="notification notification-unread">
+                                                        <a href="#">
+                                                            <div class="image"><img src="{% static 'theme/img/avatar2.png' %}" alt="Avatar"></div>
+                                                            <div class="notification-info">
+                                                                <div class="text"><span class="user-name">Jessica Caruso</span> accepted your invitation to join the team.</div><span class="date">2 min ago</span>
+                                                            </div>
+                                                        </a>
+                                                    </li>
+                                                    <li class="notification">
+                                                        <a href="#">
+                                                            <div class="image"><img src="{% static 'theme/img/avatar3.png' %}" alt="Avatar"></div>
+                                                            <div class="notification-info">
+                                                                <div class="text"><span class="user-name">Joel King</span> is now following you</div><span class="date">2 days ago</span>
+                                                            </div>
+                                                        </a>
+                                                    </li>
+                                                    <li class="notification">
+                                                        <a href="#">
+                                                            <div class="image"><img src="{% static 'theme/img/avatar4.png' %}" alt="Avatar"></div>
+                                                            <div class="notification-info">
+                                                                <div class="text"><span class="user-name">John Doe</span> is watching your main repository</div><span class="date">2 days ago</span>
+                                                            </div>
+                                                        </a>
+                                                    </li>
+                                                    <li class="notification">
+                                                        <a href="#">
+                                                            <div class="image"><img src="{% static 'theme/img/avatar5.png' %}" alt="Avatar"></div>
+                                                            <div class="notification-info"><span class="text"><span class="user-name">Emily Carter</span> is now following you</span><span class="date">5 days ago</span></div>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="footer"> <a href="#">Ver notificaciones</a></div>
+                                </li>
                             </ul>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                        </li>
+                        <li class="dropdown"><a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="dropdown-toggle"><span class="icon mdi mdi-apps"></span></a>
+                            <ul class="dropdown-menu be-connections">
+                                <li>
+                                    <div class="list">
+                                        <div class="content">
+                                            <div class="row">
+                                                <div class="col-xs-4"><a href="http://jde.nuvoil.com:97/jde/E1Menu.maf?" class="connection-item"><img src="{% static 'theme/img/github.png' %}" alt="JDE"><span>JD Edwards</span></a></div>
+                                                <div class="col-xs-4"><a href="http://ebs.nuvoil.com:8000" class="connection-item"><img src="{% static 'theme/img/bitbucket.png' %}" alt="EBS"><span>EBS</span></a></div>
+                                                <div class="col-xs-4"><a href="http://helpdesk.nuvoil.com/portal" class="connection-item"><img src="{% static 'theme/img/slack.png' %}" alt="HelpDesk"><span>Help Desk</span></a></div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-4"><a href="http://intranet.nuvoil.com/" class="connection-item"><img src="{% static 'theme/img/dribbble.png' %}" alt="Intranet"><span>Intranet</span></a></div>
+                                                <div class="col-xs-4"><a href="http://calidad.nuvoil.com" class="connection-item"><img src="{% static 'theme/img/mail_chimp.png' %}" alt="Calidad"><span>Calidad</span></a></div>
+                                                <div class="col-xs-4"><a href="http://proveedores.nuvoil.com" class="connection-item"><img src="{% static 'theme/img/dropbox.png' %}" alt="Proveedores"><span>Proveedores</span></a></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- <div class="footer"> <a href="#">Mas</a></div> -->
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
                 </div>
-              </nav>
             </div>
+        </nav>
+        <div class="be-left-sidebar nova-be-left-sidebar">
+            <div class="left-sidebar-wrapper"><a href="#" class="left-sidebar-toggle">{% block title-page %}  {% endblock title-page %}</a>
+                <div class="left-sidebar-spacer">
+                    <div class="left-sidebar-scroll">
+                        <div class="left-sidebar-content">
+                            <ul class="sidebar-elements nova-sidebar-elements">
+                                <li class="divider">Menu</li>
+                                <li id="inicio">
+                                    <a href="{% url 'home:inicio' %}">
+                                        <i class="icon mdi mdi-home"></i>
+                                        <span>Inicio</span>
+                                    </a>
+                                </li>
+                                <li class="parent"><a href="#"><i class="icon mdi mdi-airplane"></i><span>Viaticos</span></a>
+                                    <ul class="sub-menu">
+                                        <li id="viaticos_lista">
+                                            <a href="{% url 'finanzas:viatico_lista' %}">
+                                                <span>Solicitudes</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">Autorizacion</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="parent"><a href="#"><i class="icon mdi mdi-shopping-cart"></i></i><span>Compras</span></a>
+                                    <ul class="sub-menu">
+                                        <li id="compras_seguimiento">
+                                            <a href="{% url 'compras:seguimiento_compras_lista' %}">
+                                                <span>Seguimiento</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="parent"><a href="#"><i class="icon mdi mdi-alert-triangle"></i></i><span>Incidencias</span></a>
+                                    <ul class="sub-menu">
+                                        <li>
+                                            <a href="{% url 'sgi:incidencia_lista' %}">
+                                                <span>Documentos</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="parent"><a href="#"><i class="icon mdi mdi-accounts"></i></i><span>Capital humano</span></a>
+                                    <ul class="sub-menu">
+                                        <li id="capitalhumano_dashboard">
+                                            <a href="{% url 'capitalhumano:empleado_dashboard' %}">
+                                                <span>Dashboard</span>
+                                            </a>
+                                        </li>
+                                        <li id="capitalhumano_organigrama">
+                                            <a href="{% url 'capitalhumano:empleado_organigrama' %}">
+                                                <span>Organigrama</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="{% url 'capitalhumano:empleado_lista' %}">
+                                                <span>Empleados</span>
+                                            </a>
+                                        </li>
+                                        <li id="capitalhumano_expedientes">
+                                            <a href="{% url 'capitalhumano:empleado_expedientes' %}">
+                                                <span>Expedientes</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="{% url 'capitalhumano:perfil_lista' %}">
+                                                <span>Perfil Puestos</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="{% url 'capitalhumano:perfil_configuracion' %}">
+                                                <span>Configuracion</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="parent"><a href="#"><i class="icon mdi mdi-account-circle"></i></i><span>Servicios Empleado</span></a>
+                                    <ul class="sub-menu">
+                                        <li id="serviciosempleado_miexpediente">
+                                            <a href="{% url 'serviciosempleado:empleado_perfil' %}">
+                                                <span>Mi expediente</span>
+                                            </a>
+                                        </li>
+                                        <li id="serviciosempleado_perfil">
+                                            <a href="#">
+                                                <span>Vacaciones</span>
+                                            </a>
+                                        </li>
+                                        <li id="serviciosempleado_organigrama">
+                                             <a href="{% url 'serviciosempleado:empleado_organigrama' %}">
+                                                <span>Organigrama</span>
+                                             </a> 
+                                        </li>
+                                        
+                                    </ul>
+                                </li>
 
-            <!-- jQuery -->
-            <script src="{% static 'theme/lib/jquery/jquery.min.js' %}" type="text/javascript"></script>
 
-            <!-- jQuery-Cookie -->
-            <script src="{% static 'libs/jquery-cookie/1.4.1/jquery.cookie.js' %}"></script>            
 
-            <!-- Bootstrap-->
-            <script src="{% static 'theme/lib/bootstrap/dist/js/bootstrap.min.js' %}" type="text/javascript"></script>
+                                <li class="parent"><a href="#"><i class="icon fa fa-check"></i><span>Calidad</span></a>
+                                    <ul class="sub-menu">
+                                        <li id="auditorias_lista">
+                                            <a href="{% url 'sgi:auditoria_lista' %}">
+                                                <!--<i class="icon lrg mdi-search-in-file"></i>-->
+                                                <span> Auditorias</span>
+                                            </a>
+                                        </li>
+                                        <li id="programa_lista">
+                                            <a href="{% url 'sgi:programa_lista' %}">
+                                                <!--<i class="icon lrg mdi-search-in-file"></i>-->
+                                                <span> Programa</span>
+                                            </a>
+                                        </li>
+                                        <li id="configuracion">
+                                            <a href="{% url 'sgi:configuracion' %}">
+                                                <!--<i class="icon lrg mdi-search-in-file"></i>-->
+                                                <span> Configuración</span>
+                                            </a>
+                                        </li>
+                                    </ul> 
+                                </li>
+                                <li class="parent"><a href="#"><i class="icon fa fa-heartbeat"></i><span>Salud</span></a>
+                                    <ul class="sub-menu">
+                                        <li>
+                                            <a href="#">
+                                                <span>Salud</span>
+                                            </a>
+                                        </li>
+                                    </ul> 
+                                </li>
+                                <li class="parent"><a href="#"><i class="icon fa fa-shield"></i><span>Seguridad</span></a>
+                                    <ul class="sub-menu">
+                                        <li>
+                                            <a href="#">
+                                                <span>Seguridad</span>
+                                            </a>
+                                        </li>
+                                    </ul> 
+                                </li>
+                                <li class="parent"><a href="#"><i class="icon fa fa-tree"></i><span>Ambiental</span></a>
+                                    <ul class="sub-menu">
+                                        <li>
+                                            <a href="#">
+                                                <span>Ambiental</span>
+                                            </a>
+                                        </li>
+                                    </ul> 
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% block contenido %}
+        {% endblock contenido %}     
+    </div>
             
-            <!-- Perfect Scrollbar -->
-            <script src="{% static 'theme/lib/perfect-scrollbar/js/perfect-scrollbar.jquery.min.js' %}" type="text/javascript"></script>
+    <!-- jQuery -->
+    <script src="{% static 'theme/lib/jquery/jquery.min.js' %}" type="text/javascript"></script>
 
-            <!-- Pace -->
-            <script src="{% static 'libs/pace/1.0.0/pace.js' %} " type="text/javascript"></script>
-            
-            <!-- Alertify -->
-            <script src="{% static 'libs/alertifyjs/1.10.0/alertify.min.js' %}"></script>
+    <!-- jQuery-Cookie -->
+    <script src="{% static 'libs/jquery-cookie/1.4.1/jquery.cookie.js' %}"></script>            
 
-            <!-- Moment -->
-            <script src="{% static 'libs/momentjs/2.18.1/moment.js' %}"></script>
+    <!-- Bootstrap-->
+    <script src="{% static 'theme/lib/bootstrap/dist/js/bootstrap.min.js' %}" type="text/javascript"></script>
+    
+    <!-- Perfect Scrollbar -->
+    <script src="{% static 'theme/lib/perfect-scrollbar/js/perfect-scrollbar.jquery.min.js' %}" type="text/javascript"></script>
 
-            <!-- Select 2 -->
-            <script src="{% static 'theme/lib/select2/js/select2.min.js' %}"></script>
+    <!-- Pace -->
+    <script src="{% static 'libs/pace/1.0.0/pace.js' %} " type="text/javascript"></script>
+    
+    <!-- Alertify -->
+    <script src="{% static 'libs/alertifyjs/1.10.0/alertify.min.js' %}"></script>
 
-            <!-- Main Theme js -->
-            <script src="{% static 'theme/js/main.js' %}"></script>
+    <!-- Moment -->
+    <script src="{% static 'libs/momentjs/2.18.1/moment.js' %}"></script>
 
-            <!-- Nova -->
-            <script src="{% static 'master.js' %}" type="text/javascript"></script>
+    <!-- Select 2 -->
+    <script src="{% static 'theme/lib/select2/js/select2.min.js' %}"></script>
 
-            <script type="text/javascript">
+    <!-- Main Theme js -->
+    <script src="{% static 'theme/js/main.js' %}"></script>
 
-                $(document).ready(function(){
-                    //initialize the javascript
-                    App.init();
-                });
-            
-            </script>
-            {% block scripts %}
-              
-            {% endblock scripts %}
-          </body>
-        </html>
+    <!-- Nova -->
+    <script src="{% static 'master.js' %}" type="text/javascript"></script>
+
+    <script type="text/javascript">
+
+        $(document).ready(function(){
+            //initialize the javascript
+            App.init();
+        });
+    
+    </script>
+    {% block scripts %}
+      
+    {% endblock scripts %}
+</body>
+</html>

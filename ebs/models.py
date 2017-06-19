@@ -158,6 +158,7 @@ class VIEW_ORGANIZACIONES(models.Model):
         managed = False
         db_table = u'"NUVAPP"."VIEW_ORGANIZACIONES"'
 
+
 class VIEW_GRADO_ACADEMICO(models.Model):
     clave_grado = models.IntegerField(primary_key=True)
     desc_grado = models.CharField(max_length=240)
@@ -166,11 +167,14 @@ class VIEW_GRADO_ACADEMICO(models.Model):
         managed = False
         db_table = u'"NUVAPP"."VIEW_GRADO_ACADEMICO"'
 
+
 class VIEW_EMPLEADOS_GRADO(models.Model):
     pers_clave = models.IntegerField(primary_key=True)
     pers_empleado_numero = models.CharField(max_length=30)
     pers_nombre_completo = models.CharField(max_length=240)
     asig_puesto_desc = models.CharField(max_length=240)
+    asig_organizacion_id = models.IntegerField()
+    asig_organizacion_desc = models.CharField(max_length=240)
     qua_grado_academico = models.CharField(max_length=240)
     qua_ultimo_estudio = models.CharField(max_length=240)
     qua_especialidad = models.CharField(max_length=240)
@@ -178,5 +182,29 @@ class VIEW_EMPLEADOS_GRADO(models.Model):
 
     class Meta:
         managed = False
-        db_table = u'"NUVAPP"."VIEW_EMPLEADOS_GRADO"'        
+        db_table = u'"NUVAPP"."VIEW_EMPLEADOS_GRADO"'
 
+
+class VIEW_ORGANIGRAMA(models.Model):
+
+    pers_clave = models.IntegerField(primary_key=True)
+    pers_empleado_numero = models.IntegerField()
+    pers_nombre_completo = models.CharField(max_length=240)
+    asig_trabajo_desc = models.CharField(max_length=240)
+    asig_organizacion_desc = models.CharField(max_length=240)
+    asig_puesto_desc = models.CharField(max_length=240)
+    grup_compania_jde = models.CharField(max_length=240)
+    grup_proyecto_jde = models.CharField(max_length=240)
+    asig_jefe_directo_clave = models.CharField(max_length=240)
+    jefe_nombre_completo = models.CharField(max_length=240)
+    nivel_estructura = models.IntegerField()
+    ruta = models.CharField(max_length=240)
+    ruta2 = models.CharField(max_length=240)
+    asig_organizacion_clave = models.IntegerField()
+    grup_fase_jde = models.CharField(max_length=240)
+    asig_ubicacion_desc = models.CharField(max_length=240)
+    tipo = models.CharField(max_length=40)
+
+    class Meta:
+        managed = False
+        db_table = u'"NUVAPP"."VIEW_ORGANIGRAMA"'

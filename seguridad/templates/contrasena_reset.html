@@ -1,36 +1,89 @@
 {% extends 'login.html' %}
-{% block titulo %} Restablecer contraseña {% endblock titulo %}
+
+{% load static from staticfiles %}
+
+{% block titulo %} Restablecer Contraseña {% endblock titulo %}
+
+{% block title-page %} Restablecer Contraseña {% endblock title-page %}
+
+{% block css %}
+
+    <!-- Pace -->
+    <link rel="stylesheet" href="{% static 'libs/pace/1.0.0/pace.css' %}" type="text/css"/>
+
+    <!-- Nova' Styles -->
+    <link rel="stylesheet" href="{% static 'master.css' %}"/>
+    <link rel="stylesheet" href="{% static 'registro.css' %}"/>
+
+{% endblock css %}
+
 {% block contenido %}
-<div class="be-content">
-	<div class="page-head">
-		<h2 class="page-head-title">Restablecer contraseña.</h2>
-	</div>
-	<div class="col-md-12">
-		<div class="main-content container-fluid">
-			<div class="col-md-8">
-				<div class="panel panel-default panel-table">
-					<div class="form-group">
-						<br>
-						<h4>Ingrese el usuario o correo electronico asociado a su cuenta.</h4>
-						<br>
-						<form method="post">
-							{% csrf_token %}
-							{{ form.as_p }}
-							<!-- Botones de accion -->
-							<a class="button" href="{% url 'seguridad:login' %}"> Regresar </a>
-							<button type="submit" class="btn btn-primary" id="id_boton_guardar" >Enviar correo</button>
-						</form>
-					</div><!-- End Form group -->
-					{% if messages %}
-					    {% for message in messages %}
-					    	<div {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %} class="alert alert-danger" {% else %} class="alert alert-success alert-dismissible" {% endif %}> 
-					            <strong>{{message}}</strong>
-					        </div>
-					    {% endfor %}
-					{% endif %}
-				</div><!-- End Panel default -->
-			</div><!-- End Col-md-8 -->
-		</div><!-- End Main content -->
-	</div><!-- End Col-md-12 -->
-</div><!-- End Be content -->
+
+<div class="main-content container-fluid">
+
+
+    <nav class="navbar navbar-default navbar-fixed-top be-top-header">
+        <div class="container-fluid">
+  
+            <div class="navbar-header">
+                <a class="navbar-brand" href="{% url 'home:inicio' %}"></a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="nova-contenido">
+
+        <div class="row">
+            <div class="col-sm-12 text-center">
+                <div class="page-head">
+                    <h1 class="page-head-title">Restablecer Contraseña</h1>
+                </div>         
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12 col-md-8 col-md-offset-2">
+                <div class="panel panel-border panel-contrast nova-panel-info">
+                <form method="post"> {% csrf_token %}
+                    <h4>
+                        Ingrese un Nombre de Usuario o un Correo Electronico asociado a su cuenta.
+                    </h4>
+
+                        {{ form.as_p }}
+                        
+                        <button type="submit" class="btn btn-success btn-lg">
+                            <i class="icon mdi mdi-key"></i>
+                            Restablecer mi contraseña
+                        </button>
+                    
+
+                        {% if messages %}
+                            {% for message in messages %}
+                                {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                                    <div role="alert" class="alert alert-contrast alert-danger alert-dismissible nova-mensajes">
+                                        <div class="icon"><span class="mdi mdi-close-circle-o"></span></div>
+                                        <div class="message">
+                                            <button type="button" data-dismiss="alert" aria-label="Close" class="close"><span aria-hidden="true" class="mdi mdi-close"></span></button>
+                                            {{message}}
+                                        </div>
+                                    </div>
+                                {% else %}
+                                    <div role="alert" class="alert alert-contrast alert-primary alert-dismissible nova-mensajes">
+                                        <div class="icon"><span class="mdi mdi-info-outline"></span></div>
+                                        <div class="message">
+                                            <button type="button" data-dismiss="alert" aria-label="Close" class="close"><span aria-hidden="true" class="mdi mdi-close"></span></button>
+                                            {{message}}
+                                        </div>
+                                    </div>
+                                {% endif %}
+
+                            {% endfor %}
+                        {% endif %}
+                </form>
+                </div>
+            </div>
+        </div>        
+
+    </div>
+</div>
 {% endblock contenido%}

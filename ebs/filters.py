@@ -5,11 +5,11 @@ from rest_framework import filters
 from django_filters import CharFilter
 from django_filters import NumberFilter
 
-
 # Modelos:
 from .models import VIEW_EMPLEADOS_SIMPLE
 from .models import VIEW_EMPLEADOS_FULL
 from .models import VIEW_EMPLEADOS_GRADO
+from .models import VIEW_ORGANIGRAMA
 
 
 class VIEW_EMPLEADOS_SIMPLE_Filter(filters.FilterSet):
@@ -223,4 +223,33 @@ class VIEW_EMPLEADOS_GRADO_Filter(filters.FilterSet):
             'qua_ultimo_estudio',
             'qua_especialidad',
             'qua_version_num',
+        ]
+
+
+class VIEW_ORGANIGRAMA_Filter(filters.FilterSet):
+
+    pers_clave = CharFilter(
+        name="pers_clave",
+        lookup_expr="icontains"
+    )
+
+    class Meta:
+        model = VIEW_ORGANIGRAMA
+        fields = [
+            'pers_nombre_completo',
+            'asig_trabajo_desc',
+            'pers_clave',
+            'asig_organizacion_desc',
+            'asig_organizacion_clave',
+            'asig_puesto_desc',
+            'grup_compania_jde',
+            'grup_proyecto_jde',
+            'asig_jefe_directo_clave',
+            'jefe_nombre_completo',
+            'nivel_estructura',
+            'ruta',
+            'ruta2',
+            'grup_fase_jde',
+            'asig_ubicacion_desc',
+            'tipo',
         ]

@@ -1,25 +1,18 @@
 
-# Librerias de Terceros
-
-# Django API Rest:
+# Third's Libraries
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 from django_filters.rest_framework import DjangoFilterBackend
 
-# Librerias Propias
-
-# Modelos:
+# Own's Libraries
 from .models import ViaticoCabecera
 from .models import ViaticoLinea
 
-# Serializadores:
 from .serializers import ViaticoCabeceraSerializer
 from .serializers import ViaticoLineaSerializer
 
-# Paginacion:
 from .pagination import GenericPagination
 
-# Filtros:
 from .filters import ViaticoCabeceraFilter
 
 

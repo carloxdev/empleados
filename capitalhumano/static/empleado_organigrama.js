@@ -1,139 +1,161 @@
+/*-----------------------------------------------*\
+               GLOBAL VARIABLES
+\*-----------------------------------------------*/
 
+var url_organigrama = window.location.origin + "/api-ebs/vieworganigrama/"
+var url_datos_org = window.location.origin + "/organigrama/json-org/"
+var url_datos_emp = window.location.origin + "/organigrama/json-emp/"
+
+//OBJS
 var organigrama = null
+var tarjeta_filtros = null
+var organizacion = 0
+var empresa = ''
 
+/*-----------------------------------------------*\
+               LOAD
+\*-----------------------------------------------*/
 
 $(document).ready(function(){
    organigrama = new Organigrama()
+   tarjeta_filtros = new TarjetaFiltros()
 })
 
-function Organigrama(){
+/*-----------------------------------------------*\
+               OBJETO: TARJETA FILTROS
+\*-----------------------------------------------*/
+
+
+function TarjetaFiltros(){
+
+   this.$organizaciones = $('#id_organizaciones')
+   this.$empresas = $('#id_empresas')
+
    this.init_Components()
+   this.init_Events()
 }
-Organigrama.prototype.init_Components = function () {
-
-    this.crear_Diagrama()
+TarjetaFiltros.prototype.init_Components = function () {
+   this.$organizaciones.select2(this.get_ConfSelect2())
+   this.$empresas.select2(this.get_ConfSelect2())
 }
-Organigrama.prototype.crear_Diagrama = function (){
-
-   $("#diagram").kendoDiagram({
-      dataSource: new kendo.data.HierarchicalDataSource({
-         data: this.get_Data(),
-         schema: {
-            model: {
-               children: "items"
-            }
-         }
-      }),
-      layout: {
-         type: "layered"
-      },
-      shapeDefaults: {
-         visual: this.visual_Template()
-      },
-      connectionDefaults: {
-         stroke: {
-            color: "#979797",
-            width: 2
-         }
-      }
-   });
-
-   var diagram = $("#diagram").getKendoDiagram()
-   diagram.bringIntoView(diagram.shapes)
-
+TarjetaFiltros.prototype.init_Events = function () {
+   this.$organizaciones.on("change", this, organigrama.empleados_Organizacion)
+   this.$empresas.on("change", this, organigrama.empleados_Empresa)
 }
-Organigrama.prototype.get_Data = function (){
-
-   var data =[]
-   
-   data= [{
-            firstName: "Antonio",
-            lastName: "Moreno",
-            title: "Team Lead",
-            colorScheme: "#1696d3",
-            items: [{
-               firstName: "Elizabeth",
-               lastName: "Brown",
-               title: "Design Lead",
-               colorScheme: "#ef6944",
-               items: [{
-                  firstName: "Ann",
-                  lastName: "Devon",
-                  title: "UI Designer",
-                  colorScheme: "#ef6944"
-               }]
-            }, {
-               firstName: "Diego",
-               lastName: "Roel",
-               title: "QA Engineer",
-               colorScheme: "#ee587b",
-               items: [{
-                  firstName: "Fran",
-                  lastName: "Wilson",
-                  title: "QA Intern",
-                  colorScheme: "#ee587b"
-               }]
-            }, {
-               firstName: "Felipe",
-               lastName: "Izquiedro",
-               title: "Senior Developer",
-               colorScheme: "#75be16",
-               items: [{
-                  firstName: "Daniel",
-                  lastName: "Tonini",
-                  title: "Developer",
-                  colorScheme: "#75be16"
-               }]
-            }]
-         }]
-   return data
-}
-Organigrama.prototype.visual_Template = function (){
-
-   var var_template = function (options){
-      var dataviz = kendo.dataviz
-      var g = new dataviz.diagram.Group()
-      var dataItem = options.dataItem
-
-      g.append(new dataviz.diagram.Rectangle({
-         width: 210,
-         height: 75,
-         stroke: {
-            width: 0
-         },
-         fill: {
-            gradient: {
-               type: "linear",
-               stops: [{
-                  color: dataItem.colorScheme,
-                  offset: 0,
-                  opacity: 0.5
-               }, {
-                  color: dataItem.colorScheme,
-                  offset: 1,
-                  opacity: 1
-               }]
-            }
-         }
-      }))
-
-      g.append(new dataviz.diagram.TextBlock({
-         text: dataItem.firstName + " " + dataItem.lastName,
-         x: 85,
-         y: 20,
-         fill: "#fff"
-      }))
-
-      g.append(new dataviz.diagram.TextBlock({
-         text: dataItem.title,
-         x: 85,
-         y: 40,
-         fill: "#fff"
-      }))
-
-      return g
+TarjetaFiltros.prototype.get_ConfSelect2 = function () {
+   return {
+      width: '100%'
    }
+}
+/*-----------------------------------------------*\
+               OBJETO: ORGANIGRAMA
+\*-----------------------------------------------*/
 
-   return var_template
+
+function Organigrama(){
+}
+Organigrama.prototype.empleados_Organizacion = function(e){
+  organizacion = e.data.$organizaciones.val()
+  $('#content-data').empty()
+
+  var url = url_datos_org + organizacion + "/"
+
+   $.ajax({
+            url: url_organigrama,
+            data: {
+              asig_organizacion_clave:organizacion
+            },
+            dataType: "json",
+            type: "GET",
+            contentType: "application/json; charset=utf-8",
+            context: this,
+            success: function (response) {
+              cont = 0
+              for (var i = 0; i < response.length; i++) {
+                cont+=1
+              }
+
+              if (cont == 0){
+                organigrama.mostrar_Mensaje(cont)
+              }
+              else{
+                organigrama.mostrar_Mensaje(cont)
+                organigrama.crear_Diagrama(url)
+              }
+              
+            },
+            error: function (response) {
+
+                         alert("Ocurrio error al consultar ")
+                  }
+
+    })
+}
+Organigrama.prototype.empleados_Empresa = function(e){
+
+  empresa = e.data.$empresas.val()
+  $('#content-data').empty()
+  var url = url_datos_emp + empresa + "/"
+
+   $.ajax({
+            url: url_organigrama,
+            data: {
+              grup_compania_jde:empresa
+            },
+            dataType: "json",
+            type: "GET",
+            contentType: "application/json; charset=utf-8",
+            context: this,
+            success: function (response) {
+              cont = 0
+              for (var i = 0; i < response.length; i++) {
+                cont+=1
+              }
+
+              if (cont == 0){
+                organigrama.mostrar_Mensaje(cont)
+
+              }
+              else{
+                organigrama.mostrar_Mensaje(cont)
+                organigrama.crear_Diagrama(url)
+
+              }
+             
+            },
+            error: function (response) {
+
+                         alert("Ocurrio error al consultar ")
+                  }
+
+    })
+}
+Organigrama.prototype.crear_Diagrama = function(_url){
+
+  $('#content-data').orgchart({
+    'data' : _url,
+    'depth': 3,
+    'nodeTitle': 'puesto',
+    'nodeFoto':'foto',
+    'nodeNombre': 'nombre',
+    'nodeNumEmpleado':'num_empleado',
+    'nodeCompania':'compania',
+    'nodeDepartamento':'departamento',
+    'nodeCentroCostos': 'centro_costos',
+    'nodeUbicacion': 'ubicacion',
+    'nodeStaff': 'staff',
+    'toggleSiblingsResp': true,
+  })
 }
 
+Organigrama.prototype.mostrar_Mensaje = function (_total){
+
+   if(_total == 0){
+      document.getElementById('container-mensaje').innerHTML='<br>La organización/empresa no cuenta con empleados'
+      $('#contenedor').hide()
+
+   }else{
+      document.getElementById('container-mensaje').innerHTML=' '
+      $('#contenedor').show()
+   }
+}

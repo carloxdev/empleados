@@ -1,0 +1,380 @@
+{% extends 'master.html' %}
+{% load static from staticfiles %}
+{% block titulo %} Servicios empleado {% endblock titulo %}
+{% block title-page %} Mi expediente  {% endblock title-page %}
+{% block css %}
+{% endblock css %}
+{% block contenido %}
+<div class="be-content">
+<div class="page-head">
+	<h2 class="page-head-title">Mi expediente</h2>
+	<br>
+	<ol class="breadcrumb page-head-nav pull-right">
+	 <li> <a href="{% url 'home:inicio'%}">Inicio</a></li>
+	 <li class="active" id="menu" data-opcion="serviciosempleado_miexpediente">Mi expediente</li>
+	</ol>
+</div>
+
+<div class="main-content container-fluid">
+	<div class="user-profile">
+		<div class="row">
+			{% for dato in empleado %}
+			<div class="col-md-12">
+				<!-- Encabezado perfil -->
+				<div class="user-display">
+					<div class="user-display-bottom">
+						<div class="user-display-avatar"><img src="{% static 'theme/img/avatar-150.png' %}" alt="Avatar"></div>
+						<div class="user-display-info">
+							<div class="name">{{ dato.pers_nombre_completo }}</div>
+							<div class="nick"><span class="mdi mdi-account"></span> {{ request.user }}</div>
+						</div>
+						<div class="row user-display-details">
+							<div class="col-xs-4">
+								<div class="title">No Empleado</div>
+								<div class="counter">{{ dato.pers_empleado_numero }}</div>
+							</div>
+							<div class="col-xs-4">
+								<div class="title">Fecha Ingreso</div>
+								<div class="counter">{{ dato.asig_fecha_inicio }}</div>
+							</div>
+							<div class="col-xs-4">
+								<div class="title">Centro costos</div>
+								<div class="counter">{{ dato.grup_fase_jde }}</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+				<!-- Informacion perfil -->
+				<div class="col-md-6">
+					<div class="user-info-list panel panel-default">
+						<div class="panel-heading nova-panel-heading-divider">Información personal</div>
+						<div class="panel-body">
+							<table class="no-border no-strip skills">
+								<tbody class="no-border-x no-border-y">
+									<tr>
+										<td class="icon nova-icon-gray"><span class="mdi mdi-face"></span></td>
+										<td class="item">Genero</td>
+										<td>{{ dato.pers_genero_desc }}</td>
+									</tr>
+									<tr>
+										<td class="icon nova-icon-gray"><span class="mdi mdi-collection-text"></span></td>
+										<td class="item">CURP</td>
+										<td>{{ dato.pers_curp }}</td>
+									</tr>
+									<tr>
+										<td class="icon nova-icon-gray"><span class="mdi mdi-male-female"></span></td>
+										<td class="item">Estado civil</td>
+										<td>{{ dato.pers_estado_civil_desc }}</td>
+									</tr>
+									<tr>
+										<td class="icon nova-icon-gray"><span class="mdi mdi-cake"></span></td>
+										<td class="item">Fecha de Nacimiento</td>
+										<td>{{ request.user.profile.fecha_nacimiento}}</td>
+									</tr>
+									<tr>
+										<td class="icon nova-icon-gray"><span class="mdi mdi-globe-alt"></span></td>
+										<td class="item">Lugar de nacimiento</td>
+										<td>{{ dato.pers_ciudad_nacimiento }}, {{ dato.pers_estado_nacimiento }}</td>
+									</tr>
+									<tr>
+										<td class="icon nova-icon-gray"><span class="icon mdi mdi-globe"></span></td>
+										<td class="item">Pais de nacimiento</td>
+										<td>{{ dato.pers_pais_nacimiento_clave }}</td>
+									</tr>
+									<tr>
+										<td class="icon nova-icon-gray"><span class="mdi mdi-email"></span></td>
+										<td class="item">Correo</td>
+										<td>{{ dato.pers_email }}</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="user-info-list panel panel-default">
+						<div class="panel-heading nova-panel-heading-divider">Información del trabajo</div>
+						<div class="panel-body">
+							<table class="no-border no-strip skills">
+								<tbody class="no-border-x no-border-y">
+									<tr>
+										<td class="icon nova-icon-gray"><span class="mdi mdi-home "></span></td>
+										<td class="item">Organizacion</td>
+										<td>{{ dato.asig_organizacion_desc }}</td>
+									</tr>
+									<tr>
+										<td class="icon nova-icon-gray"><span class="mdi mdi-case"></span></td>
+										<td class="item">Puesto</td>
+										<td>{{ dato.asig_puesto_desc }}</td>
+									</tr>
+
+									<tr>
+										<td class="icon nova-icon-gray"><span class="mdi mdi-pin"></span></td>
+										<td class="item">Ubicacion</td>
+										<td>{{ dato.asig_ubicacion_desc }}</td>
+									</tr>
+									<tr>
+										<td class="icon nova-icon-gray"><span class="mdi mdi-male-alt"></span></td>
+										<td class="item">Jefe directo</td>
+										<td>{{ dato.asig_jefe_directo_desc }}</td>
+									</tr>
+									<tr>
+										<td class="icon nova-icon-gray"><span class="mdi mdi-collection-text"></span></td>
+										<td class="item">Grado</td>
+										<td>{{ dato.asig_grado_desc }}</td>
+									</tr>
+									<tr>
+										<td class="icon nova-icon-gray"><span class="mdi mdi-collection-text"></span></td>
+										<td class="item">RFC</td>
+										<td>{{ dato.pers_rfc }}</td>
+									</tr>
+									<tr>
+										<td class="icon nova-icon-gray"><span class="mdi mdi-collection-text"></span></td>
+										<td class="item">IMSS</td>
+										<td>{{ dato.pers_numero_imss }}</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			{% endfor %}
+		</div>
+		<!-- Panel con tabs -->
+		<div class="fuelux">   
+               <div id="wizard1" class="wizard wizard-ux">
+                  <ul class="steps">
+                     <li class="active">Documentos personales</li>
+                  </ul>
+                  <div class="actions">
+                     <a class="btn btn-xs btn-prev btn-default nova-a-tab nova-active-tab">Documentos personales</a>
+                     <a href="#" class="btn btn-xs btn-next btn-default nova-a-tab">Capacitaciones</a>
+                     <a href="#" class="btn btn-xs btn-next btn-default nova-a-tab">Seguimiento incidencias</a>
+                     <a href="#" class="btn btn-xs btn-next btn-default nova-a-tab">Evaluacion desempeño</a>
+                  </div>
+                  <div class="step-content">
+                     <div data-step="1" class="step-pane active">
+
+                        <div class="form-horizontal group-border-dashed">
+
+                           <div class="form-group no-padding">
+                              <div class="col-sm-7">
+                                 <h5 class="wizard-title">Información de.....:</h5>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+
+               </div>
+               <!-- Botones 
+               <div class="modal-footer nova-modal-footer">
+
+                  <div class="row col-sm-12">                       
+                     
+                     <button type="submit" id="boton_guardar" class="btn nova-btn btn-primary btn-lg pull-right">
+                        <i class="icon icon-left mdi mdi-save nova-white"></i>
+                        Guardar
+                     </button>
+                  </div>
+               </div>-->
+         </div>
+		<!-- tab para hacer
+		<div class="main-content container-fluid">
+			<div class="row">
+				<div class="col-sm-17">
+					<div class="pfanel panel-default">
+						<div class="panel-heading">Opciones</div>
+						<div class="tab-container">
+							<ul class="nav nav-tabs">
+								<li class="active"><a href="#documentos" data-toggle="tab">Documentos Personales</a></li>
+								<li><a href="#capacitaciones" data-toggle="tab">Capacitaciones</a></li>
+								<li><a href="#incidencias" data-toggle="tab">Seguimiento Incidencias</a></li>
+								<li><a href="#evaluacion" data-toggle="tab">Evaluacion Desempeño</a></li>
+							</ul>
+							<div class="tab-content">
+								<div id="capacitaciones" class="tab-pane cont">
+									<div class="panel panel-default panel-table">
+										<div class="panel-heading">Capacitaciones
+											<div class="tools"><span class="icon mdi mdi-download"></span><span class="icon mdi mdi-more-vert"></span></div>
+										</div>
+										<div class="panel-body">
+											<table class="table table-striped table-hover">
+												<thead>
+													<tr>
+														<th >Curso</th>
+														<th >Proveedor</th>
+														<th>Modalidad</th>
+														<th>Lugar</th>
+														<th>Fecha Inicio</th>
+														<th>Fecha Fin</th>
+														<th>Costo</th>
+														<th class="actions">Ver Detalle</th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr>
+														<td class="user-avatar"><i class="mdi mdi-case"></i> EXCEL INTERMEDIO</td>
+														<td>Pem Institute SCP</td>
+														<td>Curso Presencial</td>
+														<td>Veracruz, ver</td>
+														<td>Agosto 6, 2015</td>
+														<td>Agosto 6, 2015</td>
+														<td>$ 1230 MXN</td>
+														<td class="actions"><a href="#" class="icon"><i class="mdi mdi-collection-pdf"></i></a></td>
+													</tr>
+													<tr>
+														<td class="user-avatar"> <i class="mdi mdi-case"></i> FORMACION DE BRIGADAS</td>
+														<td>Pem Institute SCP</td>
+														<td>Curso Presencial</td>
+														<td>Veracruz, ver</td>
+														<td>Jul 28, 2015</td>
+														<td>Agosto 6, 2015</td>
+														<td>$ 1030 MXN</td>
+														<td class="actions"><a href="#" class="icon"><i class="mdi mdi-collection-pdf"></i></a></td>
+													</tr>
+													<tr>
+														<td class="user-avatar"> <i class="mdi mdi-case"></i> MAPEO DE PROCESOS</td>
+														<td>Pem Institute SCP</td>
+														<td>Curso Presencial</td>
+														<td>Veracruz, ver</td>
+														<td>Jul 15, 2015</td>
+														<td>Agosto 6, 2015</td>
+														<td>$ 2000 MXN</td>
+														<td class="actions"><a href="#" class="icon"><i class="mdi mdi-collection-pdf"></i></a></td>
+													</tr>
+													<tr>
+														<td class="user-avatar"> <i class="mdi mdi-case"></i> COMUNCACION EFECTIVA</td>
+														<td>Pem Institute SCP</td>
+														<td>Curso Presencial</td>
+														<td>Veracruz, ver</td>
+														<td>Jun 30, 2015</td>
+														<td>Agosto 6, 2015</td>
+														<td>$ 1200 MXN</td>
+														<td class="actions"><a href="#" class="icon"><i class="mdi mdi-collection-pdf"></i></a></td>
+													</tr>
+													<tr>
+														<td class="user-avatar"> <i class="mdi mdi-case"></i> MANEJO OPTIMO DE MULTAS Y ACCIDENTES</td>
+														<td>Pem Institute SCP</td>
+														<td>Curso Presencial</td>
+														<td>Veracruz, ver</td>
+														<td>Jul 15, 2015</td>
+														<td>Agosto 6, 2015</td>
+														<td>$ 1230 MXN</td>
+														<td class="actions"><a href="#" class="icon"><i class="mdi mdi-collection-pdf"></i></a></td>
+													</tr>
+													
+												</tbody>
+											</table>
+										</div>
+									</div>
+									
+								</div>
+								<div id="documentos" class="tab-pane active cont">
+									
+									<div class="panel panel-default panel-table">
+										<div class="panel-heading">Catalogo de Areas de Experiencias
+											<div class="tools"><span class="icon mdi mdi-download"></span><span class="icon mdi mdi-more-vert"></span></div><span class="panel-subtitle">Tecnicas</span>
+										</div>
+										<div class="panel-body">
+											<table class="table table-striped table-hover">
+												<thead>
+													<tr>
+														<th style="width:36%;">Agrupador</th>
+														<th style="width:37%;">Tipo Documento</th>
+														<th>Fecha</th>
+														<th class="actions">Ver Detalle</th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr>
+														<td class="user-avatar"><i class="mdi mdi-account-box"></i> Personal</td>
+														<td>Acta de Nacimiento</td>
+														<td>Agosto 6, 2015</td>
+														<td class="actions"><a href="#" class="icon"><i class="mdi mdi-collection-pdf"></i></a></td>
+													</tr>
+													<tr>
+														<td class="user-avatar"> <i class="mdi mdi-account-box"></i> Personal</td>
+														<td>CV</td>
+														<td>Jul 28, 2015</td>
+														<td class="actions"><a href="#" class="icon"><i class="mdi mdi-collection-pdf"></i></a></td>
+													</tr>
+													<tr>
+														<td class="user-avatar"> <i class="mdi mdi-account-box"></i> Personal</td>
+														<td>IFE</td>
+														<td>Jul 15, 2015</td>
+														<td class="actions"><a href="#" class="icon"><i class="mdi mdi-collection-pdf"></i></a></td>
+													</tr>
+													<tr>
+														<td class="user-avatar"> <i class="mdi mdi-account-box"></i> Personal</td>
+														<td>Titulo</td>
+														<td>Jun 30, 2015</td>
+														<td class="actions"><a href="#" class="icon"><i class="mdi mdi-collection-pdf"></i></a></td>
+													</tr>
+													<tr>
+														<td class="user-avatar"> <i class="mdi mdi-account-box"></i> Personal</td>
+														<td>RFC</td>
+														<td>Jul 15, 2015</td>
+														<td class="actions"><a href="#" class="icon"><i class="mdi mdi-collection-pdf"></i></a></td>
+													</tr>
+													<tr>
+														<td class="user-avatar"> <i class="mdi mdi-account-box"></i> Personal</td>
+														<td>Visa Estados Unidos</td>
+														<td>Jun 30, 2015</td>
+														<td class="actions"><a href="#" class="icon"><i class="mdi mdi-collection-pdf"></i></a></td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+								<div id="incidencias" class="tab-pane cont">
+									<div class="panel-heading panel-heading-divider">Seguimiento de Incidencias<span class="panel-subtitle">Esta descripcion de incidencias</span></div>
+									<div class="panel-body">
+										<div class="row user-progress">
+											<div class="col-md-10"><span class="title">Accidente Laboral</span>
+											<div class="progress">
+												<div style="width: 50%" class="progress-bar progress-bar-danger"></div>
+											</div>
+										</div>
+										<div class="col-md-2"><span class="value"> 5</span></div>
+									</div>
+									<div class="row user-progress">
+										<div class="col-md-10"><span class="title">Enfermedad No Laboral</span>
+										<div class="progress">
+											<div style="width: 30%" class="progress-bar progress-bar-primary"></div>
+										</div>
+									</div>
+									<div class="col-md-2"><span class="value">2</span></div>
+								</div>
+								
+							</div>
+						</div>
+						<div id="evaluacion" class="tab-pane cont">
+							<div class="panel-heading panel-heading-divider">Evaluacion de Desempeño<span class="panel-subtitle">Timeline</span></div>
+							<div class="panel-body">
+								
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>-->
+	</div>
+</div>
+
+</div>
+</div>
+
+</div>
+{% endblock contenido %}
+{% block scripts %}
+	<!-- Theme InputMask -->
+	<script src="{% static 'theme/lib/jquery.maskedinput/jquery.maskedinput.min.js' %}"></script>
+   <!-- InputMask -->
+   <script src="{% static 'libs/plugins/input-mask/jquery.inputmask.js' %}"></script>
+	<!-- Theme -->
+	<script src="{% static 'theme/lib/jquery-ui/jquery-ui.min.js' %}"></script>
+{% endblock scripts %}

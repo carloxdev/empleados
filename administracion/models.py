@@ -39,6 +39,7 @@ class Empresa(models.Model):
     clave = models.CharField(max_length=50, unique=True)
     descripcion = models.CharField(max_length=144)
     descripcion_jde = models.CharField(max_length=144)
+    descripcion_ebs = models.CharField(max_length=144)
     alias = models.CharField(max_length=40, blank=True, null=True)
     created_by = models.ForeignKey(Profile, related_name='emp_created_by', null=True)
     created_date = models.DateTimeField(

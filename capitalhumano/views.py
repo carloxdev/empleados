@@ -2,6 +2,7 @@
 
 # Django Atajos:
 from django.shortcuts import render
+from django.http import HttpResponse
 
 # Librerias de Django
 from django.views.generic.base import View
@@ -10,6 +11,17 @@ from django.views.generic.base import View
 
 # Formularios
 from .forms import EmpleadoFilterForm
+from .forms import OrganizacionesFilterForm
+from .forms import EmpresasFilterForm
+from .forms import ExpedientesFilterForm
+
+# Serializer crear organigrama
+from serializers import VIEW_ORGANIGRAMA_ORG_SERIALIZADO
+from serializers import VIEW_ORGANIGRAMA_EMP_SERIALIZADO
+
+# Modelos
+from ebs.models import VIEW_ORGANIGRAMA
+from ebs.models import VIEW_EMPLEADOS_FULL
 
 
 # -------------- EMPLEADOS -------------- #
@@ -29,7 +41,7 @@ class EmpleadoLista(View):
 
         return render(request, self.template_name, contexto)
 
-# -------------- INDICADORES -------------- #
+# -------------- DASHBOARD -------------- #
 
 
 class EmpleadoDashboard(View):
@@ -39,7 +51,15 @@ class EmpleadoDashboard(View):
 
     def get(self, request):
 
-        return render(request, self.template_name)
+        form = OrganizacionesFilterForm()
+
+        contexto = {
+            'form': form,
+        }
+        return render(request, self.template_name, contexto)
+
+
+# -------------- ORGANIGRAMA EBS  -------------- #
 
 
 class EmpleadoOrganigrama(View):
@@ -49,4 +69,157 @@ class EmpleadoOrganigrama(View):
 
     def get(self, request):
 
-        return render(request, self.template_name)
+        form_organizaciones = OrganizacionesFilterForm()
+        form_empresas = EmpresasFilterForm()
+
+        contexto = {
+            'form': form_organizaciones,
+            'form2': form_empresas,
+        }
+        return render(request, self.template_name, contexto)
+
+
+class EmpleadoOrganigramaOrgAPI(View):
+
+    def get(self, request, pk):
+
+        daddies = VIEW_ORGANIGRAMA.objects.using(
+            'ebs_d').filter(asig_organizacion_clave=pk)
+
+        serializador = VIEW_ORGANIGRAMA_ORG_SERIALIZADO()
+        lista_json = serializador.get_Json(daddies)
+
+        return HttpResponse(
+            lista_json,
+            content_type="application/json"
+        )
+
+
+class EmpleadoOrganigramaEmpAPI(View):
+
+    def get(self, request, pk):
+
+        daddies = VIEW_ORGANIGRAMA.objects.using(
+            'ebs_d').filter(grup_compania_jde=pk)
+
+        serializador = VIEW_ORGANIGRAMA_EMP_SERIALIZADO()
+        lista_json = serializador.get_Json(daddies)
+
+        return HttpResponse(
+            lista_json,
+            content_type="application/json"
+        )
+
+
+# --------------  EXPEDIENTES EMPLEADOS -------------- #
+
+
+class EmpleadoExpedientes(View):
+
+    def __init__(self):
+        self.template_name = 'empleado_expedientes.html'
+
+    def get(self, request):
+        form = ExpedientesFilterForm()
+
+        contexto = {
+            'form': form
+        }
+
+        return render(request, self.template_name, contexto)
+
+    def post(self, request):
+        form = ExpedientesFilterForm(request.POST)
+
+        contexto = {
+            'form': form
+        }
+
+        return render(request, self.template_name, contexto)
+
+
+class EmpleadoExpediente(View):
+
+    def __init__(self):
+        self.template_name = 'empleado_expediente.html'
+
+    def get(self, request, pk):
+
+        empleado = VIEW_EMPLEADOS_FULL.objects.using(
+            "ebs_d").filter(pers_empleado_numero=pk)
+
+        contexto = {
+            'empleado': empleado,
+        }
+
+        return render(request, self.template_name, contexto)
+
+
+
+# -------------- PERFILES DE PUESTOS DOCUMENTO  -------------- #
+
+
+class PerfilPuesto(View):
+
+    def get(self, request):
+
+        return render(request, 'perfilpuesto/perfil_lista.html')
+
+
+class PerfilPuestoNuevo(View):
+
+    def __init__(self):
+
+        self.template_name = 'perfilpuesto/perfil_nuevo.html'
+
+    def get(self, request):
+
+        formulario = PerfilPuestoDocumentoForm()
+
+        contexto = {
+            'form': formulario
+        }
+
+        return render(request, self.template_name, contexto)
+
+
+class PerfilPuestoNuevo2(View):
+
+    def get(self, request):
+
+        return render(request, 'perfilpuesto/perfil_nuevo2.html')
+
+
+class PerfilPuestoConfiguraciones(View):
+
+    def get(self, request):
+
+        return render(request, 'perfilpuesto/perfil_configuracion.html')
+
+
+class PerfilPuestoCompetencias(View):
+
+    def get(self, request):
+
+        return render(request, 'perfilpuesto/perfil_competencias.html')
+
+
+class PerfilPuestoCargos(View):
+
+    def get(self, request):
+
+        return render(request, 'perfilpuesto/perfil_puestoscargo.html')
+
+
+class PerfilOrganigrama(View):
+
+    def get(self, request):
+
+        return render(request, 'perfilpuesto/perfil_organigrama.html')
+
+
+class PerfilOrganigrama2(View):
+
+    def get(self, request):
+
+        return render(request, 'empleado_perfil_organigrama.html')

@@ -191,7 +191,7 @@ class VIEW_USUARIOS_API(viewsets.ModelViewSet):
     serializer_class = VIEW_USUARIOS_Serializer
     filter_backends = (filters.DjangoFilterBackend,)
     filter_class = VIEW_USUARIOS_Filter
-    permission_classes = (IsAuthenticated,)
+    # permission_classes = (IsAuthenticated,)
 
 
 class VIEWS_COMPRAS_API(viewsets.ModelViewSet):
@@ -206,13 +206,6 @@ class VIEW_UNIDADES_API(viewsets.ModelViewSet):
     queryset = VIEW_UNIDADES.objects.using('jde_p').all()
     serializer_class = VIEW_UNIDADES_Serializer
     permission_classes = (IsAuthenticated,)
-
-
-class VIEW_COMPANIAS_API(viewsets.ModelViewSet):
-    queryset = VIEW_COMPANIAS.objects.using('jde_p').all()
-    serializer_class = VIEW_COMPANIAS_Serializer
-    permission_classes = (IsAuthenticated,)
-
 
 class VIEW_AUTORIZACIONES_ByPageAPI(viewsets.ReadOnlyModelViewSet):
     queryset = VIEW_AUTORIZACIONES.objects.using('jde_p').all()
@@ -231,3 +224,7 @@ class VIEW_RECEPCIONES_ByPageAPI(viewsets.ReadOnlyModelViewSet):
     filter_class = VIEW_RECEPCIONES_Filter
     permission_classes = (IsAuthenticated,)
 
+class VIEW_COMPANIAS_API(viewsets.ModelViewSet):
+    queryset = VIEW_COMPANIAS.objects.using('jde_p').all()
+    serializer_class = VIEW_COMPANIAS_Serializer
+    permission_classes = (IsAuthenticated,)

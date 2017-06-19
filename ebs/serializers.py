@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+
 # Librerias API REST:
 from rest_framework import serializers
 
@@ -7,6 +8,8 @@ from rest_framework import serializers
 from models import VIEW_EMPLEADOS_SIMPLE
 from models import VIEW_EMPLEADOS_FULL
 from models import VIEW_EMPLEADOS_GRADO
+from models import VIEW_ORGANIZACIONES
+from models import VIEW_ORGANIGRAMA
 
 
 class VIEW_EMPLEADOS_SIMPLE_Serializer(serializers.HyperlinkedModelSerializer):
@@ -134,7 +137,17 @@ class VIEW_EMPLEADOS_FULL_Serializer(serializers.HyperlinkedModelSerializer):
             'metodo_tipo_cuenta_id',
             'metodo_clabe',
         )
-    
+
+
+class VIEW_ORGANIZACIONES_Serializer(serializers.HyperlinkedModelSerializer):
+
+    class Meta:
+        model = VIEW_ORGANIZACIONES
+        fields = (
+            'clave_org',
+            'desc_org'
+        )
+
 
 class VIEW_EMPLEADOS_GRADO_Serializer(serializers.HyperlinkedModelSerializer):
 
@@ -144,10 +157,38 @@ class VIEW_EMPLEADOS_GRADO_Serializer(serializers.HyperlinkedModelSerializer):
             'pers_clave',
             'pers_empleado_numero',
             'pers_nombre_completo',
+            'asig_organizacion_id',
+            'asig_organizacion_desc',
             'asig_puesto_desc',
             'qua_grado_academico',
             'qua_ultimo_estudio',
             'qua_especialidad',
             'qua_version_num',
         )
+
+
+class VIEW_ORGANIGRAMA_Serializer(serializers.HyperlinkedModelSerializer):
+
+    class Meta:
+        model = VIEW_ORGANIGRAMA
+        fields = (
+            'pers_empleado_numero',
+            'pers_nombre_completo',
+            'asig_trabajo_desc',
+            'pers_clave',
+            'asig_organizacion_desc',
+            'asig_organizacion_clave',
+            'asig_puesto_desc',
+            'grup_compania_jde',
+            'grup_proyecto_jde',
+            'asig_jefe_directo_clave',
+            'jefe_nombre_completo',
+            'nivel_estructura',
+            'ruta',
+            'ruta2',
+            'grup_fase_jde',
+            'asig_ubicacion_desc',
+            'tipo',
+        )
+
 
