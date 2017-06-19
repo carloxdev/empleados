@@ -13,11 +13,9 @@ from django.views.generic.base import View
 from .forms import EmpleadoFilterForm
 from .forms import OrganizacionesFilterForm
 from .forms import EmpresasFilterForm
-<<<<<<< HEAD
 from .forms import PerfilPuestoDocumentoForm
-=======
 from .forms import ExpedientesFilterForm
->>>>>>> origin/master
+
 
 # Serializer crear organigrama
 from serializers import VIEW_ORGANIGRAMA_ORG_SERIALIZADO
