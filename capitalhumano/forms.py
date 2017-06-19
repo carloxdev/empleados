@@ -15,6 +15,7 @@ from ebs.models import VIEW_TIPO_PERSONAS
 from ebs.models import VIEW_PUESTOS
 from ebs.models import VIEW_ORGANIZACIONES
 from administracion.models import Empresa
+from ebs.models import VIEW_EMPLEADOS_FULL
 
 
 class OrganizacionesFilterForm(Form):
@@ -190,39 +191,98 @@ class EmpleadoFilterForm(Form):
 
 
 class ExpedientesFilterForm(Form):
+
+    TIPO_CHOICES = (
+        ('0', '---------'),
+        ('1120', 'ADMINISTRATIVO'),
+        ('1123', 'EX-EMPLEADO'),
+        ('1124', 'EX-EMPLEADO Y CANDIDATO'),
+        ('1125', 'CONTACTO'),
+        ('1118', 'CANDIDATO'),
+    )
+
     pers_primer_nombre = CharField(
-        label="Primer nombre:",
+        label="Primer nombre",
         widget=TextInput(
             attrs={'class': 'form-control input-xs'}
         )
     )
     pers_segundo_nombre = CharField(
-        label="Segundo nombre:",
+        label="Segundo nombre",
         widget=TextInput(
             attrs={'class': 'form-control input-xs'}
         )
     )
     pers_apellido_paterno = CharField(
-        label="Apellido paterno:",
+        label="Apellido paterno",
         widget=TextInput(
             attrs={'class': 'form-control input-xs'}
         )
     )
     pers_apellido_materno = CharField(
-        label="Apellido materno:",
+        label="Apellido materno",
         widget=TextInput(
             attrs={'class': 'form-control input-xs'}
         )
     )
-    pers_email = CharField(
-        label="Email:",
+    asig_organizacion_clave = ChoiceField(
+        label="Organización",
+        widget=Select(
+            attrs={'class': 'select2 nova-select2'}
+        )
+    )
+    grup_fase_jde = CharField(
+        label="Centro de costos",
         widget=TextInput(
             attrs={'class': 'form-control input-xs'}
         )
     )
     pers_empleado_numero = CharField(
-        label="Numero de empleado:",
+        label="Numero de empleado",
         widget=TextInput(
             attrs={'class': 'form-control input-xs'}
         )
     )
+    pers_tipo_codigo = ChoiceField(
+        label="Tipo de empleado",
+        choices=TIPO_CHOICES,
+        widget=Select(
+            attrs={'class': 'select2 nova-select2'}
+        )
+    )
+
+    def __init__(self, *args, **kwargs):
+        super(ExpedientesFilterForm, self).__init__(*args, **kwargs)
+        self.fields['asig_organizacion_clave'].choices = self.get_Organizaciones()
+        # self.fields['pers_tipo_codigo'].choices = self.get_TipoEmpleado()
+
+    def get_Organizaciones(self):
+        valores = [('0', '------------')]
+
+        organizaciones = VIEW_ORGANIZACIONES.objects.using('ebs_d').all()
+        for organizacion in organizaciones:
+
+            valores.append(
+                (
+                    organizacion.clave_org,
+                    organizacion.desc_org
+                )
+            )
+        return valores
+
+    def get_TipoEmpleado(self):
+        valores = [('0', '------------')]
+
+        tipos = VIEW_EMPLEADOS_FULL.objects.using('ebs_d').all()
+
+        #tipos = list(set(VIEW_EMPLEADOS_FULL.objects.using('ebs_d').values_list('pers_tipo_codigo', flat=True)))
+
+        for tipo in tipos:
+
+            valores.append(
+                (
+                    tipo.pers_tipo_codigo,
+                    tipo.pers_tipo_desc
+                )
+            )
+        return valores

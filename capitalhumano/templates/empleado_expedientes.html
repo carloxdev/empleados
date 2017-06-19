@@ -3,6 +3,11 @@
 {% block titulo %} Capital humano {% endblock titulo %}
 {% block title-page %} Expedientes  {% endblock title-page %}
 {% block css %}
+	<!-- Kendo -->
+	<link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.rtl.min.css' %}"/>
+	<link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.common-bootstrap.min.css' %}"/>
+	<link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.bootstrap.min.css' %}"/>
+
 {% endblock css %}
 {% block contenido %}
 <div class="be-content">
@@ -17,7 +22,7 @@
 
 	<!-- Filtro -->
 
-	    <div class="main-content container-fluid">
+	<div class="main-content container-fluid">
 
         <div class="col-sm-12">
             <div class="panel panel-border panel-contrast">
@@ -32,11 +37,53 @@
                         <div class="row">
                                 
                             <div class="row nova-padding-row">
-                                <!-- Formulario 
-                                <div class="col-sm-3"><label class="control-label">Compañia</label>-->
-                                <div class="">
+                                <!-- Formulario -->
+                                <div class="col-sm-3">
+                                	<label class="control-label">{{ form.pers_empleado_numero.label }}</label>
                                 	<p>
-                                        {{ form.as_p }} 
+                                        {{ form.pers_empleado_numero }} 
+                                    </p>
+                                </div>
+                                <div class="col-sm-3">
+                                	<label class="control-label">{{ form.asig_organizacion_clave.label }}</label>
+                                	<p>
+                                        {{ form.asig_organizacion_clave }} 
+                                    </p>
+                                </div>
+                                <div class="col-sm-3">
+                                	<label class="control-label">{{ form.pers_tipo_codigo.label }}</label>
+                                	<p>
+                                        {{ form.pers_tipo_codigo }} 
+                                    </p>
+                                </div>
+                                <div class="col-sm-3">
+                                	<label class="control-label">{{ form.grup_fase_jde.label }}</label>
+                                	<p>
+                                        {{ form.grup_fase_jde }} 
+                                    </p>
+                                </div>
+                                <div class="col-sm-3">
+                                	<label class="control-label">{{ form.pers_primer_nombre.label }}</label>
+                                	<p>
+                                        {{ form.pers_primer_nombre }} 
+                                    </p>
+                                </div>
+                                <div class="col-sm-3">
+                                	<label class="control-label">{{ form.pers_segundo_nombre.label }}</label>
+                                	<p>
+                                        {{ form.pers_segundo_nombre }} 
+                                    </p>
+                                </div>
+                                <div class="col-sm-3">
+                                	<label class="control-label">{{ form.pers_apellido_paterno.label }}</label>
+                                	<p>
+                                        {{ form.pers_apellido_paterno }} 
+                                    </p>
+                                </div>
+                                <div class="col-sm-3">
+                                	<label class="control-label">{{ form.pers_apellido_materno.label }}</label>
+                                	<p>
+                                        {{ form.pers_apellido_materno }} 
                                     </p>
                                 </div>
                                 
@@ -48,23 +95,33 @@
                             Limpiar
                         </button>
 
-                        <button type="button" id="boton_buscar" class="btn nova-btn btn-primary btn-lg pull-right" method='POST'>
+                        <button type="submit" id="boton_buscar" class="btn nova-btn btn-primary btn-lg pull-right" method='POST'>
                             <i class="icon icon-left mdi mdi-search nova-white"></i>
                             Buscar
                         </button>
                     </form>
                 </div> <!-- Panel Body -->
             </div>  <!-- Panel -->
+
+            <div class="col-ms-12">
+		    	<div class="panel panel-default panel-table" id="div_busqueda">
+					<div id="grid_resultados">
+					</div>
+				</div><!-- End Panel default (GRID) -->
+		    </div>
+
         </div>  <!-- col-sm-12 -->
     </div>
-    
-    {% block perfil %}
-    {% endblock perfil %}
-
-
 </div>
 {% endblock contenido %}
 {% block scripts %}
+	<!-- Kendo Js -->
+	<script src="{% static 'libs/kendo/2015.2.624/js/cultures/kendo.culture.es-MX.min.js' %}"></script>
+	<script src="{% static 'libs/kendo/2015.2.624/js/kendo.web.min.js' %}"></script>
+
 	<!-- Theme -->
 	<script src="{% static 'theme/lib/jquery-ui/jquery-ui.min.js' %}"></script>
+
+	<!-- NOVA-->
+   <script src="{% static 'empleado_expedientes.js' %}"></script>
 {% endblock scripts %}

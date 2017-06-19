@@ -16,11 +16,11 @@ class PerfilpuestoDocumentoFilter(filters.FilterSet):
     empleado_puesto_desc = CharFilter(
         name="empleado_puesto_desc",
         lookup_expr="icontains"
-    )   
+    )
 
     class Meta:
         model = PerfilPuestoDocumento
         fields = [
             'id',
             'empleado_puesto_desc',
-        ] 
+        ]

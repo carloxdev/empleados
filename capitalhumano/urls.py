@@ -18,6 +18,7 @@ from .views import PerfilPuestoCompetencias
 from .views import PerfilPuestoCargos
 from .views import PerfilOrganigrama
 from .views import EmpleadoExpedientes
+from .views import EmpleadoExpediente
 
 urlpatterns = [
     url(
@@ -49,6 +50,11 @@ urlpatterns = [
         r'^expedientes/$',
         EmpleadoExpedientes.as_view(),
         name='empleado_expedientes'
+    ),
+    url(
+        r'^expedientes/(?P<pk>\d+)/expediente/$',
+        EmpleadoExpediente.as_view(),
+        name='empleado_expediente'
     ),
     url(
         r'^perfilpuesto/$',

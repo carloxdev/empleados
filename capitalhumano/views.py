@@ -21,6 +21,7 @@ from serializers import VIEW_ORGANIGRAMA_EMP_SERIALIZADO
 
 # Modelos
 from ebs.models import VIEW_ORGANIGRAMA
+from ebs.models import VIEW_EMPLEADOS_FULL
 
 
 # -------------- EMPLEADOS -------------- #
@@ -109,6 +110,7 @@ class EmpleadoOrganigramaEmpAPI(View):
             content_type="application/json"
         )
 
+
 # --------------  EXPEDIENTES EMPLEADOS -------------- #
 
 
@@ -125,6 +127,34 @@ class EmpleadoExpedientes(View):
         }
 
         return render(request, self.template_name, contexto)
+
+    def post(self, request):
+        form = ExpedientesFilterForm(request.POST)
+
+        contexto = {
+            'form': form
+        }
+
+        return render(request, self.template_name, contexto)
+
+
+class EmpleadoExpediente(View):
+
+    def __init__(self):
+        self.template_name = 'empleado_expediente.html'
+
+    def get(self, request, pk):
+
+        empleado = VIEW_EMPLEADOS_FULL.objects.using(
+            "ebs_d").filter(pers_empleado_numero=pk)
+
+        contexto = {
+            'empleado': empleado,
+        }
+
+        return render(request, self.template_name, contexto)
+
+
 
 # -------------- PERFILES DE PUESTOS DOCUMENTO  -------------- #
 

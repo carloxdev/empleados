@@ -5,7 +5,6 @@ from rest_framework import filters
 from django_filters import CharFilter
 from django_filters import NumberFilter
 
-
 # Modelos:
 from .models import VIEW_EMPLEADOS_SIMPLE
 from .models import VIEW_EMPLEADOS_FULL
