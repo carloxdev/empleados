@@ -224,7 +224,6 @@ class PerfilPuestoDocumentoForm(Form):
         # 'updated_date' ]
 
         labels = {
-
             'reporta': 'Reporta a :',
             'proposito': 'Proposito :',
             'funciones': 'Funciones :',
@@ -238,7 +237,6 @@ class PerfilPuestoDocumentoForm(Form):
             'cambio_residencia': 'Cambio Residencia:',
             'disponibilidad_viajar': 'disponibilidad viajar:',
             'requerimentos': 'Requerimentos:',
-
         }
 
         widgets = {
