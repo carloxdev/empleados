@@ -143,41 +143,67 @@
 				</div>
 			{% endfor %}
 		</div>
+		
 		<!-- Panel con tabs -->
-		<div class="fuelux">   
-               <div id="wizard1" class="wizard wizard-ux">
-                  <ul class="steps">
-                     <li class="active">Documentos personales</li>
-                  </ul>
-                  <div class="actions">
-                     <a class="btn btn-xs btn-prev btn-default nova-a-tab nova-active-tab">Documentos personales</a>
-                     <a href="#" class="btn btn-xs btn-next btn-default nova-a-tab">Capacitaciones</a>
-                     <a href="#" class="btn btn-xs btn-next btn-default nova-a-tab">Seguimiento incidencias</a>
-                     <a href="#" class="btn btn-xs btn-next btn-default nova-a-tab">Evaluacion desempeño</a>
-                  </div>
+		<div class="fuelux">
 
-                  <div class="step-content">
-                     <div data-step="1" class="step-pane active">
-                        <div class="form-horizontal group-border-dashed">
-							<div class="form-group no-padding">
-								<div class="col-sm-12 tools pull-right nova-tools">
-									<a href="#modal_nuevo" data-toggle="modal"
-										class="btn nova-btn btn-rounded btn-space btn-default" id="boton_nuevo">
-										<i class="icon icon-left mdi mdi-plus-circle nova-black"></i>Nuevo documento
-									</a>
-								</div>
-	                            <div class="col-sm-12">
-								    <div class="panel panel-default panel-table" id="div_documentos">
-										<div id="grid_resultados">
-										</div>
-									</div><!-- End Panel default (GRID) -->
-								</div>
-                           </div>
-                        </div>
-                     </div>
-                  </div>
+            <div id="wizard1" class="wizard wizard-ux nova-panel-borde-header">
+               <ul class="steps">
+
+                  <li class="active">Documentos</li>
+
+               </ul>
+               <div class="actions">
+                  <a href="" class="btn btn-xs btn-prev btn-default nova-active-tab">Documentos personales</a>
+                  <a href="" class="btn btn-xs btn-next btn-default nova-a-tab">Capacitaciones</a>
+                  <a class="btn btn-xs btn-next btn-default nova-a-tab nova-a-tab-border nova-tab">Seguimiento incidencias</a>
+                  <a href="" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Evaluación desempeño</a>
                </div>
-         </div>
+            </div>
+            
+            <div class="panel panel-default panel-table">
+                  <div class="panel-heading nova-panel-borde-contenido nova-panel-tools">
+                     <a href="#modal_nuevo" class="btn nova-btn btn-rounded btn-sm btn-space btn-default pull-right" data-toggle="modal" id="boton_nuevo">
+                        <i class="icon icon-left mdi mdi-plus-circle nova-black"></i>Nuevo documento
+                     </a>
+                  </div><!-- Panel Heading -->
+                  <div id="grid_resultados" class="nova-div-overflow">
+                     <table class="table table-bordered">
+                        <thead>
+                           <tr>
+                              <th>Documento</th>
+                              <th>Agrupador</th>
+                              <th>Vigencia</th>
+                           </tr>
+                        </thead>
+                        <tbody>
+                           <tr>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                           </tr>
+                           <tr>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                           </tr>
+                           <tr>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                           </tr>
+                           <tr>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                           </tr>
+                        </tbody>
+                     </table>
+                  </div>
+            </div> <!-- Panel -->
+         </div> <!-- col sm 12-->
+
+
 	</div>
 </div>
 </div>

@@ -2,6 +2,7 @@
 
 # Django Atajos:
 from django.shortcuts import render
+from django.http import HttpResponse
 
 # Librerias de Django
 from django.views.generic.base import View
@@ -10,7 +11,7 @@ from django.views.generic.base import View
 from ebs.models import VIEW_EMPLEADOS_FULL
 from ebs.models import VIEW_ORGANIGRAMA
 
-# Serializers 
+# Serializers
 from serializers import VIEW_ORGANIGRAMA_ORG_SERIALIZADO
 
 
@@ -35,11 +36,19 @@ class EmpleadoOrganigrama(View):
         self.template_name = 'empleado_perfil_organigrama.html'
 
     def get(self, request):
+        clave = request.user.profile.clave_rh
+        empleado = VIEW_ORGANIGRAMA.objects.using(
+            "ebs_d").get(pers_empleado_numero=clave)
 
-        return render(request, self.template_name)
+        organizacion = empleado.asig_organizacion_clave
+
+        contexto = {
+            'organizacion': organizacion,
+        }
+        return render(request, self.template_name, contexto)
 
 
-class EmpleadoOrganigramaOrgAPI(View):
+class EmpleadoOrganigramaAPI(View):
 
     def get(self, request, pk):
 

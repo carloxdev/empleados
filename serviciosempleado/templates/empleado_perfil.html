@@ -142,226 +142,61 @@
 				</div>
 			{% endfor %}
 		</div>
+		
 		<!-- Panel con tabs -->
-		<div class="fuelux">   
-               <div id="wizard1" class="wizard wizard-ux">
-                  <ul class="steps">
-                     <li class="active">Documentos personales</li>
-                  </ul>
-                  <div class="actions">
-                     <a class="btn btn-xs btn-prev btn-default nova-a-tab nova-active-tab">Documentos personales</a>
-                     <a href="#" class="btn btn-xs btn-next btn-default nova-a-tab">Capacitaciones</a>
-                     <a href="#" class="btn btn-xs btn-next btn-default nova-a-tab">Seguimiento incidencias</a>
-                     <a href="#" class="btn btn-xs btn-next btn-default nova-a-tab">Evaluacion desempeño</a>
-                  </div>
-                  <div class="step-content">
-                     <div data-step="1" class="step-pane active">
+		<div class="fuelux">
 
-                        <div class="form-horizontal group-border-dashed">
+            <div id="wizard1" class="wizard wizard-ux nova-panel-borde-header">
+               <ul class="steps">
 
-                           <div class="form-group no-padding">
-                              <div class="col-sm-7">
-                                 <h5 class="wizard-title">Información de.....:</h5>
-                              </div>
-                           </div>
-                        </div>
-                     </div>
-                  </div>
+                  <li class="active">Documentos</li>
 
+               </ul>
+               <div class="actions">
+                  <a href="" class="btn btn-xs btn-prev btn-default nova-active-tab">Documentos personales</a>
+                  <a href="" class="btn btn-xs btn-next btn-default nova-a-tab">Capacitaciones</a>
+                  <a class="btn btn-xs btn-next btn-default nova-a-tab nova-a-tab-border nova-tab">Seguimiento incidencias</a>
+                  <a href="" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Evaluación desempeño</a>
                </div>
-               <!-- Botones 
-               <div class="modal-footer nova-modal-footer">
-
-                  <div class="row col-sm-12">                       
-                     
-                     <button type="submit" id="boton_guardar" class="btn nova-btn btn-primary btn-lg pull-right">
-                        <i class="icon icon-left mdi mdi-save nova-white"></i>
-                        Guardar
-                     </button>
+            </div>
+            
+            <div class="panel panel-default panel-table">
+                  
+                  <div id="grid_resultados" class="nova-div-overflow">
+                     <table class="table table-bordered">
+                        <thead>
+                           <tr>
+                              <th>Documento</th>
+                              <th>Agrupador</th>
+                              <th>Vigencia</th>
+                           </tr>
+                        </thead>
+                        <tbody>
+                           <tr>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                           </tr>
+                           <tr>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                           </tr>
+                           <tr>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                           </tr>
+                           <tr>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                           </tr>
+                        </tbody>
+                     </table>
                   </div>
-               </div>-->
-         </div>
-		<!-- tab para hacer
-		<div class="main-content container-fluid">
-			<div class="row">
-				<div class="col-sm-17">
-					<div class="pfanel panel-default">
-						<div class="panel-heading">Opciones</div>
-						<div class="tab-container">
-							<ul class="nav nav-tabs">
-								<li class="active"><a href="#documentos" data-toggle="tab">Documentos Personales</a></li>
-								<li><a href="#capacitaciones" data-toggle="tab">Capacitaciones</a></li>
-								<li><a href="#incidencias" data-toggle="tab">Seguimiento Incidencias</a></li>
-								<li><a href="#evaluacion" data-toggle="tab">Evaluacion Desempeño</a></li>
-							</ul>
-							<div class="tab-content">
-								<div id="capacitaciones" class="tab-pane cont">
-									<div class="panel panel-default panel-table">
-										<div class="panel-heading">Capacitaciones
-											<div class="tools"><span class="icon mdi mdi-download"></span><span class="icon mdi mdi-more-vert"></span></div>
-										</div>
-										<div class="panel-body">
-											<table class="table table-striped table-hover">
-												<thead>
-													<tr>
-														<th >Curso</th>
-														<th >Proveedor</th>
-														<th>Modalidad</th>
-														<th>Lugar</th>
-														<th>Fecha Inicio</th>
-														<th>Fecha Fin</th>
-														<th>Costo</th>
-														<th class="actions">Ver Detalle</th>
-													</tr>
-												</thead>
-												<tbody>
-													<tr>
-														<td class="user-avatar"><i class="mdi mdi-case"></i> EXCEL INTERMEDIO</td>
-														<td>Pem Institute SCP</td>
-														<td>Curso Presencial</td>
-														<td>Veracruz, ver</td>
-														<td>Agosto 6, 2015</td>
-														<td>Agosto 6, 2015</td>
-														<td>$ 1230 MXN</td>
-														<td class="actions"><a href="#" class="icon"><i class="mdi mdi-collection-pdf"></i></a></td>
-													</tr>
-													<tr>
-														<td class="user-avatar"> <i class="mdi mdi-case"></i> FORMACION DE BRIGADAS</td>
-														<td>Pem Institute SCP</td>
-														<td>Curso Presencial</td>
-														<td>Veracruz, ver</td>
-														<td>Jul 28, 2015</td>
-														<td>Agosto 6, 2015</td>
-														<td>$ 1030 MXN</td>
-														<td class="actions"><a href="#" class="icon"><i class="mdi mdi-collection-pdf"></i></a></td>
-													</tr>
-													<tr>
-														<td class="user-avatar"> <i class="mdi mdi-case"></i> MAPEO DE PROCESOS</td>
-														<td>Pem Institute SCP</td>
-														<td>Curso Presencial</td>
-														<td>Veracruz, ver</td>
-														<td>Jul 15, 2015</td>
-														<td>Agosto 6, 2015</td>
-														<td>$ 2000 MXN</td>
-														<td class="actions"><a href="#" class="icon"><i class="mdi mdi-collection-pdf"></i></a></td>
-													</tr>
-													<tr>
-														<td class="user-avatar"> <i class="mdi mdi-case"></i> COMUNCACION EFECTIVA</td>
-														<td>Pem Institute SCP</td>
-														<td>Curso Presencial</td>
-														<td>Veracruz, ver</td>
-														<td>Jun 30, 2015</td>
-														<td>Agosto 6, 2015</td>
-														<td>$ 1200 MXN</td>
-														<td class="actions"><a href="#" class="icon"><i class="mdi mdi-collection-pdf"></i></a></td>
-													</tr>
-													<tr>
-														<td class="user-avatar"> <i class="mdi mdi-case"></i> MANEJO OPTIMO DE MULTAS Y ACCIDENTES</td>
-														<td>Pem Institute SCP</td>
-														<td>Curso Presencial</td>
-														<td>Veracruz, ver</td>
-														<td>Jul 15, 2015</td>
-														<td>Agosto 6, 2015</td>
-														<td>$ 1230 MXN</td>
-														<td class="actions"><a href="#" class="icon"><i class="mdi mdi-collection-pdf"></i></a></td>
-													</tr>
-													
-												</tbody>
-											</table>
-										</div>
-									</div>
-									
-								</div>
-								<div id="documentos" class="tab-pane active cont">
-									
-									<div class="panel panel-default panel-table">
-										<div class="panel-heading">Catalogo de Areas de Experiencias
-											<div class="tools"><span class="icon mdi mdi-download"></span><span class="icon mdi mdi-more-vert"></span></div><span class="panel-subtitle">Tecnicas</span>
-										</div>
-										<div class="panel-body">
-											<table class="table table-striped table-hover">
-												<thead>
-													<tr>
-														<th style="width:36%;">Agrupador</th>
-														<th style="width:37%;">Tipo Documento</th>
-														<th>Fecha</th>
-														<th class="actions">Ver Detalle</th>
-													</tr>
-												</thead>
-												<tbody>
-													<tr>
-														<td class="user-avatar"><i class="mdi mdi-account-box"></i> Personal</td>
-														<td>Acta de Nacimiento</td>
-														<td>Agosto 6, 2015</td>
-														<td class="actions"><a href="#" class="icon"><i class="mdi mdi-collection-pdf"></i></a></td>
-													</tr>
-													<tr>
-														<td class="user-avatar"> <i class="mdi mdi-account-box"></i> Personal</td>
-														<td>CV</td>
-														<td>Jul 28, 2015</td>
-														<td class="actions"><a href="#" class="icon"><i class="mdi mdi-collection-pdf"></i></a></td>
-													</tr>
-													<tr>
-														<td class="user-avatar"> <i class="mdi mdi-account-box"></i> Personal</td>
-														<td>IFE</td>
-														<td>Jul 15, 2015</td>
-														<td class="actions"><a href="#" class="icon"><i class="mdi mdi-collection-pdf"></i></a></td>
-													</tr>
-													<tr>
-														<td class="user-avatar"> <i class="mdi mdi-account-box"></i> Personal</td>
-														<td>Titulo</td>
-														<td>Jun 30, 2015</td>
-														<td class="actions"><a href="#" class="icon"><i class="mdi mdi-collection-pdf"></i></a></td>
-													</tr>
-													<tr>
-														<td class="user-avatar"> <i class="mdi mdi-account-box"></i> Personal</td>
-														<td>RFC</td>
-														<td>Jul 15, 2015</td>
-														<td class="actions"><a href="#" class="icon"><i class="mdi mdi-collection-pdf"></i></a></td>
-													</tr>
-													<tr>
-														<td class="user-avatar"> <i class="mdi mdi-account-box"></i> Personal</td>
-														<td>Visa Estados Unidos</td>
-														<td>Jun 30, 2015</td>
-														<td class="actions"><a href="#" class="icon"><i class="mdi mdi-collection-pdf"></i></a></td>
-													</tr>
-												</tbody>
-											</table>
-										</div>
-									</div>
-								</div>
-								<div id="incidencias" class="tab-pane cont">
-									<div class="panel-heading panel-heading-divider">Seguimiento de Incidencias<span class="panel-subtitle">Esta descripcion de incidencias</span></div>
-									<div class="panel-body">
-										<div class="row user-progress">
-											<div class="col-md-10"><span class="title">Accidente Laboral</span>
-											<div class="progress">
-												<div style="width: 50%" class="progress-bar progress-bar-danger"></div>
-											</div>
-										</div>
-										<div class="col-md-2"><span class="value"> 5</span></div>
-									</div>
-									<div class="row user-progress">
-										<div class="col-md-10"><span class="title">Enfermedad No Laboral</span>
-										<div class="progress">
-											<div style="width: 30%" class="progress-bar progress-bar-primary"></div>
-										</div>
-									</div>
-									<div class="col-md-2"><span class="value">2</span></div>
-								</div>
-								
-							</div>
-						</div>
-						<div id="evaluacion" class="tab-pane cont">
-							<div class="panel-heading panel-heading-divider">Evaluacion de Desempeño<span class="panel-subtitle">Timeline</span></div>
-							<div class="panel-body">
-								
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>-->
+            </div> <!-- Panel -->
+         </div> <!-- col sm 12-->
 	</div>
 </div>
 
