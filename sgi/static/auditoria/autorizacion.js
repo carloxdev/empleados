@@ -41,9 +41,9 @@ function Formulario() {
 }
 Formulario.prototype.init_Components = function () {
 
-    this.$id_compania.select2(this.get_ConfSelect2())
-    this.$id_contratos.select2(this.get_ConfSelect2())
-    this.$id_criterios.select2(this.get_ConfSelect2())
+    this.$id_compania.select2(appnova.get_ConfSelect2())
+    this.$id_contratos.select2(appnova.get_ConfSelect2())
+    this.$id_criterios.select2(appnova.get_ConfSelect2())
 
     this.$id_fecha_planificada_desde.mask(
         "9999-99-99",
@@ -61,29 +61,10 @@ Formulario.prototype.init_Components = function () {
     )
     this.$id_fecha_planificada_hasta_input.datetimepicker(this.get_DateTimePickerConfig())
 
-    this.$id_objetivo.wysihtml5(this.get_ConfWysi())
-    this.$id_alcance_auditoria.wysihtml5(this.get_ConfWysi())
-    this.$id_recursos_necesarios.wysihtml5(this.get_ConfWysi())
+    this.$id_objetivo.wysihtml5(appnova.get_ConfWysi())
+    this.$id_alcance_auditoria.wysihtml5(appnova.get_ConfWysi())
+    this.$id_recursos_necesarios.wysihtml5(appnova.get_ConfWysi())
     
-}
-Formulario.prototype.get_ConfSelect2 = function () {
-    return {
-        width: '100%'
-    }
-}
-Formulario.prototype.get_ConfWysi = function () {
-    return {
-        toolbar: {
-            "font-styles": true,
-            "emphasis": true,
-            "lists": true,
-            "html": false,
-            "link": false,
-            "image": false,
-            "color": false,
-            "blockquote": false,
-        }
-    }
 }
 Formulario.prototype.get_DateTimePickerConfig = function () {
     return {

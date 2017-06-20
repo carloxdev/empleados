@@ -38,7 +38,7 @@ function Formulario() {
 }
 Formulario.prototype.init_Components = function () {
 
-    this.$id_resultado_seguimiento.wysihtml5(this.get_ConfWysi())
+    this.$id_resultado_seguimiento.wysihtml5(appnova.get_ConfWysi())
     this.$id_fecha_seguimiento_input.datetimepicker(this.get_DateTimePickerConfig())
     this.$id_fecha_seguimiento.mask(
         "9999-99-99",
@@ -75,20 +75,6 @@ Formulario.prototype.init_Events = function () {
 Formulario.prototype.click_BotonGuardar = function (e) {
 
     e.preventDefault()
-}
-Formulario.prototype.get_ConfWysi = function () {
-    return {
-        toolbar: {
-            "font-styles": true,
-            "emphasis": true,
-            "lists": true,
-            "html": false,
-            "link": false,
-            "image": false,
-            "color": false,
-            "blockquote": false,
-        }
-    }
 }
 Formulario.prototype.get_DateTimePickerConfig = function () {
     return {

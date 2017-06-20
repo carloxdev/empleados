@@ -65,24 +65,10 @@ Formulario.prototype.init_Components = function () {
     )
     this.$id_fecha_programada_final_input.datetimepicker(this.get_DateTimePickerConfig())
 
-    this.$id_objetivo.wysihtml5(this.get_ConfWysi())
-    this.$id_alcance_auditoria.wysihtml5(this.get_ConfWysi())
-    this.$id_recursos_necesarios.wysihtml5(this.get_ConfWysi())
+    this.$id_objetivo.wysihtml5(appnova.get_ConfWysi())
+    this.$id_alcance_auditoria.wysihtml5(appnova.get_ConfWysi())
+    this.$id_recursos_necesarios.wysihtml5(appnova.get_ConfWysi())
     
-}
-Formulario.prototype.get_ConfWysi = function () {
-    return {
-        toolbar: {
-            "font-styles": true,
-            "emphasis": true,
-            "lists": true,
-            "html": false,
-            "link": false,
-            "image": false,
-            "color": false,
-            "blockquote": false,
-        }
-    }
 }
 Formulario.prototype.get_DateTimePickerConfig = function () {
     return {

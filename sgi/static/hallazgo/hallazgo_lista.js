@@ -136,20 +136,5 @@ function PopupAnalisis() {
 PopupAnalisis.prototype.init_Components = function () {
 
     this.$id_metodologia.select2(appnova.get_ConfigSelect2())
-    this.$id_causas.wysihtml5(this.get_ConfWysi())
-}
-PopupAnalisis.prototype.get_ConfWysi = function () {
-    
-    return {
-        toolbar: {
-            "font-styles": true,
-            "emphasis": true,
-            "lists": true,
-            "html": false,
-            "link": false,
-            "image": false,
-            "color": false,
-            "blockquote": false,
-        }
-    }
+    this.$id_causas.wysihtml5(appnova.get_ConfWysi())
 }

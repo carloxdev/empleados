@@ -37,7 +37,7 @@ function TarjetaFormulario() {
 }
 TarjetaFormulario.prototype.init_Components = function () {
 
-    this.$id_observacion.wysihtml5(this.get_ConfWysi())
+    this.$id_observacion.wysihtml5(appnova.get_ConfWysi())
     this.$id_recursos.each(function(){
         var $input   = $( this ),
             $label   = $input.next( 'label' ),
@@ -67,20 +67,6 @@ TarjetaFormulario.prototype.init_Events = function () {
 TarjetaFormulario.prototype.click_BotonGuardar = function (e) {
 
     e.preventDefault()
-}
-TarjetaFormulario.prototype.get_ConfWysi = function () {
-    return {
-        toolbar: {
-            "font-styles": true,
-            "emphasis": true,
-            "lists": true,
-            "html": false,
-            "link": false,
-            "image": false,
-            "color": false,
-            "blockquote": false,
-        }
-    }
 }
 
 /*-----------------------------------------------*\
