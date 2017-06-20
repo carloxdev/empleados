@@ -6,7 +6,7 @@
 //var url_empleados_bypage = window.location.origin + "/api-ebs/viewempleadosfull_bypage/"
 
 // OBJS
-var popup_nuevo = null
+var popup_hallazgo = null
 var popup_filtros = null
 var popup_analisis = null
 var popup_acciones = null
@@ -27,7 +27,7 @@ $(document).ready(function () {
 
 function TarjetaResultados() {
 
-    popup_nuevo = new PopupNuevo()
+    popup_hallazgo = new PopupHallazgo()
     popup_filtros = new PopupFiltros()
     popup_analisis = new PopupAnalisis()
     popup_acciones = new PopupAcciones()
@@ -37,7 +37,7 @@ function TarjetaResultados() {
             OBJETO: popup nuevo
 \*-----------------------------------------------*/
 
-function PopupNuevo(){
+function PopupHallazgo(){
 
     this.$id_subproceso = $('#id_subproceso')
     this.$id_clasificacion_hallazgo = $('#id_clasificacion_hallazgo')
@@ -46,7 +46,7 @@ function PopupNuevo(){
     this.$id_tipo_hallazgo = $('#id_tipo_hallazgo')
     this.init_Components()
 }
-PopupNuevo.prototype.init_Components = function () {
+PopupHallazgo.prototype.init_Components = function () {
 
     this.$id_subproceso.select2(appnova.get_ConfigSelect2())
     this.$id_clasificacion_hallazgo.select2(appnova.get_ConfigSelect2())
@@ -54,7 +54,7 @@ PopupNuevo.prototype.init_Components = function () {
     this.$id_requisito_adicional.select2(appnova.get_ConfigSelect2())
     this.$id_tipo_hallazgo.select2(appnova.get_ConfigSelect2())
 }
-PopupNuevo.prototype.get_ConfMultiSelect = function () {
+PopupHallazgo.prototype.get_ConfMultiSelect = function () {
 
     return{
         enableFiltering: true,

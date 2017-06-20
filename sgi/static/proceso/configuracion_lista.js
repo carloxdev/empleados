@@ -1,55 +1,66 @@
 /*-----------------------------------------------*\
-             GLOBAL VARIABLES
+         GLOBAL VARIABLES
 \*-----------------------------------------------*/
 
 // URLS:
 //var url_seguimiento_bypage = window.location.origin + "/api-jde/viewscompras_bypage/"
 
 // OBJS
-var formulario = null
 var tarjeta_resultados = null
-var tarjeta_detalles = null
+var popup_proceso = null
+var popup_subproceso = null
 var toolbar = null
 var grid = null
 
 
 /*-----------------------------------------------*\
-             LOAD
+         LOAD
 \*-----------------------------------------------*/
 
 $(document).ready(function () {
-    
-    formulario = new Formulario()
-    tarjeta_resultados = new TarjetaResultados()
+   
+   tarjeta_resultados = new TarjetaResultados()
 })
 
 /*-----------------------------------------------*\
-             OBJETO: Tarjeta filtros
+         OBJETO: Tarjeta resultados
 \*-----------------------------------------------*/
-function Formulario() {
 
-    this.$id_proceso_select = $('#id_proceso_select')
-    this.$id_subproceso = $('#id_subproceso')
-    this.$id_responsable = $('#id_responsable')
-    this.$boton_buscar = $('#boton_buscar')
-    this.$boton_limpiar = $('#boton_limpiar')
-    this.init_Components()
-    this.init_Events()
-}
-Formulario.prototype.init_Components = function () {
+function TarjetaResultados(){
 
-    this.$id_proceso_select.select2(this.get_ConfSelect2Tag())
-    this.$id_subproceso.select2(this.get_ConfSelect2Tag())
-    this.$id_responsable.multiSelect(this.get_ConfMultiselect())
+   this.toolbar = new ToolBar()
+   this.arbol = new Arbol()
 }
-Formulario.prototype.get_ConfSelect2Tag = function () {
 
-    return {
-         tags: true,
-         width: '100%'
-    }
+/*-----------------------------------------------*\
+         OBJETO: ToolBar
+\*-----------------------------------------------*/
+
+function ToolBar() {
+
+   popup_proceso = new PopupProceso()
+   this.init()
 }
-Formulario.prototype.get_ConfMultiselect = function () {
+ToolBar.prototype.init = function () {
+
+}
+
+/*-----------------------------------------------*\
+         OBJETO: Tarjeta proceso
+\*-----------------------------------------------*/
+
+function PopupProceso() {
+   
+   this.$id_proceso = $('#id_proceso')
+   this.$id_responsable = $('#id_responsable')
+
+   this.init_Components()
+}
+PopupProceso.prototype.init_Components = function () {
+
+   this.$id_responsable.multiSelect(this.get_ConfMultiselect())
+}
+PopupProceso.prototype.get_ConfMultiselect = function () {
       
       return {
             selectableHeader: "<input type='text' class='form-control search-input' autocomplete='off' placeholder='Búscar en EBS'>",
@@ -87,147 +98,75 @@ Formulario.prototype.get_ConfMultiselect = function () {
                }
       }
 }
-Formulario.prototype.init_Events = function () {
-
-    this.$boton_buscar.on("click", this, this.click_BotonBuscar)
-    this.$boton_limpiar.on("click", this, this.click_BotonLimpiar)
-}
 
 /*-----------------------------------------------*\
-             OBJETO: Tarjeta resultados
+         OBJETO: Arbol
 \*-----------------------------------------------*/
 
-function TarjetaResultados(){
-    
-    this.toolbar = new ToolBar()
-    this.grid = new Grid()
+function Arbol() {
+
+   popup_subproceso = new PopupSubproceso()
+
+   this.$id_arbol_criterios_requisitos = $("#id_arbol_criterios_requisitos")
+   this.init_Components()
 }
+Arbol.prototype.init_Components = function () {
 
-/*-----------------------------------------------*\
-             OBJETO: ToolBar
-\*-----------------------------------------------*/
-
-function ToolBar() {
-
-    this.init()
+   this.$id_arbol_criterios_requisitos.treeview(
+      {  data: this.get_Arbol(),
+         showTags: true,
+      }
+   )
 }
-ToolBar.prototype.init = function () {
+Arbol.prototype.get_Arbol = function () {
 
-}
-
-/*-----------------------------------------------*\
-             OBJETO: Grid
-\*-----------------------------------------------*/
-
-function Grid() {
-
-    this.$id = $("#grid_resultados")
-    this.kfuente_datos = null
-    this.kgrid = null
-    this.init()
-}
-Grid.prototype.init = function () {
-
-    kendo.culture("es-MX")
-    this.kfuente_datos = new kendo.data.DataSource(
-         {  serverPaging: true,
-             pageZize: 10,
-             data:
-                      [
-                           {  id_proceso: 1, proceso: "Tecnologias de la informacion"},
-                           {  id_proceso: 2, proceso: "Licitaciones"}
-                      ],
-             schema: {
-                  total: function(response) {
-                      return $(response.data).length;
-                  },
-             }
-         }
-    )
-    this.kgrid = this.$id.kendoGrid(this.get_Configuracion())
-}
-Grid.prototype.get_DataSourceConfig = function (e) {
-
-    return 
-}
-Grid.prototype.get_Configuracion = function () {
-
-    return {
-         dataSource: this.kfuente_datos,
-         columnMenu: true,
-         groupable: false,
-         sortable: false,
-         editable: false,
-         resizable: true,
-         selectable: true,
-         scrollable: false,
-         columns: [
-             {  field: "proceso", title: "Procesos", width:"73%"},
-             {  command: [ 
-                  {  name:"edit", text:{edit:"Editar"}, click: function(e){
-                      e.preventDefault();
-                           $('#tarjeta_nuevo_proceso').modal('show')
-                      }
-                  },
-                  {  name:"destroy", text:"Eliminar"  },
-                  {  name:"nuevo", text:"Nuevo",  click: function(e){
-                      e.preventDefault();
-                           $('#tarjeta_nuevo_subproceso').modal('show')
-                      }}
-                  ]},
-         ],
-         scrollable: true,
-         pageable: true,
-         noRecords: {
-             template: "<div class='grid-empy'> No se encontraron registros </div>"
+   return [
+      {  text: "Tecnologias de la información",
+         state: {
+               expanded: false,
          },
-         detailInit: detailInit,
-         
-    }
-    function detailInit(e) {
-                              $("<div/>").appendTo(e.detailCell).kendoGrid({
-                                    dataSource: { 
-                                        serverPaging: true,
-                                        pageZize: 10,
-                                        data: [
-                                                      { id_area: 1, area: "Infraestructura", id_proceso: 1 },
-                                                      { id_area: 2, area: "Licitaciones", id_proceso: 2 }
-                                                 ],
-                                        
-                                        schema: {
-                                             total: function(response) {
-                                                 return $(response.data).length;
-                                             },
-                                        },
-                                        filter:  { field: "id_proceso", operator: "eq", value: e.data.id_proceso },
+         tags: [
+            '<a href="#eliminar" data-toggle="modal" id="boton_nuevo"><i class="icon mdi mdi-delete nova-black nova-icon-lista"></i></a>',
+            '<a href="#id_tarjeta_nuevo_proceso" data-toggle="modal" id="boton_nuevo"><i class="icon mdi mdi-edit nova-black nova-icon-lista"></i></a>',
+            '<a href="#id_tarjeta_nuevo_subproceso" data-toggle="modal" id="boton_nuevo"><i class="icon mdi mdi-plus-circle nova-black nova-icon-lista"></i></a>',
 
-                                    },
-                                    scrollable: false,
-                                    sortable: true,
-                                    pageable: true,
-                                    columns: [
-                                        {  field: "area", title:"Subprocesos", width: "75%" },
-                                        {  command:[
-                                             {  name:"edit", text:{edit:"Editar", update:"Actualizar", cancel:"Cancelar"}  },
-                                             {  name:"destroy", text:"Eliminar"  },
-                                             ]
-                                        },
-                                    ],
-                                    editable: "inline",
-                              });
-                        }
-}
-Grid.prototype.get_Columnas = function () {
+         ],
+         nodes: [
+            {  text: "Infraestructura",
+               tags: [
+                  '<a href="#eliminar" data-toggle="modal" id="boton_nuevo"><i class="icon mdi mdi-delete nova-black nova-icon-lista"></i></a>',
+                  '<a href="#id_tarjeta_nuevo_subproceso" data-toggle="modal" id="boton_nuevo"><i class="icon mdi mdi-edit nova-black nova-icon-lista"></i></a>',
+               ]
+            },
+         ]
+      },
+      {  text: "Licitaciones",
+         state: {
+                  expanded: false,
+         },
+         tags: [
+            '<a href="#eliminar" data-toggle="modal" id="boton_nuevo"><i class="icon mdi mdi-delete nova-black nova-icon-lista"></i></a>',
+            '<a href="#id_tarjeta_nuevo_proceso" data-toggle="modal" id="boton_nuevo"><i class="icon mdi mdi-edit nova-black nova-icon-lista"></i></a>',
+            '<a href="#id_tarjeta_nuevo_subproceso" data-toggle="modal" id="boton_nuevo"><i class="icon mdi mdi-plus-circle nova-black nova-icon-lista"></i></a>',
 
-    return 1
+         ],
+         nodes: [
+            {  text: "Licitaciones",
+               tags: [
+                     '<a href="#eliminar" data-toggle="modal" id="boton_nuevo"><i class="icon mdi mdi-delete nova-black nova-icon-lista"></i></a>',
+                     '<a href="#id_tarjeta_nuevo_subproceso" data-toggle="modal" id="boton_nuevo"><i class="icon mdi mdi-edit nova-black nova-icon-lista"></i></a>',
+                  ]
+            },
+         ]
+      },
+   ]
 }
-Grid.prototype.set_Icons = function (e) {
 
-    e.sender.tbody.find(".k-button.mdi.mdi-search").each(function(idx, element){
-         $(element).removeClass("mdi mdi-search").find("span").addClass("mdi mdi-search")
-    })
-}
-Grid.prototype.buscar = function() {
-    
-    this.kfuente_datos.page(1)
+/*-----------------------------------------------*\
+         OBJETO: Popup Subproceso
+\*-----------------------------------------------*/
+
+function PopupSubproceso() {
+
+   this.$id_boton_guardar_nuevo_requisito = $('#id_boton_guardar_nuevo_requisito')
 }

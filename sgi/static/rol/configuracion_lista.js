@@ -29,9 +29,11 @@ $(document).ready(function () {
 function TarjetaFiltros() {
 
    this.$id_compania = $('#id_compania')
-   this.$id_aprobador = $('#id_aprobador')
+   this.$id_empleado = $('#id_empleado')
    this.$id_rol = $('#id_rol')
+
    this.$id_compania_filtro = $('#id_compania_filtro')
+   this.$id_empleado_filtro = $('#id_empleado_filtro')
    this.$id_rol_filtro = $('#id_rol_filtro')
 
    this.$boton_buscar = $('#boton_buscar')
@@ -42,8 +44,9 @@ function TarjetaFiltros() {
 TarjetaFiltros.prototype.init_Components = function () {
    
    this.$id_compania.select2(appnova.get_ConfigSelect2())
-   this.$id_aprobador.select2(appnova.get_ConfigSelect2())
+   this.$id_empleado.select2(appnova.get_ConfigSelect2())
    this.$id_rol.select2(appnova.get_ConfigSelect2())
+
    this.$id_compania_filtro.select2(appnova.get_ConfigSelect2())
    this.$id_rol_filtro.select2(appnova.get_ConfigSelect2())
 }
@@ -53,109 +56,144 @@ TarjetaFiltros.prototype.init_Events = function () {
    this.$boton_limpiar.on("click", this, this.click_BotonLimpiar)
 }
 
+
+
+
+
+
 /*-----------------------------------------------*\
-         OBJETO: Tarjeta resultados
+            GLOBAL VARIABLES
 \*-----------------------------------------------*/
 
-function TarjetaResultados(){
+// URLS:api-
+//var url_empleados_bypage = window.location.origin + "/api-ebs/viewempleadosfull_bypage/"
+
+// OBJS
+var popup_rol = null
+var popup_filtro = null
+var popup_acciones = null
+var tarjeta_resultados = null
+var toolbar = null
+var grid = null
+
+/*-----------------------------------------------*\
+            LOAD
+\*-----------------------------------------------*/
+
+$(document).ready(function () {
+      
+   tarjeta_resultados = new TarjetaResultados()
+})
+
+/*-----------------------------------------------*\
+            OBJETO: Tarjeta resultados
+\*-----------------------------------------------*/
+
+function TarjetaResultados() {
    
    this.toolbar = new ToolBar()
    this.grid = new Grid()
 }
 
 /*-----------------------------------------------*\
-         OBJETO: ToolBar
+            OBJETO: toolbar
 \*-----------------------------------------------*/
 
 function ToolBar() {
-
-   this.init()
-}
-ToolBar.prototype.init = function () {
-
+   
+   this.$id_boton_nuevo_formato = $('#id_boton_nuevo_formato')
+   this.$id_boton_filtros = $('#id_boton_filtros')
+   popup_rol = new PopupRol()
+   popup_filtro = new PopupFiltro()
 }
 
 /*-----------------------------------------------*\
-         OBJETO: Grid
+            OBJETO: grid
 \*-----------------------------------------------*/
 
 function Grid() {
 
-   this.$id = $("#grid_resultados")
-   this.kfuente_datos = null
-   this.kgrid = null
-   this.init()
+   popup_acciones = new PopupAcciones()
 }
-Grid.prototype.init = function () {
 
-   kendo.culture("es-MX")
-   this.kfuente_datos = new kendo.data.DataSource(
-      {  serverPaging: true,
-         pageZize: 10,
-         data:
-               [
-                  {  id: 1, nombre: "Diana Castillo Hernandez", compania: "GEOLIS", rol: "Auditor lider"},
-                  {  id: 2, nombre: "Luis Alberto Lopez Gonzalez", compania: "MET", rol: "Aprobador"},
-                  {  id: 3, nombre: "Carlos Rodriguez Mendez", compania: "MET", rol: "Auditor"},
-                  {  id: 4, nombre: "Sevastian Almeida Reyes", compania: "SIC", rol: "Auditor consultor"}
-               ],
-         schema: {
-            total: function(response) {
-               return $(response.data).length;
-            },
-         }
-      }
-   )
-   this.kgrid = this.$id.kendoGrid(this.get_Configuracion())
-}
-Grid.prototype.get_DataSourceConfig = function (e) {
+/*-----------------------------------------------*\
+            OBJETO: popup rol
+\*-----------------------------------------------*/
 
-   return 
-}
-Grid.prototype.get_Configuracion = function () {
+function PopupRol(){
 
-   return {
-      dataSource: this.kfuente_datos,
-      columnMenu: true,
-      groupable: false,
-      sortable: false,
-      editable: false,
-      resizable: true,
-      selectable: true,
-      scrollable: false,
-      columns: [
-         { field: "id", title: "Id", width:"80px"},
-         { field: "nombre", title: "Nombre", width:"30%"},
-         { field: "compania", title: "Compañia", width:"20%"},
-         { field: "rol", title: "Rol", width:"20%"},
-         { command:  [  {  name:"edit", text:{edit:"Editar"}, click: function(e){
-                           e.preventDefault();
-                           $('#id_tarjeta_aprobador').modal('show')
-                           }
-                        }, 
-                        {  name:"destroy", text:"Eliminar"  }
-                     ]
-         },
-      ],
-      scrollable: true,
-      pageable: true,
-      noRecords: {
-         template: "<div class='grid-empy'> No se encontraron registros </div>"
-      },
-      
-   }
+   this.$id_compania = $('#id_compania')
+   this.$id_empleado = $('#id_empleado')
+   this.$id_rol = $('#id_rol')
+   this.$id_boton_guardar = $('#id_boton_guardar')
+   this.init_Components()
+   this.init_Events()
 }
-Grid.prototype.get_Columnas = function () {
+PopupRol.prototype.init_Components = function () {
 
-   return 1
+   this.$id_compania.select2(appnova.get_ConfigSelect2())
+   this.$id_empleado.select2(appnova.get_ConfigSelect2())
+   this.$id_rol.select2(appnova.get_ConfigSelect2())
 }
-Grid.prototype.set_Icons = function (e) {
+PopupRol.prototype.init_Events = function () {
 
-   e.sender.tbody.find(".k-button.mdi.mdi-search").each(function(idx, element){
-      $(element).removeClass("mdi mdi-search").find("span").addClass("mdi mdi-search")
-   })
+   this.$id_boton_guardar.on("click", this, this.click_BotonGuardar)
 }
-Grid.prototype.buscar = function() {
-   
-   this.kfuente_datos.page(1)
+PopupRol.prototype.click_BotonGuardar = function (e) {
+
+   e.data.preventDefault()
+}
+
+/*-----------------------------------------------*\
+            OBJETO: popup formato
+\*-----------------------------------------------*/
+
+function PopupFiltro(){
+
+   this.$id_compania_filtro = $('#id_compania_filtro')
+   this.$id_empleado_filtro = $('#id_empleado_filtro')
+   this.$id_rol_filtro = $('#id_rol_filtro')
+   this.$id_boton_buscar = $('#id_boton_buscar')
+   this.$id_boton_limpiar = $('#id_boton_limpiar')
+   this.init_Components()
+   this.init_Events()
+}
+PopupFiltro.prototype.init_Components = function () {
+
+   this.$id_compania_filtro.select2(appnova.get_ConfigSelect2())
+   this.$id_rol_filtro.select2(appnova.get_ConfigSelect2())
+}
+PopupFiltro.prototype.init_Events = function () {
+
+   this.$id_boton_buscar.on("click", this, this.click_BotonBuscar)
+   this.$id_boton_limpiar.on("click", this, this.click_BotonLimpiar)
+}
+PopupFiltro.prototype.click_BotonBuscar = function (e) {
+
+   e.data.preventDefault()
+}
+PopupFiltro.prototype.click_BotonLimpiar = function (e) {
+
+   e.data.preventDefault()
+}
+
+/*-----------------------------------------------*\
+            OBJETO: popup acciones
+\*-----------------------------------------------*/
+
+function PopupAcciones() {
+
+   this.$id_tarjeta_acciones = $('#id_tarjeta_acciones')
+   this.$id_boton_editar = $('#id_boton_editar')
+   this.$id_boton_eliminar = $('#id_boton_eliminar')
+   this.init_Events()
+}
+PopupAcciones.prototype.init_Events = function () {
+
+   this.$id_boton_editar.on("click", this, this.ocultar)
+}
+PopupAcciones.prototype.ocultar = function (e) {
+
+   e.preventDefault()
+   e.data.$id_tarjeta_acciones.modal('hide')
 }

@@ -49,12 +49,11 @@
 
                   </ul>
                   <div class="actions">
-                     <a href="{% url 'sgi:configuracion_requisito_lista' %}" class="btn btn-xs btn-prev btn-default nova-a-tab">Normas y Requisitos</a>
+                     <a href="{% url 'sgi:configuracion_requisito_lista' %}" class="btn btn-xs btn-prev btn-default nova-a-tab">Criterios y Requisitos</a>
                      <a href="{% url 'sgi:configuracion_proceso_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab">Procesos</a>
                      <a class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab nova-active-tab">Roles</a>
                      <a href="{% url 'sgi:configuracion_auditor_interno_formulario' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Auditores internos</a>
                      <a href="{% url 'sgi:configuracion_sitio_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Sitios</a>
-                     <!--<a href="{% url 'sgi:configuracion_contrato_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Contratos</a>-->
                      <a href="{% url 'sgi:configuracion_metodologia_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Metodologías</a>
                      <a href="{% url 'sgi:configuracion_tipo_hallazgo_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Hallazgo</a>
                      <a href="{% url 'sgi:configuracion_formato_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Formatos</a>
@@ -63,19 +62,59 @@
                <div class="panel panel-default panel-table">
 
                   <div class="panel-heading nova-panel-borde-contenido nova-panel-tools">
-                     <a href="#id_tarjeta_aprobador"
-                        class="btn nova-btn btn-rounded btn-sm btn-space btn-default pull-right" data-toggle="modal" id="boton_nuevo">
-                        <i class="icon icon-left mdi mdi-plus-circle nova-black"></i>Nuevo
+                     <a href="#id_tarjeta_filtros" 
+                        class="btn nova-btn btn-rounded btn-sm btn-space btn-primary pull-right" data-toggle="modal" id="id_boton_filtros">
+                        <i class="icon icon-left mdi mdi-search nova-white"></i> Filtros
                      </a>
-                     <a href="#tarjeta_filtros" 
-                        class="btn nova-btn btn-rounded btn-sm btn-space btn-primary pull-right" data-toggle="modal" id="boton_filtros">
-                        <i class="icon icon-left mdi mdi-search nova-white"></i>Filtros
+                     <a href="#id_tarjeta_nuevo_rol"
+                        class="btn nova-btn btn-rounded btn-sm btn-space btn-default pull-right" data-toggle="modal" id="id_boton_nuevo_rol">
+                        <i class="icon icon-left mdi mdi-plus-circle nova-black"></i> Rol
                      </a>
                   </div><!-- Panel Heading -->
 
-                  <!-- Tarjeta resultados-->
-                  <div id="grid_resultados">
-
+                  <div id="grid_resultados" class="nova-div-overflow">
+                     <table class="table table-bordered">
+                        <thead>
+                           <tr>
+                              <th style="width: 38px;"></th>
+                              <th>Nombre</th>
+                              <th>Compañia</th>
+                              <th>Rol</th>
+                           </tr>
+                        </thead>
+                        <tbody>
+                           <tr>
+                              <td>
+                                 <a href="#id_tarjeta_acciones" data-toggle="modal" class="btn nova-btn btn-default" id="boton_nuevo">
+                                    <i class="icon icon-left icon mdi mdi-settings nova-black"></i>
+                                 </a>
+                              </td>
+                              <td>Diana Castillo Hernandez</td>
+                              <td>GEOLIS</td>
+                              <td>Auditor lider</td>
+                           </tr>
+                           <tr>
+                              <td>
+                                 <a href="#id_tarjeta_acciones" data-toggle="modal" class="btn nova-btn btn-default" id="boton_nuevo">
+                                    <i class="icon icon-left icon mdi mdi-settings nova-black"></i>
+                                 </a>
+                              </td>
+                              <td>Luis Alberto Lopez Gonzalez</td>
+                              <td>MET</td>
+                              <td>Aprobador</td>
+                           </tr>
+                           <tr>
+                              <td>
+                                 <a href="#id_tarjeta_acciones" data-toggle="modal" class="btn nova-btn btn-default" id="boton_nuevo">
+                                    <i class="icon icon-left icon mdi mdi-settings nova-black"></i>
+                                 </a>
+                              </td>
+                              <td>Carlos Rodriguez Mendez</td>
+                              <td>MET</td>
+                              <td>Auditor</td>
+                           </tr>
+                        </tbody>
+                     </table>
                   </div>
 
                </div> <!-- Panel -->
@@ -85,7 +124,7 @@
       
    </div> <!-- main content -->
    <!-- Targeta Nuevo -->
-   <div id="id_tarjeta_aprobador" role="dialog" class="modal fade colored-header colored-header-primary">
+   <div id="id_tarjeta_nuevo_rol" role="dialog" class="modal fade colored-header colored-header-primary">
       <div class="modal-dialog custom-width">
          <div class="modal-content">
             
@@ -113,7 +152,7 @@
                <div class="form-group">
                   <label class="col-sm-3 nova-col-filter control-label">Empleado</label>
                   <div class="col-sm-8 xs-pt-5">
-                     <select class="select2 select2-hidden-accessible" tabindex="-1" aria-hidden="true" id="id_aprobador">
+                     <select class="select2 select2-hidden-accessible" tabindex="-1" aria-hidden="true" id="id_empleado">
                         <option value="" selected="selected">-------</option>
                         <option value="JPJ">Diana Castillo Hernandez</option>
                         <option value="LALG">Luis Alberto Lopez Gonzalez</option>
@@ -142,7 +181,7 @@
                      Cerrar
                   </button>
 
-                  <button type="button" id="boton_modal_guardar" class="btn nova-btn btn-primary btn-lg pull-right">
+                  <button type="button" id="id_boton_guardar" class="btn nova-btn btn-primary btn-lg pull-right">
                      <i class="icon icon-left mdi mdi-floppy nova-white"></i>
                      Guardar
                   </button>
@@ -153,7 +192,7 @@
    </div><!-- Modal -->
 </div> <!-- be content -->
 <!-- Tarjeta filtros-->
-   <div id="tarjeta_filtros" role="dialog" class="modal fade colored-header colored-header-primary">
+   <div id="id_tarjeta_filtros" role="dialog" class="modal fade colored-header colored-header-primary">
       <div class="modal-dialog custom-width">
          <div class="modal-content">
             
@@ -207,12 +246,12 @@
                      Cancelar
                   </button>
 
-                  <button type="button" id="boton_limpiar" class="btn btn-default nova-btn">
+                  <button type="button" id="id_boton_limpiar" class="btn btn-default nova-btn">
                      <i class="fa fa-eraser"></i>
                      Limpiar
                   </button>
 
-                  <button type="button" id="boton_buscar" class="btn nova-btn btn-primary btn-lg pull-right">
+                  <button type="button" id="id_boton_buscar" class="btn nova-btn btn-primary btn-lg pull-right">
                      <i class="icon icon-left mdi mdi-search nova-white"></i>
                      Buscar
                   </button>
@@ -221,6 +260,30 @@
          </div> <!-- Modal content-->
       </div> <!-- Modal dialog -->
    </div><!-- Modal -->
+
+   <!-- tarjeta_acciones-->
+   <div id="id_tarjeta_acciones" tabindex="-1" role="dialog" class="modal fade colored-header colored-header-primary">
+      <div style="width: 100px; height: 500px" class="modal-dialog">
+         <div class="modal-content">
+         <div class="modal-header nova-modal-header">
+            <button type="button" data-dismiss="modal" aria-hidden="true" class="close"><span class="mdi mdi-close"></span></button>
+            <h3 class="modal-title">Acciones Del Rol</h3>
+         </div>
+         <div class="modal-body">
+            <div class="text-center">
+               <div role="group" class="btn-group-vertical btn-space">
+                  <a href="#id_tarjeta_nuevo_rol" class="btn nova-btn btn-space btn-default btn-lg"  data-toggle="modal" id="id_boton_editar">
+                     <i class="icon icon-left mdi mdi-edit nova-black"></i> Editar Rol
+                  </a>
+                  <a href="#" class="btn nova-btn btn-space btn-warning btn-lg" id="id_boton_eliminar">
+                     <i class="icon icon-left mdi mdi-alert-triangle nova-white"></i> Eliminar Rol
+                  </a>
+               </div>
+            </div>
+         </div>
+         </div>
+      </div>
+   </div>
 
 {% endblock contenido %}
 

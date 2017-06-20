@@ -48,12 +48,11 @@
 
                   </ul>
                   <div class="actions">
-                     <a href="{% url 'sgi:configuracion_requisito_lista' %}" class="btn btn-xs btn-prev btn-default nova-a-tab">Normas y Requisitos</a>
+                     <a href="{% url 'sgi:configuracion_requisito_lista' %}" class="btn btn-xs btn-prev btn-default nova-a-tab">Criterios y Requisitos</a>
                      <a href="{% url 'sgi:configuracion_proceso_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab">Procesos</a>
                      <a href="{% url 'sgi:configuracion_rol_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Roles</a>
                      <a href="{% url 'sgi:configuracion_auditor_interno_formulario' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Auditores internos</a>
                      <a href="{% url 'sgi:configuracion_sitio_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Sitios</a>
-                     <!--<a href="{% url 'sgi:configuracion_contrato_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Contratos</a>-->
                      <a href="{% url 'sgi:configuracion_metodologia_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Metodologías</a>
                      <a class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab nova-active-tab">Hallazgo</a>
                      <a href="{% url 'sgi:configuracion_formato_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Formatos</a>
@@ -62,13 +61,12 @@
                <div class="panel panel-default panel-table">
 
                   <div class="panel-heading nova-panel-borde-contenido nova-panel-tools">
-                     <a href="#id_tarjeta_aprobador"
+                     <a href="#id_tarjeta_tipo_hallazgo"
                         class="btn nova-btn btn-sm btn-rounded btn-space btn-default pull-right" data-toggle="modal" id="boton_nuevo">
-                        <i class="icon icon-left mdi mdi-plus-circle nova-black"></i>Nuevo
+                        <i class="icon icon-left mdi mdi-plus-circle nova-black"></i>Hallazgo
                      </a>
                   </div><!-- Panel Heading -->
 
-                  <!-- Tarjeta resultados-->
                   <div id="grid_resultados">
 
                   </div>
@@ -79,20 +77,20 @@
       
    </div> <!-- main content -->
    <!-- Targeta Nuevo -->
-   <div id="id_tarjeta_aprobador" role="dialog" class="modal fade colored-header colored-header-primary">
+   <div id="id_tarjeta_tipo_hallazgo" role="dialog" class="modal fade colored-header colored-header-primary">
       <div class="modal-dialog custom-width">
          <div class="modal-content">
             
             <div class="modal-header nova-modal-header">
                <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
-               <h3 class="modal-title">Nuevo Hallazgo</h3>
+               <h3 class="modal-title">Nuevo Tipo de Hallazgo</h3>
             </div>
                
             <form id="id_formulario_aprobador" class="modal-body form-horizontal">
                
                <!-- tipo_hallazgo -->
                <div class="form-group">
-                  <label class="col-sm-3 nova-col-filter control-label">Hallazgo</label>
+                  <label class="col-sm-3 nova-col-filter control-label"> Hallazgo</label>
                   <div class="col-sm-8 xs-pt-5">
                      <input class="form-control input-xs" type="text" name="" id="id_tipo_hallazgo">
                   </div>
@@ -105,7 +103,7 @@
                      Cerrar
                   </button>
 
-                  <button type="button" id="boton_modal_guardar" class="btn nova-btn btn-primary btn-lg pull-right">
+                  <button type="button" id="id_boton_guardar" class="btn nova-btn btn-primary btn-lg pull-right">
                      <i class="icon icon-left mdi mdi-floppy nova-white"></i>
                      Guardar
                   </button>

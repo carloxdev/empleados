@@ -41,12 +41,11 @@
 
                   </ul>
                   <div class="actions">
-                     <a href="{% url 'sgi:configuracion_requisito_lista' %}" class="btn btn-xs btn-prev btn-default nova-a-tab">Normas y Requisitos</a>
+                     <a href="{% url 'sgi:configuracion_requisito_lista' %}" class="btn btn-xs btn-prev btn-default nova-a-tab">Criterios y Requisitos</a>
                      <a href="{% url 'sgi:configuracion_proceso_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab">Procesos</a>
                      <a href="{% url 'sgi:configuracion_rol_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Roles</a>
                      <a class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab nova-active-tab">Auditores Internos</a>
                      <a href="{% url 'sgi:configuracion_sitio_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Sitios</a>
-                     <!--<a href="{% url 'sgi:configuracion_contrato_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Contratos</a>-->
                      <a href="{% url 'sgi:configuracion_metodologia_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Metodologías</a>
                      <a href="{% url 'sgi:configuracion_tipo_hallazgo_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Hallazgo</a>
                      <a href="{% url 'sgi:configuracion_formato_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Formatos</a>
@@ -87,20 +86,7 @@
                         </div>
                      </div>
                   </div>
-
                </div>
-               <!-- Botones -->
-               <div class="modal-footer nova-modal-footer">
-
-                  <div class="row col-sm-12">                       
-                     
-                     <button type="submit" id="boton_guardar" class="btn nova-btn btn-primary btn-lg pull-right">
-                        <i class="icon icon-left mdi mdi-save nova-white"></i>
-                        Guardar
-                     </button>
-                  </div>
-               </div>
-
             </form>
          </div>
       </div>

@@ -49,12 +49,11 @@
 
                   </ul>
                   <div class="actions">
-                     <a href="{% url 'sgi:configuracion_requisito_lista' %}" class="btn btn-xs btn-prev btn-default nova-a-tab">Normas y Requisitos</a>
+                     <a href="{% url 'sgi:configuracion_requisito_lista' %}" class="btn btn-xs btn-prev btn-default nova-a-tab">Criterios y Requisitos</a>
                      <a href="{% url 'sgi:configuracion_proceso_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab">Procesos</a>
                      <a href="{% url 'sgi:configuracion_rol_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Roles</a>
                      <a href="{% url 'sgi:configuracion_auditor_interno_formulario' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Auditores internos</a>
                      <a href="{% url 'sgi:configuracion_sitio_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Sitios</a>
-                     <!--<a href="{% url 'sgi:configuracion_contrato_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Contratos</a>-->
                      <a class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab nova-active-tab">Metodologías</a>
                      <a href="{% url 'sgi:configuracion_tipo_hallazgo_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Hallazgo</a>
                      <a href="{% url 'sgi:configuracion_formato_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Formatos</a>
@@ -63,13 +62,12 @@
                <div class="panel panel-default panel-table">
 
                   <div class="panel-heading nova-panel-borde-contenido nova-panel-tools">
-                     <a href="#id_tarjeta_aprobador"
+                     <a href="#id_tarjeta_metodologia"
                         class="btn nova-btn btn-rounded btn-sm btn-space btn-default pull-right" data-toggle="modal" id="boton_nuevo">
-                        <i class="icon icon-left mdi mdi-plus-circle nova-black"></i>Nuevo
+                        <i class="icon icon-left mdi mdi-plus-circle nova-black"></i> Metodología
                      </a>
                   </div><!-- Panel Heading -->
 
-                  <!-- Tarjeta resultados-->
                   <div id="grid_resultados">
 
                   </div>
@@ -81,7 +79,7 @@
       
    </div> <!-- main content -->
    <!-- Targeta Nuevo -->
-   <div id="id_tarjeta_aprobador" role="dialog" class="modal fade colored-header colored-header-primary">
+   <div id="id_tarjeta_metodologia" role="dialog" class="modal fade colored-header colored-header-primary">
       <div class="modal-dialog custom-width">
          <div class="modal-content">
             
@@ -107,7 +105,7 @@
                      Cerrar
                   </button>
 
-                  <button type="button" id="boton_modal_guardar" class="btn nova-btn btn-primary btn-lg pull-right">
+                  <button type="button" id="id_boton_guardar" class="btn nova-btn btn-primary btn-lg pull-right">
                      <i class="icon icon-left mdi mdi-floppy nova-white"></i>
                      Guardar
                   </button>

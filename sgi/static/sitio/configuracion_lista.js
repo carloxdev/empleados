@@ -7,8 +7,7 @@
 
 // OBJS
 var tarjeta_resultados = null
-var popup_nuevo = null
-var popup_acciones = null
+var popup_sitio = null
 var toolbar = null
 var grid = null
 
@@ -37,15 +36,27 @@ function TarjetaResultados(){
 
 function ToolBar() {
    
+   popup_sitio = new PopupSitio()
    this.$id_boton_nuevo = $('#id_boton_nuevo')
    this.init_Events()
 }
 ToolBar.prototype.init_Events = function () {
+   
    this.$id_boton_nuevo.on("click", this, this.click_BotonNuevo)
 }
-toolbar.prototype.click_BotonNuevo = function (e) {
+ToolBar.prototype.click_BotonNuevo = function (e) {
 
    e.data.preventDefault()
+}
+
+/*-----------------------------------------------*\
+         OBJETO: popup nuevo
+\*-----------------------------------------------*/
+
+function PopupSitio() {
+   
+   this.$id_sitio = $('#id_sitio')
+   this.$id_boton_guardar_sitio = $('#id_boton_guardar_sitio')
 }
 
 /*-----------------------------------------------*\
@@ -54,31 +65,72 @@ toolbar.prototype.click_BotonNuevo = function (e) {
 
 function Grid() {
 
-   popup_nuevo = new PopupNuevo()
-   popup_acciones = new PopupAcciones()
+   this.$id = $("#grid_resultados")
+   this.kfuente_datos = null
+   this.kgrid = null
+   this.init()
 }
+Grid.prototype.init = function () {
 
-/*-----------------------------------------------*\
-         OBJETO: popup nuevo
-\*-----------------------------------------------*/
+   kendo.culture("es-MX")
+   this.kfuente_datos = new kendo.data.DataSource(
+      {  serverPaging: true,
+         pageZize: 10,
+         data:
+               [
+                  {  sitio: "Sala de junta"},
+               ],
+         schema: {
+            total: function(response) {
+               return $(response.data).length;
+            },
+         }
+      }
+   )
+   this.kgrid = this.$id.kendoGrid(this.get_Configuracion())
+}
+Grid.prototype.get_DataSourceConfig = function (e) {
 
-function PopupNuevo() {
+   return 
+}
+Grid.prototype.get_Configuracion = function () {
+
+   return {
+      dataSource: this.kfuente_datos,
+      columnMenu: true,
+      groupable: false,
+      sortable: false,
+      editable: false,
+      resizable: true,
+      selectable: true,
+      scrollable: false,
+      columns: [
+         {  template: '<a class="btn nova-btn btn-default" id="boton_nuevo"> <i class="icon icon-left icon mdi mdi-delete nova-black"></i></a>',
+            width: '45px'
+         },
+         {  field: "sitio", title: "Sitio", width: "60%"
+         },
+      ],
+      scrollable: true,
+      editable: true,
+      pageable: true,
+      noRecords: {
+         template: "<div class='grid-empy'> No se encontraron registros </div>"
+      },
+      
+   }
+}
+Grid.prototype.get_Columnas = function () {
+
+   return 1
+}
+Grid.prototype.set_Icons = function (e) {
+
+   e.sender.tbody.find(".k-button.mdi.mdi-search").each(function(idx, element){
+      $(element).removeClass("mdi mdi-search").find("span").addClass("mdi mdi-search")
+   })
+}
+Grid.prototype.buscar = function() {
    
-   this.$id_sitio = $('#id_sitio')
-   this.$id_boton_guardar_sitio = $('#id_boton_guardar_sitio')
-}
-
-/*-----------------------------------------------*\
-         OBJETO: popup acciones
-\*-----------------------------------------------*/
-
-function PopupAcciones() {
-
-   this.$id_tarjeta_acciones = $('#id_tarjeta_acciones')
-   this.$id_boton_eliminar_sitio = $('#id_boton_eliminar_sitio')
-   this.init_Events()
-}
-PopupAcciones.prototype.init_Events = function (e) {
-
-   e.data.$id_tarjeta_acciones.modal('hide')
+   this.kfuente_datos.page(1)
 }

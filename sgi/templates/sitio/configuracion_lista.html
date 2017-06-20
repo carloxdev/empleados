@@ -34,7 +34,6 @@
          <li class="active">Sitios</li>
       </ol>
    </div>
-
    
    <div class="main-content container-fluid nova-main-content">
 
@@ -49,7 +48,7 @@
 
                   </ul>
                   <div class="actions">
-                     <a href="{% url 'sgi:configuracion_requisito_lista' %}" class="btn btn-xs btn-prev btn-default nova-a-tab">Normas y Requisitos</a>
+                     <a href="{% url 'sgi:configuracion_requisito_lista' %}" class="btn btn-xs btn-prev btn-default nova-a-tab">Criterios y Requisitos</a>
                      <a href="{% url 'sgi:configuracion_proceso_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab">Procesos</a>
                      <a href="{% url 'sgi:configuracion_rol_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Roles</a>
                      <a href="{% url 'sgi:configuracion_auditor_interno_formulario' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Auditores internos</a>
@@ -64,33 +63,12 @@
                   <div class="panel-heading nova-panel-borde-contenido nova-panel-tools">
                      <a href="#id_tarjeta_sitio"
                         class="btn nova-btn btn-rounded btn-sm btn-space btn-default pull-right" data-toggle="modal" id="id_boton_nuevo">
-                        <i class="icon icon-left mdi mdi-plus-circle nova-black"></i>Nuevo
+                        <i class="icon icon-left mdi mdi-plus-circle nova-black"></i> Sitio
                      </a>
                   </div><!-- Panel Heading -->
 
-                  <!-- Tarjeta resultados-->
-                  <div id="grid_resultados" class="nova-div-overflow">
-                     <table class="table table-bordered">
-                        <thead>
-                           <tr>
-                              <th style="width: 38px;"></th>
-                              <th>Sitio</th>
-                           </tr>
-                        </thead>
-                        <tbody>
-                           <tr>
-                              <td>
-                                 <a href="#id_tarjeta_acciones" data-toggle="modal" class="btn nova-btn btn-default" id="id_boton_editar">
-                                    <i class="icon icon-left icon mdi mdi-settings nova-black"></i>
-                                 </a>
-                              </td>
-                              <!--<td>
-                                 <a href="#id_tarjeta_sitio" class="btn btn-default nova-url" data-toggle="modal">SIT-01 </a>
-                              </td>-->
-                              <td>Oficinas de nuvoil</td>
-                           </tr>
-                        </tbody>
-                     </table>
+                  <div id="grid_resultados">
+                     
                   </div>
 
                </div> <!-- Panel -->
@@ -137,27 +115,6 @@
       </div> <!-- Modal dialog -->
    </div><!-- Modal -->
 </div> <!-- be content -->
-
-<!-- tarjeta_acciones-->
-   <div id="id_tarjeta_acciones" tabindex="-1" role="dialog" class="modal fade colored-header colored-header-primary">
-      <div style="width: 100px; height: 500px" class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header nova-modal-header">
-            <button type="button" data-dismiss="modal" aria-hidden="true" class="close"><span class="mdi mdi-close"></span></button>
-            <h3 class="modal-title">Acciones Del Sitio: <strong>SIT-01 </strong>: Oficinas de nuvoil</h3>
-          </div>
-          <div class="modal-body">
-            <div class="text-center">
-               <div role="group" class="btn-group-vertical btn-space">
-                  <a href="#" class="btn nova-btn btn-space btn-warning btn-lg" id="id_boton_eliminar_sitio">
-                     <i class="icon icon-left mdi mdi-alert-triangle nova-white"></i> Eliminar Sitio
-                  </a>
-               </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
 
 {% endblock contenido %}
 

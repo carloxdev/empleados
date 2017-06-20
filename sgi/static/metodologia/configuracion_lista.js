@@ -6,12 +6,10 @@
 //var url_seguimiento_bypage = window.location.origin + "/api-jde/viewscompras_bypage/"
 
 // OBJS
-var formulario = null
 var tarjeta_resultados = null
-var tarjeta_detalles = null
+var popup_metodologia = null
 var toolbar = null
 var grid = null
-
 
 /*-----------------------------------------------*\
          LOAD
@@ -19,28 +17,8 @@ var grid = null
 
 $(document).ready(function () {
    
-   formulario = new Formulario()
    tarjeta_resultados = new TarjetaResultados()
 })
-
-/*-----------------------------------------------*\
-         OBJETO: Tarjeta filtros
-\*-----------------------------------------------*/
-function Formulario() {
-
-   this.$boton_buscar = $('#boton_buscar')
-   this.$boton_limpiar = $('#boton_limpiar')
-   //this.init_Components()
-   this.init_Events()
-}
-Formulario.prototype.init_Components = function () {
-
-}
-Formulario.prototype.init_Events = function () {
-
-   this.$boton_buscar.on("click", this, this.click_BotonBuscar)
-   this.$boton_limpiar.on("click", this, this.click_BotonLimpiar)
-}
 
 /*-----------------------------------------------*\
          OBJETO: Tarjeta resultados
@@ -57,11 +35,28 @@ function TarjetaResultados(){
 \*-----------------------------------------------*/
 
 function ToolBar() {
-
-   this.init()
+   
+   popup_metodologia = new PopupMetodologia()
+   this.$id_boton_nuevo = $('#id_boton_nuevo')
+   this.init_Events()
 }
-ToolBar.prototype.init = function () {
+ToolBar.prototype.init_Events = function () {
+   
+   this.$id_boton_nuevo.on("click", this, this.click_BotonNuevo)
+}
+ToolBar.prototype.click_BotonNuevo = function (e) {
 
+   e.data.preventDefault()
+}
+
+/*-----------------------------------------------*\
+         OBJETO: popup nuevo
+\*-----------------------------------------------*/
+
+function PopupMetodologia() {
+   
+   this.$id_metodologia = $('#id_metodologia')
+   this.$id_boton_guardar_sitio = $('#id_boton_guardar_sitio')
 }
 
 /*-----------------------------------------------*\
@@ -112,11 +107,14 @@ Grid.prototype.get_Configuracion = function () {
       scrollable: false,
       columns: [
          
-         { field: "metodologia", title: "Metodologia", width:"60%"},
-         { command: [ {name:"edit", text:{edit:"Editar", update:"Actualizar", cancel:"Cancelar"}}, {name:"destroy", text:"Eliminar"}]},
+         {  template: '<a class="btn nova-btn btn-default" id="boton_nuevo"> <i class="icon icon-left icon mdi mdi-delete nova-black"></i></a>',
+            width: '45px'
+         },
+         { field: "metodologia", title: "Metodologia", width:"60%"
+         },
       ],
       scrollable: true,
-      editable: "inline",
+      editable: true,
       pageable: true,
       noRecords: {
          template: "<div class='grid-empy'> No se encontraron registros </div>"
