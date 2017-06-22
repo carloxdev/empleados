@@ -56,8 +56,8 @@ class ViaticoFilterForm(Form):
     def __init__(self, *args, **kwargs):
         super(ViaticoFilterForm, self).__init__(*args, **kwargs)
         self.fields['empleado'].choices = EmpleadoBusiness.get_Todos_ForSelectCustom()
-        self.fields['unidad_negocio'].choices = CentroCostoBusiness.get_Activos_ForSelect()
-        self.fields['autorizador'].choices = get_EmpleadosEbs_Todos()
+        self.fields['unidad_negocio'].choices = CentroCostoBusiness.get_Todos_ForSelectCustom()
+        self.fields['autorizador'].choices = EmpleadoBusiness.get_Todos_ForSelectCustom()
 
 
 class ViaticoCabeceraForm(ModelForm):
@@ -101,9 +101,8 @@ class ViaticoCabeceraForm(ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(ViaticoCabeceraForm, self).__init__(*args, **kwargs)
-        self.fields['empleado_clave'].choices = get_EmpleadosEbs_Activos()
-        self.fields[
-            'unidad_negocio_clave'].choices = get_CentrosCostoJde_Activos()
+        self.fields['empleado_clave'].choices = EmpleadoBusiness.get_Activos_ForSelectCustom()
+        self.fields['unidad_negocio_clave'].choices = CentroCostoBusiness.get_Activos_ForSelectCustom()
 
 
 class ViaticoLineaForm(Form):
