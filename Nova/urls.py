@@ -28,4 +28,5 @@ urlpatterns = [
     url(r'', include('sgi.urls', namespace="sgi")),
     url(r'', include('capitalhumano.urls', namespace="capitalhumano")),
     url(r'', include('serviciosempleado.urls', namespace="serviciosempleado")),
+    url(r'', include('calidad.urls', namespace="calidad")),
 ]

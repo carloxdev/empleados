@@ -1,0 +1,340 @@
+{% extends 'master.html' %}
+
+{% load static from staticfiles %}
+
+{% block titulo %} Procesos de Auditoría {% endblock titulo %}
+
+{% block title-page %} Procesos de Auditoría  {% endblock title-page %}
+
+{% block css %}
+
+   <!-- Beagle Theme -->
+   <link rel="stylesheet" href="{% static 'theme/lib/daterangepicker/css/daterangepicker.css' %}"/>
+
+{% endblock css %}
+
+{% block contenido %}
+
+<div class="be-content">
+
+   <div class="page-head nova-page-head">
+      <h2 class="page-head-title nova-title">Procesos de Auditoría</h2>
+      <ol class="breadcrumb page-head-nav pull-right">
+         <li><a href="{% url 'home:inicio' %}">Inicio</a></li>
+         <li id="menu" data-opcion="auditorias_lista" class="active">Procesos de Auditoría</li>
+      </ol>
+   </div>
+
+   <div class="main-content container-fluid nova-main-content">
+      
+      <div class="row">
+         <!-- Tarjeta resultados-->
+         <div class="col-sm-12 nova-col">
+            <div class="panel panel-default panel-table">
+            <div class="panel-heading panel-border nova-panel-heading">
+            <div class="tools pull-right" id="toolbar">
+               <a href="{% url 'calidad:general_formulario' %}"
+                  class="btn nova-btn btn-rounded btn-space btn-default" id="boton_nuevo">
+                  <i class="icon icon-left mdi mdi-plus-circle nova-black"></i>Nuevo
+               </a>
+               <a href="#tarjeta_filtros" 
+                  class="btn nova-btn btn-rounded btn-space btn-primary" data-toggle="modal" id="boton_filtros">
+                  <i class="icon icon-left mdi mdi-search nova-white"></i>Filtros
+               </a>
+            </div>
+            <div class="title hidden-xs">Registros</div>
+            </div><!-- Panel Heading -->
+            <div id="grid_resultados">
+            <table class="table table-bordered">
+               <thead>
+                  <tr>
+                     <th style="width: 38px;"></th>
+                     <th>Folio</th>
+                     <th>Objetivo</th>
+                     <th>Elaborador</th>
+                     <th>Autorizador</th>
+                     <th>Aprobador</th>
+                     <th>Compañia</th>
+                     <th>Estado</th>
+                     <th>Costo estimado</th>
+                     <th>Tipo</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  <tr>
+                     <td>
+                        <a href="#id_tarjeta_acciones" data-toggle="modal" class="btn nova-btn btn-default" id="boton_nuevo">
+                           <i class="icon icon-left icon mdi mdi-settings nova-black"></i>
+                        </a>
+                     </td>
+                     <td>
+                        <a href="{% url 'calidad:general_formulario' %}" class="btn btn-default nova-url" data-toggle="modal">AUD-01-15</a>
+                     </td>
+                     <td>Determinar la conformidad del sistema</td>
+                     <td>Juan Guerrero Hidalgo</td>
+                     <td>Armando Villanueva Jimenez</td>
+                     <td>Ingrid Coliaza Reyes</td>
+                     <td>SIC</td>
+                     <td bgcolor="#5ac3f6" style="text-align:center">En aprobación</td>
+                     <td>$1830</td>
+                     <td>Auditoria Interna</td>
+                  </tr>
+                  <tr>
+                     <td>
+                        <a href="#id_tarjeta_acciones" data-toggle="modal" class="btn nova-btn btn-default" id="boton_nuevo">
+                           <i class="icon icon-left icon mdi mdi-settings nova-black"></i>
+                        </a>
+                     </td>
+                     <td>
+                        <a href="{% url 'calidad:general_formulario' %}" class="btn btn-default nova-url" data-toggle="modal">AUD-02-15</a>
+                     </td>
+                     <td>Determinar la conformidad del sistema</td>
+                     <td>Juan Guerrero Hidalgo</td>
+                     <td>Armando Villanueva Jimenez</td>
+                     <td>Ingrid Coliaza Reyes</td>
+                     <td>MET</td>
+                     <td bgcolor="#d4d4d4" style="text-align:center">Cancelado</td>
+                     <td>$1830</td>
+                     <td>Mejora continua</td>
+                  </tr>
+                  <tr>
+                     <td>
+                        <a href="#id_tarjeta_acciones" data-toggle="modal" class="btn nova-btn btn-default" id="boton_nuevo">
+                           <i class="icon icon-left icon mdi mdi-settings nova-black"></i>
+                        </a>
+                     </td>
+                     <td>
+                        <a href="{% url 'calidad:general_formulario' %}" class="btn btn-default nova-url" data-toggle="modal">AUD-03-15</a>
+                     </td>
+                     <td>Determinar la conformidad del sistema</td>
+                     <td>Juan Guerrero Hidalgo</td>
+                     <td>Armando Villanueva Jimenez</td>
+                     <td>Ingrid Coliaza Reyes</td>
+                     <td>GEOLIS</td>
+                     <td bgcolor="#4285f4" style="color:white; text-align:center">Aprobado</td>
+                     <td>$1830</td>
+                     <td>Auditoria Externa</td>
+                  </tr>
+                  <tr>
+                     <td>
+                        <a href="#id_tarjeta_acciones" data-toggle="modal" class="btn nova-btn btn-default" id="boton_nuevo">
+                           <i class="icon icon-left icon mdi mdi-settings nova-black"></i>
+                        </a>
+                     </td>
+                     <td>
+                        <a href="{% url 'calidad:general_formulario' %}" class="btn btn-default nova-url" data-toggle="modal">AUD-01-16</a>
+                     </td>
+                     <td>Determinar la conformidad del sistema</td>
+                     <td>Jose Gutierrez Zacarias</td>
+                     <td>Javier Hernandez Gomez</td>
+                     <td>Fernanda Fuentes Rocio</td>
+                     <td>SIC</td>
+                     <td bgcolor="#f6b663" style="text-align:center">Rechazado</td>
+                     <td>$2630</td>
+                     <td>Auditoria Interna</td>
+                  </tr>
+                  <tr>
+                     <td>
+                        <a href="#id_tarjeta_acciones" data-toggle="modal" class="btn nova-btn btn-default" id="boton_nuevo">
+                           <i class="icon icon-left icon mdi mdi-settings nova-black"></i>
+                        </a>
+                     </td>
+                     <td>
+                        <a href="{% url 'calidad:general_formulario' %}" class="btn btn-default nova-url" data-toggle="modal">AUD-01-17</a>
+                     </td>
+                     <td>Determinar la conformidad del sistema</td>
+                     <td>Fernando Cabrera Gonzalez</td>
+                     <td>Antonio Corcino Donato</td>
+                     <td>Anahi Campos Fuentes</td>
+                     <td>SIC</td>
+                     <td bgcolor="#34a853" style="color:white; text-align:center">Autorizado</td>
+                     <td>$2330</td>
+                     <td>Auditoria Interna</td>
+                  </tr>
+                  <tr>
+                     <td>
+                        <a href="#id_tarjeta_acciones" data-toggle="modal" class="btn nova-btn btn-default" id="boton_nuevo">
+                           <i class="icon icon-left icon mdi mdi-settings nova-black"></i>
+                        </a>
+                     </td>
+                     <td>
+                        <a href="{% url 'calidad:general_formulario' %}" class="btn btn-default nova-url" data-toggle="modal">AUD-01-18</a>
+                     </td>
+                     <td>Determinar la conformidad del sistema</td>
+                     <td>Alvaro Arias Martinez</td>
+                     <td>Julio Cabrera Mendez</td>
+                     <td>Carolina Mendez Miron</td>
+                     <td>MET</td>
+                     <td style="text-align:center">En captura</td>
+                     <td>$964</td>
+                     <td>Auditoria Interna</td>
+                  </tr>
+               </tbody>
+            </table>
+            </div>
+            <div class="panel-footer panel-border nova-panel-footer panel-border">
+            </div><!-- Panel Footer -->
+            </div> <!-- Panel -->
+         </div> <!-- col sm 12-->
+      </div>
+   </div> <!-- main content -->
+
+   <!-- Tarjeta filtros-->
+   <div id="tarjeta_filtros" role="dialog" class="modal fade colored-header colored-header-primary">
+      <div class="modal-dialog custom-width">
+         <div class="modal-content">
+            
+            <div class="modal-header nova-modal-header">
+               <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
+               <h3 class="modal-title">Filtros</h3>
+            </div>
+               
+            <form id="formulario_filtro" class="modal-body form-horizontal">
+
+               <div class="form-group">
+                  <label class="col-sm-3 nova-col-filter control-label">Elaborador</label>
+                  <div class="col-sm-7 xs-pt-5">
+                     <select class="select2 select2-hidden-accessible" tabindex="-1" aria-hidden="true" id="id_elaborador">
+                        <option value="" selected="selected">-------</option>
+                        <option value="JPJ">Juan Perez Jimenez</option>
+                        <option value="LALG">Luis Alberto Lopez Gonzalez</option>
+                     </select>
+                  </div>
+               </div>                
+
+               <div class="form-group">
+                  <label class="col-sm-3 nova-col-filter control-label">Autorizador</label>
+                  <div class="col-sm-7 xs-pt-5">
+                     <select class="select2 select2-hidden-accessible" tabindex="-1" aria-hidden="true" id="id_autorizador">
+                        <option value="" selected="selected">-------</option>
+                        <option value="JPJ">Alberto Diaz Rodriguez</option>
+                        <option value="LALG">Luis Alberto Lopez Gonzalez</option>
+                     </select>
+                  </div>
+               </div>
+
+               <div class="form-group">
+                 <label class="col-sm-3 nova-col-filter control-label">Aprobador</label>
+                 <div class="col-sm-7 xs-pt-5">
+                     <select class="select2 select2-hidden-accessible" tabindex="-1" aria-hidden="true" id="id_aprobador">
+                        <option value="" selected="selected">-------</option>
+                        <option value="JPJ">Diana Castillo Hernandez</option>
+                        <option value="LALG">Luis Alberto Lopez Gonzalez</option>
+                     </select>
+                 </div>
+               </div>
+
+               <div class="form-group">
+                  <label class="col-sm-3 nova-col-filter control-label">Fecha inicial y final programada</label>
+                  <div class="col-sm-7 xs-pt-5">
+                     <div class="input-group">
+                        <input type="text" value="" readonly="" class="form-control input-xs" id="id_fecha_inicial_final_programada">
+                        <span class="input-group-addon btn btn-primary">
+                           <i class="icon-th mdi mdi-calendar"></i>
+                        </span>
+                     </div>
+                  </div>
+               </div>                    
+
+               <div class="form-group">
+                  <label class="col-sm-3 nova-col-filter control-label">Fecha inicial y final real</label>
+                  <div class="col-sm-7 xs-pt-5">
+                     <div class="input-group">
+                        <input type="text" value="" readonly="" class="form-control input-xs" id="id_fecha_inicial_final_real">
+                        <span class="input-group-addon btn btn-primary">
+                           <i class="icon-th mdi mdi-calendar"></i>
+                        </span>
+                     </div>
+                  </div>
+               </div>                                        
+
+               <div class="form-group">
+                  <label class="col-sm-3 nova-col-filter control-label">Estado</label>
+                  <div class="col-sm-7 xs-pt-5">
+                     <select class="select2 select2-hidden-accessible" tabindex="-1" aria-hidden="true" id="id_estado">
+                        <option value="" selected="selected">-------</option>
+                        <option value="captura">Captura</option>
+                        <option value="revision">En revisión</option>
+                        <option value="aprobacion">En aprobación</option>
+                        <option value="cancelado">Cancelado</option>
+                        <option value="curso">En curso</option>
+                        <option value="cerrado">Cerrado</option>
+                     </select>
+                  </div>
+               </div>
+
+               <div class="form-group">
+                  <label class="col-sm-3 nova-col-filter control-label">Compania auditada</label>
+                  <div class="col-sm-7 xs-pt-5">
+                     <select class="select2 select2-hidden-accessible" tabindex="-1" aria-hidden="true" id="id_compania_auditada">
+                        <option value="" selected="selected">-------</option>
+                        <option value="00001">1 - SISTEMAS INTEGRALES COMPRESION</option>
+                        <option value="00002">2 - PART TECHNICAL SERVICES</option>
+                        <option value="00003">3 - IPC</option>
+                        <option value="00004">4 - MET</option>
+                     </select>
+                  </div>
+               </div>
+
+            </form><!-- Modal body-->
+            <div class="modal-footer nova-modal-footer">
+               <div class="row col-sm-12">
+                  <button type="button" data-dismiss="modal" class="btn btn-default pull-left">
+                     Cancelar
+                  </button>
+
+                  <button type="button" id="boton_limpiar" class="btn btn-default nova-btn">
+                     <i class="fa fa-eraser"></i>
+                     Limpiar
+                  </button>
+
+                  <button type="button" id="boton_buscar" class="btn nova-btn btn-primary btn-lg pull-right">
+                     <i class="icon icon-left mdi mdi-search nova-white"></i>
+                     Buscar
+                  </button>
+               </div>
+            </div>
+         </div> <!-- Modal content-->
+      </div> <!-- Modal dialog -->
+   </div><!-- Modal -->
+
+   <!-- tarjeta_acciones-->
+   <div id="id_tarjeta_acciones" tabindex="-1" role="dialog" class="modal fade colored-header colored-header-primary">
+      <div style="width: 100px; height: 500px" class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header nova-modal-header">
+            <button type="button" data-dismiss="modal" aria-hidden="true" class="close"><span class="mdi mdi-close"></span></button>
+            <h3 class="modal-title">Acciones Del Hallazgo 1</h3>
+          </div>
+          <div class="modal-body">
+            <div class="text-center">
+               <div role="group" class="btn-group-vertical btn-space">
+                  <a href="{% url 'calidad:auditoria_lista' %}" class="btn nova-btn btn-space btn-default btn-lg" id="id_boton_nuevo">
+                     <i class="icon icon-left mdi mdi-edit nova-black"></i> Editar
+                  </a>
+                  <a href="{% url 'calidad:proceso_lista' %}" class="btn nova-btn btn-space btn-primary btn-lg" id="id_boton_checklist">
+                     <i class="icon icon-left mdi mdi-arrow-right nova-white"></i> Ir a Check List
+                  </a>
+                  <button class="btn nova-btn btn-space btn-success btn-lg" id="id_boton_plan_auditoria">
+                     <i class="icon icon-left mdi mdi-collection-pdf nova-white"></i> Plan de auditoria
+                  </button>
+               </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+</div> <!-- be-content -->
+
+{% endblock contenido %}
+
+{% block scripts %}
+   
+   <!-- Beagle Theme -->
+   <script src="{% static 'theme/lib/daterangepicker/js/daterangepicker.js' %}"></script>
+
+   <!-- JS Template -->
+   <script src="{% static 'auditoria/auditoria_lista.js' %}"></script>
+
+{% endblock scripts %}

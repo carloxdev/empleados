@@ -1,0 +1,179 @@
+{% extends 'master.html' %}
+
+{% load static from staticfiles %}
+
+{% block titulo %} Seguimientos al Plan de Acción {% endblock titulo %}
+
+{% block title-page %} Seguimientos al Plan de Acción  {% endblock title-page %}
+
+{% block css %}
+
+<!-- wysihtml5 -->
+<link rel="stylesheet" href="{% static 'libs/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css' %}">
+
+{% endblock css %}
+
+{% block contenido %}
+
+<div class="be-content">
+
+   <div class="page-head nova-page-head">
+      <h2 class="page-head-title nova-title">Seguimientos al Plan de Acción</h2>
+      <ol class="breadcrumb page-head-nav pull-right">
+         <li><a href="{% url 'home:inicio' %}">Inicio</a></li>
+         <li id="menu" data-opcion="auditorias_lista"><a href="{% url 'calidad:auditoria_lista' %}">Auditoría</a></li>
+         <li><a href="{% url 'calidad:hallazgo_lista' %}">Hallazgos</a></li>
+         <li><a href="{% url 'calidad:plan_accion_lista' %}">Plan de Acciones</a></li>
+         <li class="active"><a>Seguimientos</a></li>
+      </ol>
+   </div>
+
+   <div class="main-content container-fluid nova-main-content">
+      
+      <div class="row wizard-row">
+
+         <!-- Tarjeta formulario-->
+         <div class="col-md-12 fuelux">
+            <form class="block-wizard panel panel-default nova-panel-borde-header" action="" method="POST" > {% csrf_token %}
+               <div id="wizard1" class="wizard wizard-ux">
+                  <ul class="steps">
+
+                     <li class="active">Auditoría No: <strong>AUD-01-15</strong>. Seguimiento de las actividades para el proceso: <strong>Licitaciones</strong></li>
+
+                  </ul>
+                  <div class="actions">
+                     <a href="{% url 'calidad:general_formulario' %}" class="btn btn-xs btn-prev btn-default nova-a-tab">Generales</a>
+                     <a href="{% url 'calidad:equipo_auditor_formulario' %}" class="btn btn-xs btn-next btn-default nova-a-tab">Equipo Auditor</a>
+                     <a href="{% url 'calidad:proceso_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Procesos</a>
+                     <a href="{% url 'calidad:hallazgo_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab nova-active-tab">Hallazgos</a>
+                  </div>
+
+                  <div class="step-content nova-panel-step-content nova-panel-borde-top">
+                     <div id="wizard2" class="wizard wizard-ux">
+                        <ul class="steps">
+                           <li id="id_tab_plan"class="complete nova-step-font nova-step-complete">Plan de acciones<span class="chevron nova-chevron-color"></span></li>
+                           <li class="active nova-step-font nova-step-active">Seguimientos<span class="chevron nova-chevron-color"></span></li>
+                        </ul>
+                     </div>
+                  </div>
+
+                  <div class="step-content nova-panel-borde-top">
+                     <div class="step-pane active">
+
+                        <div class="form-horizontal group-border-dashed">
+
+                           <div class="form-group no-padding">
+                              <div class="col-sm-7">
+                                 <h5 class="wizard-title">Información del seguimiento:</h5>
+                              </div>
+                           </div>
+
+                           {{ form.non_field_errors }} 
+                           
+                           <div class="form-group">
+                              <label class="col-sm-3 nova-col-filter control-label">Resultado Seguimiento</label>
+                              <div class="col-sm-8 xs-pt-5">
+                                 <textarea class="form-control textarea" id="id_resultado_seguimiento"><!--placeholder Hay un div mal cerrado creo. probar agrandado y reduccion de la pantalla-->
+                                 </textarea>
+                              </div>
+                           </div>
+                           
+                           <div class="form-group">
+                              <label class="col-sm-3 control-label">
+                                 Fecha Seguimiento
+                              </label>
+
+                              <div class="col-sm-4 xs-pt-5">
+                                 <div class="input-group date" 
+                                 data-min-view="2" 
+                                 data-date-format="yyyy-mm-dd"
+                                 id="id_fecha_seguimiento_input">
+                                    {{ form.fecha_partida }}
+                                    <input type="text" name="fecha_planificada_desde" required="" class="form-control input-xs" id="id_fecha_seguimiento">
+                                    <span class="input-group-addon nova-addon-button">
+                                       <span class="glyphicon glyphicon-calendar"></span>
+                                    </span>
+                                 </div>
+                              </div>
+                              {% for error in form.fecha_partida.errors %}
+                                 <span class="help-block">{{ error }}</span>
+                              {% endfor %}
+                           </div>
+                           
+                           <div class="form-group">
+                              <label class="col-sm-3 nova-col-filter control-label">Recursos Necesarios</label>
+                              <div class="col-sm-8 xs-pt-5">
+                                 <input type="file" name="file-2" id="id_imagen" data-multiple-caption="{count} Archivos seleccionados" multiple="" class="inputfile">
+                                 <label for="id_imagen" class="btn-primary"> <i class="mdi mdi-upload"></i><span>Seleccionar archivo</span></label>
+                              </div>
+                           </div>
+
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <!-- Botones -->
+               <div class="modal-footer nova-modal-footer">
+                  <div class="row col-sm-12">
+                     <button type="submit" id="id_boton_guardar" class="btn nova-btn btn-primary btn-lg pull-right">
+                        <i class="icon icon-left mdi mdi-save nova-white"></i>
+                        Guardar
+                     </button>
+                  </div>
+               </div>
+            </form>
+         </div> <!-- col sm 12-->
+         <div class="col-sm-12">
+            <div class="panel panel-default panel-border-color panel-border-color-primary">
+               <div class="panel-heading panel-heading-default nova-border-bottom">Evaluador: <strong>Julio Hendandez Perez</strong>. Fecha Seguimiento: <strong>2017-06-19</strong>. Fecha Evaluacion: <strong>2017-06-19</strong>. Criterio: <strong>Criterio 1</strong>
+                  <button type="button" class="btn btn-space btn-social btn-color nova-white pull-right" style="background-color:#fb3505"><i class="icon mdi mdi-delete"></i></button>
+                  <button type="button" class="btn btn-space btn-social btn-color nova-white pull-right" style="background-color:#fba605"><i class="icon mdi mdi-edit"></i></button>
+               </div>
+               <div class="panel-body">
+                  <div class="row">
+                     <div class="col-sm-12">
+                        <textarea class="form-control" readonly="">Resultados de seguimiento</textarea>
+                     </div>
+                  </div>
+                  <div style="margin:20px">
+                     
+                  </div>
+                  <div class="row">
+                     <div class="col-sm-3">
+                        <img class="img-responsive" src="{% static "src/documento.jpg" %}" alt="Avatar">
+                     </div>
+                     <div class="col-sm-3">
+                        <img class="img-responsive" src="{% static "src/documento.jpg" %}" alt="Avatar">
+                     </div>
+                     <div class="col-sm-3">
+                        <img class="img-responsive" src="{% static "src/documento.jpg" %}" alt="Avatar">
+                     </div>
+                     
+                  </div>
+               </div>
+            </div>  <!-- Panel -->
+         </div>  <!-- col-sm-12 -->
+
+      </div>
+   </div> <!-- main content -->
+
+</div> <!-- be-content -->
+
+{% endblock contenido %}
+
+{% block scripts %}
+
+   <!-- Beagle Theme -->
+   <script src="{% static 'theme/lib/datetimepicker/js/bootstrap-datetimepicker.min.js' %}"></script>
+   <script src="{% static 'theme/lib/jquery.maskedinput/jquery.maskedinput.min.js' %}"></script>
+
+   <!-- InputMask -->
+   <script src="{% static 'libs/plugins/input-mask/jquery.inputmask.js' %}"></script>
+
+   <!-- WYSIHTML5 -->
+   <script src="{% static 'libs/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js' %}"></script>
+
+   <!-- JS Template -->
+   <script src="{% static 'seguimiento_plan_accion/seguimiento_plan_accion_formulario.js' %}"></script>
+
+{% endblock scripts %}
