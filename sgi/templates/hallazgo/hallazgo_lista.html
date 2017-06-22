@@ -49,18 +49,19 @@
                   <!--<a class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab nova-active-tab">Hallazgos</a>-->
                </div>
             </div>
-            
-            <ul class="nav nav-tabs nova-tab-border">
-               <li>
-                  <a href="{% url 'sgi:requisito_formulario' %}">Informacion</a>
-               </li>
-               <li> 
-                  <a href="{% url 'sgi:requisito_lista' %}">Requisitos</a>
-               </li>
-               <li class="active"> 
-                  <a href="#">Hallazgos</a>
-               </li>
-            </ul>
+            <div class="nova-nav-tab">
+               <ul class="nav nav-tabs nova-tab-border">
+                  <li>
+                     <a href="{% url 'sgi:requisito_formulario' %}">Informacion</a>
+                  </li>
+                  <li> 
+                     <a href="{% url 'sgi:requisito_lista' %}">Requisitos</a>
+                  </li>
+                  <li class="active"> 
+                     <a href="#">Hallazgos</a>
+                  </li>
+               </ul>
+            </div>
 
             <div class="panel panel-default panel-table">
                

@@ -29,87 +29,96 @@
       
       <div class="row wizard-row">
 
+         <!-- Tarjeta formulario-->
          <div class="col-md-12 fuelux">
-            
-            <!-- wizzard tab -->
-            <div id="wizard1" class="wizard wizard-ux nova-panel-borde-header">
-               <ul class="steps">
-
-                  <li class="active">Auditoría No: <strong>AUD-01-15</strong>. Proceso: <strong>Tecnologías de información</strong></li>
-
-               </ul>
-               <div class="actions">
-                  <a href="{% url 'sgi:general_formulario' %}" class="btn btn-xs btn-prev btn-default nova-a-tab">Generales</a>
-                  <a href="{% url 'sgi:equipo_auditor_formulario' %}" class="btn btn-xs btn-next btn-default nova-a-tab">Equipo Auditor</a>
-                  <a href="{% url 'sgi:proceso_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab nova-a-tab-border nova-active-tab">Procesos</a>
-                  <!--<a href="{% url 'sgi:hallazgo_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Hallazgos</a>-->
-               </div>
-            </div>
-            
-            <ul class="nova-tab">
-               <li class="active">
-                  <a href="#">Informacion</a>
-               </li>
-               <li> 
-                  <a href="{% url 'sgi:requisito_lista' %}">Requisitos</a>
-               </li>
-               <li> 
-                  <a href="{% url 'sgi:hallazgo_lista' %}">Hallazgos</a>
-               </li>
-            </ul>
-               
             <form class="block-wizard panel panel-default nova-panel-borde-header" action="" method="POST" > {% csrf_token %}
+               <div id="wizard1" class="wizard wizard-ux">
+                  <ul class="steps">
 
-               <div class="form-horizontal group-border-dashed">
-                  
-                  <div class="form-group no-padding">
-                     <div class="col-sm-7">
-                        <h5 class="wizard-title">Información de la evidencia:</h5>
+                     <li class="active">Auditoría No: <strong>AUD-01-15</strong>. Hallazgos del proceso: <strong>Licitaciones</strong>
+                     </li>
+
+                  </ul>
+                  <div class="actions">
+                     <a href="{% url 'sgi:general_formulario' %}" class="btn btn-xs btn-prev btn-default nova-a-tab">Generales</a>
+                     <a href="{% url 'sgi:equipo_auditor_formulario' %}" class="btn btn-xs btn-next btn-default nova-a-tab">Equipo Auditor</a>
+                     <a href="{% url 'sgi:proceso_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Procesos</a>
+                     <!--<a href="{% url 'sgi:hallazgo_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab nova-active-tab">Hallazgos</a>-->
+                  </div>
+
+                  <div class="nova-nav-tab">
+                     <ul class="nova-tab">
+                        <li class="nova-active-tab">
+                           <a href="#">Informacion</a>
+                        </li>
+                        <li> 
+                           <a href="{% url 'sgi:requisito_lista' %}">Requisitos</a>
+                        </li>
+                        <li> 
+                           <a href="{% url 'sgi:hallazgo_lista' %}">Hallazgos</a>
+                        </li>
+                     </ul>
+                  </div>
+
+                  <div class="step-content nova-panel-borde-top">
+                     
+                     <div class="step-pane active">
+
+                        <div class="form-horizontal group-border-dashed">
+
+                           <div class="form-group no-padding">
+                              <div class="col-sm-7">
+                                 <h5 class="wizard-title">Información del proceso:</h5>
+                              </div>
+                           </div>
+
+                           {{ form.non_field_errors }} 
+
+                           
+                           <div class="form-group">
+                              <label class="col-sm-3 nova-col-filter control-label">Tipo</label>
+                              <div class="col-sm-7 xs-pt-5">
+                                 <select class="select2 select2-hidden-accessible" tabindex="-1" aria-hidden="true" id="id_clasificacion_hallazgo">
+                                    <option value="" selected="selected">-------</option>
+                                    <option value="Norma">Norma</option>
+                                    <option value="Legal">Legal</option>
+                                    <option value="Contractual">Contractual</option>
+                                    <option value="RSC">RSC</option>
+                                 </select>
+                              </div>
+                           </div>
+
+                           <div class="form-group">
+                              <label class="col-sm-3 nova-col-filter control-label">Criterio</label>
+                              <div class="col-sm-7 xs-pt-5">
+                                 <select class="select2 select2-hidden-accessible" tabindex="-1" aria-hidden="true" id="id_norma">
+                                    <option value="" selected="selected">-------</option>
+                                    <option value="ISO 9001:2008">ISO 9001:2008</option>
+                                    <option value="ISO 14001:2004">ISO 14001:2004</option>
+                                    <option value="OHSAS 18001:2007">OHSAS 18001:2007</option>
+                                 </select>
+                              </div>
+                           </div>
+
+                           <div class="form-group">
+                              <label class="col-sm-3 nova-col-filter control-label">Requisito</label>
+                              <div class="col-sm-7 xs-pt-5">
+                                 <select class="select2 select2-hidden-accessible" tabindex="-1" aria-hidden="true" id="id_requisito">
+                                    <option value="" selected="selected">-------</option>
+                                    <option value="ISO9001-14-1">Requisito 14.1 Demostrar que los documentos</option>
+                                    <option value="ISO9001-14-1">Requisito 12.2 Demostrar que los documentos</option>
+                                    <option value="ISO9001-14-1">Requisito 16.5 Demostrar que los documentos</option>
+                                    <option value="ISO9001-14-1">Requisito 1.6 Demostrar que los documentos</option>
+                                    <option value="ISO9001-14-1">Requisito 9.1 Demostrar que los documentos</option>
+                                    <option value="ISO9001-14-1">Requisito 2.1 Demostrar que los documentos</option>
+                                 </select>
+                              </div>
+                           </div>
+
+
+                        </div>
                      </div>
                   </div>
-
-                  {{ form.non_field_errors }} 
-
-                  <div class="form-group">
-                  <label class="col-sm-3 nova-col-filter control-label">Tipo</label>
-                  <div class="col-sm-7 xs-pt-5">
-                     <select class="select2 select2-hidden-accessible" tabindex="-1" aria-hidden="true" id="id_clasificacion_hallazgo">
-                        <option value="" selected="selected">-------</option>
-                        <option value="Norma">Norma</option>
-                        <option value="Legal">Legal</option>
-                        <option value="Contractual">Contractual</option>
-                        <option value="RSC">RSC</option>
-                     </select>
-                  </div>
-               </div>
-
-               <div class="form-group">
-                  <label class="col-sm-3 nova-col-filter control-label">Criterio</label>
-                  <div class="col-sm-7 xs-pt-5">
-                     <select class="select2 select2-hidden-accessible" tabindex="-1" aria-hidden="true" id="id_norma">
-                        <option value="" selected="selected">-------</option>
-                        <option value="ISO 9001:2008">ISO 9001:2008</option>
-                        <option value="ISO 14001:2004">ISO 14001:2004</option>
-                        <option value="OHSAS 18001:2007">OHSAS 18001:2007</option>
-                     </select>
-                  </div>
-               </div>
-
-               <div class="form-group">
-                  <label class="col-sm-3 nova-col-filter control-label">Requisito</label>
-                  <div class="col-sm-7 xs-pt-5">
-                     <select class="select2 select2-hidden-accessible" tabindex="-1" aria-hidden="true" id="id_requisito">
-                        <option value="" selected="selected">-------</option>
-                        <option value="ISO9001-14-1">Requisito 14.1 Demostrar que los documentos</option>
-                        <option value="ISO9001-14-1">Requisito 12.2 Demostrar que los documentos</option>
-                        <option value="ISO9001-14-1">Requisito 16.5 Demostrar que los documentos</option>
-                        <option value="ISO9001-14-1">Requisito 1.6 Demostrar que los documentos</option>
-                        <option value="ISO9001-14-1">Requisito 9.1 Demostrar que los documentos</option>
-                        <option value="ISO9001-14-1">Requisito 2.1 Demostrar que los documentos</option>
-                     </select>
-                  </div>
-               </div>
-
                </div>
                <!-- Botones -->
                <div class="modal-footer nova-modal-footer">
@@ -121,9 +130,9 @@
                   </div>
                </div>
             </form>
+         </div> <!-- col sm 12 fuelux -->
 
-         </div> <!-- col sm 12 fuelux-->
-      </div> <!-- wizzard row -->
+      </div>
    </div> <!-- main content -->
 
    <!-- Tarjeta Nuevo-->
