@@ -50,7 +50,7 @@
                      <a href="{% url 'sgi:hallazgo_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Hallazgos</a>
                   </div>
                   <div class="step-content nova-panel-borde-top">
-                     <div data-step="1" class="step-pane active">
+                     <div class="step-pane active">
 
                         <div class="form-horizontal group-border-dashed">
 
@@ -243,10 +243,10 @@
 
                   <div class="row col-sm-12">
 
-                     <button type="button" id="boton_regresar" class="btn btn-default pull-left">
+                     <a href="{% url 'sgi:auditoria_lista' %}" type="button" id="boton_regresar" class="btn btn-default pull-left">
                         <i class="icon mdi mdi-arrow-left"></i>
                         Regresar
-                     </button>                        
+                     </a>                        
                      
                      <button type="submit" id="id_boton_guardar" class="btn nova-btn btn-primary btn-lg pull-right">
                         <i class="icon icon-left mdi mdi-save nova-white"></i>

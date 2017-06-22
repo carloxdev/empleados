@@ -31,7 +31,8 @@ function Formulario() {
     this.$id_fecha_seguimiento_input = $('#id_fecha_seguimiento_input')
     this.$id_fecha_seguimiento = $('#id_fecha_seguimiento')
     this.$id_imagen = $('#id_imagen')
-    
+    this.$id_tab_plan = $('#id_tab_plan')
+
     this.$id_boton_guardar = $('#id_boton_guardar')
     this.init_Components()
     this.init_Events()
@@ -71,10 +72,16 @@ Formulario.prototype.init_Components = function () {
 Formulario.prototype.init_Events = function () {
     
     this.$id_boton_guardar.on("click", this, this.click_BotonGuardar)
+    this.$id_tab_plan.on("click", this, this.click_TabPlan)
 }
 Formulario.prototype.click_BotonGuardar = function (e) {
 
     e.preventDefault()
+}
+Formulario.prototype.click_TabPlan = function (e) {
+
+    var plan_accion = window.location.origin + "/auditorias/nuevo/hallazgos/planes_accion/"
+    window.location.href = plan_accion
 }
 Formulario.prototype.get_DateTimePickerConfig = function () {
     return {

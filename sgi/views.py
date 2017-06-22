@@ -537,6 +537,21 @@ class ProcesoLista(View):
         return render(request, self.template_name, {})
 
 
+class RequisitoFormulario(View):
+    def __init__(self):
+        self.template_name = 'requisito_auditoria/requisito_formulario.html'
+
+    def get(self, request):
+
+        # formulario = EmpleadoFilterForm()
+
+        # contexto = {
+        #     'form': formulario
+        # }
+
+        return render(request, self.template_name, {})
+
+
 class RequisitoLista(View):
     def __init__(self):
         self.template_name = 'requisito_auditoria/requisito_lista.html'

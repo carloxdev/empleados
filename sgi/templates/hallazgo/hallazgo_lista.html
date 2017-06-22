@@ -39,27 +39,39 @@
             <div id="wizard1" class="wizard wizard-ux nova-panel-borde-header">
                <ul class="steps">
 
-                  <li class="active">Auditoría No:</li>
+                  <li class="active">Auditoría No: <strong>AUD-01-15</strong>. Proceso: <strong>Tecnologías de información</strong></li>
 
                </ul>
                <div class="actions">
                   <a href="{% url 'sgi:general_formulario' %}" class="btn btn-xs btn-prev btn-default nova-a-tab">Generales</a>
                   <a href="{% url 'sgi:equipo_auditor_formulario' %}" class="btn btn-xs btn-next btn-default nova-a-tab">Equipo Auditor</a>
                   <a href="{% url 'sgi:proceso_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Procesos</a>
-                  <a class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab nova-active-tab">Hallazgos</a>
+                  <!--<a class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab nova-active-tab">Hallazgos</a>-->
                </div>
             </div>
+            
+            <ul class="nav nav-tabs nova-tab-border">
+               <li>
+                  <a href="{% url 'sgi:requisito_formulario' %}">Informacion</a>
+               </li>
+               <li> 
+                  <a href="{% url 'sgi:requisito_lista' %}">Requisitos</a>
+               </li>
+               <li class="active"> 
+                  <a href="#">Hallazgos</a>
+               </li>
+            </ul>
 
             <div class="panel panel-default panel-table">
                
                <div class="panel-heading nova-panel-borde-contenido nova-panel-tools">            
-                  <a href="#tarjeta_filtros" 
+                  <a href="#id_tarjeta_filtros" 
                      class="btn nova-btn btn-rounded btn-sm btn-primary btn-space pull-right" data-toggle="modal" id="boton_filtros">
-                     <i class="icon icon-left mdi mdi-search nova-white"></i>Filtros
+                     <i class="icon icon-left mdi mdi-search nova-white"></i> Filtros
                   </a>
-                  <a href="#tarjeta_nuevo_hallazgo"
+                  <a href="#id_tarjeta_nuevo_hallazgo"
                      class="btn nova-btn btn-rounded btn-sm btn-default btn-space pull-right" data-toggle="modal" id="boton_nuevo">
-                     <i class="icon icon-left mdi mdi-plus-circle nova-black"></i>Nuevo
+                     <i class="icon icon-left mdi mdi-plus-circle nova-black"></i> Nuevo
                   </a>
                </div><!-- Panel Heading -->
 
@@ -68,13 +80,11 @@
                      <thead>
                         <tr>
                            <th style="width: 38px;"></th>
-                           <th>Folio</th>
-                           <th>Folio Proceso</th>
-                           <th>Estado</th>
                            <th>Proceso</th>
+                           <th>Estado</th>
                            <th>Zona</th>
                            <th>Contrato</th>
-                           <th>Hallazgo</th>
+                           <th>Observaciones del Hallazgo</th>
                            <!--<th>Atención</th>
                            <th>Seguimiento</th>   Dejar para posibles referencias --> 
                            <th>Estado</th>
@@ -87,12 +97,8 @@
                                  <i class="icon icon-left icon mdi mdi-settings nova-black"></i>
                               </a>
                            </td>
-                           <td>
-                              <a href="#tarjeta_nuevo_hallazgo" class="btn btn-default nova-url" data-toggle="modal">HAZ-01 </a>
-                           </td>
-                           <td>PRO-01</td>
-                           <td style="text-align:center">En Captura</td>
                            <td>Licictaciones</td>
+                           <td style="text-align:center">En Captura</td>
                            <td>Oficinas veracruz</td>
                            <td>Cont 01</td>
                            <td>Documento fuera de regla</td>
@@ -106,12 +112,8 @@
                                  <i class="icon icon-left icon mdi mdi-settings nova-black"></i>
                               </a>
                            </td>
-                           <td>
-                              <a href="#tarjeta_nuevo_hallazgo" class="btn btn-default nova-url" data-toggle="modal">HAZ-02 </a>
-                           </td>
-                           <td>PRO-01</td>
-                           <td bgcolor="#5ac3f6" style="text-align:center">En Aprobación</td>
                            <td>Infraestructura</td>
+                           <td bgcolor="#5ac3f6" style="text-align:center">En Aprobación</td>
                            <td>Oficinas veracruz</td>
                            <td>Cont 01</td>
                            <td>Ticket sin cerrar</td>
@@ -125,12 +127,8 @@
                                  <i class="icon icon-left icon mdi mdi-settings nova-black"></i>
                               </a>
                            </td>
-                           <td>
-                              <a href="#tarjeta_nuevo_hallazgo" class="btn btn-default nova-url" data-toggle="modal">HAZ-03 </a>
-                           </td>
-                           <td>PRO-02</td>
-                           <td bgcolor="#4285f4" style="text-align:center">Aprobado</td>
                            <td>Infraestructura</td>
+                           <td bgcolor="#4285f4" style="text-align:center">Aprobado</td>
                            <td>Oficinas veracruz</td>
                            <td>Cont 01</td>
                            <td>Cable de red fuera de la canaleta</td>
@@ -144,12 +142,8 @@
                                  <i class="icon icon-left icon mdi mdi-settings nova-black"></i>
                               </a>
                            </td>
-                           <td>
-                              <a href="#tarjeta_nuevo_hallazgo" class="btn btn-default nova-url" data-toggle="modal">HAZ-04 </a>
-                           </td>
-                           <td>PRO-03</td>
-                           <td bgcolor="#f6b663" style="text-align:center">Rechazado</td>
                            <td>Desarrollo</td>
+                           <td bgcolor="#f6b663" style="text-align:center">Rechazado</td>
                            <td>Oficinas veracruz</td>
                            <td>Cont 01</td>
                            <td>Falta documentacion de metodologia agil</td>
@@ -225,19 +219,22 @@
         <div class="modal-content">
           <div class="modal-header nova-modal-header">
             <button type="button" data-dismiss="modal" aria-hidden="true" class="close"><span class="mdi mdi-close"></span></button>
-            <h3 class="modal-title">Acciones Del Hallazgo 1</h3>
+            <h3 class="modal-title">Acciones Del Hallazgo</h3>
           </div>
           <div class="modal-body">
             <div class="text-center">
                <div role="group" class="btn-group-vertical btn-space">
                   <a href="{% url 'sgi:evidencia_formulario' %}" class="btn nova-btn btn-space btn-default btn-lg" id="id_boton_evidencias">
-                     <i class="icon icon-left mdi mdi-comment-list nova-black"></i> Evidencias del Hallazgo
+                     <i class="icon icon-left mdi mdi-file nova-black"></i> Evidencias del Hallazgo
                   </a>
                   <a href="#tarjeta_analisis" class="btn nova-btn btn-space btn-default btn-lg" data-toggle="modal" id="id_boton_analisis_causas">
                      <i class="icon icon-left mdi mdi-comments nova-black"></i> Analisis de Causas
                   </a>
                   <a href="{% url 'sgi:plan_accion_lista' %}" class="btn nova-btn btn-space btn-default btn-lg" id="id_boton_plan_accion">
                      <i class="icon icon-left mdi mdi-wrench nova-black"></i> Plan de Acciones Correctivas
+                  </a>
+                  <a href="#id_tarjeta_nuevo_hallazgo" class="btn nova-btn btn-space btn-default btn-lg" data-toggle="modal" id="id_boton_editar">
+                     <i class="icon icon-left mdi mdi-edit nova-black"></i> Editar Hallazgo
                   </a>
                   <a href="#" class="btn nova-btn btn-space btn-warning btn-lg" id="id_boton_cerrar_hallazgo">
                      <i class="icon icon-left mdi mdi-alert-triangle nova-white"></i> Cerrar Hallazgo
@@ -252,8 +249,8 @@
       </div>
     </div>
 
-   <!-- tarjeta_filtros-->
-   <div id="tarjeta_filtros" role="dialog" class="modal fade colored-header colored-header-primary">
+   <!-- id_tarjeta_filtros-->
+   <div id="id_tarjeta_filtros" role="dialog" class="modal fade colored-header colored-header-primary">
       <div class="modal-dialog custom-width">
          <div class="modal-content">
             
@@ -270,7 +267,7 @@
                      <select class="select2 select2-hidden-accessible" tabindex="-1" aria-hidden="true" id="id_proceso">
                         <option value="" selected="selected">-------</option>
                         <option value="JPJ">Capital humano</option>
-                        <option value="LALG">Tecnologías de la Información</option>
+                        <option value="LALG">Tecnologías de información</option>
                         <option value="LALG">Suministro, Logística y Control</option>
                      </select>
                  </div>
@@ -352,8 +349,8 @@
       </div> <!-- Modal dialog -->
    </div><!-- Modal -->
 
-   <!-- tarjeta_nuevo_hallazgo -->
-   <div id="tarjeta_nuevo_hallazgo" role="dialog" class="modal fade colored-header colored-header-primary">
+   <!-- id_tarjeta_nuevo_hallazgo -->
+   <div id="id_tarjeta_nuevo_hallazgo" role="dialog" class="modal fade colored-header colored-header-primary">
       <div class="modal-dialog custom-width">
          <div class="modal-content">
             

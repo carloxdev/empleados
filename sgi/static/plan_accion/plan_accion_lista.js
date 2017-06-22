@@ -11,6 +11,8 @@ var popup_acciones = null
 var popup_nuevo = null
 var popup_editarA = null
 var popup_evaluacion = null
+var toolbar = null
+var grid = null
 
 
 /*-----------------------------------------------*\
@@ -28,8 +30,26 @@ $(document).ready(function () {
 
 function TarjetaResultados() {
 
-    popup_acciones = new PopupAcciones()
+    toolbar = new ToolBar()
+    grid = new Grid()
+}
+
+/*-----------------------------------------------*\
+            OBJETO: toolbar
+\*-----------------------------------------------*/
+
+function ToolBar() {
+
     popup_nuevo = new PopupNuevo()
+}
+
+/*-----------------------------------------------*\
+            OBJETO: grid
+\*-----------------------------------------------*/
+
+function Grid() {
+
+    popup_acciones = new PopupAcciones()
     popup_editarA = new PopupEditarA()
     popup_evaluacion = new PopupEvaluacion()
 }
@@ -42,13 +62,20 @@ function PopupAcciones () {
  
     this.$id_tarjeta_acciones = $('#id_tarjeta_acciones')
     this.$id_boton_evaluacion_eficacia = $('#id_boton_evaluacion_eficacia')
+    this.$id_boton_editar_accion = $('#id_boton_editar_accion')
     this.init_Events()
 }
 PopupAcciones.prototype.init_Events = function () {
 
-    this.$id_boton_evaluacion_eficacia.on("click", this, this.ocultar)
+    this.$id_boton_editar_accion.on("click", this, this.click_Boton_Editar )
+    this.$id_boton_evaluacion_eficacia.on("click", this, this.click_BotonEvaluacion)
 }
-PopupAcciones.prototype.ocultar = function (e) {
+PopupAcciones.prototype.click_Boton_Editar = function (e) {
+
+    e.preventDefault()
+    e.data.$id_tarjeta_acciones.modal('hide')
+}
+PopupAcciones.prototype.click_BotonEvaluacion = function (e) {
 
     e.preventDefault()
     e.data.$id_tarjeta_acciones.modal('hide')

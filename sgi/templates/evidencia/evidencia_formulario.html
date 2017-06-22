@@ -37,7 +37,7 @@
                <div id="wizard1" class="wizard wizard-ux">
                   <ul class="steps">
 
-                     <li class="active"><strong>HAZ-01</strong> del proceso <strong>PRO-01</strong>: <strong>Licitaciones</strong>
+                     <li class="active">Auditoría No: <strong>AUD-01-15</strong>. Hallazgos del proceso: <strong>Licitaciones</strong>
                      </li>
 
                   </ul>
@@ -45,12 +45,20 @@
                      <a href="{% url 'sgi:general_formulario' %}" class="btn btn-xs btn-prev btn-default nova-a-tab">Generales</a>
                      <a href="{% url 'sgi:equipo_auditor_formulario' %}" class="btn btn-xs btn-next btn-default nova-a-tab">Equipo Auditor</a>
                      <a href="{% url 'sgi:proceso_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Procesos</a>
-                     <a class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab nova-active-tab">Hallazgos</a>
+                     <a href="{% url 'sgi:hallazgo_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab nova-active-tab">Hallazgos</a>
+                  </div>
+
+                  <div class="step-content nova-panel-step-content nova-panel-borde-top">
+                     <div id="wizard2" class="wizard wizard-ux">
+                        <ul class="steps">
+                           <li class="active">Evidencias<span class="chevron nova-chevron-color"></span></li>
+                        </ul>
+                     </div>
                   </div>
 
                   <div class="step-content nova-panel-borde-top">
                      
-                     <div data-step="1" class="step-pane active">
+                     <div class="step-pane active">
 
                         <div class="form-horizontal group-border-dashed">
 
