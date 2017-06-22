@@ -233,6 +233,7 @@ class Personal(models.Model):
     fecha = models.DateField()
     vigencia_inicio = models.DateField(null=True, blank=True)
     vigencia_fin = models.DateField(null=True, blank=True)
+
     archivo = models.ForeignKey(Documento)
 
     created_by = models.ForeignKey(Profile, related_name='per_created_by')

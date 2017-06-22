@@ -2,11 +2,14 @@ from django.contrib import admin
 
 # Register your models here.
 from .models import PerfilPuestoDocumento
+
+
 from .models import Cursos
 from .models import TipoDocumento
 from .models import Documento
 from .models import Personal
 from .models import Capacitacion
+
 
 
 @admin.register(PerfilPuestoDocumento)
@@ -30,15 +33,8 @@ class DocumentoPerfilPuestoAdmin(admin.ModelAdmin):
     )
 
 
-@admin.register(TipoDocumento)
-class TipoDocumentoAdmin(admin.ModelAdmin):
-    list_display = (
-        'tipo_documento',
-        'created_by',
-        'created_date',
-        'updated_by',
-        'updated_date',
-    )
+
+
 
 
 @admin.register(Cursos)
@@ -51,6 +47,7 @@ class CursosAdmin(admin.ModelAdmin):
         'updated_by',
         'updated_date',
     )
+
 
 
 @admin.register(Documento)
@@ -98,3 +95,4 @@ class PersonalAdmin(admin.ModelAdmin):
         'created_by',
         'created_date',
     )
+
