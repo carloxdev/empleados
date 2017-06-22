@@ -31,7 +31,7 @@ class PerfilPuestoDocumento(models.Model):
     )
 
     empleado_puesto_desc = models.CharField(max_length=144)
-    asig_puesto_clave = models.CharField(max_length=144)
+    asig_puesto_clave = models.CharField(max_length=144, default=True)
     reporta = models.CharField(max_length=144)
     proposito = models.CharField(max_length=144)
     funciones = models.CharField(max_length=144)
@@ -66,18 +66,18 @@ class PerfilPuestoDocumento(models.Model):
         verbose_name_plural = "Documentos de Perfiles de Puestos"
 
 
-class CatalogoCursos(models.Model):
+class Cursos(models.Model):
 
-    descripcion = models.CharField(max_length=255)
+    nombre_curso = models.CharField(max_length=255)
     vencimiento = models.CharField(max_length=30)
 
-    created_by = models.ForeignKey(Profile, related_name='curexp_created_by')
+    created_by = models.ForeignKey(Profile, related_name='curso_created_by')
     created_date = models.DateTimeField(
         auto_now=False,
         auto_now_add=True
     )
     updated_by = models.ForeignKey(
-        Profile, related_name='curexp_updated_by', null=True, blank=True)
+        Profile, related_name='curso_updated_by', null=True, blank=True)
     updated_date = models.DateTimeField(
         auto_now=True,
         auto_now_add=False,
@@ -86,19 +86,81 @@ class CatalogoCursos(models.Model):
     )
 
     def __unicode__(self):
-        cadena = "%s" % (self.id)
+        cadena = "%s" % (self.nombre_curso)
         return cadena
 
     def __str__(self):
-        cadena = "%s" % (self.id)
+        cadena = "%s" % (self.nombre_curso)
         return cadena
 
     class Meta:
         verbose_name_plural = "Cursos"
 
 
+class Documento(models.Model):
 
-class DocumentoCapacitacion(models.Model):
+    nombre_documento = models.CharField(max_length=250)
+    archivo = models.FileField(
+        upload_to=get_FilePath_Expedientes
+    )
+
+    created_by = models.ForeignKey(
+        Profile, related_name='doc_created_by')
+    created_date = models.DateTimeField(
+        auto_now=False,
+        auto_now_add=True
+    )
+    updated_by = models.ForeignKey(
+        Profile, related_name='doc_updated_by', null=True, blank=True)
+    updated_date = models.DateTimeField(
+        auto_now=True,
+        auto_now_add=False,
+        null=True,
+        blank=True
+    )
+
+    def __unicode__(self):
+        cadena = "%s" % (self.nombre_documento)
+        return cadena
+
+    def __str__(self):
+        cadena = "%s" % (self.nombre_documento)
+        return cadena
+
+    class Meta:
+        verbose_name_plural = "Documentos"
+
+
+class TipoDocumento(models.Model):
+    tipo_documento = models.CharField(max_length=255)
+
+    created_by = models.ForeignKey(Profile, related_name='tipodocper_created_by')
+    created_date = models.DateTimeField(
+        auto_now=False,
+        auto_now_add=True
+    )
+    updated_by = models.ForeignKey(
+        Profile, related_name='tipodocper_updated_by', null=True, blank=True)
+    updated_date = models.DateTimeField(
+        auto_now=True,
+        auto_now_add=False,
+        null=True,
+        blank=True
+    )
+
+    def __unicode__(self):
+        cadena = "%s" % (self.tipo_documento)
+        return cadena
+
+    def __str__(self):
+        cadena = "%s" % (self.tipo_documento)
+        return cadena
+
+    class Meta:
+        verbose_name_plural = "Tipo de documento personal"
+
+
+class Capacitacion(models.Model):
     MODALIDAD = (
         ('CURSO-PRESENCIAL', 'CURSO PRESENCIAL'),
         ('CURSO-VIRTUAL', 'CURSO VIRTUAL'),
@@ -109,8 +171,8 @@ class DocumentoCapacitacion(models.Model):
         ('USD', 'DOLARES (USD)'),
         ('EUR', 'EURO (EUR)'),
     )
-    nombre_documento = models.CharField(max_length=250)
-    curso = models.ForeignKey(CatalogoCursos, on_delete=models.PROTECT)
+
+    curso = models.ForeignKey(Cursos, on_delete=models.PROTECT)
     proveedor = models.CharField(max_length=255)  # Sacar de jde
     numero_empleado = models.IntegerField(default=0)
     modalidad = models.CharField(
@@ -131,16 +193,13 @@ class DocumentoCapacitacion(models.Model):
     duracion = models.IntegerField()
     observaciones = models.CharField(max_length=100)
 
-    
+    archivo = models.ForeignKey(Documento)
 
-    doc_created_by = models.ForeignKey(
-        Profile, related_name='docexp_created_by')
-    doc_created_date = models.DateTimeField(
+    created_by = models.ForeignKey(Profile, related_name='cap_created_by')
+    created_date = models.DateTimeField(
         auto_now=False,
         auto_now_add=True
     )
-
-   
 
     def __unicode__(self):
         cadena = "%s" % (self.id)
@@ -151,34 +210,37 @@ class DocumentoCapacitacion(models.Model):
         return cadena
 
     class Meta:
-        verbose_name_plural = "Capacitaciones"
+        verbose_name_plural = "Documentos de Capacitaciones"
 
 
-class DocumentoPersonal(models.Model):
+class Personal(models.Model):
 
-    
     AGRUPADOR = (
         ('PERSONAL', 'PERSONAL'),
         ('QHSE', 'QHSE'),
-        ('AMONESTACIÓN', 'AMONESTACIÓN'),
-        ('ADMINISTRACIÓN', 'ADMINISTRACIÓN'),
+        ('AMONESTACION', 'AMONESTACION'),
+        ('ADMINISTRACION', 'ADMINISTRACION'),
         ('OPERACIONES', 'OPERACIONES'),
         ('RECONOCIMIENTO', 'RECONOCIMIENTO'),
     )
     numero_empleado = models.CharField(max_length=6)
-    nombre = models.CharField(max_length=250)
-    subtipo = models.CharField(max_length=255)  # Catalogo
+    tipo = models.ForeignKey(TipoDocumento)  # Catalogo
     agrupador = models.CharField(
         choices=AGRUPADOR,
-        default="per",
-        max_length=3
+        default="PERSONAL",
+        max_length=20
     )
-   
     fecha = models.DateField()
+    vigencia_inicio = models.DateField(null=True, blank=True)
+    vigencia_fin = models.DateField(null=True, blank=True)
 
-    vigencia_inicio = models.DateField()
-    vigencia_fin = models.DateField()
+    archivo = models.ForeignKey(Documento)
 
+    created_by = models.ForeignKey(Profile, related_name='per_created_by')
+    created_date = models.DateTimeField(
+        auto_now=False,
+        auto_now_add=True
+    )
 
     def __unicode__(self):
         cadena = "%s" % (self.id)
@@ -190,48 +252,3 @@ class DocumentoPersonal(models.Model):
 
     class Meta:
         verbose_name_plural = "Documentos Personales"
-
-
-class DocumentoArchivo(models.Model):
-    TIPO = (
-        ('PERSONAL', 'PERSONAL'),
-        ('CAPACITACION', 'CAPACITACION'),
-    )
-    capacitacion = models.ForeignKey(DocumentoCapacitacion)  #id de capacitacion
-    documento = models.ForeignKey(DocumentoPersonal)   #id de documento personal
-    numero_empleado = models.IntegerField(default=0)
-    archivo = models.CharField(max_length=250) 
-    tipo = models.CharField(
-        choices=TIPO,
-        max_length=3
-    )
-    ruta = models.FileField(
-        upload_to=get_FilePath_Expedientes
-    )
-    created_by = models.ForeignKey(
-        Profile, related_name='tipodocper_created_by')
-    created_date = models.DateTimeField(
-        auto_now=False,
-        auto_now_add=True
-    )
-    updated_by = models.ForeignKey(
-        Profile, related_name='tipodocper_updated_by', null=True, blank=True)
-    updated_date = models.DateTimeField(
-        auto_now=True,
-        auto_now_add=False,
-        null=True,
-        blank=True
-    )
-
-    def __unicode__(self):
-        cadena = "%s" % (self.id)
-        return cadena
-
-    def __str__(self):
-        cadena = "%s" % (self.id)
-        return cadena
-
-    class Meta:
-        verbose_name_plural = "Documentos Archivos"
-
-

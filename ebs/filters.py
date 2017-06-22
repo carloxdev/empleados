@@ -80,7 +80,7 @@ class VIEW_EMPLEADOS_FULL_Filter(filters.FilterSet):
     )
     pers_tipo_codigo = NumberFilter(
         name="pers_tipo_codigo",
-        lookup_expr="icontains"
+        lookup_expr="exact"
     )
     asig_puesto_clave = NumberFilter(
         name="asig_puesto_clave",
@@ -88,7 +88,7 @@ class VIEW_EMPLEADOS_FULL_Filter(filters.FilterSet):
     )
     asig_organizacion_clave = NumberFilter(
         name="asig_organizacion_clave",
-        lookup_expr="icontains"
+        lookup_expr="exact"
     )
     pers_fecha_contratacion_desde = CharFilter(
         name="pers_fecha_contratacion",

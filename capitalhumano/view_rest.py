@@ -10,10 +10,12 @@ from django_filters.rest_framework import DjangoFilterBackend
 
 # Modelos:
 from .models import PerfilPuestoDocumento
+from .models import Personal
 
 
 # Serializadores:
 from .serializers import PerfilPuestoDocumentoSerializer
+from .serializers import PersonalSerializer
 
 # Paginadores:
 from .pagination import GenericPagination
@@ -31,3 +33,8 @@ class VIEW_DOCUMENTO_PERFIL_PUESTO_ByPageAPI(viewsets.ModelViewSet):
     filter_class = PerfilpuestoDocumentoFilter
     pagination_class = GenericPagination
     permission_classes = (IsAuthenticated,)
+
+
+class PERFIL_API(viewsets.ModelViewSet):
+    queryset = Personal.objects.all()
+    serializer_class = PersonalSerializer

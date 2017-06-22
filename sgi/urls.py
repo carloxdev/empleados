@@ -16,6 +16,7 @@ from .views import GeneralFormulario
 from .views import EquipoAuditorFormulario
 from .views import ProcesoLista
 from .views import RequisitoLista
+from .views import RequisitoFormulario
 from .views import HallazgoLista
 from .views import EvidenciaFormulario
 from .views import PlanAccionLista
@@ -72,7 +73,7 @@ urlpatterns = [
         name="auditoria_lista"
     ),
     url(
-        r'^auditorias/nuevo/generales$',
+        r'^auditorias/nuevo/generales/$',
         GeneralFormulario.as_view(),
         name="general_formulario"
     ),
@@ -87,6 +88,11 @@ urlpatterns = [
         name="proceso_lista"
     ),
     url(
+        r'^auditorias/nuevo/procesos/nuevo/requisitos/nuevo/$',
+        RequisitoFormulario.as_view(),
+        name="requisito_formulario"
+    ),
+    url(
         r'^auditorias/nuevo/procesos/nuevo/requisitos/$',
         RequisitoLista.as_view(),
         name="requisito_lista"
@@ -97,17 +103,17 @@ urlpatterns = [
         name="hallazgo_lista"
     ),
     url(
-        r'^auditorias/nuevo/hallazgos/evidencias$',
+        r'^auditorias/nuevo/hallazgos/evidencia/s$',
         EvidenciaFormulario.as_view(),
         name="evidencia_formulario"
     ),
     url(
-        r'^auditorias/nuevo/hallazgos/planes_accion$',
+        r'^auditorias/nuevo/hallazgos/planes_accion/$',
         PlanAccionLista.as_view(),
         name="plan_accion_lista"
     ),
     url(
-        r'^auditorias/nuevo/hallazgos/planes_accion/seguimientos$',
+        r'^auditorias/nuevo/hallazgos/planes_accion/seguimientos/$',
         SeguimientoPlanAccionFormulario.as_view(),
         name="seguimiento_plan_accion_formulario"
     ),

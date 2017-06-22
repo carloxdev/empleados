@@ -280,7 +280,7 @@ class PerfilPuestoDocumentoForm(Form):
 class ExpedientesFilterForm(Form):
 
     TIPO_CHOICES = (
-        ('0', '---------'),
+        ('', '---------'),
         ('1120', 'ADMINISTRATIVO'),
         ('1123', 'EX-EMPLEADO'),
         ('1124', 'EX-EMPLEADO Y CANDIDATO'),
@@ -345,7 +345,7 @@ class ExpedientesFilterForm(Form):
         # self.fields['pers_tipo_codigo'].choices = self.get_TipoEmpleado()
 
     def get_Organizaciones(self):
-        valores = [('0', '------------')]
+        valores = [('', '------------')]
 
         organizaciones = VIEW_ORGANIZACIONES.objects.using('ebs_d').all()
         for organizacion in organizaciones:
@@ -359,7 +359,7 @@ class ExpedientesFilterForm(Form):
         return valores
 
     def get_TipoEmpleado(self):
-        valores = [('0', '------------')]
+        valores = [('', '------------')]
 
         tipos = VIEW_EMPLEADOS_FULL.objects.using('ebs_d').all()
 

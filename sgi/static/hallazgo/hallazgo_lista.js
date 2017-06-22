@@ -10,6 +10,8 @@ var popup_hallazgo = null
 var popup_filtros = null
 var popup_analisis = null
 var popup_acciones = null
+var toolbar = null
+var grid = null
 var tarjeta_resultados = null
 
 /*-----------------------------------------------*\
@@ -27,8 +29,26 @@ $(document).ready(function () {
 
 function TarjetaResultados() {
 
+    toolbar = new ToolBar()
+    grid = new Grid()
+}
+
+/*-----------------------------------------------*\
+            OBJETO: Toolbar
+\*-----------------------------------------------*/
+
+function ToolBar() {
+
     popup_hallazgo = new PopupHallazgo()
     popup_filtros = new PopupFiltros()
+}
+
+/*-----------------------------------------------*\
+            OBJETO: Grid
+\*-----------------------------------------------*/
+
+function Grid() {
+
     popup_analisis = new PopupAnalisis()
     popup_acciones = new PopupAcciones()
 }
@@ -109,15 +129,22 @@ function PopupAcciones() {
     this.$id_boton_evidencias = $('#id_boton_evidencias')
     this.$id_boton_analisis_causas = $('#id_boton_analisis_causas')
     this.$id_boton_plan_accion = $('#id_boton_plan_accion')
+    this.$id_boton_editar = $('#id_boton_editar')
     this.$id_boton_cerrar_hallazgo = $('#id_boton_cerrar_hallazgo')
     this.$id_boton_no_conformidad = $('#id_boton_no_conformidad')
     this.init_Events()
 }
 PopupAcciones.prototype.init_Events = function () {
 
-    this.$id_boton_analisis_causas.on("click", this, this.ocultar)
+    this.$id_boton_analisis_causas.on("click", this, this.click_BotonAnalisisCausas)
+    this.$id_boton_editar.on("click", this, this.click_BotonEditar)
 }
-PopupAcciones.prototype.ocultar = function (e) {
+PopupAcciones.prototype.click_BotonAnalisisCausas = function (e) {
+
+    e.preventDefault()
+    e.data.$id_tarjeta_acciones.modal('hide')
+}
+PopupAcciones.prototype.click_BotonEditar = function (e) {
 
     e.preventDefault()
     e.data.$id_tarjeta_acciones.modal('hide')
@@ -136,20 +163,5 @@ function PopupAnalisis() {
 PopupAnalisis.prototype.init_Components = function () {
 
     this.$id_metodologia.select2(appnova.get_ConfigSelect2())
-    this.$id_causas.wysihtml5(this.get_ConfWysi())
-}
-PopupAnalisis.prototype.get_ConfWysi = function () {
-    
-    return {
-        toolbar: {
-            "font-styles": true,
-            "emphasis": true,
-            "lists": true,
-            "html": false,
-            "link": false,
-            "image": false,
-            "color": false,
-            "blockquote": false,
-        }
-    }
+    this.$id_causas.wysihtml5(appnova.get_ConfWysi())
 }

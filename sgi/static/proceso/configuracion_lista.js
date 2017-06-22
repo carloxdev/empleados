@@ -121,7 +121,7 @@ Arbol.prototype.init_Components = function () {
 Arbol.prototype.get_Arbol = function () {
 
    return [
-      {  text: "Tecnologias de la información",
+      {  text: "Tecnologías de información",
          state: {
                expanded: false,
          },

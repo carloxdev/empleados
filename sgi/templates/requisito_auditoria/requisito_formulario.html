@@ -46,91 +46,82 @@
                </div>
             </div>
             
-            <ul class="nav nav-tabs nova-tab-border">
-               <li>
-                  <a href="{% url 'sgi:requisito_formulario' %}">Informacion</a>
+            <ul class="nova-tab">
+               <li class="active">
+                  <a href="#">Informacion</a>
                </li>
-               <li class="active"> 
-                  <a href="#">Requisitos</a>
+               <li> 
+                  <a href="{% url 'sgi:requisito_lista' %}">Requisitos</a>
                </li>
                <li> 
                   <a href="{% url 'sgi:hallazgo_lista' %}">Hallazgos</a>
                </li>
             </ul>
+               
+            <form class="block-wizard panel panel-default nova-panel-borde-header" action="" method="POST" > {% csrf_token %}
 
-            <!-- Tarjeta resultados-->
-            <div class="panel panel-default panel-table">
+               <div class="form-horizontal group-border-dashed">
+                  
+                  <div class="form-group no-padding">
+                     <div class="col-sm-7">
+                        <h5 class="wizard-title">Información de la evidencia:</h5>
+                     </div>
+                  </div>
 
-               <div class="panel-heading nova-panel-borde-contenido nova-panel-tools">   
-                  <a href="#id_tarjeta_nuevo_requisito"
-                     class="btn nova-btn btn-rounded btn-sm btn-space btn-default pull-right" data-toggle="modal" id="boton_nuevo">
-                     <i class="icon icon-left mdi mdi-plus-circle nova-black"></i>Nuevo
-                  </a>
-               </div><!-- Panel Heading -->
+                  {{ form.non_field_errors }} 
 
-               <div id="grid_resultados" class="nova-div-overflow">
-                  <table class="table table-bordered">
-                     <thead>
-                        <tr>
-                           <th style="width: 38px;"></th>
-                           <th>Requisito</th>
-                           <th>Tipo</th>
-                           <th>Criterio</th>
-                        </tr>
-                     </thead>
-                     <tbody>
-                        <tr>
-                           <td>
-                              <a href="#id_tarjeta_acciones" data-toggle="modal" class="btn nova-btn btn-default" id="id_boton_eliminar">
-                                 <i class="icon icon-left icon mdi mdi-delete nova-black"></i>
-                              </a>
-                           </td>
-                           <td>
-                              <a href="#id_tarjeta_nuevo_requisito" class="btn btn-default nova-url" data-toggle="modal">Requisito 12.1</a>
-                           </td>
-                           <td>Norma</td>
-                           <td>ISO 9001:2008</td>
-                        </tr>
-                        <tr>
-                           <td>
-                              <a href="#id_tarjeta_acciones" data-toggle="modal" class="btn nova-btn btn-default" id="id_boton_eliminar">
-                                 <i class="icon icon-left icon mdi mdi-delete nova-black"></i>
-                              </a>
-                           </td>
-                           <td>
-                              <a href="#id_tarjeta_nuevo_requisito" class="btn btn-default nova-url" data-toggle="modal">Requisito 12.3</a>
-                           </td>
-                           <td>Norma</td>
-                           <td>ISO 14001:2004</td>
-                        </tr>
-                        <tr>
-                           <td>
-                              <a href="#id_tarjeta_acciones" data-toggle="modal" class="btn nova-btn btn-default" id="id_boton_eliminar">
-                                 <i class="icon icon-left icon mdi mdi-delete nova-black"></i>
-                              </a>
-                           </td>
-                           <td>
-                              <a href="#id_tarjeta_nuevo_requisito" class="btn btn-default nova-url" data-toggle="modal">Requisito 1.2</a>
-                           </td>
-                           <td>Norma</td>
-                           <td>ISO 14001:2004</td>
-                        </tr>
-                        <tr>
-                           <td>
-                              <a href="#id_tarjeta_acciones" data-toggle="modal" class="btn nova-btn btn-default" id="id_boton_eliminar">
-                                 <i class="icon icon-left icon mdi mdi-delete nova-black"></i>
-                              </a>
-                           </td>
-                           <td>
-                              <a href="#id_tarjeta_nuevo_requisito" class="btn btn-default nova-url" data-toggle="modal">Requisito 1.1</a>
-                           </td>
-                           <td>Norma</td>
-                           <td>OHSAS 18001:2007</td>
-                        </tr>
-                     </tbody>
-                  </table>
+                  <div class="form-group">
+                  <label class="col-sm-3 nova-col-filter control-label">Tipo</label>
+                  <div class="col-sm-7 xs-pt-5">
+                     <select class="select2 select2-hidden-accessible" tabindex="-1" aria-hidden="true" id="id_clasificacion_hallazgo">
+                        <option value="" selected="selected">-------</option>
+                        <option value="Norma">Norma</option>
+                        <option value="Legal">Legal</option>
+                        <option value="Contractual">Contractual</option>
+                        <option value="RSC">RSC</option>
+                     </select>
+                  </div>
                </div>
-            </div> <!-- Panel -->
+
+               <div class="form-group">
+                  <label class="col-sm-3 nova-col-filter control-label">Criterio</label>
+                  <div class="col-sm-7 xs-pt-5">
+                     <select class="select2 select2-hidden-accessible" tabindex="-1" aria-hidden="true" id="id_norma">
+                        <option value="" selected="selected">-------</option>
+                        <option value="ISO 9001:2008">ISO 9001:2008</option>
+                        <option value="ISO 14001:2004">ISO 14001:2004</option>
+                        <option value="OHSAS 18001:2007">OHSAS 18001:2007</option>
+                     </select>
+                  </div>
+               </div>
+
+               <div class="form-group">
+                  <label class="col-sm-3 nova-col-filter control-label">Requisito</label>
+                  <div class="col-sm-7 xs-pt-5">
+                     <select class="select2 select2-hidden-accessible" tabindex="-1" aria-hidden="true" id="id_requisito">
+                        <option value="" selected="selected">-------</option>
+                        <option value="ISO9001-14-1">Requisito 14.1 Demostrar que los documentos</option>
+                        <option value="ISO9001-14-1">Requisito 12.2 Demostrar que los documentos</option>
+                        <option value="ISO9001-14-1">Requisito 16.5 Demostrar que los documentos</option>
+                        <option value="ISO9001-14-1">Requisito 1.6 Demostrar que los documentos</option>
+                        <option value="ISO9001-14-1">Requisito 9.1 Demostrar que los documentos</option>
+                        <option value="ISO9001-14-1">Requisito 2.1 Demostrar que los documentos</option>
+                     </select>
+                  </div>
+               </div>
+
+               </div>
+               <!-- Botones -->
+               <div class="modal-footer nova-modal-footer">
+                  <div class="row col-sm-12">
+                     <button type="submit" id="id_boton_guardar" class="btn nova-btn btn-primary btn-lg pull-right">
+                        <i class="icon icon-left mdi mdi-save nova-white"></i>
+                        Guardar
+                     </button>
+                  </div>
+               </div>
+            </form>
+
          </div> <!-- col sm 12 fuelux-->
       </div> <!-- wizzard row -->
    </div> <!-- main content -->

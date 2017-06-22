@@ -8,7 +8,7 @@
 // OBJS
 var tarjeta_resultados = null
 var popup_filtros = null
-var popup_norma_requisito = null
+var popup_criterio = null
 var popup_requisito = null
 var toolbar = null
 var grid = null
@@ -40,7 +40,7 @@ function TarjetaResultados(){
 function ToolBar() {
 
    popup_filtros = new PopupFiltros()
-   popup_norma_requisito = new PopupNormaRequisito()
+   popup_criterio = new PopupCriterio()
    this.init()
 }
 ToolBar.prototype.init = function () {
@@ -66,27 +66,19 @@ PopupFiltros.prototype.init_Events = function () {
 }
 
 /*-----------------------------------------------*\
-         OBJETO: Tarjeta norma requisito
+         OBJETO: Tarjeta criterio
 \*-----------------------------------------------*/
 
-function PopupNormaRequisito() {
+function PopupCriterio() {
    
-   this.$id_tipo_proceso_soporte = $('#id_tipo_proceso_soporte')
-   this.$id_requisito = $('#id_requisito')
+   this.$id_tipo_criterio = $('#id_tipo_criterio')
+   this.$id_criterio = $('#id_criterio')
 
    this.init_Components()
 }
-PopupNormaRequisito.prototype.init_Components = function () {
+PopupCriterio.prototype.init_Components = function () {
 
-   this.$id_tipo_proceso_soporte.select2(appnova.get_ConfigSelect2())
-   this.$id_requisito.select2(this.get_ConfSelectTag2())
-}
-PopupNormaRequisito.prototype.get_ConfSelectTag2 = function () {
-
-   return {
-      tags: true,
-      width: '100%'
-   }
+   this.$id_tipo_criterio.select2(appnova.get_ConfigSelect2())
 }
 
 /*-----------------------------------------------*\
@@ -214,5 +206,6 @@ Arbol.prototype.get_Arbol = function () {
 
 function PopupRequisito() {
 
+   this.$id_requisito = $('#id_requisito')
    this.$id_boton_guardar_nuevo_requisito = $('#id_boton_guardar_nuevo_requisito')
 }

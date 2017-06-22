@@ -38,38 +38,44 @@
             <div id="wizard1" class="wizard wizard-ux nova-panel-borde-header">
                <ul class="steps">
 
-                  <li class="active">HAZ-01 del proceso PRO-01: Licitaciones</li>
+                  <li class="active">Auditoría No: <strong>AUD-01-15</strong>. Plan de acciones para el proceso: <strong>Licitaciones</strong></li>
 
                </ul>
                <div class="actions">
                   <a href="{% url 'sgi:general_formulario' %}" class="btn btn-xs btn-prev btn-default nova-a-tab">Generales</a>
                   <a href="{% url 'sgi:equipo_auditor_formulario' %}" class="btn btn-xs btn-next btn-default nova-a-tab">Equipo Auditor</a>
                   <a href="{% url 'sgi:proceso_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Procesos</a>
-                  <a class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab nova-active-tab">Hallazgos</a>
+                  <a href="{% url 'sgi:hallazgo_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab nova-active-tab">Hallazgos</a>
                </div>
             </div>
 
             <div class="panel panel-default panel-table">
-            <div class="panel-heading nova-panel-borde-contenido nova-panel-tools">
-            
-               <a href="#tarjeta_nueva_actividad"
-                  class="btn nova-btn btn-rounded btn-sm btn-space btn-default pull-right" data-toggle="modal" id="boton_nuevo">
-                  <i class="icon icon-left mdi mdi-plus-circle nova-black"></i>Nuevo
-               </a>
+
+            <div class="panel-heading nova-panel-borde-contenido nova-panel-tools-tabs">
+                  
+                  <div id="wizard2" class="wizard wizard-ux">
+                     <ul class="steps">
+                        <li class="active nova-step-font">Plan de Acciones<span class="chevron nova-chevron-color"></span></li>
+                     </ul>
+                     <a href="#tarjeta_nueva_actividad"
+                        class="btn nova-btn btn-rounded btn-sm nova-btn-space btn-default pull-right" data-toggle="modal" id="boton_nuevo">
+                        <i class="icon icon-left mdi mdi-plus-circle nova-black"></i>Nuevo
+                     </a>
+                  </div>
             
             </div><!-- Panel Heading -->
-            <div id="grid_resultados">
+
+            <div id="grid_resultados" class="nova-div-overflow">
             <table class="table table-bordered">
                <thead>
                   <tr>
                      <th style="width: 38px;"></th>
-                     <th>Folio</th>
                      <th>Actividad</th>
                      <th>Responsable</th>
                      <th>Fecha programada</th>
                      <th>Evidencia</th>
-                     <th>Resultado</th>
                      <th>Observaciones</th>
+                     <th>Resultado</th>
                   </tr>
                </thead>
                <tbody>
@@ -79,13 +85,12 @@
                            <i class="icon icon-left icon mdi mdi-settings nova-black"></i>
                         </a>
                      </td>
-                     <td><a href="#tarjeta_editar_actividad" class="btn btn-default nova-url" data-toggle="modal">ACT-01</a></td>
                      <td>Fijar los cables a las canaletas con cinchos</td>
                      <td>Luis Enrique lopez Mendez</td>
                      <td>29/03/2017</td>
                      <td>Se presencio el aseguramiento de los cables</td>
-                     <td>Cumple</td>
                      <td>Ninguna</td>
+                     <td>Cumple</td>
                   </tr>
                   <tr>
                      <td>
@@ -93,13 +98,12 @@
                            <i class="icon icon-left icon mdi mdi-settings nova-black"></i>
                         </a>
                      </td>
-                     <td><a href="#tarjeta_editar_actividad" class="btn btn-default nova-url" data-toggle="modal">ACT-02</a></td>
                      <td>Realizar inspeccion de otros posibles cables que esten fuera de la canaleta</td>
                      <td>Julio Mendez Reyez</td>
                      <td>12/04/2017</td>
                      <td>Se presencio la inspeccion de los demas cables</td>
-                     <td>Cumple</td>
                      <td>Ninguna</td>
+                     <td>Cumple</td>
                   </tr>
                </tbody>
             </table>
@@ -115,7 +119,7 @@
         <div class="modal-content">
           <div class="modal-header nova-modal-header">
             <button type="button" data-dismiss="modal" aria-hidden="true" class="close"><span class="mdi mdi-close"></span></button>
-            <h3 class="modal-title">Acciones De La Actividad 1</h3>
+            <h3 class="modal-title">Acciones De La Actividad</h3>
           </div>
           <div class="modal-body">
             <div class="text-center">
@@ -125,6 +129,9 @@
                   </a>
                   <a href="#tarjeta_evaluacion" class="btn nova-btn btn-space btn-default btn-lg" data-toggle="modal" id="id_boton_evaluacion_eficacia">
                      <i class="icon icon-left mdi mdi-assignment-check nova-black"></i> Evaluación De Eficacia A Acciones
+                  </a>
+                  <a href="#tarjeta_editar_actividad" class="btn nova-btn btn-space btn-default btn-lg" data-toggle="modal" id="id_boton_editar_accion">
+                     <i class="icon icon-left mdi mdi-edit nova-black"></i> Editar Accion Correctiva
                   </a>
                </div>
             </div>
@@ -148,7 +155,7 @@
                <div class="form-group">
                   <label class="col-sm-3 nova-col-filter control-label">Actividad</label>
                   <div class="col-sm-8 xs-pt-5">
-                     <textarea class="form-control input-sm" cols="40" id="id_actividad" rows="3"><!--placeholder-->
+                     <textarea class="form-control textarea" id="id_actividad"><!--placeholder-->
                      </textarea>
                   </div>
                </div>
@@ -218,7 +225,7 @@
                <div class="form-group">
                   <label class="col-sm-3 nova-col-filter control-label">Evidencia</label>
                   <div class="col-sm-8 xs-pt-5">
-                     <textarea class="form-control input-sm" cols="40" id="id_evidencia" rows="3"><!--placeholder-->
+                     <textarea class="form-control textarea" id="id_evidencia"><!--placeholder-->
                      </textarea>
                   </div>
                </div>
@@ -227,7 +234,7 @@
                <div class="form-group">
                   <label class="col-sm-3 nova-col-filter control-label">Observaciones</label>
                   <div class="col-sm-8 xs-pt-5">
-                     <textarea class="form-control input-sm" cols="40" id="id_plan_observaciones" rows="3"><!--placeholder-->
+                     <textarea class="form-control textarea" id="id_plan_observaciones"><!--placeholder-->
                      </textarea>
                   </div>
                </div>
@@ -275,7 +282,7 @@
                <div class="form-group">
                   <label class="col-sm-3 nova-col-filter control-label">Resultado de la evaluación</label>
                   <div class="col-sm-8 xs-pt-5">
-                     <textarea class="form-control input-sm" cols="40" id="id_causas" rows="3"><!--placeholder-->
+                     <textarea class="form-control textarea" id="id_causas"><!--placeholder-->
                      </textarea>
                   </div>
                </div>

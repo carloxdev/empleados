@@ -69,7 +69,6 @@ class ProfileSerializer(serializers.HyperlinkedModelSerializer):
         except Exception as e:
             print str(e)
             return " "
-        
 
     def get_cuenta(self, obj):
         try:
@@ -84,14 +83,13 @@ class ProfileSerializer(serializers.HyperlinkedModelSerializer):
         except Exception as e:
             print str(e)
             return " "
-        
+
     def get_last_name(self, obj):
         try:
             return obj.usuario.last_name
         except Exception as e:
             print str(e)
             return " "
-        
 
     def get_email(self, obj):
         try:
@@ -99,21 +97,20 @@ class ProfileSerializer(serializers.HyperlinkedModelSerializer):
         except Exception as e:
             print str(e)
             return " "
-    
-    def get_last_login(self,obj):
+
+    def get_last_login(self, obj):
         try:
             return obj.usuario.last_login
         except Exception as e:
             print str(e)
             return " "
 
-    def get_date_joined(self,obj):
+    def get_date_joined(self, obj):
         try:
             return obj.usuario.date_joined
         except Exception as e:
             print str(e)
             return " "
-
 
     def get_is_active(self, obj):
         try:
@@ -126,4 +123,3 @@ class ProfileSerializer(serializers.HyperlinkedModelSerializer):
         except Exception as e:
             print str(e)
             return " "
-        

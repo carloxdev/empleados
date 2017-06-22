@@ -23,7 +23,7 @@
          <li><a href="{% url 'home:inicio' %}">Inicio</a></li>
          <li id="menu" data-opcion="auditorias_lista"><a href="{% url 'sgi:auditoria_lista' %}">Auditoría</a></li>
          <li><a href="{% url 'sgi:hallazgo_lista' %}">Hallazgos</a></li>
-         <li><a href="{% url 'sgi:plan_accion_lista' %}">Plan de Acciónes</a></li>
+         <li><a href="{% url 'sgi:plan_accion_lista' %}">Plan de Acciones</a></li>
          <li class="active"><a>Seguimientos</a></li>
       </ol>
    </div>
@@ -38,17 +38,27 @@
                <div id="wizard1" class="wizard wizard-ux">
                   <ul class="steps">
 
-                     <li class="active"><strong>ACT-01</strong> del hallazgo <strong>HAZ-01</strong>: En Licitaciones</li>
+                     <li class="active">Auditoría No: <strong>AUD-01-15</strong>. Seguimiento de las actividades para el proceso: <strong>Licitaciones</strong></li>
 
                   </ul>
                   <div class="actions">
                      <a href="{% url 'sgi:general_formulario' %}" class="btn btn-xs btn-prev btn-default nova-a-tab">Generales</a>
                      <a href="{% url 'sgi:equipo_auditor_formulario' %}" class="btn btn-xs btn-next btn-default nova-a-tab">Equipo Auditor</a>
                      <a href="{% url 'sgi:proceso_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Procesos</a>
-                     <a class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab nova-active-tab">Hallazgos</a>
+                     <a href="{% url 'sgi:hallazgo_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab nova-active-tab">Hallazgos</a>
                   </div>
+
+                  <div class="step-content nova-panel-step-content nova-panel-borde-top">
+                     <div id="wizard2" class="wizard wizard-ux">
+                        <ul class="steps">
+                           <li id="id_tab_plan"class="complete nova-step-font nova-step-complete">Plan de acciones<span class="chevron nova-chevron-color"></span></li>
+                           <li class="active nova-step-font nova-step-active">Seguimientos<span class="chevron nova-chevron-color"></span></li>
+                        </ul>
+                     </div>
+                  </div>
+
                   <div class="step-content nova-panel-borde-top">
-                     <div data-step="1" class="step-pane active">
+                     <div class="step-pane active">
 
                         <div class="form-horizontal group-border-dashed">
 
@@ -63,7 +73,7 @@
                            <div class="form-group">
                               <label class="col-sm-3 nova-col-filter control-label">Resultado Seguimiento</label>
                               <div class="col-sm-8 xs-pt-5">
-                                 <textarea class="form-control input-sm" cols="40" id="id_resultado_seguimiento" rows="3"><!--placeholder Hay un div mal cerrado creo. probar agrandado y reduccion de la pantalla-->
+                                 <textarea class="form-control textarea" id="id_resultado_seguimiento"><!--placeholder Hay un div mal cerrado creo. probar agrandado y reduccion de la pantalla-->
                                  </textarea>
                               </div>
                            </div>
@@ -122,7 +132,7 @@
                <div class="panel-body">
                   <div class="row">
                      <div class="col-sm-12">
-                        <textarea class="form-control" readonly="" rows="6">Resultados de seguimiento</textarea>
+                        <textarea class="form-control" readonly="">Resultados de seguimiento</textarea>
                      </div>
                   </div>
                   <div style="margin:20px">
