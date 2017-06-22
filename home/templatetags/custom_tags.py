@@ -33,11 +33,34 @@ def tag_field_registro_nval(_field, _size_label, _size_field):
 
 
 @register.inclusion_tag(
-    'tags/field_image_registro.html',
+    'tags/image_registro.html',
     takes_context=False)
-def tag_field_image_registro(_field):
+def tag_image_registro(_field):
 
     contexto = {
         'campo': _field,
+    }
+    return contexto
+
+
+@register.inclusion_tag(
+    'tags/filter.html',
+    takes_context=False)
+def tag_filter(_field):
+
+    contexto = {
+        'campo': _field,
+    }
+    return contexto
+
+
+@register.inclusion_tag(
+    'tags/filter_date_range.html',
+    takes_context=False)
+def tag_filter_date_range(_campo_label, _campo_id):
+
+    contexto = {
+        'campo_label': _campo_label,
+        'campo_id': _campo_id,
     }
     return contexto
