@@ -184,9 +184,11 @@ class VIEW_EMPLEADOS_GRADO(models.Model):
         managed = False
         db_table = u'"NUVAPP"."VIEW_EMPLEADOS_GRADO"'
 
+
 class VIEW_ORGANIGRAMA(models.Model):
 
     pers_clave = models.IntegerField(primary_key=True)
+    pers_empleado_numero = models.IntegerField()
     pers_nombre_completo = models.CharField(max_length=240)
     asig_trabajo_desc = models.CharField(max_length=240)
     asig_organizacion_desc = models.CharField(max_length=240)
@@ -199,8 +201,10 @@ class VIEW_ORGANIGRAMA(models.Model):
     ruta = models.CharField(max_length=240)
     ruta2 = models.CharField(max_length=240)
     asig_organizacion_clave = models.IntegerField()
+    grup_fase_jde = models.CharField(max_length=240)
+    asig_ubicacion_desc = models.CharField(max_length=240)
+    tipo = models.CharField(max_length=40)
 
     class Meta:
         managed = False
         db_table = u'"NUVAPP"."VIEW_ORGANIGRAMA"'
-

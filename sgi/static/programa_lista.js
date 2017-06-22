@@ -39,16 +39,11 @@ function TarjetaFiltros() {
 }
 TarjetaFiltros.prototype.init_Components = function () {
 
-    this.$id_proceso.select2(this.get_ConfSelect2())
-    this.$id_area.select2(this.get_ConfSelect2())
+    this.$id_proceso.select2(appnova.get_ConfigSelect2())
+    this.$id_area.select2(appnova.get_ConfigSelect2())
     this.$id_fecha_real.daterangepicker(this.get_ConfDateRangePicker())
     this.$id_fecha_programada.daterangepicker(this.get_ConfDateRangePicker())
     this.$id_fecha_seguimiento.daterangepicker(this.get_ConfDateRangePicker())
-}
-TarjetaFiltros.prototype.get_ConfSelect2 = function () {
-    return {
-        width: '100%'
-    }
 }
 TarjetaFiltros.prototype.get_ConfDateRangePicker = function () {
 

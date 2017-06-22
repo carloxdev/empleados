@@ -92,7 +92,7 @@
                                 {% if user.is_superuser %}
                                 <li><a href="{% url 'seguridad:usuario_lista' %}"><span class="icon mdi mdi-accounts"></span> Usuarios</a></li>
                                 {% endif %}
-                                <li><a href="{% url 'seguridad:usuario_perfil' _pk=user.id %}"><span class="icon mdi mdi-face"></span> Perfil</a></li>
+                                <li></li>
                                 <li><a href="#"><span class="icon mdi mdi-settings"></span> Configuracion</a></li>
                                 <li><a href="{% url 'seguridad:logout' %}"><span class="icon mdi mdi-power"></span> Salir</a></li>
                             </ul>
@@ -171,7 +171,6 @@
                 </div>
             </div>
         </nav>
-
         <div class="be-left-sidebar nova-be-left-sidebar">
             <div class="left-sidebar-wrapper"><a href="#" class="left-sidebar-toggle">{% block title-page %}  {% endblock title-page %}</a>
                 <div class="left-sidebar-spacer">
@@ -232,6 +231,41 @@
                                                 <span>Empleados</span>
                                             </a>
                                         </li>
+                                        <li id="capitalhumano_expedientes">
+                                            <a href="{% url 'capitalhumano:empleado_expedientes' %}">
+                                                <span>Expedientes</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="{% url 'capitalhumano:perfil_lista' %}">
+                                                <span>Perfil Puestos</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="{% url 'capitalhumano:perfil_configuracion' %}">
+                                                <span>Configuracion</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="parent"><a href="#"><i class="icon mdi mdi-account-circle"></i></i><span>Servicios Empleado</span></a>
+                                    <ul class="sub-menu">
+                                        <li id="serviciosempleado_miexpediente">
+                                            <a href="{% url 'serviciosempleado:empleado_perfil' %}">
+                                                <span>Mi expediente</span>
+                                            </a>
+                                        </li>
+                                        <li id="serviciosempleado_perfil">
+                                            <a href="#">
+                                                <span>Vacaciones</span>
+                                            </a>
+                                        </li>
+                                        <li id="serviciosempleado_organigrama">
+                                             <a href="{% url 'serviciosempleado:empleado_organigrama' %}">
+                                                <span>Organigrama</span>
+                                             </a> 
+                                        </li>
+                                        
                                     </ul>
                                 </li>
                                 <li class="parent"><a href="#"><i class="icon fa fa-check"></i><span>Calidad</span></a>
@@ -249,7 +283,7 @@
                                             </a>
                                         </li>
                                         <li id="configuracion">
-                                            <a href="{% url 'sgi:configuracion' %}">
+                                            <a href="{% url 'sgi:configuracion_requisito_lista' %}">
                                                 <!--<i class="icon lrg mdi-search-in-file"></i>-->
                                                 <span> Configuración</span>
                                             </a>

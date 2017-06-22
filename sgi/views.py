@@ -450,12 +450,32 @@ class IncidenciaResolucionNuevo(View):
                 #return render(request, self.template_name, contexto)
         #return redirect(reverse('sgi:incidencia_archivo', kwargs={'incidencia_id': Incidencia_Resolucion.incidencia_id }))
 
+
 class IncidenciaGraficas(View):
 
     def get(self, request):
 
         return render(request, 'incidencia/incidencia_grafica.html')
 
+
+# ----------------- CALIDAD - Dashboard ----------------- #
+
+class CalidadDashboard(View):
+    def __init__(self):
+        self.template_name = 'dashboard/calidad_dashboard.html'
+
+    def get(self, request):
+
+        # formulario = EmpleadoFilterForm()
+
+        # contexto = {
+        #     'form': formulario
+        # }
+
+        return render(request, self.template_name, {})
+
+
+# ----------------- CALIDAD - AUDITORIAS ----------------- #
 
 class AuditoriaLista(View):
     def __init__(self):
@@ -472,7 +492,7 @@ class AuditoriaLista(View):
         return render(request, self.template_name, {})
 
 
-class AuditoriaNuevo(View):
+class GeneralFormulario(View):
     def __init__(self):
         self.template_name = 'auditoria/general_formulario.html'
 
@@ -487,9 +507,9 @@ class AuditoriaNuevo(View):
         return render(request, self.template_name, {})
 
 
-class EquipoAuditorLista(View):
+class EquipoAuditorFormulario(View):
     def __init__(self):
-        self.template_name = 'auditoria/equipo_auditor_formulario.html'
+        self.template_name = 'equipo_auditor/equipo_auditor_formulario.html'
 
     def get(self, request):
 
@@ -504,7 +524,7 @@ class EquipoAuditorLista(View):
 
 class ProcesoLista(View):
     def __init__(self):
-        self.template_name = 'auditoria/proceso_lista.html'
+        self.template_name = 'proceso/proceso_lista.html'
 
     def get(self, request):
 
@@ -534,7 +554,7 @@ class RequisitoLista(View):
 
 class HallazgoLista(View):
     def __init__(self):
-        self.template_name = 'hallazgo/hallazgo_formulario.html'
+        self.template_name = 'hallazgo/hallazgo_lista.html'
 
     def get(self, request):
 
@@ -545,6 +565,54 @@ class HallazgoLista(View):
         # }
 
         return render(request, self.template_name, {})
+
+
+class EvidenciaFormulario(View):
+    def __init__(self):
+        self.template_name = 'evidencia/evidencia_formulario.html'
+
+    def get(self, request):
+
+        # formulario = EmpleadoFilterForm()
+
+        # contexto = {
+        #     'form': formulario
+        # }
+
+        return render(request, self.template_name, {})
+
+
+class PlanAccionLista(View):
+    def __init__(self):
+        self.template_name = 'plan_accion/plan_accion_lista.html'
+
+    def get(self, request):
+
+        # formulario = EmpleadoFilterForm()
+
+        # contexto = {
+        #     'form': formulario
+        # }
+
+        return render(request, self.template_name, {})
+
+
+class SeguimientoPlanAccionFormulario(View):
+    def __init__(self):
+        self.template_name = 'seguimiento_plan_accion/seguimiento_plan_accion_formulario.html'
+
+    def get(self, request):
+
+        # formulario = EmpleadoFilterForm()
+
+        # contexto = {
+        #     'form': formulario
+        # }
+
+        return render(request, self.template_name, {})
+
+
+# ----------------- CALIDAD - PROGRAMA ----------------- #
 
 
 class ProgramaLista(View):
@@ -561,10 +629,12 @@ class ProgramaLista(View):
 
         return render(request, self.template_name, {})
 
+# ----------------- CALIDAD - CONFIGURACION ----------------- #
 
-class ConfiguracionNormasDetallesRequisitos(View):
+
+class ConfiguracionRequisitoLista(View):
     def __init__(self):
-        self.template_name = 'requisito_auditoria/norma_y_requisito_configuracion.html'
+        self.template_name = 'criterio/configuracion_lista.html'
 
     def get(self, request):
 
@@ -577,9 +647,9 @@ class ConfiguracionNormasDetallesRequisitos(View):
         return render(request, self.template_name, {})
 
 
-class ConfiguracionProceso(View):
+class ConfiguracionProcesoLista(View):
     def __init__(self):
-        self.template_name = 'configuracion/proceso/configuracion_proceso.html'
+        self.template_name = 'proceso/configuracion_lista.html'
 
     def get(self, request):
 
@@ -592,9 +662,9 @@ class ConfiguracionProceso(View):
         return render(request, self.template_name, {})
 
 
-class ConfiguracionResponsable(View):
+class ConfiguracionRolLista(View):
     def __init__(self):
-        self.template_name = 'configuracion/responsable/configuracion_responsable.html'
+        self.template_name = 'rol/configuracion_lista.html'
 
     def get(self, request):
 
@@ -607,9 +677,9 @@ class ConfiguracionResponsable(View):
         return render(request, self.template_name, {})
 
 
-class ConfiguracionAprobador(View):
+class ConfiguracionAuditorInternoFormulario(View):
     def __init__(self):
-        self.template_name = 'configuracion/configuracion.html'
+        self.template_name = 'auditor_interno/configuracion_formulario.html'
 
     def get(self, request):
 
@@ -622,9 +692,9 @@ class ConfiguracionAprobador(View):
         return render(request, self.template_name, {})
 
 
-class ConfiguracionAuditorInterno(View):
+class ConfiguracionSitioLista(View):
     def __init__(self):
-        self.template_name = 'configuracion/configuracion.html'
+        self.template_name = 'sitio/configuracion_lista.html'
 
     def get(self, request):
 
@@ -637,9 +707,54 @@ class ConfiguracionAuditorInterno(View):
         return render(request, self.template_name, {})
 
 
-class ConfiguracionSitio(View):
+class ConfiguracionContratoLista(View):
     def __init__(self):
-        self.template_name = 'configuracion/configuracion.html'
+        self.template_name = 'contrato/configuracion_lista.html'
+
+    def get(self, request):
+
+        # formulario = EmpleadoFilterForm()
+
+        # contexto = {
+        #     'form': formulario
+        # }
+
+        return render(request, self.template_name, {})
+
+
+class ConfiguracionMetodologiaLista(View):
+    def __init__(self):
+        self.template_name = 'metodologia/configuracion_lista.html'
+
+    def get(self, request):
+
+        # formulario = EmpleadoFilterForm()
+
+        # contexto = {
+        #     'form': formulario
+        # }
+
+        return render(request, self.template_name, {})
+
+
+class ConfiguracionTipoHallazgoLista(View):
+    def __init__(self):
+        self.template_name = 'hallazgo/configuracion_lista.html'
+
+    def get(self, request):
+
+        # formulario = EmpleadoFilterForm()
+
+        # contexto = {
+        #     'form': formulario
+        # }
+
+        return render(request, self.template_name, {})
+
+
+class ConfiguracionFormatoLista(View):
+    def __init__(self):
+        self.template_name = 'formato/configuracion_lista.html'
 
     def get(self, request):
 

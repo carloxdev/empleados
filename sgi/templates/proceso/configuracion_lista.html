@@ -1,0 +1,184 @@
+{% extends 'master.html' %}
+
+{% load static from staticfiles %}
+
+{% block titulo %} Configuración {% endblock titulo %}
+
+{% block title-page %} Configuración de Procesos y Subprocesos {% endblock title-page %}
+
+{% block css %}
+
+   <!-- Beagle Theme -->
+   <link rel="stylesheet" href="{% static 'theme/lib/daterangepicker/css/daterangepicker.css' %}"/>
+   <link rel="stylesheet" href="{% static 'theme/lib/bootstrap-multiselect/css/bootstrap-multiselect.css' %}"/>
+   <link rel="stylesheet" href="{% static 'theme/lib/multiselect/css/multi-select.css' %}"/>
+   
+   <!-- bootstrap tree -->
+   <link rel="stylesheet" href="{% static 'libs/bootstrap-treeview/1.2.0/css/bootstrap-treeview.min.css' %}"/>
+
+   <!-- Nova -->
+   <link rel="stylesheet" href="{% static 'grid.css' %}"/>
+
+{% endblock css %}
+
+{% block contenido %}
+
+<div class="be-content">
+
+   <div class="page-head nova-page-head">
+      <h2 class="page-head-title nova-title">Configuración de Procesos y Subprocesos</h2>
+      <ol class="breadcrumb page-head-nav pull-right">
+         <li><a href="{% url 'home:inicio' %}">Inicio</a></li>
+         <li id="menu" data-opcion="configuracion"><a>Configuración</a></li>
+         <li class="active">Proceso</li>
+      </ol>
+   </div>
+
+   <div class="main-content container-fluid nova-main-content">
+
+      <div class="row wizard-row">
+         
+         <div class="col-md-12 fuelux">
+               
+            <div id="wizard1" class="wizard wizard-ux nova-panel-borde-header">
+               <ul class="steps">
+
+                  <li class="active">Catálogo Maestro</li>
+
+               </ul>
+               <div class="actions">
+                  <a href="{% url 'sgi:configuracion_requisito_lista' %}" class="btn btn-xs btn-prev btn-default nova-a-tab">Criterios y Requisitos</a>
+                  <a class="btn btn-xs btn-next btn-default nova-a-tab nova-active-tab">Procesos</a>
+                  <a href="{% url 'sgi:configuracion_rol_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Roles</a>
+                  <a href="{% url 'sgi:configuracion_auditor_interno_formulario' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Auditores internos</a>
+                  <a href="{% url 'sgi:configuracion_sitio_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Sitios</a>
+                  <a href="{% url 'sgi:configuracion_metodologia_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Metodologías</a>
+                  <a href="{% url 'sgi:configuracion_tipo_hallazgo_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Hallazgo</a>
+                  <a href="{% url 'sgi:configuracion_formato_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Formatos</a>
+               </div>
+              </div> 
+               <div class="panel panel-default">
+
+                  <div class="panel-heading nova-panel-borde-contenido nova-panel-tools">
+                     <button class="btn nova-btn btn-rounded btn-sm btn-space btn-success pull-right" id="boton_excel">
+                        <i class="icon icon-left mdi mdi-download nova-white"></i> Importar
+                     </button>
+                     <a href="#id_tarjeta_nuevo_proceso"
+                        class="btn nova-btn btn-rounded btn-sm btn-space btn-default pull-right" data-toggle="modal" id="boton_nuevo_proceso">
+                        <i class="icon icon-left mdi mdi-plus-circle nova-black"></i> Proceso
+                     </a>
+                  </div><!-- Panel Heading -->
+
+                  <!-- arbol -->
+                  <div id="id_arbol_criterios_requisitos" class="nova-panel-arbol">
+                  </div>
+
+               </div> <!-- Panel --> 
+
+         </div> <!-- col md 12 -->
+      </div> <!-- row wizard row -->
+      
+   </div> <!-- main content -->
+
+   <!-- Targeta nuevo proceso -->
+   <div id="id_tarjeta_nuevo_proceso" role="dialog" class="modal fade colored-header colored-header-primary">
+      <div class="modal-dialog custom-width">
+         <div class="modal-content">
+            
+            <div class="modal-header nova-modal-header">
+               <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
+               <h3 class="modal-title">Nuevo Proceso y Responsables</h3>
+            </div>
+               
+            <form id="formulario_proceso" class="modal-body form-horizontal">
+
+               <div class="form-group">
+                  <label class="col-sm-3 nova-col-filter control-label">Proceso</label>
+                  <div class="col-sm-8 xs-pt-5">
+                     <input type="text" id="id_proceso" class="form-control input-xs">
+                  </div>
+               </div>                
+
+               <div class="form-group">
+                  <label class="col-sm-3 nova-col-filter control-label">Responsables</label>
+                  <div class="col-sm-8 xs-pt-5">
+                     <select id="id_responsable" multiple="multiple" name="id_responsable[]">
+                        <option value="200006">200006 : Jose Gutierrez Zacarias</option>
+                        <option value="200301">200301 : Javier Hernandez Gomez</option>
+                        <option value="200200">200200 : Fernanda Fuentes Rocio</option>
+                        <option value="200300">200300 : Anahi Campos Fuentes</option>
+                     </select>
+                  </div>
+               </div>
+
+            </form><!-- Modal body-->
+            <div class="modal-footer nova-modal-footer">
+                <div class="row col-sm-12">
+                     <button type="button" data-dismiss="modal" class="btn btn-default pull-left">
+                        Cerrar
+                     </button>
+
+                     <button type="button" id="boton_modal_guardar" class="btn nova-btn btn-primary btn-lg pull-right">
+                        <i class="icon icon-left mdi mdi-floppy nova-white"></i>
+                        Guardar
+                     </button>
+               </div>
+            </div>
+         </div> <!-- Modal content-->
+      </div> <!-- Modal dialog -->
+   </div><!-- Modal -->
+
+   <!-- Targeta nuevo subproceso -->
+   <div id="id_tarjeta_nuevo_subproceso" role="dialog" class="modal fade colored-header colored-header-primary">
+      <div class="modal-dialog custom-width">
+         <div class="modal-content">
+            
+            <div class="modal-header nova-modal-header">
+               <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
+               <h3 class="modal-title">Nuevo Subproceso</h3>
+            </div>
+               
+            <form id="formulario_proceso" class="modal-body form-horizontal">
+
+               <div class="form-group">
+                  <label class="col-sm-3 nova-col-filter control-label">Subproceso</label>
+                  <div class="col-sm-8 xs-pt-5">
+                     <input type="text" id="id_subproceso" class="form-control input-xs">
+                  </div>
+               </div>
+
+            </form><!-- Modal body-->
+            <div class="modal-footer nova-modal-footer">
+                <div class="row col-sm-12">
+                     <button type="button" data-dismiss="modal" class="btn btn-default pull-left">
+                        Cerrar
+                     </button>
+
+                     <button type="button" id="boton_modal_guardar" class="btn nova-btn btn-primary btn-lg pull-right">
+                        <i class="icon icon-left mdi mdi-floppy nova-white"></i>
+                        Guardar
+                     </button>
+               </div>
+            </div>
+         </div> <!-- Modal content-->
+      </div> <!-- Modal dialog -->
+   </div><!-- Modal -->
+</div> <!-- be content -->
+
+{% endblock contenido %}
+
+{% block scripts %}
+
+   <!-- Beagle Theme -->
+   <script src="{% static 'theme/lib/datetimepicker/js/bootstrap-datetimepicker.min.js' %}"></script>
+   <script src="{% static 'theme/lib/bootstrap-multiselect/js/bootstrap-multiselect.js' %}" type="text/javascript"></script>
+   <script src="{% static 'theme/lib/multiselect/js/jquery.multi-select.js' %}" type="text/javascript"></script>
+   <script src="{% static 'theme/lib/quicksearch/jquery.quicksearch.min.js' %}" type="text/javascript"></script>
+
+   <!-- bootstrap tree -->
+   <script src="{% static 'libs/bootstrap-treeview/1.2.0/js/bootstrap-treeview.min.js' %}" ></script>
+
+   <!-- JS Template -->
+   <script src="{% static 'proceso/configuracion_lista.js' %}"></script>      
+
+{% endblock scripts %}

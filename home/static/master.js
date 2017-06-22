@@ -41,7 +41,7 @@ NovaSitio.prototype.activar_Opcion = function (_option) {
     var $opcion = $("#" + _option)
     $opcion.addClass("active")
 }
-NovaSitio.prototype.set_AlertifyConfig = function() {
+NovaSitio.prototype.set_AlertifyConfig = function () {
 
     alertify.set('notifier', 'position', 'top-right')
     alertify.set('notifier', 'delay', 10)   
@@ -50,4 +50,23 @@ NovaSitio.prototype.set_AlertifyConfig = function() {
     alertify.defaults.theme.cancel = "btn btn-danger";
     alertify.defaults.theme.input = "form-control";
 
+}
+NovaSitio.prototype.get_ConfigSelect2 = function () {
+    return {
+        width: '100%'
+    }
+}
+NovaSitio.prototype.get_ConfWysi = function () {
+    return {
+        toolbar: {
+            "font-styles": true,
+            "emphasis": true,
+            "lists": true,
+            "html": false,
+            "link": false,
+            "image": false,
+            "color": false,
+            "blockquote": false,
+        }
+    }
 }

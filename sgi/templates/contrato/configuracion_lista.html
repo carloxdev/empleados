@@ -1,0 +1,165 @@
+{% extends 'master.html' %}
+
+{% load static from staticfiles %}
+
+{% block titulo %} Configuración {% endblock titulo %}
+
+{% block title-page %} Configuración Contrato {% endblock title-page %}
+
+{% block css %}
+
+   <!--HTML INVALIDO-->
+   <!-- Beagle Theme -->
+   <link rel="stylesheet" href="{% static 'theme/lib/daterangepicker/css/daterangepicker.css' %}"/>
+   <link rel="stylesheet" href="{% static 'theme/lib/bootstrap-multiselect/css/bootstrap-multiselect.css' %}"/>
+   <link rel="stylesheet" href="{% static 'theme/lib/multiselect/css/multi-select.css' %}"/>
+
+   <!-- Kendo -->
+   <link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.rtl.min.css' %}"/>
+   <link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.common-bootstrap.min.css' %}"/>
+   <link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.bootstrap.min.css' %}"/>
+
+   <!-- Nova -->
+   <link rel="stylesheet" href="{% static 'grid.css' %}"/>
+
+{% endblock css %}
+
+{% block contenido %}
+
+<div class="be-content">
+
+   <div class="page-head nova-page-head">
+      <h2 class="page-head-title nova-title">Configuración Contrato</h2>
+      <ol class="breadcrumb page-head-nav pull-right">
+         <li><a href="{% url 'home:inicio' %}">Inicio</a></li>
+         <li id="menu" data-opcion="configuracion"><a>Configuración</a></li>
+         <li class="active">Contrato</li>
+      </ol>
+   </div>
+
+   <!-- Targeta Formulario -->
+   <div class="main-content container-fluid nova-main-content">
+
+      <div class="row wizard-row">
+         
+         <div class="col-md-12 fuelux">
+            <form class="block-wizard panel panel-default" action="" method="POST" > {% csrf_token %}
+               
+               <div id="wizard1" class="wizard wizard-ux">
+                  <ul class="steps">
+
+                     <li class="active">Catálogo Maestro</li>
+
+                  </ul>
+                  <div class="actions">
+                     <a href="{% url 'sgi:configuracion_requisito_lista' %}" class="btn btn-xs btn-prev btn-default nova-a-tab">Criterios y Requisitos</a>
+                     <a href="{% url 'sgi:configuracion_proceso_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab">Procesos</a>
+                     <a href="{% url 'sgi:configuracion_rol_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Roles</a>
+                     <a href="{% url 'sgi:configuracion_auditor_interno_formulario' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Auditores internos</a>
+                     <a href="{% url 'sgi:configuracion_sitio_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Sitios</a>
+                     <a href="{% url 'sgi:configuracion_metodologia_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Metodologías</a>
+                     <a href="{% url 'sgi:configuracion_tipo_hallazgo_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Hallazgo</a>
+                     <a href="{% url 'sgi:configuracion_formato_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Formatos</a>
+                  </div>
+                  <div class="step-content">
+                     <div data-step="1" class="step-pane active">
+
+                        <div class="form-horizontal group-border-dashed">
+
+                           <div class="form-group no-padding">
+                              <div class="col-sm-7">
+                                 <h5 class="wizard-title">Información de los contratos</h5>
+                              </div>
+                           </div>
+
+                           <div class="col-sm-12 nova-col">
+                              <div class="panel panel-default">
+                                 <div class="panel-heading panel-border nova-panel-heading">
+                                    <div class="tools pull-right" id="toolbar">
+                                       <a href="#id_tarjeta_aprobador"
+                                          class="btn nova-btn btn-rounded btn-space btn-default" data-toggle="modal" id="boton_nuevo">
+                                          <i class="icon icon-left mdi mdi-plus-circle nova-black"></i>Nuevo
+                                       </a>
+                                    </div>
+                                    <div class="title hidden-xs">Registros</div>
+                                 </div> <!-- Panel Heading -->
+
+                                 <div id="grid_resultados">
+                                 </div>
+                                 <div class="panel-footer panel-border nova-panel-footer panel-border">
+                                 </div> <!-- Panel Footer -->
+
+                              </div> <!-- Panel -->
+                           </div> <!-- col sm 12-->
+
+                        </div>
+                     </div>
+                  </div>
+
+               </div>
+
+            </form>
+         </div> <!-- col md 12 -->
+      </div> <!-- row wizard row -->
+      
+   </div> <!-- main content -->
+   <!-- Targeta Nuevo -->
+   <div id="id_tarjeta_aprobador" role="dialog" class="modal fade colored-header colored-header-primary">
+      <div class="modal-dialog custom-width">
+         <div class="modal-content">
+            
+            <div class="modal-header nova-modal-header">
+               <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
+               <h3 class="modal-title">Nuevo Contrato</h3>
+            </div>
+               
+            <form id="id_formulario_aprobador" class="modal-body form-horizontal">
+               
+               <!-- sitio -->
+               <div class="form-group">
+                  <label class="col-sm-3 nova-col-filter control-label">Contrato</label>
+                  <div class="col-sm-8 xs-pt-5">
+                     <input class="form-control input-xs" type="text" name="" id="id_sitio">
+                  </div>
+               </div>                
+
+            </form><!-- Modal body-->
+            <div class="modal-footer nova-modal-footer">
+                <div class="row col-sm-12">
+                  <button type="button" data-dismiss="modal" class="btn btn-default pull-left">
+                     Cerrar
+                  </button>
+
+                  <button type="button" id="boton_modal_guardar" class="btn nova-btn btn-primary btn-lg pull-right">
+                     <i class="icon icon-left mdi mdi-floppy nova-white"></i>
+                     Guardar
+                  </button>
+               </div>
+            </div>
+         </div> <!-- Modal content-->
+      </div> <!-- Modal dialog -->
+   </div><!-- Modal -->
+</div> <!-- be content -->
+
+{% endblock contenido %}
+
+{% block scripts %}
+
+   <!-- Beagle Theme -->
+   <script src="{% static 'theme/lib/datetimepicker/js/bootstrap-datetimepicker.min.js' %}"></script>
+   <script src="{% static 'theme/lib/jquery.maskedinput/jquery.maskedinput.min.js' %}"></script>
+   <script src="{% static 'theme/lib/bootstrap-multiselect/js/bootstrap-multiselect.js' %}" type="text/javascript"></script>
+   <script src="{% static 'theme/lib/multiselect/js/jquery.multi-select.js' %}" type="text/javascript"></script>
+   <script src="{% static 'theme/lib/quicksearch/jquery.quicksearch.min.js' %}" type="text/javascript"></script>
+
+   <!-- Kendo Js -->
+   <script src="{% static 'libs/kendo/2015.2.624/js/cultures/kendo.culture.es-MX.min.js' %}"></script>
+   <script src="{% static 'libs/kendo/2015.2.624/js/kendo.web.min.js' %}"></script>
+
+   <!-- InputMask -->
+   <script src="{% static 'libs/plugins/input-mask/jquery.inputmask.js' %}"></script>
+
+   <!-- JS Template -->
+   <script src="{% static 'contrato/configuracion_lista.js' %}"></script>      
+
+{% endblock scripts %}

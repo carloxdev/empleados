@@ -45,7 +45,18 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'configuracion.apps.ConfiguracionConfig',
     'home.apps.HomeConfig',
+<<<<<<< HEAD
     'facturas.apps.FacturasConfig',
+=======
+    'seguridad.apps.SeguridadConfig',
+    'jde.apps.JdeConfig',
+    'ebs.apps.EbsConfig',
+    'sgi.apps.SgiConfig',
+    'compras.apps.ComprasConfig',
+    'capitalhumano.apps.CapitalhumanoConfig',
+    'serviciosempleado.apps.ServiciosempleadoConfig',
+    'administracion.apps.AdministracionConfig',
+>>>>>>> origin/master
     'rest_framework',
     'django.contrib.humanize',
     # 'autorizacion.apps.AutorizacionConfig',

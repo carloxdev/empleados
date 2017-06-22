@@ -53,7 +53,7 @@
                                         Puesto
                                     </label>
                                     <p>
-                                    <select class="form-control">
+                                    <select class="select2 nova-select2" id="id_puesto">
                         			     <option value="p1">Seleccione</option>
                            			     <option value="p1">59.95.SUPERVISOR DE CONSTRUCCION</option>
                                          <option value="p2">59.223.JEFE DE CONTROL DE CALIDAD</option>
@@ -85,16 +85,14 @@
                                         Departamento
                                     </label>
                                     <p>
-                                       <select  class="form-control">
-			                              <option value="p1">Automatico</option>
+                                       <select  class="select2 nova-select2" id="id_departamento">
+			                              <option value="p1">Seleccione</option>
 			                              <optgroup label="Corporativo">
 			                                <option value="p1">Capital Humano</option>
 			                                <option value="p2">Juridico</option>
-			                              </optgroup>
-			                              <optgroup label="Coordinacion Pozarica">
-			                                <option value="p3">Standard</option>
-			                                <option value="p4">Silver</option>
-			                                <option value="p5">Gold</option>
+			                                <option value="p3">Tecnologias de Informacion</option>
+			                                <option value="p4">Gestion de Calidad</option>
+			                                <option value="p5">Licitaciones</option>
 			                              </optgroup>
 			                            </select> 
                                     </p>
@@ -111,7 +109,7 @@
                                     Nivel de Estudios
                                 </label>
                                 <p>
-                                     <select class="form-control">
+                                     <select class="select2 nova-select2" id="id_estudios">
 		                                  <option value="n0">Indistinto</option>
 		                                  <option value="n1">Trunco</option>
 		                                  <option value="n2">Pasante</option>
@@ -131,7 +129,8 @@
                                     Areas de Experiencia
                                 </label>
                                 <p>
-                                    <select class="form-control">
+                                    <select class="form-control" class="select2 nova-select2" id="id_experiencia">
+                                      <option value="p1">Seleccione</option>
 	                                  <option value="n0">Administracion y Finanzas</option>
 	                                  <option value="n1">Administracion general</option>
 	                                  <option value="n2">Auditoria</option>
@@ -162,14 +161,74 @@
             <div class="panel panel-default panel-table">
                 <div class="panel-heading panel-border nova-panel-heading">
                     <div class="tools pull-right" id="toolbar">
+
+
+                        <a href="{% url 'capitalhumano:perfil_nuevo' %}" 
+                            class="btn nova-btn btn-rounded btn-space btn-default" id="boton_nuevo">
+                            <i class="icon icon-left mdi mdi-plus-circle nova-black"></i>Nuevo 
+                        </a>
+
                         <button class="btn nova-btn btn-rounded btn-space btn-success" id="boton_excel">
                             <i class="icon icon-left mdi mdi-download nova-white"></i>Exportar
                         </button>
                     </div>
-                    <div class="title hidden-xs">Registros</div>
-                </div><!-- Panel Heading -->
-                <div id="grid_resultados">
-                </div>
+                   
+   
+   <div class="title hidden-xs">Registros</div>
+            </div><!-- Panel Heading -->
+            <div id="grid_resultados2">
+            <table class="table table-bordered">
+               <thead>
+                  <tr>
+                     <th>Id</th>
+                     <th>Puesto</th>
+                     <th>Reporta A</th>
+                     <th>Proposito</th>
+                     <th>Funciones</th>
+                     <th>Responsabilidades</th>
+                     <th>Nivel Estudio</th>
+                     <th>Estado Civil</th>
+                     <th>Cambio Residencia</th>
+
+                     <th>Acciones</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  <tr>
+                     <th scope="row">01</th>
+                     <td>54.192 COORDINADOR DE TECNOLOGIAS DE INFORMACION</td>
+                     <td>01.36 DIRECTOR DE PLANEACION, ADMINISTRACION Y FINANZAS</td>
+                     <td>Administrar eficazmente los recursos tecnologicos</td>
+                     <td>Gestionar eficazmente los recursos, Manejo y administracion de persona</td>
+                     <td>Manejo y administracin de personal</td>
+                     <td>Licenciatura</td>
+                     <td>Indistinto</td>
+                     <td>No</td>
+                     <td>
+                        <a href="{% url 'sgi:auditoria_lista' %}" class="btn nova-btn btn-rounded btn-space btn-default" id="boton_nuevo">
+                           <i class="icon icon-left mdi mdi-edit nova-black"></i> Editar
+                        </a>
+                         <button class="btn nova-btn btn-rounded btn-space btn-success" id="boton_excel">
+                        <i class="icon icon-left mdi mdi-collection-pdf nova-white"></i>Formato
+                        </button>
+                         <a href="{% url 'sgi:auditoria_lista' %}" class="btn nova-btn btn-rounded btn-space btn-default" id="boton_nuevo">
+                           Competencias
+                        </a>
+                         <a href="{% url 'sgi:auditoria_lista' %}" class="btn nova-btn btn-rounded btn-space btn-default" id="boton_nuevo">
+                           Areas de Experiencias
+                        </a>
+                         <a href="{% url 'sgi:auditoria_lista' %}" class="btn nova-btn btn-rounded btn-space btn-default" id="boton_nuevo">
+                           Puestos a cargo
+                        </a>
+                       
+                       
+                     </td>
+                  </tr>
+                  
+               </tbody>
+            </table>
+            </div>
+
                 <div class="panel-footer panel-border nova-panel-footer panel-border">
                 </div><!-- Panel Footer -->
             </div> <!-- Panel -->
@@ -199,7 +258,7 @@
     <script src="{% static 'theme/lib/select2/js/select2.full.min.js' %}"></script>
 
     <!-- NOVA -->
-    <script src="{% static 'empleados_filtro.js' %}"></script>
+    <script src="{% static 'perfilpuesto/perfil_lista.js' %}"></script>
 
 {% endblock scripts %}
 

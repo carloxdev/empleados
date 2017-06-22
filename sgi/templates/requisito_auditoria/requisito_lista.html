@@ -19,7 +19,7 @@
       <h2 class="page-head-title nova-title">Requisitos del Proceso</h2>
       <ol class="breadcrumb page-head-nav pull-right">
          <li><a href="{% url 'home:inicio' %}">Inicio</a></li>
-         <li id="menu" data-opcion="auditorias_lista"><a href="{% url 'sgi:auditoria_lista' %}">Solicitudes de Auditorías</a></li>
+         <li id="menu" data-opcion="auditorias_lista"><a href="{% url 'sgi:auditoria_lista' %}">Procesos de Auditoría</a></li>
          <li><a href="{% url 'sgi:proceso_lista' %}">Procesos</a></li>
          <li class="active"><a>Requisitos</a></li>
       </ol>
@@ -27,88 +27,104 @@
 
    <div class="main-content container-fluid nova-main-content">
       
-      <div class="row">
-         <!-- Tarjeta titulo-->
-         <div class="col-sm-12 nova-col">
-            <div class="panel panel-default panel-border-color panel-border-color-primary">
-               <div class="nova-panel-heading-titulo">Requisitos del proceso <strong>1</strong> Tecnologías de la información de la auditoria <strong>01 - 17</strong>
-                  
-               </div>
-            </div>  <!-- Panel -->
-         </div>  <!-- col-sm-12 -->
+      <div class="row wizard-row">
 
-         <!-- Tarjeta resultados-->
-         <div class="col-sm-12 nova-col">
+         <div class="col-md-12 fuelux">
+            
+            <!-- wizzard tab -->
+            <div id="wizard1" class="wizard wizard-ux nova-panel-borde-header">
+               <ul class="steps">
+
+                  <li class="active"><strong>PRO-1</strong> Tecnologías de la información de la auditoria <strong>01 - 17</strong></li>
+
+               </ul>
+               <div class="actions">
+                  <a href="{% url 'sgi:general_formulario' %}" class="btn btn-xs btn-prev btn-default nova-a-tab">Generales</a>
+                  <a href="{% url 'sgi:equipo_auditor_formulario' %}" class="btn btn-xs btn-next btn-default nova-a-tab">Equipo Auditor</a>
+                  <a class="btn btn-xs btn-next btn-default nova-a-tab nova-a-tab-border nova-active-tab">Procesos</a>
+                  <a href="{% url 'sgi:hallazgo_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Hallazgos</a>
+               </div>
+            </div>
+            
+
+            <!-- Tarjeta resultados-->
             <div class="panel panel-default panel-table">
-               <div class="panel-heading panel-border nova-panel-heading">
-                  <div class="tools pull-right" id="toolbar">
-                     
-                     <a href="#tarjeta_nuevo_requisito"
-                        class="btn nova-btn btn-rounded btn-space btn-default" data-toggle="modal" id="boton_nuevo">
-                        <i class="icon icon-left mdi mdi-plus-circle nova-black"></i>Nuevo
-                     </a>
-                  </div>
-                  <div class="title hidden-xs">Registros</div>
+               <div class="panel-heading nova-panel-borde-contenido nova-panel-tools">   
+                  <a href="#tarjeta_nuevo_requisito"
+                     class="btn nova-btn btn-rounded btn-sm btn-space btn-default pull-right" data-toggle="modal" id="boton_nuevo">
+                     <i class="icon icon-left mdi mdi-plus-circle nova-black"></i>Nuevo
+                  </a>
                </div><!-- Panel Heading -->
-               <div id="grid_resultados">
+               <div id="grid_resultados" class="nova-div-overflow">
                   <table class="table table-bordered">
                      <thead>
                         <tr>
-                           <th>No</th>
-                           <th>Norma</th>
+                           <th style="width: 38px;"></th>
+                           <th>Folio</th>
+                           <th>Clasificación</th>
+                           <th>Criterio</th>
                            <th>Requisito</th>
-                           <th>Hallazgo</th>
                         </tr>
                      </thead>
                      <tbody>
                         <tr>
-                           <th scope="row">1</th>
+                           <td>
+                              <a href="#id_tarjeta_acciones" data-toggle="modal" class="btn nova-btn btn-default" id="boton_nuevo">
+                                 <i class="icon icon-left icon mdi mdi-settings nova-black"></i>
+                              </a>
+                           </td>
+                           <td>
+                              <a class="btn btn-default nova-url" data-toggle="modal" href="#tarjeta_nuevo_requisito">REQ-01 </a>
+                           </td>
+                           <td>Norma</td>
                            <td>ISO 9001:2008</td>
                            <td>Requisito 12.1</td>
-                           <td>
-                              <a href="{% url 'sgi:hallazgo_lista' %}" class="btn nova-btn btn-rounded btn-space btn-default" id="boton_nuevo">
-                                 <i class="icon icon-left mdi mdi-plus-circle nova-black"></i> Hallazgos
-                              </a>
-                           </td>
                         </tr>
                         <tr>
-                           <th scope="row">2</th>
+                           <td>
+                              <a href="#id_tarjeta_acciones" data-toggle="modal" class="btn nova-btn btn-default" id="boton_nuevo">
+                                 <i class="icon icon-left icon mdi mdi-settings nova-black"></i>
+                              </a>
+                           </td>
+                           <td>
+                              <a class="btn btn-default nova-url" data-toggle="modal" href="#tarjeta_nuevo_requisito">REQ-02 </a>
+                           </td>
+                           <td>Norma</td>
                            <td>ISO 14001:2004</td>
                            <td>Requisito 12.3</td>
-                           <td>
-                              <a href="{% url 'sgi:hallazgo_lista' %}" class="btn nova-btn btn-rounded btn-space btn-default" id="boton_nuevo">
-                                 <i class="icon icon-left mdi mdi-plus-circle nova-black"></i> Hallazgos
-                              </a>
-                           </td>
                         </tr>
                         <tr>
-                           <th scope="row">3</th>
+                           <td>
+                              <a href="#id_tarjeta_acciones" data-toggle="modal" class="btn nova-btn btn-default" id="boton_nuevo">
+                                 <i class="icon icon-left icon mdi mdi-settings nova-black"></i>
+                              </a>
+                           </td>
+                           <td>
+                              <a class="btn btn-default nova-url" data-toggle="modal" href="#tarjeta_nuevo_requisito">REQ-03 </a>
+                           </td>
+                           <td>Norma</td>
                            <td>ISO 14001:2004</td>
                            <td>Requisito 1.2</td>
-                           <td>
-                              <a href="{% url 'sgi:hallazgo_lista' %}" class="btn nova-btn btn-rounded btn-space btn-default" id="boton_nuevo">
-                                 <i class="icon icon-left mdi mdi-plus-circle nova-black"></i> Hallazgos
-                              </a>
-                           </td>
                         </tr>
                         <tr>
-                           <th scope="row">4</th>
-                           <td>OHSAS 18001:2007</td>
-                           <td>Requisito 1.1</td>
                            <td>
-                              <a href="{% url 'sgi:hallazgo_lista' %}" class="btn nova-btn btn-rounded btn-space btn-default" id="boton_nuevo">
-                                 <i class="icon icon-left mdi mdi-plus-circle nova-black"></i> Hallazgos
+                              <a href="#id_tarjeta_acciones" data-toggle="modal" class="btn nova-btn btn-default" id="boton_nuevo">
+                                 <i class="icon icon-left icon mdi mdi-settings nova-black"></i>
                               </a>
                            </td>
+                           <td>
+                              <a class="btn btn-default nova-url" data-toggle="modal" href="#tarjeta_nuevo_requisito">REQ-04 </a>
+                           </td>
+                           <td>Norma</td>
+                           <td>OHSAS 18001:2007</td>
+                           <td>Requisito 1.1</td>
                         </tr>
                      </tbody>
                   </table>
                </div>
-               <div class="panel-footer panel-border nova-panel-footer panel-border">
-               </div><!-- Panel Footer -->
             </div> <!-- Panel -->
-         </div> <!-- col sm 12-->
-      </div>
+         </div> <!-- col sm 12 fuelux-->
+      </div> <!-- wizzard row -->
    </div> <!-- main content -->
 
    <!-- Tarjeta Nuevo-->
@@ -124,20 +140,35 @@
             <form id="formulario_proceso" class="modal-body form-horizontal">
 
                <div class="form-group">
-                  <label class="col-sm-3 nova-col-filter control-label">Norma</label>
+                  <label class="col-sm-3 nova-col-filter control-label">Clasificación de Hallazgo</label>
+                  <div class="col-sm-7 xs-pt-5">
+                     <select class="select2 select2-hidden-accessible" tabindex="-1" aria-hidden="true" id="id_clasificacion_hallazgo">
+                        <option value="" selected="selected">-------</option>
+                        <option value="Norma">Norma</option>
+                        <option value="Legal">Legal</option>
+                        <option value="Contractual">Contractual</option>
+                        <option value="RSC">RSC</option>
+                     </select>
+                  </div>
+               </div>
+
+               <div class="form-group">
+                  <label class="col-sm-3 nova-col-filter control-label">Criterio</label>
                   <div class="col-sm-7 xs-pt-5">
                      <select class="select2 select2-hidden-accessible" tabindex="-1" aria-hidden="true" id="id_norma">
+                        <option value="" selected="selected">-------</option>
                         <option value="ISO 9001:2008">ISO 9001:2008</option>
                         <option value="ISO 14001:2004">ISO 14001:2004</option>
                         <option value="OHSAS 18001:2007">OHSAS 18001:2007</option>
                      </select>
                   </div>
-               </div>                
+               </div>
 
                <div class="form-group">
                   <label class="col-sm-3 nova-col-filter control-label">Requisito</label>
                   <div class="col-sm-7 xs-pt-5">
                      <select class="select2 select2-hidden-accessible" tabindex="-1" aria-hidden="true" id="id_requisito">
+                        <option value="" selected="selected">-------</option>
                         <option value="ISO9001-14-1">Requisito 14.1 Demostrar que los documentos</option>
                         <option value="ISO9001-14-1">Requisito 12.2 Demostrar que los documentos</option>
                         <option value="ISO9001-14-1">Requisito 16.5 Demostrar que los documentos</option>
@@ -155,7 +186,7 @@
                         Cerrar
                      </button>
 
-                     <button type="button" id="boton_modal_guardar" class="btn nova-btn btn-primary btn-lg pull-right">
+                     <button type="button" id="id_boton_modal_guardar" class="btn nova-btn btn-primary btn-lg pull-right">
                         <i class="icon icon-left mdi mdi-floppy nova-white"></i>
                         Guardar
                      </button>
@@ -164,6 +195,27 @@
          </div> <!-- Modal content-->
       </div> <!-- Modal dialog -->
    </div><!-- Modal -->
+
+   <!-- tarjeta_acciones-->
+   <div id="id_tarjeta_acciones" tabindex="-1" role="dialog" class="modal fade colored-header colored-header-primary">
+      <div style="width: 100px; height: 500px" class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header nova-modal-header">
+            <button type="button" data-dismiss="modal" aria-hidden="true" class="close"><span class="mdi mdi-close"></span></button>
+            <h3 class="modal-title">Acciones De REQ-1</h3>
+          </div>
+          <div class="modal-body">
+            <div class="text-center">
+               <div role="group" class="btn-group-vertical btn-space">
+                  <a href="{% url 'sgi:requisito_lista' %}" class="btn nova-btn btn-space btn-warning btn-lg" id="boton_nuevo">
+                     <i class="icon icon-left mdi mdi-alert-triangle nova-white"></i> Eliminar Requisito
+                  </a>
+               </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
 </div> <!-- be-content -->
 

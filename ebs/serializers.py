@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+
 # Librerias API REST:
 from rest_framework import serializers
 
@@ -171,6 +172,7 @@ class VIEW_ORGANIGRAMA_Serializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = VIEW_ORGANIGRAMA
         fields = (
+            'pers_empleado_numero',
             'pers_nombre_completo',
             'asig_trabajo_desc',
             'pers_clave',
@@ -184,4 +186,9 @@ class VIEW_ORGANIGRAMA_Serializer(serializers.HyperlinkedModelSerializer):
             'nivel_estructura',
             'ruta',
             'ruta2',
+            'grup_fase_jde',
+            'asig_ubicacion_desc',
+            'tipo',
         )
+
+
