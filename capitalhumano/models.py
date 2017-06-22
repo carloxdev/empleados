@@ -31,7 +31,7 @@ class PerfilPuestoDocumento(models.Model):
     )
 
     empleado_puesto_desc = models.CharField(max_length=144)
-    asig_puesto_clave = models.CharField(max_length=144)
+    asig_puesto_clave = models.CharField(max_length=144, default=True)
     reporta = models.CharField(max_length=144)
     proposito = models.CharField(max_length=144)
     funciones = models.CharField(max_length=144)
@@ -68,15 +68,16 @@ class PerfilPuestoDocumento(models.Model):
 
 class Cursos(models.Model):
 
-    descripcion = models.CharField(max_length=255)
+    nombre_curso = models.CharField(max_length=255)
     vencimiento = models.CharField(max_length=30)
-    created_by = models.ForeignKey(Profile, related_name='curexp_created_by')
+
+    created_by = models.ForeignKey(Profile, related_name='curso_created_by')
     created_date = models.DateTimeField(
         auto_now=False,
         auto_now_add=True
     )
     updated_by = models.ForeignKey(
-        Profile, related_name='curexp_updated_by', null=True, blank=True)
+        Profile, related_name='curso_updated_by', null=True, blank=True)
     updated_date = models.DateTimeField(
         auto_now=True,
         auto_now_add=False,
@@ -85,44 +86,33 @@ class Cursos(models.Model):
     )
 
     def __unicode__(self):
-        cadena = "%s" % (self.id)
+        cadena = "%s" % (self.nombre_curso)
         return cadena
 
     def __str__(self):
-        cadena = "%s" % (self.id)
+        cadena = "%s" % (self.nombre_curso)
         return cadena
 
     class Meta:
         verbose_name_plural = "Cursos"
 
 
-class ExpedienteDocumento(models.Model):
+class Documento(models.Model):
 
-    doc_nombre = models.CharField(max_length=250)
-    doc_idempleado = models.IntegerField(default=0)
-    doc_tipo = models.CharField(max_length=80)
-    doc_subtipo = models.CharField(max_length=255)
-    doc_agrupador = models.CharField(max_length=255)
-    doc_ruta = models.FileField(
+    nombre_documento = models.CharField(max_length=250)
+    archivo = models.FileField(
         upload_to=get_FilePath_Expedientes
     )
-    doc_mes = models.CharField(max_length=3)
-    doc_anio = models.IntegerField(default=0, blank=True)
-    doc_descripcion = models.CharField(max_length=255)
-    doc_created_by = models.ForeignKey(
-        Profile, related_name='docexp_created_by')
-    doc_created_date = models.DateTimeField(
+
+    created_by = models.ForeignKey(
+        Profile, related_name='doc_created_by')
+    created_date = models.DateTimeField(
         auto_now=False,
         auto_now_add=True
     )
-    doc_id_curso = models.ForeignKey(Cursos, on_delete=models.PROTECT)
-    doc_id_capacitacion = models.CharField(max_length=50)
-    doc_fecha_ini_vig = models.DateTimeField()
-    doc_fecha_fin_vig = models.DateTimeField()
-
-    doc_updated_by = models.ForeignKey(
-        Profile, related_name='docexp_updated_by', null=True, blank=True)
-    doc_updated_date = models.DateTimeField(
+    updated_by = models.ForeignKey(
+        Profile, related_name='doc_updated_by', null=True, blank=True)
+    updated_date = models.DateTimeField(
         auto_now=True,
         auto_now_add=False,
         null=True,
@@ -130,22 +120,21 @@ class ExpedienteDocumento(models.Model):
     )
 
     def __unicode__(self):
-        cadena = "%s" % (self.id)
+        cadena = "%s" % (self.nombre_documento)
         return cadena
 
     def __str__(self):
-        cadena = "%s" % (self.id)
+        cadena = "%s" % (self.nombre_documento)
         return cadena
 
     class Meta:
-        verbose_name_plural = "Documentos de Expedientes Empleados"
+        verbose_name_plural = "Documentos"
 
 
-class TipoDocumentoPersonal(models.Model):
+class TipoDocumento(models.Model):
+    tipo_documento = models.CharField(max_length=255)
 
-    descripcion = models.CharField(max_length=255)
-    created_by = models.ForeignKey(
-        Profile, related_name='tipodocper_created_by')
+    created_by = models.ForeignKey(Profile, related_name='tipodocper_created_by')
     created_date = models.DateTimeField(
         auto_now=False,
         auto_now_add=True
@@ -160,6 +149,59 @@ class TipoDocumentoPersonal(models.Model):
     )
 
     def __unicode__(self):
+        cadena = "%s" % (self.tipo_documento)
+        return cadena
+
+    def __str__(self):
+        cadena = "%s" % (self.tipo_documento)
+        return cadena
+
+    class Meta:
+        verbose_name_plural = "Tipo de documento personal"
+
+
+class Capacitacion(models.Model):
+    MODALIDAD = (
+        ('CURSO-PRESENCIAL', 'CURSO PRESENCIAL'),
+        ('CURSO-VIRTUAL', 'CURSO VIRTUAL'),
+        ('CURSO-PREVIO', 'CURSO PREVIO'),
+    )
+    MONEDA = (
+        ('MXN', 'MONEDA NACIONAL (MXN)'),
+        ('USD', 'DOLARES (USD)'),
+        ('EUR', 'EURO (EUR)'),
+    )
+
+    curso = models.ForeignKey(Cursos, on_delete=models.PROTECT)
+    proveedor = models.CharField(max_length=255)  # Sacar de jde
+    numero_empleado = models.IntegerField(default=0)
+    modalidad = models.CharField(
+        choices=MODALIDAD,
+        default="CURSO-PRESENCIAL",
+        max_length=3
+    )
+    lugar = models.CharField(max_length=250)
+    costo = models.DecimalField(max_digits=5, decimal_places=2)
+    moneda = models.CharField(
+        choices=MONEDA,
+        default="MXN",
+        max_length=3
+    )
+    departamento = models.CharField(max_length=250)  # Jalar del ebs
+    fecha_inicio = models.DateField(auto_now=False)
+    fecha_fin = models.DateField(auto_now=False)
+    duracion = models.IntegerField()
+    observaciones = models.CharField(max_length=100)
+
+    archivo = models.ForeignKey(Documento)
+
+    created_by = models.ForeignKey(Profile, related_name='cap_created_by')
+    created_date = models.DateTimeField(
+        auto_now=False,
+        auto_now_add=True
+    )
+
+    def __unicode__(self):
         cadena = "%s" % (self.id)
         return cadena
 
@@ -168,4 +210,44 @@ class TipoDocumentoPersonal(models.Model):
         return cadena
 
     class Meta:
-        verbose_name_plural = "Tipo Documento Personal"
+        verbose_name_plural = "Documentos de Capacitaciones"
+
+
+class Personal(models.Model):
+
+    AGRUPADOR = (
+        ('PERSONAL', 'PERSONAL'),
+        ('QHSE', 'QHSE'),
+        ('AMONESTACION', 'AMONESTACION'),
+        ('ADMINISTRACION', 'ADMINISTRACION'),
+        ('OPERACIONES', 'OPERACIONES'),
+        ('RECONOCIMIENTO', 'RECONOCIMIENTO'),
+    )
+    numero_empleado = models.CharField(max_length=6)
+    tipo = models.ForeignKey(TipoDocumento)  # Catalogo
+    agrupador = models.CharField(
+        choices=AGRUPADOR,
+        default="PERSONAL",
+        max_length=20
+    )
+    fecha = models.DateField()
+    vigencia_inicio = models.DateField(null=True, blank=True)
+    vigencia_fin = models.DateField(null=True, blank=True)
+    archivo = models.ForeignKey(Documento)
+
+    created_by = models.ForeignKey(Profile, related_name='per_created_by')
+    created_date = models.DateTimeField(
+        auto_now=False,
+        auto_now_add=True
+    )
+
+    def __unicode__(self):
+        cadena = "%s" % (self.id)
+        return cadena
+
+    def __str__(self):
+        cadena = "%s" % (self.id)
+        return cadena
+
+    class Meta:
+        verbose_name_plural = "Documentos Personales"

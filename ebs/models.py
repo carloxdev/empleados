@@ -130,6 +130,7 @@ class VIEW_EMPLEADOS_FULL(models.Model):
     class Meta:
         managed = False
         db_table = u'"NUVAPP"."VIEW_EMPLEADOS_FULL"'
+        # ordering = ['pers_empleado_numero']
 
 
 class VIEW_TIPO_PERSONAS(models.Model):

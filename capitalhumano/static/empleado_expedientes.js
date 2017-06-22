@@ -68,9 +68,14 @@ TarjetaFiltros.prototype.aplicar_Filtros = function () {
     tarjeta_resultados.grid.buscar()
 }
 TarjetaFiltros.prototype.click_BotonBuscar = function (e) {
-    $('#div_busqueda').show()
+    // pers_empleado_numero = e.data.$pers_empleado_numero
+    // var url_expediente_directo = url_expediente + pers_empleado_numero +'/expediente/'
     e.preventDefault()
-    e.data.aplicar_Filtros()
+
+    if(tarjeta_filtros.campos_Vacios() != 'True'){
+      $('#div_busqueda').show()
+      e.data.aplicar_Filtros()
+    }
 }
 TarjetaFiltros.prototype.get_Values = function (_page) {
     return {
@@ -96,6 +101,21 @@ TarjetaFiltros.prototype.click_BotonLimpiar = function (e) {
     e.data.$pers_empleado_numero.val("")
     e.data.$asig_organizacion_clave.data('select2').val(0)  
     e.data.$pers_tipo_codigo.data('select2').val(0) 
+}
+TarjetaFiltros.prototype.campos_Vacios = function (){
+    bandera = 'False'
+    if ((this.$pers_primer_nombre.val() == '') &&
+        (this.$pers_segundo_nombre.val() == '') &&
+        (this.$pers_apellido_paterno.val() == '') &&
+        (this.$pers_apellido_materno.val() == '') &&
+        (this.$grup_fase_jde.val() == '') &&
+        (this.$pers_empleado_numero.val() == '') &&
+        (this.$asig_organizacion_clave.data('select2').val() == 0) &&
+        (this.$pers_tipo_codigo.data('select2').val() == 0)
+      ){
+      bandera = 'True'
+    }
+    return bandera
 }
 
 
@@ -202,7 +222,7 @@ Grid.prototype.get_Columnas = function () {
           width:"150px" ,
           template: '<a href="#=url_expediente + pers_empleado_numero #/expediente/">#=pers_empleado_numero#</a>',
         },
-        { field: "pers_primer_nombre", title: "Primer nombre", width:"170px" },
+        { field: "pers_primer_nombre", title: "Primer nombre", width:"170px"},
         { field: "pers_segundo_nombre", title: "Segundo Nombre", width:"150px" },
         { field: "pers_apellido_paterno", title: "Apellido paterno", width:"200px" },
         { field: "pers_apellido_materno", title: "Apellido materno", width:"200px" },

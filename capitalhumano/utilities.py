@@ -5,10 +5,9 @@ import os
 
 def get_FilePath_Expedientes(instance, filename):
 
-    if (instance.doc_id):
-        upload_dir = os.path.join(
-            'documentosch', str(instance.doc_id), 'files')
+    upload_dir = os.path.join(
+        'capitalhumano', 'expedientes', 'Acevedo Escalante Noe')
+    print 'Paso x aqui'
+    print upload_dir
 
     return os.path.join(upload_dir, filename)
-
-

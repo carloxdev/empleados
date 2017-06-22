@@ -2,9 +2,11 @@
             GLOBAL VARIABLES
 \*-----------------------------------------------*/
 
+var url
 // OBJS
 var popup = null
 var toolbar = null
+var grid = null
 
 /*-----------------------------------------------*\
             LOAD
@@ -14,6 +16,7 @@ $(document).ready(function () {
 
     popup = new Popup()
     toolbar = new Toolbar()
+    grid = new Grid()
   
 })
 
@@ -38,8 +41,6 @@ Popup.prototype.init_Events = function () {
     //this.$id.on("hidden.bs.modal", this, this.hide)
 }
 
-
-
 /*-----------------------------------------------*\
             OBJETO: TOOLBAR
 \*-----------------------------------------------*/
@@ -57,3 +58,10 @@ Toolbar.prototype.mostrar_Modal = function (e){
     
     popup.$id.hasClass('in')
 }
+
+
+function TargetaResultados(){
+    this.grid = new Grid()
+}
+
+

@@ -3,8 +3,10 @@ from django.contrib import admin
 # Register your models here.
 from .models import PerfilPuestoDocumento
 from .models import Cursos
-from .models import ExpedienteDocumento
-from .models import TipoDocumentoPersonal
+from .models import TipoDocumento
+from .models import Documento
+from .models import Personal
+from .models import Capacitacion
 
 
 @admin.register(PerfilPuestoDocumento)
@@ -28,48 +30,71 @@ class DocumentoPerfilPuestoAdmin(admin.ModelAdmin):
     )
 
 
-@admin.register(Cursos)
-class CursosAdmin(admin.ModelAdmin):
+@admin.register(TipoDocumento)
+class TipoDocumentoAdmin(admin.ModelAdmin):
     list_display = (
-        'descripcion',
-        'vencimiento',
-        'created_by',
-        'created_date',
-        'updated_date',
-    )  
- 
-
-
-@admin.register(ExpedienteDocumento)
-class ExpedienteDocumentoAdmin(admin.ModelAdmin):
-    list_display = (
-        'pk',
-        'doc_nombre',
-        'doc_idempleado',
-        'doc_tipo',
-        'doc_subtipo',
-        'doc_agrupador',
-        'doc_ruta',
-        'doc_mes',
-        'doc_anio',
-        'doc_descripcion',
-        'doc_created_by',
-        'doc_created_date',
-        'doc_id_curso',
-        'doc_id_capacitacion',
-        'doc_fecha_ini_vig',
-        'doc_fecha_fin_vig',
-        'doc_updated_by',
-        'doc_updated_date',
-    )
-
-
-@admin.register(TipoDocumentoPersonal)
-class TipoDocumentoPersonalAdmin(admin.ModelAdmin):
-    list_display = (
-        'descripcion',
+        'tipo_documento',
         'created_by',
         'created_date',
         'updated_by',
         'updated_date',
+    )
+
+
+@admin.register(Cursos)
+class CursosAdmin(admin.ModelAdmin):
+    list_display = (
+        'nombre_curso',
+        'vencimiento',
+        'created_by',
+        'created_date',
+        'updated_by',
+        'updated_date',
+    )
+
+
+@admin.register(Documento)
+class DocumentoAdmin(admin.ModelAdmin):
+    list_display = (
+        'nombre_documento',
+        'created_by',
+        'created_date',
+        'updated_by',
+        'updated_date',
+    )
+
+
+@admin.register(Capacitacion)
+class CapacitacionAdmin(admin.ModelAdmin):
+    list_display = (
+        'curso',
+        'proveedor',
+        'numero_empleado',
+        'modalidad',
+        'lugar',
+        'costo',
+        'moneda',
+        'departamento',
+        'fecha_inicio',
+        'fecha_fin',
+        'duracion',
+        'observaciones',
+        'archivo',
+        'created_by',
+        'created_date',
+    )
+
+
+@admin.register(Personal)
+class PersonalAdmin(admin.ModelAdmin):
+    list_display = (
+        'numero_empleado',
+        'tipo',
+        'agrupador',
+        'fecha',
+        'vigencia_inicio',
+        'vigencia_fin',
+        'archivo',
+        'created_by',
+        'created_date',
     )

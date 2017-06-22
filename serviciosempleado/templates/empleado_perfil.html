@@ -22,8 +22,8 @@
 			<div class="col-md-12">
 				<!-- Encabezado perfil -->
 				<div class="user-display">
-					<div class="user-display-bottom">
-						<div class="user-display-avatar"><img src="{% static 'theme/img/avatar-150.png' %}" alt="Avatar"></div>
+					<div class="user-display-bottom"> 
+						<div class="user-display-avatar"><img src="{{ ruta }}" alt="Avatar"></div>
 						<div class="user-display-info">
 							<div class="name">{{ dato.pers_nombre_completo }}</div>
 							<div class="nick"><span class="mdi mdi-account"></span> {{ request.user }}</div>

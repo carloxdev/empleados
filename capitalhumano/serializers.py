@@ -1,3 +1,5 @@
+
+# Librerias Django
 from rest_framework import serializers
 
 # Librerias Python:
@@ -6,6 +8,7 @@ import json
 
 # Modelos
 from .models import PerfilPuestoDocumento
+from .models import Personal
 from ebs.models import VIEW_EMPLEADOS_FULL
 
 
@@ -30,6 +33,65 @@ class PerfilPuestoDocumentoSerializer(serializers.HyperlinkedModelSerializer):
             'disponibilidad_viajar',
             'requerimentos',
         )
+
+
+class PersonalSerializer(serializers.HyperlinkedModelSerializer):
+    pk_archivo = serializers.SerializerMethodField()
+    nombre_archivo = serializers.SerializerMethodField()
+    archivo = serializers.SerializerMethodField()
+    tipo = serializers.SerializerMethodField()
+    created_by = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Personal
+        fields = (
+            'numero_empleado',
+            'agrupador',
+            'fecha',
+            'vigencia_inicio',
+            'vigencia_fin',
+            'pk_archivo',
+            'nombre_archivo',
+            'tipo',
+            'archivo',
+            'created_by',
+            'created_date',
+        )
+
+    def get_pk_archivo(self, obj):
+        try:
+            return obj.archivo.pk
+        except Exception as e:
+            print str(e)
+            return " "
+
+    def get_nombre_archivo(self, obj):
+        try:
+            return obj.archivo.nombre_documento
+        except Exception as e:
+            print str(e)
+            return " "
+
+    def get_created_by(self, obj):
+        try:
+            return obj.created_by.usuario.get_full_name()
+        except Exception as e:
+            print str(e)
+            return " "
+
+    def get_tipo(self, obj):
+        try:
+            return obj.tipo.tipo_documento
+        except Exception as e:
+            print str(e)
+            return " "
+
+    def get_archivo(self, obj):
+        try:
+            return str(obj.archivo.archivo)
+        except Exception as e:
+            print str(e)
+            return " "
 
 
 class VIEW_ORGANIGRAMA_ORG_SERIALIZADO(object):
