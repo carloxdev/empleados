@@ -37,9 +37,40 @@ class EmpleadoBusiness(object):
 
         valores = [('', '-------', '', ''), ]
 
-        empleados = VIEW_EMPLEADOS_SIMPLE.objects.using('ebs_d').exclude(
-            pers_empleado_numero__isnull=True
-        ).order_by('pers_nombre_completo')
+        empleados = self.get_Todos()
+
+        for empleado in empleados:
+
+            option_value = empleado.pers_empleado_numero,
+            option_status_desc = self.get_StatusDescription(empleado.pers_tipo_codigo)
+            option_label = "%s : %s %s" % (
+                empleado.pers_empleado_numero,
+                empleado.pers_nombre_completo,
+                option_status_desc
+            )
+            option_text = empleado.pers_nombre_completo,
+            option_status = empleado.pers_tipo_codigo
+
+            valores.append(
+                (
+                    option_value,
+                    option_label,
+                    option_text,
+                    option_status
+                )
+            )
+
+        return valores
+
+    @classmethod
+    def get_Activos_ForSelectCustom(self):
+        """ Funcion que devuelve una lista de Tuplas,
+            con ciertos datos del empleado y
+            los regresa ordenados por nombre """
+
+        valores = [('', '-------', '', ''), ]
+
+        empleados = self.get_Activos()
 
         for empleado in empleados:
 
