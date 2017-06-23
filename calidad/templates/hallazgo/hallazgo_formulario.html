@@ -54,14 +54,15 @@
                   <div class="nova-breadcrumb-nav"> 
                      <ol class="breadcrumb">
                         <li id="menu" data-opcion="auditorias_lista"><a href="{% url 'calidad:proceso_lista' %}"><span class="badge">Lista de Procesos</span></a></li>
-                        <li class="active"><a><span class="badge">Proceso: Licitaciones </span></a></li>
+                        <li><a href="{% url 'calidad:proceso_formulario' %}"><span class="badge">Proceso: Licitaciones </span></a></li>
+                        <li class="active"><a><span class="badge">Hallazgo: Documento fuera de regla</a></span></li>
                      </ol>
                   </div>
 
                   <div role="group" class="btn-group btn-group-justified nova-nav-tab">
                      <a href="{% url 'calidad:proceso_formulario' %}" class="btn btn-default">Información</a>
                      <a href="{% url 'calidad:requisito_lista' %}" class="btn btn-default">Requisitos</a>
-                     <a class="btn btn-primary">Hallazgos</a>
+                     <a href="#" class="btn btn-primary">Hallazgos</a>
                   </div>
 
                </div>
@@ -71,54 +72,8 @@
 
             <div class="panel panel-default panel-table">
                
-               <div class="panel-heading nova-panel-borde-contenido nova-panel-tools">            
-                  <a href="#id_tarjeta_filtros" 
-                     class="btn nova-btn btn-rounded btn-sm btn-primary btn-space pull-right" data-toggle="modal" id="boton_filtros">
-                     <i class="icon icon-left mdi mdi-search nova-white"></i> Filtros
-                  </a>
-                  <a href="#id_tarjeta_nuevo_hallazgo"
-                     class="btn nova-btn btn-rounded btn-sm btn-default btn-space pull-right" data-toggle="modal" id="boton_nuevo">
-                     <i class="icon icon-left mdi mdi-plus-circle nova-black"></i> Nuevo
-                  </a>
-               </div><!-- Panel Heading -->
-
-               <div id="grid_resultados" class="nova-div-overflow">
-                  <table class="table table-bordered">
-                     <thead>
-                        <tr>
-                           <th style="width: 38px;"></th>
-                           <th>Título</th>
-                           <th>Subproceso</th>
-                           <th>Estado</th>
-                           <th>Zona</th>
-                           <th>Contrato</th>
-                           <th>Observaciones del Hallazgo</th>
-                           <th>Estado</th>
-                        </tr>
-                     </thead>
-                     <tbody>
-                        <tr>
-                           <td>
-                              <a href="#id_tarjeta_acciones" data-toggle="modal" class="btn nova-btn btn-default" id="boton_nuevo">
-                                 <i class="icon icon-left icon mdi mdi-settings nova-black"></i>
-                              </a>
-                           </td>
-                           <td>
-                              <a href="{% url 'calidad:hallazgo_formulario' %}" class="btn btn-default nova-url" data-toggle="modal">Documento fuera de regla</a>
-                           </td>
-                           <td>
-                              Licictaciones
-                           </td>
-                           <td style="text-align:center">En Captura</td>
-                           <td>Oficinas veracruz</td>
-                           <td>Cont 01</td>
-                           <td>Se encontro un documento de licitacion al cual le faltaba un sello.</td>
-                           <td>Abierto</td>
-                        </tr>
-                     </tbody>
-                  </table>
-               </div>
-
+               
+               
             </div> <!-- Panel -->
 
          </div> <!-- col sm 12-->

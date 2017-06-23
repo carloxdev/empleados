@@ -11,6 +11,7 @@ from .views import ProcesoLista
 from .views import RequisitoLista
 from .views import ProcesoFormulario
 from .views import HallazgoLista
+from .views import HallazgoFormulario
 from .views import EvidenciaFormulario
 from .views import PlanAccionLista
 from .views import SeguimientoPlanAccionFormulario
@@ -74,6 +75,11 @@ urlpatterns = [
         r'^auditorias/nuevo/procesos/nuevo/hallazgos/$',
         HallazgoLista.as_view(),
         name="hallazgo_lista"
+    ),
+    url(
+        r'^auditorias/nuevo/procesos/nuevo/hallazgos/nuevo$',
+        HallazgoFormulario.as_view(),
+        name="hallazgo_formulario"
     ),
     url(
         r'^auditorias/nuevo/hallazgos/evidencia/$',

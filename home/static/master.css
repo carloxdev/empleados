@@ -298,7 +298,6 @@
 }
 /* nova-content-nav */
 .nova-breadcrumb-nav{
-   padding: 10px 10px 0px 0px;
    background-color: transparent !important;
    position: relative;
 
@@ -320,9 +319,11 @@
    border-radius: 0px! important; 
 }
 
+.nova-panel-no-border-top {
+   border-top: 0px !important;
+}
 .nova-panel-borde-top {
    border-top: 1px solid #d4d4d4 !important;
-   
 }
 /* nova-panel-arbol */
 .nova-panel-arbol {
@@ -374,4 +375,8 @@ div.nova-panel-arbol li.list-group-item {
 }
 .nova-step-active span.chevron:before {
    border-left: 14px solid #f7f7f7 !important;
+}
+
+.nova-btn-delete{
+   background-color: #ff4141 !important;
 }

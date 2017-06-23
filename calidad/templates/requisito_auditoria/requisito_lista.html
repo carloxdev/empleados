@@ -35,7 +35,8 @@
             <div id="wizard1" class="wizard wizard-ux nova-panel-borde-header">
                <ul class="steps">
 
-                  <li class="active">Auditoría No: <strong>AUD-01-15</strong>.</li>
+                  <li class="active">Auditoría No: <strong>AUD-01-15</strong>
+                  </li>
 
                </ul>
                <div class="actions">
@@ -47,19 +48,19 @@
                      
                   <div class="nova-breadcrumb-nav"> 
                      <ol class="breadcrumb">
-                        <li id="menu" data-opcion="auditorias_lista"><a href="{% url 'calidad:proceso_lista' %}">Lista de Procesos</a></li>
-                        <li class="active"><a>Licitaciones</a></li>
+                        <li id="menu" data-opcion="auditorias_lista"><a href="{% url 'calidad:proceso_lista' %}"><span class="badge">Lista de Procesos</span></a></li>
+                        <li class="active"><a><span class="badge">Proceso: Licitaciones</span></a></li>
                      </ol>
                   </div>
 
                   <div role="group" class="btn-group btn-group-justified nova-nav-tab">
-                     <a href="{% url 'calidad:proceso_formulario' %}" class="btn btn-default btn-lg">Información</a>
-                     <a href="#" class="btn btn-primary btn-lg">Requisitos</a>
-                     <a href="{% url 'calidad:hallazgo_lista' %}" class="btn btn-default btn-lg">Hallazgos</a>
+                     <a href="{% url 'calidad:proceso_formulario' %}" class="btn btn-default">Información</a>
+                     <a class="btn btn-primary">Requisitos</a>
+                     <a href="{% url 'calidad:hallazgo_lista' %}" class="btn btn-default">Hallazgos</a>
                   </div>
 
                </div>
-               <div class="step-content nova-panel-borde-top">
+               <div class="step-content nova-panel-no-border-top">
                </div>
             </div>
             
@@ -88,8 +89,8 @@
                      <tbody>
                         <tr>
                            <td>
-                              <a href="#id_tarjeta_acciones" data-toggle="modal" class="btn nova-btn btn-default" id="id_boton_eliminar">
-                                 <i class="icon icon-left icon mdi mdi-delete nova-black"></i>
+                              <a href="#id_tarjeta_acciones" data-toggle="modal" class="btn nova-btn nova-btn-delete" id="id_boton_eliminar">
+                                 <i class="icon icon-left icon mdi mdi-delete nova-white"></i>
                               </a>
                            </td>
                            <td>
@@ -100,20 +101,20 @@
                         </tr>
                         <tr>
                            <td>
-                              <a href="#id_tarjeta_acciones" data-toggle="modal" class="btn nova-btn btn-default" id="id_boton_eliminar">
-                                 <i class="icon icon-left icon mdi mdi-delete nova-black"></i>
+                              <a href="#id_tarjeta_acciones" data-toggle="modal" class="btn nova-btn nova-btn-delete" id="id_boton_eliminar">
+                                 <i class="icon icon-left icon mdi mdi-delete nova-white"></i>
                               </a>
                            </td>
                            <td>
                               <a href="#id_tarjeta_nuevo_requisito" class="btn btn-default nova-url" data-toggle="modal">Requisito 12.3</a>
                            </td>
-                           <td>RSC</td>
+                           <td>Norma</td>
                            <td>ISO 14001:2004</td>
                         </tr>
                         <tr>
                            <td>
-                              <a href="#id_tarjeta_acciones" data-toggle="modal" class="btn nova-btn btn-default" id="id_boton_eliminar">
-                                 <i class="icon icon-left icon mdi mdi-delete nova-black"></i>
+                              <a href="#id_tarjeta_acciones" data-toggle="modal" class="btn nova-btn nova-btn-delete" id="id_boton_eliminar">
+                                 <i class="icon icon-left icon mdi mdi-delete nova-white"></i>
                               </a>
                            </td>
                            <td>
@@ -124,8 +125,8 @@
                         </tr>
                         <tr>
                            <td>
-                              <a href="#id_tarjeta_acciones" data-toggle="modal" class="btn nova-btn btn-default" id="id_boton_eliminar">
-                                 <i class="icon icon-left icon mdi mdi-delete nova-black"></i>
+                              <a href="#id_tarjeta_acciones" data-toggle="modal" class="btn nova-btn nova-btn-delete" id="id_boton_eliminar">
+                                 <i class="icon icon-left icon mdi mdi-delete nova-white"></i>
                               </a>
                            </td>
                            <td>

@@ -44,8 +44,7 @@
                <div class="actions">
                   <a href="{% url 'calidad:general_formulario' %}" class="btn btn-xs btn-prev btn-default nova-a-tab">Generales</a>
                   <a href="{% url 'calidad:equipo_auditor_formulario' %}" class="btn btn-xs btn-next btn-default nova-a-tab">Equipo Auditor</a>
-                  <a href="{% url 'calidad:proceso_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Procesos</a>
-                  <a href="{% url 'calidad:hallazgo_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab nova-active-tab">Hallazgos</a>
+                  <a href="{% url 'calidad:proceso_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab nova-active-tab">Procesos</a>
                </div>
             </div>
 
@@ -70,6 +69,7 @@
                <thead>
                   <tr>
                      <th style="width: 38px;"></th>
+                     <th>Título</th>
                      <th>Actividad</th>
                      <th>Responsable</th>
                      <th>Fecha programada</th>
@@ -85,6 +85,9 @@
                            <i class="icon icon-left icon mdi mdi-settings nova-black"></i>
                         </a>
                      </td>
+                     <td>
+                        <a href="#tarjeta_editar_actividad" class="btn btn-default nova-url" data-toggle="modal">Fijar cables</a>
+                     </td>
                      <td>Fijar los cables a las canaletas con cinchos</td>
                      <td>Luis Enrique lopez Mendez</td>
                      <td>29/03/2017</td>
@@ -98,7 +101,10 @@
                            <i class="icon icon-left icon mdi mdi-settings nova-black"></i>
                         </a>
                      </td>
-                     <td>Realizar inspeccion de otros posibles cables que esten fuera de la canaleta</td>
+                     <td>
+                        <a href="#tarjeta_editar_actividad" class="btn btn-default nova-url" data-toggle="modal">Realizar inspeccion</a>
+                     </td>
+                     <td>Realizar la inspeccion de otros posibles cables que esten fuera de la canaleta</td>
                      <td>Julio Mendez Reyez</td>
                      <td>12/04/2017</td>
                      <td>Se presencio la inspeccion de los demas cables</td>
@@ -129,9 +135,6 @@
                   </a>
                   <a href="#tarjeta_evaluacion" class="btn nova-btn btn-space btn-default btn-lg" data-toggle="modal" id="id_boton_evaluacion_eficacia">
                      <i class="icon icon-left mdi mdi-assignment-check nova-black"></i> Evaluación De Eficacia A Acciones
-                  </a>
-                  <a href="#tarjeta_editar_actividad" class="btn nova-btn btn-space btn-default btn-lg" data-toggle="modal" id="id_boton_editar_accion">
-                     <i class="icon icon-left mdi mdi-edit nova-black"></i> Editar Accion Correctiva
                   </a>
                </div>
             </div>

@@ -35,7 +35,7 @@
                <div id="wizard1" class="wizard wizard-ux">
                   <ul class="steps">
 
-                     <li class="active">Auditoría No: <strong>AUD-01-15</strong>.
+                     <li class="active">Auditoría No: <strong>AUD-01-15</strong>
                      </li>
 
                   </ul>
@@ -48,29 +48,23 @@
                      
                      <div class="nova-breadcrumb-nav"> 
                         <ol class="breadcrumb">
-                           <li id="menu" data-opcion="auditorias_lista"><a href="{% url 'calidad:proceso_lista' %}">Lista de Procesos</a></li>
-                           <li class="active"><a>Licitaciones</a></li>
+                           <li id="menu" data-opcion="auditorias_lista"><a href="{% url 'calidad:proceso_lista' %}"><span class="badge">Lista de Procesos</span></a></li>
+                           <li class="active"><a><span class="badge">Proceso: Licitaciones</a></span></li>
                         </ol>
                      </div>
 
                      <div role="group" class="btn-group btn-group-justified nova-nav-tab">
-                        <a href="#" class="btn btn-primary btn-lg">Información</a>
-                        <a href="{% url 'calidad:requisito_lista' %}" class="btn btn-default btn-lg">Requisitos</a>
-                        <a href="{% url 'calidad:hallazgo_lista' %}" class="btn btn-default btn-lg">Hallazgos</a>
+                        <a class="btn btn-primary">Información</a>
+                        <a href="{% url 'calidad:requisito_lista' %}" class="btn btn-default">Requisitos</a>
+                        <a href="{% url 'calidad:hallazgo_lista' %}" class="btn btn-default">Hallazgos</a>
                      </div>
 
                   </div>
-                  <div class="step-content nova-panel-borde-top">
+                  <div class="step-content nova-panel-no-border-top">
                      
                      <div class="step-pane active">
 
                         <div class="form-horizontal group-border-dashed">
-
-                           <div class="form-group no-padding">
-                              <div class="col-sm-7">
-                                 <h5 class="wizard-title">Información del proceso:</h5>
-                              </div>
-                           </div>
 
                            {{ form.non_field_errors }} 
 

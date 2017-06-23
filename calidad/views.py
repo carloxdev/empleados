@@ -143,6 +143,21 @@ class HallazgoLista(View):
         return render(request, self.template_name, {})
 
 
+class HallazgoFormulario(View):
+    def __init__(self):
+        self.template_name = 'hallazgo/hallazgo_formulario.html'
+
+    def get(self, request):
+
+        # formulario = EmpleadoFilterForm()
+
+        # contexto = {
+        #     'form': formulario
+        # }
+
+        return render(request, self.template_name, {})
+
+
 class EvidenciaFormulario(View):
     def __init__(self):
         self.template_name = 'evidencia/evidencia_formulario.html'
