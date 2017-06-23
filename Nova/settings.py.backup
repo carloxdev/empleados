@@ -17,6 +17,8 @@ ALLOWED_HOSTS = []
 
 LOGIN_URL = 'seguridad:login'
 
+LOGOUT_URL = 'seguridad:logout'
+
 
 # Application definition
 

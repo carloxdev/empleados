@@ -13,7 +13,7 @@ class CentroCostoBusiness(object):
         centros = None
 
         if settings.DEBUG:
-            centros = VIEW_CENTROSCOSTO.objects.using('jde_d').exclude(
+            centros = VIEW_CENTROSCOSTO.objects.using('jde_p').exclude(
                 estructura="HST"
             ).exclude(
                 estado="N"
@@ -21,7 +21,7 @@ class CentroCostoBusiness(object):
                 'clave'
             )
         else:
-            centros = VIEW_CENTROSCOSTO.objects.using('jde_d').exclude(
+            centros = VIEW_CENTROSCOSTO.objects.using('jde_p').exclude(
                 estructura="HST"
             ).exclude(
                 estado="N"
@@ -37,13 +37,13 @@ class CentroCostoBusiness(object):
         centros = None
 
         if settings.DEBUG:
-            centros = VIEW_CENTROSCOSTO.objects.using('jde_d').exclude(
+            centros = VIEW_CENTROSCOSTO.objects.using('jde_p').exclude(
                 estructura="HST"
             ).order_by(
                 'clave'
             )
         else:
-            centros = VIEW_CENTROSCOSTO.objects.using('jde_d').exclude(
+            centros = VIEW_CENTROSCOSTO.objects.using('jde_p').exclude(
                 estructura="HST"
             ).order_by(
                 'clave'
