@@ -3,6 +3,6 @@ Nombre:
 Codigo:
 
 SELECT  z.id, round((count(i.zona_id)*200000 / (totalempleado*2000)),2) as trir, count(i.zona_id) as total_incidencias ,  z.descripcion, YEAR(i.fecha) as anio, totalempleado
-FROM nova.seguridadlaboral_incidenciadocumento  i, nova.administracion_zona  z, nova.seguridadlaboral_empleadoszona e
+FROM novadb.seguridadlaboral_incidenciadocumento  i, novadb.administracion_zona  z, novadb.seguridadlaboral_empleadoszona e
 where z.id=i.zona_id and z.id=e.zona_id and i.es_registrable=1 
 group by z.descripcion
