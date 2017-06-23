@@ -22,16 +22,20 @@ class EmpleadoPerfil(View):
         self.template_name = 'empleado_perfil.html'
 
     def get(self, request):
-        logeado = request.user
-        empleado = VIEW_EMPLEADOS_FULL.objects.using('ebs_d').filter(
-            pers_empleado_numero=logeado.profile.clave_rh)
-        url = self.construir_Url(empleado)
-        ruta = self.comprobar_Direccion(url)
+        usuario_logeado = request.user.profile.clave_rh
+        if usuario_logeado is not None:
+            empleado = VIEW_EMPLEADOS_FULL.objects.using('ebs_d').filter(
+                pers_empleado_numero=usuario_logeado)
 
-        contexto = {
-            'empleado': empleado,
-            'ruta': ruta,
-        }
+            url = self.construir_Url(empleado)
+            ruta = self.comprobar_Direccion(url)
+
+            contexto = {
+                'empleado': empleado,
+                'ruta': ruta,
+            }
+        else:
+            contexto = {}
         return render(request, self.template_name, contexto)
 
     def construir_Url(self, _empleado):
@@ -67,14 +71,17 @@ class EmpleadoOrganigrama(View):
 
     def get(self, request):
         clave = request.user.profile.clave_rh
-        empleado = VIEW_ORGANIGRAMA.objects.using(
-            "ebs_d").get(pers_empleado_numero=clave)
+        if clave is not None:
+            empleado = VIEW_ORGANIGRAMA.objects.using(
+                "ebs_d").get(pers_empleado_numero=clave)
 
-        organizacion = empleado.asig_organizacion_clave
+            organizacion = empleado.asig_organizacion_clave
 
-        contexto = {
-            'organizacion': organizacion,
-        }
+            contexto = {
+                'organizacion': organizacion,
+            }
+        else:
+            contexto = {}
         return render(request, self.template_name, contexto)
 
 

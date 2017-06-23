@@ -8,6 +8,7 @@ var url_expediente = window.location.origin  + "/api-capitalhumano/personaldocum
 var popup = null
 var toolbar = null
 var grid = null
+var componentes = null
 
 /*-----------------------------------------------*\
             LOAD
@@ -18,9 +19,26 @@ $(document).ready(function () {
     popup = new Popup()
     toolbar = new Toolbar()
     grid = new Grid()
+    componentes = new Componentes()
   
 })
+/*-----------------------------------------------*\
+            OBJETO: Componentes
+\*-----------------------------------------------*/
 
+function Componentes(){
+    this.$tipo = $('#id_tipo')
+
+    this.init_Components()
+}
+Componentes.prototype.init_Components = function (){
+    this.$tipo.select2(this.get_ConfSelect2())
+}
+Componentes.prototype.get_ConfSelect2 = function () {
+   return {
+      width: '100%'
+   }
+}
 
 /*-----------------------------------------------*\
             OBJETO: Pop up 

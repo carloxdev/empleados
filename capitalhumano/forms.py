@@ -9,6 +9,9 @@ from django.forms import NumberInput
 from django.forms import ChoiceField
 from django.forms import RadioSelect
 from django.forms import CheckboxInput
+from django.forms import FileInput
+from django.forms import DateField
+from django.forms import ModelChoiceField
 
 # Modelos
 from jde.models import VIEW_UNIDADES
@@ -17,8 +20,8 @@ from ebs.models import VIEW_PUESTOS
 from ebs.models import VIEW_ORGANIZACIONES
 from administracion.models import Empresa
 from capitalhumano.models import PerfilPuestoDocumento
-from ebs.models import VIEW_EMPLEADOS_FULL
-from capitalhumano.models import DocumentoPersonal
+from .models import DocumentoPersonal
+from .models import TipoDocumento
 
 
 class OrganizacionesFilterForm(Form):
@@ -361,6 +364,14 @@ class ExpedientesFilterForm(Form):
 
 class NuevoDocumentoPersonalForm(Form):
 
+    tipo = ModelChoiceField(
+        queryset=TipoDocumento.objects.all(),
+        empty_label=None,
+        widget=Select(attrs={'class': 'select2 nova-select2'}))
+
+    archivo = CharField(label="Archivo",
+                        widget=FileInput(attrs={'class': 'dropzone dz-clickable dz-started'}))
+
     class Meta:
         model = DocumentoPersonal
 
@@ -368,16 +379,25 @@ class NuevoDocumentoPersonalForm(Form):
             'tipo',
             'agrupador',
             'archivo',
+            'vigencia_inicio',
+            'vigencia_fin',
         ]
 
         labels = {
             'tipo': 'Tipo de documento',
             'agrupador': 'Agrupador',
             'archivo': 'Archivo',
+            'vigencia_inicio': 'Vigencia inicio',
+            'vigencia_fin': 'Vigencia fin',
         }
 
         widgets = {
-            'tipo': Select(attrs={'class': 'form-control input-sm'}),
-            'agrupador': Select(attrs={'class': 'form-control input-xs'}),
-            'archivo': TextInput(attrs={'class': 'form-control input-xs'}),
+            'tipo': Select(attrs={'class': 'select2 nova-select2'}),
+            'agrupador': Select(attrs={'class': 'select2 nova-select2'}),
+            'archivo': FileInput(attrs={'class': 'dropzone dz-clickable dz-started'}),
+            'vigencia_inicio': DateField(),
+            'vigencia_fin': DateField(),
         }
+
+    def __init__(self, *args, **kwargs):
+        super(NuevoDocumentoPersonalForm, self).__init__(*args, **kwargs)

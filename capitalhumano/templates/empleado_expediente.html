@@ -228,14 +228,14 @@
                     <div class="form-group">
                         <label class="col-sm-3 nova-col-filter control-label">Tipo de documento</label>
                         <div class="col-sm-8 xs-pt-5">
-                            <input type="text" class="form-control input-sm">
+                            {{ form.tipo }}
                         </div>
                     </div>                
 					<!-- Agrupador -->
                     <div class="form-group">
                         <label class="col-sm-3 nova-col-filter control-label">Agrupador</label>
                         <div class="col-sm-8 xs-pt-5">
-                            <input type="text" class="form-control input-sm">
+                            <input type="text" class="form-control input-xs">
                         </div>
                     </div>                  
 
@@ -255,7 +255,7 @@
                     <div class="form-group">
                       <label class="col-sm-3 nova-col-filter control-label">Documento</label>
                       <div class="col-sm-8 xs-pt-5">
-                        <input type="file" class="form-control input-sm">
+                        {{ form.archivo }}
                       </div>
                     </div> 
 				</div>

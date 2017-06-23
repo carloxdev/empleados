@@ -17,6 +17,7 @@
 
 <div class="main-content container-fluid">
 	<div class="user-profile">
+	{% if request.user.profile.clave_rh != None%}
 		<div class="row">
 			{% for dato in empleado %}
 			<div class="col-md-12">
@@ -196,10 +197,14 @@
                      </table>
                   </div>
             </div> <!-- Panel -->
-         </div> <!-- col sm 12-->
+         </div> <!-- col sm 12--><!-- End tab -->
+         {% else %}
+	        <div class="col-sm-12 widget">
+				<h3> Su usuario no tiene asignado un empleado.</h3>
+			</div>
+		{% endif%}
 	</div>
 </div>
-
 </div>
 </div>
 
