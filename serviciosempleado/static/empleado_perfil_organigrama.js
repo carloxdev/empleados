@@ -24,7 +24,9 @@ function Organigrama(){
 
   this.$organizacion = $('#id_organizacion')
   org = this.$organizacion.val()
-  this.crear_Url(org)
+  if(org != undefined){
+    this.crear_Url(org)
+  }
 }
 Organigrama.prototype.crear_Url = function(_organizacion){
   var url = url_datos_org + _organizacion + "/"
