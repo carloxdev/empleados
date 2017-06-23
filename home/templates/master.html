@@ -202,15 +202,6 @@
                                         </li>
                                     </ul>
                                 </li>
-                                <li class="parent"><a href="#"><i class="icon mdi mdi-alert-triangle"></i></i><span>Incidencias</span></a>
-                                    <ul class="sub-menu">
-                                        <li>
-                                            <a href="{% url 'sgi:incidencia_lista' %}">
-                                                <span>Documentos</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </li>
                                 <li class="parent"><a href="#"><i class="icon mdi mdi-accounts"></i></i><span>Capital Humano</span></a>
                                     <ul class="sub-menu">
                                         <li id="capitalhumano_dashboard">
@@ -265,28 +256,7 @@
                                         
                                     </ul>
                                 </li>
-                                <li class="parent"><a href="#"><i class="icon fa fa-check"></i><span>Calidad</span></a>
-                                    <ul class="sub-menu">
-                                        <li id="auditorias_lista">
-                                            <a href="{% url 'sgi:auditoria_lista' %}">
-                                                <!--<i class="icon lrg mdi-search-in-file"></i>-->
-                                                <span> Auditorias</span>
-                                            </a>
-                                        </li>
-                                        <li id="programa_lista">
-                                            <a href="{% url 'sgi:programa_lista' %}">
-                                                <!--<i class="icon lrg mdi-search-in-file"></i>-->
-                                                <span> Programa</span>
-                                            </a>
-                                        </li>
-                                        <li id="configuracion">
-                                            <a href="{% url 'sgi:configuracion_requisito_lista' %}">
-                                                <!--<i class="icon lrg mdi-search-in-file"></i>-->
-                                                <span> Configuración</span>
-                                            </a>
-                                        </li>
-                                    </ul> 
-                                </li>
+                               
                                 <li class="parent"><a href="#"><i class="icon fa fa-heartbeat"></i><span>Salud</span></a>
                                     <ul class="sub-menu">
                                         <li>
@@ -301,6 +271,16 @@
                                         <li>
                                             <a href="#">
                                                 <span>Seguridad</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="{% url 'seguridadlaboral:incidencia_lista' %}">
+                                                <span>Documentos SGI</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="{% url 'seguridadlaboral:incidencia_grafica' %}">
+                                                <span>Graficas</span>
                                             </a>
                                         </li>
                                     </ul> 

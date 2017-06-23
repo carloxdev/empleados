@@ -23,15 +23,15 @@ from .models import IncidenciaArchivo
 from .models import IncidenciaResolucion
 
 # Otros Modelos:
-from ebs.models import VIEW_EMPLEADOS_FULL
+#from ebs.models import VIEW_EMPLEADOS_FULL
 from administracion.models import Zona
 from administracion.models import Empresa
 
 # Formularios:
-from .forms import IncidenciaDocumentoForm
-from .forms import IncidenciaDocumentoFilterForm
-from .forms import IncidenciaArchivoForm
-from .forms import IncidenciaResolucionForm
+# from .forms import IncidenciaDocumentoForm
+# from .forms import IncidenciaDocumentoFilterForm
+# from .forms import IncidenciaArchivoForm
+# from .forms import IncidenciaResolucionForm
 
 from django.utils.formats import date_format
 
@@ -51,168 +51,168 @@ from django.core.mail import EmailMultiAlternatives
 
 # -------------- INCIDENCIA DOCUMENTO  -------------- #
 
-class IncidenciaDocumentoLista(View):
-    def __init__(self):
-        self.template_name = 'incidencia/incidencia_lista.html'
+# class IncidenciaDocumentoLista(View):
+#     def __init__(self):
+#         self.template_name = 'incidencia/incidencia_lista.html'
 
-    def get(self, request):
+#     def get(self, request):
 
-        formulario = IncidenciaDocumentoFilterForm()
+#         formulario = IncidenciaDocumentoFilterForm()
 
-        contexto = {
-            'form': formulario
-        }
+#         contexto = {
+#             'form': formulario
+#         }
 
-        return render(request, self.template_name, contexto)
+#         return render(request, self.template_name, contexto)
 
 
-class IncidenciaDocumentoNuevo(View):
+# class IncidenciaDocumentoNuevo(View):
 
-    def __init__(self):
-        self.template_name = 'incidencia/incidencia_nuevo.html'
+#     def __init__(self):
+#         self.template_name = 'incidencia/incidencia_nuevo.html'
 
-    def get(self, request):
+#     def get(self, request):
 
-        formulario = IncidenciaDocumentoForm()
+#         formulario = IncidenciaDocumentoForm()
 
-        contexto = {
-            'form': formulario
-        }
+#         contexto = {
+#             'form': formulario
+#         }
 
-        return render(request, self.template_name, contexto)
+#         return render(request, self.template_name, contexto)
 
-    def post(self, request):
+#     def post(self, request):
 
-        formulario = IncidenciaDocumentoForm(request.POST)
+#         formulario = IncidenciaDocumentoForm(request.POST)
 
-        if formulario.is_valid():
-            incidencia = formulario.save(commit=False)
+#         if formulario.is_valid():
+#             incidencia = formulario.save(commit=False)
 
-            empleado = get_object_or_404(
-                VIEW_EMPLEADOS_FULL.objects.using('ebs_d').all(),
-                pers_empleado_numero=incidencia.empleado_id
-            )
+#             empleado = get_object_or_404(
+#                 VIEW_EMPLEADOS_FULL.objects.using('ebs_d').all(),
+#                 pers_empleado_numero=incidencia.empleado_id
+#             )
 
-            incidencia.empleado_nombre = empleado.pers_nombre_completo
+#             incidencia.empleado_nombre = empleado.pers_nombre_completo
 
-            incidencia.empleado_proyecto = empleado.grup_proyecto_code_jde
-            incidencia.empleado_proyecto_desc = empleado.grup_proyecto_jde
-            incidencia.empleado_puesto = empleado.asig_puesto_clave
-            incidencia.empleado_puesto_desc = empleado.asig_puesto_desc
+#             incidencia.empleado_proyecto = empleado.grup_proyecto_code_jde
+#             incidencia.empleado_proyecto_desc = empleado.grup_proyecto_jde
+#             incidencia.empleado_puesto = empleado.asig_puesto_clave
+#             incidencia.empleado_puesto_desc = empleado.asig_puesto_desc
 
-            #import ipdb; ipdb.set_trace()
-            empresa = Empresa.objects.filter(descripcion=empleado.grup_compania_jde)
+#             #import ipdb; ipdb.set_trace()
+#             empresa = Empresa.objects.filter(descripcion=empleado.grup_compania_jde)
 
-            incidencia.empresa = empresa[0]
-            incidencia.area_id = empleado.asig_ubicacion_clave
-            incidencia.area_descripcion = empleado.asig_ubicacion_desc
-            incidencia.empleado_un = empleado.grup_fase_jde
-            incidencia.created_by = request.user.profile
+#             incidencia.empresa = empresa[0]
+#             incidencia.area_id = empleado.asig_ubicacion_clave
+#             incidencia.area_descripcion = empleado.asig_ubicacion_desc
+#             incidencia.empleado_un = empleado.grup_fase_jde
+#             incidencia.created_by = request.user.profile
 
-            incidencia.save()
+#             incidencia.save()
 
-            #send_mail("Asunto", 
-            #"Mensaje...Probando linea 1 desde django", 
-            #'"Notificaciones Nuvoil" <notificaciones@nuvoil.com>',
-            #['janet.castro@nuvoil.com'])
+#             #send_mail("Asunto", 
+#             #"Mensaje...Probando linea 1 desde django", 
+#             #'"Notificaciones Nuvoil" <notificaciones@nuvoil.com>',
+#             #['janet.castro@nuvoil.com'])
 
-            subject = 'ALTA DE INCIDENCIA'
-            text_content = 'Mensaje...nLinea 2nLinea3'
-            #html_content = '<h2>Mensaje</2><p> Empleado: ' + incidencia.empleado_nombre + ' </p>'
-            html_content = """\
-                           <html>
-                           <body>
-                           <center> 
-                             <table width=650 cellpadding=0 cellspacing=2 border=0>  
-                                <tr>  
-                                <td width=1% valign=top><a href="mailto:ti@nuvoil.com"><img src="" alt=Nuvoil width=197 height=76 border=0 alt="Nuvoil"></a></td> 
-                                <td align=right><font face=arial size=-1><a href="mailto:ti@nuvoil.com">Enviarnos e-mail</a></font><hr size=4 noshade color="#D10018"></td> 
-                                </tr>   
-                            </table> 
-                            <br><br> 
-                            <table width=500 cellpadding=7 cellspacing=0 border=0> 
-                            <tr><td align=center><font face=arial size=+1><b>Notificaciones</b></font></td></tr>  
-                            <tr><td><font face=arial size=-1>El siguiente mensaje fue generado automaticamente, por favor no lo responda</font>  
-                            </td></tr> 
-                            <tr><td> 
-                                <table width='100%' cellpadding=0 cellspacing=0 border=0 bgcolor=cccccc><tr><td height=1></td></tr></table> 
-                                <table width='100%' cellpadding=10 cellspacing=0 border=0 bgcolor=eeeeee>  
-                                <tr><td align=center>  
-                                     <table class=style1 font-family=calibri> 
-                                     <tr><td colspan=8 align=center><strong>   INCIDENCIAS  </strong></td></tr> 
-                                     <tr>  
-                                     <td style=background-color: #C0C0C0> <strong>INCIDENCIA</strong></td> 
-                                     <td style=background-color: #C0C0C0> <strong>CATEGORIA</strong></td> 
-                                     <td style=background-color: #C0C0C0> <strong>DESCRIPCION</strong></td> 
-                                     <td style=background-color: #C0C0C0> <strong>EMPLEADO</strong></td>  
-                                     <td style=background-color: #C0C0C0> <strong>FECHA DE INCIDENCIA</strong></td>  
-                                     <td style=background-color: #C0C0C0> 
-                                     <strong>ZONA</strong></td> 
-                                     <td style=background-color: #C0C0C0>  
-                                     <strong>ESTATUS</strong></td> 
-                                     <tr>
-                                          <td> """ + str(incidencia.pk) + """ </td> 
-                                          <td> """ + str(incidencia.tipo) + """ </td> 
-                                          <td> """ + str(incidencia.es_registrable) + """ </td> 
-                                          <td> """ + incidencia.empleado_nombre + """ </td> 
-                                          <td> """ + str(incidencia.fecha) + """ </td> 
-                                          <td> """ + str(incidencia.zona) + """ </td> 
-                                          <td> """ + str(incidencia.status)  + """ </td>
-                                     </tr> 
-                                     <tr> 
-                                </td></tr>  
-                                </table>  
-                               <table width='100%' cellpadding=0 cellspacing=0 border=0 bgcolor=cccccc><tr><td height=1></td></tr></table>   
-                            </td></tr> 
-                            <tr><td align=center><font face=arial size=-1></font></td></tr> 
-                            </table> 
-                            <br>  
-                            <hr size=4 noshade width=650 color="#D10018"> 
-                            <font face=arial size=-2>Copyright &copy; 2017 Nuvoil</font>  
-                            </center>  
-                            </body> 
-                            </html> 
-                           """
+#             subject = 'ALTA DE INCIDENCIA'
+#             text_content = 'Mensaje...nLinea 2nLinea3'
+#             #html_content = '<h2>Mensaje</2><p> Empleado: ' + incidencia.empleado_nombre + ' </p>'
+#             html_content = """\
+#                            <html>
+#                            <body>
+#                            <center> 
+#                              <table width=650 cellpadding=0 cellspacing=2 border=0>  
+#                                 <tr>  
+#                                 <td width=1% valign=top><a href="mailto:ti@nuvoil.com"><img src="" alt=Nuvoil width=197 height=76 border=0 alt="Nuvoil"></a></td> 
+#                                 <td align=right><font face=arial size=-1><a href="mailto:ti@nuvoil.com">Enviarnos e-mail</a></font><hr size=4 noshade color="#D10018"></td> 
+#                                 </tr>   
+#                             </table> 
+#                             <br><br> 
+#                             <table width=500 cellpadding=7 cellspacing=0 border=0> 
+#                             <tr><td align=center><font face=arial size=+1><b>Notificaciones</b></font></td></tr>  
+#                             <tr><td><font face=arial size=-1>El siguiente mensaje fue generado automaticamente, por favor no lo responda</font>  
+#                             </td></tr> 
+#                             <tr><td> 
+#                                 <table width='100%' cellpadding=0 cellspacing=0 border=0 bgcolor=cccccc><tr><td height=1></td></tr></table> 
+#                                 <table width='100%' cellpadding=10 cellspacing=0 border=0 bgcolor=eeeeee>  
+#                                 <tr><td align=center>  
+#                                      <table class=style1 font-family=calibri> 
+#                                      <tr><td colspan=8 align=center><strong>   INCIDENCIAS  </strong></td></tr> 
+#                                      <tr>  
+#                                      <td style=background-color: #C0C0C0> <strong>INCIDENCIA</strong></td> 
+#                                      <td style=background-color: #C0C0C0> <strong>CATEGORIA</strong></td> 
+#                                      <td style=background-color: #C0C0C0> <strong>DESCRIPCION</strong></td> 
+#                                      <td style=background-color: #C0C0C0> <strong>EMPLEADO</strong></td>  
+#                                      <td style=background-color: #C0C0C0> <strong>FECHA DE INCIDENCIA</strong></td>  
+#                                      <td style=background-color: #C0C0C0> 
+#                                      <strong>ZONA</strong></td> 
+#                                      <td style=background-color: #C0C0C0>  
+#                                      <strong>ESTATUS</strong></td> 
+#                                      <tr>
+#                                           <td> """ + str(incidencia.pk) + """ </td> 
+#                                           <td> """ + str(incidencia.tipo) + """ </td> 
+#                                           <td> """ + str(incidencia.es_registrable) + """ </td> 
+#                                           <td> """ + incidencia.empleado_nombre + """ </td> 
+#                                           <td> """ + str(incidencia.fecha) + """ </td> 
+#                                           <td> """ + str(incidencia.zona) + """ </td> 
+#                                           <td> """ + str(incidencia.status)  + """ </td>
+#                                      </tr> 
+#                                      <tr> 
+#                                 </td></tr>  
+#                                 </table>  
+#                                <table width='100%' cellpadding=0 cellspacing=0 border=0 bgcolor=cccccc><tr><td height=1></td></tr></table>   
+#                             </td></tr> 
+#                             <tr><td align=center><font face=arial size=-1></font></td></tr> 
+#                             </table> 
+#                             <br>  
+#                             <hr size=4 noshade width=650 color="#D10018"> 
+#                             <font face=arial size=-2>Copyright &copy; 2017 Nuvoil</font>  
+#                             </center>  
+#                             </body> 
+#                             </html> 
+#                            """
 
-            from_email = '"Notificaciones Nuvoil" <notificaciones@nuvoil.com>'
-            to = 'janet.castro@nuvoil.com'
-            msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
-            msg.attach_alternative(html_content, "text/html")
-            msg.send()
+#             from_email = '"Notificaciones Nuvoil" <notificaciones@nuvoil.com>'
+#             to = 'janet.castro@nuvoil.com'
+#             msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+#             msg.attach_alternative(html_content, "text/html")
+#             msg.send()
 
-            #send_mail("Subject", "Email body", settings.EMAIL_HOST_USER, "janexa@gmail.com", fail_silently=False)
+#             #send_mail("Subject", "Email body", settings.EMAIL_HOST_USER, "janexa@gmail.com", fail_silently=False)
 
-            #return redirect(reverse('sgi:incidencia_lista'))
-            #return render(request, self.template_name2, contexto)
-            return redirect(reverse('sgi:incidencia_archivo', kwargs={'incidencia_id': incidencia.pk}))
+#             #return redirect(reverse('sgi:incidencia_lista'))
+#             #return render(request, self.template_name2, contexto)
+#             return redirect(reverse('sgi:incidencia_archivo', kwargs={'incidencia_id': incidencia.pk}))
 
-        contexto = {
-            'form': formulario
-        }
+#         contexto = {
+#             'form': formulario
+#         }
 
-        return render(request, self.template_name, contexto)
+#         return render(request, self.template_name, contexto)
 
-    # def post(self, request):
+#     # def post(self, request):
 
-    #     formulario = IncidenciaDocumentoForm(request.POST)
+#     #     formulario = IncidenciaDocumentoForm(request.POST)
 
-    #     if formulario.is_valid():
+#     #     if formulario.is_valid():
 
-    #         indidencia = formulario.save(commite=False)
+#     #         indidencia = formulario.save(commite=False)
 
-    #         incidencia.created_by = request.user.profile
+#     #         incidencia.created_by = request.user.profile
 
-    #         incidencia.save()
+#     #         incidencia.save()
 
-    #         return redirect(reverse('sgi:incidencia_lista'))
+#     #         return redirect(reverse('sgi:incidencia_lista'))
 
-    #     contexto = {
-    #         'form': formulario
-    #     }
+#     #     contexto = {
+#     #         'form': formulario
+#     #     }
 
-    #     return render(request, self.template_name, contexto)
+#     #     return render(request, self.template_name, contexto)
 
-        # datos_formulario = formulario.cleaned_data
+#         # datos_formulario = formulario.cleaned_data
 
 
 # class IncidenciaDocumentoNuevo(CreateView):
@@ -259,203 +259,203 @@ class IncidenciaDocumentoNuevo(View):
 #             return render(request, self.template_name, contexto)
 
 
-class IncidenciaDocumentoEditar(View):
+# class IncidenciaDocumentoEditar(View):
 
-    def __init__(self):
-        self.template_name = 'incidencia/incidencia_editar.html'
+#     def __init__(self):
+#         self.template_name = 'incidencia/incidencia_editar.html'
 
-    def get(self, request, pk):
-        empleado = get_object_or_404(IncidenciaDocumento, pk=pk)
-        formulario = IncidenciaDocumentoForm(instance=empleado)
+#     def get(self, request, pk):
+#         empleado = get_object_or_404(IncidenciaDocumento, pk=pk)
+#         formulario = IncidenciaDocumentoForm(instance=empleado)
 
-        #operation = viatico.get_status_display()
+#         #operation = viatico.get_status_display()
 
-        contexto = {
-            'form': formulario,
-        }
-        return render(request, self.template_name, contexto)
+#         contexto = {
+#             'form': formulario,
+#         }
+#         return render(request, self.template_name, contexto)
 
-    def post(self, request, pk):
+#     def post(self, request, pk):
 
-        # empleado = get_object_or_404(
-        #         VIEW_EMPLEADOS_FULL.objects.using('ebs_d').all(),
-        #         pers_empleado_numero=incidencia.empleado_id
-        #     )
-        empleado = get_object_or_404(IncidenciaDocumento, pk=pk)
-        formulario = IncidenciaDocumentoForm(request.POST, instance=empleado)
+#         # empleado = get_object_or_404(
+#         #         VIEW_EMPLEADOS_FULL.objects.using('ebs_d').all(),
+#         #         pers_empleado_numero=incidencia.empleado_id
+#         #     )
+#         empleado = get_object_or_404(IncidenciaDocumento, pk=pk)
+#         formulario = IncidenciaDocumentoForm(request.POST, instance=empleado)
 
-        if formulario.is_valid():
-            incidencia = formulario.save(commit=False)
+#         if formulario.is_valid():
+#             incidencia = formulario.save(commit=False)
 
-            empleado = get_object_or_404(
-                VIEW_EMPLEADOS_FULL.objects.using('ebs_d').all(),
-                pers_empleado_numero=incidencia.empleado_id
-            )
+#             empleado = get_object_or_404(
+#                 VIEW_EMPLEADOS_FULL.objects.using('ebs_d').all(),
+#                 pers_empleado_numero=incidencia.empleado_id
+#             )
 
-            incidencia.empleado_nombre = empleado.pers_nombre_completo
+#             incidencia.empleado_nombre = empleado.pers_nombre_completo
 
-            incidencia.empleado_proyecto = empleado.grup_proyecto_code_jde
-            incidencia.empleado_proyecto_desc = empleado.grup_proyecto_jde
-            incidencia.empleado_puesto = empleado.asig_puesto_clave
-            incidencia.empleado_puesto_desc = empleado.asig_puesto_desc
+#             incidencia.empleado_proyecto = empleado.grup_proyecto_code_jde
+#             incidencia.empleado_proyecto_desc = empleado.grup_proyecto_jde
+#             incidencia.empleado_puesto = empleado.asig_puesto_clave
+#             incidencia.empleado_puesto_desc = empleado.asig_puesto_desc
 
-            empresa = Empresa.objects.filter(descripcion=empleado.grup_compania_jde)
+#             empresa = Empresa.objects.filter(descripcion=empleado.grup_compania_jde)
 
-            incidencia.empresa = empresa[0]
-            incidencia.area_id = empleado.asig_ubicacion_clave
-            incidencia.area_descripcion = empleado.asig_ubicacion_desc
-            incidencia.empleado_un = empleado.grup_fase_jde
-            incidencia.created_by = request.user.profile
+#             incidencia.empresa = empresa[0]
+#             incidencia.area_id = empleado.asig_ubicacion_clave
+#             incidencia.area_descripcion = empleado.asig_ubicacion_desc
+#             incidencia.empleado_un = empleado.grup_fase_jde
+#             incidencia.created_by = request.user.profile
 
-            incidencia.save()
+#             incidencia.save()
 
-            return redirect(reverse('sgi:incidencia_lista'))
+#             return redirect(reverse('sgi:incidencia_lista'))
 
-        contexto = {
-            'form': formulario
-        }
-        return render(request, self.template_name, contexto)
+#         contexto = {
+#             'form': formulario
+#         }
+#         return render(request, self.template_name, contexto)
 
 
-class IncidenciaDocumentoArchivo(View):
+# class IncidenciaDocumentoArchivo(View):
 
-    def __init__(self):
-        self.template_name = 'incidencia/incidencia_archivo.html'
+#     def __init__(self):
+#         self.template_name = 'incidencia/incidencia_archivo.html'
         
 
-    def get(self, request, incidencia_id):
+#     def get(self, request, incidencia_id):
 
-        incidencia = IncidenciaDocumento.objects.get(pk=incidencia_id)
+#         incidencia = IncidenciaDocumento.objects.get(pk=incidencia_id)
 
-        # import ipdb; ipdb.set_trace()
-        incidencia_archivos = IncidenciaArchivo.objects.filter(incidencia=incidencia)
+#         # import ipdb; ipdb.set_trace()
+#         incidencia_archivos = IncidenciaArchivo.objects.filter(incidencia=incidencia)
 
-        # anexos = IncidenciaArchivo.objects.filter(id=pk)
-        form = IncidenciaArchivoForm(
-            initial={
-                'incidencia': incidencia
-            }
-        )
+#         # anexos = IncidenciaArchivo.objects.filter(id=pk)
+#         form = IncidenciaArchivoForm(
+#             initial={
+#                 'incidencia': incidencia
+#             }
+#         )
 
-        contexto = {
-            'form': form,
-            'incidencia_id': incidencia_id,
-            'anexos': incidencia_archivos,
-        }
+#         contexto = {
+#             'form': form,
+#             'incidencia_id': incidencia_id,
+#             'anexos': incidencia_archivos,
+#         }
 
-        return render(request, self.template_name, contexto)
+#         return render(request, self.template_name, contexto)
 
-    def post(self, request, incidencia_id):
+#     def post(self, request, incidencia_id):
 
-        form = IncidenciaArchivoForm(request.POST, request.FILES)
+#         form = IncidenciaArchivoForm(request.POST, request.FILES)
 
-        incidencia_archivos = IncidenciaArchivo.objects.filter(incidencia_id=incidencia_id)
+#         incidencia_archivos = IncidenciaArchivo.objects.filter(incidencia_id=incidencia_id)
 
-        if form.is_valid():
+#         if form.is_valid():
 
-            incidencia_archivo = form.save(commit=False)
-            incidencia_archivo.created_by = request.user.profile
-            incidencia_archivo.save()
+#             incidencia_archivo = form.save(commit=False)
+#             incidencia_archivo.created_by = request.user.profile
+#             incidencia_archivo.save()
 
-        contexto = {
-            'form': form,
-            'incidencia_id': incidencia_id,
-            'anexos': incidencia_archivos,
-        }
+#         contexto = {
+#             'form': form,
+#             'incidencia_id': incidencia_id,
+#             'anexos': incidencia_archivos,
+#         }
 
-        return render(request, self.template_name, contexto)
-
-
-class IncidenciaResolucionNuevo(View):
-
-    def __init__(self):
-        self.template_name = 'incidencia/incidencia_seguimiento.html'
-
-    def get(self, request, incidencia_id):
+#         return render(request, self.template_name, contexto)
 
 
-        incidencia = IncidenciaDocumento.objects.get(pk=incidencia_id)
+# class IncidenciaResolucionNuevo(View):
 
-        # import ipdb; ipdb.set_trace()
-        incidencia_resolucion = IncidenciaResolucion.objects.filter(incidencia_id=incidencia).order_by('-created_date')
+#     def __init__(self):
+#         self.template_name = 'incidencia/incidencia_seguimiento.html'
 
-        # import ipdb; ipdb.set_trace()
+#     def get(self, request, incidencia_id):
 
-        print incidencia_resolucion
 
-        form = IncidenciaResolucionForm(
-            initial={
-                'incidencia': incidencia,
-            }
-        )
+#         incidencia = IncidenciaDocumento.objects.get(pk=incidencia_id)
 
-        contexto = {
-            'form': form,
-            'incidencia_id': incidencia_id,
-            'resoluciones': incidencia_resolucion,
-        }
+#         # import ipdb; ipdb.set_trace()
+#         incidencia_resolucion = IncidenciaResolucion.objects.filter(incidencia_id=incidencia).order_by('-created_date')
 
-        return render(request, self.template_name, contexto)
+#         # import ipdb; ipdb.set_trace()
 
-    def post(self, request, incidencia_id):
+#         print incidencia_resolucion
 
-        # form = IncidenciaResolucionForm(request.POST)
+#         form = IncidenciaResolucionForm(
+#             initial={
+#                 'incidencia': incidencia,
+#             }
+#         )
 
-        # incidencia_resolucion = IncidenciaResolucion.objects.filter(incidencia=incidencia_id)
+#         contexto = {
+#             'form': form,
+#             'incidencia_id': incidencia_id,
+#             'resoluciones': incidencia_resolucion,
+#         }
 
-        # if form.is_valid():
+#         return render(request, self.template_name, contexto)
 
-        #     incidencia_resolucion = form.save(commit=False)
-        #     incidencia_resolucion.created_by = request.user.profile
-        #     incidencia_resolucion.save()
+#     def post(self, request, incidencia_id):
 
-        #     return redirect(reverse('sgi:incidencia_lista'))
+#         # form = IncidenciaResolucionForm(request.POST)
 
-        # contexto = {
-        #     'form': form,
-        #     'incidencia_id': incidencia_id,
-        #     'anexos': incidencia_resolucion,
-        # }
-        incidencia_documento = get_object_or_404(IncidenciaDocumento, pk=incidencia_id)
-        # print incidencia_documento
-        incidenciaid = incidencia_id
-        formulario = IncidenciaResolucionForm(request.POST)
+#         # incidencia_resolucion = IncidenciaResolucion.objects.filter(incidencia=incidencia_id)
+
+#         # if form.is_valid():
+
+#         #     incidencia_resolucion = form.save(commit=False)
+#         #     incidencia_resolucion.created_by = request.user.profile
+#         #     incidencia_resolucion.save()
+
+#         #     return redirect(reverse('sgi:incidencia_lista'))
+
+#         # contexto = {
+#         #     'form': form,
+#         #     'incidencia_id': incidencia_id,
+#         #     'anexos': incidencia_resolucion,
+#         # }
+#         incidencia_documento = get_object_or_404(IncidenciaDocumento, pk=incidencia_id)
+#         # print incidencia_documento
+#         incidenciaid = incidencia_id
+#         formulario = IncidenciaResolucionForm(request.POST)
     
-        if formulario.is_valid():
+#         if formulario.is_valid():
 
-            datos_formulario = formulario.cleaned_data
-            Incidencia_Resolucion = IncidenciaResolucion()
-            Incidencia_Resolucion.incidencia_id = incidenciaid
-            Incidencia_Resolucion.mensaje = datos_formulario.get('mensaje')
-            Incidencia_Resolucion.tipo_id = datos_formulario.get('tipo')
-            Incidencia_Resolucion.status = datos_formulario.get('estatus')
-            Incidencia_Resolucion.created_by  = request.user.profile
+#             datos_formulario = formulario.cleaned_data
+#             Incidencia_Resolucion = IncidenciaResolucion()
+#             Incidencia_Resolucion.incidencia_id = incidenciaid
+#             Incidencia_Resolucion.mensaje = datos_formulario.get('mensaje')
+#             Incidencia_Resolucion.tipo_id = datos_formulario.get('tipo')
+#             Incidencia_Resolucion.status = datos_formulario.get('estatus')
+#             Incidencia_Resolucion.created_by  = request.user.profile
 
-            Incidencia_Resolucion.save()
+#             Incidencia_Resolucion.save()
 
-            # ACTUALIZO EL STATUS EN EL MODELO INCIDENCIADOCUMENTO
+#             # ACTUALIZO EL STATUS EN EL MODELO INCIDENCIADOCUMENTO
             
-            incidencia_documento.status = Incidencia_Resolucion.status
-            incidencia_documento.save()
+#             incidencia_documento.status = Incidencia_Resolucion.status
+#             incidencia_documento.save()
             
 
-            #return redirect(reverse('sgi:incidencia_lista'))
-            return redirect(reverse('sgi:incidencia_archivo', kwargs={'incidencia_id': Incidencia_Resolucion.incidencia_id }))
+#             #return redirect(reverse('sgi:incidencia_lista'))
+#             return redirect(reverse('sgi:incidencia_archivo', kwargs={'incidencia_id': Incidencia_Resolucion.incidencia_id }))
 
-        # contexto = {
-        #             'form': formulario,
-        #             'incidencia_id': incidencia_id,
-        #             'anexos': incidencia_resolucion,
-        #         }
-                #return render(request, self.template_name, contexto)
-        #return redirect(reverse('sgi:incidencia_archivo', kwargs={'incidencia_id': Incidencia_Resolucion.incidencia_id }))
+#         # contexto = {
+#         #             'form': formulario,
+#         #             'incidencia_id': incidencia_id,
+#         #             'anexos': incidencia_resolucion,
+#         #         }
+#                 #return render(request, self.template_name, contexto)
+#         #return redirect(reverse('sgi:incidencia_archivo', kwargs={'incidencia_id': Incidencia_Resolucion.incidencia_id }))
 
 
-class IncidenciaGraficas(View):
+# class IncidenciaGraficas(View):
 
-    def get(self, request):
+#     def get(self, request):
 
-        return render(request, 'incidencia/incidencia_grafica.html')
+#         return render(request, 'incidencia/incidencia_grafica.html')
 
 
 # ----------------- CALIDAD - Dashboard ----------------- #

@@ -1,0 +1,196 @@
+{% extends 'master.html' %}
+
+{% load filename %}
+
+{% load static from staticfiles %}
+
+{% block titulo %} Incidencia {% endblock titulo %}
+
+{% block title-page %} Archivos para Incidencia {% endblock title-page %}
+
+{% block css %}
+	<!-- Kendo -->
+	<link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.rtl.min.css' %}"/>
+	<link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.common-bootstrap.min.css' %}"/>
+	<link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.bootstrap.min.css' %}"/>
+
+    <!-- Theme -->
+    <link rel="stylesheet" href="{% static 'theme/lib/datetimepicker/css/bootstrap-datetimepicker.min.css' %}"/>
+    <link rel="stylesheet" href="{% static 'theme/lib/daterangepicker/css/daterangepicker.css' %}"/>
+
+
+{% endblock css %}
+
+
+{% block contenido %}
+
+
+<div class="be-content">
+    <div class="page-head">
+        <h2 class="page-head-title">Archivos para Incidencia</h2>
+        <ol class="breadcrumb page-head-nav">
+            <li><a href="#">Inicio</a></li>
+            <li><a href="{% url 'seguridadlaboral:incidencia_lista' %}">Incidencias</a></li>
+        </ol>
+    </div>
+    <div class="main-content container-fluid">  
+			 
+		<div class="col-sm-12">
+			<div class="panel panel-border panel-contrast">
+	            <div class="panel-heading panel-heading-default nova-border-bottom">Solicitud de incidencia: {% if incidencia_id %}<strong name="incidencia_id" value="{{ incidencia_id }}" id="registrable">{{ incidencia_id }}</strong>{% endif %}
+	               	{% if operation != '' %} <span class="label label-primary nova-label-centrado">{{ operation }}</span> {% endif %}
+	               	<div class="tools" data-toggle="collapse" href="#cabecera_colapsible">{% if registrable %}<span class="icon mdi mdi-caret-down-circle" id="boton_colapsible"></span>{% endif %}</div>
+	            </div> 
+	            <div class="panel-body collapse {% if not registrable %}in{% endif %}" id="cabecera_colapsible">
+
+	                <form action="" method="POST" enctype="multipart/form-data"> {% csrf_token %}	
+
+                            {{ form.incidencia }} 
+
+						    <!-- Tipo  -->
+							<div class="row">
+								<div class="col-sm-6">
+
+									<div class="form-group {% if form.tipo.field.required %} has-warning {% endif %} {% if form.tipo.errors %} has-error {% endif %}">
+
+									<label class="control-label">
+									<i class="fa {% if form.tipo.field.required %} fa-asterisk {% endif %} {% if form.tipo.errors %} fa-asterisk {% endif %}"></i> 
+										{{ form.tipo.label }} 
+									</label>
+									<p>
+										{{ form.tipo }}	
+									</p>
+									{% for error in form.tipo.errors %}
+										<span class="help-block">{{ error }}</span>
+									{% endfor %}
+									</div>
+							    </div>
+							</div>
+
+							<!-- Archivo -->
+							<div class="row">
+								<div class="col-sm-6">
+								
+
+									<div class="form-group {% if form.archivo.field.required %} has-warning {% endif %} {% if form.archivo.errors %} has-error {% endif %}">
+
+									<label class="control-label">
+									<i class="fa {% if form.archivo.field.required %} fa-asterisk {% endif %} {% if form.archivo.errors %} fa-asterisk {% endif %}"></i> 
+										{{ form.archivo.label }} 
+									</label>
+									<p>
+										{{ form.archivo }}
+
+									</p>
+									{% for error in form.tipo.errors %}
+										<span class="help-block">{{ error }}</span>
+									{% endfor %}
+									</div>
+							    </div>
+							</div>
+
+
+
+								{% if form.errors %}
+								    {% for field in form %}
+								        {% for error in field.errors %}
+								            <div class="alert alert-danger">
+								            	{{ field.label }}
+								                <strong>{{ error|escape }}</strong>
+								            	
+								            </div>
+								        {% endfor %}
+								    {% endfor %}
+								    {% for error in form.non_field_errors %}
+								        <div class="alert alert-danger">
+								            <strong>{{ error|escape }}</strong>
+								        </div>
+								    {% endfor %}
+								{% endif %}
+
+								</div><!-- Row -->
+
+
+					<div class="pull-right">
+						<button type="submit" class="btn btn-primary" >Guardar Anexo Incidencia</button>
+					</div>
+						
+					</form>
+
+              	</div> <!-- Panel Body -->
+            </div>	<!-- Panel -->
+		</div>	<!-- col-sm-12 -->
+
+        
+
+ <div class="main-content container-fluid">  
+ 	<div class="col-sm-6">
+	  <div class="panel panel-border panel-contrast">
+        <div class="row">
+            <div class="col-md-12">
+              <div class="panel">
+                <div class="panel-heading panel-heading-divider">Archivos Incidencia<span class="panel-subtitle">Puedes Eliminar o Descargar el archivo</span></div>
+                      <div class="box box-solid">
+                 
+                        {% for anexo in anexos %}
+						
+								<div class="box box-solid">
+									<div class="box-header with-border">
+					              			<div class="pull-right">
+					              				<button data-action="{{ anexo.id }}" class="btn btn-danger btn-sm"><i class="fa fa-trash" title="Eliminar"></i></button>
+					            			</div>	
+					            		 
+					              			<i class="fa fa-file-o"></i>
+					              			
+					              			{{ anexo.archivo|filename }}
+					              			
+					              			
+					              			<!-- /.box-header -->
+								            <div class="box-body">
+								            	<a href="{{MEDIA_URL}}incidencias/{{ anexo.incidencia}}/files/{{ anexo.archivo|filename }}" download=""><p align="lefts"><strong align="center">{{ anexo.archivo|filename }}</strong></p></a>
+								            </div>
+						            		<!-- /.box-body -->
+					            	</div>
+					            </div>	
+			        		
+			        	{% endfor %}
+                     </div>
+                </div>
+              </div>
+            </div>
+        </div>
+    </div>
+ </div>
+
+
+
+  <!-- <div class="col-sm-12">
+            {% for anexo in anexos %}
+            <p>
+            {{anexo.tipo}} - {{anexo.archivo}}
+            </p>
+            {% endfor %}
+  </div> -->
+
+
+	</div>
+{% endblock contenido %}
+
+{% block scripts %}
+	<!-- Kendo Js -->
+	<script src="{% static 'libs/kendo/2015.2.624/js/cultures/kendo.culture.es-MX.min.js' %}"></script>
+	<script src="{% static 'libs/kendo/2015.2.624/js/kendo.web.min.js' %}"></script>
+
+    <!-- Theme -->
+    <script src="{% static 'theme/lib/jquery-ui/jquery-ui.min.js' %}"></script>
+    <script src="{% static 'theme/lib/datetimepicker/js/bootstrap-datetimepicker.min.js' %}"></script>
+    <script src="{% static 'theme/lib/datetimepicker/js/locales/bootstrap-datetimepicker.es.js' %}"></script>
+    <script src="{% static 'theme/lib/daterangepicker/js/daterangepicker.js' %}"></script>
+    <script src="{% static 'theme/lib/moment.js/min/moment.min.js' %}"></script>
+    <script src="{% static 'theme/lib/select2/js/select2.min.js' %}"></script>
+
+	<!-- NOVA -->
+	<script src="{% static 'incidencia/anexos/archivo.js' %}"></script>
+
+
+{% endblock scripts %}
