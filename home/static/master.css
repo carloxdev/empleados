@@ -228,7 +228,7 @@
     position: relative;
     display: inline-block;
     width: 100%;
-    overflow: scroll;
+    overflow: auto;
     text-align: center;
 }
 .nova-icon-gray{
