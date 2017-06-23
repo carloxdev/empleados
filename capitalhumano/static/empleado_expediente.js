@@ -2,7 +2,8 @@
             GLOBAL VARIABLES
 \*-----------------------------------------------*/
 
-var url
+var url_expediente = window.location.origin  + "/api-capitalhumano/personaldocumento/"
+
 // OBJS
 var popup = null
 var toolbar = null
@@ -64,4 +65,115 @@ function TargetaResultados(){
     this.grid = new Grid()
 }
 
+function TargetaResultados(){
+    this.grid = new Grid()
+}
+
+/*-----------------------------------------------*\
+            OBJETO: Grid
+\*-----------------------------------------------*/
+
+function Grid() {
+
+    this.$id = $("#grid_resultados")
+    this.kfuente_datos = null
+
+    this.kgrid = null
+    this.init()
+}
+Grid.prototype.init = function () {
+
+    // Definicion del pais, formato modena, etc..
+    kendo.culture("es-MX")
+
+    // Se inicializa la fuente da datos (datasource)
+    this.kfuente_datos = new kendo.data.DataSource(this.get_DataSourceConfig())
+    
+    // Se inicializa y configura el grid:
+    this.kgrid = this.$id.kendoGrid(this.get_Configuracion())
+}
+Grid.prototype.get_DataSourceConfig = function () {
+
+    return {
+
+        serverPaging: true,
+        pageSize: 10,
+        transport: {
+            read: {
+
+                url: url_expediente,
+                type: "GET",
+                dataType: "json",
+            },
+            // parameterMap: function (data, action) {
+            //     if (action === "read"){
+            //         return tarjeta_filtros.get_Values(data.page)
+            //     }
+            // }
+        },
+        schema: {
+            data: "results",
+            total: "count",
+            model: {
+                fields: this.get_Campos()
+            }
+        },
+        error: function (e) {
+            alertify.error("Status: " + e.status + "; Error message: " + e.errorThrown)
+        },
+    }    
+}
+Grid.prototype.get_Campos = function () {
+
+    return {
+        agrupador : { type: "string" },
+        fecha : { type: "date"},
+        vigencia_inicio : { type: "date" },
+        vigencia_fin : { type: "date" },
+        tipo : { type: "string" },
+        archivo : { type: "string" },
+        created_by : { type: "string" },
+        created_date : { type: "date" },
+    }
+}
+Grid.prototype.get_Configuracion = function () {
+
+    return {
+        dataSource: this.kfuente_datos,
+        columnMenu: true,
+        groupable: false,
+        sortable: false,
+        editable: false,
+        resizable: true,
+        selectable: true,
+        columns: this.get_Columnas(),
+        scrollable: true,
+        pageable: true,
+        noRecords: {
+            template: "<div class='grid-empty'> No se encontraron registros </div>"
+        },
+        dataBound: this.set_Icons,
+    }
+}
+Grid.prototype.get_Columnas = function () {
+
+    return [  
+        { field: "archivo", 
+          title: "Documento", 
+          width:"150px" ,
+          template: '<a>Ver documento</a>',
+        },
+        { field: "tipo", title: "Tipo", width:"170px" },
+        { field: "agrupador", title: "Agrupador", width:"170px"},
+        { field: "vigencia_inicio", title: "Vigencia inicio", width:"100px" },
+        { field: "vigencia_fin", title: "Vigencia fin", width:"100px" },
+        { field: "fecha", title: "Fecha", width:"100px" },
+        { field: "created_by", title: "Usuario", width:"100px" },
+        { field: "created_date", title: "Fecha de creación", width:"00px" },
+
+    ]
+}
+Grid.prototype.buscar = function() {
+    this.kfuente_datos.page(1)
+}
 

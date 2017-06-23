@@ -8,7 +8,7 @@ import json
 
 # Modelos
 from .models import PerfilPuestoDocumento
-from .models import Personal
+from .models import DocumentoPersonal
 from ebs.models import VIEW_EMPLEADOS_FULL
 
 
@@ -43,7 +43,7 @@ class PersonalSerializer(serializers.HyperlinkedModelSerializer):
     created_by = serializers.SerializerMethodField()
 
     class Meta:
-        model = Personal
+        model = DocumentoPersonal
         fields = (
             'numero_empleado',
             'agrupador',

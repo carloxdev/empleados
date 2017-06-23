@@ -66,7 +66,7 @@ class PerfilPuestoDocumento(models.Model):
         verbose_name_plural = "Documentos de Perfiles de Puestos"
 
 
-class Cursos(models.Model):
+class Curso(models.Model):
 
     nombre_curso = models.CharField(max_length=255)
     vencimiento = models.CharField(max_length=30)
@@ -97,7 +97,7 @@ class Cursos(models.Model):
         verbose_name_plural = "Cursos"
 
 
-class Documento(models.Model):
+class Archivo(models.Model):
 
     nombre_documento = models.CharField(max_length=250)
     archivo = models.FileField(
@@ -134,7 +134,8 @@ class Documento(models.Model):
 class TipoDocumento(models.Model):
     tipo_documento = models.CharField(max_length=255)
 
-    created_by = models.ForeignKey(Profile, related_name='tipodocper_created_by')
+    created_by = models.ForeignKey(
+        Profile, related_name='tipodocper_created_by')
     created_date = models.DateTimeField(
         auto_now=False,
         auto_now_add=True
@@ -160,7 +161,7 @@ class TipoDocumento(models.Model):
         verbose_name_plural = "Tipo de documento personal"
 
 
-class Capacitacion(models.Model):
+class DocumentoCapacitacion(models.Model):
     MODALIDAD = (
         ('CURSO-PRESENCIAL', 'CURSO PRESENCIAL'),
         ('CURSO-VIRTUAL', 'CURSO VIRTUAL'),
@@ -172,7 +173,7 @@ class Capacitacion(models.Model):
         ('EUR', 'EURO (EUR)'),
     )
 
-    curso = models.ForeignKey(Cursos, on_delete=models.PROTECT)
+    curso = models.ForeignKey(Curso, on_delete=models.PROTECT)
     proveedor = models.CharField(max_length=255)  # Sacar de jde
     numero_empleado = models.IntegerField(default=0)
     modalidad = models.CharField(
@@ -193,7 +194,7 @@ class Capacitacion(models.Model):
     duracion = models.IntegerField()
     observaciones = models.CharField(max_length=100)
 
-    archivo = models.ForeignKey(Documento)
+    archivo = models.ForeignKey(Archivo)
 
     created_by = models.ForeignKey(Profile, related_name='cap_created_by')
     created_date = models.DateTimeField(
@@ -213,7 +214,7 @@ class Capacitacion(models.Model):
         verbose_name_plural = "Documentos de Capacitaciones"
 
 
-class Personal(models.Model):
+class DocumentoPersonal(models.Model):
 
     AGRUPADOR = (
         ('PERSONAL', 'PERSONAL'),
@@ -234,7 +235,7 @@ class Personal(models.Model):
     vigencia_inicio = models.DateField(null=True, blank=True)
     vigencia_fin = models.DateField(null=True, blank=True)
 
-    archivo = models.ForeignKey(Documento)
+    archivo = models.ForeignKey(Archivo)
 
     created_by = models.ForeignKey(Profile, related_name='per_created_by')
     created_date = models.DateTimeField(

@@ -16,6 +16,7 @@ from .forms import OrganizacionesFilterForm
 from .forms import EmpresasFilterForm
 from .forms import ExpedientesFilterForm
 from .forms import PerfilPuestoDocumentoForm
+from .forms import NuevoDocumentoPersonalForm
 
 # Serializer crear organigrama
 from serializers import VIEW_ORGANIGRAMA_ORG_SERIALIZADO
@@ -146,7 +147,7 @@ class EmpleadoExpediente(View):
         self.template_name = 'empleado_expediente.html'
 
     def get(self, request, pk):
-
+        form = NuevoDocumentoPersonalForm()
         empleado = VIEW_EMPLEADOS_FULL.objects.using(
             "ebs_d").filter(pers_empleado_numero=pk)
 
@@ -156,6 +157,7 @@ class EmpleadoExpediente(View):
         contexto = {
             'empleado': empleado,
             'ruta': ruta,
+            'form': form,
         }
 
         return render(request, self.template_name, contexto)
