@@ -27,9 +27,8 @@ urlpatterns = [
     url(r'', include('seguridad.urls', namespace="seguridad")),
     url(r'', include('capitalhumano.urls', namespace="capitalhumano")),
     url(r'', include('serviciosempleado.urls', namespace="serviciosempleado")),
-<<<<<<< HEAD
     url(r'', include('seguridadlaboral.urls', namespace="seguridadlaboral")),
-=======
+
     url(r'', include('calidad.urls', namespace="calidad")),
->>>>>>> origin/master
+
 ]
