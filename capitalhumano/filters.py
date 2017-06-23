@@ -3,8 +3,6 @@
 # Django API REST
 from rest_framework import filters
 from django_filters import CharFilter
-# from django_filters import DateFilter
-# from django_filters import NumberFilter
 
 
 # Modelos:
@@ -24,3 +22,4 @@ class PerfilpuestoDocumentoFilter(filters.FilterSet):
             'id',
             'empleado_puesto_desc',
         ]
+

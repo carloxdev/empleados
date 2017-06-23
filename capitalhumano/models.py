@@ -163,14 +163,14 @@ class TipoDocumento(models.Model):
 
 class DocumentoCapacitacion(models.Model):
     MODALIDAD = (
-        ('CURSO-PRESENCIAL', 'CURSO PRESENCIAL'),
-        ('CURSO-VIRTUAL', 'CURSO VIRTUAL'),
-        ('CURSO-PREVIO', 'CURSO PREVIO'),
+        ('CURSO-PRESENCIAL', 'Curso presencial'),
+        ('CURSO-VIRTUAL', 'Curso virtual'),
+        ('CURSO-PREVIO', 'Curso previo'),
     )
     MONEDA = (
-        ('MXN', 'MONEDA NACIONAL (MXN)'),
-        ('USD', 'DOLARES (USD)'),
-        ('EUR', 'EURO (EUR)'),
+        ('MXN', 'Moneda nacional (MXN)'),
+        ('USD', 'Dolares (USD)'),
+        ('EUR', 'Euro (EUR)'),
     )
 
     curso = models.ForeignKey(Curso, on_delete=models.PROTECT)
@@ -217,12 +217,12 @@ class DocumentoCapacitacion(models.Model):
 class DocumentoPersonal(models.Model):
 
     AGRUPADOR = (
-        ('PERSONAL', 'PERSONAL'),
+        ('PERSONAL', 'Personal'),
         ('QHSE', 'QHSE'),
-        ('AMONESTACION', 'AMONESTACION'),
-        ('ADMINISTRACION', 'ADMINISTRACION'),
-        ('OPERACIONES', 'OPERACIONES'),
-        ('RECONOCIMIENTO', 'RECONOCIMIENTO'),
+        ('AMONESTACION', 'Amonestación'),
+        ('ADMINISTRACION', 'Administración'),
+        ('OPERACIONES', 'Operaciones'),
+        ('RECONOCIMIENTO', 'Reconocimiento'),
     )
     numero_empleado = models.CharField(max_length=6)
     tipo = models.ForeignKey(TipoDocumento)  # Catalogo
@@ -231,7 +231,7 @@ class DocumentoPersonal(models.Model):
         default="PERSONAL",
         max_length=20
     )
-    fecha = models.DateField()
+    fecha = models.DateField(auto_now=True)
     vigencia_inicio = models.DateField(null=True, blank=True)
     vigencia_fin = models.DateField(null=True, blank=True)
 

@@ -151,7 +151,6 @@ Grid.prototype.init = function () {
     this.kgrid = this.$id.kendoGrid(this.get_Configuracion())
 }
 Grid.prototype.get_DataSourceConfig = function () {
-
     return {
 
         serverPaging: true,

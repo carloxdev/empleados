@@ -38,3 +38,9 @@ class VIEW_DOCUMENTO_PERFIL_PUESTO_ByPageAPI(viewsets.ModelViewSet):
 class PERFIL_API(viewsets.ModelViewSet):
     queryset = DocumentoPersonal.objects.all()
     serializer_class = PersonalSerializer
+
+
+class PERFIL_ByPageAPI(viewsets.ModelViewSet):
+    queryset = DocumentoPersonal.objects.all()
+    serializer_class = PersonalSerializer
+    pagination_class = GenericPagination

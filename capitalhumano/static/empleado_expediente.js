@@ -2,7 +2,7 @@
             GLOBAL VARIABLES
 \*-----------------------------------------------*/
 
-var url_expediente = window.location.origin  + "/api-capitalhumano/personaldocumento/"
+var url_expediente_bypage = window.location.origin  + "/api-capitalhumano/personaldocumento_bypage/"
 
 // OBJS
 var popup = null
@@ -28,11 +28,13 @@ $(document).ready(function () {
 
 function Componentes(){
     this.$tipo = $('#id_tipo')
+    this.$agrupador = $('#id_agrupador')
 
     this.init_Components()
 }
 Componentes.prototype.init_Components = function (){
     this.$tipo.select2(this.get_ConfSelect2())
+    this.$agrupador.select2(this.get_ConfSelect2())
 }
 Componentes.prototype.get_ConfSelect2 = function () {
    return {
@@ -79,13 +81,6 @@ Toolbar.prototype.mostrar_Modal = function (e){
 }
 
 
-function TargetaResultados(){
-    this.grid = new Grid()
-}
-
-function TargetaResultados(){
-    this.grid = new Grid()
-}
 
 /*-----------------------------------------------*\
             OBJETO: Grid
@@ -111,15 +106,14 @@ Grid.prototype.init = function () {
     this.kgrid = this.$id.kendoGrid(this.get_Configuracion())
 }
 Grid.prototype.get_DataSourceConfig = function () {
-
+    // alert(JSON.stringify(url_expediente))
     return {
 
         serverPaging: true,
         pageSize: 10,
         transport: {
             read: {
-
-                url: url_expediente,
+                url: url_expediente_bypage,
                 type: "GET",
                 dataType: "json",
             },
@@ -176,18 +170,17 @@ Grid.prototype.get_Configuracion = function () {
 Grid.prototype.get_Columnas = function () {
 
     return [  
-        { field: "archivo", 
-          title: "Documento", 
+        { field: "tipo", 
+          title: "Archivo", 
           width:"150px" ,
-          template: '<a>Ver documento</a>',
+          template: '<a>#=tipo#</a>',
         },
-        { field: "tipo", title: "Tipo", width:"170px" },
-        { field: "agrupador", title: "Agrupador", width:"170px"},
-        { field: "vigencia_inicio", title: "Vigencia inicio", width:"100px" },
-        { field: "vigencia_fin", title: "Vigencia fin", width:"100px" },
-        { field: "fecha", title: "Fecha", width:"100px" },
-        { field: "created_by", title: "Usuario", width:"100px" },
-        { field: "created_date", title: "Fecha de creación", width:"00px" },
+        // { field: "tipo", title: "Tipo", width:"170px" }, #=url_expediente + pers_empleado_numero #/expediente/
+        { field: "agrupador", title: "Agrupador", width:"100px"},
+        { field: "vigencia_inicio", title: "Vigencia inicio", width:"100px",format: "{0:dd/MM/yyyy}" },
+        { field: "vigencia_fin", title: "Vigencia fin", width:"100px",format: "{0:dd/MM/yyyy}" },
+        { field: "created_by", title: "Creado por", width:"150px" },
+        { field: "created_date", title: "Fecha de creación", width:"150px", format: "{0:dd/MM/yyyy}" },
 
     ]
 }

@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from django.forms import ModelForm
+
 # Django:
 from django.forms import TextInput
 from django.forms import Select
@@ -362,7 +364,7 @@ class ExpedientesFilterForm(Form):
         return valores
 
 
-class NuevoDocumentoPersonalForm(Form):
+class NuevoDocumentoPersonalForm(ModelForm):
 
     tipo = ModelChoiceField(
         queryset=TipoDocumento.objects.all(),
@@ -398,6 +400,3 @@ class NuevoDocumentoPersonalForm(Form):
             'vigencia_inicio': DateField(),
             'vigencia_fin': DateField(),
         }
-
-    def __init__(self, *args, **kwargs):
-        super(NuevoDocumentoPersonalForm, self).__init__(*args, **kwargs)
