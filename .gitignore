@@ -23,6 +23,8 @@ static/*
 Nova/settings.py
 
 # Migraciones
+jde/migrations/*
+ebs/migrations/*
 administracion/migrations/*
 ambiental/migrations/*
 calidad/migrations/*
