@@ -10,7 +10,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 
 # Modelos:
 from .models import PerfilPuestoDocumento
-from .models import Personal
+from .models import DocumentoPersonal
 
 
 # Serializadores:
@@ -36,5 +36,5 @@ class VIEW_DOCUMENTO_PERFIL_PUESTO_ByPageAPI(viewsets.ModelViewSet):
 
 
 class PERFIL_API(viewsets.ModelViewSet):
-    queryset = Personal.objects.all()
+    queryset = DocumentoPersonal.objects.all()
     serializer_class = PersonalSerializer

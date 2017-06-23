@@ -455,6 +455,7 @@ from django.core.mail import EmailMultiAlternatives
 
 #     def get(self, request):
 
+<<<<<<< HEAD
 #         return render(request, 'incidencia/incidencia_grafica.html')
 
 
@@ -780,3 +781,6 @@ class ConfiguracionFormatoLista(View):
         # }
 
         return render(request, self.template_name, {})
+=======
+        return render(request, 'incidencia/incidencia_grafica.html')
+>>>>>>> origin/master

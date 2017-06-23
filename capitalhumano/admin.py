@@ -2,14 +2,11 @@ from django.contrib import admin
 
 # Register your models here.
 from .models import PerfilPuestoDocumento
-
-
-from .models import Cursos
+from .models import Curso
 from .models import TipoDocumento
-from .models import Documento
-from .models import Personal
-from .models import Capacitacion
-
+from .models import Archivo
+from .models import DocumentoPersonal
+from .models import DocumentoCapacitacion
 
 
 @admin.register(PerfilPuestoDocumento)
@@ -33,11 +30,7 @@ class DocumentoPerfilPuestoAdmin(admin.ModelAdmin):
     )
 
 
-
-
-
-
-@admin.register(Cursos)
+@admin.register(Curso)
 class CursosAdmin(admin.ModelAdmin):
     list_display = (
         'nombre_curso',
@@ -49,8 +42,18 @@ class CursosAdmin(admin.ModelAdmin):
     )
 
 
+@admin.register(TipoDocumento)
+class TipoDocumentoAdmin(admin.ModelAdmin):
+    list_display = (
+        'tipo_documento',
+        'created_by',
+        'created_date',
+        'updated_by',
+        'updated_date',
+    )
 
-@admin.register(Documento)
+
+@admin.register(Archivo)
 class DocumentoAdmin(admin.ModelAdmin):
     list_display = (
         'nombre_documento',
@@ -61,7 +64,7 @@ class DocumentoAdmin(admin.ModelAdmin):
     )
 
 
-@admin.register(Capacitacion)
+@admin.register(DocumentoCapacitacion)
 class CapacitacionAdmin(admin.ModelAdmin):
     list_display = (
         'curso',
@@ -82,7 +85,7 @@ class CapacitacionAdmin(admin.ModelAdmin):
     )
 
 
-@admin.register(Personal)
+@admin.register(DocumentoPersonal)
 class PersonalAdmin(admin.ModelAdmin):
     list_display = (
         'numero_empleado',
@@ -95,4 +98,3 @@ class PersonalAdmin(admin.ModelAdmin):
         'created_by',
         'created_date',
     )
-

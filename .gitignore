@@ -23,18 +23,19 @@ static/*
 Nova/settings.py
 
 # Migraciones
+jde/migrations/*
+ebs/migrations/*
 administracion/migrations/*
+ambiental/migrations/*
+calidad/migrations/*
 capitalhumano/migrations/*
 compras/migrations/*
 ebs/migrations/*
 finanzas/migrations/*
 home/migrations/*
 jde/migrations/*
+salud/migrations/*
 seguridad/migrations/*
+seguridadlaboral/migrations/*
+serviciosempleao/migrations/*
 sgi/migrations/*
-
-capitalhumano/templates/perfilpuesto/perfil_nuevo.html
-
-capitalhumano/templates/empleado_organigrama.html
-
-capitalhumano/templates/perfilpuesto/perfil_nuevo.html

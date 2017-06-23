@@ -3,6 +3,10 @@
 {% block titulo %} Capital humano {% endblock titulo %}
 {% block title-page %} Expediente  {% endblock title-page %}
 {% block css %}
+	<!-- Kendo -->
+	<link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.rtl.min.css' %}"/>
+	<link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.common-bootstrap.min.css' %}"/>
+	<link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.bootstrap.min.css' %}"/>
 {% endblock css %}
 {% block contenido %}
 <div class="be-content">
@@ -168,7 +172,7 @@
                      </a>
                   </div><!-- Panel Heading -->
                   <div id="grid_resultados" class="nova-div-overflow">
-                     <table class="table table-bordered">
+                     <!--<table class="table table-bordered">
                         <thead>
                            <tr>
                               <th>Documento</th>
@@ -198,7 +202,7 @@
                               <td></td>
                            </tr>
                         </tbody>
-                     </table>
+                     </table>-->
                   </div>
             </div> <!-- Panel -->
          </div> <!-- col sm 12-->
@@ -222,16 +226,16 @@
 				<!-- Subtipo -->
 				<div class="modal-body form-horizontal">
                     <div class="form-group">
-                        <label class="col-sm-3 nova-col-filter control-label">Subtipo de documento</label>
+                        <label class="col-sm-3 nova-col-filter control-label">Tipo de documento</label>
                         <div class="col-sm-8 xs-pt-5">
-                            {{ form.proposito_viaje }}
+                            <input type="text" class="form-control input-sm">
                         </div>
                     </div>                
 					<!-- Agrupador -->
                     <div class="form-group">
                         <label class="col-sm-3 nova-col-filter control-label">Agrupador</label>
                         <div class="col-sm-8 xs-pt-5">
-                            {{ form.empleado }}
+                            <input type="text" class="form-control input-sm">
                         </div>
                     </div>                  
 
@@ -251,7 +255,7 @@
                     <div class="form-group">
                       <label class="col-sm-3 nova-col-filter control-label">Documento</label>
                       <div class="col-sm-8 xs-pt-5">
-                        {{ form.autorizador }}
+                        <input type="file" class="form-control input-sm">
                       </div>
                     </div> 
 				</div>
@@ -273,6 +277,10 @@
 
 {% endblock contenido %}
 {% block scripts %}
+	<!-- Kendo Js -->
+	<script src="{% static 'libs/kendo/2015.2.624/js/cultures/kendo.culture.es-MX.min.js' %}"></script>
+	<script src="{% static 'libs/kendo/2015.2.624/js/kendo.web.min.js' %}"></script>
+
 	<!-- Theme InputMask -->
 	<script src="{% static 'theme/lib/jquery.maskedinput/jquery.maskedinput.min.js' %}"></script>
 

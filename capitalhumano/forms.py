@@ -18,6 +18,7 @@ from ebs.models import VIEW_ORGANIZACIONES
 from administracion.models import Empresa
 from capitalhumano.models import PerfilPuestoDocumento
 from ebs.models import VIEW_EMPLEADOS_FULL
+from capitalhumano.models import DocumentoPersonal
 
 
 class OrganizacionesFilterForm(Form):
@@ -342,7 +343,6 @@ class ExpedientesFilterForm(Form):
         super(ExpedientesFilterForm, self).__init__(*args, **kwargs)
         self.fields[
             'asig_organizacion_clave'].choices = self.get_Organizaciones()
-        # self.fields['pers_tipo_codigo'].choices = self.get_TipoEmpleado()
 
     def get_Organizaciones(self):
         valores = [('', '------------')]
@@ -358,19 +358,26 @@ class ExpedientesFilterForm(Form):
             )
         return valores
 
-    def get_TipoEmpleado(self):
-        valores = [('', '------------')]
 
-        tipos = VIEW_EMPLEADOS_FULL.objects.using('ebs_d').all()
+class NuevoDocumentoPersonalForm(Form):
 
-        #tipos = list(set(VIEW_EMPLEADOS_FULL.objects.using('ebs_d').values_list('pers_tipo_codigo', flat=True)))
+    class Meta:
+        model = DocumentoPersonal
 
-        for tipo in tipos:
+        fields = [
+            'tipo',
+            'agrupador',
+            'archivo',
+        ]
 
-            valores.append(
-                (
-                    tipo.pers_tipo_codigo,
-                    tipo.pers_tipo_desc
-                )
-            )
-        return valores
+        labels = {
+            'tipo': 'Tipo de documento',
+            'agrupador': 'Agrupador',
+            'archivo': 'Archivo',
+        }
+
+        widgets = {
+            'tipo': Select(attrs={'class': 'form-control input-sm'}),
+            'agrupador': Select(attrs={'class': 'form-control input-xs'}),
+            'archivo': TextInput(attrs={'class': 'form-control input-xs'}),
+        }

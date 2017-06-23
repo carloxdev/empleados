@@ -1,33 +1,35 @@
 from django.conf.urls import url
 
-# from .views import IncidenciaDocumentoNuevo
-# from .views import IncidenciaDocumentoLista
-# from .views import IncidenciaDocumentoEditar
-# from .views import IncidenciaDocumentoArchivo
-# from .views import IncidenciaResolucionNuevo
-# from .views import IncidenciaGraficas
+# CALIDAD - AUDITORIAS
+from .views import CalidadDashboard
+
+# CALIDAD - AUDITORIAS
+from .views import AuditoriaLista
+from .views import GeneralFormulario
+from .views import EquipoAuditorFormulario
+from .views import ProcesoLista
+from .views import RequisitoLista
+from .views import ProcesoFormulario
+from .views import HallazgoLista
+from .views import EvidenciaFormulario
+from .views import PlanAccionLista
+from .views import SeguimientoPlanAccionFormulario
+
+# CALIDAD - PROGRAMA
+from .views import ProgramaLista
+
+# CALIDAD - CONFIGURACION
+from .views import ConfiguracionRequisitoLista
+from .views import ConfiguracionProcesoLista
+from .views import ConfiguracionRolLista
+from .views import ConfiguracionAuditorInternoFormulario
+from .views import ConfiguracionSitioLista
+from .views import ConfiguracionContratoLista
+from .views import ConfiguracionMetodologiaLista
+from .views import ConfiguracionTipoHallazgoLista
+from .views import ConfiguracionFormatoLista
 
 urlpatterns = [
-<<<<<<< HEAD
-    # url(r'^incidencias/$', IncidenciaDocumentoLista.as_view(), name="incidencia_lista"),
-    # url(r'^incidencias/nuevo/$', IncidenciaDocumentoNuevo.as_view(), name="incidencia_nuevo"),
-    # url(r'^incidencias/(?P<pk>\d+)/editar/$', IncidenciaDocumentoEditar.as_view(), name="incidencia_editar"),
-    # url(
-    #     r'^incidencias/(?P<incidencia_id>\d+)/archivos/$',
-    #     IncidenciaDocumentoArchivo.as_view(),
-    #     name='incidencia_archivo'
-    # ),
-    # url( 
-    #     r'^incidencias/(?P<incidencia_id>\d+)/seguimiento/$',
-    #     IncidenciaResolucionNuevo.as_view(),
-    #     name='incidencia_seguimiento'
-    # ),
-    # url(
-    #     r'^incidencias/graficas/$',
-    #     IncidenciaGraficas.as_view(),
-    #     name='incidencia_grafica'
-    # ),
-
     # ----------------- CALIDAD - DASHBOARD ----------------- #
 
     url(
@@ -59,9 +61,9 @@ urlpatterns = [
         name="proceso_lista"
     ),
     url(
-        r'^auditorias/nuevo/procesos/nuevo/requisitos/nuevo/$',
-        RequisitoFormulario.as_view(),
-        name="requisito_formulario"
+        r'^auditorias/nuevo/procesos/nuevo/$',
+        ProcesoFormulario.as_view(),
+        name="proceso_formulario"
     ),
     url(
         r'^auditorias/nuevo/procesos/nuevo/requisitos/$',
@@ -69,12 +71,12 @@ urlpatterns = [
         name="requisito_lista"
     ),
     url(
-        r'^auditorias/nuevo/hallazgos/$',
+        r'^auditorias/nuevo/procesos/nuevo/hallazgos/$',
         HallazgoLista.as_view(),
         name="hallazgo_lista"
     ),
     url(
-        r'^auditorias/nuevo/hallazgos/evidencia/s$',
+        r'^auditorias/nuevo/hallazgos/evidencia/$',
         EvidenciaFormulario.as_view(),
         name="evidencia_formulario"
     ),
@@ -145,24 +147,3 @@ urlpatterns = [
         name="configuracion_formato_lista"
     ),
 ]
-=======
-    url(r'^incidencias/$', IncidenciaDocumentoLista.as_view(), name="incidencia_lista"),
-    url(r'^incidencias/nuevo/$', IncidenciaDocumentoNuevo.as_view(), name="incidencia_nuevo"),
-    url(r'^incidencias/(?P<pk>\d+)/editar/$', IncidenciaDocumentoEditar.as_view(), name="incidencia_editar"),
-    url(
-        r'^incidencias/(?P<incidencia_id>\d+)/archivos/$',
-        IncidenciaDocumentoArchivo.as_view(),
-        name='incidencia_archivo'
-    ),
-    url( 
-        r'^incidencias/(?P<incidencia_id>\d+)/seguimiento/$',
-        IncidenciaResolucionNuevo.as_view(),
-        name='incidencia_seguimiento'
-    ),
-    url(
-        r'^incidencias/graficas/$',
-        IncidenciaGraficas.as_view(),
-        name='incidencia_grafica'
-    ),
-]
->>>>>>> origin/master
