@@ -21,7 +21,7 @@
          <li><a href="{% url 'home:inicio' %}">Inicio</a></li>
          <li id="menu" data-opcion="auditorias_lista"><a href="{% url 'calidad:auditoria_lista' %}">Procesos de Auditoría</a></li>
          <li><a href="{% url 'calidad:proceso_lista' %}">Procesos</a></li>
-         <li class="active"><a>Requisitos</a></li>
+         <li class="active">Requisitos</li>
       </ol>
    </div>
 
@@ -35,28 +35,35 @@
             <div id="wizard1" class="wizard wizard-ux nova-panel-borde-header">
                <ul class="steps">
 
-                  <li class="active">Auditoría No: <strong>AUD-01-15</strong>. Proceso: <strong>Tecnologías de información</strong></li>
+                  <li class="active">Auditoría No: <strong>AUD-01-15</strong>.</li>
 
                </ul>
                <div class="actions">
                   <a href="{% url 'calidad:general_formulario' %}" class="btn btn-xs btn-prev btn-default nova-a-tab">Generales</a>
                   <a href="{% url 'calidad:equipo_auditor_formulario' %}" class="btn btn-xs btn-next btn-default nova-a-tab">Equipo Auditor</a>
                   <a href="{% url 'calidad:proceso_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab nova-a-tab-border nova-active-tab">Procesos</a>
-                  <!--<a href="{% url 'calidad:hallazgo_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Hallazgos</a>-->
+               </div>
+               <div class="nova-content-nav">
+                     
+                  <div class="nova-breadcrumb-nav"> 
+                     <ol class="breadcrumb">
+                        <li id="menu" data-opcion="auditorias_lista"><a href="{% url 'calidad:proceso_lista' %}">Lista de Procesos</a></li>
+                        <li class="active"><a>Licitaciones</a></li>
+                     </ol>
+                  </div>
+
+                  <div role="group" class="btn-group btn-group-justified nova-nav-tab">
+                     <a href="{% url 'calidad:proceso_formulario' %}" class="btn btn-default btn-lg">Información</a>
+                     <a href="#" class="btn btn-primary btn-lg">Requisitos</a>
+                     <a href="{% url 'calidad:hallazgo_lista' %}" class="btn btn-default btn-lg">Hallazgos</a>
+                  </div>
+
+               </div>
+               <div class="step-content nova-panel-borde-top">
                </div>
             </div>
             
-            <ul class="nav nav-tabs nova-tab-border">
-               <li>
-                  <a href="{% url 'calidad:requisito_formulario' %}">Informacion</a>
-               </li>
-               <li class="active"> 
-                  <a href="#">Requisitos</a>
-               </li>
-               <li> 
-                  <a href="{% url 'calidad:hallazgo_lista' %}">Hallazgos</a>
-               </li>
-            </ul>
+            
 
             <!-- Tarjeta resultados-->
             <div class="panel panel-default panel-table">
@@ -100,7 +107,7 @@
                            <td>
                               <a href="#id_tarjeta_nuevo_requisito" class="btn btn-default nova-url" data-toggle="modal">Requisito 12.3</a>
                            </td>
-                           <td>Norma</td>
+                           <td>RSC</td>
                            <td>ISO 14001:2004</td>
                         </tr>
                         <tr>

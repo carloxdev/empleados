@@ -45,7 +45,6 @@
                   <a href="{% url 'calidad:general_formulario' %}" class="btn btn-xs btn-prev btn-default nova-a-tab">Generales</a>
                   <a href="{% url 'calidad:equipo_auditor_formulario' %}" class="btn btn-xs btn-next btn-default nova-a-tab">Equipo Auditor</a>
                   <a class="btn btn-xs btn-next btn-default nova-a-tab nova-a-tab-border nova-active-tab">Procesos</a>
-                  <!--<a href="{% url 'calidad:hallazgo_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Hallazgos</a>-->
                </div>
             </div>
             
@@ -74,7 +73,7 @@
                                  </a>
                               </td>
                               <td>
-                                 <a href="#id_tarjeta_nuevo_proceso" class="btn btn-default nova-url" data-toggle="modal">Licitaciones</a>
+                                 <a href="{% url 'calidad:proceso_formulario' %}" class="btn btn-default nova-url" data-toggle="modal">Licitaciones</a>
                               </td>
                               <td>Licitaciones</td>
                               <td>Armando Villanueva Jimenez</td>
@@ -87,7 +86,7 @@
                                  </a>
                               </td>
                               <td>
-                                 <a href="#id_tarjeta_nuevo_proceso" class="btn btn-default nova-url" data-toggle="modal">Capital humano</a>
+                                 <a href="{% url 'calidad:proceso_formulario' %}" class="btn btn-default nova-url" data-toggle="modal">Capital humano</a>
                               </td>
                               <td>Capacitación, Selección y Reclutamiento</td>
                               <td>Armando Villanueva Jimenez</td>
@@ -100,7 +99,7 @@
                                  </a>
                               </td>
                               <td>
-                                 <a href="#id_tarjeta_nuevo_proceso" class="btn btn-default nova-url" data-toggle="modal">Tecnologías de información</a>
+                                 <a href="{% url 'calidad:proceso_formulario' %}" class="btn btn-default nova-url" data-toggle="modal">Tecnologías de información</a>
                               </td>
                               <td>Redes y Telecomunicaciones</td>
                               <td>Claudia Villegas</td>
@@ -113,7 +112,7 @@
                                  </a>
                               </td>
                               <td>
-                                 <a href="#id_tarjeta_nuevo_proceso" class="btn btn-default nova-url" data-toggle="modal">Suministro, Logística y Control</a>
+                                 <a href="{% url 'calidad:proceso_formulario' %}" class="btn btn-default nova-url" data-toggle="modal">Suministro, Logística y Control</a>
                               </td>
                               <td>Compras y Almacén</td>
                               <td>Antonio Corcino Donato</td>
@@ -126,7 +125,7 @@
                                  </a>
                               </td>
                               <td>
-                                 <a href="#id_tarjeta_nuevo_proceso" class="btn btn-default nova-url" data-toggle="modal">Facturación y Cobranza</a>
+                                 <a href="{% url 'calidad:proceso_formulario' %}" class="btn btn-default nova-url" data-toggle="modal">Facturación y Cobranza</a>
                               </td>
                               <td>Facturación y Cobranza</td>
                               <td>Julio Cabrera Mendez</td>
@@ -271,7 +270,7 @@
           <div class="modal-body">
             <div class="text-center">
                <div role="group" class="btn-group-vertical btn-space">
-                  <a href="{% url 'calidad:requisito_formulario' %}" class="btn nova-btn btn-space btn-default btn-lg" id="boton_nuevo">
+                  <a href="{% url 'calidad:requisito_lista' %}" class="btn nova-btn btn-space btn-default btn-lg" id="boton_nuevo">
                      <i class="icon icon-left mdi mdi-plus-circle nova-black"></i> Requisitos De Auditoría
                   </a>
                   <a href="{% url 'calidad:general_formulario' %}" class="btn nova-btn btn-space btn-success btn-lg" id="boton_excel">

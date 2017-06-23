@@ -98,9 +98,9 @@ class ProcesoLista(View):
         return render(request, self.template_name, {})
 
 
-class RequisitoFormulario(View):
+class ProcesoFormulario(View):
     def __init__(self):
-        self.template_name = 'requisito_auditoria/requisito_formulario.html'
+        self.template_name = 'proceso/proceso_formulario.html'
 
     def get(self, request):
 

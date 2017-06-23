@@ -9,7 +9,7 @@ from .views import GeneralFormulario
 from .views import EquipoAuditorFormulario
 from .views import ProcesoLista
 from .views import RequisitoLista
-from .views import RequisitoFormulario
+from .views import ProcesoFormulario
 from .views import HallazgoLista
 from .views import EvidenciaFormulario
 from .views import PlanAccionLista
@@ -61,9 +61,9 @@ urlpatterns = [
         name="proceso_lista"
     ),
     url(
-        r'^auditorias/nuevo/procesos/nuevo/requisitos/nuevo/$',
-        RequisitoFormulario.as_view(),
-        name="requisito_formulario"
+        r'^auditorias/nuevo/procesos/nuevo/$',
+        ProcesoFormulario.as_view(),
+        name="proceso_formulario"
     ),
     url(
         r'^auditorias/nuevo/procesos/nuevo/requisitos/$',
@@ -71,12 +71,12 @@ urlpatterns = [
         name="requisito_lista"
     ),
     url(
-        r'^auditorias/nuevo/hallazgos/$',
+        r'^auditorias/nuevo/procesos/nuevo/hallazgos/$',
         HallazgoLista.as_view(),
         name="hallazgo_lista"
     ),
     url(
-        r'^auditorias/nuevo/hallazgos/evidencia/s$',
+        r'^auditorias/nuevo/hallazgos/evidencia/$',
         EvidenciaFormulario.as_view(),
         name="evidencia_formulario"
     ),

@@ -27,6 +27,7 @@
       <ol class="breadcrumb page-head-nav pull-right">
          <li><a href="{% url 'home:inicio' %}">Inicio</a></li>
          <li id="menu" data-opcion="auditorias_lista"><a href="{% url 'calidad:auditoria_lista' %}">Procesos de Auditoría</a></li>
+         <li><a href="{% url 'calidad:proceso_lista' %}">Procesos</a></li>
          <li class="active">Hallazgos</li>
       </ol>
    </div>
@@ -39,7 +40,8 @@
             <div id="wizard1" class="wizard wizard-ux nova-panel-borde-header">
                <ul class="steps">
 
-                  <li class="active">Auditoría No: <strong>AUD-01-15</strong>. Proceso: <strong>Tecnologías de información</strong></li>
+                  <li class="active">Auditoría No: <strong>AUD-01-15</strong>.
+                  </li>
 
                </ul>
                <div class="actions">
@@ -48,19 +50,24 @@
                   <a href="{% url 'calidad:proceso_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Procesos</a>
                   <!--<a class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab nova-active-tab">Hallazgos</a>-->
                </div>
-            </div>
-            <div class="nova-nav-tab">
-               <ul class="nav nav-tabs nova-tab-border">
-                  <li>
-                     <a href="{% url 'calidad:requisito_formulario' %}">Informacion</a>
-                  </li>
-                  <li> 
-                     <a href="{% url 'calidad:requisito_lista' %}">Requisitos</a>
-                  </li>
-                  <li class="active"> 
-                     <a href="#">Hallazgos</a>
-                  </li>
-               </ul>
+               <div class="nova-content-nav">
+                     
+                  <div class="nova-breadcrumb-nav"> 
+                     <ol class="breadcrumb">
+                        <li id="menu" data-opcion="auditorias_lista"><a href="{% url 'calidad:proceso_lista' %}">Lista de Procesos</a></li>
+                        <li class="active"><a>Licitaciones</a></li>
+                     </ol>
+                  </div>
+
+                  <div role="group" class="btn-group btn-group-justified nova-nav-tab">
+                     <a href="{% url 'calidad:proceso_formulario' %}" class="btn btn-default btn-lg">Información</a>
+                     <a href="{% url 'calidad:requisito_lista' %}" class="btn btn-default btn-lg">Requisitos</a>
+                     <a href="#" class="btn btn-primary btn-lg">Hallazgos</a>
+                  </div>
+
+               </div>
+               <div class="step-content nova-panel-borde-top">
+               </div>
             </div>
 
             <div class="panel panel-default panel-table">
@@ -86,8 +93,6 @@
                            <th>Zona</th>
                            <th>Contrato</th>
                            <th>Observaciones del Hallazgo</th>
-                           <!--<th>Atención</th>
-                           <th>Seguimiento</th>   Dejar para posibles referencias --> 
                            <th>Estado</th>
                         </tr>
                      </thead>
@@ -98,13 +103,13 @@
                                  <i class="icon icon-left icon mdi mdi-settings nova-black"></i>
                               </a>
                            </td>
-                           <td>Licictaciones</td>
+                           <td>
+                              <a href="#id_tarjeta_nuevo_hallazgo" class="btn btn-default nova-url" data-toggle="modal">Licictaciones</a>
+                           </td>
                            <td style="text-align:center">En Captura</td>
                            <td>Oficinas veracruz</td>
                            <td>Cont 01</td>
                            <td>Documento fuera de regla</td>
-                           <!--<td></td>
-                           <td></td>-->
                            <td>Abierto</td>
                         </tr>
                         <tr>
@@ -113,13 +118,13 @@
                                  <i class="icon icon-left icon mdi mdi-settings nova-black"></i>
                               </a>
                            </td>
-                           <td>Infraestructura</td>
+                           <td>
+                              <a href="#id_tarjeta_nuevo_hallazgo" class="btn btn-default nova-url" data-toggle="modal">Infraestructura</a>
+                           </td>
                            <td bgcolor="#5ac3f6" style="text-align:center">En Aprobación</td>
                            <td>Oficinas veracruz</td>
                            <td>Cont 01</td>
                            <td>Ticket sin cerrar</td>
-                           <!--<td></td>
-                           <td></td>-->
                            <td>Cerrado</td>
                         </tr>
                         <tr>
@@ -128,13 +133,13 @@
                                  <i class="icon icon-left icon mdi mdi-settings nova-black"></i>
                               </a>
                            </td>
-                           <td>Infraestructura</td>
+                           <td>
+                              <a href="#id_tarjeta_nuevo_hallazgo" class="btn btn-default nova-url" data-toggle="modal">Infraestructura</a>
+                           </td>
                            <td bgcolor="#4285f4" style="text-align:center">Aprobado</td>
                            <td>Oficinas veracruz</td>
                            <td>Cont 01</td>
                            <td>Cable de red fuera de la canaleta</td>
-                           <!--<td></td>
-                           <td></td>-->
                            <td>Abierto</td>
                         </tr>
                         <tr>
@@ -143,13 +148,13 @@
                                  <i class="icon icon-left icon mdi mdi-settings nova-black"></i>
                               </a>
                            </td>
-                           <td>Desarrollo</td>
+                           <td>
+                              <a href="#id_tarjeta_nuevo_hallazgo" class="btn btn-default nova-url" data-toggle="modal">Desarrollo</a>
+                           </td>
                            <td bgcolor="#f6b663" style="text-align:center">Rechazado</td>
                            <td>Oficinas veracruz</td>
                            <td>Cont 01</td>
                            <td>Falta documentacion de metodologia agil</td>
-                           <!--<td></td>
-                           <td></td>-->
                            <td>Cerrado</td>
                         </tr>
                      </tbody>
@@ -233,9 +238,6 @@
                   </a>
                   <a href="{% url 'calidad:plan_accion_lista' %}" class="btn nova-btn btn-space btn-default btn-lg" id="id_boton_plan_accion">
                      <i class="icon icon-left mdi mdi-wrench nova-black"></i> Plan de Acciones Correctivas
-                  </a>
-                  <a href="#id_tarjeta_nuevo_hallazgo" class="btn nova-btn btn-space btn-default btn-lg" data-toggle="modal" id="id_boton_editar">
-                     <i class="icon icon-left mdi mdi-edit nova-black"></i> Editar Hallazgo
                   </a>
                   <a href="#" class="btn nova-btn btn-space btn-warning btn-lg" id="id_boton_cerrar_hallazgo">
                      <i class="icon icon-left mdi mdi-alert-triangle nova-white"></i> Cerrar Hallazgo

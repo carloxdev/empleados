@@ -268,58 +268,44 @@
    border-right: 1px solid #d4d4d4 !important;
 }
 
+
+/* nova-content-nav */
+.nova-content-nav{
+   border-top: 1px solid #d4d4d4 !important; /* borde en top del contenedor */
+   width: 100%;   /* ancho del contenedor */
+   padding: 10px 0px 20px;   /* padding del contenedor */
+   clear: both;   /* Permite desborde del contenedor */
+   position: relative;  /* Referencia de contenedor para posicionar elemento absoluto */
+}
 .nova-nav-tab{
-   border-top: 1px solid #d4d4d4 !important;
-   padding: 0px !important;
-
-   clear:both !important;
-   float:left !important;
-   overflow:hidden !important;
-   width:100% !important;
-   
+   position: absolute;  /* Posiciona elemento de manera absoluta sacandolo del contenedor */
+   width:70%;  /* Ancho del elemento */
+   left:50%;   /* Posiciona el elemento para centrarlo a la izquierda */
+   margin:0px;    /* Quita margenes de otras clases */
+   bottom: -20px;   /* Posiciona el elemento al centro del borde inferior */
 }
-ul.nova-tab {
-   float:left;
-   left:50%;
-   list-style-type:none;
-   margin:0 auto;
-   padding:0;
-   position:relative;
+.nova-nav-tab a{
+   right:50%;  /* Posiciona el elemento para centrarlo a la derecha */
 }
-ul.nova-tab li{
-   float:left;
-   position:relative;
-   right:50%;
-   display: inline !important;
-   border-right: 1px solid #d4d4d4 !important;
+/* Bordes */
+.nova-nav-tab a:first-child{
+   border-top-left-radius: 7px;
+   border-bottom-left-radius: 7px;   
 }
-ul.nova-tab a{
-   font-family: sans-serif !important;
-   font-size:14px;
-   font-weight: 600;
-   background: #ffffff;
-   color: #3a3d40;
-
-   text-decoration: none;
-   float:left;
-   padding: 10px;
+.nova-nav-tab a:last-child{
+   border-top-right-radius: 7px;
+   border-bottom-right-radius: 7px;   
 }
-ul.nova-tab li:first-child{
-   border-left: 1px solid #d4d4d4 !important;
+/* nova-content-nav */
+.nova-breadcrumb-nav{
+   padding: 10px 10px 0px 0px;
+   background-color: transparent !important;
+   position: relative;
 
 }
-ul.nova-tab a:hover{
-   background-color: #4285f4;
-   color: #ffffff;
-
-   margin-top:-2px;
-   padding-bottom:12px;
+.nova-breadcrumb-nav ol.breadcrumb{
+   background-color: transparent !important;
 }
-.nova-active-tab{
-   background-color: #4285f4 !important;
-   color: #ffffff !important;   
-}
-
 
 .nova-panel-borde-contenido {
    border-top: none !important;
@@ -338,16 +324,15 @@ ul.nova-tab a:hover{
    border-top: 1px solid #d4d4d4 !important;
    
 }
+/* nova-panel-arbol */
 .nova-panel-arbol {
    padding: 0px !important;
    border-radius: 0px! important; 
 }
-
 .nova-icon-lista {
    padding: 6px 14px !important;
    margin-right: 0px !important;
 }
-
 div.nova-panel-arbol span.badge {
    border: 0px !important;
    background-color: inherit !important;
@@ -357,11 +342,14 @@ div.nova-panel-arbol li.list-group-item {
    overflow-y: hidden !important;
    border-radius: 0px !important;
 }
+/* nova-panel-arbol */
+
 .nova-btn-space {
    margin-right: 5px;
-   margin-bottom: 5px;
+   margin-bottom: 5px;  /* IVALIDO? */
    margin-top: 12px;
 }
+
 .nova-chevron-color {
    border-left-color: #d4d4d4 !important;
 }
