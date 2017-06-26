@@ -3,7 +3,7 @@
 \*-----------------------------------------------*/
 
 // URLS:
-var url_viaticocabecera_bypage = window.location.origin + "/api-finanzas/viaticocabecera_bypage/"
+var url_viaticocabecera_bypage = window.location.origin + "/api-serviciosempleado/viaticocabecera_bypage/"
 var url_viaticocabecera_editar = ""
 
 // OBJS

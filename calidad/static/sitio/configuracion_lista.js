@@ -105,7 +105,7 @@ Grid.prototype.get_Configuracion = function () {
       selectable: true,
       scrollable: false,
       columns: [
-         {  template: '<a class="btn nova-btn btn-default" id="boton_nuevo"> <i class="icon icon-left icon mdi mdi-delete nova-black"></i></a>',
+         {  template: '<a class="btn nova-btn btn-default nova-btn-delete" id="boton_nuevo"> <i class="icon icon-left icon mdi mdi-delete nova-white"></i></a>',
             width: '45px'
          },
          {  field: "sitio", title: "Sitio", width: "60%"

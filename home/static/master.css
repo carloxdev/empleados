@@ -380,3 +380,15 @@ div.nova-panel-arbol li.list-group-item {
 .nova-btn-delete{
    background-color: #ff4141 !important;
 }
+.nova-btn-edit{
+   background-color: #fba605 !important;
+}
+
+/* .nova-fix-top{
+   width: 200px;
+   height: 90px;
+   position: fixed;
+   
+   top: 200px;
+   border: 1px solid black;
+} */

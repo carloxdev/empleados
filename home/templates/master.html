@@ -183,11 +183,11 @@
                                         <span>Inicio</span>
                                     </a>
                                 </li>
-                                <li class="parent"><a href="#"><i class="icon mdi mdi-airplane"></i><span>Finanzas</span></a>
+                                <li class="parent"><a href="#"><i class="icon mdi mdi-money"></i><span>Finanzas</span></a>
                                     <ul class="sub-menu">
-                                        <li id="viaticos_lista">
-                                            <a href="{% url 'finanzas:viatico_lista' %}">
-                                                <span>Viaticos</span>
+                                        <li id="configuracion">
+                                            <a href="#">
+                                                <span>Configuración</span>
                                             </a>
                                         </li>
                                     </ul>
@@ -251,6 +251,11 @@
                                              <a href="{% url 'serviciosempleado:empleado_organigrama' %}">
                                                 <span>Organigrama</span>
                                              </a> 
+                                        </li>
+                                        <li id="viaticos_lista">
+                                            <a href="{% url 'serviciosempleado:viatico_lista' %}">
+                                                <span>Viaticos</span>
+                                            </a>
                                         </li>
                                         
                                     </ul>

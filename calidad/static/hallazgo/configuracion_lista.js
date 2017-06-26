@@ -107,7 +107,7 @@ Grid.prototype.get_Configuracion = function () {
       scrollable: false,
       columns: [
          
-         {  template: '<a class="btn nova-btn btn-default" id="boton_nuevo"> <i class="icon icon-left icon mdi mdi-delete nova-black"></i></a>',
+         {  template: '<a class="btn nova-btn btn-default nova-btn-delete"> <i class="icon icon-left icon mdi mdi-delete nova-white"></i></a>',
             width: '45px'
          },
          { field: "tipo_hallazgo", title: "Tipo hallazgo", width:"60%"

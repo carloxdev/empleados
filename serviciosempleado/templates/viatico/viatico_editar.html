@@ -20,7 +20,7 @@
         <h2 class="page-head-title nova-title">Editar Solicitud</h2>
         <ol class="breadcrumb page-head-nav pull-right">
             <li><a href="{% url 'home:inicio' %}">Inicio</a></li>
-            <li><a href="{% url 'finanzas:viatico_lista' %}">Viaticos</a></li>
+            <li><a href="{% url 'serviciosempleado:viatico_lista' %}">Viaticos</a></li>
             <li class="active">Nuevo</li>
         </ol>
     </div>
@@ -42,7 +42,7 @@
                         <div class="actions">
                             <button type="button" class="btn btn-xs btn-prev btn-default nova-active-tab">General</button>
 
-                            <a href="{% url 'finanzas:viatico_lineas' form.instance.id %}"
+                            <a href="{% url 'serviciosempleado:viatico_lineas' form.instance.id %}"
                             class="btn bt-xs btn-next btn-default">
                                 Lineas
                             </a>
@@ -168,7 +168,7 @@
 
                         <div class="row col-sm-12">
 
-                            <a href=" {% url 'finanzas:viatico_lista' %}" class="btn btn-default pull-left">
+                            <a href=" {% url 'serviciosempleado:viatico_lista' %}" class="btn btn-default pull-left">
                                 <i class="icon mdi mdi-arrow-left"></i>
                                 Regresar                                
                             </a>                     

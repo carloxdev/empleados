@@ -6,8 +6,13 @@ from django.conf.urls.static import static
 from .views import EmpleadoPerfil
 from .views import EmpleadoOrganigrama
 from .views import EmpleadoOrganigramaAPI
+from .views import ViaticoLista
+from .views import ViaticoCabeceraNuevo
+from .views import ViaticoCabeceraEditar
+from .views import ViaticoLineas
 
 urlpatterns = [
+    # Empleados
 
     url(
         r'^perfil/miexpediente/$',
@@ -24,6 +29,12 @@ urlpatterns = [
         EmpleadoOrganigramaAPI.as_view(),
         name='organigrama_json_org'
     ),
+    # Viaticos
+
+    url(r'^viaticos/$', ViaticoLista.as_view(), name="viatico_lista"),
+    url(r'^viaticos/nuevo/$', ViaticoCabeceraNuevo.as_view(), name="viatico_nuevo"),
+    url(r'^viaticos/(?P<pk>\d)/editar/$', ViaticoCabeceraEditar.as_view(), name="viatico_editar"),
+    url(r'^viaticos/(?P<pk>\d+)/lineas/$', ViaticoLineas.as_view(), name="viatico_lineas"),
 ]
 
 if settings.DEBUG:
