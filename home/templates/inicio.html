@@ -1,5 +1,7 @@
 {% extends 'master.html' %}
 
+{% load static from staticfiles %}
+
 {% block titulo %} Inicio {% endblock titulo %}
 
 {% block title-page %} Inicio  {% endblock title-page %}
@@ -8,13 +10,162 @@
 
 <div class="be-content">
     <div class="page-head">
-        <h2 class="page-head-title">Inicio</h2>
-        <ol class="breadcrumb page-head-nav">
+        <h2 class="page-head-title nova-title">Inicio</h2>
+        <ol class="breadcrumb page-head-nav pull-right">
             <li id="menu" data-opcion="inicio" class="active">Inicio</li>
         </ol>
     </div>
     <div class="main-content container-fluid">
-        <h3 class="text-center">Bienvenidos!</h3>
+         
+      
+         <div class="row nova-panel-inicio-top">
+            <div class="container">
+               <div class="col-md-12">
+                  
+                  <div class="col-xs-12 col-md-6 col-lg-6">
+                     
+                     <div class="col-xs-4">
+                        <button class="btn btn-space btn-default btn-big nova-btn-home">
+                        <i class="icon mdi mdi-globe"></i> 
+                        <h2>77</h2>
+                        Acciones voluntarias 
+                        </button>
+                     </div>
+
+                     <div class="col-xs-4">
+                        <button class="btn btn-space btn-default btn-big nova-btn-home">
+                        <i class="icon fa fa-users"></i> 
+                        <h2>2277</h2>
+                           Voluntarios
+                        </button>
+                     </div>
+
+                     <div class="col-xs-4">
+                        <button class="btn btn-space btn-default btn-big nova-btn-home">
+                        <i class="icon fa fa-hand-o-up"></i>
+                        
+                        <h3 style="padding-top:17px"><strong>Participar!</strong></h3>
+                        </button>
+
+                     </div>
+
+                  </div>
+
+                  <div class="col-xs-12 col-md-6 col-lg-6">
+                     <div class="col-xs-12">
+                        <div class="nova-info">
+                           
+                           <h4>Esta es la red social del corporativo Nuvoil.</h4>
+                           <h4>
+                              <p>
+                                 <strong>Colabora</strong> con acciones voluntarias.
+                              </p>
+                              <p>
+                                 <strong>Promueve</strong> tus propias iniciativas.
+                              </p>
+                              <p>
+                                 <strong>Comparte</strong> experiencias y resultados.
+                              </p>
+                           </h4>
+                           
+                        </div>
+                     </div>
+                  </div>
+               </div> <!-- col-md-12 -->
+
+
+               <div class="col-md-12">
+                  <div class="col-xs-12">
+                     <div class="nova-home-title">
+                        <i class="icon mdi mdi-rss"></i> Últimas noticias
+                     </div>
+                  </div>
+               </div>
+               
+               <div class="col-md-12">
+                  <div class="nova-paper col-md-4">
+                     <div style="padding:40px;">
+                        <img class="img-responsive" src="{% static "images/referenciavisual/1.jpg" %}" alt="Avatar">
+                     </div>
+                     <div class="nova-texto">
+                        <p></p>
+                        <p>
+                           Mariano Hernández Palmeros y la responsabilidad social corporativa
+                        </p>
+                     </div>
+                  </div>
+
+                  <div class="nova-paper col-md-4">
+                     <div style="padding:40px 40px 92px 40px;">
+                        <img class="img-responsive" src="{% static "images/referenciavisual/2.jpg" %}" alt="Avatar">
+                     </div>
+                     <div class="nova-texto">
+                        <p></p>
+                        <p>
+                           Instituto de ingenieria en la universiad veracruzana.
+                        </p>
+                     </div>
+                  </div>
+
+                  <div class="nova-paper col-md-4">
+                     <div style="padding:40px 40px 20px 40px;">
+                        <img class="img-responsive" src="{% static "images/referenciavisual/3.jpg" %}" alt="Avatar">
+                     </div>
+                     <div class="nova-texto">
+                        <p></p>
+                        <p>
+                           Calidad de vida para los colaboradores con “Todos a la Cultura”
+                        </p>
+                     </div>
+                  </div>
+
+               </div>
+
+               
+               
+
+            </div><!-- container -->
+         </div> <!-- row -->
+
+         <!--<div class="row nova-panel-inicio-bottom">
+
+            <div class="col-md-12">
+                  <div class="col-xs-12">
+                     <div class="nova-home-title">
+                        <i class="icon fa fa-users"></i> Acciones voluntarias próximas.
+                     </div>
+                  </div>
+            </div>
+
+            <div class="col-md-12">
+               <div class="container">
+            
+            <div class="col-md-12">
+                  <div class="nova-paper col-md-3">
+                     <div style="padding:20px;">
+                        <img class="img-responsive" src="{% static "images/referenciavisual/documento.jpg" %}" alt="Avatar">
+                     </div>
+                     <div class="nova-texto nova-border-top">
+                        <p class="nova-titulo-acciones">
+                           Titulo
+                        </p>
+                        <p>
+                           Texto Texto Texto Texto Texto Texto Texto Texto Texto Texto Texto Texto Texto Texto Texto Texto Texto 
+                           Texto Texto Texto Texto Texto Texto Texto Texto Texto Texto Texto Texto Texto Texto Texto Texto Texto 
+                           Texto Texto Texto Texto Texto Texto Texto Texto Texto Texto Texto Texto Texto Texto Texto Texto 
+                        </p>
+                     </div>
+                  </div>
+
+                  
+
+
+               </div>
+               
+
+               </div>
+            </div> col-md-12 
+         </div>  row -->
     </div>
 </div>
 
