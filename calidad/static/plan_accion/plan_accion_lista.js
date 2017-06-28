@@ -80,6 +80,11 @@ PopupAcciones.prototype.click_BotonEvaluacion = function (e) {
     e.preventDefault()
     e.data.$id_tarjeta_acciones.modal('hide')
 }
+
+/*-----------------------------------------------*\
+            OBJETO: popup nuevo
+\*-----------------------------------------------*/
+
 function PopupNuevo () {
 
     this.$id_actividad = $('#id_actividad')

@@ -16,6 +16,9 @@
    <!-- wysihtml5 -->
    <link rel="stylesheet" href="{% static 'libs/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css' %}">
 
+   <!-- bootstrap-fileinput -->
+   <link rel="stylesheet" href="{% static 'libs/bootstrap-fileinput/4.4.2/css/fileinput.min.css' %}">
+
 {% endblock css %}
 
 {% block contenido %}
@@ -59,22 +62,315 @@
                      </ol>
                   </div>
 
-                  <div role="group" class="btn-group btn-group-justified nova-nav-tab">
-                     <a href="{% url 'calidad:proceso_formulario' %}" class="btn btn-default">Información</a>
-                     <a href="{% url 'calidad:requisito_lista' %}" class="btn btn-default">Requisitos</a>
-                     <a href="#" class="btn btn-primary">Hallazgos</a>
-                  </div>
-
-               </div>
-               <div class="step-content nova-panel-no-border-top">
                </div>
             </div>
 
-            <div class="panel panel-default panel-table">
+            <!--<div class="panel panel-default">-->
                
+               <!--<div class="step-content">-->
+                  
+                  <div class="nova-panel-slider">
+
+                     <div class="col-md-4 col-lg-3">
+                        
+                        <div class="row nova-slider">
+                           <div id="lista-acciones" class="nova-slider-menu">
+
+                              <div class="list-group" id="id_lista">
+                                 <a href="#id_detalle_hallazgo" class="list-group-item active">
+                                     Detalle hallazgo
+                                 </a>
+                                 <a href="#id_analisis_causas" class="list-group-item">
+                                    Analisis de causas
+                                 </a>
+                                 <a href="#id_plan_accion" class="list-group-item">
+                                    Plan de acción
+                                 </a>
+                                 <a href="#id_evidencia" class="list-group-item">
+                                    Evidencias
+                                 </a>
+                              </div>
+
+                           </div>
+                        </div> <!-- row -->
+                     </div> <!-- col-md-4 col-lg-3 -->
+
+                     <div class="col-md-8 col-lg-9">
+                        
+                        <section id="id_detalle_hallazgo" class="nova-slider-section">
+                           
+                           <form id="formulario_hallazgo" class="form-horizontal">
+                              <div class="nova-slider-panel"> <!-- contiene bordes, es generico, cambiar por los interiores-->
+                                 
+                                 <div class="nova-slider-panel-heading">
+                                    
+                                    <div class="nova-slider-title">Datos del Hallazgo
+                                    </div>
+
+                                 </div>
+                                 <div class="nova-slider-panel-content">   
+                                    
+                                          <!-- id_subproceso -->
+                                          <div class="form-group">
+                                             <label class="col-sm-3 control-label" 
+                                                for="{{ form.auditores.id_for_label }}">
+                                                {{ form.auditores.label }}
+                                                Subproceso
+                                             </label>
+                                             <div class="col-sm-7 xs-pt-5">
+                                                {{ form.auditores }}
+                                                <select class="select2 select2-hidden-accessible" tabindex="-1" aria-hidden="true" id="id_subproceso">
+                                                   <option value="" selected="selected">-------</option>
+                                                   <option value="Norma">Infraestructura</option>
+                                                   <option value="Legal">Licitaciones</option>
+                                                   <option value="Contractual">Construccion</option>
+                                                   <option value="RSC">Desarrollo</option>
+                                                </select>
+                                             </div> 
+                                             {% for error in form.auditores.errors %}
+                                                <span class="help-block">{{ error }}</span>
+                                             {% endfor %}                                        
+                                          </div>
+
+                                          <!-- id_clasificacion_hallazgo -->
+                                          <div class="form-group">
+                                             <label class="col-sm-3 control-label" 
+                                                for="{{ form.auditores.id_for_label }}">
+                                                {{ form.auditores.label }}
+                                                Clasificación de hallazgo
+                                             </label>
+                                             <div class="col-sm-7 xs-pt-5">
+                                                {{ form.auditores }}
+                                                <select class="select2 select2-hidden-accessible" tabindex="-1" aria-hidden="true" id="id_clasificacion_hallazgo">
+                                                   <option value="" selected="selected">-------</option>
+                                                   <option value="Norma">Norma</option>
+                                                   <option value="Legal">Legal</option>
+                                                   <option value="Contractual">Contractual</option>
+                                                   <option value="RSC">RSC</option>
+                                                </select>
+                                             </div> 
+                                             {% for error in form.auditores.errors %}
+                                                <span class="help-block">{{ error }}</span>
+                                             {% endfor %}                                        
+                                          </div>
+
+                                          <div class="form-group">
+                                             <label class="col-sm-3 control-label" 
+                                                for="{{ form.auditores.id_for_label }}">
+                                                {{ form.auditores.label }}
+                                                Requisitos de referencia
+                                             </label>
+                                             <div class="col-sm-7 xs-pt-5">
+                                                {{ form.auditores }}
+                                                <select id="id_requisito_referencia" multiple="multiple">
+                                                   <option value="a">Requisito de referencia 10.1</option>
+                                                   <option value="b">Requisito de referencia 10.2</option>
+                                                   <option value="c">Requisito de referencia 10.3</option>
+                                                   <option value="d">Requisito de referencia 7.7</option>
+                                                   <option value="e">Requisito de referencia 7.7</option>
+                                                   <option value="f">Requisito de referencia 7.7</option>
+                                                   <option value="g">Requisito de referencia 7.7</option>
+                                                </select>
+                                             </div> 
+                                             {% for error in form.auditores.errors %}
+                                                <span class="help-block">{{ error }}</span>
+                                             {% endfor %}                                        
+                                          </div>
+
+                                          <!-- requisitos_adicionales -->
+                                          <div class="form-group">
+                                             <label class="col-sm-3 control-label" 
+                                                for="{{ form.auditores.id_for_label }}">
+                                                {{ form.auditores.label }}
+                                                Requisitos adicionales
+                                             </label>
+                                             <div class="col-sm-7 xs-pt-5">
+                                                {{ form.auditores }}
+                                                <select class="select2 select2-hidden-accessible input-xs" tabindex="-1" aria-hidden="true" id="id_requisito_adicional" multiple="multiple">
+                                                   <option value="Jose Gutierrez Zacarias">Requisito adicional 10.7</option>
+                                                   <option value="Javier Hernandez Gomez">Requisito adicional 9.3</option>
+                                                   <option value="Fernanda Fuentes Rocio">Requisito adicional 7.4</option>
+                                                   <option value="Fernanda Fuentes Rocio">Requisito adicional 5.6</option>
+                                                   <option value="Fernanda Fuentes Rocio">Requisito adicional 12.7</option>
+                                                </select>
+                                             </div> 
+                                             {% for error in form.auditores.errors %}
+                                                <span class="help-block">{{ error }}</span>
+                                             {% endfor %}                                        
+                                          </div>
+
+                                          <!-- tipo_hallazgo -->
+                                          <div class="form-group">
+                                             <label class="col-sm-3 control-label" 
+                                                for="{{ form.tipo_hallazgo.id_for_label }}">
+                                                Tipo de Hallazgo
+                                             </label>
+                                             <div class="col-sm-7 xs-pt-5">
+                                                <select class="select2 select2-hidden-accessible" tabindex="-1" aria-hidden="true" id="id_tipo_hallazgo">
+                                                   <option value="" selected="selected">-------</option>
+                                                   <option value="TIPOA">Mayor</option>
+                                                   <option value="TIPOB">Menor</option>
+                                                   <option value="Observacion">Observacion</option>
+                                                </select>
+                                             </div>
+                                             {% for error in form.tipo_hallazgo.errors %}
+                                                <span class="help-block">{{ error }}</span>
+                                             {% endfor %}
+                                          </div>
+
+                                 </div>
+                                 <div class="nova-slider-panel-footer">
+                                    
+                                    <button type="button" id="boton_modal_guardar" class="btn nova-btn btn-primary btn-lg pull-right">
+                                       <i class="icon icon-left mdi mdi-floppy nova-white"></i>
+                                       Guardar
+                                    </button>
+
+                                 </div>
+                                 
+                              </div> <!--panel-->
+                           </form><!-- Modal body-->
+
+                        </section> <!-- section -->
+
+                        <section id="id_analisis_causas" class="nova-slider-section">
+                           
+                           <div class="nova-slider-panel-heading-table">
+                              
+                              <div class="nova-slider-title pull-left">Análisis de causas
+                              </div>
+                              
+                              <a href="#id_tarjeta_analisis"
+                                 class="btn nova-btn btn-rounded btn-sm btn-default nova-btn-space pull-right" data-toggle="modal" id="boton_nuevo_analisis_causas">
+                                 <i class="icon icon-left mdi mdi-plus-circle nova-black"></i>Nuevo
+                              </a>
+                           </div>
+                              
+                           <div id="grid_resultados" class="nova-div-overflow">
+                              <table class="table table-bordered">
+                                 <thead>
+                                    <tr>
+                                       <th style="width: 38px;"></th>
+                                       <th>Título</th>
+                                       <th>Metodología</th>
+                                       <th>Causas probables</th>
+                                    </tr>
+                                 </thead>
+                                 <tbody>
+                                    <tr>
+                                       <td>
+                                          <a href="#id_tarjeta_acciones" class="btn nova-btn nova-btn-delete" id="boton_borrar">
+                                             <i class="icon icon-left icon mdi mdi-delete nova-white"></i>
+                                          </a>
+                                       </td>
+                                       <td>
+                                          <a href="#id_tarjeta_analisis" class="btn btn-default nova-url" data-toggle="modal">Analisis de causas 1</a>
+                                       </td>
+                                       <td>ACR</td>
+                                       <td>Se determino en conjunto con el equipo de</td>
+                                    </tr>
+                                    <tr>
+                                       <td>
+                                          <a href="#id_tarjeta_acciones" class="btn nova-btn nova-btn-delete" id="boton_borrar">
+                                             <i class="icon icon-left icon mdi mdi-delete nova-white"></i>
+                                          </a>
+                                       </td>
+                                       <td>
+                                          <a href="#id_tarjeta_analisis" class="btn btn-default nova-url" data-toggle="modal">Analisis de causas 2</a>
+                                       </td>
+                                       <td>Lluvia de ideas</td>
+                                       <td>Se determino en conjunto con el equipo de</td>
+                                    </tr>
+                                 </tbody>
+                              </table>
+                              
+                           </div>
+
+                        </section> <!-- section -->
+
+                        <section id="id_plan_accion" class="nova-slider-section">
+                                 
+                           <div class="nova-slider-panel-heading-table">
+                              
+                              <div class="nova-slider-title pull-left">Plan de Acción
+                              </div>
+                              
+                              <a href="#tarjeta_nueva_actividad"
+                                 class="btn nova-btn btn-rounded btn-sm btn-default nova-btn-space pull-right" data-toggle="modal" id="boton_nuevo">
+                                 <i class="icon icon-left mdi mdi-plus-circle nova-black"></i>Nuevo
+                              </a>
+                           </div>
+                              
+                           <div id="grid_resultados" class="nova-div-overflow">
+                              <table class="table table-bordered">
+                                 <thead>
+                                    <tr>
+                                       <th style="width: 38px;"></th>
+                                       <th>Título</th>
+                                       <th>Actividad</th>
+                                       <th>Responsable</th>
+                                       <th>Fecha programada</th>
+                                       <th>Evidencia</th>
+                                       <th>Observaciones</th>
+                                       <th>Resultado</th>
+                                    </tr>
+                                 </thead>
+                                 <tbody>
+                                    <tr>
+                                       <td>
+                                          <a href="#id_tarjeta_acciones" data-toggle="modal" class="btn nova-btn btn-default" id="boton_nuevo">
+                                             <i class="icon icon-left icon mdi mdi-settings nova-black"></i>
+                                          </a>
+                                       </td>
+                                       <td>
+                                          <a href="#tarjeta_nueva_actividad" class="btn btn-default nova-url" data-toggle="modal">Fijar cables</a>
+                                       </td>
+                                       <td>Fijar los cables a las canaletas con cinchos</td>
+                                       <td>Luis Enrique lopez Mendez</td>
+                                       <td>29/03/2017</td>
+                                       <td>Se presencio el aseguramiento de los cables</td>
+                                       <td>Ninguna</td>
+                                       <td>Cumple</td>
+                                    </tr>
+                                    <tr>
+                                       <td>
+                                          <a href="#id_tarjeta_acciones" data-toggle="modal" class="btn nova-btn btn-default" id="boton_nuevo">
+                                             <i class="icon icon-left icon mdi mdi-settings nova-black"></i>
+                                          </a>
+                                       </td>
+                                       <td>
+                                          <a href="#tarjeta_nueva_actividad" class="btn btn-default nova-url" data-toggle="modal">Realizar inspeccion</a>
+                                       </td>
+                                       <td>Realizar la inspeccion de otros posibles cables que esten fuera de la canaleta</td>
+                                       <td>Julio Mendez Reyez</td>
+                                       <td>12/04/2017</td>
+                                       <td>Se presencio la inspeccion de los demas cables</td>
+                                       <td>Ninguna</td>
+                                       <td>Cumple</td>
+                                    </tr>
+                                 </tbody>
+                              </table>
+                              
+                           </div>
+                                 
+                        </section> <!-- section -->
+
+                        <section id="id_evidencia" class="nova-slider-section">
+                           
+                           
+
+                        </section> <!-- section -->
+
+                        
+
+
+                     </div> <!--col-md-8-->
+
+                  </div> <!-- nova-panel-slider-panel -->
+
+               <!--</div> step-content -->
                
-               
-            </div> <!-- Panel -->
+            <!--</div>  Panel -->
 
          </div> <!-- col sm 12-->
 
@@ -83,9 +379,9 @@
    </div> <!-- main content -->
 
    <!-- tarjeta_analisis -->
-   <div id="tarjeta_analisis" role="dialog" class="modal fade colored-header colored-header-primary">
-      <div class="modal-dialog custom-width">
-         <div class="modal-content">
+   <div id="id_tarjeta_analisis" role="dialog" class="modal fade colored-header colored-header-primary">
+      <div class="modal-dialog modal-lg">
+         <div class="modal-content nova-modal-maxwidth">
             
             <div class="modal-header nova-modal-header">
                <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
@@ -114,6 +410,14 @@
                      </textarea>
                   </div>
                </div>
+               <div class="form-group">
+                  <label class="col-sm-3 nova-col-filter control-label">Recursos Necesarios</label>
+                  <div class="col-sm-8 xs-pt-5">
+                     <input type="file" name="file-2" id="id_imagen_analisis" data-multiple-caption="{count} Archivos seleccionados" multiple="" class="inputfile">
+                  </div>
+               </div>
+
+               
 
             </form><!-- Modal body-->
             <div class="modal-footer nova-modal-footer">
@@ -138,26 +442,17 @@
         <div class="modal-content">
           <div class="modal-header nova-modal-header">
             <button type="button" data-dismiss="modal" aria-hidden="true" class="close"><span class="mdi mdi-close"></span></button>
-            <h3 class="modal-title">Acciones Del Hallazgo</h3>
+            <h3 class="modal-title">Acciones De La Actividad</h3>
           </div>
           <div class="modal-body">
             <div class="text-center">
                <div role="group" class="btn-group-vertical btn-space">
-                  <a href="{% url 'calidad:evidencia_formulario' %}" class="btn nova-btn btn-space btn-default btn-lg" id="id_boton_evidencias">
-                     <i class="icon icon-left mdi mdi-file nova-black"></i> Evidencias del Hallazgo
+                  <a href="{% url 'calidad:seguimiento_plan_accion_formulario' %}" class="btn nova-btn btn-space btn-default btn-lg" data-toggle="modal" id="id_boton_seguimiento_plan">
+                     <i class="icon icon-left mdi mdi-assignment-o nova-black"></i> Seguimiento Al Plan de Acción
                   </a>
-                  <a href="#tarjeta_analisis" class="btn nova-btn btn-space btn-default btn-lg" data-toggle="modal" id="id_boton_analisis_causas">
-                     <i class="icon icon-left mdi mdi-comments nova-black"></i> Analisis de Causas
+                  <a href="#tarjeta_evaluacion" class="btn nova-btn btn-space btn-default btn-lg" data-toggle="modal" id="id_boton_evaluacion_eficacia">
+                     <i class="icon icon-left mdi mdi-assignment-check nova-black"></i> Evaluación De Eficacia A Acciones
                   </a>
-                  <a href="{% url 'calidad:plan_accion_lista' %}" class="btn nova-btn btn-space btn-default btn-lg" id="id_boton_plan_accion">
-                     <i class="icon icon-left mdi mdi-wrench nova-black"></i> Plan de Acciones Correctivas
-                  </a>
-                  <!--<a href="#" class="btn nova-btn btn-space btn-warning btn-lg" id="id_boton_cerrar_hallazgo">
-                     <i class="icon icon-left mdi mdi-alert-triangle nova-white"></i> Cerrar Hallazgo
-                  </a>-->
-                  <button class="btn nova-btn btn-space btn-success btn-lg" id="id_boton_no_conformidad">
-                     <i class="icon icon-left mdi mdi-collection-pdf nova-white"></i> Reporte de No Conformidad
-                  </button>
                </div>
             </div>
           </div>
@@ -275,7 +570,7 @@
                <h3 class="modal-title">Nuevo Hallazgo</h3>
             </div>
                
-            <form id="formulario_filtro" class="modal-body form-horizontal">
+            <form id="formulario_hallazgo" class="modal-body form-horizontal">
                            
                <!-- id_subproceso -->
                <div class="form-group">
@@ -402,6 +697,160 @@
       </div> <!-- Modal dialog -->
    </div><!-- Modal -->
 
+   <!-- tarjeta_nueva_actividad -->
+   <div id="tarjeta_nueva_actividad" role="dialog" class="modal fade colored-header colored-header-primary">
+      <div class="modal-dialog custom-width">
+         <div class="modal-content">
+            
+            <div class="modal-header nova-modal-header">
+               <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
+               <h3 class="modal-title">Nueva Actividad</h3>
+            </div>
+               
+            <form id="formulario_filtro" class="modal-body form-horizontal">
+               
+               <div class="form-group">
+                  <label class="col-sm-3 nova-col-filter control-label">Actividad</label>
+                  <div class="col-sm-8 xs-pt-5">
+                     <textarea class="form-control textarea" id="id_actividad"><!--placeholder-->
+                     </textarea>
+                  </div>
+               </div>
+
+               <div class="form-group">
+                 <label class="col-sm-3 nova-col-filter control-label">Responsable</label>
+                 <div class="col-sm-8 xs-pt-5">
+                     <select class="select2 select2-hidden-accessible" tabindex="-1" aria-hidden="true" id="id_responsable">
+                        <option value="JPJ">Julio Hendandez Perez</option>
+                        <option value="LALG">Armando Lopez Gomez</option>
+                        <option value="LALG">Adrian Perez Sanchez</option>
+                     </select>
+                 </div>
+               </div>
+
+               <div class="form-group">
+                  <label class="col-sm-3 nova-col-filter control-label">
+                     Fecha Programada
+                  </label>
+
+                  <div class="col-sm-8 xs-pt-5">
+                     <div class="input-group date" 
+                     data-min-view="2" 
+                     data-date-format="yyyy-mm-dd"
+                     id="id_fecha_programada_input">
+                        {{ form.fecha_partida }}
+                        <input type="text" name="fecha_planificada_desde" required="" class="form-control input-xs" id="id_fecha_programada">
+                        <span class="input-group-addon nova-addon-button">
+                           <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                     </div>
+                  </div>
+                  {% for error in form.fecha_partida.errors %}
+                     <span class="help-block">{{ error }}</span>
+                  {% endfor %}
+               </div>
+
+            </form><!-- Modal body-->
+            <div class="modal-footer nova-modal-footer">
+               <div class="row col-sm-12">
+                  <button type="button" data-dismiss="modal" class="btn btn-default pull-left">
+                     Cancelar
+                  </button>
+
+                  <button type="button" id="boton_buscar" class="btn nova-btn btn-primary btn-lg pull-right">
+                     <i class="icon icon-left mdi mdi-search nova-white"></i>
+                     Guardar
+                  </button>
+               </div>
+            </div>
+         </div> <!-- Modal content-->
+      </div> <!-- Modal dialog -->
+   </div><!-- Modal -->
+
+   <!-- tarjeta_seguimiento -->
+   <div id="tarjeta_evaluacion" role="dialog" class="modal fade colored-header colored-header-primary">
+      <div class="modal-dialog custom-width">
+         <div class="modal-content">
+            
+            <div class="modal-header nova-modal-header">
+               <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
+               <h3 class="modal-title">Evaluación</h3>
+            </div>
+               
+            <form id="formulario_filtro" class="modal-body form-horizontal">
+
+
+               <div class="form-group">
+                 <label class="col-sm-3 nova-col-filter control-label">Resultado</label>
+                 <div class="col-sm-8 xs-pt-5">
+                     <select class="select2 select2-hidden-accessible" tabindex="-1" aria-hidden="true" id="id_plan_resultado">
+                        <option value="JPJ">Cumple</option>
+                        <option value="LALG">No Cumple</option>
+                     </select>
+                 </div>
+               </div>
+               
+               <div class="form-group">
+                  <label class="col-sm-3 nova-col-filter control-label">Resultado de la evaluación</label>
+                  <div class="col-sm-8 xs-pt-5">
+                     <textarea class="form-control textarea" id="id_causas_evaluacion"><!--placeholder-->
+                     </textarea>
+                  </div>
+               </div>
+
+               <div class="form-group">
+                  <label class="col-sm-3 control-label">
+                     Fecha Evaluacion
+                  </label>
+
+                  <div class="col-sm-8 xs-pt-5">
+                     <div class="input-group date" 
+                     data-min-view="2" 
+                     data-date-format="yyyy-mm-dd"
+                     id="id_fecha_seguimiento_input">
+                        {{ form.fecha_partida }}
+                        <input type="text" name="fecha_planificada_desde" required="" class="form-control input-xs" id="id_fecha_seguimiento">
+                        <span class="input-group-addon nova-addon-button">
+                           <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                     </div>
+                  </div>
+                  {% for error in form.fecha_partida.errors %}
+                     <span class="help-block">{{ error }}</span>
+                  {% endfor %}
+               </div>
+
+               <div class="form-group">
+                  <label class="col-sm-3 nova-col-filter control-label">Criterio de Desición</label>
+                  <div class="col-sm-8 xs-pt-5">
+                     <input type="text" class="form-control input-xs">
+                  </div>
+               </div>               
+               
+               <div class="form-group">
+                  <label class="col-sm-3 nova-col-filter control-label">Recursos Necesarios</label>
+                  <div class="col-sm-8 xs-pt-5">
+                     <input type="file" name="file-2" id="id_imagen" data-multiple-caption="{count} Archivos seleccionados" multiple="" class="inputfile">
+                     <label for="id_imagen" class="btn-primary"> <i class="mdi mdi-upload"></i><span>Seleccionar archivo(s)</span></label>
+                  </div>
+               </div>
+
+            </form><!-- Modal body-->
+            <div class="modal-footer nova-modal-footer">
+               <div class="row col-sm-12">
+                  <button type="button" data-dismiss="modal" class="btn btn-default pull-left">
+                     Cancelar
+                  </button>
+
+                  <button type="button" id="boton_buscar" class="btn nova-btn btn-primary btn-lg pull-right">
+                     <i class="icon icon-left mdi mdi-search nova-white"></i>
+                     Guardar
+                  </button>
+               </div>
+            </div>
+         </div> <!-- Modal content-->
+      </div> <!-- Modal dialog -->
+   </div><!-- Modal -->
 </div> <!-- be-content -->
 
 {% endblock contenido %}
@@ -413,11 +862,19 @@
    <script src="{% static 'theme/lib/bootstrap-multiselect/js/bootstrap-multiselect.js' %}"></script>
    <script src="{% static 'theme/lib/multiselect/js/jquery.multi-select.js' %}"></script>
    <script src="{% static 'theme/lib/quicksearch/jquery.quicksearch.min.js' %}"></script>
+   <script src="{% static 'theme/lib/jquery.maskedinput/jquery.maskedinput.min.js' %}"></script>
+   <script src="{% static 'theme/lib/datetimepicker/js/bootstrap-datetimepicker.min.js' %}"></script>
 
    <!-- WYSIHTML5 -->
    <script src="{% static 'libs/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js' %}"></script>
 
+   <!-- bootstrap-fileinput -->
+   <script src="{% static 'libs/bootstrap-fileinput/4.4.2/js/plugins/sortable.min.js' %}" type="text/javascript"></script>
+   <script src="{% static 'libs/bootstrap-fileinput/4.4.2/js/plugins/purify.min.js' %}"></script>
+   <script src="{% static 'libs/bootstrap-fileinput/4.4.2/js/fileinput.min.js' %}" type="text/javascript"></script>
+   <script src="{% static 'libs/bootstrap-fileinput/4.4.2/js/locales/es.js' %}" type="text/javascript"></script>
+
    <!-- JS Template -->
-   <script src="{% static 'hallazgo/hallazgo_lista.js' %}"></script>
+   <script src="{% static 'hallazgo/hallazgo_formulario.js' %}"></script>
 
 {% endblock scripts %}
