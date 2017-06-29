@@ -8,7 +8,7 @@ import json
 
 # Modelos
 from .models import PerfilPuestoDocumento
-from .models import DocumentoPersonal
+from .models import Archivo
 from ebs.models import VIEW_EMPLEADOS_FULL
 
 
@@ -35,39 +35,90 @@ class PerfilPuestoDocumentoSerializer(serializers.HyperlinkedModelSerializer):
         )
 
 
-class PersonalSerializer(serializers.HyperlinkedModelSerializer):
-    pk_archivo = serializers.SerializerMethodField()
-    nombre_archivo = serializers.SerializerMethodField()
-    archivo = serializers.SerializerMethodField()
-    tipo = serializers.SerializerMethodField()
+class ArchivoPersonalSerializer(serializers.HyperlinkedModelSerializer):
+    numero_empleado = serializers.SerializerMethodField()
+    tipo_documento = serializers.SerializerMethodField()
+    agrupador = serializers.SerializerMethodField()
+    vigencia_inicio = serializers.SerializerMethodField()
+    vigencia_fin = serializers.SerializerMethodField()
+    tipo_archivo = serializers.SerializerMethodField()
     created_by = serializers.SerializerMethodField()
+    updated_by = serializers.SerializerMethodField()
 
     class Meta:
-        model = DocumentoPersonal
+        model = Archivo
         fields = (
             'numero_empleado',
+            'tipo_documento',
             'agrupador',
-            'fecha',
             'vigencia_inicio',
             'vigencia_fin',
-            'pk_archivo',
-            'nombre_archivo',
-            'tipo',
+            'tipo_archivo',
+            'archivo',
+            'object_id',
             'archivo',
             'created_by',
             'created_date',
+            'updated_by',
+            'updated_date',
         )
 
-    def get_pk_archivo(self, obj):
+    def get_numero_empleado(self, obj):
         try:
-            return obj.archivo.pk
+            return obj.content_object.numero_empleado
+        except Exception as e:
+            print str(e)
+            return ""
+
+    def get_tipo_documento(self, obj):
+        try:
+            return obj.content_object.tipo_documento.tipo_documento
         except Exception as e:
             print str(e)
             return " "
 
-    def get_nombre_archivo(self, obj):
+    def get_tipo_archivo(self, obj):
         try:
-            return obj.archivo.nombre_documento
+            tipo = ''
+            if obj.tipo_archivo == 'per':
+                tipo = 'Personal'
+            elif obj.tipo_archivo == 'cap':
+                tipo = 'Capacitacion'
+            return tipo
+        except Exception as e:
+            print str(e)
+            return " "
+
+    def get_agrupador(self, obj):
+        try:
+            agrupador = ''
+            if obj.content_object.agrupador == 'per':
+                agrupador = 'Personal'
+            elif obj.content_object.agrupador == 'qhse':
+                agrupador = 'QHSE'
+            elif obj.content_object.agrupador == 'amo':
+                agrupador = 'Amonestacion'
+            elif obj.content_object.agrupador == 'adm':
+                agrupador = 'Administracion'
+            elif obj.content_object.agrupador == 'ope':
+                agrupador = 'Operaciones'
+            elif obj.content_object.agrupador == 'rec':
+                agrupador = 'Reconocimiento'
+            return agrupador
+        except Exception as e:
+            print str(e)
+            return " "
+
+    def get_vigencia_inicio(self, obj):
+        try:
+            return obj.content_object.vigencia_inicio
+        except Exception as e:
+            print str(e)
+            return " "
+
+    def get_vigencia_fin(self, obj):
+        try:
+            return obj.content_object.vigencia_inicio
         except Exception as e:
             print str(e)
             return " "
@@ -77,18 +128,11 @@ class PersonalSerializer(serializers.HyperlinkedModelSerializer):
             return obj.created_by.usuario.get_full_name()
         except Exception as e:
             print str(e)
-            return " "
+            return "Error"
 
-    def get_tipo(self, obj):
+    def get_updated_by(self, obj):
         try:
-            return obj.tipo.tipo_documento
-        except Exception as e:
-            print str(e)
-            return " "
-
-    def get_archivo(self, obj):
-        try:
-            return str(obj.archivo.archivo)
+            return obj.updated_by.usuario.get_full_name()
         except Exception as e:
             print str(e)
             return " "

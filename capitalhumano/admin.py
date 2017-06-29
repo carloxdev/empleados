@@ -54,9 +54,11 @@ class TipoDocumentoAdmin(admin.ModelAdmin):
 
 
 @admin.register(Archivo)
-class DocumentoAdmin(admin.ModelAdmin):
+class ArchivoAdmin(admin.ModelAdmin):
     list_display = (
-        'nombre_documento',
+        'content_object',
+        'tipo_archivo',
+        'archivo',
         'created_by',
         'created_date',
         'updated_by',
@@ -67,6 +69,7 @@ class DocumentoAdmin(admin.ModelAdmin):
 @admin.register(DocumentoCapacitacion)
 class CapacitacionAdmin(admin.ModelAdmin):
     list_display = (
+        'relacion',
         'curso',
         'proveedor',
         'numero_empleado',
@@ -79,7 +82,6 @@ class CapacitacionAdmin(admin.ModelAdmin):
         'fecha_fin',
         'duracion',
         'observaciones',
-        'archivo',
         'created_by',
         'created_date',
     )
@@ -88,13 +90,12 @@ class CapacitacionAdmin(admin.ModelAdmin):
 @admin.register(DocumentoPersonal)
 class PersonalAdmin(admin.ModelAdmin):
     list_display = (
+        'relacion',
         'numero_empleado',
-        'tipo',
+        'tipo_documento',
         'agrupador',
-        'fecha',
         'vigencia_inicio',
         'vigencia_fin',
-        'archivo',
         'created_by',
         'created_date',
     )

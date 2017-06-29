@@ -3,8 +3,8 @@ from rest_framework import routers
 
 
 from capitalhumano.view_rest import VIEW_DOCUMENTO_PERFIL_PUESTO_ByPageAPI
-from capitalhumano.view_rest import PERFIL_API
-from capitalhumano.view_rest import PERFIL_ByPageAPI
+from capitalhumano.view_rest import Archivo_Personal_API
+from capitalhumano.view_rest import Archivo_Personal_ByPageAPI
 
 router_capitalhumano = routers.DefaultRouter()
 
@@ -16,12 +16,12 @@ router_capitalhumano.register(
 )
 
 router_capitalhumano.register(
-    r'personaldocumento',
-    PERFIL_API,
-    'personaldocumento'
+    r'documentopersonal',
+    Archivo_Personal_API,
+    'documentopersonal'
 )
 router_capitalhumano.register(
-    r'personaldocumento_bypage',
-    PERFIL_ByPageAPI,
-    'personaldocumento_bypage'
+    r'documentopersonal_bypage',
+    Archivo_Personal_ByPageAPI,
+    'documentopersonal_bypage'
 )

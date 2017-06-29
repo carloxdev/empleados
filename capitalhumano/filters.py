@@ -7,6 +7,7 @@ from django_filters import CharFilter
 
 # Modelos:
 from .models import PerfilPuestoDocumento
+from .models import Archivo
 
 
 class PerfilpuestoDocumentoFilter(filters.FilterSet):
@@ -23,3 +24,15 @@ class PerfilpuestoDocumentoFilter(filters.FilterSet):
             'empleado_puesto_desc',
         ]
 
+
+class ArchivoPersonalFilter(filters.FilterSet):
+
+    usuario__numero_empleado = CharFilter(
+        name="usuario__numero_empleado",
+        lookup_expr="contains")
+
+    class Meta:
+        model = Archivo
+        fields = [
+            'usuario__numero_empleado',
+        ]

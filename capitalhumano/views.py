@@ -7,6 +7,7 @@ from django.http import HttpResponse
 # Librerias de Django
 from django.views.generic.base import View
 from django.core.files.storage import default_storage
+from django.contrib.contenttypes.models import ContentType
 
 # Librerias de Propias
 
@@ -25,6 +26,8 @@ from serializers import VIEW_ORGANIGRAMA_EMP_SERIALIZADO
 # Modelos
 from ebs.models import VIEW_ORGANIGRAMA
 from ebs.models import VIEW_EMPLEADOS_FULL
+from .models import Archivo
+from .models import DocumentoPersonal
 
 
 # -------------- EMPLEADOS -------------- #
@@ -154,6 +157,47 @@ class EmpleadoExpediente(View):
         url = self.construir_Url(empleado)
         ruta = self.comprobar_Direccion(url)
 
+        ruta = self.comprobar_Direccion(url)
+
+        contexto = {
+            'empleado': empleado,
+            'ruta': ruta,
+            'form': form,
+        }
+
+        return render(request, self.template_name, contexto)
+
+    def post(self, request, pk):
+        numero_empleado = pk
+        form = NuevoDocumentoPersonalForm(request.POST, request.FILES)
+        empleado = VIEW_EMPLEADOS_FULL.objects.using(
+            "ebs_d").filter(pers_empleado_numero=numero_empleado)
+
+        url = self.construir_Url(empleado)
+        ruta = self.comprobar_Direccion(url)
+
+        if form.is_valid():
+
+            datos_formulario = form.cleaned_data
+            content_type = ContentType.objects.get_for_model(DocumentoPersonal)
+
+            doc_personal = DocumentoPersonal()
+            doc_personal.numero_empleado = numero_empleado
+            doc_personal.tipo_documento = datos_formulario.get('tipo_documento')
+            doc_personal.agrupador = datos_formulario.get('agrupador')
+            doc_personal.vigencia_inicio = datos_formulario.get('vigencia_inicio')
+            doc_personal.vigencia_fin = datos_formulario.get('vigencia_fin')
+            doc_personal.created_by = request.user.profile
+            doc_personal.save()
+            archivo = Archivo()
+            archivo.tipo_archivo = 'per'
+            archivo.archivo = datos_formulario.get('archivo')
+            archivo.content_type = content_type
+            archivo.object_id = doc_personal.id
+            archivo.created_by = request.user.profile
+            archivo.updated_by = request.user.profile
+            archivo.save()
+
         contexto = {
             'empleado': empleado,
             'ruta': ruta,
@@ -186,11 +230,6 @@ class EmpleadoExpediente(View):
             ruta = '/static/theme/img/avatar-150.png'
 
         return ruta
-
-    def archivos_Personales(self, _empleado):
-        lista = []
-
-        return lista
 
         # -------------- PERFILES DE PUESTOS DOCUMENTO  -------------- #
 

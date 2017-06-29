@@ -12,7 +12,9 @@ from django.forms import ChoiceField
 from django.forms import RadioSelect
 from django.forms import CheckboxInput
 from django.forms import FileInput
+from django.forms import DateInput
 from django.forms import DateField
+from django.forms import FileField
 from django.forms import ModelChoiceField
 
 # Modelos
@@ -22,7 +24,7 @@ from ebs.models import VIEW_PUESTOS
 from ebs.models import VIEW_ORGANIZACIONES
 from administracion.models import Empresa
 from capitalhumano.models import PerfilPuestoDocumento
-from .models import DocumentoPersonal
+from .models import Archivo
 from .models import TipoDocumento
 
 
@@ -364,39 +366,41 @@ class ExpedientesFilterForm(Form):
         return valores
 
 
-class NuevoDocumentoPersonalForm(ModelForm):
+class NuevoDocumentoPersonalForm(Form):
 
-    tipo = ModelChoiceField(
+    AGRUPADOR = (
+        ('per', 'Personal'),
+        ('qhse', 'QHSE'),
+        ('amo', 'Amonestación'),
+        ('adm', 'Administración'),
+        ('ope', 'Operaciones'),
+        ('rec', 'Reconocimiento'),
+    )
+
+    tipo_documento = ModelChoiceField(
+        label="Tipo de documento",
         queryset=TipoDocumento.objects.all(),
         empty_label=None,
         widget=Select(attrs={'class': 'select2 nova-select2'}))
 
-    archivo = CharField(label="Archivo",
-                        widget=FileInput(attrs={'class': 'dropzone dz-clickable dz-started'}))
+    agrupador = ChoiceField(
+        label="Agrupador",
+        choices=AGRUPADOR,
+        widget=Select(attrs={'class': 'select2 nova-select2'}))
 
-    class Meta:
-        model = DocumentoPersonal
+    vigencia_inicio = DateField(
+        label="Vigencia",
+        widget=DateInput(format=('%d/%m/%Y'),
+                         attrs={'class': 'form-control input-xs'}))
+    vigencia_fin = DateField(
+        widget=DateInput(format=('%d/%m/%Y'),
+                         attrs={'class': 'form-control input-xs'}))
 
-        fields = [
-            'tipo',
-            'agrupador',
-            'archivo',
-            'vigencia_inicio',
-            'vigencia_fin',
-        ]
+    archivo = FileField(
+        label="Archivo",
+        widget=FileInput(attrs={'class': 'dropzone dz-clickable dz-started'}))
 
-        labels = {
-            'tipo': 'Tipo de documento',
-            'agrupador': 'Agrupador',
-            'archivo': 'Archivo',
-            'vigencia_inicio': 'Vigencia inicio',
-            'vigencia_fin': 'Vigencia fin',
-        }
-
-        widgets = {
-            'tipo': Select(attrs={'class': 'select2 nova-select2'}),
-            'agrupador': Select(attrs={'class': 'select2 nova-select2'}),
-            'archivo': FileInput(attrs={'class': 'dropzone dz-clickable dz-started'}),
-            'vigencia_inicio': DateField(),
-            'vigencia_fin': DateField(),
-        }
+    def __init__(self, *args, **kwargs):
+        super(NuevoDocumentoPersonalForm, self).__init__(*args, **kwargs)
+        self.fields['vigencia_inicio'].required = False
+        self.fields['vigencia_fin'].required = False

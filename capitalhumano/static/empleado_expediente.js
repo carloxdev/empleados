@@ -2,45 +2,90 @@
             GLOBAL VARIABLES
 \*-----------------------------------------------*/
 
-var url_expediente_bypage = window.location.origin  + "/api-capitalhumano/personaldocumento_bypage/"
+var url_expediente_bypage = window.location.origin  + "/api-capitalhumano/documentopersonal_bypage/"
 
 // OBJS
 var popup = null
 var toolbar = null
 var grid = null
 var componentes = null
+var tarjeta_resultados = null
 
 /*-----------------------------------------------*\
             LOAD
 \*-----------------------------------------------*/
 
 $(document).ready(function () {
+    componentes = new Componentes()
+    tarjeta_resultados = TarjetaResultados()
+})
 
+/*-----------------------------------------------*\
+            OBJETO: Tarjeta Resultados
+\*-----------------------------------------------*/
+
+function TarjetaResultados(){
     popup = new Popup()
     toolbar = new Toolbar()
     grid = new Grid()
-    componentes = new Componentes()
-  
-})
+}
+
 /*-----------------------------------------------*\
             OBJETO: Componentes
 \*-----------------------------------------------*/
 
 function Componentes(){
-    this.$tipo = $('#id_tipo')
+    this.$tipo = $('#id_tipo_documento')
     this.$agrupador = $('#id_agrupador')
+    this.$vigencia_inicio = $('#id_vigencia_inicio')
+    this.$vigencia_fin = $('#id_vigencia_fin')
+    this.$vigencia_inicio_input = $('#id_vigencia_inicio_input')
+    this.$vigencia_fin_input = $('#id_vigencia_fin_input')
+    this.$numero_empleado = $('#numero_empleado')
+
 
     this.init_Components()
 }
 Componentes.prototype.init_Components = function (){
     this.$tipo.select2(this.get_ConfSelect2())
     this.$agrupador.select2(this.get_ConfSelect2())
+
+    this.$vigencia_inicio.mask(
+        "9999-99-99",
+        {
+            placeholder:"aaaa/mm/dd"
+        }
+    )
+    this.$vigencia_inicio_input.datetimepicker(this.get_DateTimePickerConfig())
+
+    this.$vigencia_fin.mask(
+        "9999-99-99",
+        {
+            placeholder:"aaaa/mm/dd"
+        }
+    )
+    this.$vigencia_fin_input.datetimepicker(this.get_DateTimePickerConfig())
 }
 Componentes.prototype.get_ConfSelect2 = function () {
    return {
       width: '100%'
    }
 }
+Componentes.prototype.get_DateTimePickerConfig = function () {
+    return {
+        autoclose: true,
+        orientation: "bottom left",
+        minViewMode: 2,
+        format: "yyyy-mm-dd",
+    }
+}
+Componentes.prototype.get_Values = function (_page) {
+    return {
+        page: _page,
+        usuario__numero_empleado: this.$numero_empleado.val(),
+   }
+}
+
 
 /*-----------------------------------------------*\
             OBJETO: Pop up 
@@ -50,17 +95,8 @@ function Popup () {
 
     this.$id = $('#modal_nuevo')
 
-    this.init_Components()
-    this.init_Events()
+}
 
-}
-Popup.prototype.init_Components = function () {
-    
-}
-Popup.prototype.init_Events = function () {
-
-    //this.$id.on("hidden.bs.modal", this, this.hide)
-}
 
 /*-----------------------------------------------*\
             OBJETO: TOOLBAR
@@ -119,7 +155,7 @@ Grid.prototype.get_DataSourceConfig = function () {
             },
             // parameterMap: function (data, action) {
             //     if (action === "read"){
-            //         return tarjeta_filtros.get_Values(data.page)
+            //         return  componentes.get_Values(data.page)
             //     }
             // }
         },
@@ -142,7 +178,7 @@ Grid.prototype.get_Campos = function () {
         fecha : { type: "date"},
         vigencia_inicio : { type: "date" },
         vigencia_fin : { type: "date" },
-        tipo : { type: "string" },
+        tipo_documento : { type: "string" },
         archivo : { type: "string" },
         created_by : { type: "string" },
         created_date : { type: "date" },
@@ -170,10 +206,10 @@ Grid.prototype.get_Configuracion = function () {
 Grid.prototype.get_Columnas = function () {
 
     return [  
-        { field: "tipo", 
+        { field: "tipo_documento", 
           title: "Archivo", 
           width:"150px" ,
-          template: '<a>#=tipo#</a>',
+          template: '<a href="#=archivo#" target="_blank">#=tipo_documento#</a>',
         },
         // { field: "tipo", title: "Tipo", width:"170px" }, #=url_expediente + pers_empleado_numero #/expediente/
         { field: "agrupador", title: "Agrupador", width:"100px"},

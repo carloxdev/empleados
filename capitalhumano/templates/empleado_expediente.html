@@ -7,6 +7,9 @@
 	<link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.rtl.min.css' %}"/>
 	<link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.common-bootstrap.min.css' %}"/>
 	<link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.bootstrap.min.css' %}"/>
+
+	<!-- Theme -->
+    <link rel="stylesheet" href="{% static 'theme/lib/datetimepicker/css/bootstrap-datetimepicker.min.css' %}" type="text/css"/>
 {% endblock css %}
 {% block contenido %}
 <div class="be-content">
@@ -24,6 +27,7 @@
 	<div class="user-profile">
 		<div class="row">
 			{% for dato in empleado %}
+			<input type="hide" class="hide" value="{{ dato.pers_empleado_numero }}" id="numero_empleado">
 			<div class="col-md-12">
 				<!-- Encabezado perfil -->
 				<div class="user-display">
@@ -158,7 +162,7 @@
 
                </ul>
                <div class="actions">
-                  <a href="" class="btn btn-xs btn-prev btn-default nova-active-tab">Documentos personales</a>
+                  <a href="" class="btn btn-xs btn-prev btn-default nova-a-tab nova-active-tab">Documentos personales</a>
                   <a href="" class="btn btn-xs btn-next btn-default nova-a-tab">Capacitaciones</a>
                   <a class="btn btn-xs btn-next btn-default nova-a-tab nova-a-tab-border nova-tab">Seguimiento incidencias</a>
                   <a href="" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Evaluación desempeño</a>
@@ -172,37 +176,6 @@
                      </a>
                   </div><!-- Panel Heading -->
                   <div id="grid_resultados" class="nova-div-overflow">
-                     <!--<table class="table table-bordered">
-                        <thead>
-                           <tr>
-                              <th>Documento</th>
-                              <th>Agrupador</th>
-                              <th>Vigencia</th>
-                           </tr>
-                        </thead>
-                        <tbody>
-                           <tr>
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                           </tr>
-                           <tr>
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                           </tr>
-                           <tr>
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                           </tr>
-                           <tr>
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                           </tr>
-                        </tbody>
-                     </table>-->
                   </div>
             </div> <!-- Panel -->
          </div> <!-- col sm 12-->
@@ -228,7 +201,7 @@
                     <div class="form-group">
                         <label class="col-sm-3 nova-col-filter control-label">Tipo de documento</label>
                         <div class="col-sm-8 xs-pt-5">
-                            {{ form.tipo }}
+                            {{ form.tipo_documento }}
                         </div>
                     </div>                
 					<!-- Agrupador -->
@@ -239,18 +212,37 @@
                         </div>
                     </div>                  
 
-                    <!-- Vigencia -->                                      
+                    <!-- Vigencia -->
                     <div class="form-group">
-                        <label class="col-sm-3 nova-col-filter control-label">Vigencia</label>
-                        <div class="col-sm-8 xs-pt-5">
-                            <div class="input-group"> 
-                                <input type="text" value="" readonly="" class="form-control input-xs" id="fecha_creacion">
-                                <span class="input-group-addon btn btn-primary">
-                                    <i class="icon-th mdi mdi-calendar"></i>
+
+                        <label class="col-sm-3 nova-col-filter control-label">
+                            Vigencia inicio/fin
+                        </label>
+
+                        <div class="col-sm-4 xs-pt-5">
+                            <div class="input-group date" 
+                            data-min-view="2" 
+                            data-date-format="yyyy-mm-dd"
+                            id="id_vigencia_inicio_input">
+                                {{ form.vigencia_inicio }}
+                                <span class="input-group-addon nova-addon-button">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                        </div> 
+                        <div class="col-sm-4 xs-pt-5">
+                            <div class="input-group date" 
+                            data-min-view="2" 
+                            data-date-format="yyyy-mm-dd"
+                            id="id_vigencia_fin_input">
+                                {{ form.vigencia_fin }}
+                                <span class="input-group-addon nova-addon-button">
+                                    <span class="glyphicon glyphicon-calendar"></span>
                                 </span>
                             </div>
                         </div>
                     </div>
+
                     <!-- Documento -->
                     <div class="form-group">
                       <label class="col-sm-3 nova-col-filter control-label">Documento</label>
@@ -289,6 +281,9 @@
 
 	<!-- Theme -->
 	<script src="{% static 'theme/lib/jquery-ui/jquery-ui.min.js' %}"></script>
+	<script src="{% static 'theme/lib/moment.js/min/moment.min.js' %}"></script>
+    <script src="{% static 'theme/lib/datetimepicker/js/bootstrap-datetimepicker.min.js' %}"></script>
+    <script src="{% static 'theme/lib/datetimepicker/js/locales/bootstrap-datetimepicker.es.js' %}"></script>
 
 	<!-- NOVA-->
    	<script src="{% static 'empleado_expediente.js' %}"></script>
