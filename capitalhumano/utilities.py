@@ -15,13 +15,6 @@ def get_FilePath_DocPersonal(instance, filename):
     for dato in empleado:
         nombre = dato.pers_nombre_completo
 
-    if instance.tipo_archivo == 'per':
-        upload_dir = os.path.join(
-            'capitalhumano', 'expedientes', str(nombre), 'Personal')
-
-        return os.path.join(upload_dir, filename)
-    elif instance.tipo_archivo == 'cap':
-        upload_dir = os.path.join(
-            'capitalhumano', 'expedientes', str(nombre), 'Capacitacion')
+    upload_dir = os.path.join('capitalhumano', 'expedientes', str(nombre),)
 
     return os.path.join(upload_dir, filename)

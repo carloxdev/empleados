@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="{% static 'theme/lib/datetimepicker/css/bootstrap-datetimepicker.min.css' %}" type="text/css"/>
 {% endblock css %}
 {% block contenido %}
+{% for dato in empleado %}
 <div class="be-content">
 <div class="page-head">
 	<h2 class="page-head-title">Expediente</h2>
@@ -26,7 +27,6 @@
 <div class="main-content container-fluid">
 	<div class="user-profile">
 		<div class="row">
-			{% for dato in empleado %}
 			<input type="hide" class="hide" value="{{ dato.pers_empleado_numero }}" id="numero_empleado">
 			<div class="col-md-12">
 				<!-- Encabezado perfil -->
@@ -149,7 +149,6 @@
 						</div>
 					</div>
 				</div>
-			{% endfor %}
 		</div>
 		
 		<!-- Panel con tabs -->
@@ -157,18 +156,15 @@
 
             <div id="wizard1" class="wizard wizard-ux nova-panel-borde-header">
                <ul class="steps">
-
-                  <li class="active">Documentos</li>
-
+               		<li class="active">Documentos personales</li>
                </ul>
                <div class="actions">
-                  <a href="" class="btn btn-xs btn-prev btn-default nova-a-tab nova-active-tab">Documentos personales</a>
+                  <a href="#" class="btn btn-xs btn-prev btn-default nova-a-tab nova-active-tab">Documentos personales</a>
                   <a href="" class="btn btn-xs btn-next btn-default nova-a-tab">Capacitaciones</a>
                   <a class="btn btn-xs btn-next btn-default nova-a-tab nova-a-tab-border nova-tab">Seguimiento incidencias</a>
                   <a href="" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Evaluación desempeño</a>
                </div>
             </div>
-            
             <div class="panel panel-default panel-table">
                   <div class="panel-heading nova-panel-borde-contenido nova-panel-tools">
                      <a href="#modal_nuevo" class="btn nova-btn btn-rounded btn-sm btn-space btn-default pull-right" data-toggle="modal" id="boton_nuevo">
@@ -179,8 +175,6 @@
                   </div>
             </div> <!-- Panel -->
          </div> <!-- col sm 12-->
-
-
 	</div>
 </div>
 </div>
@@ -266,7 +260,7 @@
             </div> <!-- Modal content-->
         </div> <!-- Modal dialog -->
     </div><!-- Modal -->
-
+{% endfor %}
 {% endblock contenido %}
 {% block scripts %}
 	<!-- Kendo Js -->

@@ -9,6 +9,7 @@ import json
 # Modelos
 from .models import PerfilPuestoDocumento
 from .models import Archivo
+from .models import DocumentoPersonal
 from ebs.models import VIEW_EMPLEADOS_FULL
 
 
@@ -111,14 +112,20 @@ class ArchivoPersonalSerializer(serializers.HyperlinkedModelSerializer):
 
     def get_vigencia_inicio(self, obj):
         try:
-            return obj.content_object.vigencia_inicio
+            if obj.content_object.vigencia_inicio is None:
+                return '---'
+            else:
+                return obj.content_object.vigencia_inicio.strftime('%d/%m/%Y')
         except Exception as e:
             print str(e)
             return " "
 
     def get_vigencia_fin(self, obj):
         try:
-            return obj.content_object.vigencia_inicio
+            if obj.content_object.vigencia_inicio is None:
+                return '---'
+            else:
+                return obj.content_object.vigencia_inicio.strftime('%d/%m/%Y')
         except Exception as e:
             print str(e)
             return " "
@@ -128,7 +135,7 @@ class ArchivoPersonalSerializer(serializers.HyperlinkedModelSerializer):
             return obj.created_by.usuario.get_full_name()
         except Exception as e:
             print str(e)
-            return "Error"
+            return " "
 
     def get_updated_by(self, obj):
         try:

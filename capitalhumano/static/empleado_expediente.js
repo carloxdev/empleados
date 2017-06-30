@@ -82,7 +82,7 @@ Componentes.prototype.get_DateTimePickerConfig = function () {
 Componentes.prototype.get_Values = function (_page) {
     return {
         page: _page,
-        usuario__numero_empleado: this.$numero_empleado.val(),
+        relacion_personal__numero_empleado: this.$numero_empleado.val(),
    }
 }
 
@@ -153,11 +153,11 @@ Grid.prototype.get_DataSourceConfig = function () {
                 type: "GET",
                 dataType: "json",
             },
-            // parameterMap: function (data, action) {
-            //     if (action === "read"){
-            //         return  componentes.get_Values(data.page)
-            //     }
-            // }
+            parameterMap: function (data, action) {
+                if (action === "read"){
+                    return  componentes.get_Values(data.page)
+                }
+            }
         },
         schema: {
             data: "results",
@@ -176,8 +176,8 @@ Grid.prototype.get_Campos = function () {
     return {
         agrupador : { type: "string" },
         fecha : { type: "date"},
-        vigencia_inicio : { type: "date" },
-        vigencia_fin : { type: "date" },
+        vigencia_inicio : { type: "string" },
+        vigencia_fin : { type: "string" },
         tipo_documento : { type: "string" },
         archivo : { type: "string" },
         created_by : { type: "string" },
@@ -211,10 +211,9 @@ Grid.prototype.get_Columnas = function () {
           width:"150px" ,
           template: '<a href="#=archivo#" target="_blank">#=tipo_documento#</a>',
         },
-        // { field: "tipo", title: "Tipo", width:"170px" }, #=url_expediente + pers_empleado_numero #/expediente/
         { field: "agrupador", title: "Agrupador", width:"100px"},
-        { field: "vigencia_inicio", title: "Vigencia inicio", width:"100px",format: "{0:dd/MM/yyyy}" },
-        { field: "vigencia_fin", title: "Vigencia fin", width:"100px",format: "{0:dd/MM/yyyy}" },
+        { field: "vigencia_inicio",title: "Vigencia inicio",width:"100px"},
+        { field: "vigencia_fin", title: "Vigencia fin", width:"100px" },
         { field: "created_by", title: "Creado por", width:"150px" },
         { field: "created_date", title: "Fecha de creación", width:"150px", format: "{0:dd/MM/yyyy}" },
 

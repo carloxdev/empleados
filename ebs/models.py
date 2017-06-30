@@ -41,10 +41,6 @@ class VIEW_EMPLEADOS_SIMPLE(models.Model):
         db_table = u'"NUVAPP"."VIEW_EMPLEADOS_SIMPLE"'
 
 
-class EmpleadoManager(models.Manager):
-    def get_url_nombre(self):
-        return self.filter(fun=True)
-
 class VIEW_EMPLEADOS_FULL(models.Model):
     pers_clave = models.IntegerField(primary_key=True)
     pers_tipo_codigo = models.IntegerField()
@@ -131,7 +127,7 @@ class VIEW_EMPLEADOS_FULL(models.Model):
     metodo_tipo_cuenta_id = models.CharField(max_length=150)
     metodo_clabe = models.CharField(max_length=150)
 
-    def get_url_nombre(self):
+    def _get_nombre_foto(self):
         try:
             if self.pers_segundo_nombre == '-':
                 return '%s_%s_%s.jpg' % (self.pers_primer_nombre,
@@ -144,6 +140,7 @@ class VIEW_EMPLEADOS_FULL(models.Model):
                                             self.pers_apellido_materno)
         except Exception:
             return 0.0
+    nombre_foto = property(_get_nombre_foto)
 
     class Meta:
         managed = False

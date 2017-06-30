@@ -4,7 +4,6 @@
 from rest_framework import filters
 from django_filters import CharFilter
 
-
 # Modelos:
 from .models import PerfilPuestoDocumento
 from .models import Archivo
@@ -27,12 +26,12 @@ class PerfilpuestoDocumentoFilter(filters.FilterSet):
 
 class ArchivoPersonalFilter(filters.FilterSet):
 
-    usuario__numero_empleado = CharFilter(
-        name="usuario__numero_empleado",
+    relacion_personal__numero_empleado = CharFilter(
+        name="relacion_personal__numero_empleado",
         lookup_expr="contains")
 
     class Meta:
         model = Archivo
         fields = [
-            'usuario__numero_empleado',
+            'relacion_personal__numero_empleado',
         ]

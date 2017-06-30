@@ -154,10 +154,7 @@ class EmpleadoExpediente(View):
         empleado = VIEW_EMPLEADOS_FULL.objects.using(
             "ebs_d").filter(pers_empleado_numero=pk)
 
-        url = self.construir_Url(empleado)
-        ruta = self.comprobar_Direccion(url)
-
-        ruta = self.comprobar_Direccion(url)
+        ruta = self.comprobar_Direccion(empleado)
 
         contexto = {
             'empleado': empleado,
@@ -173,8 +170,7 @@ class EmpleadoExpediente(View):
         empleado = VIEW_EMPLEADOS_FULL.objects.using(
             "ebs_d").filter(pers_empleado_numero=numero_empleado)
 
-        url = self.construir_Url(empleado)
-        ruta = self.comprobar_Direccion(url)
+        ruta = self.comprobar_Direccion(empleado)
 
         if form.is_valid():
 
@@ -183,9 +179,11 @@ class EmpleadoExpediente(View):
 
             doc_personal = DocumentoPersonal()
             doc_personal.numero_empleado = numero_empleado
-            doc_personal.tipo_documento = datos_formulario.get('tipo_documento')
+            doc_personal.tipo_documento = datos_formulario.get(
+                'tipo_documento')
             doc_personal.agrupador = datos_formulario.get('agrupador')
-            doc_personal.vigencia_inicio = datos_formulario.get('vigencia_inicio')
+            doc_personal.vigencia_inicio = datos_formulario.get(
+                'vigencia_inicio')
             doc_personal.vigencia_fin = datos_formulario.get('vigencia_fin')
             doc_personal.created_by = request.user.profile
             doc_personal.save()
@@ -206,32 +204,22 @@ class EmpleadoExpediente(View):
 
         return render(request, self.template_name, contexto)
 
-    def construir_Url(self, _empleado):
-        nombre = ''
-        for dato in _empleado:
-            if dato.pers_segundo_nombre == '-':
-                nombre = dato.pers_primer_nombre + '_' \
-                    + dato.pers_apellido_paterno + '_'  \
-                    + dato.pers_apellido_materno
-            else:
-                nombre = dato.pers_primer_nombre + '_' \
-                    + dato.pers_segundo_nombre + '_'  \
-                    + dato.pers_apellido_paterno + '_'  \
-                    + dato.pers_apellido_materno
-        url = 'capitalhumano/images/user_foto/' + nombre + '.jpg'
-        return url
-
-    def comprobar_Direccion(self, _url):
+    def comprobar_Direccion(self, _empleado):
         ruta = ''
+        url = ''
 
-        if default_storage.exists(_url):
-            ruta = '/media/' + _url
+        for dato in _empleado:
+            url = 'capitalhumano/images/' + dato.nombre_foto
+
+        if default_storage.exists(url):
+            ruta = '/media/' + url
         else:
             ruta = '/static/theme/img/avatar-150.png'
 
         return ruta
 
-        # -------------- PERFILES DE PUESTOS DOCUMENTO  -------------- #
+
+# -------------- PERFILES DE PUESTOS DOCUMENTO  -------------- #
 
 
 class PerfilPuesto(View):

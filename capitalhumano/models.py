@@ -189,7 +189,7 @@ class DocumentoPersonal(models.Model):
     tipo_documento = models.ForeignKey(TipoDocumento)  # Catalogo
     agrupador = models.CharField(
         choices=AGRUPADOR,
-        default="PERSONAL",
+        default="per",
         max_length=20
     )
     vigencia_inicio = models.DateField(null=True, blank=True)
