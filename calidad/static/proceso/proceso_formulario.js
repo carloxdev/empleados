@@ -6,12 +6,7 @@
 //var url_requisitos = window.location.origin + "/auditorias/nuevo/procesos/nuevo/requisitos/"
 
 // OBJS
-var popup_nuevo = null
-var popup_acciones = null
-var tarjeta_resultados = null
-var toolbar = null
-var grid = null
-
+var formulario = null
 
 /*-----------------------------------------------*\
          LOAD
@@ -19,43 +14,14 @@ var grid = null
 
 $(document).ready(function () {
    
-   tarjeta_resultados = new TarjetaResultados()
+   formulario = new Formulario()
 })
 
 /*-----------------------------------------------*\
-         OBJETO: Tarjeta resultados
+         OBJETO: Formulario
 \*-----------------------------------------------*/
 
-function TarjetaResultados(){
-   
-   
-   this.toolbar = new ToolBar()
-   this.grid = new Grid()
-}
-
-/*-----------------------------------------------*\
-         OBJETO: ToolBar
-\*-----------------------------------------------*/
-
-function ToolBar() {
-   
-   popup_nuevo = new PopupNuevo()
-}
-
-/*-----------------------------------------------*\
-         OBJETO: Grid
-\*-----------------------------------------------*/
-
-function Grid() {
-
-   popup_acciones = new PopupAcciones()
-}
-
-/*-----------------------------------------------*\
-         OBJETO: Popup nuevo
-\*-----------------------------------------------*/
-
-function PopupNuevo() {
+function Formulario() {
 
    this.$id_proceso = $('#id_proceso')
    this.$id_subproceso = $('#id_subproceso')
@@ -71,7 +37,7 @@ function PopupNuevo() {
    this.init_Components()
    this.init_Events()
 }
-PopupNuevo.prototype.init_Components = function () {
+Formulario.prototype.init_Components = function () {
 
    this.$id_proceso.select2(appnova.get_ConfigSelect2())
    this.$id_subproceso.select2(appnova.get_ConfigSelect2())
@@ -93,9 +59,8 @@ PopupNuevo.prototype.init_Components = function () {
    this.$id_fecha_planificada_hasta_input.datetimepicker(this.get_DateTimePickerConfig())
    this.$id_auditor.select2(appnova.get_ConfigSelect2())
    this.$id_sitio.select2(appnova.get_ConfigSelect2())
-   
 }
-PopupNuevo.prototype.get_DateTimePickerConfig = function () {
+Formulario.prototype.get_DateTimePickerConfig = function () {
    
    return {
       autoclose: true,
@@ -104,26 +69,11 @@ PopupNuevo.prototype.get_DateTimePickerConfig = function () {
       format: "yyyy-mm-dd",
    }
 }
-PopupNuevo.prototype.init_Events = function () {
+Formulario.prototype.init_Events = function () {
    
    this.$id_boton_guardar.on("click", this, this.click_BotonGuardar)
 }
+Formulario.prototype.click_BotonGuardar = function (e) {
 
-/*-----------------------------------------------*\
-         OBJETO: Popup acciones
-\*-----------------------------------------------*/
-
-function PopupAcciones () {
-   
-   this.$id_tarjeta_acciones = $('#id_tarjeta_acciones')
-   this.$id_boton_editar = $('#id_boton_editar')
-   this.init_Events()
-}
-PopupAcciones.prototype.init_Events = function () {
-   
-   this.$id_boton_editar.on("click", this, this.click_BotonEditar)
-}
-PopupAcciones.prototype.click_BotonEditar = function (e) {
-
-   e.data.$id_tarjeta_acciones.modal("hide")
+   this.preventDefault()
 }

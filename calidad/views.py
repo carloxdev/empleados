@@ -145,7 +145,7 @@ class HallazgoLista(View):
 
 class HallazgoFormulario(View):
     def __init__(self):
-        self.template_name = 'hallazgo/hallazgo_formulario.html'
+        self.template_name = 'hallazgo/hallazgo_detalle.html'
 
     def get(self, request):
 

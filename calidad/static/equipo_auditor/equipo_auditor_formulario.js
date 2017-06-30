@@ -37,6 +37,10 @@ Formulario.prototype.init_Components = function () {
     this.$id_auditores_colaboradores.select2(appnova.get_ConfigSelect2())
 }
 Formulario.prototype.init_Events = function () {
-    return {
-    }
+    
+    this.id_boton_guardar.on('click', this, this.click_BotonGuardar)
+}
+Formulario.prototype.click_BotonGuardar = function (e) {
+
+    this.preventDefault()
 }

@@ -34,7 +34,7 @@
             <div class="panel-heading panel-border nova-panel-heading">
             <div class="tools pull-right" id="toolbar">
                <a href="{% url 'calidad:general_formulario' %}"
-                  class="btn nova-btn btn-rounded btn-space btn-default" id="boton_nuevo">
+                  class="btn nova-btn btn-rounded btn-space btn-default" id="id_boton_nueva_auditoria">
                   <i class="icon icon-left mdi mdi-plus-circle nova-black"></i>Nuevo
                </a>
                <a href="#tarjeta_filtros" 
@@ -45,10 +45,10 @@
             <div class="title hidden-xs">Registros</div>
             </div><!-- Panel Heading -->
             <div id="grid_resultados">
-            <table class="table table-bordered">
+            <table class="table table-bordered table-hover" id="id_grid_auditoria_lista">
                <thead>
                   <tr>
-                     <th style="width: 38px;"></th>
+                     <th class="nova-columna-acciones"></th>
                      <th>Folio</th>
                      <th>Objetivo</th>
                      <th>Elaborador</th>
@@ -61,9 +61,9 @@
                   </tr>
                </thead>
                <tbody>
-                  <tr>
+                  <tr class="clickable-row">
                      <td>
-                        <a href="#id_tarjeta_acciones" data-toggle="modal" class="btn nova-btn btn-default" id="boton_nuevo">
+                        <a href="#id_tarjeta_acciones" data-toggle="modal" class="btn nova-btn btn-default">
                            <i class="icon icon-left icon mdi mdi-settings nova-black"></i>
                         </a>
                      </td>
@@ -75,13 +75,13 @@
                      <td>Armando Villanueva Jimenez</td>
                      <td>Ingrid Coliaza Reyes</td>
                      <td>SIC</td>
-                     <td bgcolor="#5ac3f6" style="text-align:center">En aprobación</td>
+                     <td class="nova-aling-center nova-status-en-aprobacion">En aprobación</td>
                      <td>$1830</td>
                      <td>Auditoria Interna</td>
                   </tr>
-                  <tr>
+                  <tr class="clickable-row">
                      <td>
-                        <a href="#id_tarjeta_acciones" data-toggle="modal" class="btn nova-btn btn-default" id="boton_nuevo">
+                        <a href="#id_tarjeta_acciones" data-toggle="modal" class="btn nova-btn btn-default">
                            <i class="icon icon-left icon mdi mdi-settings nova-black"></i>
                         </a>
                      </td>
@@ -93,13 +93,13 @@
                      <td>Armando Villanueva Jimenez</td>
                      <td>Ingrid Coliaza Reyes</td>
                      <td>MET</td>
-                     <td bgcolor="#d4d4d4" style="text-align:center">Cancelado</td>
+                     <td class="nova-aling-center nova-status-cancelado">Cancelado</td>
                      <td>$1830</td>
                      <td>Mejora continua</td>
                   </tr>
-                  <tr>
+                  <tr class="clickable-row">
                      <td>
-                        <a href="#id_tarjeta_acciones" data-toggle="modal" class="btn nova-btn btn-default" id="boton_nuevo">
+                        <a href="#id_tarjeta_acciones" data-toggle="modal" class="btn nova-btn btn-default">
                            <i class="icon icon-left icon mdi mdi-settings nova-black"></i>
                         </a>
                      </td>
@@ -111,13 +111,13 @@
                      <td>Armando Villanueva Jimenez</td>
                      <td>Ingrid Coliaza Reyes</td>
                      <td>GEOLIS</td>
-                     <td bgcolor="#4285f4" style="color:white; text-align:center">Aprobado</td>
+                     <td class="nova-aling-center nova-status-aprobado nova-white">Aprobado</td>
                      <td>$1830</td>
                      <td>Auditoria Externa</td>
                   </tr>
-                  <tr>
+                  <tr class="clickable-row">
                      <td>
-                        <a href="#id_tarjeta_acciones" data-toggle="modal" class="btn nova-btn btn-default" id="boton_nuevo">
+                        <a href="#id_tarjeta_acciones" data-toggle="modal" class="btn nova-btn btn-default">
                            <i class="icon icon-left icon mdi mdi-settings nova-black"></i>
                         </a>
                      </td>
@@ -129,13 +129,13 @@
                      <td>Javier Hernandez Gomez</td>
                      <td>Fernanda Fuentes Rocio</td>
                      <td>SIC</td>
-                     <td bgcolor="#f6b663" style="text-align:center">Rechazado</td>
+                     <td class="nova-aling-center nova-status-rechazado">Rechazado</td>
                      <td>$2630</td>
                      <td>Auditoria Interna</td>
                   </tr>
-                  <tr>
+                  <tr class="clickable-row">
                      <td>
-                        <a href="#id_tarjeta_acciones" data-toggle="modal" class="btn nova-btn btn-default" id="boton_nuevo">
+                        <a href="#id_tarjeta_acciones" data-toggle="modal" class="btn nova-btn btn-default">
                            <i class="icon icon-left icon mdi mdi-settings nova-black"></i>
                         </a>
                      </td>
@@ -147,13 +147,13 @@
                      <td>Antonio Corcino Donato</td>
                      <td>Anahi Campos Fuentes</td>
                      <td>SIC</td>
-                     <td bgcolor="#34a853" style="color:white; text-align:center">Autorizado</td>
+                     <td class="nova-aling-center nova-status-autorizado nova-white">Autorizado</td>
                      <td>$2330</td>
                      <td>Auditoria Interna</td>
                   </tr>
-                  <tr>
+                  <tr class="clickable-row">
                      <td>
-                        <a href="#id_tarjeta_acciones" data-toggle="modal" class="btn nova-btn btn-default" id="boton_nuevo">
+                        <a href="#id_tarjeta_acciones" data-toggle="modal" class="btn nova-btn btn-default">
                            <i class="icon icon-left icon mdi mdi-settings nova-black"></i>
                         </a>
                      </td>
@@ -165,7 +165,7 @@
                      <td>Julio Cabrera Mendez</td>
                      <td>Carolina Mendez Miron</td>
                      <td>MET</td>
-                     <td style="text-align:center">En captura</td>
+                     <td class="nova-aling-center">En captura</td>
                      <td>$964</td>
                      <td>Auditoria Interna</td>
                   </tr>
@@ -300,18 +300,15 @@
 
    <!-- tarjeta_acciones-->
    <div id="id_tarjeta_acciones" tabindex="-1" role="dialog" class="modal fade colored-header colored-header-primary">
-      <div style="width: 100px; height: 500px" class="modal-dialog">
+      <div class="modal-dialog nova-modal-acciones">
         <div class="modal-content">
           <div class="modal-header nova-modal-header">
             <button type="button" data-dismiss="modal" aria-hidden="true" class="close"><span class="mdi mdi-close"></span></button>
-            <h3 class="modal-title">Acciones Del Hallazgo 1</h3>
+            <h3 class="modal-title">Acciones de la Auditoria <strong>AUD-01-15</strong></h3>
           </div>
           <div class="modal-body">
             <div class="text-center">
                <div role="group" class="btn-group-vertical btn-space">
-                  <!--<a href="{% url 'calidad:auditoria_lista' %}" class="btn nova-btn btn-space btn-default btn-lg" id="id_boton_nuevo">
-                     <i class="icon icon-left mdi mdi-edit nova-black"></i> Editar
-                  </a>-->
                   <a href="{% url 'calidad:proceso_lista' %}" class="btn nova-btn btn-space btn-primary btn-lg" id="id_boton_checklist">
                      <i class="icon icon-left mdi mdi-arrow-right nova-white"></i> Ir a Check List
                   </a>

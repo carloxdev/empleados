@@ -55,10 +55,10 @@
                      </a>
                   </div><!-- Panel Heading -->
                   <div id="grid_resultados" class="nova-div-overflow">
-                     <table class="table table-bordered">
+                     <table class="table table-bordered table-hover" id="id_grid_proceso">
                         <thead>
                            <tr>
-                              <th style="width: 38px;"></th>
+                              <th class="nova-columna-acciones"></th>
                               <th>Proceso</th>
                               <th>Subproceso</th>
                               <th>Jefe del departamento</th>
@@ -66,7 +66,7 @@
                            </tr>
                         </thead>
                         <tbody>
-                           <tr>
+                           <tr class="clickable-row">
                               <td>
                                  <a href="#id_tarjeta_acciones" data-toggle="modal" class="btn nova-btn btn-default" id="boton_nuevo">
                                     <i class="icon icon-left icon mdi mdi-settings nova-black"></i>
@@ -79,7 +79,7 @@
                               <td>Armando Villanueva Jimenez</td>
                               <td>Lucia Zamora Jimenez</td>
                            </tr>
-                           <tr>
+                           <tr class="clickable-row">
                               <td>
                                  <a href="#id_tarjeta_acciones" data-toggle="modal" class="btn nova-btn btn-default" id="boton_nuevo">
                                     <i class="icon icon-left mdi mdi-settings nova-black"></i>
@@ -92,7 +92,7 @@
                               <td>Armando Villanueva Jimenez</td>
                               <td>Lucia Zamora Jimenez</td>
                            </tr>
-                           <tr>
+                           <tr class="clickable-row">
                               <td>
                                  <a href="#id_tarjeta_acciones" data-toggle="modal" class="btn nova-btn btn-default" id="boton_nuevo">
                                     <i class="icon icon-left mdi mdi-settings nova-black"></i>
@@ -105,7 +105,7 @@
                               <td>Claudia Villegas</td>
                               <td>Luis Abendaño</td>
                            </tr>
-                           <tr>
+                           <tr class="clickable-row">
                               <td>
                                  <a href="#id_tarjeta_acciones" data-toggle="modal" class="btn nova-btn btn-default" id="boton_nuevo">
                                     <i class="icon icon-left mdi mdi-settings nova-black"></i>
@@ -118,7 +118,7 @@
                               <td>Antonio Corcino Donato</td>
                               <td>Ingrid Coliaza Reyes</td>
                            </tr>
-                           <tr>
+                           <tr class="clickable-row">
                               <td>
                                  <a href="#id_tarjeta_acciones" data-toggle="modal" class="btn nova-btn btn-default" id="boton_nuevo">
                                     <i class="icon icon-left mdi mdi-settings nova-black"></i>
@@ -244,15 +244,15 @@
 
             </form><!-- Modal body-->
             <div class="modal-footer nova-modal-footer">
-                <div class="row col-sm-12">
-                     <button type="button" data-dismiss="modal" class="btn btn-default pull-left">
-                        Cerrar
-                     </button>
+               <div class="row col-sm-12">
+                  <button type="button" data-dismiss="modal" class="btn btn-default pull-left">
+                     Cerrar
+                  </button>
 
-                     <button type="button" id="id_boton_guardar" class="btn nova-btn btn-primary btn-lg pull-right">
-                        <i class="icon icon-left mdi mdi-floppy nova-white"></i>
-                        Guardar
-                     </button>
+                  <button type="button" id="id_boton_guardar" class="btn nova-btn btn-primary btn-lg pull-right">
+                     <i class="icon icon-left mdi mdi-floppy nova-white"></i>
+                     Guardar
+                  </button>
                </div>
             </div>
          </div> <!-- Modal content-->
@@ -261,26 +261,29 @@
    
    <!-- tarjeta_acciones-->
    <div id="id_tarjeta_acciones" tabindex="-1" role="dialog" class="modal fade colored-header colored-header-primary">
-      <div style="width: 100px; height: 500px" class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header nova-modal-header">
-            <button type="button" data-dismiss="modal" aria-hidden="true" class="close"><span class="mdi mdi-close"></span></button>
-            <h3 class="modal-title">Acciones Del proceso <strong>Licitaciones</strong></h3>
-          </div>
-          <div class="modal-body">
-            <div class="text-center">
-               <div role="group" class="btn-group-vertical btn-space">
+      <div class="modal-dialog nova-modal-acciones">
+         <div class="modal-content">
+            <div class="modal-header nova-modal-header">
 
-                  <a href="{% url 'calidad:general_formulario' %}" class="btn nova-btn btn-space btn-success btn-lg" id="boton_excel">
-                     <i class="icon icon-left mdi mdi-collection-pdf nova-white"></i> Reporte De Check-list
-                  </a>
-                  <a href="{% url 'calidad:general_formulario' %}" class="btn nova-btn btn-space btn-success btn-lg" id="boton_excel">
-                     <i class="icon icon-left mdi mdi-collection-pdf nova-white"></i> Reporte De Auditoria
-                  </a>
+               <button type="button" data-dismiss="modal" aria-hidden="true" class="close"><span class="mdi mdi-close"></span></button>
+               <h3 class="modal-title">Acciones Del proceso <strong>Licitaciones</strong></h3>
+
+            </div>
+            <div class="modal-body">
+               <div class="text-center">
+                  <div role="group" class="btn-group-vertical btn-space">
+
+                     <a href="{% url 'calidad:general_formulario' %}" class="btn nova-btn btn-space btn-success btn-lg" id="id_boton_check_list">
+                        <i class="icon icon-left mdi mdi-collection-pdf nova-white"></i> Reporte De Check-list
+                     </a>
+                     <a href="{% url 'calidad:general_formulario' %}" class="btn nova-btn btn-space btn-success btn-lg" id="id_boton_reporta_auditoria">
+                        <i class="icon icon-left mdi mdi-collection-pdf nova-white"></i> Reporte De Auditoria
+                     </a>
+
+                  </div>
                </div>
             </div>
-          </div>
-        </div>
+         </div>
       </div>
     </div>
 

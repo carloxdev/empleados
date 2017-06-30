@@ -77,7 +77,7 @@ urlpatterns = [
         name="hallazgo_lista"
     ),
     url(
-        r'^auditorias/nuevo/procesos/nuevo/hallazgos/nuevo/$',
+        r'^auditorias/nuevo/procesos/nuevo/hallazgo/detalle/$',
         HallazgoFormulario.as_view(),
         name="hallazgo_formulario"
     ),
