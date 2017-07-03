@@ -46,7 +46,7 @@
                </ul>
                <div class="actions">
                   <a href="{% url 'calidad:general_formulario' %}" class="btn btn-xs btn-prev btn-default nova-a-tab">Generales</a>
-                  <a href="{% url 'calidad:equipo_auditor_formulario' %}" class="btn btn-xs btn-next btn-default nova-a-tab">Equipo Auditor</a>
+                  <a href="{% url 'calidad:auditor_formulario' %}" class="btn btn-xs btn-next btn-default nova-a-tab">Equipo Auditor</a>
                   <a href="{% url 'calidad:proceso_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab nova-active-tab">Procesos</a>
                </div>
                <div class="nova-content-nav">
@@ -102,7 +102,7 @@
                               </a>
                            </td>
                            <td>
-                              <a href="{% url 'calidad:hallazgo_formulario' %}" class="btn btn-default nova-url" data-toggle="modal">Documento fuera de regla</a>
+                              <a href="{% url 'calidad:hallazgo_detalle' %}" class="btn btn-default nova-url" data-toggle="modal">Documento fuera de regla</a>
                            </td>
                            <td>
                               Licictaciones
@@ -283,16 +283,16 @@
                   {% endfor %}                                        
                </div>
 
-               <!-- id_clasificacion_hallazgo -->
+               <!-- id_clasificacion_requisito -->
                <div class="form-group">
                   <label class="col-sm-3 control-label" 
                      for="{{ form.auditores.id_for_label }}">
                      {{ form.auditores.label }}
-                     Clasificación de hallazgo
+                     Clasificación de requisito
                   </label>
                   <div class="col-sm-7 xs-pt-5">
                      {{ form.auditores }}
-                     <select class="select2 select2-hidden-accessible" tabindex="-1" aria-hidden="true" id="id_clasificacion_hallazgo">
+                     <select class="select2 select2-hidden-accessible" tabindex="-1" aria-hidden="true" id="id_clasificacion_requisito">
                         <option value="" selected="selected">-------</option>
                         <option value="Norma">Norma</option>
                         <option value="Legal">Legal</option>

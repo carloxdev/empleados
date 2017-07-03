@@ -40,7 +40,7 @@
                </ul>
                <div class="actions">
                   <a href="{% url 'calidad:general_formulario' %}" class="btn btn-xs btn-prev btn-default nova-a-tab">Generales</a>
-                  <a href="{% url 'calidad:equipo_auditor_formulario' %}" class="btn btn-xs btn-next btn-default nova-a-tab">Equipo Auditor</a>
+                  <a href="{% url 'calidad:auditor_formulario' %}" class="btn btn-xs btn-next btn-default nova-a-tab">Equipo Auditor</a>
                   <a href="{% url 'calidad:proceso_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab nova-a-tab-border nova-active-tab">Procesos</a>
                </div>
                <div class="nova-content-nav">
@@ -78,7 +78,7 @@
                         <tr>
                            <th class="nova-columna-acciones"></th>
                            <th>Requisito</th>
-                           <th>Tipo</th>
+                           <th>Clasificación</th>
                            <th>Criterio</th>
                         </tr>
                      </thead>
@@ -152,9 +152,9 @@
             <form id="formulario_proceso" class="modal-body form-horizontal">
 
                <div class="form-group">
-                  <label class="col-sm-3 nova-col-filter control-label">Tipo</label>
+                  <label class="col-sm-3 nova-col-filter control-label">Clasificación</label>
                   <div class="col-sm-7 xs-pt-5">
-                     <select class="select2 select2-hidden-accessible" tabindex="-1" aria-hidden="true" id="id_clasificacion_hallazgo">
+                     <select class="select2 select2-hidden-accessible" tabindex="-1" aria-hidden="true" id="id_clasificacion_requisito">
                         <option value="" selected="selected">-------</option>
                         <option value="Norma">Norma</option>
                         <option value="Legal">Legal</option>

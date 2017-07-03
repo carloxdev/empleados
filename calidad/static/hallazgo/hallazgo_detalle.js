@@ -115,7 +115,7 @@ Menu.prototype.resize_Ventana = function (e) {
 function TarjetaDetalleHallazgo(){
 
    this.$id_subproceso = $('#id_subproceso')
-   this.$id_clasificacion_hallazgo = $('#id_clasificacion_hallazgo')
+   this.$id_clasificacion_requisito = $('#id_clasificacion_requisito')
    this.$id_requisito_referencia = $('#id_requisito_referencia')
    this.$id_requisito_adicional = $('#id_requisito_adicional')
    this.$id_tipo_hallazgo = $('#id_tipo_hallazgo')
@@ -125,7 +125,7 @@ function TarjetaDetalleHallazgo(){
 TarjetaDetalleHallazgo.prototype.init_Components = function () {
 
    this.$id_subproceso.select2(appnova.get_ConfigSelect2())
-   this.$id_clasificacion_hallazgo.select2(appnova.get_ConfigSelect2())
+   this.$id_clasificacion_requisito.select2(appnova.get_ConfigSelect2())
    this.$id_requisito_referencia.multiselect(this.get_ConfMultiSelect())
    this.$id_requisito_adicional.select2(appnova.get_ConfigSelect2())
    this.$id_tipo_hallazgo.select2(appnova.get_ConfigSelect2())

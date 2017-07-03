@@ -64,7 +64,7 @@ Grid.prototype.click_FilaGrid = function (e) {
 function PopupNuevo() {
 
    this.$id_tarjeta_nuevo_requisito = $('#id_tarjeta_nuevo_requisito')
-   this.$id_clasificacion_hallazgo = $("#id_clasificacion_hallazgo")
+   this.$id_clasificacion_requisito = $("#id_clasificacion_requisito")
    this.$id_norma = $("#id_norma")
    this.$id_requisito = $('#id_requisito')
    this.$id_boton_guardar = $('#id_boton_guardar')
@@ -74,7 +74,7 @@ function PopupNuevo() {
 }
 PopupNuevo.prototype.init_Components = function () {
 
-   this.$id_clasificacion_hallazgo.select2(appnova.get_ConfigSelect2())
+   this.$id_clasificacion_requisito.select2(appnova.get_ConfigSelect2())
    this.$id_norma.select2(appnova.get_ConfigSelect2())
    this.$id_requisito.select2(appnova.get_ConfigSelect2())
 }
