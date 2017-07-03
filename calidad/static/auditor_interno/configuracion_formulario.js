@@ -75,7 +75,3 @@ Formulario.prototype.get_ConfMultiselect = function () {
 Formulario.prototype.init_Events = function () {
 
 }
-Formulario.prototype.click_BotonGuardar = function (e) {
-    
-    e.preventDefault()
-}

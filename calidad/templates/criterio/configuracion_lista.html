@@ -7,9 +7,6 @@
 {% block title-page %} Configuración Criterios y Requisitos {% endblock title-page %}
 
 {% block css %}
-   <!-- Beagle Theme -->
-   <link rel="stylesheet" href="{% static 'theme/lib/bootstrap-multiselect/css/bootstrap-multiselect.css' %}"/>
-   <link rel="stylesheet" href="{% static 'theme/lib/multiselect/css/multi-select.css' %}"/>
 
    <!-- bootstrap tree -->
    <link rel="stylesheet" href="{% static 'libs/bootstrap-treeview/1.2.0/css/bootstrap-treeview.min.css' %}"/>
@@ -27,7 +24,7 @@
       <h2 class="page-head-title nova-title">Configuración de Criterios y Requisitos</h2>
       <ol class="breadcrumb page-head-nav pull-right">
          <li><a href="{% url 'home:inicio' %}">Inicio</a></li>
-         <li id="menu" data-opcion="configuracion"><a>Configuración</a></li>
+         <li id="menu" data-opcion="calidad_configuracion"><a>Configuración</a></li>
          <li class="active">Criterios y Requisitos</li>
       </ol>
    </div>
@@ -58,15 +55,15 @@
             <div class="panel panel-default">
 
                <div class="panel-heading nova-panel-borde-contenido nova-panel-tools">
-                  <button class="btn nova-btn btn-rounded btn-sm btn-space btn-success pull-right" id="boton_excel">
+                  <button class="btn nova-btn btn-rounded btn-sm btn-space btn-success pull-right" id="id_boton_importar">
                      <i class="icon icon-left mdi mdi-download nova-white"></i> Importar
                   </button>
                   <a href="#id_tarjeta_filtros" 
-                     class="btn nova-btn btn-rounded btn-sm btn-space btn-primary pull-right" data-toggle="modal" id="boton_filtros">
+                     class="btn nova-btn btn-rounded btn-sm btn-space btn-primary pull-right" data-toggle="modal" id="id_boton_filtro">
                      <i class="icon icon-left mdi mdi-search nova-white"></i> Filtros
                   </a>
                   <a href="#id_tarjeta_nuevo_criterio"
-                     class="btn nova-btn btn-rounded btn-sm btn-space btn-default pull-right" data-toggle="modal" id="boton_nuevo">
+                     class="btn nova-btn btn-rounded btn-sm btn-space btn-default pull-right" data-toggle="modal" id="id_boton_nuevo_criterio">
                      <i class="icon icon-left mdi mdi-plus-circle nova-black"></i> Criterio
                   </a>
                </div><!-- Panel Heading -->
@@ -85,7 +82,7 @@
 
 </div> <!-- be content -->
    
-   <!-- Targeta Nuevo -->
+   <!-- Tarjeta Nuevo -->
    <div id="id_tarjeta_nuevo_criterio" role="dialog" class="modal fade colored-header colored-header-primary">
       <div class="modal-dialog custom-width">
          <div class="modal-content">
@@ -124,7 +121,7 @@
                      Cerrar
                   </button>
 
-                  <button type="button" id="id_boton_guardar_nueva_norma" class="btn nova-btn btn-primary btn-lg pull-right">
+                  <button type="button" id="id_boton_guardar_criterio" class="btn nova-btn btn-primary btn-lg pull-right">
                      <i class="icon icon-left mdi mdi-floppy nova-white"></i>
                      Guardar
                   </button>
@@ -144,7 +141,7 @@
                <h3 class="modal-title">Filtros</h3>
             </div>
                
-            <form id="formulario_filtro" class="modal-body form-horizontal">
+            <form id="id_formulario_filtro" class="modal-body form-horizontal">
 
                <div class="form-group">
                   <label class="col-sm-3 nova-col-filter control-label">Requisito</label>
@@ -185,7 +182,7 @@
                <h3 class="modal-title">Nuevo Requisito</h3>
             </div>
                
-            <form id="formulario_requisito" class="modal-body form-horizontal">
+            <form id="id_formulario_requisito" class="modal-body form-horizontal">
 
                <div class="form-group">
                   <label class="col-sm-3 nova-col-filter control-label">Requisito</label>
@@ -197,74 +194,23 @@
             </form><!-- Modal body-->
             <div class="modal-footer nova-modal-footer">
                 <div class="row col-sm-12">
-                     <button type="button" data-dismiss="modal" class="btn btn-default pull-left">
-                        Cerrar
-                     </button>
+                  <button type="button" data-dismiss="modal" class="btn btn-default pull-left">
+                     Cerrar
+                  </button>
 
-                     <button type="button" id="id_boton_guardar_nuevo_requisito" class="btn nova-btn btn-primary btn-lg pull-right">
-                        <i class="icon icon-left mdi mdi-floppy nova-white"></i>
-                        Guardar
-                     </button>
+                  <button type="button" id="id_boton_guardar_nuevo_requisito" class="btn nova-btn btn-primary btn-lg pull-right">
+                     <i class="icon icon-left mdi mdi-floppy nova-white"></i>
+                     Guardar
+                  </button>
                </div>
             </div>
          </div> <!-- Modal content-->
       </div> <!-- Modal dialog -->
    </div><!-- Modal -->
 
-   <!-- tarjeta_acciones_norma 
-   <div id="id_tarjeta_accion_norma" tabindex="-1" role="dialog" class="modal fade colored-header colored-header-primary">
-      <div style="width: 100px; height: 500px" class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header nova-modal-header">
-            <button type="button" data-dismiss="modal" aria-hidden="true" class="close"><span class="mdi mdi-close"></span></button>
-            <h3 class="modal-title">Acciones De La Norma: <strong>C-PROS-01</strong>: ISO 9001:2008</h3>
-          </div>
-          <div class="modal-body">
-            <div class="text-center">
-               <div role="group" class="btn-group-vertical btn-space">
-                  <a href="#id_tarjeta_nuevo_requisito"
-                     class="btn nova-btn btn-rounded btn-space btn-default btn-lg" data-toggle="modal" id="id_boton_nuevo_accion_norma">
-                     <i class="icon icon-left mdi mdi-plus-circle nova-black"></i> Requisito
-                  </a>
-                  <a href="#" class="btn nova-btn btn-space btn-warning btn-lg" id="id_boton_eliminar_norma">
-                     <i class="icon icon-left mdi mdi-alert-triangle nova-white"></i> Eliminar Norma
-                  </a>
-               </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>-->
-
-    <!-- tarjeta_acciones_requisito
-   <div id="id_tarjeta_accion_requisito" tabindex="-1" role="dialog" class="modal fade colored-header colored-header-primary">
-      <div style="width: 100px; height: 500px" class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header nova-modal-header">
-            <button type="button" data-dismiss="modal" aria-hidden="true" class="close"><span class="mdi mdi-close"></span></button>
-            <h3 class="modal-title">Acciones Del Requisito: <strong>C-REQ-01</strong>: 14.2.-Seguimiento</h3>
-          </div>
-          <div class="modal-body">
-            <div class="text-center">
-               <div role="group" class="btn-group-vertical btn-space">
-                  <a href="#" class="btn nova-btn btn-space btn-warning btn-lg" id="id_boton_eliminar_requisito">
-                     <i class="icon icon-left mdi mdi-alert-triangle nova-white"></i> Eliminar Requisito
-                  </a>
-               </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div> -->
-
 {% endblock contenido %}
 
 {% block scripts %}
-
-   <!-- Beagle Theme -->
-   <script src="{% static 'theme/lib/bootstrap-multiselect/js/bootstrap-multiselect.js' %}" type="text/javascript"></script>
-   <script src="{% static 'theme/lib/multiselect/js/jquery.multi-select.js' %}" type="text/javascript"></script>
-   <script src="{% static 'theme/lib/quicksearch/jquery.quicksearch.min.js' %}" type="text/javascript"></script>
 
    <!-- bootstrap tree -->
    <script src="{% static 'libs/bootstrap-treeview/1.2.0/js/bootstrap-treeview.min.js' %}" ></script>

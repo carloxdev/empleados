@@ -15,7 +15,7 @@
    text-overflow: clip !important;
 }
 
-.nova-panel-heading { /* checar el min height, se puede resolver con el overflow hidden*/
+.nova-panel-heading {
    margin: 0px;
    padding: 15px 20px 15px !important;
    min-height: 55px;
@@ -243,66 +243,56 @@
     padding-bottom: 16px;
     padding-left: 20px;
 }
-.nova-panel-heading-titulo {
-   font-size: 18px;
-   font-weight: 300;
-   padding: 10px;
-   margin: 0 20px;
-   border-bottom-width: 0;
-   border-radius: 3px 3px 0 0;
-}
 
-.nova-panel-tools {
-   margin: 0px;
-   padding: 5px 20px 0px !important;
-   overflow: hidden;
-}
-
-.nova-panel-tools-tabs {
-   margin: 0px;
-   padding: 0px 20px 0px 0px !important;
-   overflow: hidden;
-}
-
-.nova-tab-border {
-   border-left: 1px solid #d4d4d4 !important;
-   border-right: 1px solid #d4d4d4 !important;
-}
-
-
-/* nova-content-nav */
+/* nova-navbar */
 .nova-content-nav {
-   border-top: 1px solid #d4d4d4 !important; /* borde en top del contenedor */
-   width: 100%;   /* ancho del contenedor */
-   padding: 10px 0px 20px;   /* padding del contenedor */
-   clear: both;   /* Permite desborde del contenedor */
-   position: relative;  /* Referencia de contenedor para posicionar elemento absoluto */
+   border-top: 1px solid #d4d4d4 !important;
+   width: 100%;
+   padding: 10px 0px 20px;
+   clear: both;
+   position: relative;
 }
+
 .nova-nav-tab {
-   width:70%;  /* Ancho del elemento */
-   left:50%;   /* Posiciona el elemento para centrarlo a la izquierda */
-   margin:0px;    /* Quita margenes de otras clases */
+   width:70%;
+   left:50%;
+   margin:0px;
 }
+
 .nova-nav-tab a {
-   right:50%;  /* Posiciona el elemento para centrarlo a la derecha */
+   right:50%;
 }
+
 /* Bordes */
 .nova-nav-tab a:first-child {
    border-top-left-radius: 7px;
    border-bottom-left-radius: 7px;   
 }
+
 .nova-nav-tab a:last-child {
    border-top-right-radius: 7px;
    border-bottom-right-radius: 7px;   
 }
-/* nova-content-nav */
+
+/* nova-navbar */
+
+/* nova-breadcrumb-nav */
 .nova-breadcrumb-nav {
    background-color: transparent !important;
    position: relative;
-
 }
+
 .nova-breadcrumb-nav ol.breadcrumb {
    background-color: transparent !important;
+}
+
+/* nova-breadcrumb-nav */
+
+/* nova-panel */
+.nova-panel-tools {
+   margin: 0px;
+   padding: 5px 20px 0px !important;
+   overflow: hidden;
 }
 
 .nova-panel-borde-contenido {
@@ -321,75 +311,56 @@
 .nova-panel-no-border-top {
    border-top: 0px !important;
 }
-.nova-panel-borde-top {
-   border-top: 1px solid #d4d4d4 !important;
-}
+/* nova-panel */
+
 /* nova-panel-arbol */
 .nova-panel-arbol {
    padding: 0px !important;
    border-radius: 0px! important; 
 }
+
 .nova-icon-lista {
    padding: 6px 14px !important;
    margin-right: 0px !important;
 }
+
 div.nova-panel-arbol span.badge {
    border: 0px !important;
    background-color: inherit !important;
    padding: 0px !important;
 }
+
 div.nova-panel-arbol li.list-group-item {
    overflow-y: hidden !important;
    border-radius: 0px !important;
 }
 /* nova-panel-arbol */
 
+/* nova-detalle */
 .nova-btn-space {
    margin-top: 5px;
-}
-
-.nova-chevron-color {
-   border-left-color: #d4d4d4 !important;
-}
-
-.nova-panel-step-content {
-   padding: 0px !important;
-}
-
-.nova-step-font {
-   font-weight: 400 !important;
-}
-.nova-step-complete{  
-   color: #777777 !important;
-   background-color: #ffffff !important;
-   
-}
-.nova-step-complete span.chevron:before {
-   border-left: 14px solid #ffffff !important;
-}
-.nova-step-active {
-   background-color: #f7f7f7 !important;
-}
-.nova-step-active span.chevron:before {
-   border-left: 14px solid #f7f7f7 !important;
 }
 
 .nova-btn-delete {
    background-color: #ff4141 !important;
 }
+
 .nova-btn-edit {
    background-color: #fba605 !important;
 }
+/* nova-detalle */
 
 /* nova-home */
 .nova-panel-inicio-top {
    padding: 30px 0px;
    background-color: #ffffff !important;
 }
+
 .nova-panel-inicio-bottom {
    padding: 30px 0px;
    background-color: #ddd !important;
 }
+
 .nova-btn-home {
    padding: 10px !important;
    border: 1px solid #d4d4d4;
@@ -397,21 +368,26 @@ div.nova-panel-arbol li.list-group-item {
    font-size: 13px;
    width: 100%;
 }
+
 .nova-btn-home i.icon {
    font-size: 32px !important;
 }
+
 .nova-info {
    text-align: center;
    font-size: 16px
 }
+
 .nova-info h4:first-child {
    margin-top: 0px;
 }
+
 .nova-home-title {
    font-size: 22px;
    text-align: center;
    margin-top: 17px;
 }
+
 .nova-paper {
    background-color: #ffffff;
    border-radius: 6px;
@@ -422,16 +398,20 @@ div.nova-panel-arbol li.list-group-item {
    margin-bottom: 5px;
    border-bottom: 1px solid #d4d4d4;
 }
+
 .nova-img {
    border-radius: 10px;
 }
+
 .nova-tags {
    margin-bottom: 3px;
    font-size: 12px;
 }
+
 .nova-tag-icon {
    font-size: 16px;
 }
+
 .nova-insignia:before {
    content: "\f005";
    font-family: FontAwesome;
@@ -445,6 +425,7 @@ div.nova-panel-arbol li.list-group-item {
    left: 6px;
    padding: 5px;
 }
+
 .nova-paper-acciones {
    display: inline-block;
    background-color: #ffffff;
@@ -470,34 +451,26 @@ div.nova-panel-arbol li.list-group-item {
    padding: 15px;
    position: relative;
 }
-.abs {
-  position: absolute; 
-  bottom: 10px;
-  right:10px;
-  /* padding: 15px; */
-}
+
 .sticky {
   position: fixed; 
   top: 60px;
-  
 }
+
 .nova-slider-menu-fixed {
    position: relative !important;
    top: 0px !important;
 }
 
-.clearfix:after {
-    content:"";
-    display:block;
-    clear:both;
-}
 .nova-slider-section {
    padding: 15px 20px 20px 20px;
 }
+
 .nova-slider-panel {
    border: 1px solid #d4d4d4;
    border-radius: 3px;
 }
+
 .nova-slider-panel-heading {
    background-color: #f5f5f5;
    border-top-right-radius: 3px;
@@ -505,6 +478,7 @@ div.nova-panel-arbol li.list-group-item {
    padding: 5px 10px;
    border-bottom: 1px solid #d4d4d4;
 }
+
 .nova-slider-panel-heading-table {
    background-color: #f5f5f5;
    border-top-right-radius: 3px;
@@ -515,9 +489,11 @@ div.nova-panel-arbol li.list-group-item {
    border-right: 1px solid #d4d4d4;
    overflow: hidden;
 }
+
 .nova-slider-panel-content {
    padding: 10px 20px;
 }
+
 .nova-slider-panel-footer {
    background-color: #f5f5f5;
    border-bottom-right-radius: 3px;
@@ -526,54 +502,73 @@ div.nova-panel-arbol li.list-group-item {
    border-top: 1px solid #d4d4d4;
    overflow: hidden;
 }
+
 .nova-slider-title {
    font-size: 16px;
    padding: 5px;
 }
+/* nova-menu-slider */
 
 /* modales */
 .nova-modal-maxwidth {
    max-width: 930px !important;
 }
+
 .nova-modal-acciones {
    width: 320px;
 }
+
 .nova-modal-title-seguimientos {
    width: 80%;
 }
+
 .nova-overflow-hidden {
    overflow: hidden;
 }
+
 .nova-modal-informacion {
    padding: 12px 15px;
 }
+
 /* modales */
 
 /* bootstrap tables */
 .nova-active-row {
    background-color: #f0f0f0;
 }
+
 .nova-columna-acciones {
    width: 38px;
 }
+
 .nova-aling-center {
    text-align:center;
 }
+
 .nova-status-en-aprobacion {
    background-color: #5ac3f6;
 }
+
 .nova-status-cancelado {
    background-color: #d4d4d4;
 }
+
 .nova-status-aprobado {
    background-color: #4285f4;
 }
+
 .nova-status-rechazado {
    background-color: #f6b663;
 }
+
 .nova-status-autorizado {
    background-color: #34a853;   
 }
 /* bootstrap tables */
 
-
+/* multiselect 2 */
+.select2-container--default .select2-results__option[aria-selected="true"]{
+   background-color: #4285f4;
+   color: #ffffff;
+}
+/* multiselect 2 */

@@ -7,7 +7,6 @@
 
 // OBJS
 var popup_formato = null
-var popup_acciones = null
 var tarjeta_resultados = null
 var toolbar = null
 var grid = null
@@ -47,7 +46,16 @@ function ToolBar() {
 
 function Grid() {
 
-   popup_acciones = new PopupAcciones()
+   this.$id_grid_formato = $('#id_grid_formato')
+   this.init_Events()
+}
+Grid.prototype.init_Events = function () {
+
+   this.$id_grid_formato.on("click", '.clickable-row', this.click_FilaGrid)
+}
+Grid.prototype.click_FilaGrid = function (e) {
+
+   $(this).addClass('nova-active-row').siblings().removeClass('nova-active-row')
 }
 
 /*-----------------------------------------------*\
@@ -92,25 +100,4 @@ PopupFormato.prototype.get_DateTimePickerConfig = function () {
          minViewMode: 2,
          format: "yyyy-mm-dd",
    }
-}
-
-/*-----------------------------------------------*\
-            OBJETO: popup acciones
-\*-----------------------------------------------*/
-
-function PopupAcciones() {
-
-   this.$id_tarjeta_acciones = $('#id_tarjeta_acciones')
-   this.$id_boton_editar = $('#id_boton_editar')
-   this.$id_boton_eliminar = $('#id_boton_eliminar')
-   this.init_Events()
-}
-PopupAcciones.prototype.init_Events = function () {
-
-   this.$id_boton_editar.on("click", this, this.ocultar)
-}
-PopupAcciones.prototype.ocultar = function (e) {
-
-   e.preventDefault()
-   e.data.$id_tarjeta_acciones.modal('hide')
 }

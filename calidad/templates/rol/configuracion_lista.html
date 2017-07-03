@@ -7,19 +7,6 @@
 {% block title-page %} Configuración Roles {% endblock title-page %}
 
 {% block css %}
-   <!-- Beagle Theme -->
-   <link rel="stylesheet" href="{% static 'theme/lib/daterangepicker/css/daterangepicker.css' %}"/>
-   <link rel="stylesheet" href="{% static 'theme/lib/bootstrap-multiselect/css/bootstrap-multiselect.css' %}"/>
-   <link rel="stylesheet" href="{% static 'theme/lib/multiselect/css/multi-select.css' %}"/>
-
-   <!-- Kendo -->
-   <link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.rtl.min.css' %}"/>
-   <link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.common-bootstrap.min.css' %}"/>
-   <link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.bootstrap.min.css' %}"/>
-
-   <!-- Nova -->
-   <link rel="stylesheet" href="{% static 'grid.css' %}"/>
-
 {% endblock css %}
 
 {% block contenido %}
@@ -30,7 +17,7 @@
       <h2 class="page-head-title nova-title">Configuración de Roles</h2>
       <ol class="breadcrumb page-head-nav pull-right">
          <li><a href="{% url 'home:inicio' %}">Inicio</a></li>
-         <li id="menu" data-opcion="configuracion"><a>Configuración</a></li>
+         <li id="menu" data-opcion="calidad_configuracion"><a>Configuración</a></li>
          <li class="active">Roles</li>
       </ol>
    </div>
@@ -72,44 +59,50 @@
                      </a>
                   </div><!-- Panel Heading -->
 
-                  <div id="grid_resultados" class="nova-div-overflow">
-                     <table class="table table-bordered">
+                  <div class="nova-div-overflow">
+                     <table class="table table-bordered table-hover" id="id_grid_rol">
                         <thead>
                            <tr>
-                              <th style="width: 38px;"></th>
+                              <th class="nova-columna-acciones"></th>
                               <th>Nombre</th>
                               <th>Compañia</th>
                               <th>Rol</th>
                            </tr>
                         </thead>
                         <tbody>
-                           <tr>
+                           <tr class="clickable-row">
                               <td>
-                                 <a href="#id_tarjeta_acciones" data-toggle="modal" class="btn nova-btn btn-default" id="boton_nuevo">
-                                    <i class="icon icon-left icon mdi mdi-settings nova-black"></i>
+                                 <a class="btn nova-btn btn-default nova-btn-delete">
+                                    <i class="icon icon-left icon mdi mdi-delete nova-white"></i>
                                  </a>
                               </td>
-                              <td>Diana Castillo Hernandez</td>
+                              <td>
+                                 <a href="#id_tarjeta_nuevo_rol" class="btn btn-default nova-url" data-toggle="modal">Diana Castillo Hernandez</a>
+                              </td>
                               <td>GEOLIS</td>
                               <td>Auditor lider</td>
                            </tr>
-                           <tr>
+                           <tr class="clickable-row">
                               <td>
-                                 <a href="#id_tarjeta_acciones" data-toggle="modal" class="btn nova-btn btn-default" id="boton_nuevo">
-                                    <i class="icon icon-left icon mdi mdi-settings nova-black"></i>
+                                 <a class="btn nova-btn btn-default nova-btn-delete">
+                                    <i class="icon icon-left icon mdi mdi-delete nova-white"></i>
                                  </a>
                               </td>
-                              <td>Luis Alberto Lopez Gonzalez</td>
+                              <td>
+                                 <a href="#id_tarjeta_nuevo_rol" class="btn btn-default nova-url" data-toggle="modal">Luis Alberto Lopez Gonzalez</a>  
+                              </td>
                               <td>MET</td>
                               <td>Aprobador</td>
                            </tr>
-                           <tr>
+                           <tr class="clickable-row">
                               <td>
-                                 <a href="#id_tarjeta_acciones" data-toggle="modal" class="btn nova-btn btn-default" id="boton_nuevo">
-                                    <i class="icon icon-left icon mdi mdi-settings nova-black"></i>
+                                 <a class="btn nova-btn btn-default nova-btn-delete">
+                                    <i class="icon icon-left icon mdi mdi-delete nova-white"></i>
                                  </a>
                               </td>
-                              <td>Carlos Rodriguez Mendez</td>
+                              <td>
+                                 <a href="#id_tarjeta_nuevo_rol" class="btn btn-default nova-url" data-toggle="modal">Carlos Rodriguez Mendez</a>
+                              </td>
                               <td>MET</td>
                               <td>Auditor</td>
                            </tr>
@@ -123,6 +116,8 @@
       </div> <!-- row wizard row -->
       
    </div> <!-- main content -->
+</div> <!-- be content -->
+   
    <!-- Targeta Nuevo -->
    <div id="id_tarjeta_nuevo_rol" role="dialog" class="modal fade colored-header colored-header-primary">
       <div class="modal-dialog custom-width">
@@ -190,8 +185,8 @@
          </div> <!-- Modal content-->
       </div> <!-- Modal dialog -->
    </div><!-- Modal -->
-</div> <!-- be content -->
-<!-- Tarjeta filtros-->
+
+   <!-- Tarjeta filtros-->
    <div id="id_tarjeta_filtros" role="dialog" class="modal fade colored-header colored-header-primary">
       <div class="modal-dialog custom-width">
          <div class="modal-content">
@@ -238,7 +233,6 @@
                   </div>
                </div>
 
-
             </form><!-- Modal body-->
             <div class="modal-footer nova-modal-footer">
                <div class="row col-sm-12">
@@ -261,47 +255,9 @@
       </div> <!-- Modal dialog -->
    </div><!-- Modal -->
 
-   <!-- tarjeta_acciones-->
-   <div id="id_tarjeta_acciones" tabindex="-1" role="dialog" class="modal fade colored-header colored-header-primary">
-      <div style="width: 100px; height: 500px" class="modal-dialog">
-         <div class="modal-content">
-         <div class="modal-header nova-modal-header">
-            <button type="button" data-dismiss="modal" aria-hidden="true" class="close"><span class="mdi mdi-close"></span></button>
-            <h3 class="modal-title">Acciones Del Rol</h3>
-         </div>
-         <div class="modal-body">
-            <div class="text-center">
-               <div role="group" class="btn-group-vertical btn-space">
-                  <a href="#id_tarjeta_nuevo_rol" class="btn nova-btn btn-space btn-default btn-lg"  data-toggle="modal" id="id_boton_editar">
-                     <i class="icon icon-left mdi mdi-edit nova-black"></i> Editar Rol
-                  </a>
-                  <a href="#" class="btn nova-btn btn-space btn-warning btn-lg" id="id_boton_eliminar">
-                     <i class="icon icon-left mdi mdi-alert-triangle nova-white"></i> Eliminar Rol
-                  </a>
-               </div>
-            </div>
-         </div>
-         </div>
-      </div>
-   </div>
-
 {% endblock contenido %}
 
 {% block scripts %}
-
-   <!-- Beagle Theme -->
-   <script src="{% static 'theme/lib/datetimepicker/js/bootstrap-datetimepicker.min.js' %}"></script>
-   <script src="{% static 'theme/lib/jquery.maskedinput/jquery.maskedinput.min.js' %}"></script>
-   <script src="{% static 'theme/lib/bootstrap-multiselect/js/bootstrap-multiselect.js' %}" type="text/javascript"></script>
-   <script src="{% static 'theme/lib/multiselect/js/jquery.multi-select.js' %}" type="text/javascript"></script>
-   <script src="{% static 'theme/lib/quicksearch/jquery.quicksearch.min.js' %}" type="text/javascript"></script>
-
-   <!-- Kendo Js -->
-   <script src="{% static 'libs/kendo/2015.2.624/js/cultures/kendo.culture.es-MX.min.js' %}"></script>
-   <script src="{% static 'libs/kendo/2015.2.624/js/kendo.web.min.js' %}"></script>
-
-   <!-- InputMask -->
-   <script src="{% static 'libs/plugins/input-mask/jquery.inputmask.js' %}"></script>
 
    <!-- JS Template -->
    <script src="{% static 'rol/configuracion_lista.js' %}"></script>      

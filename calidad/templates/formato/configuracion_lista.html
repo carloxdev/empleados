@@ -9,8 +9,6 @@
 {% block css %}
    <!-- Beagle Theme -->
    <link rel="stylesheet" href="{% static 'theme/lib/daterangepicker/css/daterangepicker.css' %}"/>
-   <link rel="stylesheet" href="{% static 'theme/lib/bootstrap-multiselect/css/bootstrap-multiselect.css' %}"/>
-   <link rel="stylesheet" href="{% static 'theme/lib/multiselect/css/multi-select.css' %}"/>
 
    <!-- wysihtml5 -->
    <link rel="stylesheet" href="{% static 'libs/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css' %}">
@@ -28,7 +26,7 @@
       <h2 class="page-head-title nova-title">Configuración de Formatos</h2>
       <ol class="breadcrumb page-head-nav pull-right">
          <li><a href="{% url 'home:inicio' %}">Inicio</a></li>
-         <li id="menu" data-opcion="configuracion"><a>Configuración</a></li>
+         <li id="menu" data-opcion="calidad_configuracion"><a>Configuración</a></li>
          <li class="active">Formatos</li>
       </ol>
    </div>
@@ -67,10 +65,10 @@
                   </div><!-- Panel Heading -->
 
                   <div id="grid_resultados" class="nova-div-overflow">
-                     <table class="table table-bordered">
+                     <table class="table table-bordered table-hover" id="id_grid_formato">
                         <thead>
                            <tr>
-                              <th style="width: 38px;"></th>
+                              <th class="nova-columna-acciones"></th>
                               <th>No. de revision</th>
                               <th>Vigencia a partir de</th>
                               <th>Codigo</th>
@@ -78,16 +76,16 @@
                            </tr>
                         </thead>
                         <tbody>
-                           <tr>
+                           <tr class="clickable-row">
                               <td>
-                                 <a href="#id_tarjeta_acciones" data-toggle="modal" class="btn nova-btn btn-default" id="boton_nuevo">
-                                    <i class="icon icon-left icon mdi mdi-settings nova-black"></i>
+                                 <a class="btn nova-btn btn-default nova-btn-delete">
+                                    <i class="icon icon-left icon mdi mdi-delete nova-white"></i>
                                  </a>
                               </td>
                               <td>01</td>
                               <td>01-03-2017</td>
                               <td>Fcalidad-G-06-01</td>
-                              <td>calidad - FORMATO PLAN DE AUDITORIA INTERNA"</td>
+                              <td>calidad - FORMATO PLAN DE AUDITORIA INTERNA</td>
                            </tr>
                         </tbody>
                      </table>
@@ -171,30 +169,6 @@
       </div> <!-- Modal dialog -->
    </div><!-- Modal -->
 
-   <!-- tarjeta_acciones-->
-   <div id="id_tarjeta_acciones" tabindex="-1" role="dialog" class="modal fade colored-header colored-header-primary">
-      <div style="width: 100px; height: 500px" class="modal-dialog">
-         <div class="modal-content">
-         <div class="modal-header nova-modal-header">
-            <button type="button" data-dismiss="modal" aria-hidden="true" class="close"><span class="mdi mdi-close"></span></button>
-            <h3 class="modal-title">Acciones Del Formato </h3>
-         </div>
-         <div class="modal-body">
-            <div class="text-center">
-               <div role="group" class="btn-group-vertical btn-space">
-                  <a href="#id_tarjeta_nuevo_formato" class="btn nova-btn btn-space btn-default btn-lg"  data-toggle="modal" id="id_boton_editar">
-                     <i class="icon icon-left mdi mdi-edit nova-black"></i> Editar Formato
-                  </a>
-                  <a href="#" class="btn nova-btn btn-space btn-warning btn-lg" id="id_boton_eliminar">
-                     <i class="icon icon-left mdi mdi-alert-triangle nova-white"></i> Eliminar Formato
-                  </a>
-               </div>
-            </div>
-         </div>
-         </div>
-      </div>
-   </div>
-
 {% endblock contenido %}
 
 {% block scripts %}
@@ -202,9 +176,6 @@
    <!-- Beagle Theme -->
    <script src="{% static 'theme/lib/datetimepicker/js/bootstrap-datetimepicker.min.js' %}"></script>
    <script src="{% static 'theme/lib/jquery.maskedinput/jquery.maskedinput.min.js' %}"></script>
-
-   <!-- InputMask -->
-   <script src="{% static 'libs/plugins/input-mask/jquery.inputmask.js' %}"></script>
 
    <!-- WYSIHTML5 -->
    <script src="{% static 'libs/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js' %}"></script>

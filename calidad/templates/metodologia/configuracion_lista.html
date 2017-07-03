@@ -7,10 +7,6 @@
 {% block title-page %} Configuración de Metodologías {% endblock title-page %}
 
 {% block css %}
-   <!-- Beagle Theme -->
-   <link rel="stylesheet" href="{% static 'theme/lib/daterangepicker/css/daterangepicker.css' %}"/>
-   <link rel="stylesheet" href="{% static 'theme/lib/bootstrap-multiselect/css/bootstrap-multiselect.css' %}"/>
-   <link rel="stylesheet" href="{% static 'theme/lib/multiselect/css/multi-select.css' %}"/>
 
    <!-- Kendo -->
    <link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.rtl.min.css' %}"/>
@@ -30,7 +26,7 @@
       <h2 class="page-head-title nova-title">Configuración de Metodologías</h2>
       <ol class="breadcrumb page-head-nav pull-right">
          <li><a href="{% url 'home:inicio' %}">Inicio</a></li>
-         <li id="menu" data-opcion="configuracion"><a>Configuración</a></li>
+         <li id="menu" data-opcion="calidad_configuracion"><a>Configuración</a></li>
          <li class="active">Metodologías</li>
       </ol>
    </div>
@@ -63,7 +59,7 @@
 
                   <div class="panel-heading nova-panel-borde-contenido nova-panel-tools">
                      <a href="#id_tarjeta_metodologia"
-                        class="btn nova-btn btn-rounded btn-sm btn-space btn-default pull-right" data-toggle="modal" id="boton_nuevo">
+                        class="btn nova-btn btn-rounded btn-sm btn-space btn-default pull-right" data-toggle="modal" id="id_boton_nuevo">
                         <i class="icon icon-left mdi mdi-plus-circle nova-black"></i> Metodología
                      </a>
                   </div><!-- Panel Heading -->
@@ -120,19 +116,9 @@
 
 {% block scripts %}
 
-   <!-- Beagle Theme -->
-   <script src="{% static 'theme/lib/datetimepicker/js/bootstrap-datetimepicker.min.js' %}"></script>
-   <script src="{% static 'theme/lib/jquery.maskedinput/jquery.maskedinput.min.js' %}"></script>
-   <script src="{% static 'theme/lib/bootstrap-multiselect/js/bootstrap-multiselect.js' %}" type="text/javascript"></script>
-   <script src="{% static 'theme/lib/multiselect/js/jquery.multi-select.js' %}" type="text/javascript"></script>
-   <script src="{% static 'theme/lib/quicksearch/jquery.quicksearch.min.js' %}" type="text/javascript"></script>
-
    <!-- Kendo Js -->
    <script src="{% static 'libs/kendo/2015.2.624/js/cultures/kendo.culture.es-MX.min.js' %}"></script>
    <script src="{% static 'libs/kendo/2015.2.624/js/kendo.web.min.js' %}"></script>
-
-   <!-- InputMask -->
-   <script src="{% static 'libs/plugins/input-mask/jquery.inputmask.js' %}"></script>
 
    <!-- JS Template -->
    <script src="{% static 'metodologia/configuracion_lista.js' %}"></script>      

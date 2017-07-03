@@ -61,7 +61,7 @@ Menu.prototype.init_Events = function () {
    this.$ventana.on("resize", this, this.resize_Ventana)
    this.$lista_acciones = $("#lista_acciones")
 }
-Menu.prototype.click_ElementoLista = function (e) {
+Menu.prototype.click_ElementoLista = function () {
 
    $(this).addClass('active').siblings().removeClass('active')
 
@@ -317,7 +317,7 @@ PopupAcciones.prototype.click_BotonSeguimientoPlan = function (e) {
 
    e.preventDefault()
    popup_seguimiento_plan.$id_tarjeta_seguimiento_plan.on('shown.bs.modal', function(){
-      $("body").addClass("modal-open");
+      $("body").addClass("modal-open")
       $("html").addClass("be-modal-open")
    })
    e.data.$id_tarjeta_acciones.modal('hide')
@@ -326,7 +326,7 @@ PopupAcciones.prototype.click_BotonEvaluacion = function (e) {
 
    e.preventDefault()
    popup_evaluacion_plan.$id_tarjeta_evaluacion.on('shown.bs.modal', function(){
-      $("body").addClass("modal-open");
+      $("body").addClass("modal-open")
       $("html").addClass("be-modal-open")
    })
    e.data.$id_tarjeta_acciones.modal('hide')
@@ -415,22 +415,22 @@ PopupEvaluacionPlan.prototype.init_Components = function () {
    this.$id_imagen.each(function(){
       var $input   = $( this ),
          $label   = $input.next( 'label' ),
-         labelVal = $label.html();
+         labelVal = $label.html()
 
       $input.on( 'change', function( e )
       {
-         var fileName = '';
+         var fileName = ''
 
          if( this.files && this.files.length > 1 )
-           fileName = ( this.getAttribute( 'data-multiple-caption' ) || '' ).replace( '{count}', this.files.length );
+           fileName = ( this.getAttribute( 'data-multiple-caption' ) || '' ).replace( '{count}', this.files.length )
          else if( e.target.value )
-           fileName = e.target.value.split( '\\' ).pop();
+           fileName = e.target.value.split( '\\' ).pop()
 
          if( fileName )
-           $label.find( 'span' ).html( fileName );
+           $label.find( 'span' ).html( fileName )
          else
-           $label.html( labelVal );
-      });
+           $label.html( labelVal )
+      })
       }
    )
 }

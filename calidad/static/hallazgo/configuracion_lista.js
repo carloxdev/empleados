@@ -46,7 +46,7 @@ ToolBar.prototype.init_Events = function () {
 }
 ToolBar.prototype.click_BotonNuevo = function (e) {
 
-   e.data.preventDefault()
+   e.preventDefault()
 }
 
 /*-----------------------------------------------*\
@@ -83,7 +83,7 @@ Grid.prototype.init = function () {
                ],
          schema: {
             total: function(response) {
-               return $(response.data).length;
+               return $(response.data).length
             },
          }
       }
@@ -117,7 +117,7 @@ Grid.prototype.get_Configuracion = function () {
       editable: true,
       pageable: true,
       noRecords: {
-         template: "<div class='grid-empy'> No se encontraron registros </div>"
+         template: "<div class='grid-empy'> No se encontrarón registros </div>"
       },
       
    }

@@ -41,9 +41,9 @@ function ToolBar() {
 
    popup_filtros = new PopupFiltros()
    popup_criterio = new PopupCriterio()
-   this.init()
+   this.init_Events()
 }
-ToolBar.prototype.init = function () {
+ToolBar.prototype.init_Events = function () {
 
 }
 
