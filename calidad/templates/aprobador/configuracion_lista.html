@@ -4,7 +4,7 @@
 
 {% block titulo %} Configuración {% endblock titulo %}
 
-{% block title-page %} Configuración Roles {% endblock title-page %}
+{% block title-page %} Configuración Aprobadores {% endblock title-page %}
 
 {% block css %}
 {% endblock css %}
@@ -14,11 +14,11 @@
 <div class="be-content">
 
    <div class="page-head nova-page-head">
-      <h2 class="page-head-title nova-title">Configuración de Roles</h2>
+      <h2 class="page-head-title nova-title">Configuración de Aprobadores</h2>
       <ol class="breadcrumb page-head-nav pull-right">
          <li><a href="{% url 'home:inicio' %}">Inicio</a></li>
          <li id="menu" data-opcion="calidad_configuracion"><a>Configuración</a></li>
-         <li class="active">Roles</li>
+         <li class="active">Aprobadores</li>
       </ol>
    </div>
 
@@ -38,8 +38,8 @@
                   <div class="actions">
                      <a href="{% url 'calidad:configuracion_requisito_lista' %}" class="btn btn-xs btn-prev btn-default nova-a-tab">Criterios y Requisitos</a>
                      <a href="{% url 'calidad:configuracion_proceso_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab">Procesos</a>
-                     <a class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab nova-active-tab">Roles</a>
-                     <a href="{% url 'calidad:configuracion_auditor_interno_formulario' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Auditores internos</a>
+                     <a class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab nova-active-tab">Aprobadores</a>
+                     <a href="{% url 'calidad:configuracion_auditor_interno_formulario' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Auditores</a>
                      <a href="{% url 'calidad:configuracion_sitio_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Sitios</a>
                      <a href="{% url 'calidad:configuracion_metodologia_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Metodologías</a>
                      <a href="{% url 'calidad:configuracion_tipo_hallazgo_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Hallazgo</a>
@@ -53,14 +53,14 @@
                         class="btn nova-btn btn-rounded btn-sm btn-space btn-primary pull-right" data-toggle="modal" id="id_boton_filtros">
                         <i class="icon icon-left mdi mdi-search nova-white"></i> Filtros
                      </a>
-                     <a href="#id_tarjeta_nuevo_rol"
-                        class="btn nova-btn btn-rounded btn-sm btn-space btn-default pull-right" data-toggle="modal" id="id_boton_nuevo_rol">
-                        <i class="icon icon-left mdi mdi-plus-circle nova-black"></i> Rol
+                     <a href="#id_tarjeta_nuevo_aprobador"
+                        class="btn nova-btn btn-rounded btn-sm btn-space btn-default pull-right" data-toggle="modal" id="id_boton_nuevo_aprobador">
+                        <i class="icon icon-left mdi mdi-plus-circle nova-black"></i> Aprobador
                      </a>
                   </div><!-- Panel Heading -->
 
                   <div class="nova-div-overflow">
-                     <table class="table table-bordered table-hover" id="id_grid_rol">
+                     <table class="table table-bordered table-hover" id="id_grid_aprobador">
                         <thead>
                            <tr>
                               <th class="nova-columna-acciones"></th>
@@ -77,7 +77,7 @@
                                  </a>
                               </td>
                               <td>
-                                 <a href="#id_tarjeta_nuevo_rol" class="btn btn-default nova-url" data-toggle="modal">Diana Castillo Hernandez</a>
+                                 <a href="#id_tarjeta_nuevo_aprobador" class="btn btn-default nova-url" data-toggle="modal">Diana Castillo Hernandez</a>
                               </td>
                               <td>GEOLIS</td>
                               <td>Auditor lider</td>
@@ -89,7 +89,7 @@
                                  </a>
                               </td>
                               <td>
-                                 <a href="#id_tarjeta_nuevo_rol" class="btn btn-default nova-url" data-toggle="modal">Luis Alberto Lopez Gonzalez</a>  
+                                 <a href="#id_tarjeta_nuevo_aprobador" class="btn btn-default nova-url" data-toggle="modal">Luis Alberto Lopez Gonzalez</a>  
                               </td>
                               <td>MET</td>
                               <td>Aprobador</td>
@@ -101,7 +101,7 @@
                                  </a>
                               </td>
                               <td>
-                                 <a href="#id_tarjeta_nuevo_rol" class="btn btn-default nova-url" data-toggle="modal">Carlos Rodriguez Mendez</a>
+                                 <a href="#id_tarjeta_nuevo_aprobador" class="btn btn-default nova-url" data-toggle="modal">Carlos Rodriguez Mendez</a>
                               </td>
                               <td>MET</td>
                               <td>Auditor</td>
@@ -119,13 +119,13 @@
 </div> <!-- be content -->
    
    <!-- Targeta Nuevo -->
-   <div id="id_tarjeta_nuevo_rol" role="dialog" class="modal fade colored-header colored-header-primary">
+   <div id="id_tarjeta_nuevo_aprobador" role="dialog" class="modal fade colored-header colored-header-primary">
       <div class="modal-dialog custom-width">
          <div class="modal-content">
             
             <div class="modal-header nova-modal-header">
                <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
-               <h3 class="modal-title">Nuevo Rol</h3>
+               <h3 class="modal-title">Nuevo Aprobador</h3>
             </div>
                
             <form id="id_formulario_aprobador" class="modal-body form-horizontal">
@@ -162,9 +162,9 @@
                         <option value="" selected="selected">-------</option>
                         <option value="LALG">Aprobador</option>
                         <option value="JPJ">Auditor lider</option>
-                        <option value="LALG">Auditor</option>
+                        <!--<option value="LALG">Auditor</option>
                         <option value="LALG">Auditor en capacitacion</option>
-                        <option value="LALG">Auditor consultor</option>
+                        <option value="LALG">Auditor consultor</option>-->
                      </select>
                   </div>
                </div>
@@ -226,9 +226,9 @@
                         <option value="" selected="selected">-------</option>
                         <option value="LALG">Aprobador</option>
                         <option value="JPJ">Auditor lider</option>
-                        <option value="LALG">Auditor</option>
+                        <!--<option value="LALG">Auditor</option>
                         <option value="LALG">Auditor en capacitacion</option>
-                        <option value="LALG">Auditor consultor</option>
+                        <option value="LALG">Auditor consultor</option>-->
                      </select>
                   </div>
                </div>
@@ -260,6 +260,6 @@
 {% block scripts %}
 
    <!-- JS Template -->
-   <script src="{% static 'rol/configuracion_lista.js' %}"></script>      
+   <script src="{% static 'aprobador/configuracion_lista.js' %}"></script>      
 
 {% endblock scripts %}

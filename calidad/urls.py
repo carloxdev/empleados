@@ -22,7 +22,7 @@ from .views import ProgramaLista
 # CALIDAD - CONFIGURACION
 from .views import ConfiguracionRequisitoLista
 from .views import ConfiguracionProcesoLista
-from .views import ConfiguracionRolLista
+from .views import ConfiguracionAprobadorLista
 from .views import ConfiguracionAuditorInternoFormulario
 from .views import ConfiguracionSitioLista
 # from .views import ConfiguracionContratoLista
@@ -118,9 +118,9 @@ urlpatterns = [
         name="configuracion_proceso_lista"
     ),
     url(
-        r'^configuracion/roles/$',
-        ConfiguracionRolLista.as_view(),
-        name="configuracion_rol_lista"
+        r'^configuracion/aprobadores/$',
+        ConfiguracionAprobadorLista.as_view(),
+        name="configuracion_aprobador_lista"
     ),
     url(
         r'^configuracion/auditores_internos/$',

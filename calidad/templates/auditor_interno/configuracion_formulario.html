@@ -4,7 +4,7 @@
 
 {% block titulo %} Configuración {% endblock titulo %}
 
-{% block title-page %} Auditores Internos {% endblock title-page %}
+{% block title-page %} Auditores {% endblock title-page %}
 
 {% block css %}
    
@@ -17,11 +17,11 @@
 <div class="be-content">
 
    <div class="page-head nova-page-head">
-      <h2 class="page-head-title nova-title">Configuración de Auditores Internos</h2>
+      <h2 class="page-head-title nova-title">Configuración de Auditores</h2>
       <ol class="breadcrumb page-head-nav pull-right">
          <li><a href="{% url 'home:inicio' %}">Inicio</a></li>
          <li id="menu" data-opcion="calidad_configuracion"><a>Configuración</a></li>
-         <li class="active">Auditores Internos</li>
+         <li class="active">Auditores</li>
       </ol>
    </div>
 
@@ -41,8 +41,8 @@
                   <div class="actions">
                      <a href="{% url 'calidad:configuracion_requisito_lista' %}" class="btn btn-xs btn-prev btn-default nova-a-tab">Criterios y Requisitos</a>
                      <a href="{% url 'calidad:configuracion_proceso_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab">Procesos</a>
-                     <a href="{% url 'calidad:configuracion_rol_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Roles</a>
-                     <a class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab nova-active-tab">Auditores Internos</a>
+                     <a href="{% url 'calidad:configuracion_aprobador_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Aprobadores</a>
+                     <a class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab nova-active-tab">Auditores</a>
                      <a href="{% url 'calidad:configuracion_sitio_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Sitios</a>
                      <a href="{% url 'calidad:configuracion_metodologia_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Metodologías</a>
                      <a href="{% url 'calidad:configuracion_tipo_hallazgo_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Hallazgo</a>
@@ -55,7 +55,7 @@
 
                            <div class="form-group no-padding">
                               <div class="col-sm-7">
-                                 <h5 class="wizard-title">Información de los auditores internos:</h5>
+                                 <h5 class="wizard-title">Información de los auditores:</h5>
                               </div>
                            </div>
 
@@ -65,7 +65,7 @@
                            <div class="form-group">
                               <label class="col-sm-3 control-label" 
                                  for="{{ form.responsable.id_for_label }}">
-                                 Auditores internos
+                                 Auditores
                               </label>
                               <div class="col-sm-6 xs-pt-5">
                                  <select id="id_responsable" multiple="multiple" name="id_responsable[]">

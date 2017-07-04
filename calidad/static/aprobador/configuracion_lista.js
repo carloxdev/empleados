@@ -6,7 +6,7 @@
 //var url_empleados_bypage = window.location.origin + "/api-ebs/viewempleadosfull_bypage/"
 
 // OBJS
-var popup_rol = null
+var popup_aprobador = null
 var popup_filtro = null
 var popup_acciones = null
 var tarjeta_resultados = null
@@ -38,9 +38,9 @@ function TarjetaResultados() {
 
 function ToolBar() {
    
-   popup_rol = new PopupRol()
+   popup_aprobador = new PopupAprobador()
    popup_filtro = new PopupFiltro()
-   this.$id_boton_nuevo_formato = $('#id_boton_nuevo_formato')
+   this.$id_boton_nuevo_aprobador = $('#id_boton_nuevo_aprobador')
    this.$id_boton_filtros = $('#id_boton_filtros')
 }
 
@@ -51,12 +51,12 @@ function ToolBar() {
 function Grid() {
 
    popup_acciones = new PopupAcciones()
-   this.$id_grid_rol = $('#id_grid_rol')
+   this.$id_grid_aprobador = $('#id_grid_aprobador')
    this.init_Events()
 }
 Grid.prototype.init_Events = function () {
 
-   this.$id_grid_rol.on("click", '.clickable-row', this.click_FilaGrid)
+   this.$id_grid_aprobador.on("click", '.clickable-row', this.click_FilaGrid)
 }
 Grid.prototype.click_FilaGrid = function (e) {
 
@@ -67,7 +67,7 @@ Grid.prototype.click_FilaGrid = function (e) {
             OBJETO: popup rol
 \*-----------------------------------------------*/
 
-function PopupRol(){
+function PopupAprobador(){
 
    this.$id_compania = $('#id_compania')
    this.$id_empleado = $('#id_empleado')
@@ -76,17 +76,17 @@ function PopupRol(){
    this.init_Components()
    this.init_Events()
 }
-PopupRol.prototype.init_Components = function () {
+PopupAprobador.prototype.init_Components = function () {
 
    this.$id_compania.select2(appnova.get_ConfigSelect2())
    this.$id_empleado.select2(appnova.get_ConfigSelect2())
    this.$id_rol.select2(appnova.get_ConfigSelect2())
 }
-PopupRol.prototype.init_Events = function () {
+PopupAprobador.prototype.init_Events = function () {
 
    this.$id_boton_guardar.on("click", this, this.click_BotonGuardar)
 }
-PopupRol.prototype.click_BotonGuardar = function (e) {
+PopupAprobador.prototype.click_BotonGuardar = function (e) {
 
    e.data.preventDefault()
 }

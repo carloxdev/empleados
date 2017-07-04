@@ -253,9 +253,9 @@ class ConfiguracionProcesoLista(View):
         return render(request, self.template_name, {})
 
 
-class ConfiguracionRolLista(View):
+class ConfiguracionAprobadorLista(View):
     def __init__(self):
-        self.template_name = 'rol/configuracion_lista.html'
+        self.template_name = 'aprobador/configuracion_lista.html'
 
     def get(self, request):
 
