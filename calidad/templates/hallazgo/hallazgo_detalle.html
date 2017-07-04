@@ -112,113 +112,108 @@
                            </div>
                            <div class="nova-slider-panel-content">
                               
-                                    <!-- id_subproceso -->
-                                    <div class="form-group">
-                                       <label class="col-sm-3 control-label" 
-                                          for="{{ form.auditores.id_for_label }}">
-                                          {{ form.auditores.label }}
-                                          Subproceso
-                                       </label>
-                                       <div class="col-sm-7 xs-pt-5">
-                                          {{ form.auditores }}
-                                          <select class="select2 select2-hidden-accessible" tabindex="-1" aria-hidden="true" id="id_subproceso">
-                                             <option value="" selected="selected">-------</option>
-                                             <option value="Norma">Infraestructura</option>
-                                             <option value="Legal">Licitaciones</option>
-                                             <option value="Contractual">Construccion</option>
-                                             <option value="RSC">Desarrollo</option>
-                                          </select>
-                                       </div> 
-                                       {% for error in form.auditores.errors %}
-                                          <span class="help-block">{{ error }}</span>
-                                       {% endfor %}                                        
-                                    </div>
+                              <!-- id_subproceso -->
+                              <div class="form-group">
+                                 <label class="col-sm-3 control-label" 
+                                    for="{{ form.auditores.id_for_label }}">
+                                    {{ form.auditores.label }}
+                                    Subproceso
+                                 </label>
+                                 <div class="col-sm-7 xs-pt-5">
+                                    {{ form.auditores }}
+                                    <select class="select2 select2-hidden-accessible" tabindex="-1" aria-hidden="true" id="id_subproceso">
+                                       <option value="" selected="selected">-------</option>
+                                       <option value="Norma">Infraestructura</option>
+                                       <option value="Legal">Licitaciones</option>
+                                       <option value="Contractual">Construccion</option>
+                                       <option value="RSC">Desarrollo</option>
+                                    </select>
+                                 </div> 
+                                 {% for error in form.auditores.errors %}
+                                    <span class="help-block">{{ error }}</span>
+                                 {% endfor %}                                        
+                              </div>
 
-                                    <!-- id_clasificacion_requisito -->
-                                    <div class="form-group">
-                                       <label class="col-sm-3 control-label" 
-                                          for="{{ form.auditores.id_for_label }}">
-                                          {{ form.auditores.label }}
-                                          Clasificación de requisito
-                                       </label>
-                                       <div class="col-sm-7 xs-pt-5">
-                                          {{ form.auditores }}
-                                          <select class="select2 select2-hidden-accessible" tabindex="-1" aria-hidden="true" id="id_clasificacion_requisito">
-                                             <option value="" selected="selected">-------</option>
-                                             <option value="Norma">Norma</option>
-                                             <option value="Legal">Legal</option>
-                                             <option value="Contractual">Contractual</option>
-                                             <option value="RSC">RSC</option>
-                                          </select>
-                                       </div> 
-                                       {% for error in form.auditores.errors %}
-                                          <span class="help-block">{{ error }}</span>
-                                       {% endfor %}                                        
-                                    </div>
+                              <div class="form-group">
+                                 <label class="col-sm-3 control-label" 
+                                    for="{{ form.auditores.id_for_label }}">
+                                    {{ form.auditores.label }}
+                                    Requisitos de referencia
+                                 </label>
+                                 <div class="col-sm-7 xs-pt-5">
+                                    {{ form.auditores }}
+                                    <select id="id_requisito_referencia" multiple="multiple">
+                                       <option value="a">Requisito de referencia 10.1</option>
+                                       <option value="b">Requisito de referencia 10.2</option>
+                                       <option value="c">Requisito de referencia 10.3</option>
+                                       <option value="d">Requisito de referencia 7.7</option>
+                                       <option value="e">Requisito de referencia 7.7</option>
+                                       <option value="f">Requisito de referencia 7.7</option>
+                                       <option value="g">Requisito de referencia 7.7</option>
+                                    </select>
+                                 </div> 
+                                 {% for error in form.auditores.errors %}
+                                    <span class="help-block">{{ error }}</span>
+                                 {% endfor %}                                        
+                              </div>
 
-                                    <div class="form-group">
-                                       <label class="col-sm-3 control-label" 
-                                          for="{{ form.auditores.id_for_label }}">
-                                          {{ form.auditores.label }}
-                                          Requisitos de referencia
-                                       </label>
-                                       <div class="col-sm-7 xs-pt-5">
-                                          {{ form.auditores }}
-                                          <select id="id_requisito_referencia" multiple="multiple">
-                                             <option value="a">Requisito de referencia 10.1</option>
-                                             <option value="b">Requisito de referencia 10.2</option>
-                                             <option value="c">Requisito de referencia 10.3</option>
-                                             <option value="d">Requisito de referencia 7.7</option>
-                                             <option value="e">Requisito de referencia 7.7</option>
-                                             <option value="f">Requisito de referencia 7.7</option>
-                                             <option value="g">Requisito de referencia 7.7</option>
-                                          </select>
-                                       </div> 
-                                       {% for error in form.auditores.errors %}
-                                          <span class="help-block">{{ error }}</span>
-                                       {% endfor %}                                        
-                                    </div>
+                              <!-- requisitos_adicionales -->
+                              <div class="form-group">
+                                 <label class="col-sm-3 control-label" 
+                                    for="{{ form.auditores.id_for_label }}">
+                                    {{ form.auditores.label }}
+                                    Requisitos adicionales
+                                 </label>
+                                 <div class="col-sm-7 xs-pt-5">
+                                    {{ form.auditores }}
+                                    <select class="select2 select2-hidden-accessible input-xs" tabindex="-1" aria-hidden="true" id="id_requisito_adicional" multiple="multiple">
+                                       <option value="Jose Gutierrez Zacarias">Requisito adicional 10.7</option>
+                                       <option value="Javier Hernandez Gomez">Requisito adicional 9.3</option>
+                                       <option value="Fernanda Fuentes Rocio">Requisito adicional 7.4</option>
+                                       <option value="Fernanda Fuentes Rocio">Requisito adicional 5.6</option>
+                                       <option value="Fernanda Fuentes Rocio">Requisito adicional 12.7</option>
+                                    </select>
+                                 </div> 
+                                 {% for error in form.auditores.errors %}
+                                    <span class="help-block">{{ error }}</span>
+                                 {% endfor %}                                        
+                              </div>
 
-                                    <!-- requisitos_adicionales -->
-                                    <div class="form-group">
-                                       <label class="col-sm-3 control-label" 
-                                          for="{{ form.auditores.id_for_label }}">
-                                          {{ form.auditores.label }}
-                                          Requisitos adicionales
-                                       </label>
-                                       <div class="col-sm-7 xs-pt-5">
-                                          {{ form.auditores }}
-                                          <select class="select2 select2-hidden-accessible input-xs" tabindex="-1" aria-hidden="true" id="id_requisito_adicional" multiple="multiple">
-                                             <option value="Jose Gutierrez Zacarias">Requisito adicional 10.7</option>
-                                             <option value="Javier Hernandez Gomez">Requisito adicional 9.3</option>
-                                             <option value="Fernanda Fuentes Rocio">Requisito adicional 7.4</option>
-                                             <option value="Fernanda Fuentes Rocio">Requisito adicional 5.6</option>
-                                             <option value="Fernanda Fuentes Rocio">Requisito adicional 12.7</option>
-                                          </select>
-                                       </div> 
-                                       {% for error in form.auditores.errors %}
-                                          <span class="help-block">{{ error }}</span>
-                                       {% endfor %}                                        
-                                    </div>
+                              <!-- tipo_hallazgo -->
+                              <div class="form-group">
+                                 <label class="col-sm-3 control-label" 
+                                    for="{{ form.tipo_hallazgo.id_for_label }}">
+                                    Tipo de Hallazgo
+                                 </label>
+                                 <div class="col-sm-7 xs-pt-5">
+                                    <select class="select2 select2-hidden-accessible" tabindex="-1" aria-hidden="true" id="id_tipo_hallazgo">
+                                       <option value="" selected="selected">-------</option>
+                                       <option value="TIPOA">Mayor</option>
+                                       <option value="TIPOB">Menor</option>
+                                       <option value="Observacion">Observacion</option>
+                                    </select>
+                                 </div>
+                                 {% for error in form.tipo_hallazgo.errors %}
+                                    <span class="help-block">{{ error }}</span>
+                                 {% endfor %}
+                              </div>
 
-                                    <!-- tipo_hallazgo -->
-                                    <div class="form-group">
-                                       <label class="col-sm-3 control-label" 
-                                          for="{{ form.tipo_hallazgo.id_for_label }}">
-                                          Tipo de Hallazgo
-                                       </label>
-                                       <div class="col-sm-7 xs-pt-5">
-                                          <select class="select2 select2-hidden-accessible" tabindex="-1" aria-hidden="true" id="id_tipo_hallazgo">
-                                             <option value="" selected="selected">-------</option>
-                                             <option value="TIPOA">Mayor</option>
-                                             <option value="TIPOB">Menor</option>
-                                             <option value="Observacion">Observacion</option>
-                                          </select>
-                                       </div>
-                                       {% for error in form.tipo_hallazgo.errors %}
-                                          <span class="help-block">{{ error }}</span>
-                                       {% endfor %}
-                                    </div>
+                              <!-- observaciones -->
+                              <div class="form-group">
+                                 <label class="col-sm-3 control-label" 
+                                    for="{{ form.observaciones.id_for_label }}">
+                                    {{ form.observaciones.label }}
+                                    Observaciones
+                                 </label>
+                                 <div class="col-sm-7 xs-pt-5">
+                                    {{ form.observaciones }}
+                                    <textarea class="form-control textarea" id="id_observacion_hallazgo">
+                                    </textarea>
+                                 </div> 
+                                 {% for error in form.observaciones.errors %}
+                                    <span class="help-block">{{ error }}</span>
+                                 {% endfor %}
+                              </div>
 
                            </div> <!-- nova-slider-panel-content -->
                            <div class="nova-slider-panel-footer">

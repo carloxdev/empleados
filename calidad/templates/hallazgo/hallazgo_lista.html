@@ -88,10 +88,10 @@
                            <th>Título</th>
                            <th>Subproceso</th>
                            <th>Estado</th>
-                           <th>Zona</th>
-                           <th>Contrato</th>
+                           <th>Tipo</th>
+                           
                            <th>Observaciones del Hallazgo</th>
-                           <th>Estado</th>
+                           <th>Cerrado</th>
                         </tr>
                      </thead>
                      <tbody>
@@ -108,10 +108,10 @@
                               Licictaciones
                            </td>
                            <td class="nova-aling-center">En Captura</td>
-                           <td>Oficinas veracruz</td>
-                           <td>Cont 01</td>
+                           <td>Mayor A</td>
+                           
                            <td>Se encontro un documento de licitacion al cual le faltaba un sello.</td>
-                           <td>Abierto</td>
+                           <td>No</td>
                         </tr>
                      </tbody>
                   </table>
@@ -174,25 +174,13 @@
                </div>
 
                <div class="form-group">
-                 <label class="col-sm-3 nova-col-filter control-label">Zona</label>
+                 <label class="col-sm-3 nova-col-filter control-label">sitio</label>
                  <div class="col-sm-7 xs-pt-5">
-                     <select class="select2 select2-hidden-accessible" tabindex="-1" aria-hidden="true" id="id_zona">
+                     <select class="select2 select2-hidden-accessible" tabindex="-1" aria-hidden="true" id="id_sitio">
                         <option value="" selected="selected">-------</option>
                         <option value="JPJ">Oficinas Veracruz</option>
                         <option value="LALG">Oficinas Reynosa</option>
                         <option value="LALG">Oficinas Villahermosa</option>
-                     </select>
-                 </div>
-               </div>
-
-               <div class="form-group">
-                 <label class="col-sm-3 nova-col-filter control-label">Contrato</label>
-                 <div class="col-sm-7 xs-pt-5">
-                     <select class="select2 select2-hidden-accessible" tabindex="-1" aria-hidden="true" id="id_contrato">
-                        <option value="" selected="selected">-------</option>
-                        <option value="JPJ">Gas Amargo</option>
-                        <option value="LALG">Gas Dulce</option>
-                        <option value="LALG">Motocompresores</option>
                      </select>
                  </div>
                </div>
@@ -205,12 +193,12 @@
                </div> 
 
                <div class="form-group">
-                  <label class="col-sm-3 nova-col-filter control-label">Estado</label>
+                  <label class="col-sm-3 nova-col-filter control-label">Cerrado</label>
                   <div class="col-sm-7 xs-pt-5">
                      <select class="select2 select2-hidden-accessible" tabindex="-1" aria-hidden="true" id="id_estado">
                         <option value="" selected="selected">-------</option>
-                        <option value="Vinculado">Abierto</option>
-                        <option value="Directo">Cerrado</option>
+                        <option value="Vinculado">Si</option>
+                        <option value="Directo">No</option>
                      </select>
                   </div>
                </div>
@@ -220,8 +208,8 @@
                  <div class="col-sm-7 xs-pt-5">
                      <select class="select2 select2-hidden-accessible" tabindex="-1" aria-hidden="true" id="id_tipo_hallazgo_filtro">
                         <option value="" selected="selected">-------</option>
-                        <option value="TIPOA">Mayor</option>
-                        <option value="TIPOB">Menor</option>
+                        <option value="TIPOA">Mayor A</option>
+                        <option value="TIPOB">Menor B</option>
                         <option value="Observacion">Observacion</option>
                      </select>
                  </div>
@@ -276,28 +264,6 @@
                         <option value="Legal">Licitaciones</option>
                         <option value="Contractual">Construccion</option>
                         <option value="RSC">Desarrollo</option>
-                     </select>
-                  </div> 
-                  {% for error in form.auditores.errors %}
-                     <span class="help-block">{{ error }}</span>
-                  {% endfor %}                                        
-               </div>
-
-               <!-- id_clasificacion_requisito -->
-               <div class="form-group">
-                  <label class="col-sm-3 control-label" 
-                     for="{{ form.auditores.id_for_label }}">
-                     {{ form.auditores.label }}
-                     Clasificación de requisito
-                  </label>
-                  <div class="col-sm-7 xs-pt-5">
-                     {{ form.auditores }}
-                     <select class="select2 select2-hidden-accessible" tabindex="-1" aria-hidden="true" id="id_clasificacion_requisito">
-                        <option value="" selected="selected">-------</option>
-                        <option value="Norma">Norma</option>
-                        <option value="Legal">Legal</option>
-                        <option value="Contractual">Contractual</option>
-                        <option value="RSC">RSC</option>
                      </select>
                   </div> 
                   {% for error in form.auditores.errors %}
@@ -367,6 +333,23 @@
                   {% for error in form.tipo_hallazgo.errors %}
                      <span class="help-block">{{ error }}</span>
                   {% endfor %}
+               </div>
+
+               <!-- observaciones -->
+               <div class="form-group">
+                  <label class="col-sm-3 control-label" 
+                     for="{{ form.observaciones.id_for_label }}">
+                     {{ form.observaciones.label }}
+                     Observaciones
+                  </label>
+                  <div class="col-sm-7 xs-pt-5">
+                     {{ form.observaciones }}
+                     <textarea class="form-control textarea" id="id_observacion">
+                     </textarea>
+                  </div> 
+                  {% for error in form.observaciones.errors %}
+                     <span class="help-block">{{ error }}</span>
+                  {% endfor %}                                        
                </div>
 
             </form><!-- Modal body-->

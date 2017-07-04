@@ -71,14 +71,14 @@ PopupFiltros.prototype.init_Events = function () {
 
 function PopupCriterio() {
    
-   this.$id_tipo_criterio = $('#id_tipo_criterio')
+   this.$id_clasificaicion_criterio = $('#id_clasificaicion_criterio')
    this.$id_criterio = $('#id_criterio')
 
    this.init_Components()
 }
 PopupCriterio.prototype.init_Components = function () {
 
-   this.$id_tipo_criterio.select2(appnova.get_ConfigSelect2())
+   this.$id_clasificaicion_criterio.select2(appnova.get_ConfigSelect2())
 }
 
 /*-----------------------------------------------*\

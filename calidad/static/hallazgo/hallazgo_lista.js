@@ -68,7 +68,8 @@ Grid.prototype.click_FilaGrid = function (e) {
 function PopupHallazgo(){
 
    this.$id_subproceso = $('#id_subproceso')
-   this.$id_clasificacion_requisito = $('#id_clasificacion_requisito')
+   this.$id_contrato = $('#id_contrato')
+   this.$id_observacion = $("#id_observacion")
    this.$id_requisito_referencia = $('#id_requisito_referencia')
    this.$id_requisito_adicional = $('#id_requisito_adicional')
    this.$id_tipo_hallazgo = $('#id_tipo_hallazgo')
@@ -77,7 +78,8 @@ function PopupHallazgo(){
 PopupHallazgo.prototype.init_Components = function () {
 
    this.$id_subproceso.select2(appnova.get_ConfigSelect2())
-   this.$id_clasificacion_requisito.select2(appnova.get_ConfigSelect2())
+   this.$id_contrato.select2(appnova.get_ConfigSelect2())
+   this.$id_observacion.wysihtml5(appnova.get_ConfWysi())
    this.$id_requisito_referencia.multiselect(this.get_ConfMultiSelect())
    this.$id_requisito_adicional.select2(appnova.get_ConfigSelect2())
    this.$id_tipo_hallazgo.select2(appnova.get_ConfigSelect2())
@@ -103,8 +105,8 @@ PopupHallazgo.prototype.get_ConfMultiSelect = function () {
 function PopupFiltros(){
 
    this.$id_proceso = $('#id_proceso')
-   this.$id_zona = $('#id_zona')
-   this.$id_contrato = $('#id_contrato')
+   this.$id_sitio = $('#id_sitio')
+   this.$id_contrato_filtro = $('#id_contrato_filtro')
    this.$id_hallazgo = $('#id_hallazgo')
    this.$id_estado = $('#id_estado')
    this.$id_tipo_hallazgo_filtro = $('#id_tipo_hallazgo_filtro')
@@ -116,8 +118,8 @@ function PopupFiltros(){
 PopupFiltros.prototype.init_Components = function () {
 
    this.$id_proceso.select2(appnova.get_ConfigSelect2())
-   this.$id_zona.select2(appnova.get_ConfigSelect2())
-   this.$id_contrato.select2(appnova.get_ConfigSelect2())
+   this.$id_sitio.select2(appnova.get_ConfigSelect2())
+   this.$id_contrato_filtro.select2(appnova.get_ConfigSelect2())
    this.$id_estado.select2(appnova.get_ConfigSelect2())
    this.$id_tipo_hallazgo_filtro.select2(appnova.get_ConfigSelect2())
 }
