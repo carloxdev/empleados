@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from django.forms import ModelForm
 
 # Django:
 from django.forms import TextInput
@@ -24,7 +23,7 @@ from ebs.models import VIEW_PUESTOS
 from ebs.models import VIEW_ORGANIZACIONES
 from administracion.models import Empresa
 from capitalhumano.models import PerfilPuestoDocumento
-from .models import Archivo
+from .models import Curso
 from .models import TipoDocumento
 
 
@@ -404,3 +403,84 @@ class NuevoDocumentoPersonalForm(Form):
         super(NuevoDocumentoPersonalForm, self).__init__(*args, **kwargs)
         self.fields['vigencia_inicio'].required = False
         self.fields['vigencia_fin'].required = False
+
+
+class NuevoDocumentoCapacitacionForm(Form):
+    MODALIDAD = (
+        ('pre', 'Curso presencial'),
+        ('vir', 'Curso virtual'),
+        ('prev', 'Curso previo'),
+    )
+    MONEDA = (
+        ('mxn', 'Moneda nacional (MXN)'),
+        ('usd', 'Dolares (USD)'),
+        ('eur', 'Euro (EUR)'),
+    )
+
+    curso = ModelChoiceField(
+        label="Curso",
+        queryset=Curso.objects.all(),
+        empty_label=None,
+        widget=Select(attrs={'class': 'select2 nova-select2'}))
+
+    proveedor = CharField(
+        label="Proveedor",
+        widget=TextInput(attrs={'class': 'form-control input-xs'}))
+
+    modalidad = ChoiceField(
+        label="Modalidad",
+        choices=MODALIDAD,
+        widget=Select(attrs={'class': 'select2 nova-select2'}))
+
+    lugar = CharField(
+        label="Lugar",
+        widget=TextInput(attrs={'class': 'form-control input-xs'}))
+
+    costo = CharField(
+        label="Costo",
+        widget=TextInput(attrs={'class': 'form-control input-xs'}))
+
+    moneda = ChoiceField(
+        label="Moneda",
+        choices=MONEDA,
+        widget=Select(attrs={'class': 'select2 nova-select2'}))
+
+    departamento = ChoiceField(
+        label="Departamento",
+        widget=Select(attrs={'class': 'select2 nova-select2'}))
+
+    fecha_inicio = DateField(
+        label="Vigencia",
+        widget=DateInput(format=('%d/%m/%Y'),
+                         attrs={'class': 'form-control input-xs'}))
+    fecha_fin = DateField(
+        widget=DateInput(format=('%d/%m/%Y'),
+                         attrs={'class': 'form-control input-xs'}))
+    duracion = CharField(
+        label="Duración",
+        widget=TextInput(attrs={'class': 'form-control input-xs'}))
+
+    observaciones = CharField(
+        label="Observaciones",
+        widget=TextInput(attrs={'class': 'form-control input-xs'}))
+
+    archivo = FileField(
+        label="Archivo",
+        widget=FileInput(attrs={'class': 'dropzone dz-clickable dz-started'}))
+
+    def __init__(self, *args, **kwargs):
+        super(NuevoDocumentoCapacitacionForm, self).__init__(*args, **kwargs)
+        self.fields['departamento'].choices = self.get_Organizaciones()
+
+    def get_Organizaciones(self):
+        valores = []
+
+        organizaciones = VIEW_ORGANIZACIONES.objects.using('ebs_d').all()
+        for organizacion in organizaciones:
+            valores.append(
+                (
+                    organizacion.desc_org,
+                    organizacion.desc_org
+                )
+            )
+        return valores

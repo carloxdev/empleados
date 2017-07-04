@@ -16,6 +16,7 @@ from .models import Archivo
 # Serializadores:
 from .serializers import PerfilPuestoDocumentoSerializer
 from .serializers import ArchivoPersonalSerializer
+from .serializers import ArchivoCapacitacionSerializer
 
 # Paginadores:
 from .pagination import GenericPagination
@@ -37,13 +38,21 @@ class VIEW_DOCUMENTO_PERFIL_PUESTO_ByPageAPI(viewsets.ModelViewSet):
 
 
 class Archivo_Personal_API(viewsets.ModelViewSet):
-    queryset = Archivo.objects.all()
+    queryset = Archivo.objects.all().filter(tipo_archivo='per')
     serializer_class = ArchivoPersonalSerializer
 
 
 class Archivo_Personal_ByPageAPI(viewsets.ModelViewSet):
-    queryset = Archivo.objects.all()
+    queryset = Archivo.objects.filter(tipo_archivo='per')
     serializer_class = ArchivoPersonalSerializer
     pagination_class = GenericPagination
     filter_backends = (DjangoFilterBackend,)
     filter_class = ArchivoPersonalFilter
+
+
+class Archivo_Capacitacion_ByPageAPI(viewsets.ModelViewSet):
+    queryset = Archivo.objects.filter(tipo_archivo='cap')
+    serializer_class = ArchivoCapacitacionSerializer
+    pagination_class = GenericPagination
+    # filter_backends = (DjangoFilterBackend,)
+    # filter_class = ArchivoPersonalFilter

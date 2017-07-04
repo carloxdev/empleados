@@ -49,7 +49,6 @@ function Indicadores () {
 Indicadores.prototype.init_Components = function () {
 
    sparks = this.get_ConfSparkLine()
-
    this.$spark1.sparkline([0,5,3,7,5,10,3,6,5,10],sparks[0])
    this.$spark2.sparkline([2,3,4,5,4,3,2,3,4,5,6,5,4,3,4,5,6,5,4,4,5,10,10],sparks[1])
    this.$spark3.sparkline([2,3,0,5,4,4,5,10,10,10,6,5,4,3,0,5,6,5,4,4,5],sparks[2])

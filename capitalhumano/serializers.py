@@ -57,7 +57,6 @@ class ArchivoPersonalSerializer(serializers.HyperlinkedModelSerializer):
             'tipo_archivo',
             'archivo',
             'object_id',
-            'archivo',
             'created_by',
             'created_date',
             'updated_by',
@@ -122,10 +121,175 @@ class ArchivoPersonalSerializer(serializers.HyperlinkedModelSerializer):
 
     def get_vigencia_fin(self, obj):
         try:
-            if obj.content_object.vigencia_inicio is None:
+            if obj.content_object.vigencia_fin is None:
                 return '---'
             else:
-                return obj.content_object.vigencia_inicio.strftime('%d/%m/%Y')
+                return obj.content_object.vigencia_fin.strftime('%d/%m/%Y')
+        except Exception as e:
+            print str(e)
+            return " "
+
+    def get_created_by(self, obj):
+        try:
+            return obj.created_by.usuario.get_full_name()
+        except Exception as e:
+            print str(e)
+            return " "
+
+    def get_updated_by(self, obj):
+        try:
+            return obj.updated_by.usuario.get_full_name()
+        except Exception as e:
+            print str(e)
+            return " "
+
+
+class ArchivoCapacitacionSerializer(serializers.HyperlinkedModelSerializer):
+    numero_empleado = serializers.SerializerMethodField()
+    curso = serializers.SerializerMethodField()
+    proveedor = serializers.SerializerMethodField()
+    modalidad = serializers.SerializerMethodField()
+    lugar = serializers.SerializerMethodField()
+    costo = serializers.SerializerMethodField()
+    moneda = serializers.SerializerMethodField()
+    departamento = serializers.SerializerMethodField()
+    fecha_inicio = serializers.SerializerMethodField()
+    fecha_fin = serializers.SerializerMethodField()
+    duracion = serializers.SerializerMethodField()
+    observaciones = serializers.SerializerMethodField()
+    created_by = serializers.SerializerMethodField()
+    updated_by = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Archivo
+        fields = (
+            'numero_empleado',
+            'curso',
+            'proveedor',
+            'modalidad',
+            'lugar',
+            'costo',
+            'moneda',
+            'departamento',
+            'fecha_inicio',
+            'fecha_fin',
+            'duracion',
+            'observaciones',
+            'tipo_archivo',
+            'archivo',
+            'object_id',
+            'created_by',
+            'created_date',
+            'updated_by',
+            'updated_date',
+        )
+
+    def get_numero_empleado(self, obj):
+        try:
+            return obj.content_object.numero_empleado
+        except Exception as e:
+            print str(e)
+            return ""
+
+    def get_curso(self, obj):
+        try:
+            return obj.content_object.curso.nombre_curso
+        except Exception as e:
+            print str(e)
+            return " "
+
+    def get_proveedor(self, obj):
+        try:
+            return obj.content_object.proveedor
+        except Exception as e:
+            print str(e)
+            return " "
+
+    def get_modalidad(self, obj):
+        try:
+            titulo = ''
+            if obj.content_object.modalidad == 'pre':
+                titulo = 'Presencial'
+            elif obj.content_object.modalidad == 'vir':
+                titulo = 'Virtual'
+            elif obj.content_object.modalidad == 'prev':
+                titulo = 'Previo'
+            return titulo
+        except Exception as e:
+            print str(e)
+            return " "
+
+    def get_lugar(self, obj):
+        try:
+            return obj.content_object.lugar
+        except Exception as e:
+            print str(e)
+            return " "
+
+    def get_costo(self, obj):
+        try:
+            return obj.content_object.costo
+        except Exception as e:
+            print str(e)
+            return " "
+
+    def get_moneda(self, obj):
+        try:
+            moneda = ''
+            if obj.content_object.moneda == 'mxn':
+                moneda = 'Moneda nacional'
+            elif obj.content_object.moneda == 'usd':
+                moneda = 'Dolares'
+            elif obj.content_object.moneda == 'eur':
+                moneda = 'Euros'
+            return moneda
+        except Exception as e:
+            print str(e)
+            return " "
+
+    def get_departamento(self, obj):
+        try:
+            return obj.content_object.departamento
+        except Exception as e:
+            print str(e)
+            return " "
+
+    def get_fecha_inicio(self, obj):
+        try:
+            return obj.content_object.fecha_inicio.strftime('%d/%m/%Y')
+        except Exception as e:
+            print str(e)
+            return " "
+
+    def get_fecha_fin(self, obj):
+        try:
+            return obj.content_object.fecha_fin.strftime('%d/%m/%Y')
+        except Exception as e:
+            print str(e)
+            return " "
+
+    def get_duracion(self, obj):
+        try:
+            return obj.content_object.duracion
+        except Exception as e:
+            print str(e)
+            return " "
+
+    def get_observaciones(self, obj):
+        try:
+            return obj.content_object.observaciones
+        except Exception as e:
+            print str(e)
+            return " "
+
+    def get_tipo_archivo(self, obj):
+        try:
+            tipo = ''
+            if obj.tipo_archivo == 'per':
+                tipo = 'Personal'
+            elif obj.tipo_archivo == 'cap':
+                tipo = 'Capacitacion'
+            return tipo
         except Exception as e:
             print str(e)
             return " "

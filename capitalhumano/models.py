@@ -241,7 +241,7 @@ class DocumentoCapacitacion(models.Model):
         default="mxn",
         max_length=3
     )
-    departamento = models.CharField(max_length=250)  # Jalar del ebs
+    departamento = models.CharField(max_length=250)
     fecha_inicio = models.DateField(auto_now=False)
     fecha_fin = models.DateField(auto_now=False)
     duracion = models.IntegerField()
