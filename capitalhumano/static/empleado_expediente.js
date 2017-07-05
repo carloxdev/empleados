@@ -103,6 +103,12 @@ Componentes.prototype.get_Values = function (_page) {
         relacion_personal__numero_empleado: this.$numero_empleado.val(),
    }
 }
+Componentes.prototype.get_ValuesCap = function (_page) {
+    return {
+        page: _page,
+        relacion_capacitacion__numero_empleado: this.$numero_empleado.val(),
+   }
+}
 
 
 /*-----------------------------------------------*\
@@ -344,7 +350,7 @@ GridCapacitacion.prototype.get_DataSourceConfig = function () {
             },
             parameterMap: function (data, action) {
                 if (action === "read"){
-                    return  componentes.get_Values(data.page)
+                    return  componentes.get_ValuesCap(data.page)
                 }
             }
         },

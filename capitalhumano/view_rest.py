@@ -24,6 +24,7 @@ from .pagination import GenericPagination
 # Filtros:
 from .filters import PerfilpuestoDocumentoFilter
 from .filters import ArchivoPersonalFilter
+from .filters import ArchivoCapacitacionFilter
 
 
 # -------------- DOCUMENTO PERFIL PUESTOS - API REST -------------- #
@@ -54,5 +55,5 @@ class Archivo_Capacitacion_ByPageAPI(viewsets.ModelViewSet):
     queryset = Archivo.objects.filter(tipo_archivo='cap')
     serializer_class = ArchivoCapacitacionSerializer
     pagination_class = GenericPagination
-    # filter_backends = (DjangoFilterBackend,)
-    # filter_class = ArchivoPersonalFilter
+    filter_backends = (DjangoFilterBackend,)
+    filter_class = ArchivoCapacitacionFilter
