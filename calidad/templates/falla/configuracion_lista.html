@@ -4,7 +4,7 @@
 
 {% block titulo %} Configuración {% endblock titulo %}
 
-{% block title-page %} Configuración Hallazgo {% endblock title-page %}
+{% block title-page %} Configuración Descripciones {% endblock title-page %}
 
 {% block css %}
 
@@ -23,11 +23,11 @@
 <div class="be-content">
 
    <div class="page-head nova-page-head">
-      <h2 class="page-head-title nova-title">Configuración de Hallazgo</h2>
+      <h2 class="page-head-title nova-title">Configuración de Descripciones</h2>
       <ol class="breadcrumb page-head-nav pull-right">
          <li><a href="{% url 'home:inicio' %}">Inicio</a></li>
          <li id="menu" data-opcion="calidad_configuracion"><a>Configuración</a></li>
-         <li class="active">Hallazgo</li>
+         <li class="active">Descripciones</li>
       </ol>
    </div>
 
@@ -46,20 +46,19 @@
                   <div class="actions">
                      <a href="{% url 'calidad:configuracion_requisito_lista' %}" class="btn btn-xs btn-prev btn-default nova-a-tab">Criterios y Requisitos</a>
                      <a href="{% url 'calidad:configuracion_proceso_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab">Procesos</a>
-                     <a href="{% url 'calidad:configuracion_aprobador_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Aprobadores</a>
-                     <a href="{% url 'calidad:configuracion_auditor_interno_formulario' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Auditores</a>
+                     <a href="{% url 'calidad:configuracion_aprobador_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Usuarios</a>
                      <a href="{% url 'calidad:configuracion_sitio_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Sitios</a>
                      <a href="{% url 'calidad:configuracion_metodologia_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Metodologías</a>
-                     <a class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab nova-active-tab">Hallazgo</a>
+                     <a class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab nova-active-tab">Descripciones</a>
                      <a href="{% url 'calidad:configuracion_formato_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Formatos</a>
                   </div>
                </div>
                <div class="panel panel-default panel-table">
 
                   <div class="panel-heading nova-panel-borde-contenido nova-panel-tools">
-                     <a href="#id_tarjeta_tipo_hallazgo"
+                     <a href="#id_tarjeta_tipo_falla"
                         class="btn nova-btn btn-sm btn-rounded btn-space btn-default pull-right" data-toggle="modal" id="id_boton_nuevo">
-                        <i class="icon icon-left mdi mdi-plus-circle nova-black"></i> Hallazgo
+                        <i class="icon icon-left mdi mdi-plus-circle nova-black"></i> Descripción
                      </a>
                   </div><!-- Panel Heading -->
 
@@ -73,22 +72,22 @@
       
    </div> <!-- main content -->
    <!-- Targeta Nuevo -->
-   <div id="id_tarjeta_tipo_hallazgo" role="dialog" class="modal fade colored-header colored-header-primary">
+   <div id="id_tarjeta_tipo_falla" role="dialog" class="modal fade colored-header colored-header-primary">
       <div class="modal-dialog custom-width">
          <div class="modal-content">
             
             <div class="modal-header nova-modal-header">
                <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
-               <h3 class="modal-title">Nuevo Tipo de Hallazgo</h3>
+               <h3 class="modal-title">Nuevo Tipo de Descripción</h3>
             </div>
                
             <form id="id_formulario_aprobador" class="modal-body form-horizontal">
                
-               <!-- tipo_hallazgo -->
+               <!-- tipo_falla -->
                <div class="form-group">
-                  <label class="col-sm-3 nova-col-filter control-label"> Hallazgo</label>
+                  <label class="col-sm-3 nova-col-filter control-label"> Descripción</label>
                   <div class="col-sm-8 xs-pt-5">
-                     <input class="form-control input-xs" type="text" name="" id="id_tipo_hallazgo">
+                     <input class="form-control input-xs" type="text" name="" id="id_tipo_falla">
                   </div>
                </div>                
 
@@ -119,6 +118,6 @@
    <script src="{% static 'libs/kendo/2015.2.624/js/kendo.web.min.js' %}"></script>
 
    <!-- JS Template -->
-   <script src="{% static 'hallazgo/configuracion_lista.js' %}"></script>      
+   <script src="{% static 'falla/configuracion_lista.js' %}"></script>      
 
 {% endblock scripts %}

@@ -22,12 +22,11 @@ from .views import ProgramaLista
 # CALIDAD - CONFIGURACION
 from .views import ConfiguracionRequisitoLista
 from .views import ConfiguracionProcesoLista
-from .views import ConfiguracionAprobadorLista
-from .views import ConfiguracionAuditorInternoFormulario
+from .views import ConfiguracionUsuarioLista
 from .views import ConfiguracionSitioLista
 # from .views import ConfiguracionContratoLista
 from .views import ConfiguracionMetodologiaLista
-from .views import ConfiguracionTipoHallazgoLista
+from .views import ConfiguracionTipoFallaLista
 from .views import ConfiguracionFormatoLista
 
 urlpatterns = [
@@ -118,14 +117,9 @@ urlpatterns = [
         name="configuracion_proceso_lista"
     ),
     url(
-        r'^configuracion/aprobadores/$',
-        ConfiguracionAprobadorLista.as_view(),
+        r'^configuracion/usuarios/$',
+        ConfiguracionUsuarioLista.as_view(),
         name="configuracion_aprobador_lista"
-    ),
-    url(
-        r'^configuracion/auditores_internos/$',
-        ConfiguracionAuditorInternoFormulario.as_view(),
-        name="configuracion_auditor_interno_formulario"
     ),
     url(
         r'^configuracion/sitios/$',
@@ -138,9 +132,9 @@ urlpatterns = [
         name="configuracion_metodologia_lista"
     ),
     url(
-        r'^configuracion/tipos_hallazgo/$',
-        ConfiguracionTipoHallazgoLista.as_view(),
-        name="configuracion_tipo_hallazgo_lista"
+        r'^configuracion/descripciones/$',
+        ConfiguracionTipoFallaLista.as_view(),
+        name="configuracion_tipo_falla_lista"
     ),
     url(
         r'^configuracion/formatos/$',

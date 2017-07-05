@@ -71,7 +71,7 @@ function PopupHallazgo(){
    this.$id_contrato = $('#id_contrato')
    this.$id_observacion = $("#id_observacion")
    this.$id_requisito_referencia = $('#id_requisito_referencia')
-   this.$id_requisito_adicional = $('#id_requisito_adicional')
+   this.$id_descripciones = $('#id_descripciones')
    this.$id_tipo_hallazgo = $('#id_tipo_hallazgo')
    this.init_Components()
 }
@@ -81,7 +81,7 @@ PopupHallazgo.prototype.init_Components = function () {
    this.$id_contrato.select2(appnova.get_ConfigSelect2())
    this.$id_observacion.wysihtml5(appnova.get_ConfWysi())
    this.$id_requisito_referencia.multiselect(this.get_ConfMultiSelect())
-   this.$id_requisito_adicional.select2(appnova.get_ConfigSelect2())
+   this.$id_descripciones.multiselect(this.get_ConfMultiSelect())
    this.$id_tipo_hallazgo.select2(appnova.get_ConfigSelect2())
 }
 PopupHallazgo.prototype.get_ConfMultiSelect = function () {

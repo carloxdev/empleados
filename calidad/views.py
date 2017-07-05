@@ -253,24 +253,9 @@ class ConfiguracionProcesoLista(View):
         return render(request, self.template_name, {})
 
 
-class ConfiguracionAprobadorLista(View):
+class ConfiguracionUsuarioLista(View):
     def __init__(self):
-        self.template_name = 'aprobador/configuracion_lista.html'
-
-    def get(self, request):
-
-        # formulario = EmpleadoFilterForm()
-
-        # contexto = {
-        #     'form': formulario
-        # }
-
-        return render(request, self.template_name, {})
-
-
-class ConfiguracionAuditorInternoFormulario(View):
-    def __init__(self):
-        self.template_name = 'auditor_interno/configuracion_formulario.html'
+        self.template_name = 'usuario/configuracion_lista.html'
 
     def get(self, request):
 
@@ -313,9 +298,9 @@ class ConfiguracionMetodologiaLista(View):
         return render(request, self.template_name, {})
 
 
-class ConfiguracionTipoHallazgoLista(View):
+class ConfiguracionTipoFallaLista(View):
     def __init__(self):
-        self.template_name = 'hallazgo/configuracion_lista.html'
+        self.template_name = 'falla/configuracion_lista.html'
 
     def get(self, request):
 

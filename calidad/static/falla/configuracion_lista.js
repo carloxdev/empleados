@@ -7,7 +7,7 @@
 
 // OBJS
 var tarjeta_resultados = null
-var popup_tipo_hallazgo = null
+var popup_tipo_falla = null
 var toolbar = null
 var grid = null
 
@@ -36,7 +36,7 @@ function TarjetaResultados(){
 
 function ToolBar() {
    
-   popup_tipo_hallazgo = new PopupTipoHallazgo()
+   popup_tipo_falla = new PopupTipofalla()
    this.$id_boton_nuevo = $('#id_boton_nuevo')
    this.init_Events()
 }
@@ -53,9 +53,9 @@ ToolBar.prototype.click_BotonNuevo = function (e) {
          OBJETO: popup nuevo
 \*-----------------------------------------------*/
 
-function PopupTipoHallazgo() {
+function PopupTipofalla() {
    
-   this.$id_tipo_hallazgo = $('#id_tipo_hallazgo')
+   this.$id_tipo_falla = $('#id_tipo_falla')
    this.$id_boton_guardar_sitio = $('#id_boton_guardar_sitio')
 }
 
@@ -78,8 +78,8 @@ Grid.prototype.init = function () {
          pageZize: 10,
          data:
                [
-                  {  tipo_hallazgo: "Impacto en el suelo"},
-                  {  tipo_hallazgo: "Fuga de gas"},
+                  {  tipo_falla: "Impacto en el suelo", codigo: "IMPS"},
+                  {  tipo_falla: "Fuga de gas", codigo: "FGAS"},
                ],
          schema: {
             total: function(response) {
@@ -110,8 +110,11 @@ Grid.prototype.get_Configuracion = function () {
          {  template: '<a class="btn nova-btn btn-default nova-btn-delete"> <i class="icon icon-left icon mdi mdi-delete nova-white"></i></a>',
             width: '45px'
          },
-         { field: "tipo_hallazgo", title: "Tipo hallazgo", width:"60%"
+         {  field: "codigo", title: "Codigo", width:"30%"
          },
+         {  field: "tipo_falla", title: "Descripción", width:"40%"
+         },
+         
       ],
       scrollable: true,
       editable: true,

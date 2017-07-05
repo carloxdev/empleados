@@ -270,7 +270,8 @@
                      <span class="help-block">{{ error }}</span>
                   {% endfor %}                                        
                </div>
-
+               
+               <!-- id_requisito_referencia -->
                <div class="form-group">
                   <label class="col-sm-3 control-label" 
                      for="{{ form.auditores.id_for_label }}">
@@ -294,21 +295,18 @@
                   {% endfor %}                                        
                </div>
 
-               <!-- requisitos_adicionales -->
+               <!-- id_descripciones -->
                <div class="form-group">
                   <label class="col-sm-3 control-label" 
                      for="{{ form.auditores.id_for_label }}">
                      {{ form.auditores.label }}
-                     Requisitos adicionales
+                     Descripciones
                   </label>
                   <div class="col-sm-7 xs-pt-5">
                      {{ form.auditores }}
-                     <select class="select2 select2-hidden-accessible input-xs" tabindex="-1" aria-hidden="true" id="id_requisito_adicional" multiple="multiple">
-                        <option value="Jose Gutierrez Zacarias">Requisito adicional 10.7</option>
-                        <option value="Javier Hernandez Gomez">Requisito adicional 9.3</option>
-                        <option value="Fernanda Fuentes Rocio">Requisito adicional 7.4</option>
-                        <option value="Fernanda Fuentes Rocio">Requisito adicional 5.6</option>
-                        <option value="Fernanda Fuentes Rocio">Requisito adicional 12.7</option>
+                     <select id="id_descripciones" multiple="multiple">
+                        <option value="a">Fuga de gas</option>
+                        <option value="b">Impacto en el suelo</option>
                      </select>
                   </div> 
                   {% for error in form.auditores.errors %}
