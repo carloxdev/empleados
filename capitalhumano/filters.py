@@ -40,7 +40,7 @@ class ArchivoPersonalFilter(filters.FilterSet):
 class ArchivoCapacitacionFilter(filters.FilterSet):
 
     relacion_capacitacion__numero_empleado = CharFilter(
-        name="relacion_personal__numero_empleado",
+        name="relacion_capacitacion__numero_empleado",
         lookup_expr="contains")
 
     class Meta:

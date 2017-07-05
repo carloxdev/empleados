@@ -1,29 +1,23 @@
 /*-----------------------------------------------*\
             GLOBAL VARIABLES
 \*-----------------------------------------------*/
-var url_expediente = window.location.origin  + "/api-capitalhumano/documentopersonal/"
 var url_expediente_personal_bypage = window.location.origin  + "/api-capitalhumano/documentopersonal_bypage/"
 var url_expediente_capacitacion_bypage = window.location.origin  + "/api-capitalhumano/documentocapacitacion_bypage/"
 
 // OBJS
-var popup = null
-var popup_cap = null
-var toolbar = null
 var grid_personal = null
 var grid_capacitacion = null
-var componentes = null
+var filtros = null
 var tarjeta_resultados = null
 var personalizacion = null
-var ajaxcap = null
 
 /*-----------------------------------------------*\
             LOAD
 \*-----------------------------------------------*/
 
 $(document).ready(function () {
-    componentes = new Componentes()
+    filtros = new Filtros()
     tarjeta_resultados = TarjetaResultados()
-    // ajaxcap = AjaxCapacitacion()
 
 })
 
@@ -32,81 +26,26 @@ $(document).ready(function () {
 \*-----------------------------------------------*/
 
 function TarjetaResultados(){
-    popup = new Popup()
-    popup_cap = new PopupCapacitacion()
-    toolbar = new Toolbar()
     personalizacion = new Personalizacion
     grid_personal = new GridPersonal()
 }
 
 /*-----------------------------------------------*\
-            OBJETO: Componentes
+            OBJETO: Filtros
 \*-----------------------------------------------*/
 
-function Componentes(){
-    this.$nuevo_personal = $('#boton_nuevo')
-    this.$nuevo_capacitacion = $('#boton_nuevo_cap')
+function Filtros(){
 
-    this.$tipo = $('#id_tipo_documento')
-    this.$agrupador = $('#id_agrupador')
-    this.$vigencia_inicio = $('#id_vigencia_inicio')
-    this.$vigencia_fin = $('#id_vigencia_fin')
-    this.$vigencia_inicio_input = $('#id_vigencia_inicio_input')
-    this.$vigencia_fin_input = $('#id_vigencia_fin_input')
     this.$numero_empleado = $('#numero_empleado')
 
-    this.$agrupadorcap = $('#id_agrupadorcap')
-    this.$area = $('#id_area')
-    this.$curso = $('#id_curso')
-    this.$modalidad = $('#id_modalidad')
-    this.$moneda = $('#id_moneda')
-    this.$departamento = $('#id_departamento')
-    this.$fecha_inicio = $('#id_fecha_inicio')
-    this.$fecha_inicio_input = $('#id_fecha_inicio_input')
-    this.$fecha_fin = $('#id_fecha_fin')
-    this.$fecha_fin_input = $('#id_fecha_fin_input')
-
-    this.init_Components()
 }
-Componentes.prototype.init_Components = function (){
-    this.$tipo.select2(this.get_ConfSelect2())
-    this.$agrupador.select2(this.get_ConfSelect2())
-    this.$vigencia_inicio.mask("9999-99-99",{  placeholder:"aaaa/mm/dd"  })
-    this.$vigencia_inicio_input.datetimepicker(this.get_DateTimePickerConfig())
-    this.$vigencia_fin.mask("9999-99-99",{  placeholder:"aaaa/mm/dd"  })
-    this.$vigencia_fin_input.datetimepicker(this.get_DateTimePickerConfig())
-
-    this.$agrupadorcap.select2(this.get_ConfSelect2())
-    this.$area.select2(this.get_ConfSelect2())
-    this.$curso.select2(this.get_ConfSelect2())
-    this.$modalidad.select2(this.get_ConfSelect2())
-    this.$moneda.select2(this.get_ConfSelect2())
-    this.$departamento.select2(this.get_ConfSelect2())
-    this.$fecha_inicio.mask("9999-99-99",{  placeholder:"aaaa/mm/dd"  })
-    this.$fecha_inicio_input.datetimepicker(this.get_DateTimePickerConfig())
-    this.$fecha_fin.mask("9999-99-99",{  placeholder:"aaaa/mm/dd"  })
-    this.$fecha_fin_input.datetimepicker(this.get_DateTimePickerConfig())
-}
-Componentes.prototype.get_ConfSelect2 = function () {
-   return {
-      width: '100%'
-   }
-}
-Componentes.prototype.get_DateTimePickerConfig = function () {
-    return {
-        autoclose: true,
-        orientation: "bottom left",
-        minViewMode: 2,
-        format: "yyyy-mm-dd",
-    }
-}
-Componentes.prototype.get_Values = function (_page) {
+Filtros.prototype.get_Values = function (_page) {
     return {
         page: _page,
         relacion_personal__numero_empleado: this.$numero_empleado.val(),
    }
 }
-Componentes.prototype.get_ValuesCap = function (_page) {
+Filtros.prototype.get_ValuesCap = function (_page) {
     return {
         page: _page,
         relacion_capacitacion__numero_empleado: this.$numero_empleado.val(),
@@ -115,46 +54,7 @@ Componentes.prototype.get_ValuesCap = function (_page) {
 
 
 /*-----------------------------------------------*\
-            OBJETO: Pop up 
-\*-----------------------------------------------*/
-
-function Popup () {
-
-    this.$id = $('#modal_nuevo')
-}
-
-function PopupCapacitacion () {
-
-    this.$id = $('#modal_nuevo_cap')
-}
-
-
-/*-----------------------------------------------*\
-            OBJETO: TOOLBAR
-\*-----------------------------------------------*/
-
-function Toolbar() {
-    
-    this.$boton_nuevo = $('#boton_nuevo')
-    this.init_Events()
-}
-Toolbar.prototype.init_Events = function () {
-
-    this.$boton_nuevo.on("click", this, this.mostrar_Modal)
-    // this.$boton_nuevo_cap.on("click", this, this.mostrar_Modal) 
-}
-Toolbar.prototype.mostrar_Modal = function (e){
-    
-    popup.$id.hasClass('in')
-}
-Toolbar.prototype.mostrar_ModalCap = function (e){
-    
-    popup_cap.$id.hasClass('in')
-}
-
-
-/*-----------------------------------------------*\
-            OBJETO: FILTRO ARCHIVOS
+            OBJETO: Personalizacion del tab
 \*-----------------------------------------------*/
 
 function Personalizacion(){
@@ -173,8 +73,6 @@ Personalizacion.prototype.mostrar_Personales = function(e){
     
     e.data.$capacitaciones.removeClass('nova-active-tab')
     e.data.$personales.addClass('nova-active-tab')
-    componentes.$nuevo_capacitacion.addClass('hidden')
-    componentes.$nuevo_personal.removeClass('hidden')
     $("#grid_resultados").empty()
     grid_personal.init()
 }
@@ -182,8 +80,6 @@ Personalizacion.prototype.mostrar_Capacitaciones = function(e){
     
     e.data.$personales.removeClass('nova-active-tab')
     e.data.$capacitaciones.addClass('nova-active-tab')
-    componentes.$nuevo_capacitacion.removeClass('hidden')
-    componentes.$nuevo_personal.addClass('hidden')
     $("#grid_resultados").empty()
     grid_capacitacion = new GridCapacitacion()
 }
@@ -224,7 +120,7 @@ GridPersonal.prototype.get_DataSourceConfig = function () {
             },
             parameterMap: function (data, action) {
                 if (action === "read"){
-                    return  componentes.get_Values(data.page)
+                    return  filtros.get_Values(data.page)
                 }
             }
         },
@@ -294,29 +190,6 @@ GridPersonal.prototype.buscar = function() {
 }
 
 /*-----------------------------------------------*\
-            OBJETO: Ajax
-\*-----------------------------------------------*/
-
-// function AjaxCapacitacion(){
-//     this.$numero_empleado = $('#numero_empleado')
-//     numero_empleado = this.$numero_empleado.val()
-//     $.ajax(
-//     {
-//         type: 'GET',
-//         url: url_expediente_capacitacion_bypage,
-//         dataType: 'json',
-//         data: { numero_empleado: numero_empleado,
-//                 tipo_archivo: 'cap',
-//             },
-//         success: function (response) {
-//             console.log(JSON.stringify(response))
-            
-//         }
-//     })
-
-// }
-
-/*-----------------------------------------------*\
             OBJETO: Grid capacitacion
 \*-----------------------------------------------*/
 
@@ -352,7 +225,7 @@ GridCapacitacion.prototype.get_DataSourceConfig = function () {
             },
             parameterMap: function (data, action) {
                 if (action === "read"){
-                    return  componentes.get_ValuesCap(data.page)
+                    return  filtros.get_ValuesCap(data.page)
                 }
             }
         },

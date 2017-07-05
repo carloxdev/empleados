@@ -198,7 +198,6 @@ class EmpleadoExpediente(View):
             archivo.content_type = content_type
             archivo.object_id = doc_personal.id
             archivo.created_by = request.user.profile
-            archivo.updated_by = request.user.profile
             archivo.save()
         elif form_cap.is_valid():
             datos_formulario = form_cap.cleaned_data
@@ -227,7 +226,6 @@ class EmpleadoExpediente(View):
             archivo.content_type = content_type
             archivo.object_id = doc_capacitacion.id
             archivo.created_by = request.user.profile
-            archivo.updated_by = request.user.profile
             archivo.save()
 
         contexto = {
