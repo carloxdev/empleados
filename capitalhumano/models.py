@@ -177,7 +177,6 @@ class Archivo(models.Model):
 
 class DocumentoPersonal(models.Model):
 
-    numero_empleado = models.CharField(max_length=6)
     AGRUPADOR = (
         ('per', 'Personal'),
         ('qhse', 'QHSE'),
@@ -186,6 +185,8 @@ class DocumentoPersonal(models.Model):
         ('ope', 'Operaciones'),
         ('rec', 'Reconocimiento'),
     )
+
+    numero_empleado = models.CharField(max_length=6)
     tipo_documento = models.ForeignKey(TipoDocumento)  # Catalogo
     agrupador = models.CharField(
         choices=AGRUPADOR,
