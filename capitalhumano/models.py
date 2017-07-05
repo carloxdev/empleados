@@ -233,8 +233,7 @@ class DocumentoCapacitacion(models.Model):
         ('ope', 'Operaciones'),
         ('rec', 'Reconocimiento'),
     )
-  
-    
+
     numero_empleado = models.IntegerField(default=0)
     curso = models.ForeignKey(Curso, on_delete=models.PROTECT)
     proveedor = models.CharField(max_length=255)  # Sacar de jde
@@ -256,12 +255,13 @@ class DocumentoCapacitacion(models.Model):
     duracion = models.IntegerField()
     observaciones = models.CharField(max_length=100)
     agrupador = models.CharField(
-            choices=AGRUPADOR,
-            default="per",
-            max_length=20
-        )
-    area = models.CharField(max_length=50)
-    relacion = GenericRelation(Archivo, related_query_name='relacion_capacitacion')
+        choices=AGRUPADOR,
+        default="per",
+        max_length=20
+    )
+    area = models.CharField(max_length=50, default='administrativa')
+    relacion = GenericRelation(
+        Archivo, related_query_name='relacion_capacitacion')
 
     created_by = models.ForeignKey(Profile, related_name='doccap_created_by')
     created_date = models.DateTimeField(

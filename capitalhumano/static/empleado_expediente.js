@@ -52,6 +52,8 @@ function Componentes(){
     this.$vigencia_fin_input = $('#id_vigencia_fin_input')
     this.$numero_empleado = $('#numero_empleado')
 
+    this.$agrupadorcap = $('#id_agrupadorcap')
+    this.$area = $('#id_area')
     this.$curso = $('#id_curso')
     this.$modalidad = $('#id_modalidad')
     this.$moneda = $('#id_moneda')
@@ -71,6 +73,8 @@ Componentes.prototype.init_Components = function (){
     this.$vigencia_fin.mask("9999-99-99",{  placeholder:"aaaa/mm/dd"  })
     this.$vigencia_fin_input.datetimepicker(this.get_DateTimePickerConfig())
 
+    this.$agrupadorcap.select2(this.get_ConfSelect2())
+    this.$area.select2(this.get_ConfSelect2())
     this.$curso.select2(this.get_ConfSelect2())
     this.$modalidad.select2(this.get_ConfSelect2())
     this.$moneda.select2(this.get_ConfSelect2())
@@ -283,6 +287,26 @@ GridPersonal.prototype.buscar = function() {
     this.kfuente_datos.page(1)
 }
 
+/*-----------------------------------------------*\
+            OBJETO: Ajax
+\*-----------------------------------------------*/
+
+// function AjaxCapacitacion(){
+
+// $.ajax(
+// {
+//     type: 'POST',
+//     url: url_expediente_capacitacion_bypage,
+//     dataType: 'json',
+//     data: { numero_empleado: numero_empleado,
+//             tipo_archivo: 'cap',
+//         },
+//     success: function (response) {
+//         $("#Grid").data("kendoGrid").dataSource.data(result);
+//     }
+// })
+
+// }
 
 /*-----------------------------------------------*\
             OBJETO: Grid capacitacion
@@ -339,6 +363,8 @@ GridCapacitacion.prototype.get_DataSourceConfig = function () {
 GridCapacitacion.prototype.get_CamposCap = function () {
     return {
         curso : { type: "string" },
+        agrupador: { type: "string" },
+        area: { type: "string" },
         proveedor : { type: "string"},
         modalidad : { type: "string" },
         costo : { type: "string" },
@@ -379,6 +405,8 @@ GridCapacitacion.prototype.get_Columnas = function () {
           width:"150px" ,
           template: '<a href="#=archivo#" target="_blank">#=curso#</a>',
         },
+        { field: "agrupador", title: "Agrupador", width:"100px"},
+        { field: "area", title: "Area", width:"100px"},
         { field: "proveedor", title: "Proveedor", width:"150px"},
         { field: "modalidad",title: "Modalidad",width:"100px"},
         { field: "costo", title: "Costo", width:"100px" },

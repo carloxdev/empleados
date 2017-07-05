@@ -206,6 +206,8 @@ class EmpleadoExpediente(View):
 
             doc_capacitacion = DocumentoCapacitacion()
             doc_capacitacion.numero_empleado = numero_empleado
+            doc_capacitacion.agrupador = datos_formulario.get('agrupadorcap')
+            doc_capacitacion.area = datos_formulario.get('area')
             doc_capacitacion.curso = datos_formulario.get('curso')
             doc_capacitacion.proveedor = datos_formulario.get('proveedor')
             doc_capacitacion.modalidad = datos_formulario.get('modalidad')

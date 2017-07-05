@@ -80,7 +80,7 @@
 									<tr>
 										<td class="icon nova-icon-gray"><span class="mdi mdi-cake"></span></td>
 										<td class="item">Fecha de Nacimiento</td>
-										<td>{{ dato.pers_fecha_nacimiento|cut:"00:00:00"}}</td>
+										<td>{{ dato.pers_fecha_nacimiento|cut:"00:00:00" }}</td>
 									</tr>
 									<tr>
 										<td class="icon nova-icon-gray"><span class="mdi mdi-globe-alt"></span></td>
@@ -272,6 +272,20 @@
             </div>
             <form action="" method="POST" enctype="multipart/form-data"> {% csrf_token %}
 				<div class="modal-body form-horizontal">
+					<!-- Agrupador -->
+                    <div class="form-group">
+                        <label class="col-sm-3 nova-col-filter control-label">Agrupador</label>
+                        <div class="col-sm-8 xs-pt-5">
+                            {{ form2.agrupadorcap }}
+                        </div>
+                    </div>  
+                  	<!-- Area -->
+                    <div class="form-group">
+                        <label class="col-sm-3 nova-col-filter control-label">Area</label>
+                        <div class="col-sm-8 xs-pt-5">
+                            {{ form2.area }}
+                        </div>
+                    </div>      
 					<!-- Curso -->
                     <div class="form-group">
                         <label class="col-sm-3 nova-col-filter control-label">Curso</label>

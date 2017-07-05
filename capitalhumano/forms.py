@@ -416,6 +416,18 @@ class NuevoDocumentoCapacitacionForm(Form):
         ('usd', 'Dolares (USD)'),
         ('eur', 'Euro (EUR)'),
     )
+    AREA = (
+        ('administrativa', 'Administrativa'),
+        ('operativa', 'Operativa'),
+    )
+    AGRUPADOR = (
+        ('per', 'Personal'),
+        ('qhse', 'QHSE'),
+        ('amo', 'Amonestación'),
+        ('adm', 'Administración'),
+        ('ope', 'Operaciones'),
+        ('rec', 'Reconocimiento'),
+    )
 
     curso = ModelChoiceField(
         label="Curso",
@@ -426,6 +438,16 @@ class NuevoDocumentoCapacitacionForm(Form):
     proveedor = CharField(
         label="Proveedor",
         widget=TextInput(attrs={'class': 'form-control input-xs'}))
+
+    agrupadorcap = ChoiceField(
+        label="Agrupador",
+        choices=AGRUPADOR,
+        widget=Select(attrs={'class': 'select2 nova-select2'}))
+
+    area = ChoiceField(
+        label="Area",
+        choices=AREA,
+        widget=Select(attrs={'class': 'select2 nova-select2'}))
 
     modalidad = ChoiceField(
         label="Modalidad",

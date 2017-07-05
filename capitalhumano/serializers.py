@@ -146,6 +146,8 @@ class ArchivoPersonalSerializer(serializers.HyperlinkedModelSerializer):
 
 class ArchivoCapacitacionSerializer(serializers.HyperlinkedModelSerializer):
     numero_empleado = serializers.SerializerMethodField()
+    agrupador = serializers.SerializerMethodField()
+    area = serializers.SerializerMethodField()
     curso = serializers.SerializerMethodField()
     proveedor = serializers.SerializerMethodField()
     modalidad = serializers.SerializerMethodField()
@@ -164,6 +166,8 @@ class ArchivoCapacitacionSerializer(serializers.HyperlinkedModelSerializer):
         model = Archivo
         fields = (
             'numero_empleado',
+            'agrupador',
+            'area',
             'curso',
             'proveedor',
             'modalidad',
@@ -190,6 +194,38 @@ class ArchivoCapacitacionSerializer(serializers.HyperlinkedModelSerializer):
         except Exception as e:
             print str(e)
             return ""
+
+    def get_agrupador(self, obj):
+        try:
+            agrupador = ''
+            if obj.content_object.agrupador == 'per':
+                agrupador = 'Personal'
+            elif obj.content_object.agrupador == 'qhse':
+                agrupador = 'QHSE'
+            elif obj.content_object.agrupador == 'amo':
+                agrupador = 'Amonestacion'
+            elif obj.content_object.agrupador == 'adm':
+                agrupador = 'Administracion'
+            elif obj.content_object.agrupador == 'ope':
+                agrupador = 'Operaciones'
+            elif obj.content_object.agrupador == 'rec':
+                agrupador = 'Reconocimiento'
+            return agrupador
+        except Exception as e:
+            print str(e)
+            return " "
+
+    def get_area(self, obj):
+        try:
+            area = ''
+            if obj.content_object.area == 'administrativa':
+                area = 'Administrativa'
+            elif obj.content_object.area == 'operativa':
+                area = 'Operativa'
+            return area
+        except Exception as e:
+            print str(e)
+            return " "
 
     def get_curso(self, obj):
         try:
