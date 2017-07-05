@@ -2,6 +2,8 @@
 
 {% load static from staticfiles %}
 
+{% load custom_tags %}
+
 {% block titulo %} Configuración {% endblock titulo %}
 
 {% block title-page %} Configuración Criterios y Requisitos {% endblock title-page %}
@@ -92,7 +94,7 @@
             </div>
                
             <form id="formulario_criterio" class="modal-body form-horizontal">
-
+               
                <div class="form-group">
                   <label class="col-sm-3 nova-col-filter control-label">Clasificacion</label>
                   <div class="col-sm-8 xs-pt-5">
@@ -141,13 +143,8 @@
             </div>
                
             <form id="id_formulario_filtro" class="modal-body form-horizontal">
-
-               <div class="form-group">
-                  <label class="col-sm-3 nova-col-filter control-label">Requisito</label>
-                  <div class="col-sm-7 xs-pt-5">
-                     <input type="text" class="form-control input-xs" name="" id="id_requisito_filtro">
-                  </div>
-               </div>                
+               
+               {% tag_filter filterForm.requisito %}
 
             </form><!-- Modal body-->
             <div class="modal-footer nova-modal-footer">

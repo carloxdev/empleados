@@ -17,6 +17,8 @@ from django.views.generic.base import View
 
 
 # Formularios:
+from .forms import CriterioForm
+from .forms import CriterioFilterForm
 
 
 # ----------------- CALIDAD - Dashboard ----------------- #
@@ -229,13 +231,15 @@ class ConfiguracionRequisitoLista(View):
 
     def get(self, request):
 
-        # formulario = EmpleadoFilterForm()
+        formulario = CriterioForm()
+        formularioFiltro = CriterioFilterForm()
 
-        # contexto = {
-        #     'form': formulario
-        # }
+        contexto = {
+            'form': formulario,
+            'filterForm': formularioFiltro
+        }
 
-        return render(request, self.template_name, {})
+        return render(request, self.template_name, contexto)
 
 
 class ConfiguracionProcesoLista(View):
