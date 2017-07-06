@@ -402,6 +402,38 @@
         </div> <!-- Modal content-->
     </div> <!-- Modal dialog -->
 </div><!-- Modal capacitacion-->
+
+<!-- Eliminar-->
+<div id="eliminar" role="dialog" class="modal fade colored-header colored-header-primary">
+    <div class="modal-dialog custom-width">
+        <div class="modal-content">
+            
+            <div class="modal-header nova-modal-header">
+                <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
+                <h3 class="modal-title">Confirmación</h3>
+            </div>
+            <form action="" method="POST" enctype="multipart/form-data"> {% csrf_token %}
+				<!-- Mensaje -->
+				<div class="modal-body form-horizontal">
+                    <div class="form-group">
+                        <h3>¿Desea eliminar el documento " "?
+                    </div>            
+                </div>
+                
+                <!-- Botones de acción -->
+                <div class="modal-footer nova-modal-footer">
+                     <div class="row col-sm-12">
+                        <button type="button" data-dismiss="modal" class="btn btn-default pull-left">
+                            Cancelar
+                        </button>
+
+                        <button type="submit" class="btn btn-primary" id="id_boton_guardar" >Eliminar</button>
+                    </div>
+                </div>
+            </form>
+        </div> <!-- Modal content-->
+    </div> <!-- Modal dialog -->
+</div><!-- Modal personal-->
 {% endfor %}
 {% endblock contenido %}
 {% block scripts %}

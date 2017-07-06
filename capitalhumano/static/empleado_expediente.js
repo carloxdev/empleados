@@ -251,6 +251,7 @@ GridPersonal.prototype.get_Campos = function () {
         archivo : { type: "string" },
         created_by : { type: "string" },
         created_date : { type: "date" },
+        object_id: { type: "integer" },
     }
 }
 GridPersonal.prototype.get_Configuracion = function () {
@@ -275,6 +276,11 @@ GridPersonal.prototype.get_Configuracion = function () {
 GridPersonal.prototype.get_Columnas = function () {
 
     return [  
+        { field: "object_id", 
+          title: "Eliminar", 
+          width:"100px" ,
+          template: '<a href="eliminar" data-toggle="modal">Eliminar</a>',
+        },
         { field: "tipo_documento", 
           title: "Archivo", 
           width:"150px" ,
