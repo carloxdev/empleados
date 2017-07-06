@@ -14,7 +14,6 @@ var grid_capacitacion = null
 var componentes = null
 var tarjeta_resultados = null
 var personalizacion = null
-var ajaxcap = null
 
 /*-----------------------------------------------*\
             LOAD
@@ -298,29 +297,6 @@ GridPersonal.prototype.buscar = function() {
 
     this.kfuente_datos.page(1)
 }
-
-/*-----------------------------------------------*\
-            OBJETO: Ajax
-\*-----------------------------------------------*/
-
-// function AjaxCapacitacion(){
-//     this.$numero_empleado = $('#numero_empleado')
-//     numero_empleado = this.$numero_empleado.val()
-//     $.ajax(
-//     {
-//         type: 'GET',
-//         url: url_expediente_capacitacion_bypage,
-//         dataType: 'json',
-//         data: { numero_empleado: numero_empleado,
-//                 tipo_archivo: 'cap',
-//             },
-//         success: function (response) {
-//             console.log(JSON.stringify(response))
-            
-//         }
-//     })
-
-// }
 
 /*-----------------------------------------------*\
             OBJETO: Grid capacitacion
