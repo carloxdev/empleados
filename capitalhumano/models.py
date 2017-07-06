@@ -13,7 +13,7 @@ from django.contrib.contenttypes.fields import GenericRelation
 from seguridad.models import Profile
 
 # Utilidades:
-from utilities import get_FilePath_DocPersonal
+from utilities import get_FilePath_Expedientes
 
 
 class PerfilPuestoDocumento(models.Model):
@@ -141,7 +141,7 @@ class Archivo(models.Model):
         default="per",
         max_length=3)
     archivo = models.FileField(
-        upload_to=get_FilePath_DocPersonal
+        upload_to=get_FilePath_Expedientes
     )
 
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
@@ -271,11 +271,11 @@ class DocumentoCapacitacion(models.Model):
     )
 
     def __unicode__(self):
-        cadena = "%s" % (self.curso.nombre_curso)
+        cadena = "%s" % (self.numero_empleado)
         return cadena
 
     def __str__(self):
-        cadena = "%s" % (self.curso.nombre_curso)
+        cadena = "%s" % (self.numero_empleado)
         return cadena
 
     class Meta:
