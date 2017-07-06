@@ -1,7 +1,11 @@
 # -*- coding: utf-8 -*-
-
 # Librerias/Clases Python
 from __future__ import unicode_literals
+
+from django.db.models.signals import pre_delete
+from django.dispatch import receiver
+from django.conf import settings
+import os
 
 # Librerias/Clases Django
 from django.db import models
@@ -280,3 +284,12 @@ class DocumentoCapacitacion(models.Model):
 
     class Meta:
         verbose_name_plural = "Documento Capacitacion"
+
+
+@receiver(pre_delete, sender=Archivo)
+def _directorios_delete(sender, instance, using, **kwargs):
+    file_path = settings.BASE_DIR + "/media/" + str(instance.archivo)
+    print(file_path)
+
+    if os.path.isfile(file_path):
+        os.remove(file_path)

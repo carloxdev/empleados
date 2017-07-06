@@ -55,6 +55,7 @@ class ArchivoPersonalSerializer(serializers.HyperlinkedModelSerializer):
             'vigencia_inicio',
             'vigencia_fin',
             'tipo_archivo',
+            'pk',
             'archivo',
             'object_id',
             'created_by',
@@ -165,6 +166,7 @@ class ArchivoCapacitacionSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Archivo
         fields = (
+            'pk',
             'numero_empleado',
             'agrupador',
             'area',

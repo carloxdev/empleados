@@ -3,6 +3,8 @@
 # Django Atajos:
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 
 # Librerias de Django
 from django.views.generic.base import View
@@ -151,11 +153,11 @@ class EmpleadoExpediente(View):
     def __init__(self):
         self.template_name = 'empleado_expediente.html'
 
-    def get(self, request, pk):
+    def get(self, request, _numero_empleado):
         form_per = NuevoDocumentoPersonalForm()
         form_cap = NuevoDocumentoCapacitacionForm()
         empleado = VIEW_EMPLEADOS_FULL.objects.using(
-            "ebs_d").filter(pers_empleado_numero=pk)
+            "ebs_d").filter(pers_empleado_numero=_numero_empleado)
 
         ruta = self.comprobar_Direccion(empleado)
 
@@ -168,8 +170,8 @@ class EmpleadoExpediente(View):
 
         return render(request, self.template_name, contexto)
 
-    def post(self, request, pk):
-        numero_empleado = pk
+    def post(self, request, _numero_empleado):
+        numero_empleado = _numero_empleado
         form_per = NuevoDocumentoPersonalForm(request.POST, request.FILES)
         form_cap = NuevoDocumentoCapacitacionForm(request.POST, request.FILES)
         empleado = VIEW_EMPLEADOS_FULL.objects.using(
@@ -199,9 +201,12 @@ class EmpleadoExpediente(View):
             archivo.object_id = doc_personal.id
             archivo.created_by = request.user.profile
             archivo.save()
+            return HttpResponseRedirect(reverse('capitalhumano:empleado_expediente', args=[numero_empleado]))
+
         elif form_cap.is_valid():
             datos_formulario = form_cap.cleaned_data
-            content_type = ContentType.objects.get_for_model(DocumentoCapacitacion)
+            content_type = ContentType.objects.get_for_model(
+                DocumentoCapacitacion)
 
             doc_capacitacion = DocumentoCapacitacion()
             doc_capacitacion.numero_empleado = numero_empleado
@@ -213,11 +218,14 @@ class EmpleadoExpediente(View):
             doc_capacitacion.lugar = datos_formulario.get('lugar')
             doc_capacitacion.costo = datos_formulario.get('costo')
             doc_capacitacion.moneda = datos_formulario.get('moneda')
-            doc_capacitacion.departamento = datos_formulario.get('departamento')
-            doc_capacitacion.fecha_inicio = datos_formulario.get('fecha_inicio')
+            doc_capacitacion.departamento = datos_formulario.get(
+                'departamento')
+            doc_capacitacion.fecha_inicio = datos_formulario.get(
+                'fecha_inicio')
             doc_capacitacion.fecha_fin = datos_formulario.get('fecha_fin')
             doc_capacitacion.duracion = datos_formulario.get('duracion')
-            doc_capacitacion.observaciones = datos_formulario.get('observaciones')
+            doc_capacitacion.observaciones = datos_formulario.get(
+                'observaciones')
             doc_capacitacion.created_by = request.user.profile
             doc_capacitacion.save()
             archivo = Archivo()
@@ -250,6 +258,38 @@ class EmpleadoExpediente(View):
             ruta = '/static/theme/img/avatar-150.png'
 
         return ruta
+
+
+class EmpleadoExpedientePerEliminar(View):
+
+    def __init__(self):
+        self.template_name = 'empleado_expediente.html'
+
+    def get(self, request, _numero_empleado, _pk):
+
+        archivo = Archivo.objects.get(pk=_pk)
+        documento_per = DocumentoPersonal.objects.get(pk=archivo.object_id)
+        archivo.delete()
+        documento_per.delete()
+        numero_empleado = _numero_empleado
+
+        return HttpResponseRedirect(reverse('capitalhumano:empleado_expediente', args=[numero_empleado]))
+
+
+class EmpleadoExpedienteCapEliminar(View):
+
+    def __init__(self):
+        self.template_name = 'empleado_expediente.html'
+
+    def get(self, request, _numero_empleado, _pk):
+
+        archivo = Archivo.objects.get(pk=_pk)
+        documento_cap = DocumentoCapacitacion.objects.get(pk=archivo.object_id)
+        archivo.delete()
+        documento_cap.delete()
+        numero_empleado = _numero_empleado
+
+        return HttpResponseRedirect(reverse('capitalhumano:empleado_expediente', args=[numero_empleado]))
 
 
 # -------------- PERFILES DE PUESTOS DOCUMENTO  -------------- #

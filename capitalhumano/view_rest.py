@@ -38,12 +38,12 @@ class VIEW_DOCUMENTO_PERFIL_PUESTO_ByPageAPI(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated,)
 
 
-class Archivo_Personal_API(viewsets.ModelViewSet):
+class ArchivoPersonalAPI(viewsets.ModelViewSet):
     queryset = Archivo.objects.all().filter(tipo_archivo='per')
     serializer_class = ArchivoPersonalSerializer
 
 
-class Archivo_Personal_ByPageAPI(viewsets.ModelViewSet):
+class ArchivoPersonalByPageAPI(viewsets.ModelViewSet):
     queryset = Archivo.objects.filter(tipo_archivo='per')
     serializer_class = ArchivoPersonalSerializer
     pagination_class = GenericPagination
@@ -51,7 +51,7 @@ class Archivo_Personal_ByPageAPI(viewsets.ModelViewSet):
     filter_class = ArchivoPersonalFilter
 
 
-class Archivo_Capacitacion_ByPageAPI(viewsets.ModelViewSet):
+class ArchivoCapacitacionByPageAPI(viewsets.ModelViewSet):
     queryset = Archivo.objects.filter(tipo_archivo='cap')
     serializer_class = ArchivoCapacitacionSerializer
     pagination_class = GenericPagination

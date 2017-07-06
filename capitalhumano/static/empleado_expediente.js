@@ -4,6 +4,7 @@
 var url_expediente = window.location.origin  + "/api-capitalhumano/documentopersonal/"
 var url_expediente_personal_bypage = window.location.origin  + "/api-capitalhumano/documentopersonal_bypage/"
 var url_expediente_capacitacion_bypage = window.location.origin  + "/api-capitalhumano/documentocapacitacion_bypage/"
+var url_eliminar = window.location.origin + "/expedientes/"
 
 // OBJS
 var popup = null
@@ -242,6 +243,7 @@ GridPersonal.prototype.get_DataSourceConfig = function () {
 GridPersonal.prototype.get_Campos = function () {
     
     return {
+        pk: {type: "string"},
         agrupador : { type: "string" },
         fecha : { type: "date"},
         vigencia_inicio : { type: "string" },
@@ -251,6 +253,7 @@ GridPersonal.prototype.get_Campos = function () {
         created_by : { type: "string" },
         created_date : { type: "date" },
         object_id: { type: "integer" },
+        numero_empleado: { type: "string" },
     }
 }
 GridPersonal.prototype.get_Configuracion = function () {
@@ -275,10 +278,10 @@ GridPersonal.prototype.get_Configuracion = function () {
 GridPersonal.prototype.get_Columnas = function () {
 
     return [  
-        { field: "object_id", 
-          title: "Eliminar", 
-          width:"100px" ,
-          template: '<a href="eliminar" data-toggle="modal">Eliminar</a>',
+        { field: "pk", 
+          title: " ", 
+          width:"50px" ,
+          template: '<a href="#=url_eliminar + numero_empleado+ "/" + pk #/expediente/eliminar/personal/" class="btn nova-btn btn-default nova-btn-delete" id="boton_nuevo"> <i class="icon icon-left icon mdi mdi-delete nova-white"></i></a>',
         },
         { field: "tipo_documento", 
           title: "Archivo", 
@@ -352,6 +355,7 @@ GridCapacitacion.prototype.get_DataSourceConfig = function () {
 }
 GridCapacitacion.prototype.get_CamposCap = function () {
     return {
+        pk: { type: "integer" },
         curso : { type: "string" },
         agrupador: { type: "string" },
         area: { type: "string" },
@@ -390,6 +394,11 @@ GridCapacitacion.prototype.get_Configuracion = function () {
 GridCapacitacion.prototype.get_Columnas = function () {
 
     return [  
+        { field: "pk", 
+          title: " ", 
+          width:"60px" ,
+          template: '<a href="#=url_eliminar + numero_empleado+ "/" + pk #/expediente/eliminar/capacitacion/" class="btn nova-btn btn-default nova-btn-delete" id="boton_nuevo"> <i class="icon icon-left icon mdi mdi-delete nova-white"></i></a>',
+        },
         { field: "curso", 
           title: "Curso", 
           width:"150px" ,
