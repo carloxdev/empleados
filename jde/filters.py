@@ -20,6 +20,7 @@ from .models import VM_PORF_COMPRAS
 from .models import VM_PORF_CXC
 from .models import VM_PORF_CXP
 from .models import VM_PORF_NOMINA
+from .models import VIEW_PROVEEDORES
 
 
 # ----------------- VIEW_INVENTARIO ----------------- #
@@ -459,4 +460,26 @@ class VIEW_RECEPCIONES_Filter(filters.FilterSet):
             'oc_compania',
             'oc_linea',
             'tran_tipo'
+        ]
+
+
+# ----------------- VIEW_PROVEEDORES ----------------- #
+
+class VIEW_PROVEEDORES_Filter(filters.FilterSet):
+
+    clave = CharFilter(
+        name="clave",
+        lookup_expr="contains"
+    )
+
+    descripcion = CharFilter(
+        name="descripcion",
+        lookup_expr="contains"
+    )
+
+    class Meta:
+        model = VIEW_PROVEEDORES
+        fields = [
+            'clave',
+            'descripcion'
         ]
