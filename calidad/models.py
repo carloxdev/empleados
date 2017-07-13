@@ -9,9 +9,9 @@ from django.db import models
 # Otros Modelos:
 
 
-class criterio(models.Model):
+class Criterio(models.Model):
 
-    CRITERIO_CLASIFICACION = (
+    CLASIFICACION = (
         ('norma', 'Norma'),
         ('legal', 'Legal'),
         ('contractual', 'Contractual'),
@@ -19,51 +19,232 @@ class criterio(models.Model):
     )
 
     criterio = models.CharField(max_length=120)
-    clasificacion = models.CharField(max_length=15, choices=CRITERIO_CLASIFICACION, default="norma")
+    clasificacion = models.CharField(max_length=15, choices=CLASIFICACION, default="norma")
+    create_by = models.CharField(max_length=240, blank=True)
+    create_date = models.DateTimeField(
+        auto_now=False,
+        auto_now_add=True,
+        null=True,
+        blank=True
+    )
+    update_by = models.CharField(max_length=240, blank=True)
+    update_date = models.DateTimeField(
+        auto_now=True,
+        auto_now_add=False,
+        null=True,
+        blank=True
+    )
+
+    def __str__(self):
+        return "%s" % (self.criterio)
+
+    def __unicode__(self):
+        return "%s" % (self.criterio)
 
 
-class requisito(models.Model):
+class Requisito(models.Model):
     requisito = models.CharField(max_length=400)
-    criterio = models.ForeignKey(criterio)
+    criterio = models.ForeignKey(Criterio)
+    create_by = models.CharField(max_length=240, blank=True)
+    create_date = models.DateTimeField(
+        auto_now=False,
+        auto_now_add=True,
+        null=True,
+        blank=True
+    )
+    update_by = models.CharField(max_length=240, blank=True)
+    update_date = models.DateTimeField(
+        auto_now=True,
+        auto_now_add=False,
+        null=True,
+        blank=True
+    )
+
+    def __str__(self):
+        return "%s" % (self.requisito)
+
+    def __unicode__(self):
+        return "%s" % (self.requisito)
 
 
-class proceso(models.Model):
+class Proceso(models.Model):
     proceso = models.CharField(max_length=160)
+    create_by = models.CharField(max_length=240, blank=True)
+    create_date = models.DateTimeField(
+        auto_now=False,
+        auto_now_add=True,
+        null=True,
+        blank=True
+    )
+    update_by = models.CharField(max_length=240, blank=True)
+    update_date = models.DateTimeField(
+        auto_now=True,
+        auto_now_add=False,
+        null=True,
+        blank=True
+    )
+
+    def __str__(self):
+        return "%s" % (self.proceso)
+
+    def __unicode__(self):
+        return "%s" % (self.proceso)
 
 
-class subproceso(models.Model):
+class Subproceso(models.Model):
     subproceso = models.CharField(max_length=160)
-    proceso = models.ForeignKey(proceso)
+    proceso = models.ForeignKey(Proceso)
+    create_by = models.CharField(max_length=240, blank=True)
+    create_date = models.DateTimeField(
+        auto_now=False,
+        auto_now_add=True,
+        null=True,
+        blank=True
+    )
+    update_by = models.CharField(max_length=240, blank=True)
+    update_date = models.DateTimeField(
+        auto_now=True,
+        auto_now_add=False,
+        null=True,
+        blank=True
+    )
+
+    def __str__(self):
+        return "%s" % (self.subproceso)
+
+    def __unicode__(self):
+        return "%s" % (self.subproceso)
 
 
-class usuario(models.Model):
+class Usuario(models.Model):
     nombre_completo = models.CharField(max_length=240)
     rol = models.CharField(max_length=30)
+    create_by = models.CharField(max_length=240, blank=True)
+    create_date = models.DateTimeField(
+        auto_now=False,
+        auto_now_add=True,
+        null=True,
+        blank=True
+    )
+    update_by = models.CharField(max_length=240, blank=True)
+    update_date = models.DateTimeField(
+        auto_now=True,
+        auto_now_add=False,
+        null=True,
+        blank=True
+    )
     # compania
 
+    def __str__(self):
+        return "%s" % (self.nombre_completo)
 
-class sitio(models.Model):
+    def __unicode__(self):
+        return "%s" % (self.nombre_completo)
+
+
+class Sitio(models.Model):
     sitio = models.CharField(max_length=200)
+    create_by = models.CharField(max_length=240, blank=True)
+    create_date = models.DateTimeField(
+        auto_now=False,
+        auto_now_add=True,
+        null=True,
+        blank=True
+    )
+    update_by = models.CharField(max_length=240, blank=True)
+    update_date = models.DateTimeField(
+        auto_now=True,
+        auto_now_add=False,
+        null=True,
+        blank=True
+    )
+
+    def __str__(self):
+        return "%s" % (self.sitio)
+
+    def __unicode__(self):
+        return "%s" % (self.sitio)
 
 
-class metodologia(models.Model):
+class Metodologia(models.Model):
     metodologia = models.CharField(max_length=120)
+    create_by = models.CharField(max_length=240, blank=True)
+    create_date = models.DateTimeField(
+        auto_now=False,
+        auto_now_add=True,
+        null=True,
+        blank=True
+    )
+    update_by = models.CharField(max_length=240, blank=True)
+    update_date = models.DateTimeField(
+        auto_now=True,
+        auto_now_add=False,
+        null=True,
+        blank=True
+    )
+
+    def __str__(self):
+        return "%s" % (self.metodologia)
+
+    def __unicode__(self):
+        return "%s" % (self.metodologia)
 
 
-class falla(models.Model):
+class Falla(models.Model):
     falla = models.CharField(max_length=300)
     codigo = models.CharField(max_length=16)
+    create_by = models.CharField(max_length=240, blank=True)
+    create_date = models.DateTimeField(
+        auto_now=False,
+        auto_now_add=True,
+        null=True,
+        blank=True
+    )
+    update_by = models.CharField(max_length=240, blank=True)
+    update_date = models.DateTimeField(
+        auto_now=True,
+        auto_now_add=False,
+        null=True,
+        blank=True
+    )
+
+    def __str__(self):
+        return "%s" % (self.falla)
+
+    def __unicode__(self):
+        return "%s" % (self.falla)
 
 
-class formato(models.Model):
+class Formato(models.Model):
     titulo = models.CharField(max_length=120)
     no_revision = models.CharField(max_length=6)
     vigencia_inicio = models.DateField()
     codigo = models.CharField(max_length=16)
     descripcion = models.CharField(max_length=220)
+    create_by = models.CharField(max_length=240, blank=True)
+    create_date = models.DateTimeField(
+        auto_now=False,
+        auto_now_add=True,
+        null=True,
+        blank=True
+    )
+    update_by = models.CharField(max_length=240, blank=True)
+    update_date = models.DateTimeField(
+        auto_now=True,
+        auto_now_add=False,
+        null=True,
+        blank=True
+    )
     # compania
 
-class auditoria(models.Model):
+    def __str__(self):
+        return "%s" % (self.titulo)
+
+    def __unicode__(self):
+        return "%s" % (self.titulo)
+
+
+class Auditoria(models.Model):
     folio = models.CharField(primary_key=True, max_length=12)
     tipo_auditoria = models.CharField(max_length=17)
     compania = models.CharField(max_length=60)

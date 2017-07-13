@@ -319,11 +319,6 @@
    border-radius: 0px! important; 
 }
 
-.nova-icon-lista {
-   padding: 6px 14px !important;
-   margin-right: 0px !important;
-}
-
 div.nova-panel-arbol span.badge {
    border: 0px !important;
    background-color: inherit !important;
@@ -572,3 +567,7 @@ div.nova-panel-arbol li.list-group-item {
    color: #ffffff;
 }
 /* multiselect 2 */
+
+.nova-col-popup {
+   padding-right: 0px !important;
+}

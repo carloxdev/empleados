@@ -132,7 +132,7 @@ TarjetaFiltros.prototype.click_BotonLimpiar = function (e) {
 }
 
 /*-----------------------------------------------*\
-         OBJETO: Grid
+         OBJETO: Grid Cambiar
 \*-----------------------------------------------*/
 
 function Grid() {

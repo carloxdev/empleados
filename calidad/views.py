@@ -6,22 +6,33 @@
 from django.shortcuts import render
 from django.views.generic.base import View
 
+# Django Urls:
+from django.http import HttpResponse
 
 # Librerias/Clases de Terceros
 
 # Librerias/Clases propias
 
 # Modelos:
+from .models import Criterio
+from .models import Requisito
 
 # Otros Modelos:
 
 
 # Formularios:
 from .forms import CriterioForm
-from .forms import CriterioFilterForm
+from .forms import RequisitoFilterForm
+from .forms import RequisitoForm
+from .forms import ProcesoForm
+from .forms import SubprocesoForm
+
+# Serializadore:
+from .serializers import RequisitoSerilizado
 
 
 # ----------------- CALIDAD - Dashboard ----------------- #
+
 
 class CalidadDashboard(View):
     def __init__(self):
@@ -225,21 +236,37 @@ class ProgramaLista(View):
 # ----------------- CALIDAD - CONFIGURACION ----------------- #
 
 
-class ConfiguracionRequisitoLista(View):
+class ConfiguracionCriterioLista(View):
     def __init__(self):
         self.template_name = 'criterio/configuracion_lista.html'
 
     def get(self, request):
 
-        formulario = CriterioForm()
-        formularioFiltro = CriterioFilterForm()
+        formularioCriterio = CriterioForm()
+        formularioRequisito = RequisitoForm()
+        formularioFiltro = RequisitoFilterForm()
 
         contexto = {
-            'form': formulario,
-            'filterForm': formularioFiltro
+            'formularioCriterio': formularioCriterio,
+            'formularioRequisito': formularioRequisito,
+            'formularioFiltro': formularioFiltro
         }
 
         return render(request, self.template_name, contexto)
+
+
+class ConfiguracionRequisitoAPI(View):
+
+    def get(self, request):
+
+        daddies = Criterio.objects.all()
+
+        serializador = RequisitoSerilizado()
+        lista_json = serializador.get_Json(daddies)
+        return HttpResponse(
+            lista_json,
+            content_type="application/json"
+        )
 
 
 class ConfiguracionProcesoLista(View):
@@ -248,13 +275,15 @@ class ConfiguracionProcesoLista(View):
 
     def get(self, request):
 
-        # formulario = EmpleadoFilterForm()
+        formularioProceso = ProcesoForm()
+        formularioSubproceso = SubprocesoForm()
 
-        # contexto = {
-        #     'form': formulario
-        # }
+        contexto = {
+            'formularioProceso': formularioProceso,
+            'formularioSubproceso': formularioSubproceso,
+        }
 
-        return render(request, self.template_name, {})
+        return render(request, self.template_name, contexto)
 
 
 class ConfiguracionUsuarioLista(View):
