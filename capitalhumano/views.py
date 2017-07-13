@@ -9,7 +9,6 @@ from django.urls import reverse
 # Librerias de Django
 from django.views.generic.base import View
 from django.core.files.storage import default_storage
-from django.contrib.contenttypes.models import ContentType
 
 # Librerias de Propias
 
@@ -166,81 +165,6 @@ class EmpleadoExpediente(View):
             'ruta': ruta,
             'form': form_per,
             'form2': form_cap
-        }
-
-        return render(request, self.template_name, contexto)
-
-    def post(self, request, _numero_empleado):
-        numero_empleado = _numero_empleado
-        form_per = NuevoDocumentoPersonalForm(request.POST, request.FILES)
-        form_cap = NuevoDocumentoCapacitacionForm(request.POST, request.FILES)
-        empleado = VIEW_EMPLEADOS_FULL.objects.using(
-            "ebs_d").filter(pers_empleado_numero=numero_empleado)
-
-        ruta = self.comprobar_Direccion(empleado)
-
-        if form_per.is_valid():
-
-            datos_formulario = form_per.cleaned_data
-            content_type = ContentType.objects.get_for_model(DocumentoPersonal)
-
-            doc_personal = DocumentoPersonal()
-            doc_personal.numero_empleado = numero_empleado
-            doc_personal.tipo_documento = datos_formulario.get(
-                'tipo_documento')
-            doc_personal.agrupador = datos_formulario.get('agrupador')
-            doc_personal.vigencia_inicio = datos_formulario.get(
-                'vigencia_inicio')
-            doc_personal.vigencia_fin = datos_formulario.get('vigencia_fin')
-            doc_personal.created_by = request.user.profile
-            doc_personal.save()
-            archivo = Archivo()
-            archivo.tipo_archivo = 'per'
-            archivo.archivo = datos_formulario.get('archivo')
-            archivo.content_type = content_type
-            archivo.object_id = doc_personal.id
-            archivo.created_by = request.user.profile
-            archivo.save()
-            return HttpResponseRedirect(reverse('capitalhumano:empleado_expediente', args=[numero_empleado]))
-
-        elif form_cap.is_valid():
-            datos_formulario = form_cap.cleaned_data
-            content_type = ContentType.objects.get_for_model(
-                DocumentoCapacitacion)
-
-            doc_capacitacion = DocumentoCapacitacion()
-            doc_capacitacion.numero_empleado = numero_empleado
-            doc_capacitacion.agrupador = datos_formulario.get('agrupadorcap')
-            doc_capacitacion.area = datos_formulario.get('area')
-            doc_capacitacion.curso = datos_formulario.get('curso')
-            doc_capacitacion.proveedor = datos_formulario.get('proveedor')
-            doc_capacitacion.modalidad = datos_formulario.get('modalidad')
-            doc_capacitacion.lugar = datos_formulario.get('lugar')
-            doc_capacitacion.costo = datos_formulario.get('costo')
-            doc_capacitacion.moneda = datos_formulario.get('moneda')
-            doc_capacitacion.departamento = datos_formulario.get(
-                'departamento')
-            doc_capacitacion.fecha_inicio = datos_formulario.get(
-                'fecha_inicio')
-            doc_capacitacion.fecha_fin = datos_formulario.get('fecha_fin')
-            doc_capacitacion.duracion = datos_formulario.get('duracion')
-            doc_capacitacion.observaciones = datos_formulario.get(
-                'observaciones')
-            doc_capacitacion.created_by = request.user.profile
-            doc_capacitacion.save()
-            archivo = Archivo()
-            archivo.tipo_archivo = 'cap'
-            archivo.archivo = datos_formulario.get('archivo')
-            archivo.content_type = content_type
-            archivo.object_id = doc_capacitacion.id
-            archivo.created_by = request.user.profile
-            archivo.save()
-
-        contexto = {
-            'empleado': empleado,
-            'ruta': ruta,
-            'form': form_per,
-            'form2': form_cap,
         }
 
         return render(request, self.template_name, contexto)

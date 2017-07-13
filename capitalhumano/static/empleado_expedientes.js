@@ -68,8 +68,6 @@ TarjetaFiltros.prototype.aplicar_Filtros = function () {
     tarjeta_resultados.grid.buscar()
 }
 TarjetaFiltros.prototype.click_BotonBuscar = function (e) {
-    // pers_empleado_numero = e.data.$pers_empleado_numero
-    // var url_expediente_directo = url_expediente + pers_empleado_numero +'/expediente/'
     e.preventDefault()
 
     if(tarjeta_filtros.campos_Vacios() != 'True'){

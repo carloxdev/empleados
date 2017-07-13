@@ -326,7 +326,7 @@ class ExpedientesFilterForm(Form):
         )
     )
     grup_fase_jde = CharField(
-        label="Centro de costos",
+        label="Unidad de negocio(JDE)",
         widget=TextInput(
             attrs={'class': 'form-control input-xs'}
         )
@@ -397,7 +397,7 @@ class NuevoDocumentoPersonalForm(Form):
 
     archivo = FileField(
         label="Archivo",
-        widget=FileInput(attrs={'class': 'dropzone dz-clickable dz-started'}))
+        widget=FileInput(attrs={'class': 'dropzone dz-clickable dz-started', 'type': 'file'}))
 
     def __init__(self, *args, **kwargs):
         super(NuevoDocumentoPersonalForm, self).__init__(*args, **kwargs)
@@ -486,7 +486,7 @@ class NuevoDocumentoCapacitacionForm(Form):
         label="Observaciones",
         widget=TextInput(attrs={'class': 'form-control input-xs'}))
 
-    archivo = FileField(
+    archivocap = FileField(
         label="Archivo",
         widget=FileInput(attrs={'class': 'dropzone dz-clickable dz-started'}))
 

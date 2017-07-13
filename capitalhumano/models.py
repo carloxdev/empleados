@@ -3,6 +3,7 @@
 from __future__ import unicode_literals
 
 from django.db.models.signals import pre_delete
+from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.conf import settings
 import os
@@ -147,8 +148,9 @@ class Archivo(models.Model):
     archivo = models.FileField(
         upload_to=get_FilePath_Expedientes
     )
-
-    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
+    content_type = models.ForeignKey(
+        ContentType, on_delete=models.CASCADE,
+        related_name='content_type')
     object_id = models.PositiveIntegerField()
     content_object = GenericForeignKey('content_type', 'object_id')
 

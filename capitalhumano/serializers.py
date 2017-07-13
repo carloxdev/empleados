@@ -9,8 +9,20 @@ import json
 # Modelos
 from .models import PerfilPuestoDocumento
 from .models import Archivo
+from .models import TipoDocumento
 from .models import DocumentoPersonal
+from .models import DocumentoCapacitacion
+from .models import Curso
 from ebs.models import VIEW_EMPLEADOS_FULL
+
+from django.contrib.contenttypes.models import ContentType
+from django.core.urlresolvers import resolve
+from rest_framework.fields import Field
+from django.urls import reverse
+from django.http import Http404
+from django.core.exceptions import MultipleObjectsReturned
+from django.core.exceptions import ObjectDoesNotExist
+from generic_relations.relations import GenericRelatedField
 
 
 class PerfilPuestoDocumentoSerializer(serializers.HyperlinkedModelSerializer):
@@ -33,6 +45,73 @@ class PerfilPuestoDocumentoSerializer(serializers.HyperlinkedModelSerializer):
             'cambio_residencia',
             'disponibilidad_viajar',
             'requerimentos',
+        )
+
+
+class DocumentoPersonalSerializers(serializers.HyperlinkedModelSerializer):
+    tipo_documento = serializers.PrimaryKeyRelatedField(
+        queryset=TipoDocumento.objects.all())
+
+    class Meta:
+        model = DocumentoPersonal
+        fields = (
+            'pk',
+            'numero_empleado',
+            'tipo_documento',
+            'agrupador',
+            'vigencia_inicio',
+            'vigencia_fin',
+            'created_by',
+        )
+
+
+class DocumentoCapacitacionSerializers(serializers.HyperlinkedModelSerializer):
+    curso = serializers.PrimaryKeyRelatedField(
+        queryset=Curso.objects.all())
+
+    class Meta:
+        model = DocumentoCapacitacion
+        fields = (
+            'pk',
+            'numero_empleado',
+            'curso',
+            'proveedor',
+            'modalidad',
+            'lugar',
+            'costo',
+            'moneda',
+            'departamento',
+            'fecha_inicio',
+            'fecha_fin',
+            'duracion',
+            'observaciones',
+            'agrupador',
+            'area',
+            'created_by',
+        )
+
+
+# /api-capitalhumano/documentopersonal/64/
+class ArchivoSerializers(serializers.HyperlinkedModelSerializer):
+    content_object = GenericRelatedField({
+        DocumentoPersonal: serializers.HyperlinkedRelatedField(
+            queryset=DocumentoPersonal.objects.all(),
+            view_name='documentopersonal-detail',
+        ),
+        DocumentoCapacitacion: serializers.HyperlinkedRelatedField(
+            queryset=DocumentoCapacitacion.objects.all(),
+            view_name='documentocapacitacion-detail',
+        )
+    })
+
+    class Meta:
+        model = Archivo
+        fields = (
+            'pk',
+            'tipo_archivo',
+            'archivo',
+            'content_object',
+            'created_by',
         )
 
 

@@ -49,6 +49,7 @@
 #     'simple_history',
 #     'django_filters',
 #     'widget_tweaks',
+#	  'generic_relations',
 # ]
 
 # MIDDLEWARE = [

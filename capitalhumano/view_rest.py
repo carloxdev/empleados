@@ -10,13 +10,18 @@ from django_filters.rest_framework import DjangoFilterBackend
 
 # Modelos:
 from .models import PerfilPuestoDocumento
+from .models import DocumentoPersonal
+from .models import DocumentoCapacitacion
 from .models import Archivo
 
 
 # Serializadores:
 from .serializers import PerfilPuestoDocumentoSerializer
+from .serializers import DocumentoPersonalSerializers
 from .serializers import ArchivoPersonalSerializer
 from .serializers import ArchivoCapacitacionSerializer
+from .serializers import ArchivoSerializers
+from .serializers import DocumentoCapacitacionSerializers
 
 # Paginadores:
 from .pagination import GenericPagination
@@ -38,9 +43,19 @@ class VIEW_DOCUMENTO_PERFIL_PUESTO_ByPageAPI(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated,)
 
 
-class ArchivoPersonalAPI(viewsets.ModelViewSet):
-    queryset = Archivo.objects.all().filter(tipo_archivo='per')
-    serializer_class = ArchivoPersonalSerializer
+class DocumentoPersonalAPI(viewsets.ModelViewSet):
+    queryset = DocumentoPersonal.objects.all()
+    serializer_class = DocumentoPersonalSerializers
+
+
+class DocumentoCapacitacionAPI(viewsets.ModelViewSet):
+    queryset = DocumentoCapacitacion.objects.all()
+    serializer_class = DocumentoCapacitacionSerializers
+
+
+class ArchivoAPI(viewsets.ModelViewSet):
+    queryset = Archivo.objects.all()
+    serializer_class = ArchivoSerializers
 
 
 class ArchivoPersonalByPageAPI(viewsets.ModelViewSet):
