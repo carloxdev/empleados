@@ -1,7 +1,12 @@
 # -*- coding: utf-8 -*-
-
 # Librerias/Clases Python
 from __future__ import unicode_literals
+
+from django.db.models.signals import pre_delete
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from django.conf import settings
+import os
 
 # Librerias/Clases Django
 from django.db import models
@@ -13,7 +18,7 @@ from django.contrib.contenttypes.fields import GenericRelation
 from seguridad.models import Profile
 
 # Utilidades:
-from utilities import get_FilePath_DocPersonal
+from utilities import get_FilePath_Expedientes
 
 
 class PerfilPuestoDocumento(models.Model):
@@ -141,10 +146,11 @@ class Archivo(models.Model):
         default="per",
         max_length=3)
     archivo = models.FileField(
-        upload_to=get_FilePath_DocPersonal
+        upload_to=get_FilePath_Expedientes
     )
-
-    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
+    content_type = models.ForeignKey(
+        ContentType, on_delete=models.CASCADE,
+        related_name='content_type')
     object_id = models.PositiveIntegerField()
     content_object = GenericForeignKey('content_type', 'object_id')
 
@@ -271,12 +277,21 @@ class DocumentoCapacitacion(models.Model):
     )
 
     def __unicode__(self):
-        cadena = "%s" % (self.curso.nombre_curso)
+        cadena = "%s" % (self.numero_empleado)
         return cadena
 
     def __str__(self):
-        cadena = "%s" % (self.curso.nombre_curso)
+        cadena = "%s" % (self.numero_empleado)
         return cadena
 
     class Meta:
         verbose_name_plural = "Documento Capacitacion"
+
+
+@receiver(pre_delete, sender=Archivo)
+def _directorios_delete(sender, instance, using, **kwargs):
+    file_path = settings.BASE_DIR + "/media/" + str(instance.archivo)
+    print(file_path)
+
+    if os.path.isfile(file_path):
+        os.remove(file_path)

@@ -294,6 +294,18 @@ class ExpedientesFilterForm(Form):
         ('1125', 'CONTACTO'),
         ('1118', 'CANDIDATO'),
     )
+    GRADO_ACADEMICO_CHOICES = (
+        ('', '---------'),
+        ('1', 'NINGUNA'),
+        ('2', 'LEER Y ESCRIBIR'),
+        ('3', 'PRIMARIA'),
+        ('4', 'SECUNDARIA'),
+        ('5', 'TECNICA'),
+        ('6', 'BACHILLERATO'),
+        ('7', 'LICENCIATURA'),
+        ('8', 'MAESTRIA'),
+        ('9', 'DOCTORADO'),
+    )
 
     pers_primer_nombre = CharField(
         label="Primer nombre",
@@ -326,7 +338,7 @@ class ExpedientesFilterForm(Form):
         )
     )
     grup_fase_jde = CharField(
-        label="Centro de costos",
+        label="Unidad de negocio(JDE)",
         widget=TextInput(
             attrs={'class': 'form-control input-xs'}
         )
@@ -344,11 +356,39 @@ class ExpedientesFilterForm(Form):
             attrs={'class': 'select2 nova-select2'}
         )
     )
+    # ----------
+    tipo_documento = ChoiceField(
+        label="Tipo documento",
+        widget=Select(
+            attrs={'class': 'select2 nova-select2'}
+        )
+    )
+    curso = ChoiceField(
+        label="Curso",
+        widget=Select(
+            attrs={'class': 'select2 nova-select2'}
+        )
+    )
+    grado_academico = ChoiceField(
+        label="Grado academico",
+        choices=GRADO_ACADEMICO_CHOICES,
+        widget=Select(
+            attrs={'class': 'select2 nova-select2'}
+        )
+    )
+    disciplina_academica = ChoiceField(
+        label="Disciplina academica",
+        widget=Select(
+            attrs={'class': 'select2 nova-select2'}
+        )
+    )
 
     def __init__(self, *args, **kwargs):
         super(ExpedientesFilterForm, self).__init__(*args, **kwargs)
         self.fields[
             'asig_organizacion_clave'].choices = self.get_Organizaciones()
+        self.fields['tipo_documento'].choices = self.get_TipoDocumento()
+        self.fields['curso'].choices = self.get_Curso()
 
     def get_Organizaciones(self):
         valores = [('', '------------')]
@@ -363,6 +403,62 @@ class ExpedientesFilterForm(Form):
                 )
             )
         return valores
+
+    def get_TipoDocumento(self):
+        valores = [('', '------------')]
+
+        documentos = TipoDocumento.objects.all()
+        for documento in documentos:
+
+            valores.append(
+                (
+                    documento.id,
+                    documento.tipo_documento
+                )
+            )
+        return valores
+
+    def get_Curso(self):
+        valores = [('', '------------')]
+
+        cursos = Curso.objects.all()
+        for curso in cursos:
+
+            valores.append(
+                (
+                    curso.id,
+                    curso.nombre_curso
+                )
+            )
+        return valores
+
+
+# class ExpedientesDocFilterForm(Form):
+
+#     tipo_documento = ChoiceField(
+#         label="Tipo documento",
+#         widget=Select(
+#             attrs={'class': 'select2 nova-select2'}
+#         )
+#     )
+#     curso = ChoiceField(
+#         label="Curso",
+#         widget=Select(
+#             attrs={'class': 'select2 nova-select2'}
+#         )
+#     )
+#     grado_academico = ChoiceField(
+#         label="Curso",
+#         widget=Select(
+#             attrs={'class': 'select2 nova-select2'}
+#         )
+#     )
+#     disciplina_academica = ChoiceField(
+#         label="Disciplina academica",
+#         widget=Select(
+#             attrs={'class': 'select2 nova-select2'}
+#         )
+#     )
 
 
 class NuevoDocumentoPersonalForm(Form):
@@ -397,7 +493,7 @@ class NuevoDocumentoPersonalForm(Form):
 
     archivo = FileField(
         label="Archivo",
-        widget=FileInput(attrs={'class': 'dropzone dz-clickable dz-started'}))
+        widget=FileInput(attrs={'class': 'dropzone dz-clickable dz-started', 'type': 'file'}))
 
     def __init__(self, *args, **kwargs):
         super(NuevoDocumentoPersonalForm, self).__init__(*args, **kwargs)
@@ -486,7 +582,7 @@ class NuevoDocumentoCapacitacionForm(Form):
         label="Observaciones",
         widget=TextInput(attrs={'class': 'form-control input-xs'}))
 
-    archivo = FileField(
+    archivocap = FileField(
         label="Archivo",
         widget=FileInput(attrs={'class': 'dropzone dz-clickable dz-started'}))
 

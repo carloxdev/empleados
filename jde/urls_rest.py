@@ -8,6 +8,8 @@ from jde.views_rest import VIEW_UNIDADES_API
 from jde.views_rest import VIEW_COMPANIAS_API
 from jde.views_rest import VIEW_AUTORIZACIONES_ByPageAPI
 from jde.views_rest import VIEW_RECEPCIONES_ByPageAPI
+from jde.views_rest import VIEW_PROVEEDORES_API
+from jde.views_rest import VIEW_PROVEEDORES_ByPageAPI
 
 
 router_jde = routers.DefaultRouter()
@@ -52,4 +54,16 @@ router_jde.register(
     r'viewrecepciones_bypage',
     VIEW_RECEPCIONES_ByPageAPI,
     'viewrecepciones_bypage',
+)
+
+router_jde.register(
+    r'viewproveedores',
+    VIEW_PROVEEDORES_API,
+    'viewproveedores',
+)
+
+router_jde.register(
+    r'viewproveedores_bypage',
+    VIEW_PROVEEDORES_ByPageAPI,
+    'viewproveedores_bypage',
 )

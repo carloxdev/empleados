@@ -20,7 +20,9 @@ from .views import HallazgoDetalle
 from .views import ProgramaLista
 
 # CALIDAD - CONFIGURACION
-from .views import ConfiguracionRequisitoLista
+from .views import ConfiguracionCriterioLista
+from .views import ConfiguracionRequisitoAPI
+from .views import ConfiguracionSubprocesoAPI
 from .views import ConfiguracionProcesoLista
 from .views import ConfiguracionUsuarioLista
 from .views import ConfiguracionSitioLista
@@ -107,14 +109,24 @@ urlpatterns = [
     # ----------------- CALIDAD - CONFIGURACION ----------------- #
 
     url(
-        r'^configuracion/requisitos/$',
-        ConfiguracionRequisitoLista.as_view(),
-        name="configuracion_requisito_lista"
+        r'^configuracion/criterios/$',
+        ConfiguracionCriterioLista.as_view(),
+        name="configuracion_criterio_lista"
+    ),
+    url(
+        r'^configuracion/requisitos/json/$',
+        ConfiguracionRequisitoAPI.as_view(),
+        name='configuracion_requisito_api'
     ),
     url(
         r'^configuracion/procesos/$',
         ConfiguracionProcesoLista.as_view(),
         name="configuracion_proceso_lista"
+    ),
+    url(
+        r'^configuracion/subprocesos/json/$',
+        ConfiguracionSubprocesoAPI.as_view(),
+        name='configuracion_subproceso_api'
     ),
     url(
         r'^configuracion/usuarios/$',

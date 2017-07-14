@@ -11,6 +11,7 @@ from serviciosempleado.urls_rest import router_viaticos
 from seguridad.urls_rest import router_seguridad
 from capitalhumano.urls_rest import router_capitalhumano
 from seguridadlaboral.urls_rest import router_seguridadlaboral
+from calidad.urls_rest import router_calidad
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -20,6 +21,7 @@ urlpatterns = [
     url(r'^api-seguridad/', include(router_seguridad.urls)),
     url(r'^api-capitalhumano/', include(router_capitalhumano.urls)),
     url(r'^api-seguridadlaboral/', include(router_seguridadlaboral.urls)),
+    url(r'^api-calidad/', include(router_calidad.urls)),
 
     url(r'', include('compras.urls', namespace="compras")),
     url(r'', include('home.urls', namespace="home")),

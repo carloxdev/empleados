@@ -6,7 +6,7 @@ import os
 from ebs.models import VIEW_EMPLEADOS_FULL
 
 
-def get_FilePath_DocPersonal(instance, filename):
+def get_FilePath_Expedientes(instance, filename):
 
     numero_empleado = instance.content_object.numero_empleado
     empleado = VIEW_EMPLEADOS_FULL.objects.using(

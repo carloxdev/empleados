@@ -19,6 +19,8 @@ from .views import PerfilPuestoCargos
 from .views import PerfilOrganigrama
 from .views import EmpleadoExpedientes
 from .views import EmpleadoExpediente
+from .views import EmpleadoExpedientePerEliminar
+from .views import EmpleadoExpedienteCapEliminar
 
 urlpatterns = [
     url(
@@ -52,9 +54,19 @@ urlpatterns = [
         name='empleado_expedientes'
     ),
     url(
-        r'^expedientes/(?P<pk>\d+)/expediente/$',
+        r'^expedientes/(?P<_numero_empleado>\d+)/expediente/$',
         EmpleadoExpediente.as_view(),
         name='empleado_expediente'
+    ),
+    url(
+        r'^expedientes/(?P<_numero_empleado>\d+)/(?P<_pk>\d+)/expediente/eliminar/personal/$',
+        EmpleadoExpedientePerEliminar.as_view(),
+        name='empleado_expediente_eliminar_per'
+    ),
+    url(
+        r'^expedientes/(?P<_numero_empleado>\d+)/(?P<_pk>\d+)/expediente/eliminar/capacitacion/$',
+        EmpleadoExpedienteCapEliminar.as_view(),
+        name='empleado_expediente_eliminar_cap'
     ),
     url(
         r'^perfilpuesto/$',

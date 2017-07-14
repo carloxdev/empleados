@@ -2,6 +2,8 @@
 
 {% load static from staticfiles %}
 
+{% load custom_tags %}
+
 {% block titulo %} Configuración {% endblock titulo %}
 
 {% block title-page %} Configuración de Procesos y Subprocesos {% endblock title-page %}
@@ -12,7 +14,7 @@
    <link rel="stylesheet" href="{% static 'theme/lib/multiselect/css/multi-select.css' %}"/>
    
    <!-- bootstrap tree -->
-   <link rel="stylesheet" href="{% static 'libs/bootstrap-treeview/1.2.0/css/bootstrap-treeview.min.css' %}"/>
+   <link rel="stylesheet" href="{% static 'libs/bootstrap-treeview/1.2.0/css/bootstrap-treeview.css' %}"/>
 
    <!-- Nova -->
    <link rel="stylesheet" href="{% static 'grid.css' %}"/>
@@ -45,7 +47,7 @@
 
                </ul>
                <div class="actions">
-                  <a href="{% url 'calidad:configuracion_requisito_lista' %}" class="btn btn-xs btn-prev btn-default nova-a-tab">Criterios y Requisitos</a>
+                  <a href="{% url 'calidad:configuracion_criterio_lista' %}" class="btn btn-xs btn-prev btn-default nova-a-tab">Criterios y Requisitos</a>
                   <a class="btn btn-xs btn-next btn-default nova-a-tab nova-active-tab">Procesos</a>
                   <a href="{% url 'calidad:configuracion_aprobador_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Usuarios</a>
                   <a href="{% url 'calidad:configuracion_sitio_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Sitios</a>
@@ -89,14 +91,9 @@
                
             <form id="formulario_proceso" class="modal-body form-horizontal">
 
-               <div class="form-group">
-                  <label class="col-sm-3 nova-col-filter control-label">Proceso</label>
-                  <div class="col-sm-8 xs-pt-5">
-                     <input type="text" id="id_proceso" class="form-control input-xs">
-                  </div>
-               </div>                
+               {% tag_field_popup formularioProceso.proceso 3 8 %}
 
-               <div class="form-group">
+               <!--<div class="form-group">
                   <label class="col-sm-3 nova-col-filter control-label">Responsables</label>
                   <div class="col-sm-8 xs-pt-5">
                      <select id="id_responsable" multiple="multiple" name="id_responsable[]">
@@ -106,7 +103,8 @@
                         <option value="200300">200300 : Anahi Campos Fuentes</option>
                      </select>
                   </div>
-               </div>
+               </div>-->
+               {% tag_field_popup formularioProceso.responsable 3 8 %}
 
             </form><!-- Modal body-->
             <div class="modal-footer nova-modal-footer">
@@ -135,14 +133,9 @@
                <h3 class="modal-title">Nuevo Subproceso</h3>
             </div>
                
-            <form id="formulario_proceso" class="modal-body form-horizontal">
+            <form id="formulario_subproceso" class="modal-body form-horizontal">
 
-               <div class="form-group">
-                  <label class="col-sm-3 nova-col-filter control-label">Subproceso</label>
-                  <div class="col-sm-8 xs-pt-5">
-                     <input type="text" id="id_subproceso" class="form-control input-xs">
-                  </div>
-               </div>
+               {% tag_field_popup formularioSubproceso.subproceso 3 8 %}
 
             </form><!-- Modal body-->
             <div class="modal-footer nova-modal-footer">
@@ -171,7 +164,7 @@
    <script src="{% static 'theme/lib/quicksearch/jquery.quicksearch.min.js' %}" type="text/javascript"></script>
 
    <!-- bootstrap tree -->
-   <script src="{% static 'libs/bootstrap-treeview/1.2.0/js/bootstrap-treeview.min.js' %}" ></script>
+   <script src="{% static 'libs/bootstrap-treeview/1.2.0/js/bootstrap-treeview.js' %}" ></script>
 
    <!-- JS Template -->
    <script src="{% static 'proceso/configuracion_lista.js' %}"></script>      

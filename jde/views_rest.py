@@ -23,6 +23,7 @@ from .models import VIEW_UNIDADES
 from .models import VIEW_COMPANIAS
 from .models import VIEW_AUTORIZACIONES
 from .models import VIEW_RECEPCIONES
+from .models import VIEW_PROVEEDORES
 
 # Serializadores:
 from .serializers import VIEW_SCOMPRAS_Serializer
@@ -38,6 +39,7 @@ from .serializers import VM_PORF_COMPRAS_Serializer
 from .serializers import VM_PORF_CXC_Serializer
 from .serializers import VM_PORF_CXP_Serializer
 from .serializers import VM_PORF_NOMINA_Serializer
+from .serializers import VIEW_PROVEEDORES_Serializer
 
 # Paginadores:
 from .pagination import GenericPagination
@@ -54,6 +56,7 @@ from .filters import VM_PORF_COMPRAS_Filter
 from .filters import VM_PORF_CXC_Filter
 from .filters import VM_PORF_CXP_Filter
 from .filters import VM_PORF_NOMINA_Filter
+from .filters import VIEW_PROVEEDORES_Filter
 
 
 # ----------------- VIEW_SCOMPRAS ----------------- #
@@ -228,3 +231,26 @@ class VIEW_COMPANIAS_API(viewsets.ModelViewSet):
     queryset = VIEW_COMPANIAS.objects.using('jde_p').all()
     serializer_class = VIEW_COMPANIAS_Serializer
     permission_classes = (IsAuthenticated,)
+
+class VIEW_COMPANIAS_API(viewsets.ModelViewSet):
+    queryset = VIEW_COMPANIAS.objects.using('jde_p').all()
+    serializer_class = VIEW_COMPANIAS_Serializer
+    permission_classes = (IsAuthenticated,)   
+
+class VIEW_PROVEEDORES_API(viewsets.ModelViewSet):
+    queryset = VIEW_PROVEEDORES.objects.using('jde_p').all()
+    serializer_class = VIEW_PROVEEDORES_Serializer
+    permission_classes = (IsAuthenticated,)
+
+class VIEW_PROVEEDORES_ByPageAPI(viewsets.ModelViewSet):
+    queryset = VIEW_PROVEEDORES.objects.using('jde_p').all()
+    serializer_class = VIEW_PROVEEDORES_Serializer
+    permission_classes = (IsAuthenticated,) 
+    queryset = VIEW_PROVEEDORES.objects.using('jde_p').all()
+    serializer_class = VIEW_PROVEEDORES_Serializer
+    pagination_class = GenericPagination
+    filter_backends = (DjangoFilterBackend,)
+    filter_class = VIEW_PROVEEDORES_Filter
+    permission_classes = (IsAuthenticated,)
+   
+   
