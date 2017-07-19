@@ -632,6 +632,29 @@
 				});
 			}
 
+			// Add button tags for fathers whith an extra accion as badges
+			if (_this.options.showTags && node.buttonTagsAccion) {
+				$.each(node.buttonTagsAccion, function addButtonTags(id, btnTag) {
+					treeItem
+						.append($(_this.template.badge)
+							.append($(_this.template.buttonDelete).attr({id: "fd_"+btnTag.id})
+							)
+						)
+						.append($(_this.template.badge)
+							.append($(_this.template.buttonEdit).attr({id: "fe_"+btnTag.id})
+							)
+						)
+						.append($(_this.template.badge)
+							.append($(_this.template.buttonNew).attr({id: "fn_"+btnTag.id})
+							)
+						)
+						.append($(_this.template.badge)
+							.append($(_this.template.buttonAccion).attr({id: "fa_"+btnTag.id})
+							)
+						)
+				});
+			}
+
 			// Add button tags for childs as badges
 			if (_this.options.showTags && node.buttonTagsHijo) {
 				$.each(node.buttonTagsHijo, function addButtonTags(id, btnTagChild) {
@@ -733,9 +756,10 @@
 		icon: '<span class="icon"></span>',
 		link: '<a href="#" style="color:inherit;"></a>',
 		badge: '<span class="badge"></span>',
-		buttonNew: '<a href="#" data-toggle="modal" id="" data-event="agregar"> <i class="icon icon-lista icon-black mdi mdi-plus-circle"></i> </a>',
-		buttonEdit: '<a href="#" data-toggle="modal" id="" id_padre="" data-event="editar"> <i class="icon icon-lista icon-black mdi mdi-edit"></i> </a>',
-		buttonDelete: '<a href="#" data-toggle="modal" id="" data-event="eliminar"> <i class="icon icon-lista icon-black mdi mdi-delete"></i> </a>',
+		buttonAccion: '<a href="#" data-toggle="modal" id="" data-event="accion"> <i class="icon icon-lista icon-black mdi mdi-account-add icon-18"></i> </a>',
+		buttonNew: '<a href="#" data-toggle="modal" id="" data-event="agregar"> <i class="icon icon-lista icon-black mdi mdi-plus-circle icon-18"></i> </a>',
+		buttonEdit: '<a href="#" data-toggle="modal" id="" id_padre="" data-event="editar"> <i class="icon icon-lista icon-black mdi mdi-edit icon-18"></i> </a>',
+		buttonDelete: '<a href="#" data-toggle="modal" id="" data-event="eliminar"> <i class="icon icon-lista icon-black mdi mdi-delete icon-18"></i> </a>',
 		negrita: '<strong></strong>',
 	};
 

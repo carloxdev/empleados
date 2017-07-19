@@ -131,7 +131,7 @@ urlpatterns = [
     url(
         r'^configuracion/usuarios/$',
         ConfiguracionUsuarioLista.as_view(),
-        name="configuracion_aprobador_lista"
+        name="configuracion_usuario_lista"
     ),
     url(
         r'^configuracion/sitios/$',

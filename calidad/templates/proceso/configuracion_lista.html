@@ -6,7 +6,7 @@
 
 {% block titulo %} Configuración {% endblock titulo %}
 
-{% block title-page %} Configuración de Procesos y Subprocesos {% endblock title-page %}
+{% block title-page %} Configuración de Procesos {% endblock title-page %}
 
 {% block css %}
 
@@ -26,7 +26,7 @@
 <div class="be-content">
 
    <div class="page-head nova-page-head">
-      <h2 class="page-head-title nova-title">Configuración de Procesos y Subprocesos</h2>
+      <h2 class="page-head-title nova-title">Configuración de Procesos</h2>
       <ol class="breadcrumb page-head-nav pull-right">
          <li><a href="{% url 'home:inicio' %}">Inicio</a></li>
          <li id="menu" data-opcion="calidad_configuracion"><a>Configuración</a></li>
@@ -47,9 +47,9 @@
 
                </ul>
                <div class="actions">
-                  <a href="{% url 'calidad:configuracion_criterio_lista' %}" class="btn btn-xs btn-prev btn-default nova-a-tab">Criterios y Requisitos</a>
+                  <a href="{% url 'calidad:configuracion_criterio_lista' %}" class="btn btn-xs btn-prev btn-default nova-a-tab">Criterios</a>
                   <a class="btn btn-xs btn-next btn-default nova-a-tab nova-active-tab">Procesos</a>
-                  <a href="{% url 'calidad:configuracion_aprobador_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Usuarios</a>
+                  <a href="{% url 'calidad:configuracion_usuario_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Usuarios</a>
                   <a href="{% url 'calidad:configuracion_sitio_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Sitios</a>
                   <a href="{% url 'calidad:configuracion_metodologia_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Metodologías</a>
                   <a href="{% url 'calidad:configuracion_tipo_falla_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Descripciones</a>
@@ -59,17 +59,16 @@
                <div class="panel panel-default">
 
                   <div class="panel-heading nova-panel-borde-contenido nova-panel-tools">
-                     <button class="btn nova-btn btn-rounded btn-sm btn-space btn-success pull-right" id="boton_excel">
+                     <button class="btn nova-btn btn-rounded btn-sm btn-space btn-success pull-right" id="id_boton_importar">
                         <i class="icon icon-left mdi mdi-download nova-white"></i> Importar
                      </button>
-                     <a href="#id_tarjeta_nuevo_proceso"
-                        class="btn nova-btn btn-rounded btn-sm btn-space btn-default pull-right" data-toggle="modal" id="boton_nuevo_proceso">
+                     <a class="btn nova-btn btn-rounded btn-sm btn-space btn-default pull-right" data-toggle="modal" id="id_boton_nuevo_proceso">
                         <i class="icon icon-left mdi mdi-plus-circle nova-black"></i> Proceso
                      </a>
                   </div><!-- Panel Heading -->
 
                   <!-- arbol -->
-                  <div id="id_arbol_criterios_requisitos" class="nova-panel-arbol">
+                  <div id="id_arbol" class="nova-panel-arbol">
                   </div>
 
                </div> <!-- Panel --> 
@@ -79,32 +78,19 @@
       
    </div> <!-- main content -->
 
-   <!-- Targeta nuevo proceso -->
-   <div id="id_tarjeta_nuevo_proceso" role="dialog" class="modal fade colored-header colored-header-primary">
+   <!-- Tarjeta proceso -->
+   <div id="id_tarjeta_proceso" data-primaryKey="" role="dialog" class="modal fade colored-header colored-header-primary">
       <div class="modal-dialog custom-width">
          <div class="modal-content">
-            
+   
             <div class="modal-header nova-modal-header">
                <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
-               <h3 class="modal-title">Nuevo Proceso y Responsables</h3>
+               <h3 id="id_popup_proceso_titulo" class="modal-title"></h3>
             </div>
                
-            <form id="formulario_proceso" class="modal-body form-horizontal">
+            <form id="id_formulario_proceso" class="modal-body form-horizontal">
 
-               {% tag_field_popup formularioProceso.proceso 3 8 %}
-
-               <!--<div class="form-group">
-                  <label class="col-sm-3 nova-col-filter control-label">Responsables</label>
-                  <div class="col-sm-8 xs-pt-5">
-                     <select id="id_responsable" multiple="multiple" name="id_responsable[]">
-                        <option value="200006">200006 : Jose Gutierrez Zacarias</option>
-                        <option value="200301">200301 : Javier Hernandez Gomez</option>
-                        <option value="200200">200200 : Fernanda Fuentes Rocio</option>
-                        <option value="200300">200300 : Anahi Campos Fuentes</option>
-                     </select>
-                  </div>
-               </div>-->
-               {% tag_field_popup formularioProceso.responsable 3 8 %}
+               {% tag_field_popup formularioProceso.proceso 2 9 %}
 
             </form><!-- Modal body-->
             <div class="modal-footer nova-modal-footer">
@@ -113,7 +99,7 @@
                      Cerrar
                   </button>
 
-                  <button type="button" id="boton_modal_guardar" class="btn nova-btn btn-primary btn-lg pull-right">
+                  <button type="button" id="id_boton_guardar_proceso" class="btn nova-btn btn-primary btn-lg pull-right">
                      <i class="icon icon-left mdi mdi-floppy nova-white"></i>
                      Guardar
                   </button>
@@ -122,18 +108,76 @@
          </div> <!-- Modal content-->
       </div> <!-- Modal dialog -->
    </div><!-- Modal -->
+   
+   <!-- Tarjeta responsable -->
+   <div id="id_tarjeta_responsable" data-primaryKey="" role="dialog" class="modal fade colored-header colored-header-primary">
+      <div class="modal-dialog modal-lg">
+         <div class="modal-content nova-modal-maxwidth">
+   
+            <div class="modal-header nova-modal-header">
+               <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
+               <h3 class="modal-title">Responsables</h3>
+            </div>
+               
+            <form id="id_formulario_responsable" class="modal-body form-horizontal">
 
-   <!-- Targeta nuevo subproceso -->
-   <div id="id_tarjeta_nuevo_subproceso" role="dialog" class="modal fade colored-header colored-header-primary">
+               <div class="form-group">
+                  
+                  <!-- responsable -->
+                  <div class="col-sm-offset-1 col-sm-8">
+
+                     {{ formularioResponsable.responsable }} 
+                     
+                  </div>
+                  <div class="col-sm-2">
+                     <button type="button" id="id_boton_agregar" class="btn nova-btn btn-success pull-right">
+                        <i class="icon icon-left mdi mdi-plus nova-white"></i>
+                        Agregar
+                     </button>
+                  </div>
+
+               </div>
+               <div class="nova-tabla-popup">
+                  <div class="nova-div-overflow">
+                     <table class="table table-bordered table-hover" id="id_grid_usuario">
+                        <thead>
+                           <tr>
+                              <th class="nova-columna-acciones"></th>
+                              <th>Nombre</th>
+                              <th>No. Empleado</th>
+                           </tr>
+                        </thead>
+                        <tbody id="id_tbody_responsables">
+                           
+                        </tbody>
+                     </table>
+                  </div>
+               </div>
+
+            </form><!-- Modal body-->
+            <div class="modal-footer nova-modal-footer">
+               <div class="row col-sm-12">
+                  <button type="button" data-dismiss="modal" id="id_boton_aceptar" class="btn nova-btn btn-primary btn-lg pull-right">
+                     <i class="icon icon-left mdi mdi-check nova-white"></i>
+                     Aceptar
+                  </button>
+               </div>
+            </div>
+         </div> <!-- Modal content-->
+      </div> <!-- Modal dialog -->
+   </div><!-- Modal -->
+
+   <!-- Tarjeta nuevo subproceso -->
+   <div id="id_tarjeta_subproceso" data-primaryKey="" data-primarykeyParent="" role="dialog" class="modal fade colored-header colored-header-primary">
       <div class="modal-dialog custom-width">
          <div class="modal-content">
             
             <div class="modal-header nova-modal-header">
                <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
-               <h3 class="modal-title">Nuevo Subproceso</h3>
+               <h3 id="id_popup_subproceso_titulo" class="modal-title"></h3>
             </div>
                
-            <form id="formulario_subproceso" class="modal-body form-horizontal">
+            <form id="id_formulario_subproceso" class="modal-body form-horizontal">
 
                {% tag_field_popup formularioSubproceso.subproceso 3 8 %}
 
@@ -144,7 +188,7 @@
                      Cerrar
                   </button>
 
-                  <button type="button" id="boton_modal_guardar" class="btn nova-btn btn-primary btn-lg pull-right">
+                  <button type="button" id="id_boton_guardar_subproceso" class="btn nova-btn btn-primary btn-lg pull-right">
                      <i class="icon icon-left mdi mdi-floppy nova-white"></i>
                      Guardar
                   </button>

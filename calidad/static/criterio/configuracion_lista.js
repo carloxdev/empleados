@@ -55,7 +55,7 @@ ToolBar.prototype.init_Events = function () {
 }
 ToolBar.prototype.click_BotonNuevo = function (e) {
 
-   popup_criterio.$accion = "nuevo"
+   popup_criterio.mostrar(0, "nuevo")
 }
 
 /*-----------------------------------------------*\
@@ -96,11 +96,12 @@ PopupFiltros.prototype.click_BotonLimpiar = function (e) {
 function PopupCriterio() {
    
    this.$id = $('#id_tarjeta_criterio')
-   this.$formulario_criterio = $('#formulario_criterio')
+   this.$id_formulario = $('#id_formulario_criterio')
    this.$id_clasificacion_criterio = $('#id_clasificacion_criterio')
    this.$id_criterio = $('#id_criterio')
    this.$id_boton_guardar_criterio = $('#id_boton_guardar_criterio')
    this.$accion
+   this.$id_titulo = $('#id_popup_criterio_titulo')
 
    this.init_Components()
    this.init_Events()
@@ -118,6 +119,15 @@ PopupCriterio.prototype.mostrar = function (_id, _accion) {
 
    this.$id.modal("show").attr("data-primaryKey", _id)
    this.$accion = _accion
+
+   if (_accion == "nuevo") {
+
+      this.$id_titulo.text('Nuevo Criterio de Auditoria')
+   }
+   else {
+
+      this.$id_titulo.text('Editar Criterio de Auditoria')
+   }
 }
 PopupCriterio.prototype.set_Data = function (_pk) {
    
@@ -141,13 +151,19 @@ PopupCriterio.prototype.validar = function () {
    var bandera = true
 
    if ( this.$id_clasificacion_criterio.val() == "") {
-      this.$id_clasificacion_criterio.parents('div.form-group').addClass("has-error")
+
+      this.$id_clasificacion_criterio.data('select2').$selection.addClass("nova-has-error");
       bandera = false
    }
 
    if ( this.$id_criterio.val() == "") {
-      this.$id_criterio.parents('div.form-group').addClass("has-error")
+      
+      this.$id_criterio.addClass("nova-has-error")
       bandera = false
+   }
+
+   if ( !bandera ){
+      this.$id_formulario.prepend('<span id="id_mensaje_error">Completa los campos marcados en rojo.</span>')
    }
 
    return bandera
@@ -159,16 +175,19 @@ PopupCriterio.prototype.hidden_Modal = function (e) {
 }
 PopupCriterio.prototype.clear_Estilos = function (e) {
 
-   e.data.$id_clasificacion_criterio.parents('div.form-group').removeClass("has-error")
-   e.data.$id_criterio.parents('div.form-group').removeClass("has-error")
+   e.data.$id_clasificacion_criterio.data('select2').$selection.removeClass("nova-has-error");
+   e.data.$id_criterio.removeClass("nova-has-error")
+   e.data.$id_formulario.find('#id_mensaje_error').remove()
 }
 PopupCriterio.prototype.clear_Formulario = function (e) {
 
    e.data.$id_clasificacion_criterio.data('select2').val(0)
    e.data.$id_criterio.val("")
-   e.data.$formulario_criterio.get(0).reset()
+   e.data.$id_formulario.get(0).reset()
 }
 PopupCriterio.prototype.click_BotonGuardar = function (e) {
+
+   e.data.clear_Estilos(e)
 
    if (e.data.$accion == "nuevo") {
 
@@ -259,7 +278,7 @@ Arbol.prototype.cargar_Datos = function (_expandir) {
          )
          if (_expandir) {
 
-            arbol.$id.treeview('expandNode',[parseInt(nodoSeleccionado)])
+            this.$id.treeview('expandNode',[parseInt(nodoSeleccionado)])
          }
          this.init_Events()
       },
@@ -392,10 +411,11 @@ Arbol.prototype.limpiar = function () {
 function PopupRequisito() {
 
    this.$id = $('#id_tarjeta_requisito')
-   this.$id_formulario_requisito = $('#id_formulario_requisito')
+   this.$id_formulario = $('#id_formulario_requisito')
    this.$id_requisito = $('#id_requisito')
    this.$id_boton_guardar_requisito = $('#id_boton_guardar_requisito')
    this.$accion
+   this.$id_titulo = $('#id_popup_requisito_titulo')
    this.init_Events()
 }
 PopupRequisito.prototype.init_Events = function () {
@@ -405,6 +425,8 @@ PopupRequisito.prototype.init_Events = function () {
 }
 PopupRequisito.prototype.click_BotonGuardar = function (e) {
    
+   e.data.clear_Estilos(e)
+
    var pk = e.data.$id.attr("data-primarykey").slice(3)
 
    if (e.data.$accion == "nuevo") {
@@ -469,8 +491,13 @@ PopupRequisito.prototype.validar = function () {
 
    if ( this.$id_requisito.val() == "") {
 
-      this.$id_requisito.parents('div.form-group').addClass("has-error")
+      this.$id_requisito.addClass("nova-has-error")
       bandera = false
+   }
+
+   if ( !bandera ){
+
+      this.$id_formulario.prepend('<span id="id_mensaje_error">Completa los campos marcados en rojo.</span>')
    }
 
    return bandera
@@ -479,6 +506,15 @@ PopupRequisito.prototype.mostrar = function (_id, _accion, _id_padre) {
 
    this.$id.modal("show").attr({"data-primaryKey": _id, "data-primarykeyParent": _id_padre})
    this.$accion = _accion
+
+   if (_accion == "nuevo") {
+
+      this.$id_titulo.text('Nuevo Requisito')
+   }
+   else {
+
+      this.$id_titulo.text('Editar Requisito')
+   }
 }
 PopupRequisito.prototype.set_Data = function (_pk) {
 
@@ -503,10 +539,11 @@ PopupRequisito.prototype.hidden_Modal = function (e) {
 }
 PopupRequisito.prototype.clear_Estilos = function (e) {
 
-   e.data.$id_requisito.parents('div.form-group').removeClass("has-error")
+   e.data.$id_requisito.removeClass("nova-has-error")
+   e.data.$id_formulario.find('#id_mensaje_error').remove()
 }
 PopupRequisito.prototype.clear_Formulario = function (e) {
 
    e.data.$id_requisito.val("")
-   e.data.$id_formulario_requisito.get(0).reset()
+   e.data.$id_formulario.get(0).reset()
 }

@@ -6,6 +6,8 @@ from .view_rest import CriterioAPI
 from .view_rest import RequisitoAPI
 from .view_rest import ProcesoAPI
 from .view_rest import SubprocesoAPI
+from .view_rest import ResponsableAPI
+from .view_rest import UsuarioAPI
 
 router_calidad = routers.DefaultRouter()
 
@@ -32,4 +34,16 @@ router_calidad.register(
     r'subproceso',
     SubprocesoAPI,
     'subproceso'
+)
+
+router_calidad.register(
+    r'responsable',
+    ResponsableAPI,
+    'responsable'
+)
+
+router_calidad.register(
+    r'usuario',
+    UsuarioAPI,
+    'usuario'
 )

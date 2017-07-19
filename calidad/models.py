@@ -116,8 +116,35 @@ class Subproceso(models.Model):
         return "%s" % (self.subproceso)
 
 
+class Responsable(models.Model):
+    nombre_completo = models.CharField(max_length=240)
+    numero_empleado = models.CharField(max_length=30)
+    proceso = models.ForeignKey(Proceso)
+    create_by = models.CharField(max_length=240, blank=True)
+    create_date = models.DateTimeField(
+        auto_now=False,
+        auto_now_add=True,
+        null=True,
+        blank=True
+    )
+    update_by = models.CharField(max_length=240, blank=True)
+    update_date = models.DateTimeField(
+        auto_now=True,
+        auto_now_add=False,
+        null=True,
+        blank=True
+    )
+
+    def __str__(self):
+        return "%s" % (self.nombre_completo)
+
+    def __unicode__(self):
+        return "%s" % (self.nombre_completo)
+
+
 class Usuario(models.Model):
     nombre_completo = models.CharField(max_length=240)
+    numero_empleado = models.CharField(max_length=30)
     rol = models.CharField(max_length=30)
     create_by = models.CharField(max_length=240, blank=True)
     create_date = models.DateTimeField(
@@ -133,13 +160,38 @@ class Usuario(models.Model):
         null=True,
         blank=True
     )
-    # compania
 
     def __str__(self):
         return "%s" % (self.nombre_completo)
 
     def __unicode__(self):
         return "%s" % (self.nombre_completo)
+
+
+class CompaniaAccion(models.Model):
+    compania_codigo = models.CharField(max_length=5)
+    compania = models.CharField(max_length=160)
+    usuario = models.ForeignKey(Usuario)
+    create_by = models.CharField(max_length=240, blank=True)
+    create_date = models.DateTimeField(
+        auto_now=False,
+        auto_now_add=True,
+        null=True,
+        blank=True
+    )
+    update_by = models.CharField(max_length=240, blank=True)
+    update_date = models.DateTimeField(
+        auto_now=True,
+        auto_now_add=False,
+        null=True,
+        blank=True
+    )
+
+    def __str__(self):
+        return "%s" % (self.subproceso)
+
+    def __unicode__(self):
+        return "%s" % (self.subproceso)
 
 
 class Sitio(models.Model):

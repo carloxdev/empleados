@@ -4,10 +4,16 @@ import json
 
 # Librerias Django
 from rest_framework import serializers
+from rest_framework.validators import UniqueTogetherValidator
 
 # Modelos
 from .models import Criterio
 from .models import Requisito
+from .models import Proceso
+from .models import Subproceso
+from .models import Responsable
+from .models import Usuario
+from .models import CompaniaAccion
 
 
 class CriterioSerializer(serializers.HyperlinkedModelSerializer):
@@ -86,11 +92,10 @@ class RequisitoSerilizado(object):
 class ProcesoSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
-        model = Criterio
+        model = Proceso
         fields = (
             'pk',
-            'criterio',
-            'clasificacion',
+            'proceso',
             'create_by',
             'create_date',
             'update_by',
@@ -101,11 +106,11 @@ class ProcesoSerializer(serializers.HyperlinkedModelSerializer):
 class SubprocesoSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
-        model = Requisito
+        model = Subproceso
         fields = (
             'pk',
-            'requisito',
-            'criterio',
+            'subproceso',
+            'proceso',
             'create_by',
             'create_date',
             'update_by',
@@ -127,12 +132,12 @@ class SubprocesoSerilizado(object):
             estado = {}
             estado["expanded"] = False
 
-            nodo["textBlack"] = daddy.criterio + (' - ') + daddy.clasificacion
+            nodo["textBlack"] = daddy.proceso
             nodo["state"] = estado
-            nodo["buttonTags"] = [
+            nodo["buttonTagsAccion"] = [
                 {"id": str(daddy.id)},
             ]
-            hijos = Requisito.objects.filter(criterio=daddy)
+            hijos = Subproceso.objects.filter(proceso=daddy)
 
             if len(hijos):
                 lista_hijos = []
@@ -140,7 +145,7 @@ class SubprocesoSerilizado(object):
                 for hijo in hijos:
 
                     nodoHijo = {}
-                    nodoHijo["text"] = hijo.requisito
+                    nodoHijo["text"] = hijo.subproceso
                     nodoHijo["buttonTagsHijo"] = [
                         {"id": str(hijo.id), "id_padre": str(daddy.id)},
                     ]
@@ -154,3 +159,69 @@ class SubprocesoSerilizado(object):
         lista_json = json.dumps(self.lista)
 
         return lista_json
+
+
+class ResponsableSerializer(serializers.HyperlinkedModelSerializer):
+
+    proceso_id = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Responsable
+        fields = (
+            'pk',
+            'nombre_completo',
+            'numero_empleado',
+            'proceso',
+            'proceso_id',
+            'create_by',
+            'create_date',
+            'update_by',
+            'update_date',
+        )
+
+        validators = [
+            UniqueTogetherValidator(
+                queryset=Responsable.objects.all(),
+                fields=('numero_empleado', 'proceso'),
+                message="Este empleado ya está incluido"
+            )
+        ]
+
+    def get_proceso_id(self, obj):
+
+        try:
+            return obj.proceso.id
+        except:
+            return ""
+
+
+class UsuarioSerializer(serializers.HyperlinkedModelSerializer):
+
+    class Meta:
+        model = Usuario
+        fields = (
+            'pk',
+            'nombre_completo',
+            'numero_empleado',
+            'rol',
+            'create_by',
+            'create_date',
+            'update_by',
+            'update_date',
+        )
+
+
+class CompaniaAccionSerializer(serializers.HyperlinkedModelSerializer):
+
+    class Meta:
+        model = CompaniaAccion
+        fields = (
+            'pk',
+            'compania_codigo',
+            'compania',
+            'usuario',
+            'create_by',
+            'create_date',
+            'update_by',
+            'update_date',
+        )

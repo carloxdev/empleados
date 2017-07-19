@@ -2,6 +2,8 @@
 
 {% load static from staticfiles %}
 
+{% load custom_tags %}
+
 {% block titulo %} Configuración {% endblock titulo %}
 
 {% block title-page %} Configuración Usuarios {% endblock title-page %}
@@ -26,7 +28,7 @@
       </ol>
    </div>
 
-   <!-- Targeta Formulario -->
+   <!-- Tarjeta Formulario -->
    <div class="main-content container-fluid nova-main-content">
 
       <div class="row wizard-row">
@@ -40,7 +42,7 @@
 
                   </ul>
                   <div class="actions">
-                     <a href="{% url 'calidad:configuracion_criterio_lista' %}" class="btn btn-xs btn-prev btn-default nova-a-tab">Criterios y Requisitos</a>
+                     <a href="{% url 'calidad:configuracion_criterio_lista' %}" class="btn btn-xs btn-prev btn-default nova-a-tab">Criterios</a>
                      <a href="{% url 'calidad:configuracion_proceso_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab">Procesos</a>
                      <a class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab nova-active-tab">Usuarios</a>
                      <a href="{% url 'calidad:configuracion_sitio_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Sitios</a>
@@ -56,8 +58,7 @@
                         class="btn nova-btn btn-rounded btn-sm btn-space btn-primary pull-right" data-toggle="modal" id="id_boton_filtros">
                         <i class="icon icon-left mdi mdi-search nova-white"></i> Filtros
                      </a>
-                     <a href="#id_tarjeta_nuevo_usuario"
-                        class="btn nova-btn btn-rounded btn-sm btn-space btn-default pull-right" data-toggle="modal" id="id_boton_nuevo_usuario">
+                     <a class="btn nova-btn btn-rounded btn-sm btn-space btn-default pull-right" data-toggle="modal" id="id_boton_nuevo_usuario">
                         <i class="icon icon-left mdi mdi-plus-circle nova-black"></i> Usuario
                      </a>
                   </div><!-- Panel Heading -->
@@ -73,54 +74,36 @@
                            </tr>
                         </thead>
                         <tbody>
+
+                        {% if usuarios %}
+
+                           {% for usuario in usuarios %}
+
+                              <tr class="clickable-row">
+                                 <td>
+                                    <a class="btn nova-btn btn-default nova-btn-delete">
+                                       <i class="icon icon-left icon mdi mdi-delete nova-white"></i>
+                                    </a>
+                                 </td>
+                                 <td class="nova-aling-center">
+                                    <a href="#id_tarjeta_compania" class="btn btn-default" data-toggle="modal">
+                                       <i class="icon icon-left icon mdi mdi-plus nova-black"></i>
+                                    </a>
+                                 </td>
+                                 <td>
+                                    <a href="#id_tarjeta_usuario" class="btn btn-default nova-url" data-toggle="modal">Diana Castillo Hernandez</a>
+                                 </td>
+                                 <td>Auditor lider</td>
+                              </tr>
+
+                           {% endfor %}
+
+                        {% else %}
                            <tr class="clickable-row">
-                              <td>
-                                 <a class="btn nova-btn btn-default nova-btn-delete">
-                                    <i class="icon icon-left icon mdi mdi-delete nova-white"></i>
-                                 </a>
-                              </td>
-                              <td>
-                                 <a href="#id_tarjeta_compania" class="btn btn-default" data-toggle="modal">
-                                    <i class="icon icon-left icon mdi mdi-plus nova-black"></i>
-                                 </a>
-                              </td>
-                              <td>
-                                 <a href="#id_tarjeta_nuevo_usuario" class="btn btn-default nova-url" data-toggle="modal">Diana Castillo Hernandez</a>
-                              </td>
-                              <td>Auditor lider</td>
+                              <td colspan="4" class="nova-aling-center nova-sin-resultados">No se encontraron resultados.</td>
                            </tr>
-                           <tr class="clickable-row">
-                              <td>
-                                 <a class="btn nova-btn btn-default nova-btn-delete">
-                                    <i class="icon icon-left icon mdi mdi-delete nova-white"></i>
-                                 </a>
-                              </td>
-                              <td>
-                                 <a href="#id_tarjeta_compania" class="btn btn-default" data-toggle="modal">
-                                    <i class="icon icon-left icon mdi mdi-plus nova-black"></i>
-                                 </a>
-                              </td>
-                              <td>
-                                 <a href="#id_tarjeta_nuevo_usuario" class="btn btn-default nova-url" data-toggle="modal">Luis Alberto Lopez Gonzalez</a>  
-                              </td>
-                              <td>Aprobador</td>
-                           </tr>
-                           <tr class="clickable-row">
-                              <td>
-                                 <a class="btn nova-btn btn-default nova-btn-delete">
-                                    <i class="icon icon-left icon mdi mdi-delete nova-white"></i>
-                                 </a>
-                              </td>
-                              <td>
-                                 <a href="#id_tarjeta_compania" class="btn btn-default" data-toggle="modal">
-                                    <i class="icon icon-left icon mdi mdi-plus nova-black"></i>
-                                 </a>
-                              </td>
-                              <td>
-                                 <a href="#id_tarjeta_nuevo_usuario" class="btn btn-default nova-url" data-toggle="modal">Carlos Rodriguez Mendez</a>
-                              </td>
-                              <td>Auditor</td>
-                           </tr>
+                        {% endif %}
+                           
                         </tbody>
                      </table>
                   </div>
@@ -133,41 +116,21 @@
    </div> <!-- main content -->
 </div> <!-- be content -->
    
-   <!-- Targeta Nuevo -->
-   <div id="id_tarjeta_nuevo_usuario" role="dialog" class="modal fade colored-header colored-header-primary">
+   <!-- Tarjeta Nuevo usuario-->
+   <div id="id_tarjeta_usuario" data-primaryKey="" role="dialog" class="modal fade colored-header colored-header-primary">
       <div class="modal-dialog custom-width">
          <div class="modal-content">
             
             <div class="modal-header nova-modal-header">
                <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
-               <h3 class="modal-title">Nuevo usuario</h3>
+               <h3 id="id_popup_usuario_titulo" class="modal-title"></h3>
             </div>
                
             <form id="id_formulario_usuario" class="modal-body form-horizontal">
 
-               <div class="form-group">
-                  <label class="col-sm-3 nova-col-filter control-label">Empleado</label>
-                  <div class="col-sm-8 xs-pt-5">
-                     <select class="select2 select2-hidden-accessible" tabindex="-1" aria-hidden="true" id="id_empleado">
-                        <option value="" selected="selected">-------</option>
-                        <option value="JPJ">Diana Castillo Hernandez</option>
-                        <option value="LALG">Luis Alberto Lopez Gonzalez</option>
-                     </select>
-                  </div>
-               </div>
+               {% tag_field_popup formularioUsuario.empleado 2 9 %}
 
-               <div class="form-group">
-                  <label class="col-sm-3 nova-col-filter control-label">Rol</label>
-                  <div class="col-sm-8 xs-pt-5">
-                     <select class="select2 select2-hidden-accessible" tabindex="-1" aria-hidden="true" id="id_rol">
-                        <option value="" selected="selected">-------</option>
-                        <option value="LALG">Aprobador</option>
-                        <option value="JPJ">Auditor lider</option>
-                        <option value="LALG">Autorizador</option>
-                        <option value="LALG">Auditor interno</option>
-                     </select>
-                  </div>
-               </div>
+               {% tag_field_popup formularioUsuario.rol 2 9 %}
 
             </form><!-- Modal body-->
             <div class="modal-footer nova-modal-footer">
@@ -176,7 +139,7 @@
                      Cerrar
                   </button>
 
-                  <button type="button" id="id_boton_guardar" class="btn nova-btn btn-primary btn-lg pull-right">
+                  <button type="button" id="id_boton_guardar_usuario" class="btn nova-btn btn-primary btn-lg pull-right">
                      <i class="icon icon-left mdi mdi-floppy nova-white"></i>
                      Guardar
                   </button>
@@ -198,25 +161,9 @@
                
             <form id="formulario_filtro" class="modal-body form-horizontal">
 
-               <div class="form-group">
-                  <label class="col-sm-3 nova-col-filter control-label">Empleado</label>
-                  <div class="col-sm-7 xs-pt-5">
-                     <input type="text" class="form-control input-xs" name="" id="id_empleado_filtro">
-                  </div>
-               </div>
+               {% tag_field_popup formularioUsuarioFiltro.empleado_filtro 2 9 %}
 
-               <div class="form-group">
-                  <label class="col-sm-3 nova-col-filter control-label">Rol</label>
-                  <div class="col-sm-7 xs-pt-5">
-                     <select class="select2 select2-hidden-accessible" tabindex="-1" aria-hidden="true" id="id_rol_filtro">
-                        <option value="" selected="selected">-------</option>
-                        <option value="LALG">Aprobador</option>
-                        <option value="JPJ">Auditor lider</option>
-                        <option value="LALG">Autorizador</option>
-                        <option value="LALG">Auditor interno</option>
-                     </select>
-                  </div>
-               </div>
+               {% tag_field_popup formularioUsuarioFiltro.rol_filtro 2 9 %}
 
             </form><!-- Modal body-->
             <div class="modal-footer nova-modal-footer">
@@ -240,10 +187,10 @@
       </div> <!-- Modal dialog -->
    </div><!-- Modal -->
 
-   <!-- Targeta Compania -->
-   <div id="id_tarjeta_compania" role="dialog" class="modal fade colored-header colored-header-primary">
-      <div class="modal-dialog custom-width">
-         <div class="modal-content">
+   <!-- Tarjeta Compania -->
+   <div id="id_tarjeta_compania" data-primaryKey="" role="dialog" class="modal fade colored-header colored-header-primary">
+      <div class="modal-dialog modal-lg">
+         <div class="modal-content nova-modal-maxwidth">
             
             <div class="modal-header nova-modal-header">
                <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
@@ -252,22 +199,26 @@
                
             <form id="id_formulario_compania" class="modal-body form-horizontal">
                
-                  <!-- responsable -->
-                  <div class="form-group">
-                     <div class="col-sm-12 xs-pt-5"><!--Agregar una etiqueta de titulo que diga guardado + nombre -->
-                        <select id="id_responsable" multiple="multiple" name="id_responsable[]">
-                           <option value="200006">00001 : SIC</option>
-                           <option value="200301">00002 : GEOLIS</option>
-                           <option value="200200">00003 : MET</option>
-                           <option value="200300">00004 : TINGLO</option>
-                        </select>
-                     </div>
-                     {% for error in form.responsable.errors %}
-                        <span class="help-block">{{ error }}</span>
-                     {% endfor %}
+               <div class="form-group">
+
+                  <!-- compania -->
+                  <div class="col-sm-offset-1 col-sm-10">
+
+                     {{ formulariocompaniaUsuario.compania }}
+
                   </div>
+
+               </div>
                
             </form><!-- Modal body-->
+            <div class="modal-footer nova-modal-footer">
+               <div class="row col-sm-12">
+                  <button type="button" id="id_boton_aceptar" class="btn nova-btn btn-primary btn-lg pull-right">
+                     <i class="icon icon-left mdi mdi-check nova-white"></i>
+                     Aceptar
+                  </button>
+               </div>
+            </div>
          </div> <!-- Modal content-->
       </div> <!-- Modal dialog -->
    </div><!-- Modal -->

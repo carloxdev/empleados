@@ -15,7 +15,8 @@ from django.http import HttpResponse
 
 # Modelos:
 from .models import Criterio
-from .models import Requisito
+from .models import Proceso
+from .models import Usuario
 
 # Otros Modelos:
 
@@ -26,9 +27,14 @@ from .forms import RequisitoFilterForm
 from .forms import RequisitoForm
 from .forms import ProcesoForm
 from .forms import SubprocesoForm
+from .forms import ResponsableForm
+from .forms import UsuarioForm
+from .forms import UsuarioFilterForm
+from .forms import CompaniaUsuarioForm
 
 # Serializadore:
 from .serializers import RequisitoSerilizado
+from .serializers import SubprocesoSerilizado
 
 
 # ----------------- CALIDAD - Dashboard ----------------- #
@@ -277,13 +283,29 @@ class ConfiguracionProcesoLista(View):
 
         formularioProceso = ProcesoForm()
         formularioSubproceso = SubprocesoForm()
+        formularioResponsable = ResponsableForm()
 
         contexto = {
             'formularioProceso': formularioProceso,
             'formularioSubproceso': formularioSubproceso,
+            'formularioResponsable': formularioResponsable
         }
 
         return render(request, self.template_name, contexto)
+
+
+class ConfiguracionSubprocesoAPI(View):
+
+    def get(self, request):
+
+        daddies = Proceso.objects.all()
+
+        serializador = SubprocesoSerilizado()
+        lista_json = serializador.get_Json(daddies)
+        return HttpResponse(
+            lista_json,
+            content_type="application/json"
+        )
 
 
 class ConfiguracionUsuarioLista(View):
@@ -292,13 +314,19 @@ class ConfiguracionUsuarioLista(View):
 
     def get(self, request):
 
-        # formulario = EmpleadoFilterForm()
+        formularioUsuario = UsuarioForm()
+        formularioUsuarioFiltro = UsuarioFilterForm()
+        formulariocompaniaUsuario = CompaniaUsuarioForm()
+        usuarios = Usuario.objects.all()
 
-        # contexto = {
-        #     'form': formulario
-        # }
+        contexto = {
+            'formularioUsuario': formularioUsuario,
+            'formularioUsuarioFiltro': formularioUsuarioFiltro,
+            'formulariocompaniaUsuario': formulariocompaniaUsuario,
+            'usuarios': usuarios,
+        }
 
-        return render(request, self.template_name, {})
+        return render(request, self.template_name, contexto)
 
 
 class ConfiguracionSitioLista(View):

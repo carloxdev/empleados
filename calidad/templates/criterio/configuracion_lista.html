@@ -6,7 +6,7 @@
 
 {% block titulo %} Configuración {% endblock titulo %}
 
-{% block title-page %} Configuración Criterios y Requisitos {% endblock title-page %}
+{% block title-page %} Configuración Criterios {% endblock title-page %}
 
 {% block css %}
 
@@ -46,7 +46,7 @@
                <div class="actions">
                   <a class="btn btn-xs btn-prev btn-default nova-a-tab nova-active-tab">Criterios</a>
                   <a href="{% url 'calidad:configuracion_proceso_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab">Procesos</a>
-                  <a href="{% url 'calidad:configuracion_aprobador_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Usuarios</a>
+                  <a href="{% url 'calidad:configuracion_usuario_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Usuarios</a>
                   <a href="{% url 'calidad:configuracion_sitio_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Sitios</a>
                   <a href="{% url 'calidad:configuracion_metodologia_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Metodologías</a>
                   <a href="{% url 'calidad:configuracion_tipo_falla_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Descripciones</a>
@@ -63,8 +63,7 @@
                      class="btn nova-btn btn-rounded btn-sm btn-space btn-primary pull-right" data-toggle="modal" id="id_boton_filtro">
                      <i class="icon icon-left mdi mdi-search nova-white"></i> Filtros
                   </a>
-                  <a href="#id_tarjeta_criterio"
-                     class="btn nova-btn btn-rounded btn-sm btn-space btn-default pull-right" data-toggle="modal" id="id_boton_nuevo_criterio">
+                  <a class="btn nova-btn btn-rounded btn-sm btn-space btn-default pull-right" data-toggle="modal" id="id_boton_nuevo_criterio">
                      <i class="icon icon-left mdi mdi-plus-circle nova-black"></i> Criterio
                   </a>
                </div><!-- Panel Heading -->
@@ -88,30 +87,28 @@
             
             <div class="modal-header nova-modal-header">
                <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
-               <h3 class="modal-title">Nuevo Criterio de Auditoria</h3>
+               <h3 id="id_popup_criterio_titulo" class="modal-title"></h3>
             </div>
-            <form id="formulario_criterio" method="POST"> {% csrf_token %}
+            <form id="id_formulario_criterio" method="POST" class="modal-body form-horizontal"> {% csrf_token %}
+   
+               {% tag_field_popup formularioCriterio.clasificacion 3 8 %}
 
-               <div class="modal-body form-horizontal">
-                  
-                  {% tag_field_popup formularioCriterio.clasificacion 3 8 %}
+               {% tag_field_popup formularioCriterio.criterio 3 8 %}
 
-                  {% tag_field_popup formularioCriterio.criterio 3 8 %}
+            </form>   
+            <div class="modal-footer nova-modal-footer">
+                <div class="row col-sm-12">
+                  <button type="button" data-dismiss="modal" class="btn btn-default pull-left">
+                     Cerrar
+                  </button>
 
-               </div> <!-- Modal body-->
-               <div class="modal-footer nova-modal-footer">
-                   <div class="row col-sm-12">
-                     <button type="button" data-dismiss="modal" class="btn btn-default pull-left">
-                        Cerrar
-                     </button>
-
-                     <button type="button" id="id_boton_guardar_criterio" class="btn nova-btn btn-primary btn-lg pull-right">
-                        <i class="icon icon-left mdi mdi-floppy nova-white"></i>
-                        Guardar
-                     </button>
-                  </div>
+                  <button type="button" id="id_boton_guardar_criterio" class="btn nova-btn btn-primary btn-lg pull-right">
+                     <i class="icon icon-left mdi mdi-floppy nova-white"></i>
+                     Guardar
+                  </button>
                </div>
-            </form>
+            </div>
+            
          </div> <!-- Modal content-->
       </div> <!-- Modal dialog -->
    </div><!-- Modal -->
@@ -159,7 +156,7 @@
             
             <div class="modal-header nova-modal-header">
                <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
-               <h3 class="modal-title">Nuevo Requisito</h3>
+               <h3 id="id_popup_requisito_titulo" class="modal-title"></h3>
             </div>
                
             <form id="id_formulario_requisito" class="modal-body form-horizontal">
