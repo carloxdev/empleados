@@ -39,3 +39,4 @@ seguridad/migrations/*
 seguridadlaboral/migrations/*
 serviciosempleado/migrations/*
 sgi/migrations/*
+rsc/migrations/*
