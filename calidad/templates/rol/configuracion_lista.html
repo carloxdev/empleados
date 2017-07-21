@@ -6,7 +6,7 @@
 
 {% block titulo %} Configuración {% endblock titulo %}
 
-{% block title-page %} Configuración Usuarios {% endblock title-page %}
+{% block title-page %} Configuración Rol {% endblock title-page %}
 
 {% block css %}
    
@@ -20,11 +20,11 @@
 <div class="be-content">
 
    <div class="page-head nova-page-head">
-      <h2 class="page-head-title nova-title">Configuración de Usuarios</h2>
+      <h2 class="page-head-title nova-title">Configuración de Rol</h2>
       <ol class="breadcrumb page-head-nav pull-right">
          <li><a href="{% url 'home:inicio' %}">Inicio</a></li>
          <li id="menu" data-opcion="calidad_configuracion"><a>Configuración</a></li>
-         <li class="active">Usuarios</li>
+         <li class="active">Rol</li>
       </ol>
    </div>
 
@@ -44,7 +44,7 @@
                   <div class="actions">
                      <a href="{% url 'calidad:configuracion_criterio_lista' %}" class="btn btn-xs btn-prev btn-default nova-a-tab">Criterios</a>
                      <a href="{% url 'calidad:configuracion_proceso_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab">Procesos</a>
-                     <a class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab nova-active-tab">Usuarios</a>
+                     <a class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab nova-active-tab">Roles</a>
                      <a href="{% url 'calidad:configuracion_sitio_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Sitios</a>
                      <a href="{% url 'calidad:configuracion_metodologia_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Metodologías</a>
                      <a href="{% url 'calidad:configuracion_tipo_falla_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Descripciones</a>
@@ -58,49 +58,53 @@
                         class="btn nova-btn btn-rounded btn-sm btn-space btn-primary pull-right" data-toggle="modal" id="id_boton_filtros">
                         <i class="icon icon-left mdi mdi-search nova-white"></i> Filtros
                      </a>
-                     <a class="btn nova-btn btn-rounded btn-sm btn-space btn-default pull-right" data-toggle="modal" id="id_boton_nuevo_usuario">
-                        <i class="icon icon-left mdi mdi-plus-circle nova-black"></i> Usuario
+                     <a class="btn nova-btn btn-rounded btn-sm btn-space btn-default pull-right" data-toggle="modal" id="id_boton_nuevo_rol">
+                        <i class="icon icon-left mdi mdi-plus-circle nova-black"></i> Roles
                      </a>
                   </div><!-- Panel Heading -->
 
                   <div class="nova-div-overflow">
-                     <table class="table table-bordered table-hover" id="id_grid_usuario">
+                     <table class="table table-bordered table-hover" id="id_grid_personal_rol">
                         <thead>
                            <tr>
                               <th class="nova-columna-acciones"></th>
                               <th class="nova-columna-acciones">Compañias</th>
+                              <th>No. Empleado</th>
                               <th>Nombre</th>
                               <th>Rol</th>
                            </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="id_tbody_roles">
 
-                        {% if usuarios %}
+                        {% if roles %}
 
-                           {% for usuario in usuarios %}
+                           {% for rol in roles %}
 
                               <tr class="clickable-row">
                                  <td>
-                                    <a class="btn nova-btn btn-default nova-btn-delete">
+                                    <a class="btn nova-btn btn-default nova-btn-delete" data-id="{{rol.pk}}" data-event="eliminarRol">
                                        <i class="icon icon-left icon mdi mdi-delete nova-white"></i>
                                     </a>
                                  </td>
                                  <td class="nova-aling-center">
-                                    <a href="#id_tarjeta_compania" class="btn btn-default" data-toggle="modal">
+                                    <a class="btn btn-default" data-toggle="modal" data-id="{{rol.pk}}" data-event="agregarCompania">
                                        <i class="icon icon-left icon mdi mdi-plus nova-black"></i>
                                     </a>
                                  </td>
                                  <td>
-                                    <a href="#id_tarjeta_usuario" class="btn btn-default nova-url" data-toggle="modal">Diana Castillo Hernandez</a>
+                                    {{rol.numero_empleado}}
                                  </td>
-                                 <td>Auditor lider</td>
+                                 <td>
+                                    <a class="btn btn-default nova-url" data-event="editarRol" data-id="{{rol.pk}}">{{rol.nombre_completo}}</a>
+                                 </td>
+                                 <td>{{rol.rol}}</td>
                               </tr>
 
                            {% endfor %}
 
                         {% else %}
                            <tr class="clickable-row">
-                              <td colspan="4" class="nova-aling-center nova-sin-resultados">No se encontraron resultados.</td>
+                              <td colspan="5" class="nova-aling-center nova-sin-resultados">No se encontraron resultados.</td>
                            </tr>
                         {% endif %}
                            
@@ -116,35 +120,40 @@
    </div> <!-- main content -->
 </div> <!-- be content -->
    
-   <!-- Tarjeta Nuevo usuario-->
-   <div id="id_tarjeta_usuario" data-primaryKey="" role="dialog" class="modal fade colored-header colored-header-primary">
+   <!-- Tarjeta Nuevo rol-->
+   <div id="id_tarjeta_rol" data-primaryKey="" role="dialog" class="modal fade colored-header colored-header-primary">
       <div class="modal-dialog custom-width">
          <div class="modal-content">
             
             <div class="modal-header nova-modal-header">
                <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
-               <h3 id="id_popup_usuario_titulo" class="modal-title"></h3>
+               <h3 id="id_popup_rol_titulo" class="modal-title"></h3>
             </div>
                
-            <form id="id_formulario_usuario" class="modal-body form-horizontal">
+            <form id="id_formulario_rol" method="POST">{% csrf_token %}
+               
+               <div class="modal-body form-horizontal">
 
-               {% tag_field_popup formularioUsuario.empleado 2 9 %}
+                  {% tag_field_popup formularioRol.empleado 2 9 %}
 
-               {% tag_field_popup formularioUsuario.rol 2 9 %}
+                  {% tag_field_popup formularioRol.rol 2 9 %}
 
-            </form><!-- Modal body-->
-            <div class="modal-footer nova-modal-footer">
-                <div class="row col-sm-12">
-                  <button type="button" data-dismiss="modal" class="btn btn-default pull-left">
-                     Cerrar
-                  </button>
+               </div><!-- Modal body-->
 
-                  <button type="button" id="id_boton_guardar_usuario" class="btn nova-btn btn-primary btn-lg pull-right">
-                     <i class="icon icon-left mdi mdi-floppy nova-white"></i>
-                     Guardar
-                  </button>
+            
+               <div class="modal-footer nova-modal-footer">
+                   <div class="row col-sm-12">
+                     <button type="button" data-dismiss="modal" class="btn btn-default pull-left">
+                        Cerrar
+                     </button>
+
+                     <button type="button" id="id_boton_guardar_rol" class="btn nova-btn btn-primary btn-lg pull-right">
+                        <i class="icon icon-left mdi mdi-floppy nova-white"></i>
+                        Guardar
+                     </button>
+                  </div>
                </div>
-            </div>
+            </form>
          </div> <!-- Modal content-->
       </div> <!-- Modal dialog -->
    </div><!-- Modal -->
@@ -161,9 +170,9 @@
                
             <form id="formulario_filtro" class="modal-body form-horizontal">
 
-               {% tag_field_popup formularioUsuarioFiltro.empleado_filtro 2 9 %}
+               {% tag_field_popup formularioRolFiltro.empleado_filtro 2 9 %}
 
-               {% tag_field_popup formularioUsuarioFiltro.rol_filtro 2 9 %}
+               {% tag_field_popup formularioRolFiltro.rol_filtro 2 9 %}
 
             </form><!-- Modal body-->
             <div class="modal-footer nova-modal-footer">
@@ -191,29 +200,51 @@
    <div id="id_tarjeta_compania" data-primaryKey="" role="dialog" class="modal fade colored-header colored-header-primary">
       <div class="modal-dialog modal-lg">
          <div class="modal-content nova-modal-maxwidth">
-            
+   
             <div class="modal-header nova-modal-header">
                <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
                <h3 class="modal-title">Compañias</h3>
             </div>
                
             <form id="id_formulario_compania" class="modal-body form-horizontal">
-               
+
                <div class="form-group">
+                  
+                  <!-- responsable -->
+                  <div class="col-sm-offset-1 col-sm-8">
 
-                  <!-- compania -->
-                  <div class="col-sm-offset-1 col-sm-10">
-
-                     {{ formulariocompaniaUsuario.compania }}
-
+                     {{ formulariocompaniaRol.compania }} 
+                     
+                  </div>
+                  <div class="col-sm-2">
+                     <button type="button" id="id_boton_agregar" class="btn nova-btn btn-success pull-right">
+                        <i class="icon icon-left mdi mdi-plus nova-white"></i>
+                        Agregar
+                     </button>
                   </div>
 
                </div>
-               
+               <div class="nova-tabla-popup">
+                  <div class="nova-div-overflow">
+                     <table class="table table-bordered table-hover" id="id_grid_compania">
+                        <thead>
+                           <tr>
+                              <th class="nova-columna-acciones"></th>
+                              <th>Clave</th>
+                              <th>Compañia</th>
+                           </tr>
+                        </thead>
+                        <tbody id="id_tbody_compania">
+                           
+                        </tbody>
+                     </table>
+                  </div>
+               </div>
+
             </form><!-- Modal body-->
             <div class="modal-footer nova-modal-footer">
                <div class="row col-sm-12">
-                  <button type="button" id="id_boton_aceptar" class="btn nova-btn btn-primary btn-lg pull-right">
+                  <button type="button" data-dismiss="modal" id="id_boton_aceptar" class="btn nova-btn btn-primary btn-lg pull-right">
                      <i class="icon icon-left mdi mdi-check nova-white"></i>
                      Aceptar
                   </button>
@@ -232,6 +263,6 @@
    <script src="{% static 'theme/lib/quicksearch/jquery.quicksearch.min.js' %}" type="text/javascript"></script>
 
    <!-- JS Template -->
-   <script src="{% static 'usuario/configuracion_lista.js' %}"></script>      
+   <script src="{% static 'rol/configuracion_lista.js' %}"></script>      
 
 {% endblock scripts %}

@@ -7,7 +7,11 @@ from .view_rest import RequisitoAPI
 from .view_rest import ProcesoAPI
 from .view_rest import SubprocesoAPI
 from .view_rest import ResponsableAPI
-from .view_rest import UsuarioAPI
+from .view_rest import RolAPI
+from .view_rest import CompaniaAPI
+from .view_rest import SitioAPI
+from .view_rest import FallaAPI
+from .view_rest import MetodologiaAPI
 
 router_calidad = routers.DefaultRouter()
 
@@ -43,7 +47,27 @@ router_calidad.register(
 )
 
 router_calidad.register(
-    r'usuario',
-    UsuarioAPI,
-    'usuario'
+    r'rol',
+    RolAPI,
+    'rol'
+)
+router_calidad.register(
+    r'compania',
+    CompaniaAPI,
+    'compania'
+)
+router_calidad.register(
+    r'sitio',
+    SitioAPI,
+    'sitio'
+)
+router_calidad.register(
+    r'metodologia',
+    MetodologiaAPI,
+    'metodologia'
+)
+router_calidad.register(
+    r'falla',
+    FallaAPI,
+    'falla'
 )

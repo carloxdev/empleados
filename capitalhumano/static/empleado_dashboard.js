@@ -433,9 +433,9 @@ IndicadorEstadoCivil.prototype.get_EstadoCivil = function (_response, _organizac
          (_response[i].pers_tipo_codigo != '1118')){
             if((_response[i].asig_organizacion_clave == _organizacion) || (_organizacion == 0)){
                // Cuenta el numero de empleados separados por su estado civil
-               if (_response[i].pers_estado_civil_desc == 'Cazad@'){
+               if (_response[i].pers_estado_civil_desc == 'Casado'){
                   estado[0] += 1
-               } else if (_response[i].pers_estado_civil_desc == 'Solter@'){
+               } else if (_response[i].pers_estado_civil_desc == 'Soltero'){
                   estado[1] += 1
                } else if (_response[i].pers_estado_civil_desc == '-'){
                   estado[2] += 1

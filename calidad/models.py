@@ -7,6 +7,7 @@ from django.db import models
 # from simple_history.models import HistoricalRecords
 
 # Otros Modelos:
+from administracion.models import Empresa
 
 
 class Criterio(models.Model):
@@ -142,7 +143,7 @@ class Responsable(models.Model):
         return "%s" % (self.nombre_completo)
 
 
-class Usuario(models.Model):
+class Rol(models.Model):
     nombre_completo = models.CharField(max_length=240)
     numero_empleado = models.CharField(max_length=30)
     rol = models.CharField(max_length=30)
@@ -171,7 +172,7 @@ class Usuario(models.Model):
 class CompaniaAccion(models.Model):
     compania_codigo = models.CharField(max_length=5)
     compania = models.CharField(max_length=160)
-    usuario = models.ForeignKey(Usuario)
+    personal_rol = models.ForeignKey(Rol)
     create_by = models.CharField(max_length=240, blank=True)
     create_date = models.DateTimeField(
         auto_now=False,
@@ -188,10 +189,10 @@ class CompaniaAccion(models.Model):
     )
 
     def __str__(self):
-        return "%s" % (self.subproceso)
+        return "%s" % (self.compania)
 
     def __unicode__(self):
-        return "%s" % (self.subproceso)
+        return "%s" % (self.compania)
 
 
 class Sitio(models.Model):
@@ -243,8 +244,8 @@ class Metodologia(models.Model):
 
 
 class Falla(models.Model):
-    falla = models.CharField(max_length=300)
     codigo = models.CharField(max_length=16)
+    falla = models.CharField(max_length=300)
     create_by = models.CharField(max_length=240, blank=True)
     create_date = models.DateTimeField(
         auto_now=False,
@@ -273,6 +274,7 @@ class Formato(models.Model):
     vigencia_inicio = models.DateField()
     codigo = models.CharField(max_length=16)
     descripcion = models.CharField(max_length=220)
+    compania = models.ForeignKey(Empresa)
     create_by = models.CharField(max_length=240, blank=True)
     create_date = models.DateTimeField(
         auto_now=False,
@@ -287,7 +289,6 @@ class Formato(models.Model):
         null=True,
         blank=True
     )
-    # compania
 
     def __str__(self):
         return "%s" % (self.titulo)

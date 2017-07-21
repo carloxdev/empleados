@@ -85,7 +85,7 @@ PopupProceso.prototype.mostrar = function (_id, _accion) {
 
       this.$id_titulo.text('Nuevo Proceso')
    }
-   else {
+   else if (_accion == "editar") {
 
       this.$id_titulo.text('Editar Proceso')
    }
@@ -111,7 +111,7 @@ PopupProceso.prototype.validar = function () {
    var bandera = true
 
    if ( this.$id_proceso.val() == "") {
-      this.$id_proceso.parents('div.form-group').addClass("has-error")
+      this.$id_proceso.addClass("nova-has-error")
       bandera = false
    }
 
@@ -123,11 +123,12 @@ PopupProceso.prototype.validar = function () {
 }
 PopupProceso.prototype.hidden_Modal = function (e) {
 
+   e.data.clear_Estilos(e)
    e.data.clear_Formulario(e)
 }
 PopupProceso.prototype.clear_Estilos = function (e) {
 
-   e.data.$id_proceso.parents('div.form-group').removeClass("has-error")
+   e.data.$id_proceso.removeClass("nova-has-error")
    e.data.$id_formulario.find('#id_mensaje_error').remove()
 }
 PopupProceso.prototype.clear_Formulario = function (e) {
@@ -359,7 +360,7 @@ function PopupResponsable() {
    this.$id_tbody = $('#id_tbody_responsables')
    this.$id_boton_agregar = $('#id_boton_agregar')
    this.$accion
-   this.$id_grid = $('#id_grid_usuario')
+   this.$id_grid = $('#id_grid_responsable')
 
    this.init_Components()
    this.init_Events()
@@ -456,15 +457,22 @@ PopupResponsable.prototype.cargarSeleccionados = function () {
          proceso_id: pk_proceso,
       },
       success: function (_response) {
-         for (var i = 0; i < _response.length; i++) {
+         if (_response.length) {
+            for (var i = 0; i < _response.length; i++) {
+               this.$id_tbody.append(  '<tr class="clickable-row">' +
+                                          '<td> ' +
+                                             '<a data-event="eliminarResponsable" class="btn nova-btn btn-default nova-btn-delete" id="'+_response[i].pk+'">' +
+                                                '<i class="icon icon-left icon mdi mdi-delete nova-white"></i>' +
+                                             '</a>' +
+                                          '</td>' +
+                                          '<td>'+ _response[i].numero_empleado +'</td>' +
+                                          '<td>'+ _response[i].nombre_completo +'</td>' +
+                                       '</tr>')
+            }
+         }
+         else {
             this.$id_tbody.append(  '<tr class="clickable-row">' +
-                                       '<td> ' +
-                                          '<a data-event="eliminarResponsable" class="btn nova-btn btn-default nova-btn-delete" id="'+_response[i].pk+'">' +
-                                             '<i class="icon icon-left icon mdi mdi-delete nova-white"></i>' +
-                                          '</a>' +
-                                       '</td>' +
-                                       '<td>'+ _response[i].numero_empleado +'</td>' +
-                                       '<td>'+ _response[i].nombre_completo +'</td>' +
+                                       '<td colspan="3" class="nova-aling-center nova-sin-resultados">Sin empleados asignados.</td>' +
                                     '</tr>')
          }
       },
@@ -616,7 +624,7 @@ PopupSubproceso.prototype.hidden_Modal = function (e) {
 }
 PopupSubproceso.prototype.clear_Estilos = function (e) {
 
-   e.data.$id_subproceso.parents('div.form-group').removeClass("has-error")
+   e.data.$id_subproceso.removeClass("nova-has-error")
    e.data.$id_formulario.find('#id_mensaje_error').remove()
 }
 PopupSubproceso.prototype.clear_Formulario = function (e) {

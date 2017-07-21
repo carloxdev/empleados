@@ -2,6 +2,8 @@
 
 {% load static from staticfiles %}
 
+{% load custom_tags %}
+
 {% block titulo %} Configuración {% endblock titulo %}
 
 {% block title-page %} Configuración Descripciones {% endblock title-page %}
@@ -46,7 +48,7 @@
                   <div class="actions">
                      <a href="{% url 'calidad:configuracion_criterio_lista' %}" class="btn btn-xs btn-prev btn-default nova-a-tab">Criterios</a>
                      <a href="{% url 'calidad:configuracion_proceso_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab">Procesos</a>
-                     <a href="{% url 'calidad:configuracion_usuario_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Usuarios</a>
+                     <a href="{% url 'calidad:configuracion_rol_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Roles</a>
                      <a href="{% url 'calidad:configuracion_sitio_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Sitios</a>
                      <a href="{% url 'calidad:configuracion_metodologia_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Metodologías</a>
                      <a class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab nova-active-tab">Descripciones</a>
@@ -56,8 +58,7 @@
                <div class="panel panel-default panel-table">
 
                   <div class="panel-heading nova-panel-borde-contenido nova-panel-tools">
-                     <a href="#id_tarjeta_tipo_falla"
-                        class="btn nova-btn btn-sm btn-rounded btn-space btn-default pull-right" data-toggle="modal" id="id_boton_nuevo">
+                     <a class="btn nova-btn btn-sm btn-rounded btn-space btn-default pull-right" id="id_boton_nuevo">
                         <i class="icon icon-left mdi mdi-plus-circle nova-black"></i> Descripción
                      </a>
                   </div><!-- Panel Heading -->
@@ -72,7 +73,7 @@
       
    </div> <!-- main content -->
    <!-- Targeta Nuevo -->
-   <div id="id_tarjeta_tipo_falla" role="dialog" class="modal fade colored-header colored-header-primary">
+   <div id="id_tarjeta_falla" role="dialog" class="modal fade colored-header colored-header-primary">
       <div class="modal-dialog custom-width">
          <div class="modal-content">
             
@@ -81,15 +82,13 @@
                <h3 class="modal-title">Nuevo Tipo de Descripción</h3>
             </div>
                
-            <form id="id_formulario_aprobador" class="modal-body form-horizontal">
+            <form id="id_formulario_falla" class="modal-body form-horizontal">
                
-               <!-- tipo_falla -->
-               <div class="form-group">
-                  <label class="col-sm-3 nova-col-filter control-label"> Descripción</label>
-                  <div class="col-sm-8 xs-pt-5">
-                     <input class="form-control input-xs" type="text" name="" id="id_tipo_falla">
-                  </div>
-               </div>                
+               <!-- codigo -->
+               {% tag_field_popup form.codigo 3 8 %}
+               
+               <!-- falla -->
+               {% tag_field_popup form.falla 3 8 %}
 
             </form><!-- Modal body-->
             <div class="modal-footer nova-modal-footer">
@@ -98,7 +97,7 @@
                      Cerrar
                   </button>
 
-                  <button type="button" id="id_boton_guardar" class="btn nova-btn btn-primary btn-lg pull-right">
+                  <button type="button" id="id_boton_guardar_falla" class="btn nova-btn btn-primary btn-lg pull-right">
                      <i class="icon icon-left mdi mdi-floppy nova-white"></i>
                      Guardar
                   </button>

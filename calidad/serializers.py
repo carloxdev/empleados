@@ -5,6 +5,7 @@ import json
 # Librerias Django
 from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator
+from rest_framework.validators import UniqueValidator
 
 # Modelos
 from .models import Criterio
@@ -12,8 +13,11 @@ from .models import Requisito
 from .models import Proceso
 from .models import Subproceso
 from .models import Responsable
-from .models import Usuario
+from .models import Rol
 from .models import CompaniaAccion
+from .models import Sitio
+from .models import Metodologia
+from .models import Falla
 
 
 class CriterioSerializer(serializers.HyperlinkedModelSerializer):
@@ -195,10 +199,10 @@ class ResponsableSerializer(serializers.HyperlinkedModelSerializer):
             return ""
 
 
-class UsuarioSerializer(serializers.HyperlinkedModelSerializer):
+class RolSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
-        model = Usuario
+        model = Rol
         fields = (
             'pk',
             'nombre_completo',
@@ -210,8 +214,17 @@ class UsuarioSerializer(serializers.HyperlinkedModelSerializer):
             'update_date',
         )
 
+        # validators = [
+        #     UniqueValidator(
+        #         queryset=personal_rol.objects.filter(rol="dos"),
+        #         message="Este empleado"
+        #     )
+        # ]
+
 
 class CompaniaAccionSerializer(serializers.HyperlinkedModelSerializer):
+
+    personal_rol_id = serializers.SerializerMethodField()
 
     class Meta:
         model = CompaniaAccion
@@ -219,7 +232,66 @@ class CompaniaAccionSerializer(serializers.HyperlinkedModelSerializer):
             'pk',
             'compania_codigo',
             'compania',
-            'usuario',
+            'personal_rol',
+            'personal_rol_id',
+            'create_by',
+            'create_date',
+            'update_by',
+            'update_date',
+        )
+
+        validators = [
+            UniqueTogetherValidator(
+                queryset=CompaniaAccion.objects.all(),
+                fields=('compania_codigo', 'personal_rol'),
+                message="Esta compañia ya está incluida"
+            )
+        ]
+
+    def get_personal_rol_id(self, obj):
+
+        try:
+            return obj.personal_rol.id
+        except:
+            return ""
+
+
+class SitioSerializer(serializers.HyperlinkedModelSerializer):
+
+    class Meta:
+        model = Sitio
+        fields = (
+            'pk',
+            'sitio',
+            'create_by',
+            'create_date',
+            'update_by',
+            'update_date',
+        )
+
+
+class MetodologiaSerializer(serializers.HyperlinkedModelSerializer):
+
+    class Meta:
+        model = Metodologia
+        fields = (
+            'pk',
+            'metodologia',
+            'create_by',
+            'create_date',
+            'update_by',
+            'update_date',
+        )
+
+
+class FallaSerializer(serializers.HyperlinkedModelSerializer):
+
+    class Meta:
+        model = Falla
+        fields = (
+            'pk',
+            'codigo',
+            'falla',
             'create_by',
             'create_date',
             'update_by',

@@ -24,7 +24,9 @@ from .views import ConfiguracionCriterioLista
 from .views import ConfiguracionRequisitoAPI
 from .views import ConfiguracionSubprocesoAPI
 from .views import ConfiguracionProcesoLista
-from .views import ConfiguracionUsuarioLista
+from .views import ConfiguracionRolLista
+# from .views import ConfiguracionRolNuevo
+# from .views import ConfiguracionRolEditar
 from .views import ConfiguracionSitioLista
 # from .views import ConfiguracionContratoLista
 from .views import ConfiguracionMetodologiaLista
@@ -129,10 +131,20 @@ urlpatterns = [
         name='configuracion_subproceso_api'
     ),
     url(
-        r'^configuracion/usuarios/$',
-        ConfiguracionUsuarioLista.as_view(),
-        name="configuracion_usuario_lista"
+        r'^configuracion/roles/$',
+        ConfiguracionRolLista.as_view(),
+        name="configuracion_rol_lista"
     ),
+    # url(
+    #     r'^configuracion/roles/nuevo/$',
+    #     ConfiguracionRolNuevo.as_view(),
+    #     name="configuracion_rol_nuevo"
+    # ),
+    # url(
+    #     r'^configuracion/roles/editar/$',
+    #     ConfiguracionRolLista.as_view(),
+    #     name="configuracion_rol_editar"
+    # ),
     url(
         r'^configuracion/sitios/$',
         ConfiguracionSitioLista.as_view(),

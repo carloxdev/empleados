@@ -5,6 +5,14 @@
 # Librerias/Clases Django
 from django.shortcuts import render
 from django.views.generic.base import View
+from django.views.generic.edit import CreateView
+from django.views.generic.edit import UpdateView
+from django.shortcuts import get_object_or_404
+from django.shortcuts import redirect
+from django.core.urlresolvers import reverse_lazy
+
+# Django Urls:
+from django.core.urlresolvers import reverse
 
 # Django Urls:
 from django.http import HttpResponse
@@ -16,7 +24,7 @@ from django.http import HttpResponse
 # Modelos:
 from .models import Criterio
 from .models import Proceso
-from .models import Usuario
+from .models import Rol
 
 # Otros Modelos:
 
@@ -28,9 +36,12 @@ from .forms import RequisitoForm
 from .forms import ProcesoForm
 from .forms import SubprocesoForm
 from .forms import ResponsableForm
-from .forms import UsuarioForm
-from .forms import UsuarioFilterForm
-from .forms import CompaniaUsuarioForm
+from .forms import RolForm
+from .forms import RolFilterForm
+from .forms import CompaniaRolForm
+from .forms import SitioForm
+from .forms import MetodologiaForm
+from .forms import FallaForm
 
 # Serializadore:
 from .serializers import RequisitoSerilizado
@@ -308,25 +319,142 @@ class ConfiguracionSubprocesoAPI(View):
         )
 
 
-class ConfiguracionUsuarioLista(View):
+class ConfiguracionRolLista(View):
+
     def __init__(self):
-        self.template_name = 'usuario/configuracion_lista.html'
+        self.template_name = 'rol/configuracion_lista.html'
 
     def get(self, request):
 
-        formularioUsuario = UsuarioForm()
-        formularioUsuarioFiltro = UsuarioFilterForm()
-        formulariocompaniaUsuario = CompaniaUsuarioForm()
-        usuarios = Usuario.objects.all()
-
+        formularioRol = RolForm()
+        formularioRolFiltro = RolFilterForm()
+        formularioCompaniaRol = CompaniaRolForm()
+        roles = Rol.objects.all()
         contexto = {
-            'formularioUsuario': formularioUsuario,
-            'formularioUsuarioFiltro': formularioUsuarioFiltro,
-            'formulariocompaniaUsuario': formulariocompaniaUsuario,
-            'usuarios': usuarios,
+            'formularioRol': formularioRol,
+            'formularioRolFiltro': formularioRolFiltro,
+            'formularioCompaniaRol': formularioCompaniaRol,
+            'roles': roles,
         }
 
         return render(request, self.template_name, contexto)
+
+    # def post(self, request):
+
+    #     formulario = RolForm(request.POST)
+
+    #     if formulario.is_valid():
+    #         datos_formulario = formulario.cleaned_data
+    #         rol = Rol()
+    #         texto = datos_formulario.get('empleado')
+    #         datos = texto.split(":")
+    #         numero_empleado = datos[0]
+    #         nombre_completo = datos[1]
+    #         rol.numero_empleado = numero_empleado
+    #         rol.nombre_completo = nombre_completo
+    #         rol.rol = datos_formulario.get('rol')
+    #         rol.save()
+
+    #         return redirect(reverse('calidad:configuracion_rol_lista'))
+
+    #     contexto = {
+    #         'form': formulario,
+    #         'operation': 'Nuevo',
+    #     }
+
+    #     return render(request, self.template_name, contexto)
+
+
+# class ConfiguracionRolNuevo(View):
+
+#     def __init__(self):
+#         self.template_name = 'rol/configuracion_lista.html'
+
+#     def get(self, request):
+
+#         formularioRol = RolForm()
+#         formularioRolFiltro = RolFilterForm()
+#         formularioCompaniaRol = CompaniaRolForm()
+#         roles = Rol.objects.all()
+#         contexto = {
+#             'formularioRol': formularioRol,
+#             'formularioRolFiltro': formularioRolFiltro,
+#             'formularioCompaniaRol': formularioCompaniaRol,
+#             'roles': roles,
+#         }
+#         return render(request, self.template_name, contexto)
+
+#     def post(self, request):
+#         formulario = RolForm(request.POST)
+
+#         if formulario.is_valid():
+#             datos_formulario = formulario.cleaned_data
+#             rol = Rol()
+#             texto = datos_formulario.get('empleado')
+#             datos = texto.split(":")
+#             numero_empleado = datos[0]
+#             nombre_completo = datos[1]
+#             rol.numero_empleado = numero_empleado
+#             rol.nombre_completo = nombre_completo
+#             rol.rol = datos_formulario.get('rol')
+#             rol.save()
+
+#             return redirect(reverse('calidad:configuracion_rol_lista'))
+
+#         contexto = {
+#             'form': formulario,
+#             'operation': 'Nuevo',
+#         }
+
+#         return render(request, self.template_name, contexto)
+
+
+# class ConfiguracionRolEditar(View):
+
+#     def __init__(self):
+#         self.template_name = 'rol/configuracion_lista.html'
+
+#     def get(self, request):
+
+#         formularioRol = RolForm()
+#         formularioRolFiltro = RolFilterForm()
+#         formularioCompaniaRol = CompaniaRolForm()
+#         roles = Rol.objects.all()
+#         contexto = {
+#             'formularioRol': formularioRol,
+#             'formularioRolFiltro': formularioRolFiltro,
+#             'formularioCompaniaRol': formularioCompaniaRol,
+#             'roles': roles,
+#         }
+
+#         return render(request, self.template_name, contexto)
+
+#     def post(self, request):
+
+#         rol = get_object_or_404(Rol, pk=pk)
+
+#         formulario = RolForm(request.POST)
+
+#         if formulario.is_valid():
+#             datos_formulario = formulario.cleaned_data
+#             rol = Rol()
+#             texto = datos_formulario.get('empleado')
+#             datos = texto.split(":")
+#             numero_empleado = datos[0]
+#             nombre_completo = datos[1]
+#             rol.numero_empleado = numero_empleado
+#             rol.nombre_completo = nombre_completo
+#             rol.rol = datos_formulario.get('rol')
+#             rol.save()
+
+#             return redirect(reverse('calidad:configuracion_rol_lista'))
+
+#         contexto = {
+#             'form': formulario,
+#             'operation': 'Nuevo',
+#         }
+
+#         return render(request, self.template_name, contexto)
 
 
 class ConfiguracionSitioLista(View):
@@ -335,13 +463,13 @@ class ConfiguracionSitioLista(View):
 
     def get(self, request):
 
-        # formulario = EmpleadoFilterForm()
+        formulario = SitioForm()
 
-        # contexto = {
-        #     'form': formulario
-        # }
+        contexto = {
+            'form': formulario
+        }
 
-        return render(request, self.template_name, {})
+        return render(request, self.template_name, contexto)
 
 
 class ConfiguracionMetodologiaLista(View):
@@ -350,13 +478,13 @@ class ConfiguracionMetodologiaLista(View):
 
     def get(self, request):
 
-        # formulario = EmpleadoFilterForm()
+        formulario = MetodologiaForm()
 
-        # contexto = {
-        #     'form': formulario
-        # }
+        contexto = {
+            'form': formulario
+        }
 
-        return render(request, self.template_name, {})
+        return render(request, self.template_name, contexto)
 
 
 class ConfiguracionTipoFallaLista(View):
@@ -365,13 +493,13 @@ class ConfiguracionTipoFallaLista(View):
 
     def get(self, request):
 
-        # formulario = EmpleadoFilterForm()
+        formulario = FallaForm()
 
-        # contexto = {
-        #     'form': formulario
-        # }
+        contexto = {
+            'form': formulario
+        }
 
-        return render(request, self.template_name, {})
+        return render(request, self.template_name, contexto)
 
 
 class ConfiguracionFormatoLista(View):

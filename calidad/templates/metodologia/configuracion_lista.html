@@ -2,6 +2,8 @@
 
 {% load static from staticfiles %}
 
+{% load custom_tags %}
+
 {% block titulo %} Configuración {% endblock titulo %}
 
 {% block title-page %} Configuración de Metodologías {% endblock title-page %}
@@ -47,7 +49,7 @@
                   <div class="actions">
                      <a href="{% url 'calidad:configuracion_criterio_lista' %}" class="btn btn-xs btn-prev btn-default nova-a-tab">Criterios</a>
                      <a href="{% url 'calidad:configuracion_proceso_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab">Procesos</a>
-                     <a href="{% url 'calidad:configuracion_usuario_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Usuarios</a>
+                     <a href="{% url 'calidad:configuracion_rol_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Roles</a>
                      <a href="{% url 'calidad:configuracion_sitio_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Sitios</a>
                      <a class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab nova-active-tab">Metodologías</a>
                      <a href="{% url 'calidad:configuracion_tipo_falla_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Descripciones</a>
@@ -57,8 +59,7 @@
                <div class="panel panel-default panel-table">
 
                   <div class="panel-heading nova-panel-borde-contenido nova-panel-tools">
-                     <a href="#id_tarjeta_metodologia"
-                        class="btn nova-btn btn-rounded btn-sm btn-space btn-default pull-right" data-toggle="modal" id="id_boton_nuevo">
+                     <a class="btn nova-btn btn-rounded btn-sm btn-space btn-default pull-right" id="id_boton_nuevo">
                         <i class="icon icon-left mdi mdi-plus-circle nova-black"></i> Metodología
                      </a>
                   </div><!-- Panel Heading -->
@@ -83,15 +84,10 @@
                <h3 class="modal-title">Nueva Metodología</h3>
             </div>
                
-            <form id="id_formulario_aprobador" class="modal-body form-horizontal">
+            <form id="id_formulario_metodologia" class="modal-body form-horizontal">
                
                <!-- metodologia -->
-               <div class="form-group">
-                  <label class="col-sm-3 nova-col-filter control-label">Metodología</label>
-                  <div class="col-sm-8 xs-pt-5">
-                     <input class="form-control input-xs" type="text" name="" id="id_metodologia">
-                  </div>
-               </div>                
+               {% tag_field_popup form.metodologia 3 8 %}  
 
             </form><!-- Modal body-->
             <div class="modal-footer nova-modal-footer">
@@ -100,7 +96,7 @@
                      Cerrar
                   </button>
 
-                  <button type="button" id="id_boton_guardar" class="btn nova-btn btn-primary btn-lg pull-right">
+                  <button type="button" id="id_boton_guardar_metodologia" class="btn nova-btn btn-primary btn-lg pull-right">
                      <i class="icon icon-left mdi mdi-floppy nova-white"></i>
                      Guardar
                   </button>

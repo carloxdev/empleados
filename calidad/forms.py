@@ -73,7 +73,7 @@ class ResponsableForm(Form):
 
         # empleados = VIEW_EMPLEADOS_SIMPLE.objects.using('ebs_d').all()
         # AQUI APLICAR FILTRO DE EXCLUIR
-        empleados = VIEW_EMPLEADOS_SIMPLE.objects.using('ebs_p').filter(pers_nombre_completo__icontains="GARCIA JIMENEZ")
+        empleados = VIEW_EMPLEADOS_SIMPLE.objects.using('ebs_p')
 
         for empleado in empleados:
 
@@ -90,12 +90,11 @@ class ResponsableForm(Form):
 class SubprocesoForm(Form):
 
     subproceso = CharField(
-        label='Subproceso',
         widget=TextInput(attrs={'class': 'form-control input-xs'})
     )
 
 
-class UsuarioForm(Form):
+class RolForm(Form):
     ROL = (
         ('', '------'),
         ('Aprobador', 'Aprobador'),
@@ -109,20 +108,18 @@ class UsuarioForm(Form):
     )
 
     rol = ChoiceField(
-        label='Clasificación',
         widget=Select(attrs={'class': 'select2'}),
         choices=ROL
     )
 
     def __init__(self, *args, **kargs):
-        super(UsuarioForm, self).__init__(*args, **kargs)
+        super(RolForm, self).__init__(*args, **kargs)
         self.fields['empleado'].choices = self.get_Empleados()
 
     def get_Empleados(self):
 
-        valores = []
+        valores = [('', '-------')]
 
-        # empleados = VIEW_EMPLEADOS_SIMPLE.objects.using('ebs_d').all()
         empleados = VIEW_EMPLEADOS_SIMPLE.objects.using('ebs_p').filter(pers_nombre_completo__icontains="GARCIA JIMENEZ")
 
         for empleado in empleados:
@@ -130,40 +127,61 @@ class UsuarioForm(Form):
             if not (empleado.pers_empleado_numero is u''):
                 valores.append(
                     (
-                        empleado.pers_empleado_numero,
+                        empleado.pers_empleado_numero + ':' + empleado.pers_nombre_completo,
                         empleado.pers_empleado_numero + ' : ' + empleado.pers_nombre_completo
                     )
                 )
         return valores
 
 
-class UsuarioFilterForm(Form):
+class RolFilterForm(Form):
 
-    empleado_filtro = CharField(
+    empleado_filtro = ChoiceField(
         label='Empleado',
-        widget=TextInput(attrs={'class': 'form-control input-xs'})
+        widget=Select(attrs={'class': 'select2'})
     )
 
     rol_filtro = ChoiceField(
         label='Rol',
         widget=Select(attrs={'class': 'select2'}),
-        choices=UsuarioForm.ROL
-    )
-
-
-class CompaniaUsuarioForm(Form):
-
-    compania = ChoiceField(
-        widget=Select(attrs={'class': 'form-control', 'multiple': 'multiple', 'id': 'id_responsable'})
+        choices=RolForm.ROL
     )
 
     def __init__(self, *args, **kargs):
-        super(CompaniaUsuarioForm, self).__init__(*args, **kargs)
+        super(RolFilterForm, self).__init__(*args, **kargs)
+        self.fields['empleado_filtro'].choices = self.get_Empleados()
+
+    def get_Empleados(self):
+
+        valores = [('', '-------')]
+
+        empleados = VIEW_EMPLEADOS_SIMPLE.objects.using('ebs_p').filter(pers_nombre_completo__icontains="GARCIA JIMENEZ")
+
+        for empleado in empleados:
+
+            if not (empleado.pers_empleado_numero is u''):
+                valores.append(
+                    (
+                        empleado.pers_empleado_numero + ':' + empleado.pers_nombre_completo,
+                        empleado.pers_empleado_numero + ' : ' + empleado.pers_nombre_completo
+                    )
+                )
+        return valores
+
+
+class CompaniaRolForm(Form):
+
+    compania = ChoiceField(
+        widget=Select(attrs={'class': 'select2'})
+    )
+
+    def __init__(self, *args, **kargs):
+        super(CompaniaRolForm, self).__init__(*args, **kargs)
         self.fields['compania'].choices = self.get_Companias()
 
     def get_Companias(self):
 
-        valores = []
+        valores = [('', '-------')]
 
         companias = VIEW_COMPANIAS.objects.using('jde_p').all()
 
@@ -171,8 +189,34 @@ class CompaniaUsuarioForm(Form):
 
             valores.append(
                 (
-                    compania.comp_code,
+                    str(compania.comp_code) + ':' + compania.comp_desc,
                     str(int(compania.comp_code)) + ' - ' + compania.comp_desc,
                 )
             )
         return valores
+
+
+class SitioForm(Form):
+
+    sitio = CharField(
+        widget=TextInput(attrs={'class': 'form-control input-xs'})
+    )
+
+
+class MetodologiaForm(Form):
+
+    metodologia = CharField(
+        widget=TextInput(attrs={'class': 'form-control input-xs'})
+    )
+
+
+class FallaForm(Form):
+
+    codigo = CharField(
+        widget=TextInput(attrs={'class': 'form-control input-xs'})
+    )
+
+    falla = CharField(
+        label='Descripción',
+        widget=TextInput(attrs={'class': 'form-control input-xs'})
+    )

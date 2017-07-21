@@ -15,7 +15,11 @@ from .models import Requisito
 from .models import Proceso
 from .models import Subproceso
 from .models import Responsable
-from .models import Usuario
+from .models import Rol
+from .models import CompaniaAccion
+from .models import Sitio
+from .models import Metodologia
+from .models import Falla
 
 
 # Serializadores:
@@ -24,13 +28,19 @@ from .serializers import RequisitoSerializer
 from .serializers import ProcesoSerializer
 from .serializers import SubprocesoSerializer
 from .serializers import ResponsableSerializer
-from .serializers import UsuarioSerializer
+from .serializers import RolSerializer
+from .serializers import CompaniaAccionSerializer
+from .serializers import SitioSerializer
+from .serializers import MetodologiaSerializer
+from .serializers import FallaSerializer
 
 # Paginadores:
 # from .pagination import GenericPagination
 
 # Filtros:
 from .filters import ResponsablesFilter
+from .filters import CompaniaAccionFilter
+from .filters import RolFilter
 
 
 # -------------- Calidad - API REST -------------- #
@@ -68,7 +78,37 @@ class ResponsableAPI(viewsets.ModelViewSet):
     filter_class = ResponsablesFilter
 
 
-class UsuarioAPI(viewsets.ModelViewSet):
-    queryset = Usuario.objects.all()
-    serializer_class = UsuarioSerializer
+class RolAPI(viewsets.ModelViewSet):
+    queryset = Rol.objects.all()
+    serializer_class = RolSerializer
+    permission_classes = (IsAuthenticated,)
+    filter_backends = (filters.DjangoFilterBackend,)
+    filter_backends = (DjangoFilterBackend,)
+    filter_class = RolFilter
+
+
+class CompaniaAPI(viewsets.ModelViewSet):
+    queryset = CompaniaAccion.objects.all()
+    serializer_class = CompaniaAccionSerializer
+    permission_classes = (IsAuthenticated,)
+    filter_backends = (filters.DjangoFilterBackend,)
+    filter_backends = (DjangoFilterBackend,)
+    filter_class = CompaniaAccionFilter
+
+
+class SitioAPI(viewsets.ModelViewSet):
+    queryset = Sitio.objects.all()
+    serializer_class = SitioSerializer
+    permission_classes = (IsAuthenticated,)
+
+
+class MetodologiaAPI(viewsets.ModelViewSet):
+    queryset = Metodologia.objects.all()
+    serializer_class = MetodologiaSerializer
+    permission_classes = (IsAuthenticated,)
+
+
+class FallaAPI(viewsets.ModelViewSet):
+    queryset = Falla.objects.all()
+    serializer_class = FallaSerializer
     permission_classes = (IsAuthenticated,)

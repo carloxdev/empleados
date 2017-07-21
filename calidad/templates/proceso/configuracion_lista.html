@@ -49,7 +49,7 @@
                <div class="actions">
                   <a href="{% url 'calidad:configuracion_criterio_lista' %}" class="btn btn-xs btn-prev btn-default nova-a-tab">Criterios</a>
                   <a class="btn btn-xs btn-next btn-default nova-a-tab nova-active-tab">Procesos</a>
-                  <a href="{% url 'calidad:configuracion_usuario_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Usuarios</a>
+                  <a href="{% url 'calidad:configuracion_rol_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Roles</a>
                   <a href="{% url 'calidad:configuracion_sitio_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Sitios</a>
                   <a href="{% url 'calidad:configuracion_metodologia_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Metodologías</a>
                   <a href="{% url 'calidad:configuracion_tipo_falla_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Descripciones</a>
@@ -139,12 +139,12 @@
                </div>
                <div class="nova-tabla-popup">
                   <div class="nova-div-overflow">
-                     <table class="table table-bordered table-hover" id="id_grid_usuario">
+                     <table class="table table-bordered table-hover" id="id_grid_responsable">
                         <thead>
                            <tr>
                               <th class="nova-columna-acciones"></th>
-                              <th>Nombre</th>
                               <th>No. Empleado</th>
+                              <th>Nombre</th>
                            </tr>
                         </thead>
                         <tbody id="id_tbody_responsables">

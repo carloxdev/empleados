@@ -8,7 +8,8 @@ from django_filters import NumberFilter
 # Modelos:
 from .models import Requisito
 from .models import Responsable
-
+from .models import CompaniaAccion
+from .models import Rol
 
 # class RequisitoFilter(filters.FilterSet):
 
@@ -22,6 +23,7 @@ from .models import Responsable
 #         fields = [
 #             'requisito',
 #         ]
+
 
 class ResponsablesFilter(filters.FilterSet):
 
@@ -46,4 +48,56 @@ class ResponsablesFilter(filters.FilterSet):
             'nombre_completo',
             'numero_empleado',
             'proceso_id',
+        ]
+
+
+class CompaniaAccionFilter(filters.FilterSet):
+
+    compania_codigo = CharFilter(
+        name="compania_codigo",
+        lookup_expr="exact"
+    )
+
+    compania = CharFilter(
+        name="compania",
+        lookup_expr="exact"
+    )
+
+    personal_rol_id = NumberFilter(
+        name="personal_rol_id",
+        lookup_expr="exact"
+    )
+
+    class Meta:
+        model = CompaniaAccion
+        fields = [
+            'compania_codigo',
+            'compania',
+            'personal_rol_id',
+        ]
+
+
+class RolFilter(filters.FilterSet):
+
+    nombre_completo = CharFilter(
+        name="nombre_completo",
+        lookup_expr="exact"
+    )
+
+    numero_empleado = CharFilter(
+        name="numero_empleado",
+        lookup_expr="exact"
+    )
+
+    rol = CharFilter(
+        name="rol",
+        lookup_expr="exact"
+    )
+
+    class Meta:
+        model = Rol
+        fields = [
+            'nombre_completo',
+            'numero_empleado',
+            'rol',
         ]

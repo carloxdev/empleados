@@ -9,8 +9,10 @@ from .models import Requisito
 from .models import Proceso
 from .models import Subproceso
 from .models import Responsable
-from .models import Usuario
+from .models import Rol
 from .models import CompaniaAccion
+from .models import Sitio
+from .models import Metodologia
 
 
 @admin.register(Criterio)
@@ -78,8 +80,8 @@ class Responsable(admin.ModelAdmin):
     )
 
 
-@admin.register(Usuario)
-class Usuario(admin.ModelAdmin):
+@admin.register(Rol)
+class Rol(admin.ModelAdmin):
     list_display = (
         'pk',
         'nombre_completo',
@@ -98,7 +100,31 @@ class CompaniaAccion(admin.ModelAdmin):
         'pk',
         'compania_codigo',
         'compania',
-        'usuario',
+        'personal_rol',
+        'create_by',
+        'create_date',
+        'update_by',
+        'update_date',
+    )
+
+
+@admin.register(Sitio)
+class Sitio(admin.ModelAdmin):
+    list_display = (
+        'pk',
+        'sitio',
+        'create_by',
+        'create_date',
+        'update_by',
+        'update_date',
+    )
+
+
+@admin.register(Metodologia)
+class Metodologia(admin.ModelAdmin):
+    list_display = (
+        'pk',
+        'metodologia',
         'create_by',
         'create_date',
         'update_by',
