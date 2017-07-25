@@ -73,12 +73,14 @@ PopupMetodologia.prototype.validar = function () {
 
    var bandera = true
 
-   if ( this.$id_metodologia.val() == "") {
+   if ( appnova.validar_EspaciosSaltos(this.$id_metodologia.val()) == "") {
+
       this.$id_metodologia.addClass("nova-has-error")
       bandera = false
    }
 
    if ( !bandera ){
+
       this.$id_formulario.prepend('<span id="id_mensaje_error">Completa los campos marcados en rojo.</span>')
    }
 
@@ -166,9 +168,13 @@ Grid.prototype.get_DataSourceConfig = function (e) {
       change: function (e) {
 
          if (e.action == "itemchange" ) {
-             var pk = e.items[0].pk
-             var metodologia = e.items[0].metodologia
-             tarjeta_resultados.grid.update_Metodologia(pk, metodologia)
+            
+            var pk = e.items[0].pk
+            var metodologia = e.items[0].metodologia
+            
+            if ( !(appnova.validar_EspaciosSaltos(metodologia) == "") ) {
+               tarjeta_resultados.grid.update_Metodologia(pk, metodologia)
+            }
          }
       },
       schema: {

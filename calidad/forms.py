@@ -6,7 +6,8 @@ from django.forms import CharField
 from django.forms import ChoiceField
 from django.forms import TextInput
 from django.forms import Select
-
+from django.forms import Textarea
+from django.forms import NumberInput
 
 # Librerias/Clases propias
 
@@ -220,3 +221,50 @@ class FallaForm(Form):
         label='Descripción',
         widget=TextInput(attrs={'class': 'form-control input-xs'})
     )
+
+
+class FormatoForm(Form):
+
+    titulo = CharField(
+        widget=TextInput(attrs={'class': 'form-control input-xs'})
+    )
+
+    no_revision = CharField(
+        widget=NumberInput(attrs={'class': 'form-control input-xs', 'min': '1'})
+    )
+
+    vigencia = CharField(
+        widget=TextInput(attrs={'class': 'form-control input-xs'})
+    )
+
+    codigo = CharField(
+        widget=TextInput(attrs={'class': 'form-control input-xs'})
+    )
+
+    descripcion = CharField(
+        widget=Textarea(attrs={'class': 'form-control input-xs'})
+    )
+
+    compania = ChoiceField(
+        widget=Select(attrs={'class': 'select2'})
+    )
+
+    def __init__(self, *args, **kargs):
+        super(FormatoForm, self).__init__(*args, **kargs)
+        self.fields['compania'].choices = self.get_Companias()
+
+    def get_Companias(self):
+
+        valores = [('', '-------')]
+
+        companias = VIEW_COMPANIAS.objects.using('jde_p').all()
+
+        for compania in companias:
+
+            valores.append(
+                (
+                    str(compania.comp_code) + ':' + compania.comp_desc,
+                    str(int(compania.comp_code)) + ' - ' + compania.comp_desc,
+                )
+            )
+        return valores

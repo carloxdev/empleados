@@ -70,3 +70,7 @@ NovaSitio.prototype.get_ConfWysi = function () {
         }
     }
 }
+NovaSitio.prototype.validar_EspaciosSaltos = function (_string) 
+{ 
+    return _string.replace(/^\s+|\s+$/g,''); 
+}

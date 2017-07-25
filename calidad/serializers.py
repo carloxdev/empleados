@@ -18,6 +18,7 @@ from .models import CompaniaAccion
 from .models import Sitio
 from .models import Metodologia
 from .models import Falla
+from .models import Formato
 
 
 class CriterioSerializer(serializers.HyperlinkedModelSerializer):
@@ -292,6 +293,26 @@ class FallaSerializer(serializers.HyperlinkedModelSerializer):
             'pk',
             'codigo',
             'falla',
+            'create_by',
+            'create_date',
+            'update_by',
+            'update_date',
+        )
+
+
+class FormatoSerializer(serializers.HyperlinkedModelSerializer):
+
+    class Meta:
+        model = Formato
+        fields = (
+            'pk',
+            'compania_codigo',
+            'compania',
+            'titulo',
+            'no_revision',
+            'vigencia_inicio',
+            'codigo',
+            'descripcion',
             'create_by',
             'create_date',
             'update_by',

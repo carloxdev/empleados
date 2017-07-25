@@ -7,15 +7,15 @@ var url_proceso = window.location.origin + "/api-calidad/proceso/"
 var url_subproceso = window.location.origin + "/api-calidad/subproceso/"
 var url_responsable = window.location.origin + "/api-calidad/responsable/"
 var url_arbol = window.location.origin + "/configuracion/subprocesos/json/"
-var nodoSeleccionado
+
 // OBJS
 var tarjeta_resultados = null
 var popup_proceso = null
 var popup_subproceso = null
 var popup_responsable = null
-var toolbar = null
-var arbol = null
 
+// VARIABLE
+var nodoSeleccionado
 
 /*-----------------------------------------------*\
          LOAD
@@ -32,8 +32,8 @@ $(document).ready(function () {
 
 function TarjetaResultados(){
 
-   toolbar = new ToolBar()
-   arbol = new Arbol()
+   this.toolbar = new ToolBar()
+   this.arbol = new Arbol()
 }
 
 /*-----------------------------------------------*\
@@ -68,7 +68,6 @@ function PopupProceso() {
    this.$id_boton_guardar = $('#id_boton_guardar_proceso')
    this.$accion
    this.$id_titulo = $('#id_popup_proceso_titulo')
-
    this.init_Events()
 }
 PopupProceso.prototype.init_Events = function () {
@@ -93,6 +92,7 @@ PopupProceso.prototype.mostrar = function (_id, _accion) {
 PopupProceso.prototype.set_Data = function (_pk) {
    
    $.ajax({
+
       url: url_proceso + _pk +"/",
       method: "GET",
       context: this,
@@ -110,7 +110,7 @@ PopupProceso.prototype.validar = function () {
 
    var bandera = true
 
-   if ( this.$id_proceso.val() == "") {
+   if ( appnova.validar_EspaciosSaltos(this.$id_proceso.val()) == "") {
       this.$id_proceso.addClass("nova-has-error")
       bandera = false
    }
@@ -163,7 +163,7 @@ PopupProceso.prototype.crear = function (e) {
          success: function (_response) {
 
             e.data.$id.modal('hide')
-            arbol.init_Components()
+            tarjeta_resultados.arbol.init_Components()
          },
          error: function (_response) {
 
@@ -185,7 +185,7 @@ PopupProceso.prototype.editar = function (e, _pk) {
          success: function (_response) {
 
             e.data.$id.modal('hide')
-            arbol.init_Components()
+            tarjeta_resultados.arbol.init_Components()
          },
          error: function (_response) {
 
@@ -266,7 +266,7 @@ Arbol.prototype.click_Editar = function (e) {
    else if (e.currentTarget.id.slice(0,2) == 'ce') {
       
       var nodoHijo = this.parentElement.parentElement.getAttribute("data-nodeid")
-      nodoSeleccionado = arbol.$id.treeview('getParent', parseInt(nodoHijo)).nodeId
+      nodoSeleccionado = tarjeta_resultados.arbol.$id.treeview('getParent', parseInt(nodoHijo)).nodeId
 
       var pk = e.currentTarget.id
       popup_subproceso.set_Data(pk.slice(3))
@@ -280,15 +280,15 @@ Arbol.prototype.click_Eliminar = function (e) {
    if (e.currentTarget.id.slice(0,2) == 'fd') {
 
       var url = url_proceso + pk.slice(3) + "/"
-      arbol.eliminar_proceso(url)
+      tarjeta_resultados.arbol.eliminar_proceso(url)
    }
    else if (e.currentTarget.id.slice(0,2) == 'cd') {
 
       var nodoHijo = this.parentElement.parentElement.getAttribute("data-nodeid")
-      nodoSeleccionado = arbol.$id.treeview('getParent', parseInt(nodoHijo)).nodeId
+      nodoSeleccionado = tarjeta_resultados.arbol.$id.treeview('getParent', parseInt(nodoHijo)).nodeId
 
       var url = url_subproceso + pk.slice(3) + "/"
-      arbol.eliminar_subproceso(url)
+      tarjeta_resultados.arbol.eliminar_subproceso(url)
    }
 }
 Arbol.prototype.eliminar_proceso = function (_url) {
@@ -307,7 +307,7 @@ Arbol.prototype.eliminar_proceso = function (_url) {
             success: function () {
 
                alertify.success("Se eliminó registro correctamente")
-               arbol.init_Components()
+               tarjeta_resultados.arbol.init_Components()
             },
             error: function () {
             
@@ -335,7 +335,7 @@ Arbol.prototype.eliminar_subproceso = function (_url) {
 
                alertify.success("Se eliminó registro correctamente")
                     
-               arbol.cargar_Datos(true)
+               tarjeta_resultados.arbol.cargar_Datos(true)
             },
             error: function () {
             
@@ -537,7 +537,7 @@ PopupSubproceso.prototype.crear = function (e, _pk) {
          success: function (_response) {
 
             e.data.$id.modal('hide')
-            arbol.cargar_Datos(true)
+            tarjeta_resultados.arbol.cargar_Datos(true)
          },
          error: function (_response) {
 
@@ -560,7 +560,7 @@ PopupSubproceso.prototype.editar = function (e, _pk, _pk_proceso) {
          success: function (_response) {
 
             e.data.$id.modal('hide')
-            arbol.cargar_Datos(true)
+            tarjeta_resultados.arbol.cargar_Datos(true)
          },
          error: function (_response) {
 
@@ -573,13 +573,13 @@ PopupSubproceso.prototype.validar = function () {
    
    var bandera = true
 
-   if ( this.$id_subproceso.val() == "") {
+   if ( appnova.validar_EspaciosSaltos(this.$id_subproceso.val()) == "") {
 
       this.$id_subproceso.addClass("nova-has-error")
       bandera = false
    }
 
-   if ( !bandera ){
+   if ( !bandera ) {
 
       this.$id_formulario.prepend('<span id="id_mensaje_error">Completa los campos marcados en rojo.</span>')
    }

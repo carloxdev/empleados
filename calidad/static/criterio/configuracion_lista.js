@@ -13,9 +13,6 @@ var tarjeta_resultados = null
 var popup_filtros = null
 var popup_criterio = null
 var popup_requisito = null
-var toolbar = null
-var arbol = null
-
 
 /*-----------------------------------------------*\
          LOAD
@@ -33,8 +30,8 @@ $(document).ready(function () {
 
 function TarjetaResultados(){
 
-   toolbar = new ToolBar()
-   arbol = new Arbol()
+   this.toolbar = new ToolBar()
+   this.arbol = new Arbol()
 }
 
 /*-----------------------------------------------*\
@@ -79,14 +76,13 @@ PopupFiltros.prototype.init_Events = function () {
 PopupFiltros.prototype.click_BotonBuscar = function (e) {
 
    var criterio = e.data.$id_requisito.val()
-   arbol.buscar(criterio)
+   tarjeta_resultados.arbol.buscar(criterio)
    e.data.$id.modal('hide')
 }
 PopupFiltros.prototype.click_BotonLimpiar = function (e) {
 
    e.data.$id_requisito.val("")
-   arbol.limpiar()
-   e.data.$id.modal('hide')
+   tarjeta_resultados.arbol.limpiar()
 }
 
 /*-----------------------------------------------*\
@@ -132,19 +128,20 @@ PopupCriterio.prototype.mostrar = function (_id, _accion) {
 PopupCriterio.prototype.set_Data = function (_pk) {
    
       $.ajax({
-      url: url_criterio + _pk +"/",
-      method: "GET",
-      context: this,
-      success: function (_response) {
-         
-         this.$id_clasificacion_criterio.val(_response.clasificacion).trigger("change")
-         this.$id_criterio.val(_response.criterio)
-      },
-      error: function (_response) {
 
-         alertify.error("Ocurrio error al cargar datos")
-      }
-   })
+         url: url_criterio + _pk +"/",
+         method: "GET",
+         context: this,
+         success: function (_response) {
+            
+            this.$id_clasificacion_criterio.val(_response.clasificacion).trigger("change")
+            this.$id_criterio.val(_response.criterio)
+         },
+         error: function (_response) {
+
+            alertify.error("Ocurrio error al cargar datos")
+         }
+      })
 }
 PopupCriterio.prototype.validar = function () {
 
@@ -156,7 +153,7 @@ PopupCriterio.prototype.validar = function () {
       bandera = false
    }
 
-   if ( this.$id_criterio.val() == "") {
+   if ( appnova.validar_EspaciosSaltos(this.$id_criterio.val()) == "") {
       
       this.$id_criterio.addClass("nova-has-error")
       bandera = false
@@ -214,7 +211,7 @@ PopupCriterio.prototype.crear = function (e) {
          success: function (_response) {
 
             e.data.$id.modal('hide')
-            arbol.init_Components()
+            tarjeta_resultados.arbol.init_Components()
          },
          error: function (_response) {
 
@@ -237,7 +234,7 @@ PopupCriterio.prototype.editar = function (e, _pk) {
          success: function (_response) {
 
             e.data.$id.modal('hide')
-            arbol.init_Components()
+            tarjeta_resultados.arbol.init_Components()
          },
          error: function (_response) {
 
@@ -310,7 +307,7 @@ Arbol.prototype.click_Editar = function (e) {
    else if (e.currentTarget.id.slice(0,2) == 'ce') {
       
       var nodoHijo = this.parentElement.parentElement.getAttribute("data-nodeid")
-      nodoSeleccionado = arbol.$id.treeview('getParent', parseInt(nodoHijo)).nodeId
+      nodoSeleccionado = tarjeta_resultados.arbol.$id.treeview('getParent', parseInt(nodoHijo)).nodeId
 
       var pk = e.currentTarget.id
       popup_requisito.set_Data(pk.slice(3))
@@ -324,15 +321,15 @@ Arbol.prototype.click_Eliminar = function (e) {
    if (e.currentTarget.id.slice(0,2) == 'fd') {
 
       var url = url_criterio + pk.slice(3) + "/"
-      arbol.eliminar_criterio(url)
+      tarjeta_resultados.arbol.eliminar_criterio(url)
    }
    else if (e.currentTarget.id.slice(0,2) == 'cd') {
 
       var nodoHijo = this.parentElement.parentElement.getAttribute("data-nodeid")
-      nodoSeleccionado = arbol.$id.treeview('getParent', parseInt(nodoHijo)).nodeId
+      nodoSeleccionado = tarjeta_resultados.arbol.$id.treeview('getParent', parseInt(nodoHijo)).nodeId
 
       var url = url_requisito + pk.slice(3) + "/"
-      arbol.eliminar_requisito(url)
+      tarjeta_resultados.arbol.eliminar_requisito(url)
    }
 }
 Arbol.prototype.eliminar_criterio = function (_url) {
@@ -352,7 +349,7 @@ Arbol.prototype.eliminar_criterio = function (_url) {
 
                alertify.success("Se eliminó registro correctamente")
                     
-               arbol.init_Components()
+               tarjeta_resultados.arbol.init_Components()
             },
             error: function () {
             
@@ -380,7 +377,7 @@ Arbol.prototype.eliminar_requisito = function (_url) {
 
                alertify.success("Se eliminó registro correctamente")
                     
-               arbol.cargar_Datos(true)
+               tarjeta_resultados.arbol.cargar_Datos(true)
             },
             error: function () {
             
@@ -447,13 +444,14 @@ PopupRequisito.prototype.crear = function (e, _pk) {
          method: "POST",
          headers: { "X-CSRFToken": appnova.galletita },
          data: {
+
             "requisito" : e.data.$id_requisito.val(),
             "criterio": url_criterio + _pk + "/"
          },
          success: function (_response) {
 
             e.data.$id.modal('hide')
-            arbol.cargar_Datos(true)
+            tarjeta_resultados.arbol.cargar_Datos(true)
          },
          error: function (_response) {
 
@@ -466,17 +464,19 @@ PopupRequisito.prototype.editar = function (e, _pk, _pk_criterio) {
    
    if (e.data.validar()) {
       $.ajax({
+
          url: url_requisito + _pk + "/",
          method: "PUT",
          headers: { "X-CSRFToken": appnova.galletita },
          data: {
+
             "requisito" : e.data.$id_requisito.val(),
             "criterio": url_criterio + _pk_criterio + "/"
          },
          success: function (_response) {
 
             e.data.$id.modal('hide')
-            arbol.cargar_Datos(true)
+            tarjeta_resultados.arbol.cargar_Datos(true)
          },
          error: function (_response) {
 
@@ -489,7 +489,7 @@ PopupRequisito.prototype.validar = function () {
    
    var bandera = true
 
-   if ( this.$id_requisito.val() == "") {
+   if ( appnova.validar_EspaciosSaltos(this.$id_requisito.val()) == "") {
 
       this.$id_requisito.addClass("nova-has-error")
       bandera = false
@@ -519,6 +519,7 @@ PopupRequisito.prototype.mostrar = function (_id, _accion, _id_padre) {
 PopupRequisito.prototype.set_Data = function (_pk) {
 
    $.ajax({
+
       url: url_requisito + _pk +"/",
       method: "GET",
       context: this,

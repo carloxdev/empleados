@@ -25,6 +25,7 @@ from django.http import HttpResponse
 from .models import Criterio
 from .models import Proceso
 from .models import Rol
+from .models import Formato
 
 # Otros Modelos:
 
@@ -42,6 +43,7 @@ from .forms import CompaniaRolForm
 from .forms import SitioForm
 from .forms import MetodologiaForm
 from .forms import FallaForm
+from .forms import FormatoForm
 
 # Serializadore:
 from .serializers import RequisitoSerilizado
@@ -52,6 +54,7 @@ from .serializers import SubprocesoSerilizado
 
 
 class CalidadDashboard(View):
+
     def __init__(self):
         self.template_name = 'dashboard/calidad_dashboard.html'
 
@@ -69,6 +72,7 @@ class CalidadDashboard(View):
 # ----------------- CALIDAD - AUDITORIAS ----------------- #
 
 class AuditoriaLista(View):
+
     def __init__(self):
         self.template_name = 'auditoria/auditoria_lista.html'
 
@@ -84,6 +88,7 @@ class AuditoriaLista(View):
 
 
 class GeneralFormulario(View):
+
     def __init__(self):
         self.template_name = 'auditoria/general_formulario.html'
 
@@ -99,6 +104,7 @@ class GeneralFormulario(View):
 
 
 class AuditorFormulario(View):
+
     def __init__(self):
         self.template_name = 'auditor/auditor_formulario.html'
 
@@ -114,6 +120,7 @@ class AuditorFormulario(View):
 
 
 class ProcesoLista(View):
+
     def __init__(self):
         self.template_name = 'proceso/proceso_lista.html'
 
@@ -129,6 +136,7 @@ class ProcesoLista(View):
 
 
 class ProcesoFormulario(View):
+
     def __init__(self):
         self.template_name = 'proceso/proceso_formulario.html'
 
@@ -144,6 +152,7 @@ class ProcesoFormulario(View):
 
 
 class RequisitoLista(View):
+
     def __init__(self):
         self.template_name = 'requisito_auditoria/requisito_lista.html'
 
@@ -159,6 +168,7 @@ class RequisitoLista(View):
 
 
 class HallazgoLista(View):
+
     def __init__(self):
         self.template_name = 'hallazgo/hallazgo_lista.html'
 
@@ -174,6 +184,7 @@ class HallazgoLista(View):
 
 
 class HallazgoDetalle(View):
+
     def __init__(self):
         self.template_name = 'hallazgo/hallazgo_detalle.html'
 
@@ -237,6 +248,7 @@ class HallazgoDetalle(View):
 
 
 class ProgramaLista(View):
+
     def __init__(self):
         self.template_name = 'programa_lista.html'
 
@@ -254,6 +266,7 @@ class ProgramaLista(View):
 
 
 class ConfiguracionCriterioLista(View):
+
     def __init__(self):
         self.template_name = 'criterio/configuracion_lista.html'
 
@@ -287,6 +300,7 @@ class ConfiguracionRequisitoAPI(View):
 
 
 class ConfiguracionProcesoLista(View):
+
     def __init__(self):
         self.template_name = 'proceso/configuracion_lista.html'
 
@@ -458,6 +472,7 @@ class ConfiguracionRolLista(View):
 
 
 class ConfiguracionSitioLista(View):
+
     def __init__(self):
         self.template_name = 'sitio/configuracion_lista.html'
 
@@ -473,6 +488,7 @@ class ConfiguracionSitioLista(View):
 
 
 class ConfiguracionMetodologiaLista(View):
+
     def __init__(self):
         self.template_name = 'metodologia/configuracion_lista.html'
 
@@ -488,6 +504,7 @@ class ConfiguracionMetodologiaLista(View):
 
 
 class ConfiguracionTipoFallaLista(View):
+
     def __init__(self):
         self.template_name = 'falla/configuracion_lista.html'
 
@@ -503,15 +520,18 @@ class ConfiguracionTipoFallaLista(View):
 
 
 class ConfiguracionFormatoLista(View):
+
     def __init__(self):
         self.template_name = 'formato/configuracion_lista.html'
 
     def get(self, request):
 
-        # formulario = EmpleadoFilterForm()
+        formulario = FormatoForm()
+        formatos = Formato.objects.all()
 
-        # contexto = {
-        #     'form': formulario
-        # }
+        contexto = {
+            'form': formulario,
+            'formatos': formatos
+        }
 
-        return render(request, self.template_name, {})
+        return render(request, self.template_name, contexto)

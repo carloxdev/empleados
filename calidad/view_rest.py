@@ -20,6 +20,7 @@ from .models import CompaniaAccion
 from .models import Sitio
 from .models import Metodologia
 from .models import Falla
+from .models import Formato
 
 
 # Serializadores:
@@ -33,6 +34,7 @@ from .serializers import CompaniaAccionSerializer
 from .serializers import SitioSerializer
 from .serializers import MetodologiaSerializer
 from .serializers import FallaSerializer
+from .serializers import FormatoSerializer
 
 # Paginadores:
 # from .pagination import GenericPagination
@@ -111,4 +113,10 @@ class MetodologiaAPI(viewsets.ModelViewSet):
 class FallaAPI(viewsets.ModelViewSet):
     queryset = Falla.objects.all()
     serializer_class = FallaSerializer
+    permission_classes = (IsAuthenticated,)
+
+
+class FormatoAPI(viewsets.ModelViewSet):
+    queryset = Formato.objects.all()
+    serializer_class = FormatoSerializer
     permission_classes = (IsAuthenticated,)

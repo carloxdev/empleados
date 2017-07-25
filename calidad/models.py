@@ -269,12 +269,13 @@ class Falla(models.Model):
 
 
 class Formato(models.Model):
+    compania_codigo = models.CharField(max_length=5)
+    compania = models.CharField(max_length=160)
     titulo = models.CharField(max_length=120)
     no_revision = models.CharField(max_length=6)
     vigencia_inicio = models.DateField()
     codigo = models.CharField(max_length=16)
     descripcion = models.CharField(max_length=220)
-    compania = models.ForeignKey(Empresa)
     create_by = models.CharField(max_length=240, blank=True)
     create_date = models.DateTimeField(
         auto_now=False,

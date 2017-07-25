@@ -74,17 +74,20 @@ PopupFalla.prototype.validar = function () {
 
    var bandera = true
 
-   if ( this.$id_codigo.val() == "") {
+   if ( appnova.validar_EspaciosSaltos(this.$id_codigo.val()) == "" ) {
+
       this.$id_codigo.addClass("nova-has-error")
       bandera = false
    }
 
-   if ( this.$id_falla.val() == "") {
+   if ( appnova.validar_EspaciosSaltos(this.$id_falla.val()) == "" ) {
+
       this.$id_falla.addClass("nova-has-error")
       bandera = false
    }
 
-   if ( !bandera ){
+   if ( !bandera ) {
+
       this.$id_formulario.prepend('<span id="id_mensaje_error">Completa los campos marcados en rojo.</span>')
    }
 
@@ -120,6 +123,7 @@ PopupFalla.prototype.crear = function (e) {
    if (e.data.validar()) {
          
       $.ajax({
+
          url: url_falla,
          method: "POST",
          headers: { "X-CSRFToken": appnova.galletita },
@@ -165,6 +169,7 @@ Grid.prototype.get_DataSourceConfig = function (e) {
       serverPaging: true,
       pageSize: 10,
       transport: {
+
          read: {
  
             url: url_falla,
@@ -175,18 +180,22 @@ Grid.prototype.get_DataSourceConfig = function (e) {
       change: function (e) {
 
          if (e.action == "itemchange" ) {
-             var pk = e.items[0].pk
-             var codigo = e.items[0].codigo
-             var falla = e.items[0].falla
-             tarjeta_resultados.grid.update_Falla(pk, codigo, falla)
+            var pk = e.items[0].pk
+            var codigo = e.items[0].codigo
+            var falla = e.items[0].falla
+
+            if ( (!(appnova.validar_EspaciosSaltos(codigo) == "" )) && (!(appnova.validar_EspaciosSaltos(falla) == "" )) ) {
+
+               tarjeta_resultados.grid.update_Falla(pk, codigo, falla)
+            }
          }
       },
       schema: {
 
-          model: {
+         model: {
                id: "pk",
                fields: this.get_Campos()
-          }
+         }
       },
       error: function (e) {
          alertify.error("Status: " + e.status + "; Error message: " + e.errorThrown)
@@ -196,6 +205,7 @@ Grid.prototype.get_DataSourceConfig = function (e) {
 Grid.prototype.update_Falla = function (_pk, _codigo, _falla) {
 
    data = {
+
       'codigo': _codigo,
       'falla': _falla
    }
@@ -209,10 +219,12 @@ Grid.prototype.update_Falla = function (_pk, _codigo, _falla) {
       contentType: "application/json; charset=utf-8",
 
       success: function (_response) {
+
          tarjeta_resultados.grid.buscar()
          alertify.success("Registro modificado con exito.")
       },
       error: function (_response) {
+
          alertify.error("Ocurrio un error al modificar")
       }
    })
@@ -258,6 +270,7 @@ Grid.prototype.onDataBound = function (e) {
 Grid.prototype.get_Columnas = function () {
 
    return  [
+
       {  template: '<a class="btn nova-btn btn-default nova-btn-delete" id="#=id#" data-event="eliminar"> <i class="icon icon-left icon mdi mdi-delete nova-white"></i></a>',
          width: '75px',
       },
@@ -282,6 +295,7 @@ Grid.prototype.eliminar = function (_url) {
          var url = _url
 
          $.ajax({
+            
             url: url,
             method: "DELETE",
             headers: { "X-CSRFToken": appnova.galletita },

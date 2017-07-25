@@ -3,16 +3,15 @@
 \*-----------------------------------------------*/
 
 // URLS:api-
-var url_rol = window.location.origin + "/api-calidad/rol/"
+var url_api_rol = window.location.origin + "/api-calidad/rol/"
 var url_compania = window.location.origin + "/api-calidad/compania/"
+var url_rol = window.location.origin + "/configuracion/roles/"
 
 // OBJS
 var popup_rol = null
 var popup_filtro = null
 var popup_compania = null
 var tarjeta_resultados = null
-var toolbar = null
-var grid = null
 
 /*-----------------------------------------------*\
             LOAD
@@ -29,8 +28,8 @@ $(document).ready(function () {
 
 function TarjetaResultados() {
    
-   toolbar = new ToolBar()
-   grid = new Grid()
+   this.toolbar = new ToolBar()
+   this.grid = new Grid()
 }
 
 /*-----------------------------------------------*\
@@ -87,8 +86,8 @@ Grid.prototype.click_EliminarRol = function (e) {
 
    e.preventDefault()
    pk = this.getAttribute("data-id")
-   url = url_rol + pk + "/"
-   grid.eliminar_Seleccion(url)
+   url = url_api_rol + pk + "/"
+   tarjeta_resultados.grid.eliminar_Seleccion(url)
 }
 Grid.prototype.eliminar_Seleccion = function (_url) {
 
@@ -103,7 +102,7 @@ Grid.prototype.eliminar_Seleccion = function (_url) {
             headers: { "X-CSRFToken": appnova.galletita },
             success: function () {
 
-               window.location.href = window.location.origin + "/configuracion/roles/"
+               window.location.href = url_rol
                alertify.success("Se eliminó registro correctamente")
             },
             error: function () {
@@ -183,19 +182,20 @@ PopupRol.prototype.mostrar = function (_id, _accion) {
 PopupRol.prototype.set_Data = function (_pk) {
    
       $.ajax({
-      url: url_rol + _pk +"/",
-      method: "GET",
-      context: this,
-      success: function (_response) {
-         
-         this.$id_empleado.val(_response.numero_empleado + ":" + _response.nombre_completo).trigger("change").select2("enable",false)
-         this.$id_rol.val(_response.rol).trigger("change")
-      },
-      error: function (_response) {
 
-         alertify.error("Ocurrio error al cargar datos")
-      }
-   })
+         url: url_api_rol + _pk +"/",
+         method: "GET",
+         context: this,
+         success: function (_response) {
+            
+            this.$id_empleado.val(_response.numero_empleado + ":" + _response.nombre_completo).trigger("change").select2("enable",false)
+            this.$id_rol.val(_response.rol).trigger("change")
+         },
+         error: function (_response) {
+
+            alertify.error("Ocurrio error al cargar datos")
+         }
+      })
 }
 PopupRol.prototype.validar = function () {
 
@@ -243,7 +243,8 @@ PopupRol.prototype.crear = function (e) {
    var rol = e.data.$id_rol.val()
 
    $.ajax({
-      url: url_rol,
+
+      url: url_api_rol,
       method: "POST",
       headers: { "X-CSRFToken": appnova.galletita },
       data: {
@@ -254,7 +255,7 @@ PopupRol.prototype.crear = function (e) {
       success: function (_response) {
 
          e.data.$id.modal('hide')
-         window.location.href = window.location.origin + "/configuracion/roles/"
+         window.location.href = url_rol
       },
       error: function (_response) {
 
@@ -270,7 +271,8 @@ PopupRol.prototype.editar = function (e, _pk) {
    var rol = e.data.$id_rol.val()
 
    $.ajax({
-      url: url_rol + _pk + "/",
+
+      url: url_api_rol + _pk + "/",
       method: "PUT",
       headers: { "X-CSRFToken": appnova.galletita },
       data: {
@@ -282,7 +284,7 @@ PopupRol.prototype.editar = function (e, _pk) {
       success: function (_response) {
 
          e.data.$id.modal('hide')
-         window.location.href = window.location.origin + "/configuracion/roles/"
+         window.location.href = url_rol
       },
       error: function (_response) {
 
@@ -331,20 +333,22 @@ PopupFiltro.prototype.buscar = function () {
    var texto = this.$id_empleado_filtro.val().split(':')
    var numero_empleado = texto[0]
    var rol = this.$id_rol_filtro.val()
-   console.log(rol)
 
    $.ajax({
-      url: url_rol,
+
+      url: url_api_rol,
       dataType: "json",
       method: "GET",
       context: this,
       data:{
+
          numero_empleado: numero_empleado,
          rol: rol,
       },
       success: function (_response) {
          if (_response.length) {
             for (var i = 0; i < _response.length; i++) {
+
                this.$id_tbody.append(  '<tr class="clickable-row">' +
                                           '<td>' +
                                              '<a class="btn nova-btn btn-default nova-btn-delete" data-id="' + _response[i].pk + '" data-event="eliminarRol">' +
@@ -367,6 +371,7 @@ PopupFiltro.prototype.buscar = function () {
             }
          }
          else {
+
             this.$id_tbody.append(  '<tr class="clickable-row">' +
                                        '<td colspan="5" class="nova-aling-center nova-sin-resultados">No se encontraron resultados.</td>' +
                                     '</tr>')
@@ -391,9 +396,7 @@ function PopupCompania() {
    this.$id_boton_aceptar = $('#id_boton_aceptar')
    this.$id_tbody = $('#id_tbody_compania')
    this.$id_boton_agregar = $('#id_boton_agregar')
-   this.$accion
    this.$id_grid = $('#id_grid_compania')
-
    this.init_Components()
    this.init_Events()
 }
@@ -415,20 +418,20 @@ PopupCompania.prototype.click_GuardarSeleccion = function (e) {
 PopupCompania.prototype.guardar_Seleccion = function (_pk) {
    
    var texto = this.$id_compania.val().split(':')
-
    var compania_codigo = texto[0]
-   
    var compania = texto[1]
 
    $.ajax({
+
       url: url_compania,
       method: "POST",
       headers: { "X-CSRFToken": appnova.galletita },
       context: this,
       data: {
+
          "compania_codigo" : compania_codigo,
          "compania" : compania,
-         "personal_rol" : url_rol + _pk + "/",
+         "personal_rol" : url_api_rol + _pk + "/",
       },
       success: function (_response) {
 
@@ -454,6 +457,7 @@ PopupCompania.prototype.eliminar_Seleccion = function (_url) {
       function (e) {
 
          $.ajax({
+
             url: _url,
             method: "DELETE",
             headers: { "X-CSRFToken": appnova.galletita },
@@ -475,7 +479,6 @@ PopupCompania.prototype.eliminar_Seleccion = function (_url) {
 PopupCompania.prototype.mostrar = function (_id) {
 
    this.$id.modal("show").attr("data-primaryKey", _id)
-   // this.$accion = _accion
    this.cargarSeleccionados()
 }
 PopupCompania.prototype.cargarSeleccionados = function () {
@@ -483,16 +486,21 @@ PopupCompania.prototype.cargarSeleccionados = function () {
    var pk_rol = this.$id.attr("data-primaryKey")
 
    $.ajax({
+
       url: url_compania,
       dataType: "json",
       method: "GET",
       context: this,
-      data:{
+      data: {
+
          rol_id: pk_rol,
       },
       success: function (_response) {
+
          if (_response.length) {
+
             for (var i = 0; i < _response.length; i++) {
+
                this.$id_tbody.append(  '<tr class="clickable-row">' +
                                           '<td> ' +
                                              '<a data-event="eliminarCompania" class="btn nova-btn btn-default nova-btn-delete" id="'+_response[i].pk+'">' +
@@ -505,6 +513,7 @@ PopupCompania.prototype.cargarSeleccionados = function () {
             }
          }
          else {
+
             this.$id_tbody.append(  '<tr class="clickable-row">' +
                                        '<td colspan="3" class="nova-aling-center nova-sin-resultados">Sin compañia asignadas.</td>' +
                                     '</tr>')

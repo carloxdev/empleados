@@ -73,7 +73,7 @@ PopupSitio.prototype.validar = function () {
 
    var bandera = true
 
-   if ( this.$id_sitio.val() == "") {
+   if ( appnova.validar_EspaciosSaltos(this.$id_sitio.val()) == "") {
       this.$id_sitio.addClass("nova-has-error")
       bandera = false
    }
@@ -112,17 +112,18 @@ PopupSitio.prototype.crear = function (e) {
    if (e.data.validar()) {
          
       $.ajax({
+
          url: url_sitio,
          method: "POST",
          headers: { "X-CSRFToken": appnova.galletita },
          data: {
+
             "sitio" : e.data.$id_sitio.val(),
          },
          success: function (_response) {
 
             e.data.$id.modal('hide')
             tarjeta_resultados.grid.buscar()
-   
          },
          error: function (_response) {
 
@@ -166,14 +167,19 @@ Grid.prototype.get_DataSourceConfig = function (e) {
       change: function (e) {
 
          if (e.action == "itemchange" ) {
-             var pk = e.items[0].pk
-             var sitio = e.items[0].sitio
-             tarjeta_resultados.grid.update_Sitio(pk, sitio)
+
+            var pk = e.items[0].pk
+            var sitio = e.items[0].sitio
+            if ( !(appnova.validar_EspaciosSaltos(sitio) == "") ) {
+
+               tarjeta_resultados.grid.update_Sitio(pk, sitio)
+            }
          }
       },
       schema: {
 
           model: {
+
                id: "pk",
                fields: this.get_Campos()
           }
@@ -186,6 +192,7 @@ Grid.prototype.get_DataSourceConfig = function (e) {
 Grid.prototype.update_Sitio = function (_pk, _sitio) {
 
    data = {
+
       'sitio': _sitio 
    }
 
@@ -216,6 +223,7 @@ Grid.prototype.get_Campos = function () {
 Grid.prototype.get_Configuracion = function () {
 
    return {
+
       dataSource: this.kfuente_datos,
       columnMenu: true,
       groupable: false,
@@ -246,6 +254,7 @@ Grid.prototype.onDataBound = function (e) {
 Grid.prototype.get_Columnas = function () {
 
    return  [
+   
       {  template: '<a class="btn nova-btn btn-default nova-btn-delete" id="#=id#" data-event="eliminar"> <i class="icon icon-left icon mdi mdi-delete nova-white"></i></a>',
          width: '75px',
       },

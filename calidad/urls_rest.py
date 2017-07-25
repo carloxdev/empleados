@@ -12,6 +12,7 @@ from .view_rest import CompaniaAPI
 from .view_rest import SitioAPI
 from .view_rest import FallaAPI
 from .view_rest import MetodologiaAPI
+from .view_rest import FormatoAPI
 
 router_calidad = routers.DefaultRouter()
 
@@ -70,4 +71,9 @@ router_calidad.register(
     r'falla',
     FallaAPI,
     'falla'
+)
+router_calidad.register(
+    r'formato',
+    FormatoAPI,
+    'formato'
 )
