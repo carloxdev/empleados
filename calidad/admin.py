@@ -13,6 +13,9 @@ from .models import Rol
 from .models import CompaniaAccion
 from .models import Sitio
 from .models import Metodologia
+from .models import Formato
+from .models import Falla
+from .models import Auditoria
 
 
 @admin.register(Criterio)
@@ -130,3 +133,46 @@ class Metodologia(admin.ModelAdmin):
         'update_by',
         'update_date',
     )
+
+
+@admin.register(Falla)
+class Falla(admin.ModelAdmin):
+    list_display = (
+        'pk',
+        'codigo',
+        'falla',
+        'create_by',
+        'create_date',
+        'update_by',
+        'update_date',
+    )
+
+
+@admin.register(Formato)
+class Formato(admin.ModelAdmin):
+    list_display = (
+        'pk',
+        'compania_codigo',
+        'compania',
+        'titulo',
+        'no_revision',
+        'vigencia_inicio',
+        'codigo',
+        'descripcion',
+        'create_by',
+        'create_date',
+        'update_by',
+        'update_date',
+    )
+
+
+# @admin.register(Auditoria)
+# class Auditoria(admin.ModelAdmin):
+#     list_display = (
+#         'pk',
+#         'metodologia',
+#         'create_by',
+#         'create_date',
+#         'update_by',
+#         'update_date',
+#     )
