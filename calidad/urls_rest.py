@@ -10,8 +10,11 @@ from .view_rest import ResponsableAPI
 from .view_rest import RolAPI
 from .view_rest import CompaniaAPI
 from .view_rest import SitioAPI
+from .view_rest import SitioByPageAPI
 from .view_rest import FallaAPI
+from .view_rest import FallaByPageAPI
 from .view_rest import MetodologiaAPI
+from .view_rest import MetodologiaByPageAPI
 from .view_rest import FormatoAPI
 
 router_calidad = routers.DefaultRouter()
@@ -63,14 +66,29 @@ router_calidad.register(
     'sitio'
 )
 router_calidad.register(
+    r'sitio_bypage',
+    SitioByPageAPI,
+    'sitio_bypage'
+)
+router_calidad.register(
     r'metodologia',
     MetodologiaAPI,
     'metodologia'
 )
 router_calidad.register(
+    r'metodologia_bypage',
+    MetodologiaByPageAPI,
+    'metodologia_bypage'
+)
+router_calidad.register(
     r'falla',
     FallaAPI,
     'falla'
+)
+router_calidad.register(
+    r'falla_bypage',
+    FallaByPageAPI,
+    'falla_bypage'
 )
 router_calidad.register(
     r'formato',

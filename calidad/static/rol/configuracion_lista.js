@@ -19,7 +19,25 @@ var tarjeta_resultados = null
 
 $(document).ready(function () {
       
+   popup_filtro = new PopupFiltro()
    tarjeta_resultados = new TarjetaResultados()
+
+   // Asigna eventos a teclas
+   $(document).keypress(function (e) {
+
+      // Tecla Enter
+      if (e.which == 13) {
+
+         e.preventDefault()
+
+         if (popup_filtro.$id.hasClass('in')) {
+             popup_filtro.apply_Filters()
+         }
+
+      }
+      // Tecla ESC
+   })
+
 })
 
 /*-----------------------------------------------*\
@@ -39,9 +57,8 @@ function TarjetaResultados() {
 function ToolBar() {
    
    popup_rol = new PopupRol()
-   popup_filtro = new PopupFiltro()
    this.$id_boton_nuevo_rol = $('#id_boton_nuevo_rol')
-   this.$id_boton_filtros = $('#id_boton_filtros')
+   this.$id_boton_filtro = $('#id_boton_filtros')
    this.init_Events()
 }
 ToolBar.prototype.init_Events = function () {
@@ -51,6 +68,16 @@ ToolBar.prototype.init_Events = function () {
 ToolBar.prototype.click_BotonNuevoRol = function (e) {
 
   popup_rol.mostrar(0, "nuevo")
+}
+ToolBar.prototype.change_BotonFiltros = function (_no_filtros) {
+
+    html = "<i class='icon icon-left mdi mdi-search nova-white'></i> Filtros <span class='badge nova-border-bottom'>no_filtros</span>".replace("no_filtros", _no_filtros)
+
+    this.$id_boton_filtro.html(html)
+}
+ToolBar.prototype.restart_BotonFiltros = function () {
+    
+    this.$id_boton_filtro.html("<i class='icon icon-left mdi mdi-search nova-white'></i> Filtros")   
 }
 
 /*-----------------------------------------------*\
@@ -234,6 +261,7 @@ PopupRol.prototype.clear_Formulario = function (e) {
 
    e.data.$id_empleado.val("").trigger("change").removeAttr("disabled")
    e.data.$id_rol.val("").trigger("change")
+   e.data.$id_boton_guardar.removeAttr("disabled")
 }
 PopupRol.prototype.crear = function (e) {
    
@@ -254,6 +282,7 @@ PopupRol.prototype.crear = function (e) {
       },
       success: function (_response) {
 
+         e.data.$id_boton_guardar.attr("disabled" ,"disabled")
          e.data.$id.modal('hide')
          window.location.href = url_rol
       },
@@ -320,13 +349,44 @@ PopupFiltro.prototype.init_Events = function () {
 }
 PopupFiltro.prototype.click_BotonBuscar = function (e) {
 
-   e.data.$id_tbody.empty()
-   e.data.buscar()
+   e.preventDefault()
+   e.data.apply_Filters()
 }
 PopupFiltro.prototype.click_BotonLimpiar = function (e) {
 
    e.data.$id_empleado_filtro.val("").trigger("change")
    e.data.$id_rol_filtro.val("").trigger("change")
+}
+PopupFiltro.prototype.get_NoFiltrosAplicados = function () {
+
+    cantidad = 0
+
+    if (this.$id_empleado_filtro.val() != "") {
+        cantidad += 1
+    }
+
+    if (this.$id_rol_filtro.val() != "") {
+        cantidad += 1
+    }
+
+    return cantidad
+}
+PopupFiltro.prototype.apply_Filters = function () {
+
+
+   this.$id_tbody.empty()
+   this.buscar()
+
+   no_filtros = this.get_NoFiltrosAplicados()
+
+   if (no_filtros != 0) {
+        tarjeta_resultados.toolbar.change_BotonFiltros(no_filtros)
+   }
+   else {
+        tarjeta_resultados.toolbar.restart_BotonFiltros()
+   }
+    
+   this.$id.modal('hide')
 }
 PopupFiltro.prototype.buscar = function () {
 

@@ -37,7 +37,7 @@ from .serializers import FallaSerializer
 from .serializers import FormatoSerializer
 
 # Paginadores:
-# from .pagination import GenericPagination
+from .pagination import GenericPagination
 
 # Filtros:
 from .filters import ResponsablesFilter
@@ -104,16 +104,37 @@ class SitioAPI(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated,)
 
 
+class SitioByPageAPI(viewsets.ModelViewSet):
+    queryset = Sitio.objects.all()
+    serializer_class = SitioSerializer
+    permission_classes = (IsAuthenticated,)
+    pagination_class = GenericPagination
+
+
 class MetodologiaAPI(viewsets.ModelViewSet):
     queryset = Metodologia.objects.all()
     serializer_class = MetodologiaSerializer
     permission_classes = (IsAuthenticated,)
 
 
+class MetodologiaByPageAPI(viewsets.ModelViewSet):
+    queryset = Metodologia.objects.all()
+    serializer_class = MetodologiaSerializer
+    permission_classes = (IsAuthenticated,)
+    pagination_class = GenericPagination
+
+
 class FallaAPI(viewsets.ModelViewSet):
     queryset = Falla.objects.all()
     serializer_class = FallaSerializer
     permission_classes = (IsAuthenticated,)
+
+
+class FallaByPageAPI(viewsets.ModelViewSet):
+    queryset = Falla.objects.all()
+    serializer_class = FallaSerializer
+    permission_classes = (IsAuthenticated,)
+    pagination_class = GenericPagination
 
 
 class FormatoAPI(viewsets.ModelViewSet):

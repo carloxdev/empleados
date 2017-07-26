@@ -3,7 +3,7 @@
 \*-----------------------------------------------*/
 
 // URLS:
-var url_metodologia = window.location.origin + "/api-calidad/metodologia/"
+var url_metodologia_bypage = window.location.origin + "/api-calidad/metodologia_bypage/"
 
 // OBJS
 var tarjeta_resultados = null
@@ -63,6 +63,7 @@ PopupMetodologia.prototype.init_Events = function () {
 
    this.$id_boton_guardar.on('click', this, this.click_BotonGuardar)
    this.$id.on('hidden.bs.modal', this, this.hidden_Modal)
+   this.$id.on('shown.bs.modal', this, this.shown_Modal)
 }
 PopupMetodologia.prototype.mostrar = function (_accion) {
 
@@ -91,6 +92,10 @@ PopupMetodologia.prototype.hidden_Modal = function (e) {
    e.data.clear_Estilos(e)
    e.data.clear_Formulario(e)
 }
+PopupMetodologia.prototype.shown_Modal = function (e) {
+
+   e.data.$id_metodologia.focus()
+}
 PopupMetodologia.prototype.clear_Estilos = function (e) {
 
    e.data.$id_metodologia.removeClass("nova-has-error")
@@ -100,6 +105,7 @@ PopupMetodologia.prototype.clear_Formulario = function (e) {
 
    e.data.$id_metodologia.val("")
    e.data.$id_formulario.get(0).reset() //Limpia los campos seleccionados por medio de la cache del navegador
+   e.data.$id_boton_guardar.removeAttr("disabled")
 }
 PopupMetodologia.prototype.click_BotonGuardar = function (e) {
 
@@ -114,7 +120,7 @@ PopupMetodologia.prototype.crear = function (e) {
    if (e.data.validar()) {
          
       $.ajax({
-         url: url_metodologia,
+         url: url_metodologia_bypage,
          method: "POST",
          headers: { "X-CSRFToken": appnova.galletita },
          data: {
@@ -122,6 +128,7 @@ PopupMetodologia.prototype.crear = function (e) {
          },
          success: function (_response) {
 
+            e.data.$id_boton_guardar.attr("disabled" ,"disabled")
             e.data.$id.modal('hide')
             tarjeta_resultados.grid.buscar()
          },
@@ -159,7 +166,7 @@ Grid.prototype.get_DataSourceConfig = function (e) {
       transport: {
          read: {
  
-            url: url_metodologia,
+            url: url_metodologia_bypage,
             type: "GET",
             dataType: "json",
          }
@@ -178,10 +185,14 @@ Grid.prototype.get_DataSourceConfig = function (e) {
          }
       },
       schema: {
-          model: {
-               id: "pk",
-               fields: this.get_Campos()
-          }
+
+         data: "results",
+         total: "count",
+         model: {
+
+            id: "pk",
+            fields: this.get_Campos()
+         }
       },
       error: function (e) {
          alertify.error("Status: " + e.status + "; Error message: " + e.errorThrown)
@@ -196,7 +207,7 @@ Grid.prototype.update_Metodologia = function (_pk, _metodologia) {
 
    $.ajax({
 
-      url: url_metodologia + _pk +"/",
+      url: url_metodologia_bypage + _pk +"/",
       data : JSON.stringify(data),
       type: "PUT",
       headers: { "X-CSRFToken": appnova.galletita },
@@ -264,7 +275,7 @@ Grid.prototype.get_Columnas = function () {
 }
 Grid.prototype.click_BotonEliminar = function (_id) {
 
-   var url = url_metodologia + _id + "/"
+   var url = url_metodologia_bypage + _id + "/"
    tarjeta_resultados.grid.eliminar(url)
 }
 Grid.prototype.eliminar = function (_url) {

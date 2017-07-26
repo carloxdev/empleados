@@ -151,6 +151,7 @@ PopupFormato.prototype.get_DateTimePickerConfig = function () {
 PopupFormato.prototype.init_Events = function () {
 
    this.$id_boton_guardar.on("click", this, this.click_BotonGuardar)
+   this.$id_no_revision.on("keydown", this, this.keydown_ValidarNegativos)
    this.$id.on('hidden.bs.modal', this, this.hidden_Modal)
 }
 PopupFormato.prototype.click_BotonGuardar = function (e) {
@@ -168,6 +169,13 @@ PopupFormato.prototype.click_BotonGuardar = function (e) {
          var pk = e.data.$id.attr("data-primarykey")
          e.data.editar(e, pk)
       }
+   }
+}
+PopupFormato.prototype.keydown_ValidarNegativos = function (e) {
+
+   if(!((e.keyCode > 95 && e.keyCode < 106) || (e.keyCode > 47 && e.keyCode < 58) || e.keyCode == 8)) {
+
+      return false;
    }
 }
 PopupFormato.prototype.mostrar = function (_id, _accion) {
@@ -223,7 +231,7 @@ PopupFormato.prototype.validar = function () {
       bandera = false
    }
 
-   if ( this.$id_no_revision.val() == "") {
+   if ( this.$id_no_revision.val() == "" ) {
 
       this.$id_no_revision.addClass("nova-has-error")
       bandera = false

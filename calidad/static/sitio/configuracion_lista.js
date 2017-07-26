@@ -3,7 +3,7 @@
 \*-----------------------------------------------*/
 
 // URLS:
-var url_sitio = window.location.origin + "/api-calidad/sitio/"
+var url_sitio_bypage = window.location.origin + "/api-calidad/sitio_bypage/"
 
 // OBJS
 var tarjeta_resultados = null
@@ -63,6 +63,7 @@ PopupSitio.prototype.init_Events = function () {
 
    this.$id_boton_guardar.on('click', this, this.click_BotonGuardar)
    this.$id.on('hidden.bs.modal', this, this.hidden_Modal)
+   this.$id.on('shown.bs.modal', this, this.shown_Modal)
 }
 PopupSitio.prototype.mostrar = function (_accion) {
 
@@ -89,15 +90,20 @@ PopupSitio.prototype.hidden_Modal = function (e) {
    e.data.clear_Estilos(e)
    e.data.clear_Formulario(e)
 }
+PopupSitio.prototype.shown_Modal = function (e) {
+
+   e.data.$id_sitio.focus()
+}
 PopupSitio.prototype.clear_Estilos = function (e) {
 
    e.data.$id_sitio.removeClass("nova-has-error")
    e.data.$id_formulario.find('#id_mensaje_error').remove()
 }
 PopupSitio.prototype.clear_Formulario = function (e) {
-
+   
    e.data.$id_sitio.val("")
    e.data.$id_formulario.get(0).reset() //Limpia los campos seleccionados por medio de la cache del navegador
+   e.data.$id_boton_guardar.removeAttr("disabled")
 }
 PopupSitio.prototype.click_BotonGuardar = function (e) {
 
@@ -113,7 +119,7 @@ PopupSitio.prototype.crear = function (e) {
          
       $.ajax({
 
-         url: url_sitio,
+         url: url_sitio_bypage,
          method: "POST",
          headers: { "X-CSRFToken": appnova.galletita },
          data: {
@@ -122,6 +128,7 @@ PopupSitio.prototype.crear = function (e) {
          },
          success: function (_response) {
 
+            e.data.$id_boton_guardar.attr("disabled" ,"disabled")
             e.data.$id.modal('hide')
             tarjeta_resultados.grid.buscar()
          },
@@ -159,7 +166,7 @@ Grid.prototype.get_DataSourceConfig = function (e) {
       transport: {
          read: {
  
-            url: url_sitio,
+            url: url_sitio_bypage,
             type: "GET",
             dataType: "json",
          }
@@ -178,11 +185,13 @@ Grid.prototype.get_DataSourceConfig = function (e) {
       },
       schema: {
 
-          model: {
+         data: "results",
+         total: "count",
+         model: {
 
-               id: "pk",
-               fields: this.get_Campos()
-          }
+            id: "pk",
+            fields: this.get_Campos(),
+         }
       },
       error: function (e) {
          alertify.error("Status: " + e.status + "; Error message: " + e.errorThrown)
@@ -198,7 +207,7 @@ Grid.prototype.update_Sitio = function (_pk, _sitio) {
 
    $.ajax({
 
-      url: url_sitio + _pk +"/",
+      url: url_sitio_bypage + _pk +"/",
       data : JSON.stringify(data),
       type: "PUT",
       headers: { "X-CSRFToken": appnova.galletita },
@@ -264,7 +273,7 @@ Grid.prototype.get_Columnas = function () {
 }
 Grid.prototype.click_BotonEliminar = function (_id) {
 
-   var url = url_sitio + _id + "/"
+   var url = url_sitio_bypage + _id + "/"
    tarjeta_resultados.grid.eliminar(url)
 }
 Grid.prototype.eliminar = function (_url) {

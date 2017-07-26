@@ -20,7 +20,24 @@ var popup_requisito = null
 
 $(document).ready(function () {
    
+   popup_filtros = new PopupFiltros()
    tarjeta_resultados = new TarjetaResultados()
+
+   // Asigna eventos a teclas
+   $(document).keypress(function (e) {
+
+      // Tecla Enter
+      if (e.which == 13) {
+
+         e.preventDefault()
+
+         if (popup_filtros.$id.hasClass('in')) {
+             popup_filtros.apply_Filters()
+         }
+
+      }
+      // Tecla ESC
+   })
    
 })
 
@@ -40,7 +57,6 @@ function TarjetaResultados(){
 
 function ToolBar() {
 
-   popup_filtros = new PopupFiltros()
    popup_criterio = new PopupCriterio()
    this.$id_boton_nuevo_criterio = $('#id_boton_nuevo_criterio')
    this.$id_boton_filtro = $('#id_boton_filtro')
@@ -54,6 +70,16 @@ ToolBar.prototype.click_BotonNuevo = function (e) {
 
    popup_criterio.mostrar(0, "nuevo")
 }
+ToolBar.prototype.change_BotonFiltros = function (_no_filtros) {
+
+    html = "<i class='icon icon-left mdi mdi-search nova-white'></i> Filtros <span class='badge nova-border-bottom'>no_filtros</span>".replace("no_filtros", _no_filtros)
+
+    this.$id_boton_filtro.html(html)
+}
+ToolBar.prototype.restart_BotonFiltros = function () {
+    
+    this.$id_boton_filtro.html("<i class='icon icon-left mdi mdi-search nova-white'></i> Filtros")   
+}
 
 /*-----------------------------------------------*\
          OBJETO: Tarjeta filtros
@@ -63,6 +89,7 @@ function PopupFiltros() {
    
    this.$id = $('#id_tarjeta_filtros')
    this.$id_requisito = $('#id_requisito_filtro')
+   this.$id_filtro = $('#id_formulario_filtro')
    this.$id_boton_buscar = $('#id_boton_buscar')
    this.$id_boton_limpiar = $('#id_boton_limpiar')
 
@@ -70,19 +97,50 @@ function PopupFiltros() {
 }
 PopupFiltros.prototype.init_Events = function () {
 
+   this.$id.on('shown.bs.modal', this, this.shown_Modal)
    this.$id_boton_buscar.on("click", this, this.click_BotonBuscar)
    this.$id_boton_limpiar.on("click", this, this.click_BotonLimpiar)
 }
 PopupFiltros.prototype.click_BotonBuscar = function (e) {
 
-   var criterio = e.data.$id_requisito.val()
-   tarjeta_resultados.arbol.buscar(criterio)
-   e.data.$id.modal('hide')
+   e.preventDefault()
+   e.data.apply_Filters()
 }
 PopupFiltros.prototype.click_BotonLimpiar = function (e) {
 
    e.data.$id_requisito.val("")
    tarjeta_resultados.arbol.limpiar()
+}
+PopupFiltros.prototype.get_NoFiltrosAplicados = function () {
+
+    cantidad = 0
+
+    if (this.$id_requisito.val() != "") {
+        cantidad += 1
+    }
+
+    return cantidad
+}
+PopupFiltros.prototype.apply_Filters = function () {
+
+
+   var criterio = this.$id_requisito.val()
+   tarjeta_resultados.arbol.buscar(criterio)
+
+   no_filtros = this.get_NoFiltrosAplicados()
+
+   if (no_filtros != 0) {
+        tarjeta_resultados.toolbar.change_BotonFiltros(no_filtros)
+   }
+   else {
+        tarjeta_resultados.toolbar.restart_BotonFiltros()
+   }
+    
+   this.$id.modal('hide')
+}
+PopupFiltros.prototype.shown_Modal = function (e) {
+
+   e.data.$id_requisito.focus()
 }
 
 /*-----------------------------------------------*\
@@ -95,7 +153,7 @@ function PopupCriterio() {
    this.$id_formulario = $('#id_formulario_criterio')
    this.$id_clasificacion_criterio = $('#id_clasificacion_criterio')
    this.$id_criterio = $('#id_criterio')
-   this.$id_boton_guardar_criterio = $('#id_boton_guardar_criterio')
+   this.$id_boton_guardar = $('#id_boton_guardar_criterio')
    this.$accion
    this.$id_titulo = $('#id_popup_criterio_titulo')
 
@@ -108,7 +166,7 @@ PopupCriterio.prototype.init_Components = function () {
 }
 PopupCriterio.prototype.init_Events = function () {
 
-   this.$id_boton_guardar_criterio.on('click', this, this.click_BotonGuardar)
+   this.$id_boton_guardar.on('click', this, this.click_BotonGuardar)
    this.$id.on('hidden.bs.modal', this, this.hidden_Modal)
 }
 PopupCriterio.prototype.mostrar = function (_id, _accion) {
@@ -181,6 +239,7 @@ PopupCriterio.prototype.clear_Formulario = function (e) {
    e.data.$id_clasificacion_criterio.data('select2').val(0)
    e.data.$id_criterio.val("")
    e.data.$id_formulario.get(0).reset()
+   e.data.$id_boton_guardar.removeAttr("disabled")
 }
 PopupCriterio.prototype.click_BotonGuardar = function (e) {
 
@@ -205,11 +264,13 @@ PopupCriterio.prototype.crear = function (e) {
          method: "POST",
          headers: { "X-CSRFToken": appnova.galletita },
          data: {
+
             "clasificacion" : e.data.$id_clasificacion_criterio.val(),
             "criterio" : e.data.$id_criterio.val(),
          },
          success: function (_response) {
 
+            e.data.$id_boton_guardar.attr("disabled" ,"disabled")
             e.data.$id.modal('hide')
             tarjeta_resultados.arbol.init_Components()
          },
@@ -410,15 +471,16 @@ function PopupRequisito() {
    this.$id = $('#id_tarjeta_requisito')
    this.$id_formulario = $('#id_formulario_requisito')
    this.$id_requisito = $('#id_requisito')
-   this.$id_boton_guardar_requisito = $('#id_boton_guardar_requisito')
+   this.$id_boton_guardar = $('#id_boton_guardar_requisito')
    this.$accion
    this.$id_titulo = $('#id_popup_requisito_titulo')
    this.init_Events()
 }
 PopupRequisito.prototype.init_Events = function () {
 
-   this.$id_boton_guardar_requisito.on("click", this, this.click_BotonGuardar)
+   this.$id_boton_guardar.on("click", this, this.click_BotonGuardar)
    this.$id.on('hidden.bs.modal', this, this.hidden_Modal)
+   this.$id.on('shown.bs.modal', this, this.shown_Modal)
 }
 PopupRequisito.prototype.click_BotonGuardar = function (e) {
    
@@ -450,6 +512,7 @@ PopupRequisito.prototype.crear = function (e, _pk) {
          },
          success: function (_response) {
 
+            e.data.$id_boton_guardar.attr("disabled" ,"disabled")
             e.data.$id.modal('hide')
             tarjeta_resultados.arbol.cargar_Datos(true)
          },
@@ -538,6 +601,10 @@ PopupRequisito.prototype.hidden_Modal = function (e) {
    e.data.clear_Estilos(e)
    e.data.clear_Formulario(e)
 }
+PopupRequisito.prototype.shown_Modal = function (e) {
+
+   e.data.$id_requisito.focus()
+}
 PopupRequisito.prototype.clear_Estilos = function (e) {
 
    e.data.$id_requisito.removeClass("nova-has-error")
@@ -547,4 +614,5 @@ PopupRequisito.prototype.clear_Formulario = function (e) {
 
    e.data.$id_requisito.val("")
    e.data.$id_formulario.get(0).reset()
+   e.data.$id_boton_guardar.removeAttr("disabled")
 }

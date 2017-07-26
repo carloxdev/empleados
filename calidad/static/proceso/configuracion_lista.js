@@ -74,6 +74,7 @@ PopupProceso.prototype.init_Events = function () {
 
    this.$id_boton_guardar.on('click', this, this.click_BotonGuardar)
    this.$id.on('hidden.bs.modal', this, this.hidden_Modal)
+   this.$id.on('shown.bs.modal', this, this.shown_Modal)
 }
 PopupProceso.prototype.mostrar = function (_id, _accion) {
 
@@ -126,6 +127,10 @@ PopupProceso.prototype.hidden_Modal = function (e) {
    e.data.clear_Estilos(e)
    e.data.clear_Formulario(e)
 }
+PopupProceso.prototype.shown_Modal = function (e) {
+
+   e.data.$id_proceso.focus()
+}
 PopupProceso.prototype.clear_Estilos = function (e) {
 
    e.data.$id_proceso.removeClass("nova-has-error")
@@ -135,6 +140,7 @@ PopupProceso.prototype.clear_Formulario = function (e) {
 
    e.data.$id_proceso.val("")
    e.data.$id_formulario.get(0).reset() //Limpia los campos seleccionados por medio de la cache del navegador
+   e.data.$id_boton_guardar.removeAttr("disabled")
 }
 PopupProceso.prototype.click_BotonGuardar = function (e) {
 
@@ -162,6 +168,7 @@ PopupProceso.prototype.crear = function (e) {
          },
          success: function (_response) {
 
+            e.data.$id_boton_guardar.attr("disabled" ,"disabled")
             e.data.$id.modal('hide')
             tarjeta_resultados.arbol.init_Components()
          },
@@ -392,6 +399,7 @@ PopupResponsable.prototype.guardar_Seleccion = function (_pk) {
       headers: { "X-CSRFToken": appnova.galletita },
       context: this,
       data: {
+         
          "numero_empleado" : numero_empleado,
          "nombre_completo" : nombre_completo,
          "proceso" : url_proceso + _pk + "/",
@@ -506,6 +514,7 @@ PopupSubproceso.prototype.init_Events = function () {
 
    this.$id_boton_guardar.on("click", this, this.click_BotonGuardar)
    this.$id.on('hidden.bs.modal', this, this.hidden_Modal)
+   this.$id.on('shown.bs.modal', this, this.shown_Modal)
 }
 PopupSubproceso.prototype.click_BotonGuardar = function (e) {
    
@@ -536,6 +545,7 @@ PopupSubproceso.prototype.crear = function (e, _pk) {
          },
          success: function (_response) {
 
+            e.data.$id_boton_guardar.attr("disabled" ,"disabled")
             e.data.$id.modal('hide')
             tarjeta_resultados.arbol.cargar_Datos(true)
          },
@@ -622,6 +632,10 @@ PopupSubproceso.prototype.hidden_Modal = function (e) {
    e.data.clear_Estilos(e)
    e.data.clear_Formulario(e)
 }
+PopupSubproceso.prototype.shown_Modal = function (e) {
+
+   e.data.$id_subproceso.focus()
+}
 PopupSubproceso.prototype.clear_Estilos = function (e) {
 
    e.data.$id_subproceso.removeClass("nova-has-error")
@@ -631,4 +645,5 @@ PopupSubproceso.prototype.clear_Formulario = function (e) {
 
    e.data.$id_subproceso.val("")
    e.data.$id_formulario.get(0).reset()
+   e.data.$id_boton_guardar.removeAttr("disabled")
 }

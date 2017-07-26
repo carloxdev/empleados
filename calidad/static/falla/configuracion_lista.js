@@ -3,7 +3,7 @@
 \*-----------------------------------------------*/
 
 // URLS:
-var url_falla = window.location.origin + "/api-calidad/falla/"
+var url_falla_bypage = window.location.origin + "/api-calidad/falla_bypage/"
 
 // OBJS
 var tarjeta_resultados = null
@@ -64,6 +64,7 @@ PopupFalla.prototype.init_Events = function () {
 
    this.$id_boton_guardar.on('click', this, this.click_BotonGuardar)
    this.$id.on('hidden.bs.modal', this, this.hidden_Modal)
+   this.$id.on('shown.bs.modal', this, this.shown_Modal)
 }
 PopupFalla.prototype.mostrar = function (_accion) {
 
@@ -98,6 +99,10 @@ PopupFalla.prototype.hidden_Modal = function (e) {
    e.data.clear_Estilos(e)
    e.data.clear_Formulario(e)
 }
+PopupFalla.prototype.shown_Modal = function (e) {
+
+   e.data.$id_codigo.focus()
+}
 PopupFalla.prototype.clear_Estilos = function (e) {
 
    e.data.$id_codigo.removeClass("nova-has-error")
@@ -109,6 +114,7 @@ PopupFalla.prototype.clear_Formulario = function (e) {
    e.data.$id_codigo.val("")
    e.data.$id_falla.val("")
    e.data.$id_formulario.get(0).reset() //Limpia los campos seleccionados por medio de la cache del navegador
+   e.data.$id_boton_guardar.removeAttr("disabled")
 }
 PopupFalla.prototype.click_BotonGuardar = function (e) {
 
@@ -124,7 +130,7 @@ PopupFalla.prototype.crear = function (e) {
          
       $.ajax({
 
-         url: url_falla,
+         url: url_falla_bypage,
          method: "POST",
          headers: { "X-CSRFToken": appnova.galletita },
          data: {
@@ -133,9 +139,9 @@ PopupFalla.prototype.crear = function (e) {
          },
          success: function (_response) {
 
+            e.data.$id_boton_guardar.attr("disabled" ,"disabled")
             e.data.$id.modal('hide')
             tarjeta_resultados.grid.buscar()
-   
          },
          error: function (_response) {
 
@@ -172,7 +178,7 @@ Grid.prototype.get_DataSourceConfig = function (e) {
 
          read: {
  
-            url: url_falla,
+            url: url_falla_bypage,
             type: "GET",
             dataType: "json",
          }
@@ -192,7 +198,10 @@ Grid.prototype.get_DataSourceConfig = function (e) {
       },
       schema: {
 
+         data: "results",
+         total: "count",
          model: {
+
                id: "pk",
                fields: this.get_Campos()
          }
@@ -212,7 +221,7 @@ Grid.prototype.update_Falla = function (_pk, _codigo, _falla) {
 
    $.ajax({
 
-      url: url_falla + _pk +"/",
+      url: url_falla_bypage + _pk +"/",
       data : JSON.stringify(data),
       type: "PUT",
       headers: { "X-CSRFToken": appnova.galletita },
@@ -282,7 +291,7 @@ Grid.prototype.get_Columnas = function () {
 }
 Grid.prototype.click_BotonEliminar = function (_id) {
 
-   var url = url_falla + _id + "/"
+   var url = url_falla_bypage + _id + "/"
    tarjeta_resultados.grid.eliminar(url)
 }
 Grid.prototype.eliminar = function (_url) {
