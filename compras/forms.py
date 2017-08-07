@@ -90,7 +90,8 @@ class SeguimientoComprasFilterForm(Form):
     req_desde_hasta = CharField(
         label='Fecha de creación',
         widget=TextInput(
-            attrs={'name': 'req_desde_hasta', 'class': 'form-control input-xs', 'readonly': '', 'id': 'fecha_req_desde_hasta'}
+            attrs={'name': 'req_desde_hasta', 'class': 'form-control input-xs',
+                   'readonly': '', 'id': 'fecha_req_desde_hasta'}
         ),
     )
 
@@ -126,7 +127,8 @@ class SeguimientoComprasFilterForm(Form):
     oc_desde_hasta = CharField(
         label='Fecha de creación',
         widget=TextInput(
-            attrs={'name': 'oc_desde_hasta', 'class': 'form-control input-xs', 'readonly': '', 'id': 'fecha_ord_desde_hasta'}
+            attrs={'name': 'oc_desde_hasta', 'class': 'form-control input-xs',
+                   'readonly': '', 'id': 'fecha_ord_desde_hasta'}
         ),
     )
 

@@ -27,35 +27,36 @@
 
 <div class="be-content">
 
-   <div class="page-head">
-      <h2 class="page-head-title">Compras</h2>
-      <ol class="breadcrumb page-head-nav">
+   <div class="page-head nova-page-head">
+      <h2 class="page-head-title nova-title">Compras</h2>
+      <ol class="breadcrumb page-head-nav pull-right">
          <li id="menu" data-opcion="compras_seguimiento" class="active">Seguimiento</li>
       </ol>
    </div>
 
-   <div class="main-content container-fluid">
-      
-      <div class="col-sm-12">
-         <div class="panel panel-default panel-table">
-            <div class="panel-heading panel-border nova-panel-heading">
-               <div class="tools pull-right" id="toolbar">
-                  <a href="#id_tarjeta_filtros"
-                     class="btn nova-btn btn-rounded btn-sm btn-space btn-primary" data-toggle="modal" id="id_boton_filtro">
-                     <i class="icon icon-left mdi mdi-search nova-white"></i> Filtros
-                  </a>
-                  
-                  <button type="submit" name="exportar" value="exportar" class="btn nova-btn btn-rounded btn-space btn-success" id="id_boton_exportar">
-                     <i class="icon icon-left mdi mdi-download nova-white"></i>
-                     Exportar
-                  </button>
+   <div class="main-content container-fluid  nova-main-content">
+      <div class="row wizard-row">
+         <div class="col-sm-12">
+            <div class="panel panel-default panel-table">
+               <div class="panel-heading panel-border nova-panel-heading">
+                  <div class="tools pull-right" id="toolbar">
+                     <a href="#id_tarjeta_filtros"
+                        class="btn nova-btn btn-rounded btn-sm btn-space btn-primary" data-toggle="modal" id="id_boton_filtro">
+                        <i class="icon icon-left mdi mdi-search nova-white"></i> Filtros
+                     </a>
+                     
+                     <button type="submit" name="exportar" value="exportar" class="btn nova-btn btn-rounded btn-space btn-success" id="id_boton_exportar">
+                        <i class="icon icon-left mdi mdi-download nova-white"></i>
+                        Exportar
+                     </button>
+                  </div>
+                  <div class="title hidden-xs">Registros</div>
+               </div><!-- Panel Heading -->
+               <div id="grid_resultados">
                </div>
-               <div class="title hidden-xs">Registros</div>
-            </div><!-- Panel Heading -->
-            <div id="grid_resultados">
-            </div>
-         </div> <!-- Panel -->
-      </div><!-- col sm 12-->
+            </div> <!-- Panel -->
+         </div><!-- col sm 12-->
+      </div>
 
       <!-- Targeta Filtros -->
       <div id="id_tarjeta_filtros" role="dialog" class="modal fade colored-header colored-header-primary">

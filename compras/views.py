@@ -37,7 +37,6 @@ class SeguimientoComprasLista(View):
         return render(request, self.template_name, contexto)
 
     def post(self, request):
-        print("NO")
         response = HttpResponse(content_type='application/vnd.ms-excel')
         response['Content-Disposition'] = 'attachment; filename="compras.xls"'
 
@@ -136,8 +135,6 @@ class SeguimientoComprasLista(View):
 
                     if datosPost == 'recepcion':
                         argumentos['ord_recepcion__exact'] = request.POST[datosPost]
-
-        print(argumentos)
 
         rows = VIEW_SCOMPRAS.objects.using('jde_p').filter(**argumentos).values_list(
             'req_compania', 'req_un', 'req', 'req_tipo', 'req_generador', 'req_fecha_creacion', 'req_fecha_necesidad',
