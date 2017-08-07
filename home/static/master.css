@@ -602,6 +602,7 @@ div.nova-panel-arbol li.list-group-item {
 .nova-table-popup-gradient {
    border-color: #cccccc;
    white-space: nowrap;
+   margin-bottom: 0px !important;
 }
 .nova-table-popup-gradient thead {
    background: #428bca;
@@ -610,13 +611,15 @@ div.nova-panel-arbol li.list-group-item {
    background: -moz-linear-gradient(#e6e6e6 ,#ebebeb); /* For Firefox 3.6 to 15 */
    background: linear-gradient(#e6e6e6 ,#ebebeb); /* Standard syntax */
    color: black;
-
 }
 .nova-table-popup-gradient > thead > tr > th {
    font-weight: 400;
    font-size: 14px;
    border-color: #cccccc;
-   margin-bottom: 0px !important;
+}
+.nova-popup-table-footer {
+   text-align: left !important;
+   padding: 15px 0 15px 15px !important;
 }
 /* bootstrap Tables */
 /* kendo grid */
