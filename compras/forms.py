@@ -63,41 +63,47 @@ class SeguimientoComprasFilterForm(Form):
     )
 
     compania = ChoiceField(
-        widget=Select(attrs={'class': 'select2 nova-select2'})
+        widget=Select(attrs={'name': 'compania', 'class': 'select2 nova-select2'})
     )
     sucursal = ChoiceField(
-        widget=Select(attrs={'class': 'select2 nova-select2'})
+        widget=Select(attrs={'name': 'sucursal', 'class': 'select2 nova-select2'})
     )
     comprador = CharField(
         widget=TextInput(
-            attrs={'class': 'form-control input-xs', 'placeholder': 'Ejemplo: JORDAN'})
+            attrs={'name': 'comprador', 'class': 'form-control input-xs', 'placeholder': 'Ejemplo: JORDAN'})
     )
 
     requisicion = IntegerField(
         widget=NumberInput(
-            attrs={'class': 'form-control input-xs', 'min': '1'})
+            attrs={'name': 'requisicion', 'class': 'form-control input-xs', 'min': '1'})
     )
     requisicion_tipo = CharField(
-        widget=Select(attrs={'class': 'form-control input-xs'},
+        widget=Select(attrs={'name': 'requisicion_tipo', 'class': 'form-control input-xs'},
                       choices=TIPOS_REQUISISION)
     )
     requisicion_originador = ChoiceField(
-        widget=Select(attrs={'class': 'select2 nova-select2'})
+        widget=Select(attrs={'name': 'requisicion_originador', 'class': 'select2 nova-select2'})
     )
     requisicion_canceladas = ChoiceField(
         widget=RadioSelect, choices=CANCELADAS
     )
+    req_desde_hasta = CharField(
+        label='Fecha de creación',
+        widget=TextInput(
+            attrs={'name': 'req_desde_hasta', 'class': 'form-control input-xs', 'readonly': '', 'id': 'fecha_req_desde_hasta'}
+        ),
+    )
 
     cotizacion = IntegerField(
         widget=NumberInput(
-            attrs={'class': 'form-control input-xs', 'min': '1'})
+            attrs={'name': 'cotizacion', 'class': 'form-control input-xs', 'min': '1'})
     )
     cotizacion_tipo = CharField(
-        widget=Select(attrs={'class': 'form-control input-xs'},
+        widget=Select(attrs={'name': 'cotizacion_tipo', 'class': 'form-control input-xs'},
                       choices=TIPOS_COTIZACION)
     )
     cotizacion_originador = ChoiceField(
-        widget=Select(attrs={'class': 'select2 nova-select2'})
+        widget=Select(attrs={'name': 'cotizacion_originador', 'class': 'select2 nova-select2'})
     )
     cotizacion_canceladas = ChoiceField(
         widget=RadioSelect, choices=CANCELADAS
@@ -105,30 +111,36 @@ class SeguimientoComprasFilterForm(Form):
 
     oc = IntegerField(
         widget=NumberInput(
-            attrs={'class': 'form-control input-xs', 'min': '1'})
+            attrs={'name': 'oc', 'class': 'form-control input-xs', 'min': '1'})
     )
     oc_tipo = CharField(
         widget=Select(
-            attrs={'class': 'form-control input-xs'}, choices=TIPOS_OC)
+            attrs={'name': 'oc_tipo', 'class': 'form-control input-xs'}, choices=TIPOS_OC)
     )
     oc_originador = ChoiceField(
-        widget=Select(attrs={'class': 'select2 nova-select2'})
+        widget=Select(attrs={'name': 'oc_originador', 'class': 'select2 nova-select2'})
     )
     oc_canceladas = ChoiceField(
         widget=RadioSelect, choices=CANCELADAS
     )
+    oc_desde_hasta = CharField(
+        label='Fecha de creación',
+        widget=TextInput(
+            attrs={'name': 'oc_desde_hasta', 'class': 'form-control input-xs', 'readonly': '', 'id': 'fecha_ord_desde_hasta'}
+        ),
+    )
 
     proveedor = CharField(
         widget=TextInput(
-            attrs={'class': 'form-control input-xs', 'placeholder': 'Ejemplo: SANTANDREU'})
+            attrs={'name': 'proveedor', 'class': 'form-control input-xs', 'placeholder': 'Ejemplo: SANTANDREU'})
     )
     item = CharField(
         widget=TextInput(
-            attrs={'class': 'form-control input-xs', 'placeholder': 'Ejemplo: TUBERIA'})
+            attrs={'name': 'item', 'class': 'form-control input-xs', 'placeholder': 'Ejemplo: TUBERIA'})
     )
     recepcion = CharField(
         widget=Select(
-            attrs={'class': 'form-control input-xs'}, choices=RECEPCION)
+            attrs={'name': 'recepcion', 'class': 'form-control input-xs'}, choices=RECEPCION)
     )
 
     def __init__(self, *args, **kwargs):

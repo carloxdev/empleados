@@ -91,3 +91,27 @@ def tag_field_popup_datepicker(_field, _size_label, _size_field, _input_group_id
         'input_group_id': _input_group_id,
     }
     return contexto
+
+
+@register.inclusion_tag(
+    'tags/field_popup_filter.html',
+    takes_context=False)
+def tag_field_popup_filter(_field, _size_col):
+
+    contexto = {
+        'campo': _field,
+        'size_col': _size_col,
+    }
+    return contexto
+
+
+@register.inclusion_tag(
+    'tags/field_popup_daterangepicker.html',
+    takes_context=False)
+def tag_field_popup_daterangepicker(_field, _size_group):
+
+    contexto = {
+        'campo': _field,
+        'size_group': _size_group,
+    }
+    return contexto

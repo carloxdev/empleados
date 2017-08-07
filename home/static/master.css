@@ -524,7 +524,21 @@ div.nova-panel-arbol li.list-group-item {
 .nova-modal-informacion {
    padding: 12px 15px;
 }
-
+.nova-modal-accordion {
+   margin-bottom: 0px !important;
+}
+.nova-accordion-row {
+   padding-left: 15px;
+   padding-right: 15px;
+   overflow: hidden;
+}
+.nova-accordion-border-bottom {
+   border-bottom: 1px solid #d4d4d4;
+}
+.nova-modal-accordion-panel {
+   border-radius: 0px !important;
+   margin-top: 0px !important;
+}
 /* modales */
 
 /* bootstrap tables */
@@ -568,7 +582,7 @@ div.nova-panel-arbol li.list-group-item {
 }
 /* multiselect 2 */
 /* jquery multiselect */
-.nova-has-error{
+.nova-has-error {
    border: 1px solid #ea4335 !important;
    box-shadow: 0 0 7px #ff0000 !important;
 }
@@ -581,8 +595,36 @@ div.nova-panel-arbol li.list-group-item {
    font-size: 32px;
    background-color: #ececec; 
 }
-.nova-tabla-popup{
+.nova-tabla-popup {
    padding: 0px 74px 0px 74px;
    margin-top: 20px;
 }
+.table-curved {
+   border-color: #cccccc;
+   white-space: nowrap;
+}
+.table-curved thead {
+   background: #428bca;
+   background: -webkit-linear-gradient(#e6e6e6 ,#ebebeb); /* For Safari 5.1 to 6.0 */
+   background: -o-linear-gradient(#e6e6e6 ,#ebebeb); /* For Opera 11.1 to 12.0 */
+   background: -moz-linear-gradient(#e6e6e6 ,#ebebeb); /* For Firefox 3.6 to 15 */
+   background: linear-gradient(#e6e6e6 ,#ebebeb); /* Standard syntax */
+   color: black;
+}
+.table-curved > thead > tr > th {
+   font-weight: 400;
+   font-size: 14px;
+   border-color: #cccccc;
+}
 /* bootstrap Tables */
+/* kendo grid */
+.nova-grid-column-yellow {
+   background-color: LightYellow;
+}
+.nova-grid-column-purple {
+   background-color: GhostWhite;
+}
+.nova-grid-column-blue {
+   background-color: Azure;
+}
+/* kendo grid */
