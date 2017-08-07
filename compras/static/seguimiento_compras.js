@@ -729,7 +729,7 @@ PopupDetalles.prototype.construir_Tabla = function (_id_contenedor, _data, _camp
 
    }
    $(_id_contenedor).html(
-      '<table class="table table-bordered table-hover table-curved">'+
+      '<table class="table table-bordered table-hover nova-table-popup-gradient">'+
          '<thead>'+head+'</thead>'+
          '<tbody>'+rows+'</tbody>'+
       '</table>'
