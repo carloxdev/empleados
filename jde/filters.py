@@ -389,7 +389,7 @@ class VIEW_SCOMPRAS_Filter(filters.FilterSet):
             return queryset
         else:
 
-            consulta = queryset.filter(cot_fecha_creacion__gte=valor)
+            consulta = queryset.filter(ord_fecha_creacion__gte=valor)
 
             return consulta
 
@@ -400,7 +400,7 @@ class VIEW_SCOMPRAS_Filter(filters.FilterSet):
         if not value:
             return queryset
         else:
-            consulta = queryset.filter(cot_fecha_creacion__lte=valor)
+            consulta = queryset.filter(ord_fecha_creacion__lte=valor)
 
             return consulta
 
