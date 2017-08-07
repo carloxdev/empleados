@@ -404,9 +404,8 @@ ToolBar.prototype.click_BotonExportar = function (e) {
 
          if ((tarjeta_resultados.grid.$id.data("kendoGrid").dataSource.total() <= 65535) && (tarjeta_resultados.grid.$id.data("kendoGrid").dataSource.total() >= 1)) {            
             
-            //Pace.restart()url: window.location.origin + '/seguimiento_compras/'
-            var data = tarjeta_filtros.$formulario.submit()
-            var algo = 1
+            
+            tarjeta_filtros.$formulario.submit()
             // $.ajax({
             //    url: 'http://127.0.0.1:8000/seguimiento_compras/',
             //    method: "POST",

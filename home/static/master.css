@@ -610,11 +610,13 @@ div.nova-panel-arbol li.list-group-item {
    background: -moz-linear-gradient(#e6e6e6 ,#ebebeb); /* For Firefox 3.6 to 15 */
    background: linear-gradient(#e6e6e6 ,#ebebeb); /* Standard syntax */
    color: black;
+
 }
 .table-curved > thead > tr > th {
    font-weight: 400;
    font-size: 14px;
    border-color: #cccccc;
+   margin-bottom: 0px !important;
 }
 /* bootstrap Tables */
 /* kendo grid */
