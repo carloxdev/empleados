@@ -15,7 +15,7 @@ from django.core.files.storage import default_storage
 # Modelos
 from ebs.models import VIEW_EMPLEADOS_FULL
 from ebs.models import VIEW_ORGANIGRAMA
-from .models import ViaticoCabecera
+from finanzas.models import ViaticoCabecera
 
 # Serializers
 from serializers import VIEW_ORGANIGRAMA_ORG_SERIALIZADO
@@ -109,7 +109,6 @@ class EmpleadoOrganigramaAPI(View):
             lista_json,
             content_type="application/json"
         )
-
 # Viaticos
 
 

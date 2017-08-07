@@ -137,6 +137,7 @@ PopupFiltros.prototype.get_Values = function (_page) {
         autorizador_clave: this.$autorizador.val(),
         creacion_fecha_mayorque: this.$fecha_creacion.data('daterangepicker').startDate.format('YYYY-MM-DD'),
         creacion_fecha_menorque: this.$fecha_creacion.data('daterangepicker').endDate.format('YYYY-MM-DD'),
+        status: "aut",
     }
 }
 PopupFiltros.prototype.get_NoFiltrosAplicados = function () {
