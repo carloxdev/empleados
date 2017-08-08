@@ -115,3 +115,15 @@ def tag_field_popup_daterangepicker(_field, _size_group):
         'size_group': _size_group,
     }
     return contexto
+
+
+@register.inclusion_tag(
+    'tags/field_popup_radio_button.html',
+    takes_context=False)
+def tag_field_popup_radio_button(_field, _size_col):
+
+    contexto = {
+        'campo': _field,
+        'size_col': _size_col,
+    }
+    return contexto

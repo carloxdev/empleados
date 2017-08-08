@@ -85,6 +85,7 @@ class SeguimientoComprasFilterForm(Form):
         widget=Select(attrs={'name': 'requisicion_originador', 'class': 'select2 nova-select2'})
     )
     requisicion_canceladas = ChoiceField(
+        label='¿Mostrar canceladas?',
         widget=RadioSelect, choices=CANCELADAS
     )
     req_desde_hasta = CharField(
@@ -107,6 +108,7 @@ class SeguimientoComprasFilterForm(Form):
         widget=Select(attrs={'name': 'cotizacion_originador', 'class': 'select2 nova-select2'})
     )
     cotizacion_canceladas = ChoiceField(
+        label='¿Mostrar canceladas?',
         widget=RadioSelect, choices=CANCELADAS
     )
 
@@ -122,6 +124,7 @@ class SeguimientoComprasFilterForm(Form):
         widget=Select(attrs={'name': 'oc_originador', 'class': 'select2 nova-select2'})
     )
     oc_canceladas = ChoiceField(
+        label='¿Mostrar canceladas?',
         widget=RadioSelect, choices=CANCELADAS
     )
     oc_desde_hasta = CharField(

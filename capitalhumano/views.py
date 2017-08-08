@@ -10,6 +10,10 @@ from django.urls import reverse
 from django.views.generic.base import View
 from django.core.files.storage import default_storage
 
+# Otras librerias
+import xlwt
+import datetime
+from datetime import datetime
 # Librerias de Propias
 
 # Formularios
@@ -42,13 +46,139 @@ class EmpleadoLista(View):
 
     def get(self, request):
 
-        formulario = EmpleadoFilterForm()
+        formulario = EmpleadoFilterForm(use_required_attribute=False)
 
         contexto = {
             'form': formulario
         }
 
         return render(request, self.template_name, contexto)
+
+    def post(self, request):
+        response = HttpResponse(content_type='application/vnd.ms-excel')
+        response['Content-Disposition'] = 'attachment; filename="compras.xls"'
+
+        wb = xlwt.Workbook(encoding='utf-8')
+        ws = wb.add_sheet('Empleados')
+
+        row_num = 0
+
+        font_style = xlwt.XFStyle()
+        font_style.font.bold = True
+
+        columns = [
+            'Número', 'Tipo', 'Fecha contratación', 'Primer nombre', 'Segundo nombre',
+            'Apellido paterno', 'Apellido materno', 'Título', 'Género', 'CURP', 'RFC',
+            'IMSS', 'IFE', 'Fecha de nacimiento', 'Ciudad de nacimiento',
+            'Estado de nacimiento', 'País de nacimiento', 'Estado civil',
+            'Correo electrónico', 'TipoN', 'Fecha inicio asignación',
+            'Organización', 'Trabajo', 'Grado', 'Ubicación', 'Puesto', 'Jefe directo',
+            'Nómina', 'Estado asig', 'Base salario', 'Información estatutaria',
+            'Nómina JDE', 'Compañia JDE', 'Proyecto cod. JDE', 'Proyecto JDE',
+            'Fase cod. JDE', 'Fase JDE', 'Puesto IMSS', 'Banco', 'Método pago',
+            'Tipo', 'Prioridad', 'Importe saldo', 'Porcentaje', 'Detalle adicional',
+            'Sucursal', 'Cuenta', 'Clabe',
+        ]
+
+        for col_num in range(len(columns)):
+            ws.write(row_num, col_num, columns[col_num], font_style)
+        date_format = xlwt.XFStyle()
+        date_format.num_format_str = 'dd/mm/yyyy'
+
+        argumentos = {}
+        campos_formulario = []
+        for campos in EmpleadoFilterForm():
+            campos_formulario.append(campos.name)
+
+        for datosPost in request.POST:
+            if datosPost in campos_formulario:
+                if request.POST[datosPost] != '':
+                    if datosPost == 'pers_primer_nombre':
+                        argumentos['pers_primer_nombre__icontains'] = request.POST[datosPost]
+
+                    if datosPost == 'pers_segundo_nombre':
+                        argumentos['pers_segundo_nombre__icontains'] = request.POST[datosPost]
+
+                    if datosPost == 'pers_apellido_paterno':
+                        argumentos['pers_apellido_paterno__icontains'] = request.POST[datosPost]
+
+                    if datosPost == 'pers_apellido_materno':
+                        argumentos['pers_apellido_materno__icontains'] = request.POST[datosPost]
+
+                    if datosPost == 'pers_genero_clave':
+                        argumentos['pers_genero_clave__exact'] = request.POST[datosPost]
+
+                    if datosPost == 'pers_empleado_numero':
+                        argumentos['pers_empleado_numero__exact'] = request.POST[datosPost]
+
+                    if datosPost == 'pers_tipo_codigo':
+                        argumentos['pers_tipo_codigo__exact'] = request.POST[datosPost]
+
+                    if datosPost == 'asig_puesto_clave':
+                        argumentos['asig_puesto_clave__icontains'] = request.POST[datosPost]
+
+                    if datosPost == 'asig_organizacion_clave':
+                        argumentos['asig_organizacion_clave__exact'] = request.POST[datosPost]
+
+                    if datosPost == 'fecha_contratacion':
+                        valores = request.POST.get('fecha_contratacion').split(" al ")
+                        argumentos['pers_fecha_contratacion__gte'] = valores[0]
+                        argumentos['pers_fecha_contratacion__lte'] = valores[1]
+
+                    if datosPost == 'grup_compania_jde':
+                        argumentos['grup_compania_jde__contains'] = request.POST[datosPost]
+
+                    if datosPost == 'grup_fase_jde':
+                        argumentos['grup_fase_jde__exact'] = request.POST[datosPost]
+
+                    if datosPost == 'grup_nomina_jde':
+                        argumentos['grup_nomina_jde__exact'] = request.POST[datosPost]
+
+        rows = VIEW_EMPLEADOS_FULL.objects.using('ebs_p').filter(**argumentos).values_list(
+            'pers_empleado_numero', 'pers_tipo_desc', 'pers_fecha_contratacion', 'pers_primer_nombre',
+            'pers_segundo_nombre', 'pers_apellido_paterno', 'pers_apellido_materno', 'pers_titulo',
+            'pers_genero_desc', 'pers_curp', 'pers_rfc', 'pers_numero_imss', 'pers_ife', 'pers_fecha_nacimiento',
+            'pers_ciudad_nacimiento', 'pers_estado_nacimiento', 'pers_pais_nacimiento_clave', 'pers_estado_civil_desc',
+            'pers_email', 'asig_tipo_empleado', 'asig_fecha_inicio', 'asig_organizacion_desc', 'asig_trabajo_desc',
+            'asig_grado_desc', 'asig_ubicacion_desc', 'asig_puesto_desc', 'asig_jefe_directo_desc', 'asig_nomina_desc',
+            'asig_estado_desc', 'asig_salario_base_desc', 'informacion_estatutaria_desc', 'grup_nomina_jde',
+            'grup_compania_jde', 'grup_proyecto_code_jde', 'grup_proyecto_jde', 'grup_fase_code_jde', 'grup_fase_jde',
+            'grup_puesto_jde', 'metodo_banco', 'metodo_nombre', 'metodo_tipo', 'metodo_prioridad',
+            'metodo_importe_saldo', 'metodo_porcentaje', 'metodo_pago', 'metodo_sucursal', 'metodo_cuenta',
+            'metodo_clabe')
+
+        for row in rows:
+            row_num += 1
+
+            for col_num in range(len(row)):
+
+                # print(datetime.datetime.strptime(row[row_num], "%Y-%m-%dT%H:%M:%S.%f"))
+                print("Antes del conver")
+                print(row[2])
+                algo = datetime.strptime(row[2], '%Y-%m-%d').date()
+                print(algo)
+                print("Despues del conver")
+                if isinstance(row[col_num], datetime.date):
+                    ws.write(row_num, col_num, row[col_num], date_format)
+                    print('entra if ' + row[col_num].strftime('%m/%d/%Y'))
+                    print(type(row[col_num]))
+                    print(row[col_num])
+                    print("")
+                elif isinstance(row[col_num], datetime.time):
+                    ws.write(row_num, col_num, row[col_num], date_format)
+                    print('entra elif ' + row[col_num].strftime('%m/%d/%Y'))
+                    print(type(row[col_num]))
+                    print(row[col_num])
+                    print("")
+                else:
+                    ws.write(row_num, col_num, row[col_num])
+                    print('entra else')
+                    print(type(row[col_num]))
+                    print(row[col_num])
+                    print("")
+
+        wb.save(response)
+        return response
 
 # -------------- DASHBOARD -------------- #
 

@@ -34,7 +34,7 @@
       </ol>
    </div>
 
-   <div class="main-content container-fluid  nova-main-content">
+   <div class="main-content container-fluid nova-main-content">
       <div class="row wizard-row">
          <div class="col-sm-12">
             <div class="panel panel-default panel-table">
@@ -124,26 +124,7 @@
                               {% tag_field_popup_filter form.requisicion_tipo 5 %}
 
                               <!-- requisicion_canceladas -->
-                              <div class="col-sm-3">
-                                 <div class="form-group {% if form.requisicion_canceladas.errors %} has-error {% endif %}" id="id_requisicion_canceladas">
-
-                                 <label class="control-label">
-                                 <i class="fa {% if form.requisicion_canceladas.errors %} fa-asterisk {% endif %}"></i> 
-                                    ¿Mostrar canceladas?
-                                 </label>
-                                 <div>
-                                    {% for radio in form.requisicion_canceladas %}
-                                       <div class="be-radio inline">
-                                         {{ radio.tag }}
-                                         <label for="{{ radio.id_for_label }}">{{ radio.choice_label }}</label>
-                                       </div>
-                                    {% endfor %}
-                                 </div>
-                                 {% for error in form.requisicion_canceladas.errors %}
-                                    <span class="help-block">{{ error }}</span>
-                                 {% endfor %}
-                                 </div>
-                              </div>
+                              {% tag_field_popup_radio_button form.requisicion_canceladas 3 %}
 
                            </div>
 
@@ -176,26 +157,7 @@
                               {% tag_field_popup_filter form.cotizacion_tipo 5 %}
 
                               <!-- cotizacion_canceladas -->
-                              <div class="col-sm-3">
-                                 <div class="form-group {% if form.cotizacion_canceladas.errors %} has-error {% endif %}" id="id_cotizacion_canceladas">
-
-                                    <label class="control-label">
-                                    <i class="fa {% if form.cotizacion_canceladas.errors %} fa-asterisk {% endif %}"></i> 
-                                       ¿Mostrar canceladas?
-                                    </label>
-                                    <div>
-                                       {% for radio in form.cotizacion_canceladas %}
-                                          <div class="be-radio inline">
-                                            {{ radio.tag }}
-                                            <label for="{{ radio.id_for_label }}">{{ radio.choice_label }}</label>
-                                          </div>
-                                       {% endfor %}
-                                    </div>
-                                    {% for error in form.cotizacion_canceladas.errors %}
-                                       <span class="help-block">{{ error }}</span>
-                                    {% endfor %}
-                                 </div>
-                              </div>
+                              {% tag_field_popup_radio_button form.cotizacion_canceladas 3 %}
 
                            </div>
                            
@@ -227,28 +189,8 @@
                               <!-- oc_tipo -->
                               {% tag_field_popup_filter form.oc_tipo 5 %}
 
-
                               <!-- oc_canceladas -->
-                              <div class="col-sm-3">
-                                 <div class="form-group {% if form.oc_canceladas.errors %} has-error {% endif %}">
-
-                                 <label class="control-label">
-                                 <i class="fa {% if form.oc_canceladas.errors %} fa-asterisk {% endif %}"></i> 
-                                    ¿Mostrar canceladas?
-                                 </label>
-                                 <div>
-                                    {% for radio in form.oc_canceladas %}
-                                       <div class="be-radio inline">
-                                         {{ radio.tag }}
-                                         <label for="{{ radio.id_for_label }}">{{ radio.choice_label }}</label>
-                                       </div>
-                                    {% endfor %}
-                                 </div>
-                                 {% for error in form.oc_canceladas.errors %}
-                                    <span class="help-block">{{ error }}</span>
-                                 {% endfor %}
-                                 </div>
-                              </div>
+                              {% tag_field_popup_radio_button form.oc_canceladas 3 %}
 
                            </div>
                            <div class="nova-accordion-row">
@@ -262,10 +204,7 @@
                               <!-- oc_originador -->
                               {% tag_field_popup_filter form.oc_originador 4 %}
                               
-                              
-
                            </div>
-
                         </div>
                      </div>
 
@@ -376,7 +315,6 @@
    <script src="{% static 'libs/kendo/2015.2.624/js/kendo.web.min.js' %}"></script>
 
    <!-- Theme -->
-   <script src="{% static 'theme/lib/jquery-ui/jquery-ui.min.js' %}"></script>
    <script src="{% static 'theme/lib/datetimepicker/js/bootstrap-datetimepicker.min.js' %}"></script>
    <script src="{% static 'theme/lib/datetimepicker/js/locales/bootstrap-datetimepicker.es.js' %}"></script>
    <script src="{% static 'theme/lib/daterangepicker/js/daterangepicker.js' %}"></script>
