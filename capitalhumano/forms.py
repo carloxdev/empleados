@@ -84,29 +84,75 @@ class EmpleadoFilterForm(Form):
         ('OPERATIVA', 'Operativa'),
     )
 
-    pers_primer_nombre = CharField(widget=TextInput(
-        attrs={'class': 'form-control input-xs'}))
-    pers_segundo_nombre = CharField(widget=TextInput(
-        attrs={'class': 'form-control input-xs'}))
-    pers_apellido_paterno = CharField(widget=TextInput(
-        attrs={'class': 'form-control input-xs'}))
-    pers_apellido_materno = CharField(widget=TextInput(
-        attrs={'class': 'form-control input-xs'}))
-    pers_genero_clave = ChoiceField(widget=RadioSelect, choices=GENERO)
-    pers_empleado_numero = IntegerField(widget=NumberInput(
-        attrs={'class': 'form-control input-xs', 'min': '1'}))
-    pers_tipo_codigo = ChoiceField(widget=Select(
-        attrs={'class': 'select2 nova-select2'}))
-    asig_puesto_clave = ChoiceField(widget=Select(
-        attrs={'class': 'select2 nova-select2'}))
+    pers_primer_nombre = CharField(
+        label='Primer nombre',
+        widget=TextInput(
+            attrs={'class': 'form-control input-xs'}))
+
+    pers_segundo_nombre = CharField(
+        label='Segundo nombre',
+        widget=TextInput(
+            attrs={'class': 'form-control input-xs'}))
+
+    pers_apellido_paterno = CharField(
+        label='Apellido paterno',
+        widget=TextInput(
+            attrs={'class': 'form-control input-xs'}))
+
+    pers_apellido_materno = CharField(
+        label='Apellido materno',
+        widget=TextInput(
+            attrs={'class': 'form-control input-xs'}))
+
+    pers_genero_clave = ChoiceField(
+        label='Género',
+        widget=RadioSelect, choices=GENERO)
+
+    pers_empleado_numero = IntegerField(
+        label='Número de empleado',
+        widget=NumberInput(
+            attrs={'class': 'form-control input-xs', 'min': '1'}))
+
+    pers_tipo_codigo = ChoiceField(
+        label='Tipo',
+        widget=Select(
+            attrs={'class': 'select2 nova-select2'}))
+
+    asig_puesto_clave = ChoiceField(
+        label='Puesto',
+        widget=Select(
+            attrs={'class': 'select2 nova-select2'}))
+
     asig_organizacion_clave = ChoiceField(
-        widget=Select(attrs={'class': 'select2 nova-select2'}))
-    grup_compania_jde = ChoiceField(widget=Select(
-        attrs={'class': 'select2 nova-select2'}))
-    # zona = CharField(widget=TextInput(attrs={'class': 'form-control input-xs'}))
-    grup_fase_jde = ChoiceField(widget=Select(
-        attrs={'class': 'select2 nova-select2'}))
-    grup_nomina_jde = ChoiceField(widget=RadioSelect, choices=NOMINA)
+        label='Organización',
+        widget=Select(
+            attrs={'class': 'select2 nova-select2'}))
+
+    fecha_contratacion = CharField(
+        label='Fecha de contratación',
+        widget=TextInput(
+            attrs={'name': 'fecha_contratacion', 'class': 'form-control input-xs', 'readonly': ''}
+        ),
+    )
+
+    grup_compania_jde = ChoiceField(
+        label='Compañia',
+        widget=Select(
+            attrs={'class': 'select2 nova-select2'}))
+
+    # zona = CharField(
+    #     label='Zona',
+    #     widget=TextInput(
+    #         attrs={'class': 'form-control input-xs'}))
+
+    grup_fase_jde = ChoiceField(
+        label='Centro de costos',
+        widget=Select(
+            attrs={'class': 'select2 nova-select2'}))
+
+    grup_nomina_jde = ChoiceField(
+        label='Nómina',
+        widget=RadioSelect, choices=NOMINA)
 
     def __init__(self, *args, **kwargs):
         super(EmpleadoFilterForm, self).__init__(
@@ -173,7 +219,7 @@ class EmpleadoFilterForm(Form):
         companias = Empresa.objects.all()
 
         for compania in companias:
-            print(compania.clave)
+
             valores.append(
                 (
                     compania.descripcion_jde,

@@ -1,13 +1,13 @@
 <div class="col-sm-{{size_col}}">
-   <div class="form-group {% if form.sucursal.errors %} has-error {% endif %}">
+   <div class="form-group {% if campo.errors %} has-error {% endif %}">
       <label class="control-label">
-         <i class="fa {% if form.sucursal.errors %} fa-asterisk {% endif %}"></i> 
+         <i class="fa {% if form.campo.errors %} fa-asterisk {% endif %}"></i> 
          {{ campo.label }}
       </label>
       <p>
          {{ campo }}
       </p>
-      {% for error in form.sucursal.errors %}
+      {% for error in form.campo.errors %}
          <span class="help-block">{{ error }}</span>
       {% endfor %}                  
    </div>
