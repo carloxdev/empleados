@@ -18,7 +18,7 @@
     <!-- Theme -->
     <link rel="stylesheet" href="{% static 'theme/lib/datetimepicker/css/bootstrap-datetimepicker.min.css' %}"/>
     <link rel="stylesheet" href="{% static 'theme/lib/daterangepicker/css/daterangepicker.css' %}"/>
-    
+
     <!-- Nova -->
     <link rel="stylesheet" href="{% static 'grid.css' %}"/>
 
@@ -28,14 +28,14 @@
 
 <div class="be-content">
 
-    <input type="text" id="url_viaticocabecera_editar" class="hidden" value="{% url 'serviciosempleado:viatico_editar' 0 %}">
+    <input type="text" id="url_viaticocabecera_editar" class="hidden" value="{% url 'finanzas:viatico_editar' 0 %}">
 
 	<div class="page-head nova-page-head">
 		<h2 class="page-head-title nova-title">Solicitudes de Viaticos</h2>
 		<ol class="breadcrumb page-head-nav pull-right">
 			<li><a href="{% url 'home:inicio' %}">Inicio</a></li>
 			<li id="menu" data-opcion="viaticos_lista" class="active">Solicitudes de Viaticos</li>
-		</ol>	
+		</ol>
 	</div>
 
     <!-- Targeta Resultados -->
@@ -43,15 +43,15 @@
         <div class="row">
             <div class="col-xs-12 nova-col">
                     <div class="panel panel-default panel-table">
-                        <div class="panel-heading panel-border nova-panel-heading"> 
+                        <div class="panel-heading panel-border nova-panel-heading">
                             <div class="tools pull-right nova-tools" id="toolbar">
 
-                                <a href="{% url 'serviciosempleado:viatico_nuevo' %}" 
+                                <a href="{% url 'finanzas:viatico_nuevo' %}" 
                                     class="btn nova-btn btn-rounded btn-space btn-default" id="boton_nuevo">
-                                    <i class="icon icon-left mdi mdi-plus-circle nova-black"></i>Nuevo 
+                                    <i class="icon icon-left mdi mdi-plus-circle nova-black"></i>Nuevo
                                 </a>
 
-                                <a href="#tarjeta_filtros" 
+                                <a href="#tarjeta_filtros"
                                     class="btn nova-btn btn-rounded btn-space btn-primary" data-toggle="modal" id="boton_filtros">
                                     <i class="icon icon-left mdi mdi-search nova-white"></i>Filtros
                                 </a>
@@ -66,21 +66,21 @@
                         <div id="grid_resultados">
                         </div><!-- "Panel Body" -->
                   </div> <!-- Panel -->
-            </div><!-- col md 12 -->            
+            </div><!-- col md 12 -->
         </div>
-	</div>    
+	</div>
 </div>
 
 <!-- Targeta Filtros -->
 <div id="tarjeta_filtros" role="dialog" class="modal fade colored-header colored-header-primary">
     <div class="modal-dialog custom-width">
         <div class="modal-content">
-            
+
             <div class="modal-header nova-modal-header">
                 <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
                 <h3 class="modal-title">Filtros</h3>
             </div>
-                
+
             <form id="formulario_filtro" class="modal-body form-horizontal">
 
                 {% tag_filter form.proposito_viaje %}
@@ -129,7 +129,7 @@
     <script src="{% static 'libs/kendo/2015.2.624/js/kendo.web.min.js' %}"></script>
 
     <!-- Moment -->
-    <script src="{% static 'libs/momentjs/2.18.1/moment.js' %}"></script>    
+    <script src="{% static 'libs/momentjs/2.18.1/moment.js' %}"></script>
 
     <!-- Theme -->
     <script src="{% static 'theme/lib/jquery-ui/jquery-ui.min.js' %}"></script>
@@ -137,7 +137,7 @@
     <script src="{% static 'theme/lib/datetimepicker/js/bootstrap-datetimepicker.min.js' %}"></script>
     <script src="{% static 'theme/lib/datetimepicker/js/locales/bootstrap-datetimepicker.es.js' %}"></script>
     <script src="{% static 'theme/lib/daterangepicker/js/daterangepicker.js' %}"></script>
-    
+
     <!-- Nova -->
     <script src="{% static 'viatico/viatico_lista.js' %}"></script>
 

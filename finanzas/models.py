@@ -11,6 +11,7 @@ from simple_history.models import HistoricalRecords
 from seguridad.models import Profile
 from administracion.models import Empresa
 
+
 class ViaticoCabecera(models.Model):
 
     VIATICO_ESTADOS = (

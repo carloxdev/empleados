@@ -1,14 +1,13 @@
 # Librerias Python:
-import sys
-import json
 
 # API Rest:
 from rest_framework import serializers
 
 # Modelos
-from ebs.models import VIEW_EMPLEADOS_FULL
+# from ebs.models import VIEW_EMPLEADOS_FULL
 from .models import ViaticoCabecera
 from .models import ViaticoLinea
+
 
 class ViaticoCabeceraSerializer(serializers.HyperlinkedModelSerializer):
 

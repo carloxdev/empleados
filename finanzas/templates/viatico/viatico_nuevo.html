@@ -20,7 +20,7 @@
         <h2 class="page-head-title nova-title">Nueva Solicitud</h2>
         <ol class="breadcrumb page-head-nav pull-right">
             <li><a href="{% url 'home:inicio' %}">Inicio</a></li>
-            <li><a href="{% url 'serviciosempleado:viatico_lista' %}">Viaticos</a></li>
+            <li><a href="{% url 'finanzas:viatico_lista' %}">Viaticos</a></li>
             <li id="menu" data-opcion="viaticos_lista" class="active">Nuevo</li>
         </ol>
     </div>
@@ -31,7 +31,7 @@
         <div class="row wizard-row">
             <div class="col-md-12 fuelux">
                 <form class="block-wizard panel panel-default" action="" method="POST" > {% csrf_token %}
-                    
+
                     <div id="wizard1" class="wizard wizard-ux">
                         <ul class="steps">
 
@@ -53,11 +53,11 @@
                                         </div>
                                     </div>
 
-                                    {{ form.non_field_errors }} 
+                                    {{ form.non_field_errors }}
 
                                     <div class="form-group">
-                                        
-                                        <label class="col-sm-3 control-label" 
+
+                                        <label class="col-sm-3 control-label"
                                             for="{{ form.empleado_clave.id_for_label }}">
                                             {{ form.empleado_clave.label }}
                                         </label>
@@ -70,16 +70,16 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <label class="col-sm-3 control-label" 
+                                        <label class="col-sm-3 control-label"
                                             for="{{ form.unidad_negocio_clave.id_for_label }}">
                                             {{ form.unidad_negocio_clave.label }}
                                         </label>
                                         <div class="col-sm-6 xs-pt-5">
                                             {{ form.unidad_negocio_clave }}
-                                        </div> 
+                                        </div>
                                         {% for error in form.unidad_negocio_clave.errors %}
                                             <span class="help-block">{{ error }}</span>
-                                        {% endfor %}                                        
+                                        {% endfor %}
                                     </div>
 
                                     <div class="form-group">
@@ -89,8 +89,8 @@
                                         </label>
 
                                         <div class="col-sm-3 xs-pt-5">
-                                            <div class="input-group date" 
-                                            data-min-view="2" 
+                                            <div class="input-group date"
+                                            data-min-view="2"
                                             data-date-format="yyyy-mm-dd"
                                             id="id_fecha_partida_input">
                                                 {{ form.fecha_partida }}
@@ -98,14 +98,14 @@
                                                     <span class="glyphicon glyphicon-calendar"></span>
                                                 </span>
                                             </div>
-                                        </div> 
+                                        </div>
                                         {% for error in form.fecha_partida.errors %}
                                             <span class="help-block">{{ error }}</span>
                                         {% endfor %}
 
                                         <div class="col-sm-3 xs-pt-5">
-                                            <div class="input-group date" 
-                                            data-min-view="2" 
+                                            <div class="input-group date"
+                                            data-min-view="2"
                                             data-date-format="yyyy-mm-dd"
                                             id="id_fecha_regreso_input">
                                                 {{ form.fecha_regreso }}
@@ -118,24 +118,24 @@
                                             <span class="help-block">{{ error }}</span>
                                         {% endfor %}
 
-                                        
+
                                     </div>
 
                                     <div class="form-group">
-                                        <label class="col-sm-3 control-label" 
+                                        <label class="col-sm-3 control-label"
                                             for="{{ form.ciudad_destino.id_for_label }}">
                                             {{ form.ciudad_destino.label }}
                                         </label>
                                         <div class="col-sm-6 xs-pt-5">
                                             {{ form.ciudad_destino }}
-                                        </div> 
+                                        </div>
                                         {% for error in form.ciudad_destino.errors %}
                                             <span class="help-block">{{ error }}</span>
                                         {% endfor %}
                                     </div>
 
                                     <div class="form-group">
-                                        <label class="col-sm-3 control-label" 
+                                        <label class="col-sm-3 control-label"
                                             for="{{ form.proposito_viaje.id_for_label }}">
                                             {{ form.proposito_viaje.label }}
                                         </label>
@@ -144,7 +144,7 @@
                                         </div>
                                         {% for error in form.proposito_viaje.errors %}
                                             <span class="help-block">{{ error }}</span>
-                                        {% endfor %}                                        
+                                        {% endfor %}
                                     </div>
 
                                     <div class="form-group no-padding">
@@ -166,8 +166,8 @@
                             <button type="button" id="boton_limpiar" class="btn btn-default pull-left">
                                 <i class="icon mdi mdi-arrow-left"></i>
                                 Regresar
-                            </button>                        
-                            
+                            </button>
+
                             <button type="submit" id="boton_buscar" class="btn nova-btn btn-primary btn-lg pull-right">
                                 <i class="icon icon-left mdi mdi-save nova-white"></i>
                                 Guardar Encabezado
@@ -179,7 +179,7 @@
                     <div>
                         {{ form.empleado_descripcion }}
                         {{ form.unidad_negocio_descripcion }}
-                    </div>                    
+                    </div>
 
                 </form>
             </div>
@@ -203,7 +203,6 @@
     <script src="{% static 'libs/plugins/input-mask/jquery.inputmask.js' %}"></script>
 
 	<!-- Nova -->
-	<script src="{% static 'viatico/viatico_formulario.js' %}"></script>      
+	<script src="{% static 'viatico/viatico_formulario.js' %}"></script>
 
 {% endblock scripts %}
-

@@ -13,6 +13,10 @@ from seguridadlaboral.urls_rest import router_seguridadlaboral
 from calidad.urls_rest import router_calidad
 from finanzas.urls_rest import router_viaticos
 
+from django.conf import settings
+from django.conf.urls.static import static
+
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^api-ebs/', include(router_ebs.urls)),
@@ -32,3 +36,8 @@ urlpatterns = [
     url(r'', include('calidad.urls', namespace="calidad")),
     url(r'', include('finanzas.urls', namespace="finanzas")),
 ]
+
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL,
+                          document_root=settings.MEDIA_ROOT)
