@@ -139,6 +139,8 @@ TarjetaFiltros.prototype.init_Events = function () {
    this.$id_grup_fase_jde.on("click", this, this.cambio_Estado)
    this.$id_grup_nomina_jde.on("click", this, this.cambio_Estado)
    this.$fecha_contratacion.on("click", this, this.cambio_Estado)
+   this.$id.on("hide.bs.modal", this, this.hide_Modal)
+
 }
 TarjetaFiltros.prototype.keydown_ValidarNegativos = function (e) {
 
@@ -162,6 +164,10 @@ TarjetaFiltros.prototype.click_MostrarPicker = function (e) {
 TarjetaFiltros.prototype.click_LimpiarCampo = function (e) {
 
    $(this).siblings('input').val("")
+}
+TarjetaFiltros.prototype.hide_Modal = function (e) {
+
+   e.data.$fecha_contratacion.data('daterangepicker').hide()  
 }
 TarjetaFiltros.prototype.get_Values = function (_page, _pageSize) {
 

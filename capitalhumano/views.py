@@ -13,7 +13,7 @@ from django.core.files.storage import default_storage
 # Otras librerias
 import xlwt
 import datetime
-from datetime import datetime
+
 # Librerias de Propias
 
 # Formularios
@@ -55,7 +55,7 @@ class EmpleadoLista(View):
         return render(request, self.template_name, contexto)
 
     def post(self, request):
-        response = HttpResponse(content_type='application/vnd.ms-excel')
+        response = HttpResponse(content_type='application/ms-excel')
         response['Content-Disposition'] = 'attachment; filename="compras.xls"'
 
         wb = xlwt.Workbook(encoding='utf-8')
@@ -81,7 +81,9 @@ class EmpleadoLista(View):
         ]
 
         for col_num in range(len(columns)):
+            ws.col(col_num).width = int(4000)
             ws.write(row_num, col_num, columns[col_num], font_style)
+
         date_format = xlwt.XFStyle()
         date_format.num_format_str = 'dd/mm/yyyy'
 
@@ -134,7 +136,7 @@ class EmpleadoLista(View):
                     if datosPost == 'grup_nomina_jde':
                         argumentos['grup_nomina_jde__exact'] = request.POST[datosPost]
 
-        rows = VIEW_EMPLEADOS_FULL.objects.using('ebs_p').filter(**argumentos).values_list(
+        rows = VIEW_EMPLEADOS_FULL.objects.using('ebs_d').filter(**argumentos).values_list(
             'pers_empleado_numero', 'pers_tipo_desc', 'pers_fecha_contratacion', 'pers_primer_nombre',
             'pers_segundo_nombre', 'pers_apellido_paterno', 'pers_apellido_materno', 'pers_titulo',
             'pers_genero_desc', 'pers_curp', 'pers_rfc', 'pers_numero_imss', 'pers_ife', 'pers_fecha_nacimiento',
@@ -149,33 +151,15 @@ class EmpleadoLista(View):
 
         for row in rows:
             row_num += 1
-
             for col_num in range(len(row)):
-
-                # print(datetime.datetime.strptime(row[row_num], "%Y-%m-%dT%H:%M:%S.%f"))
-                print("Antes del conver")
-                print(row[2])
-                algo = datetime.strptime(row[2], '%Y-%m-%d').date()
-                print(algo)
-                print("Despues del conver")
                 if isinstance(row[col_num], datetime.date):
                     ws.write(row_num, col_num, row[col_num], date_format)
-                    print('entra if ' + row[col_num].strftime('%m/%d/%Y'))
-                    print(type(row[col_num]))
-                    print(row[col_num])
-                    print("")
-                elif isinstance(row[col_num], datetime.time):
-                    ws.write(row_num, col_num, row[col_num], date_format)
-                    print('entra elif ' + row[col_num].strftime('%m/%d/%Y'))
-                    print(type(row[col_num]))
-                    print(row[col_num])
-                    print("")
                 else:
-                    ws.write(row_num, col_num, row[col_num])
-                    print('entra else')
-                    print(type(row[col_num]))
-                    print(row[col_num])
-                    print("")
+                    if (col_num == 2) or (col_num == 13):
+                        fecha = datetime.datetime.strptime(row[col_num], '%Y-%m-%d %H:%M:%S').date()
+                        ws.write(row_num, col_num, fecha, date_format)
+                    else:
+                        ws.write(row_num, col_num, row[col_num])
 
         wb.save(response)
         return response
