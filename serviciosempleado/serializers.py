@@ -7,8 +7,8 @@ from rest_framework import serializers
 
 # Modelos
 from ebs.models import VIEW_EMPLEADOS_FULL
-from .models import ViaticoCabecera
-from .models import ViaticoLinea
+from finanzas.models import ViaticoCabecera
+from finanzas.models import ViaticoLinea
 
 
 class VIEW_ORGANIGRAMA_ORG_SERIALIZADO(object):
@@ -129,6 +129,7 @@ class VIEW_ORGANIGRAMA_ORG_SERIALIZADO(object):
                 pers_clave=dato.asig_jefe_directo_clave)
 
         return padre
+<<<<<<< HEAD
 
 
 class ViaticoCabeceraSerializer(serializers.HyperlinkedModelSerializer):
@@ -226,3 +227,5 @@ class ViaticoLineaSerializer(serializers.ModelSerializer):
             'updated_date',
             'updated_by',
         )
+=======
+>>>>>>> origin/master

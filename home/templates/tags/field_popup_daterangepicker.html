@@ -1,0 +1,18 @@
+<div class="col-sm-{{ size_group }}">
+   <div class="form-group {% if campo.errors %} has-error {% endif %}">
+
+      <label class="control-label">{{ campo.label }}</label>
+      
+      <div class="input-group">
+
+         {{ campo }}
+         <span class="input-group-addon btn btn-primary" data-event="calendario">
+            <i class="icon-th mdi mdi-calendar"></i>
+         </span>
+         <span class="input-group-addon btn btn-warning" data-event="limpiar">
+            <i class="fa fa-eraser"></i>
+         </span>
+      </div>
+      
+   </div>
+</div>

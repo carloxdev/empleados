@@ -76,7 +76,7 @@ class VIEW_EMPLEADOS_FULL(models.Model):
     pers_rfc = models.CharField(max_length=150)
     pers_numero_imss = models.CharField(max_length=150)
     pers_ife = models.CharField(max_length=150)
-    pers_fecha_nacimiento = models.CharField(max_length=8)
+    pers_fecha_nacimiento = models.DateField(max_length=8)
     pers_ciudad_nacimiento = models.CharField(max_length=90)
     pers_estado_nacimiento = models.CharField(max_length=90)
     pers_pais_nacimiento_clave = models.CharField(max_length=90)

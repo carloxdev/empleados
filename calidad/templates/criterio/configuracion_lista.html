@@ -6,12 +6,12 @@
 
 {% block titulo %} Configuración {% endblock titulo %}
 
-{% block title-page %} Configuración Criterios y Requisitos {% endblock title-page %}
+{% block title-page %} Configuración Criterios {% endblock title-page %}
 
 {% block css %}
 
    <!-- bootstrap tree -->
-   <link rel="stylesheet" href="{% static 'libs/bootstrap-treeview/1.2.0/css/bootstrap-treeview.min.css' %}"/>
+   <link rel="stylesheet" href="{% static 'libs/bootstrap-treeview/1.2.0/css/bootstrap-treeview.css' %}"/>
 
    <!-- Nova -->
    <link rel="stylesheet" href="{% static 'grid.css' %}"/>
@@ -23,11 +23,11 @@
 <div class="be-content">
 
    <div class="page-head nova-page-head">
-      <h2 class="page-head-title nova-title">Configuración de Criterios y Requisitos</h2>
+      <h2 class="page-head-title nova-title">Configuración de Criterios</h2>
       <ol class="breadcrumb page-head-nav pull-right">
          <li><a href="{% url 'home:inicio' %}">Inicio</a></li>
          <li id="menu" data-opcion="calidad_configuracion"><a>Configuración</a></li>
-         <li class="active">Criterios y Requisitos</li>
+         <li class="active">Criterios</li>
       </ol>
    </div>
 
@@ -44,9 +44,9 @@
 
                </ul>
                <div class="actions">
-                  <a class="btn btn-xs btn-prev btn-default nova-a-tab nova-active-tab">Criterios y Requisitos</a>
+                  <a class="btn btn-xs btn-prev btn-default nova-a-tab nova-active-tab">Criterios</a>
                   <a href="{% url 'calidad:configuracion_proceso_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab">Procesos</a>
-                  <a href="{% url 'calidad:configuracion_aprobador_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Usuarios</a>
+                  <a href="{% url 'calidad:configuracion_rol_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Roles</a>
                   <a href="{% url 'calidad:configuracion_sitio_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Sitios</a>
                   <a href="{% url 'calidad:configuracion_metodologia_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Metodologías</a>
                   <a href="{% url 'calidad:configuracion_tipo_falla_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Descripciones</a>
@@ -63,8 +63,7 @@
                      class="btn nova-btn btn-rounded btn-sm btn-space btn-primary pull-right" data-toggle="modal" id="id_boton_filtro">
                      <i class="icon icon-left mdi mdi-search nova-white"></i> Filtros
                   </a>
-                  <a href="#id_tarjeta_nuevo_criterio"
-                     class="btn nova-btn btn-rounded btn-sm btn-space btn-default pull-right" data-toggle="modal" id="id_boton_nuevo_criterio">
+                  <a class="btn nova-btn btn-rounded btn-sm btn-space btn-default pull-right" data-toggle="modal" id="id_boton_nuevo_criterio">
                      <i class="icon icon-left mdi mdi-plus-circle nova-black"></i> Criterio
                   </a>
                </div><!-- Panel Heading -->
@@ -82,40 +81,23 @@
    </div> <!-- main content -->
 
 </div> <!-- be content -->
-   
-   <!-- Tarjeta Nuevo -->
-   <div id="id_tarjeta_nuevo_criterio" role="dialog" class="modal fade colored-header colored-header-primary">
+
+<!-- Tarjeta Criterio -->
+   <div id="id_tarjeta_criterio" data-primaryKey="" role="dialog" class="modal fade colored-header colored-header-primary">
       <div class="modal-dialog custom-width">
          <div class="modal-content">
             
             <div class="modal-header nova-modal-header">
                <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
-               <h3 class="modal-title">Nuevo Criterio de Auditoria</h3>
+               <h3 id="id_popup_criterio_titulo" class="modal-title"></h3>
             </div>
-               
-            <form id="formulario_criterio" class="modal-body form-horizontal">
-               
-               <div class="form-group">
-                  <label class="col-sm-3 nova-col-filter control-label">Clasificacion</label>
-                  <div class="col-sm-8 xs-pt-5">
-                     <select class="select2 select2-hidden-accessible" tabindex="-1" aria-hidden="true" id="id_clasificaicion_criterio">
-                        <option value="" selected="selected">-------</option>
-                        <option value="Norma">Norma</option>
-                        <option value="Legal">Legal</option>
-                        <option value="Contractual">Contractual</option>
-                        <option value="RSC">RSC</option>
-                     </select>
-                  </div>
-               </div>
+            <form id="id_formulario_criterio" method="POST" class="modal-body form-horizontal"> {% csrf_token %}
+   
+               {% tag_field_popup formularioCriterio.clasificacion 3 8 %}
 
-               <div class="form-group">
-                  <label class="col-sm-3 nova-col-filter control-label">Criterio</label>
-                  <div class="col-sm-8 xs-pt-5">
-                     <input type="text" id="id_criterio" class="form-control input-xs">
-                  </div>
-               </div>
+               {% tag_field_popup formularioCriterio.criterio 3 8 %}
 
-            </form><!-- Modal body-->
+            </form>   
             <div class="modal-footer nova-modal-footer">
                 <div class="row col-sm-12">
                   <button type="button" data-dismiss="modal" class="btn btn-default pull-left">
@@ -128,6 +110,7 @@
                   </button>
                </div>
             </div>
+            
          </div> <!-- Modal content-->
       </div> <!-- Modal dialog -->
    </div><!-- Modal -->
@@ -144,7 +127,7 @@
                
             <form id="id_formulario_filtro" class="modal-body form-horizontal">
                
-               {% tag_filter filterForm.requisito %}
+               {% tag_filter formularioFiltro.requisito %}
 
             </form><!-- Modal body-->
             <div class="modal-footer nova-modal-footer">
@@ -169,23 +152,18 @@
    </div><!-- Modal -->
 
    <!-- tarjeta requisito -->
-   <div id="id_tarjeta_nuevo_requisito" role="dialog" class="modal fade colored-header colored-header-primary">
+   <div id="id_tarjeta_requisito" data-primaryKey="" data-primarykeyParent="" role="dialog" class="modal fade colored-header colored-header-primary">
       <div class="modal-dialog custom-width">
          <div class="modal-content">
             
             <div class="modal-header nova-modal-header">
                <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
-               <h3 class="modal-title">Nuevo Requisito</h3>
+               <h3 id="id_popup_requisito_titulo" class="modal-title"></h3>
             </div>
                
             <form id="id_formulario_requisito" class="modal-body form-horizontal">
 
-               <div class="form-group">
-                  <label class="col-sm-3 nova-col-filter control-label">Requisito</label>
-                  <div class="col-sm-8 xs-pt-5">
-                     <input type="text" id="id_requisito" class="form-control input-xs">
-                  </div>
-               </div>
+               {% tag_field_popup formularioRequisito.requisito 3 8 %}
 
             </form><!-- Modal body-->
             <div class="modal-footer nova-modal-footer">
@@ -194,7 +172,7 @@
                      Cerrar
                   </button>
 
-                  <button type="button" id="id_boton_guardar_nuevo_requisito" class="btn nova-btn btn-primary btn-lg pull-right">
+                  <button type="button" id="id_boton_guardar_requisito" class="btn nova-btn btn-primary btn-lg pull-right">
                      <i class="icon icon-left mdi mdi-floppy nova-white"></i>
                      Guardar
                   </button>
@@ -203,13 +181,14 @@
          </div> <!-- Modal content-->
       </div> <!-- Modal dialog -->
    </div><!-- Modal -->
+   
 
 {% endblock contenido %}
 
 {% block scripts %}
 
    <!-- bootstrap tree -->
-   <script src="{% static 'libs/bootstrap-treeview/1.2.0/js/bootstrap-treeview.min.js' %}" ></script>
+   <script src="{% static 'libs/bootstrap-treeview/1.2.0/js/bootstrap-treeview.js' %}" ></script>
 
    <!-- JS Template -->
    <script src="{% static 'criterio/configuracion_lista.js' %}"></script>      

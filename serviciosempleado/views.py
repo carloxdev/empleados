@@ -1,30 +1,29 @@
 # -*- coding: utf-8 -*-
 
-# Django Atajos:
-from django.shortcuts import render
+# Django's Libraries
 from django.http import HttpResponse
+from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.core.urlresolvers import reverse
 from django.views.generic.base import View
-
-# Librerias de Django
-from django.views.generic.base import View
 from django.core.files.storage import default_storage
 
-# Modelos
+# Own's Libraries
 from ebs.models import VIEW_EMPLEADOS_FULL
 from ebs.models import VIEW_ORGANIGRAMA
-from .models import ViaticoCabecera
 
-# Serializers
-from serializers import VIEW_ORGANIGRAMA_ORG_SERIALIZADO
+from .serializers import VIEW_ORGANIGRAMA_ORG_SERIALIZADO
 
+<<<<<<< HEAD
 # Formularios:
 from .forms import NuevaSolicitudForm
 from .forms import ViaticoCabeceraForm
 # from .forms import ViaticoLineaForm
 from .forms import ViaticoFilterForm
+=======
+from .forms import MiViaticoFilterForm
+>>>>>>> origin/master
 
 
 class EmpleadoPerfil(View):
@@ -102,77 +101,27 @@ class EmpleadoOrganigramaAPI(View):
             content_type="application/json"
         )
 
-# Viaticos
 
+<<<<<<< HEAD
 
 class ViaticoLista(View):
 
+=======
+class MiViaticoLista(View):
+>>>>>>> origin/master
     def __init__(self):
-        self.template_name = 'viatico/viatico_lista.html'
+        self.template_name = 'mi_viatico/mi_viatico_lista.html'
 
     def get(self, request):
 
-        formulario = ViaticoFilterForm()
+        formulario = MiViaticoFilterForm()
 
         contexto = {
             'form': formulario
         }
 
         return render(request, self.template_name, contexto)
-
-
-class ViaticoCabeceraNuevo(View):
-
-    def __init__(self):
-        self.template_name = 'viatico/viatico_nuevo.html'
-
-    def get(self, request):
-
-        formulario = ViaticoCabeceraForm()
-
-        contexto = {
-            'form': formulario
-        }
-
-        return render(request, self.template_name, contexto)
-
-    def post(self, request):
-
-        formulario = ViaticoCabeceraForm(request.POST)
-
-        if formulario.is_valid():
-
-            viatico = formulario.save(commit=False)
-            viatico.created_by = request.user.profile
-            viatico.updated_by = request.user.profile
-            viatico.save()
-
-            return redirect(reverse('serviciosempleado:viatico_lineas'))
-
-        contexto = {
-            'form': formulario
-        }
-        return render(request, self.template_name, contexto)
-
-
-class ViaticoCabeceraEditar(View):
-
-    def __init__(self):
-        self.template_name = 'viatico/viatico_editar.html'
-
-    def obtener_Viatico(self, pk):
-        viatico = get_object_or_404(ViaticoCabecera, pk=pk)
-
-        return viatico
-
-    def get(self, request, pk):
-
-        formulario = ViaticoCabeceraForm(instance=self.obtener_Viatico(pk))
-
-        contexto = {
-            'form': formulario
-        }
-        return render(request, self.template_name, contexto)
+<<<<<<< HEAD
 
     def post(self, request, pk):
 
@@ -206,3 +155,5 @@ class ViaticoLineas(View):
         # }
 
         return render(request, self.template_name, {})
+=======
+>>>>>>> origin/master

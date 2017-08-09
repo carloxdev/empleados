@@ -1,4 +1,4 @@
-# OS generated files 
+# OS generated files
 # ---------------------------------------
 .DS_Store
 .Trashes
@@ -39,3 +39,4 @@ seguridad/migrations/*
 seguridadlaboral/migrations/*
 serviciosempleado/migrations/*
 sgi/migrations/*
+rsc/migrations/*

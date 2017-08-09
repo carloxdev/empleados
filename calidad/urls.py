@@ -20,9 +20,13 @@ from .views import HallazgoDetalle
 from .views import ProgramaLista
 
 # CALIDAD - CONFIGURACION
-from .views import ConfiguracionRequisitoLista
+from .views import ConfiguracionCriterioLista
+from .views import ConfiguracionRequisitoAPI
+from .views import ConfiguracionSubprocesoAPI
 from .views import ConfiguracionProcesoLista
-from .views import ConfiguracionUsuarioLista
+from .views import ConfiguracionRolLista
+# from .views import ConfiguracionRolNuevo
+# from .views import ConfiguracionRolEditar
 from .views import ConfiguracionSitioLista
 # from .views import ConfiguracionContratoLista
 from .views import ConfiguracionMetodologiaLista
@@ -107,9 +111,14 @@ urlpatterns = [
     # ----------------- CALIDAD - CONFIGURACION ----------------- #
 
     url(
-        r'^configuracion/requisitos/$',
-        ConfiguracionRequisitoLista.as_view(),
-        name="configuracion_requisito_lista"
+        r'^configuracion/criterios/$',
+        ConfiguracionCriterioLista.as_view(),
+        name="configuracion_criterio_lista"
+    ),
+    url(
+        r'^configuracion/requisitos/json/$',
+        ConfiguracionRequisitoAPI.as_view(),
+        name='configuracion_requisito_api'
     ),
     url(
         r'^configuracion/procesos/$',
@@ -117,10 +126,25 @@ urlpatterns = [
         name="configuracion_proceso_lista"
     ),
     url(
-        r'^configuracion/usuarios/$',
-        ConfiguracionUsuarioLista.as_view(),
-        name="configuracion_aprobador_lista"
+        r'^configuracion/subprocesos/json/$',
+        ConfiguracionSubprocesoAPI.as_view(),
+        name='configuracion_subproceso_api'
     ),
+    url(
+        r'^configuracion/roles/$',
+        ConfiguracionRolLista.as_view(),
+        name="configuracion_rol_lista"
+    ),
+    # url(
+    #     r'^configuracion/roles/nuevo/$',
+    #     ConfiguracionRolNuevo.as_view(),
+    #     name="configuracion_rol_nuevo"
+    # ),
+    # url(
+    #     r'^configuracion/roles/editar/$',
+    #     ConfiguracionRolLista.as_view(),
+    #     name="configuracion_rol_editar"
+    # ),
     url(
         r'^configuracion/sitios/$',
         ConfiguracionSitioLista.as_view(),

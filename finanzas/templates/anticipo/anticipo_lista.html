@@ -1,0 +1,144 @@
+{% extends 'master.html' %}
+
+{% load static from staticfiles %}
+
+{% load custom_tags %}
+
+{% block titulo %} Solicitudes de Anticipos {% endblock titulo %}
+
+{% block title-page %} Solicitudes de Anticipos {% endblock title-page %}
+
+{% block css %}
+
+    <!-- Kendo -->
+    <link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.rtl.min.css' %}"/>
+    <link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.common-bootstrap.min.css' %}"/>
+    <link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.bootstrap.min.css' %}"/>
+
+    <!-- Theme -->
+    <link rel="stylesheet" href="{% static 'theme/lib/datetimepicker/css/bootstrap-datetimepicker.min.css' %}"/>
+    <link rel="stylesheet" href="{% static 'theme/lib/daterangepicker/css/daterangepicker.css' %}"/>
+
+    <!-- Nova -->
+    <link rel="stylesheet" href="{% static 'grid.css' %}"/>
+
+{% endblock css %}
+
+{% block contenido %}
+
+<div class="be-content">
+
+    <input type="text" id="url_viaticocabecera_editar" class="hidden" value="{% url 'serviciosempleado:viatico_editar' 0 %}">
+
+	<div class="page-head nova-page-head">
+		<h2 class="page-head-title nova-title">Solicitudes de Anticipos</h2>
+		<ol class="breadcrumb page-head-nav pull-right">
+			<li><a href="{% url 'home:inicio' %}">Inicio</a></li>
+			<li id="menu" data-opcion="viaticos_lista" class="active">Solicitudes de Anticipos</li>
+		</ol>
+	</div>
+
+    <!-- Tarjeta Resultados -->
+    <div class="main-content container-fluid nova-main-content">
+        <div class="row">
+            <div class="col-xs-12 nova-col">
+                    <div class="panel panel-default panel-table">
+                        <div class="panel-heading panel-border nova-panel-heading">
+                            <div class="tools pull-right nova-tools" id="toolbar">
+
+                                <a href="{% url 'serviciosempleado:viatico_nuevo' %}"
+                                    class="btn nova-btn btn-rounded btn-space btn-default" id="boton_nuevo">
+                                    <i class="icon icon-left mdi mdi-plus-circle nova-black"></i>Nuevo
+                                </a>
+
+                                <a href="#tarjeta_filtros"
+                                    class="btn nova-btn btn-rounded btn-space btn-primary" data-toggle="modal" id="boton_filtros">
+                                    <i class="icon icon-left mdi mdi-search nova-white"></i>Filtros
+                                </a>
+
+                                <button class="btn nova-btn btn-rounded btn-space btn-success" id="boton_excel">
+                                    <i class="icon icon-left mdi mdi-download nova-white"></i>Exportar
+                                </button>
+                            </div>
+                            <div class="title hidden-xs">Registros</div>
+                        </div><!-- Panel Heading -->
+
+                        <div id="grid_resultados">
+                        </div><!-- "Panel Body" -->
+                  </div> <!-- Panel -->
+            </div><!-- col md 12 -->
+        </div>
+	</div>
+</div>
+
+<!-- Tarjeta Filtros -->
+<div id="tarjeta_filtros" role="dialog" class="modal fade colored-header colored-header-primary">
+    <div class="modal-dialog custom-width">
+        <div class="modal-content">
+
+            <div class="modal-header nova-modal-header">
+                <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
+                <h3 class="modal-title">Filtros</h3>
+            </div>
+
+            <form id="formulario_filtro" class="modal-body form-horizontal">
+
+                {% tag_filter form.proposito_viaje %}
+
+                {% tag_filter form.empleado %}
+
+                {% tag_filter form.unidad_negocio %}
+
+                {% tag_filter form.ciudad_destino %}
+
+                {% tag_filter form.autorizador %}
+
+                {% tag_filter_date_range 'Fecha Creacion' 'fecha_creacion' %}
+
+            </form>
+            <div class="modal-footer nova-modal-footer">
+                 <div class="row col-sm-12">
+                        <button type="button" data-dismiss="modal" class="btn btn-default pull-left">
+                            Cancelar
+                        </button>
+
+                        <button type="button" id="boton_limpiar" class="btn btn-default nova-btn">
+                            <i class="fa fa-eraser"></i>
+                            Limpiar
+                        </button>
+
+                        <button type="button" id="boton_buscar" class="btn nova-btn btn-primary btn-lg pull-right">
+                            <i class="icon icon-left mdi mdi-search nova-white"></i>
+                            Buscar
+                        </button>
+                </div>
+            </div>
+        </div> <!-- Modal content-->
+    </div> <!-- Modal dialog -->
+</div><!-- Modal -->
+
+{% endblock contenido %}
+
+{% block scripts %}
+
+    <!--JSZIP -->
+    <script src="{% static 'libs/kendo/2015.2.624/js/jszip.min.js' %}"></script>
+
+    <!-- Kendo Js -->
+    <script src="{% static 'libs/kendo/2015.2.624/js/cultures/kendo.culture.es-MX.min.js' %}"></script>
+    <script src="{% static 'libs/kendo/2015.2.624/js/kendo.web.min.js' %}"></script>
+
+    <!-- Moment -->
+    <script src="{% static 'libs/momentjs/2.18.1/moment.js' %}"></script>
+
+    <!-- Theme -->
+    <script src="{% static 'theme/lib/jquery-ui/jquery-ui.min.js' %}"></script>
+    <script src="{% static 'theme/lib/moment.js/min/moment.min.js' %}"></script>
+    <script src="{% static 'theme/lib/datetimepicker/js/bootstrap-datetimepicker.min.js' %}"></script>
+    <script src="{% static 'theme/lib/datetimepicker/js/locales/bootstrap-datetimepicker.es.js' %}"></script>
+    <script src="{% static 'theme/lib/daterangepicker/js/daterangepicker.js' %}"></script>
+
+    <!-- Nova -->
+    <script src="{% static 'anticipo/anticipo_lista.js' %}"></script>
+
+{% endblock scripts %}

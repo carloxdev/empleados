@@ -316,7 +316,7 @@ Grid.prototype.get_Configuracion = function () {
         scrollable: true,
         pageable: true,
         noRecords: {
-            template: "<div class='grid-empy'> No se encontrarón registros </div>"
+            template: "<div class='nova-grid-empy'> No se encontrarón registros </div>"
         },
         dataBound: this.set_Icons,
     }
