@@ -34,7 +34,7 @@ class EmpleadoPerfil(View):
     def get(self, request):
         usuario_logeado = request.user.profile.clave_rh
         if usuario_logeado is not None:
-            empleado = VIEW_EMPLEADOS_FULL.objects.using('ebs_d').filter(
+            empleado = VIEW_EMPLEADOS_FULL.objects.using('ebs_p').filter(
                 pers_empleado_numero=usuario_logeado)
 
             url = self.construir_Url(empleado)
@@ -83,7 +83,7 @@ class EmpleadoOrganigrama(View):
         clave = request.user.profile.clave_rh
         if clave is not None:
             empleado = VIEW_ORGANIGRAMA.objects.using(
-                "ebs_d").get(pers_empleado_numero=clave)
+                "ebs_p").get(pers_empleado_numero=clave)
 
             organizacion = empleado.asig_organizacion_clave
 
@@ -100,7 +100,7 @@ class EmpleadoOrganigramaAPI(View):
     def get(self, request, pk):
 
         daddies = VIEW_ORGANIGRAMA.objects.using(
-            'ebs_d').filter(asig_organizacion_clave=pk)
+            'ebs_p').filter(asig_organizacion_clave=pk)
 
         serializador = VIEW_ORGANIGRAMA_ORG_SERIALIZADO()
         lista_json = serializador.get_Json(daddies)

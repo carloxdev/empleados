@@ -199,7 +199,7 @@ class VIEW_ORGANIGRAMA_ORG_SERIALIZADO(object):
 
         for dato in personasSinJefe:
 
-            padre = VIEW_EMPLEADOS_FULL.objects.using('ebs_d').filter(
+            padre = VIEW_EMPLEADOS_FULL.objects.using('ebs_p').filter(
                 pers_clave=dato.asig_jefe_directo_clave)
 
         return padre

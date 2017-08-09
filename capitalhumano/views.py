@@ -87,7 +87,7 @@ class EmpleadoOrganigramaOrgAPI(View):
     def get(self, request, pk):
 
         daddies = VIEW_ORGANIGRAMA.objects.using(
-            'ebs_d').filter(asig_organizacion_clave=pk)
+            'ebs_p').filter(asig_organizacion_clave=pk)
 
         serializador = VIEW_ORGANIGRAMA_ORG_SERIALIZADO()
         lista_json = serializador.get_Json(daddies)
@@ -103,7 +103,7 @@ class EmpleadoOrganigramaEmpAPI(View):
     def get(self, request, pk):
 
         daddies = VIEW_ORGANIGRAMA.objects.using(
-            'ebs_d').filter(grup_compania_jde=pk)
+            'ebs_p').filter(grup_compania_jde=pk)
 
         serializador = VIEW_ORGANIGRAMA_EMP_SERIALIZADO()
         lista_json = serializador.get_Json(daddies)
@@ -149,7 +149,7 @@ class EmpleadoExpediente(View):
     def get(self, request, pk):
         form = NuevoDocumentoPersonalForm()
         empleado = VIEW_EMPLEADOS_FULL.objects.using(
-            "ebs_d").filter(pers_empleado_numero=pk)
+            "ebs_p").filter(pers_empleado_numero=pk)
 
         url = self.construir_Url(empleado)
         ruta = self.comprobar_Direccion(url)

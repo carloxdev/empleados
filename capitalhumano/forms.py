@@ -37,7 +37,7 @@ class OrganizacionesFilterForm(Form):
     def get_Organizaciones(self):
         valores = [('0', 'TODAS LAS ORGANIZACIONES')]
 
-        organizaciones = VIEW_ORGANIZACIONES.objects.using('ebs_d').all()
+        organizaciones = VIEW_ORGANIZACIONES.objects.using('ebs_p').all()
         for organizacion in organizaciones:
 
             valores.append(
@@ -120,7 +120,7 @@ class EmpleadoFilterForm(Form):
 
         valores = [('', '-------')]
 
-        tipos = VIEW_TIPO_PERSONAS.objects.using('ebs_d').all()
+        tipos = VIEW_TIPO_PERSONAS.objects.using('ebs_p').all()
 
         for tipo in tipos:
 
@@ -136,7 +136,7 @@ class EmpleadoFilterForm(Form):
 
         valores = [('', '-------')]
 
-        puestos = VIEW_PUESTOS.objects.using('ebs_d').all()
+        puestos = VIEW_PUESTOS.objects.using('ebs_p').all()
 
         for puesto in puestos:
 
@@ -152,7 +152,7 @@ class EmpleadoFilterForm(Form):
 
         valores = [('', '-------')]
 
-        organizaciones = VIEW_ORGANIZACIONES.objects.using('ebs_d').all()
+        organizaciones = VIEW_ORGANIZACIONES.objects.using('ebs_p').all()
 
         for organizacion in organizaciones:
 
@@ -270,7 +270,7 @@ class PerfilPuestoDocumentoForm(Form):
 
         valores = [('', '-------')]
 
-        puestos = VIEW_PUESTOS.objects.using('ebs_d').all()
+        puestos = VIEW_PUESTOS.objects.using('ebs_p').all()
 
         for puesto in puestos:
 
@@ -352,7 +352,7 @@ class ExpedientesFilterForm(Form):
     def get_Organizaciones(self):
         valores = [('', '------------')]
 
-        organizaciones = VIEW_ORGANIZACIONES.objects.using('ebs_d').all()
+        organizaciones = VIEW_ORGANIZACIONES.objects.using('ebs_p').all()
         for organizacion in organizaciones:
 
             valores.append(
