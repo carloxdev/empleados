@@ -3,10 +3,10 @@
 from __future__ import unicode_literals
 
 from django.db.models.signals import pre_delete
-from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.conf import settings
 import os
+from datetime import timedelta
 
 # Librerias/Clases Django
 from django.db import models
@@ -14,8 +14,9 @@ from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericRelation
 
-# Librerias/Clases propias
+# Modelos
 from seguridad.models import Profile
+from ebs.models import VIEW_EMPLEADOS_FULL
 
 # Utilidades:
 from utilities import get_FilePath_Expedientes
@@ -193,7 +194,7 @@ class DocumentoPersonal(models.Model):
     )
 
     numero_empleado = models.CharField(max_length=6)
-    tipo_documento = models.ForeignKey(TipoDocumento)  # Catalogo
+    tipo_documento = models.ForeignKey(TipoDocumento)
     agrupador = models.CharField(
         choices=AGRUPADOR,
         default="per",
@@ -208,6 +209,26 @@ class DocumentoPersonal(models.Model):
         auto_now=False,
         auto_now_add=True
     )
+
+    def _get_organizacion(self):
+        try:
+            empleado = VIEW_EMPLEADOS_FULL.objects.using('ebs_p').filter(
+                pers_empleado_numero=self.numero_empleado)
+            for dato in empleado:
+                return dato.asig_organizacion_desc
+        except Exception:
+            return 0.0
+    organizacion = property(_get_organizacion)
+
+    def _get_nombre_completo(self):
+        try:
+            empleado = VIEW_EMPLEADOS_FULL.objects.using('ebs_p').filter(
+                pers_empleado_numero=self.numero_empleado)
+            for dato in empleado:
+                return dato.pers_nombre_completo
+        except Exception:
+            return 0.0
+    nombre_completo = property(_get_nombre_completo)
 
     def __unicode__(self):
         cadena = "%s" % (self.numero_empleado)
@@ -276,6 +297,41 @@ class DocumentoCapacitacion(models.Model):
         auto_now_add=True
     )
 
+    def _get_fecha_vencimiento(self):
+        try:
+            fecha = self.fecha_fin
+            duracion = self.curso.vencimiento
+
+            if (duracion == '*') or (duracion == 'Ind'):
+                return 'Indefinido'
+            else:
+                dias = int(duracion) * 365
+                resultado = fecha + timedelta(days=dias)
+                return resultado
+        except Exception:
+            return 0.0
+    fecha_vencimiento = property(_get_fecha_vencimiento)
+
+    def _get_organizacion(self):
+        try:
+            empleado = VIEW_EMPLEADOS_FULL.objects.using('ebs_p').filter(
+                pers_empleado_numero=self.numero_empleado)
+            for dato in empleado:
+                return dato.asig_organizacion_desc
+        except Exception:
+            return 0.0
+    organizacion = property(_get_organizacion)
+
+    def _get_nombre_completo(self):
+        try:
+            empleado = VIEW_EMPLEADOS_FULL.objects.using('ebs_p').filter(
+                pers_empleado_numero=self.numero_empleado)
+            for dato in empleado:
+                return dato.pers_nombre_completo
+        except Exception:
+            return 0.0
+    nombre_completo = property(_get_nombre_completo)
+
     def __unicode__(self):
         cadena = "%s" % (self.numero_empleado)
         return cadena
@@ -290,8 +346,7 @@ class DocumentoCapacitacion(models.Model):
 
 @receiver(pre_delete, sender=Archivo)
 def _directorios_delete(sender, instance, using, **kwargs):
-    file_path = settings.BASE_DIR + "/media/" + str(instance.archivo)
-    print(file_path)
+    file_path = settings.BASE_DIR + "/media/" + "%s" % (instance.archivo)
 
     if os.path.isfile(file_path):
         os.remove(file_path)

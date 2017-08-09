@@ -7,6 +7,7 @@ from ebs.views_rest import VIEW_EMPLEADOS_FULL_API
 from ebs.views_rest import VIEW_EMPLEADOS_FULL_ByPageAPI
 from ebs.views_rest import VIEW_ORGANIZACIONES_API
 from ebs.views_rest import VIEW_EMPLEADOS_GRADO_API
+from ebs.views_rest import VIEW_EMPLEADOS_GRADO_ByPageAPI
 from ebs.views_rest import VIEW_ORGANIGRAMA_API
 
 
@@ -43,8 +44,12 @@ router_ebs.register(
     'viewempleadosgrado'
 )
 router_ebs.register(
+    r'viewempleadosgrado_bypage',
+    VIEW_EMPLEADOS_GRADO_ByPageAPI,
+    'viewempleadosgrado_bypage'
+)
+router_ebs.register(
     r'vieworganigrama',
     VIEW_ORGANIGRAMA_API,
     'vieworganigrama'
 )
-

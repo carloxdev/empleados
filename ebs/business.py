@@ -12,7 +12,7 @@ class EmpleadoBusiness(object):
             que tienen numero de empleado y
             los regresa ordenados por nombre """
 
-        empleados = VIEW_EMPLEADOS_SIMPLE.objects.using('ebs_d').filter(
+        empleados = VIEW_EMPLEADOS_SIMPLE.objects.using('ebs_p').filter(
             pers_tipo_codigo__in=['1121', '1120']
         ).exclude(
             pers_empleado_numero__isnull=True
@@ -23,7 +23,7 @@ class EmpleadoBusiness(object):
     @classmethod
     def get_Todos(self):
 
-        empleados = VIEW_EMPLEADOS_SIMPLE.objects.using('ebs_d').exclude(
+        empleados = VIEW_EMPLEADOS_SIMPLE.objects.using('ebs_p').exclude(
             pers_empleado_numero__isnull=True
         ).order_by('pers_nombre_completo')
 
@@ -42,7 +42,8 @@ class EmpleadoBusiness(object):
         for empleado in empleados:
 
             option_value = empleado.pers_empleado_numero,
-            option_status_desc = self.get_StatusDescription(empleado.pers_tipo_codigo)
+            option_status_desc = self.get_StatusDescription(
+                empleado.pers_tipo_codigo)
             option_label = "%s : %s %s" % (
                 empleado.pers_empleado_numero,
                 empleado.pers_nombre_completo,
@@ -75,7 +76,8 @@ class EmpleadoBusiness(object):
         for empleado in empleados:
 
             option_value = empleado.pers_empleado_numero,
-            option_status_desc = self.get_StatusDescription(empleado.pers_tipo_codigo)
+            option_status_desc = self.get_StatusDescription(
+                empleado.pers_tipo_codigo)
             option_label = "%s : %s %s" % (
                 empleado.pers_empleado_numero,
                 empleado.pers_nombre_completo,
@@ -140,7 +142,7 @@ class EmpleadoBusiness(object):
 
         lista = UserBusiness.get_RhClaves()
 
-        empleados = VIEW_EMPLEADOS_SIMPLE.objects.using('ebs_d').exclude(
+        empleados = VIEW_EMPLEADOS_SIMPLE.objects.using('ebs_p').exclude(
             pers_empleado_numero__in=lista
         )
 

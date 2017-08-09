@@ -3,8 +3,6 @@
 # Django Atajos:
 from django.shortcuts import render
 from django.http import HttpResponse
-from django.http import HttpResponseRedirect
-from django.urls import reverse
 
 # Librerias de Django
 from django.views.generic.base import View
@@ -20,10 +18,14 @@ import datetime
 from .forms import EmpleadoFilterForm
 from .forms import OrganizacionesFilterForm
 from .forms import EmpresasFilterForm
-from .forms import ExpedientesFilterForm
 from .forms import PerfilPuestoDocumentoForm
 from .forms import NuevoDocumentoPersonalForm
 from .forms import NuevoDocumentoCapacitacionForm
+from .forms import GradoAcademicoFilterForm
+from .forms import ExpedientesFilterForm
+from .forms import DocPersonalFilterForm
+from .forms import DocCapacitacionFilterForm
+from .forms import GradoAcademicoFilterForm
 
 # Serializer crear organigrama
 from serializers import VIEW_ORGANIGRAMA_ORG_SERIALIZADO
@@ -32,9 +34,6 @@ from serializers import VIEW_ORGANIGRAMA_EMP_SERIALIZADO
 # Modelos
 from ebs.models import VIEW_ORGANIGRAMA
 from ebs.models import VIEW_EMPLEADOS_FULL
-from .models import Archivo
-from .models import DocumentoPersonal
-from .models import DocumentoCapacitacion
 
 
 # -------------- EMPLEADOS -------------- #
@@ -207,7 +206,7 @@ class EmpleadoOrganigramaOrgAPI(View):
     def get(self, request, pk):
 
         daddies = VIEW_ORGANIGRAMA.objects.using(
-            'ebs_d').filter(asig_organizacion_clave=pk)
+            'ebs_p').filter(asig_organizacion_clave=pk)
 
         serializador = VIEW_ORGANIGRAMA_ORG_SERIALIZADO()
         lista_json = serializador.get_Json(daddies)
@@ -223,7 +222,7 @@ class EmpleadoOrganigramaEmpAPI(View):
     def get(self, request, pk):
 
         daddies = VIEW_ORGANIGRAMA.objects.using(
-            'ebs_d').filter(grup_compania_jde=pk)
+            'ebs_p').filter(grup_compania_jde=pk)
 
         serializador = VIEW_ORGANIGRAMA_EMP_SERIALIZADO()
         lista_json = serializador.get_Json(daddies)
@@ -240,25 +239,99 @@ class EmpleadoOrganigramaEmpAPI(View):
 class EmpleadoExpedientes(View):
 
     def __init__(self):
-        self.template_name = 'empleado_expedientes.html'
+        self.template_name = 'empleado_expedientes_general.html'
 
     def get(self, request):
+
         form = ExpedientesFilterForm()
 
         contexto = {
-            'form': form
+            'form': form,
         }
 
         return render(request, self.template_name, contexto)
 
-    def post(self, request):
-        form = ExpedientesFilterForm(request.POST)
+
+class EmpleadoExpedientesSolicitud(View):
+
+    def __init__(self):
+        self.template_name = 'empleado_expedientes_solicitudes.html'
+
+    def get(self, request):
 
         contexto = {
-            'form': form
         }
 
         return render(request, self.template_name, contexto)
+
+
+class EmpleadoExpedientesGrado(View):
+
+    def __init__(self):
+        self.template_name = 'empleado_expedientes_grado.html'
+
+    def get(self, request):
+
+        form = GradoAcademicoFilterForm()
+
+        contexto = {
+            'form': form,
+        }
+
+        return render(request, self.template_name, contexto)
+
+
+class EmpleadoExpedientesDocPersonal(View):
+
+    def __init__(self):
+        self.template_name = 'empleado_expedientes_docpersonal.html'
+
+    def get(self, request):
+
+        form = DocPersonalFilterForm()
+
+        contexto = {
+            'form': form,
+        }
+
+        return render(request, self.template_name, contexto)
+
+
+class EmpleadoExpedientesDocCapacitacion(View):
+
+    def __init__(self):
+        self.template_name = 'empleado_expedientes_doccapacitacion.html'
+
+    def get(self, request):
+
+        form = DocCapacitacionFilterForm()
+
+        contexto = {
+            'form': form,
+        }
+
+        return render(request, self.template_name, contexto)
+
+# class EmpleadoExpedientes(View):
+
+#     def __init__(self):
+#         self.template_name = 'empleado_expedientes.html'
+
+#     def get(self, request):
+
+#         form = ExpedientesFilterForm()
+#         form_per = DocPersonalFilterForm()
+#         form_cap = DocCapacitacionFilterForm()
+#         form_grado = GradoAcademicoFilterForm()
+
+#         contexto = {
+#             'form': form,
+#             'form_per': form_per,
+#             'form_cap': form_cap,
+#             'form_grado': form_grado,
+#         }
+
+#         return render(request, self.template_name, contexto)
 
 
 class EmpleadoExpediente(View):
@@ -267,21 +340,28 @@ class EmpleadoExpediente(View):
         self.template_name = 'empleado_expediente.html'
 
     def get(self, request, _numero_empleado):
-        form_per = NuevoDocumentoPersonalForm()
-        form_cap = NuevoDocumentoCapacitacionForm()
-        empleado = VIEW_EMPLEADOS_FULL.objects.using(
-            "ebs_d").filter(pers_empleado_numero=_numero_empleado)
+        try:
 
-        ruta = self.comprobar_Direccion(empleado)
+            form_per = NuevoDocumentoPersonalForm()
+            form_cap = NuevoDocumentoCapacitacionForm()
+            empleado = VIEW_EMPLEADOS_FULL.objects.using(
+                "ebs_p").filter(pers_empleado_numero=_numero_empleado)
 
-        contexto = {
-            'empleado': empleado,
-            'ruta': ruta,
-            'form': form_per,
-            'form2': form_cap
-        }
+            ruta = self.comprobar_Direccion(empleado)
 
-        return render(request, self.template_name, contexto)
+            contexto = {
+                'empleado': empleado,
+                'ruta': ruta,
+                'form': form_per,
+                'form2': form_cap
+            }
+
+            return render(request, self.template_name, contexto)
+
+        except Exception as e:
+            print e
+            template_error = 'error_conexion.html'
+            return render(request, template_error, {})
 
     def comprobar_Direccion(self, _empleado):
         ruta = ''
@@ -296,38 +376,6 @@ class EmpleadoExpediente(View):
             ruta = '/static/theme/img/avatar-150.png'
 
         return ruta
-
-
-class EmpleadoExpedientePerEliminar(View):
-
-    def __init__(self):
-        self.template_name = 'empleado_expediente.html'
-
-    def get(self, request, _numero_empleado, _pk):
-
-        archivo = Archivo.objects.get(pk=_pk)
-        documento_per = DocumentoPersonal.objects.get(pk=archivo.object_id)
-        archivo.delete()
-        documento_per.delete()
-        numero_empleado = _numero_empleado
-
-        return HttpResponseRedirect(reverse('capitalhumano:empleado_expediente', args=[numero_empleado]))
-
-
-class EmpleadoExpedienteCapEliminar(View):
-
-    def __init__(self):
-        self.template_name = 'empleado_expediente.html'
-
-    def get(self, request, _numero_empleado, _pk):
-
-        archivo = Archivo.objects.get(pk=_pk)
-        documento_cap = DocumentoCapacitacion.objects.get(pk=archivo.object_id)
-        archivo.delete()
-        documento_cap.delete()
-        numero_empleado = _numero_empleado
-
-        return HttpResponseRedirect(reverse('capitalhumano:empleado_expediente', args=[numero_empleado]))
 
 
 # -------------- PERFILES DE PUESTOS DOCUMENTO  -------------- #

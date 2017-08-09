@@ -89,7 +89,7 @@ class IncidenciaDocumentoNuevo(View):
             incidencia = formulario.save(commit=False)
 
             empleado = get_object_or_404(
-                VIEW_EMPLEADOS_FULL.objects.using('ebs_d').all(),
+                VIEW_EMPLEADOS_FULL.objects.using('ebs_p').all(),
                 pers_empleado_numero=incidencia.empleado_id
             )
 
@@ -278,7 +278,7 @@ class IncidenciaDocumentoEditar(View):
     def post(self, request, pk):
 
         # empleado = get_object_or_404(
-        #         VIEW_EMPLEADOS_FULL.objects.using('ebs_d').all(),
+        #         VIEW_EMPLEADOS_FULL.objects.using('ebs_p').all(),
         #         pers_empleado_numero=incidencia.empleado_id
         #     )
         empleado = get_object_or_404(IncidenciaDocumento, pk=pk)
@@ -288,7 +288,7 @@ class IncidenciaDocumentoEditar(View):
             incidencia = formulario.save(commit=False)
 
             empleado = get_object_or_404(
-                VIEW_EMPLEADOS_FULL.objects.using('ebs_d').all(),
+                VIEW_EMPLEADOS_FULL.objects.using('ebs_p').all(),
                 pers_empleado_numero=incidencia.empleado_id
             )
 

@@ -1,8 +1,8 @@
 /*-----------------------------------------------*\
             GLOBAL VARIABLES
 \*-----------------------------------------------*/
-var url_expediente_personal_bypage = window.location.origin  + "/api-capitalhumano/documentopersonal_bypage/"
-var url_expediente_capacitacion_bypage = window.location.origin  + "/api-capitalhumano/documentocapacitacion_bypage/"
+var url_expediente_personal_bypage = window.location.origin  + "/api-capitalhumano/archivopersonal_bypage/"
+var url_expediente_capacitacion_bypage = window.location.origin  + "/api-capitalhumano/archivocapacitacion_bypage/"
 
 // OBJS
 var grid_personal = null
@@ -250,9 +250,9 @@ GridCapacitacion.prototype.get_CamposCap = function () {
         modalidad : { type: "string" },
         costo : { type: "string" },
         moneda : { type: "integer" },
-        departamento : { type: "string" },
         fecha_inicio : { type: "string" },
         fecha_fin : { type: "string" },
+        fecha_vencimiento: { type: "date" },
         duracion : { type: "string" },
         observaciones : { type: "string" },
         created_by : { type: "string" },
@@ -275,7 +275,7 @@ GridCapacitacion.prototype.get_Configuracion = function () {
         noRecords: {
             template: "<div class='grid-empty'> No se encontraron registros </div>"
         },
-        dataBound: this.set_Icons,
+        dataBound: this.aplicar_Estilos
     }
 }
 GridCapacitacion.prototype.get_Columnas = function () {
@@ -292,15 +292,33 @@ GridCapacitacion.prototype.get_Columnas = function () {
         { field: "modalidad",title: "Modalidad",width:"100px"},
         { field: "costo", title: "Costo", width:"100px" },
         { field: "moneda",title: "Moneda",width:"100px"},
-        { field: "departamento",title: "Departamento",width:"150px"},
         { field: "fecha_inicio", title: "Fecha inicio", width:"100px" },
         { field: "fecha_fin",title: "Fecha fin",width:"100px"},
+        { field: "fecha_vencimiento", title: "Fecha vencimiento", width:"100px", format: "{0:dd/MM/yyyy}" },
         { field: "duracion", title: "Duración", width:"100px",template: '#=duracion# hrs' },
         { field: "observaciones", title: "Observaciones", width:"200px" },
         { field: "created_by", title: "Creado por", width:"150px" },
         { field: "created_date", title: "Fecha de creación", width:"150px", format: "{0:dd/MM/yyyy}" },
 
     ]
+}
+GridCapacitacion.prototype.aplicar_Estilos = function (e) {
+
+    columns = e.sender.columns
+    dataItems = e.sender.dataSource.view()
+    fecha_hoy = new Date()
+
+    for (var j = 0; j < dataItems.length; j++) {
+        fecha_vencimiento = dataItems[j].get("fecha_vencimiento")
+        row = e.sender.tbody.find("[data-uid='" + dataItems[j].uid + "']")
+        row.removeClass("k-alt");
+        if(fecha_vencimiento != null){
+  
+            if (fecha_vencimiento.getTime() <= fecha_hoy.getTime()) {
+                row.addClass("fecha-vencida")
+            }
+        }
+    }
 }
 GridCapacitacion.prototype.buscar = function() {
     this.kfuente_datos.page(1)

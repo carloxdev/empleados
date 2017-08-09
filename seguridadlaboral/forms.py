@@ -94,7 +94,7 @@ class IncidenciaDocumentoForm(ModelForm):
 
         valores = [('', '-------')]
 
-        empleados = VIEW_EMPLEADOS_SIMPLE.objects.using('ebs_d').all()
+        empleados = VIEW_EMPLEADOS_SIMPLE.objects.using('ebs_p').all()
 
         for empleado in empleados:
 

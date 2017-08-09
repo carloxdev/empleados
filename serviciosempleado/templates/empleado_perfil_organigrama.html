@@ -16,12 +16,14 @@
         <div class="page-head">
                 <h2 class="page-head-title">Servicios del empleado</h2>
                 <ol class="breadcrumb page-head-nav pull-right">
-                        <li class="active" id="menu" data-opcion="serviciosempleado_organigrama" >Organigrama </li>
+                    <li> <a href="{% url 'home:inicio'%}">Inicio</a></li>
+                    <li class="active" id="menu" data-opcion="serviciosempleado_organigrama" >Organigrama </li>
                 </ol>
         </div>
         <div class="main-content container-fluid">
             {% if request.user.profile.clave_rh != None%}
                 <input type="hidden" id="id_organizacion" value="{{ organizacion }}" readonly="True"></input>
+                <input type="hidden" id="id_empleado" value="{{ request.user.profile.clave_rh }}" readonly="True"></input>
                 <div class="col-sm-12">
                      <div class="nova-contenedor-organigrama" id="content-data"></div>
                 </div>  <!-- End col-sm-12 -->
@@ -38,7 +40,7 @@
 {% block scripts %}
         <!-- OrgChart-->
      <script src="{% static 'libs/OrgChart/js/jquery-ui-1.9.2.custom.min.js' %}"></script>
-     <script src="{% static 'libs/OrgChart/js/jquery.orgchart.js' %}"></script>
+     <script src="{% static 'libs/OrgChart/js/orgchart-nuevo.js' %}"></script>
 
      <!-- NOVA-->
      <script src="{% static 'empleado_perfil_organigrama.js' %}"></script>

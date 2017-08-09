@@ -210,6 +210,7 @@ class VIEW_UNIDADES_API(viewsets.ModelViewSet):
     serializer_class = VIEW_UNIDADES_Serializer
     permission_classes = (IsAuthenticated,)
 
+
 class VIEW_AUTORIZACIONES_ByPageAPI(viewsets.ReadOnlyModelViewSet):
     queryset = VIEW_AUTORIZACIONES.objects.using('jde_p').all()
     serializer_class = VIEW_AUTORIZACIONES_Serializer
@@ -227,30 +228,32 @@ class VIEW_RECEPCIONES_ByPageAPI(viewsets.ReadOnlyModelViewSet):
     filter_class = VIEW_RECEPCIONES_Filter
     permission_classes = (IsAuthenticated,)
 
+
 class VIEW_COMPANIAS_API(viewsets.ModelViewSet):
     queryset = VIEW_COMPANIAS.objects.using('jde_p').all()
     serializer_class = VIEW_COMPANIAS_Serializer
     permission_classes = (IsAuthenticated,)
 
+
 class VIEW_COMPANIAS_API(viewsets.ModelViewSet):
     queryset = VIEW_COMPANIAS.objects.using('jde_p').all()
     serializer_class = VIEW_COMPANIAS_Serializer
-    permission_classes = (IsAuthenticated,)   
+    permission_classes = (IsAuthenticated,)
+
 
 class VIEW_PROVEEDORES_API(viewsets.ModelViewSet):
     queryset = VIEW_PROVEEDORES.objects.using('jde_p').all()
     serializer_class = VIEW_PROVEEDORES_Serializer
     permission_classes = (IsAuthenticated,)
 
+
 class VIEW_PROVEEDORES_ByPageAPI(viewsets.ModelViewSet):
     queryset = VIEW_PROVEEDORES.objects.using('jde_p').all()
     serializer_class = VIEW_PROVEEDORES_Serializer
-    permission_classes = (IsAuthenticated,) 
+    permission_classes = (IsAuthenticated,)
     queryset = VIEW_PROVEEDORES.objects.using('jde_p').all()
     serializer_class = VIEW_PROVEEDORES_Serializer
     pagination_class = GenericPagination
     filter_backends = (DjangoFilterBackend,)
     filter_class = VIEW_PROVEEDORES_Filter
     permission_classes = (IsAuthenticated,)
-   
-   

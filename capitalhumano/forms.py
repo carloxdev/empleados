@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Django:
+# Django forms:
 from django.forms import TextInput
 from django.forms import Select
 from django.forms import Form
@@ -26,6 +26,9 @@ from capitalhumano.models import PerfilPuestoDocumento
 from .models import Curso
 from .models import TipoDocumento
 
+# Business
+from .business import EmpleadoBusiness
+
 
 class OrganizacionesFilterForm(Form):
     organizaciones = ChoiceField(label='Organizaciones', widget=Select(
@@ -38,7 +41,7 @@ class OrganizacionesFilterForm(Form):
     def get_Organizaciones(self):
         valores = [('0', 'TODAS LAS ORGANIZACIONES')]
 
-        organizaciones = VIEW_ORGANIZACIONES.objects.using('ebs_d').all()
+        organizaciones = VIEW_ORGANIZACIONES.objects.using('ebs_p').all()
         for organizacion in organizaciones:
 
             valores.append(
@@ -317,7 +320,7 @@ class PerfilPuestoDocumentoForm(Form):
 
         valores = [('', '-------')]
 
-        puestos = VIEW_PUESTOS.objects.using('ebs_d').all()
+        puestos = VIEW_PUESTOS.objects.using('ebs_p').all()
 
         for puesto in puestos:
 
@@ -339,18 +342,6 @@ class ExpedientesFilterForm(Form):
         ('1124', 'EX-EMPLEADO Y CANDIDATO'),
         ('1125', 'CONTACTO'),
         ('1118', 'CANDIDATO'),
-    )
-    GRADO_ACADEMICO_CHOICES = (
-        ('', '---------'),
-        ('1', 'NINGUNA'),
-        ('2', 'LEER Y ESCRIBIR'),
-        ('3', 'PRIMARIA'),
-        ('4', 'SECUNDARIA'),
-        ('5', 'TECNICA'),
-        ('6', 'BACHILLERATO'),
-        ('7', 'LICENCIATURA'),
-        ('8', 'MAESTRIA'),
-        ('9', 'DOCTORADO'),
     )
 
     pers_primer_nombre = CharField(
@@ -402,9 +393,151 @@ class ExpedientesFilterForm(Form):
             attrs={'class': 'select2 nova-select2'}
         )
     )
-    # ----------
+
+    def __init__(self, *args, **kwargs):
+        super(ExpedientesFilterForm, self).__init__(*args, **kwargs)
+        self.fields[
+            'asig_organizacion_clave'].choices = EmpleadoBusiness.get_Organizaciones()
+
+
+class GradoAcademicoFilterForm(Form):
+
+    GRADO_ACADEMICO_CHOICES = (
+        ('', '---------'),
+        ('NINGUNA', 'NINGUNA'),
+        ('LEER Y ESCRIBIR', 'LEER Y ESCRIBIR'),
+        ('PRIMARIA', 'PRIMARIA'),
+        ('SECUNDARIA', 'SECUNDARIA'),
+        ('TECNICA', 'TECNICA'),
+        ('BACHILLERATO', 'BACHILLERATO'),
+        ('LICENCIATURA', 'LICENCIATURA'),
+        ('MAESTRIA', 'MAESTRIA'),
+        ('DOCTORADO', 'DOCTORADO'),
+    )
+    pers_empleado_numero = CharField(
+        label="Numero de empleado",
+        widget=TextInput(
+            attrs={'class': 'form-control input-xs'}
+        )
+    )
+    qua_grado_academico = ChoiceField(
+        label="Grado academico",
+        choices=GRADO_ACADEMICO_CHOICES,
+        widget=Select(
+            attrs={'class': 'select2 nova-select2'}
+        )
+    )
+    qua_especialidad = ChoiceField(
+        label="Disciplina academica",
+        widget=Select(
+            attrs={'class': 'select2 nova-select2'}
+        )
+    )
+    asig_organizacion_id = ChoiceField(
+        label="Organización",
+        widget=Select(
+            attrs={'class': 'select2 nova-select2'}
+        )
+    )
+
+    def __init__(self, *args, **kwargs):
+        super(GradoAcademicoFilterForm, self).__init__(*args, **kwargs)
+        self.fields[
+            'asig_organizacion_id'].choices = EmpleadoBusiness.get_Organizaciones()
+        self.fields['asig_organizacion_id'].required = False
+
+
+class DocPersonalFilterForm(Form):
+
+    AGRUPADOR_CHOICES = (
+        ('', '---------'),
+        ('per', 'Personal'),
+        ('qhse', 'QHSE'),
+        ('amo', 'Amonestación'),
+        ('adm', 'Administración'),
+        ('ope', 'Operaciones'),
+        ('rec', 'Reconocimiento'),
+    )
+
+    agrupador = ChoiceField(
+        label="Agrupador",
+        choices=AGRUPADOR_CHOICES,
+        widget=Select(
+            attrs={'class': 'select2 nova-select2'}
+        )
+    )
+    numero_empleado = CharField(
+        label="Numero de empleado",
+        widget=TextInput(
+            attrs={'class': 'form-control input-xs'}
+        )
+    )
+    asig_organizacion_clave = ChoiceField(
+        label="Organización",
+        widget=Select(
+            attrs={'class': 'select2 nova-select2'}
+        )
+    )
+
     tipo_documento = ChoiceField(
         label="Tipo documento",
+        widget=Select(
+            attrs={'class': 'select2 nova-select2'}
+        )
+    )
+    vigencia = CharField(
+        label="Vigencia inicio"
+    )
+
+    def __init__(self, *args, **kwargs):
+        super(DocPersonalFilterForm, self).__init__(*args, **kwargs)
+        self.fields[
+            'asig_organizacion_clave'].choices = EmpleadoBusiness.get_Organizaciones()
+        self.fields['asig_organizacion_clave'].required = False
+        self.fields[
+            'tipo_documento'].choices = EmpleadoBusiness.get_TipoDocumento()
+        self.fields['tipo_documento'].required = False
+
+
+class DocCapacitacionFilterForm(Form):
+
+    AGRUPADOR_CHOICES = (
+        ('', '---------'),
+        ('per', 'Personal'),
+        ('qhse', 'QHSE'),
+        ('amo', 'Amonestación'),
+        ('adm', 'Administración'),
+        ('ope', 'Operaciones'),
+        ('rec', 'Reconocimiento'),
+    )
+    AREA_CHOICES = (
+        ('', '---------'),
+        ('administrativa', 'Administrativa'),
+        ('operativa', 'Operativa'),
+    )
+
+    agrupador = ChoiceField(
+        label="Agrupador",
+        choices=AGRUPADOR_CHOICES,
+        widget=Select(
+            attrs={'class': 'select2 nova-select2'}
+        )
+    )
+    area = ChoiceField(
+        label="Area",
+        choices=AREA_CHOICES,
+        widget=Select(
+            attrs={'class': 'select2 nova-select2'}
+        )
+    )
+    numero_empleado = CharField(
+        label="Numero de empleado",
+        widget=TextInput(
+            attrs={'class': 'form-control input-xs'}
+        )
+    )
+    asig_organizacion_clave = ChoiceField(
+        label="Organización",
         widget=Select(
             attrs={'class': 'select2 nova-select2'}
         )
@@ -415,101 +548,27 @@ class ExpedientesFilterForm(Form):
             attrs={'class': 'select2 nova-select2'}
         )
     )
-    grado_academico = ChoiceField(
-        label="Grado academico",
-        choices=GRADO_ACADEMICO_CHOICES,
-        widget=Select(
-            attrs={'class': 'select2 nova-select2'}
-        )
+    fecha = CharField(
+        label="Fecha curso"
     )
-    disciplina_academica = ChoiceField(
-        label="Disciplina academica",
-        widget=Select(
-            attrs={'class': 'select2 nova-select2'}
-        )
-    )
+
+    proveedor = ChoiceField(
+        label="Proveedor",
+        widget=Select(attrs={'class': 'select2 nova-select2'}))
 
     def __init__(self, *args, **kwargs):
-        super(ExpedientesFilterForm, self).__init__(*args, **kwargs)
-        self.fields[
-            'asig_organizacion_clave'].choices = self.get_Organizaciones()
-        self.fields['tipo_documento'].choices = self.get_TipoDocumento()
-        self.fields['curso'].choices = self.get_Curso()
-
-    def get_Organizaciones(self):
-        valores = [('', '------------')]
-
-        organizaciones = VIEW_ORGANIZACIONES.objects.using('ebs_d').all()
-        for organizacion in organizaciones:
-
-            valores.append(
-                (
-                    organizacion.clave_org,
-                    organizacion.desc_org
-                )
-            )
-        return valores
-
-    def get_TipoDocumento(self):
-        valores = [('', '------------')]
-
-        documentos = TipoDocumento.objects.all()
-        for documento in documentos:
-
-            valores.append(
-                (
-                    documento.id,
-                    documento.tipo_documento
-                )
-            )
-        return valores
-
-    def get_Curso(self):
-        valores = [('', '------------')]
-
-        cursos = Curso.objects.all()
-        for curso in cursos:
-
-            valores.append(
-                (
-                    curso.id,
-                    curso.nombre_curso
-                )
-            )
-        return valores
-
-
-# class ExpedientesDocFilterForm(Form):
-
-#     tipo_documento = ChoiceField(
-#         label="Tipo documento",
-#         widget=Select(
-#             attrs={'class': 'select2 nova-select2'}
-#         )
-#     )
-#     curso = ChoiceField(
-#         label="Curso",
-#         widget=Select(
-#             attrs={'class': 'select2 nova-select2'}
-#         )
-#     )
-#     grado_academico = ChoiceField(
-#         label="Curso",
-#         widget=Select(
-#             attrs={'class': 'select2 nova-select2'}
-#         )
-#     )
-#     disciplina_academica = ChoiceField(
-#         label="Disciplina academica",
-#         widget=Select(
-#             attrs={'class': 'select2 nova-select2'}
-#         )
-#     )
+        super(DocCapacitacionFilterForm, self).__init__(*args, **kwargs)
+        self.fields['asig_organizacion_clave'].choices = EmpleadoBusiness.get_Organizaciones()
+        self.fields['asig_organizacion_clave'].required = False
+        self.fields['curso'].choices = EmpleadoBusiness.get_Curso()
+        self.fields['curso'].required = False
+        self.fields['proveedor'].choices = EmpleadoBusiness.get_Proveedores()
 
 
 class NuevoDocumentoPersonalForm(Form):
 
     AGRUPADOR = (
+        ('', '------------'),
         ('per', 'Personal'),
         ('qhse', 'QHSE'),
         ('amo', 'Amonestación'),
@@ -518,11 +577,12 @@ class NuevoDocumentoPersonalForm(Form):
         ('rec', 'Reconocimiento'),
     )
 
-    tipo_documento = ModelChoiceField(
-        label="Tipo de documento",
-        queryset=TipoDocumento.objects.all(),
-        empty_label=None,
-        widget=Select(attrs={'class': 'select2 nova-select2'}))
+    tipo_documento = ChoiceField(
+        label="Tipo documento",
+        widget=Select(
+            attrs={'class': 'select2 nova-select2'}
+        )
+    )
 
     agrupador = ChoiceField(
         label="Agrupador",
@@ -545,24 +605,30 @@ class NuevoDocumentoPersonalForm(Form):
         super(NuevoDocumentoPersonalForm, self).__init__(*args, **kwargs)
         self.fields['vigencia_inicio'].required = False
         self.fields['vigencia_fin'].required = False
+        self.fields[
+            'tipo_documento'].choices = EmpleadoBusiness.get_TipoDocumento()
 
 
 class NuevoDocumentoCapacitacionForm(Form):
     MODALIDAD = (
+        ('', '------------'),
         ('pre', 'Curso presencial'),
         ('vir', 'Curso virtual'),
         ('prev', 'Curso previo'),
     )
     MONEDA = (
+        ('', '------------'),
         ('mxn', 'Moneda nacional (MXN)'),
         ('usd', 'Dolares (USD)'),
         ('eur', 'Euro (EUR)'),
     )
     AREA = (
-        ('administrativa', 'Administrativa'),
-        ('operativa', 'Operativa'),
+        ('', '------------'),
+        ('ADMINISTRATIVA', 'Administrativa'),
+        ('OPERATIVA', 'Operativa'),
     )
     AGRUPADOR = (
+        ('', '------------'),
         ('per', 'Personal'),
         ('qhse', 'QHSE'),
         ('amo', 'Amonestación'),
@@ -571,15 +637,13 @@ class NuevoDocumentoCapacitacionForm(Form):
         ('rec', 'Reconocimiento'),
     )
 
-    curso = ModelChoiceField(
+    curso = ChoiceField(
         label="Curso",
-        queryset=Curso.objects.all(),
-        empty_label=None,
         widget=Select(attrs={'class': 'select2 nova-select2'}))
 
-    proveedor = CharField(
+    proveedor = ChoiceField(
         label="Proveedor",
-        widget=TextInput(attrs={'class': 'form-control input-xs'}))
+        widget=Select(attrs={'class': 'select2 nova-select2'}))
 
     agrupadorcap = ChoiceField(
         label="Agrupador",
@@ -634,17 +698,7 @@ class NuevoDocumentoCapacitacionForm(Form):
 
     def __init__(self, *args, **kwargs):
         super(NuevoDocumentoCapacitacionForm, self).__init__(*args, **kwargs)
-        self.fields['departamento'].choices = self.get_Organizaciones()
-
-    def get_Organizaciones(self):
-        valores = []
-
-        organizaciones = VIEW_ORGANIZACIONES.objects.using('ebs_d').all()
-        for organizacion in organizaciones:
-            valores.append(
-                (
-                    organizacion.desc_org,
-                    organizacion.desc_org
-                )
-            )
-        return valores
+        self.fields[
+            'departamento'].choices = EmpleadoBusiness.get_Organizaciones()
+        self.fields['proveedor'].choices = EmpleadoBusiness.get_Proveedores()
+        self.fields['curso'].choices = EmpleadoBusiness.get_Curso()
