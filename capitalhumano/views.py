@@ -135,7 +135,7 @@ class EmpleadoLista(View):
                     if datosPost == 'grup_nomina_jde':
                         argumentos['grup_nomina_jde__exact'] = request.POST[datosPost]
 
-        rows = VIEW_EMPLEADOS_FULL.objects.using('ebs_d').filter(**argumentos).values_list(
+        rows = VIEW_EMPLEADOS_FULL.objects.using('ebs_p').filter(**argumentos).values_list(
             'pers_empleado_numero', 'pers_tipo_desc', 'pers_fecha_contratacion', 'pers_primer_nombre',
             'pers_segundo_nombre', 'pers_apellido_paterno', 'pers_apellido_materno', 'pers_titulo',
             'pers_genero_desc', 'pers_curp', 'pers_rfc', 'pers_numero_imss', 'pers_ife', 'pers_fecha_nacimiento',

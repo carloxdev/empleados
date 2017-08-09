@@ -73,9 +73,7 @@ class ResponsableForm(Form):
 
         valores = []
 
-        # empleados = VIEW_EMPLEADOS_SIMPLE.objects.using('ebs_d').all()
-        # AQUI APLICAR FILTRO DE EXCLUIR
-        empleados = VIEW_EMPLEADOS_SIMPLE.objects.using('ebs_d')
+        empleados = VIEW_EMPLEADOS_SIMPLE.objects.using('ebs_p')
 
         for empleado in empleados:
 
@@ -122,7 +120,7 @@ class RolForm(Form):
 
         valores = [('', '-------')]
 
-        empleados = VIEW_EMPLEADOS_SIMPLE.objects.using('ebs_d').filter(pers_nombre_completo__icontains="GARCIA JIMENEZ")
+        empleados = VIEW_EMPLEADOS_SIMPLE.objects.using('ebs_p').filter(pers_nombre_completo__icontains="GARCIA JIMENEZ")
 
         for empleado in empleados:
 
@@ -157,7 +155,7 @@ class RolFilterForm(Form):
 
         valores = [('', '-------')]
 
-        empleados = VIEW_EMPLEADOS_SIMPLE.objects.using('ebs_d').filter(pers_nombre_completo__icontains="GARCIA JIMENEZ")
+        empleados = VIEW_EMPLEADOS_SIMPLE.objects.using('ebs_p').filter(pers_nombre_completo__icontains="GARCIA JIMENEZ")
 
         for empleado in empleados:
 
