@@ -1,5 +1,5 @@
 /*-----------------------------------------------*\
-            GLOBAL VARIABLES
+         GLOBAL VARIABLES
 \*-----------------------------------------------*/
 
 // URLS:api-
@@ -8,160 +8,144 @@
 // OBJS
 var popup_hallazgo = null
 var popup_filtros = null
-var popup_analisis = null
 var popup_acciones = null
 var toolbar = null
 var grid = null
 var tarjeta_resultados = null
 
 /*-----------------------------------------------*\
-            LOAD
+         LOAD
 \*-----------------------------------------------*/
 
 $(document).ready(function () {
-    
-    tarjeta_resultados = new TarjetaResultados()
+   
+   tarjeta_resultados = new TarjetaResultados()
 })
 
 /*-----------------------------------------------*\
-            OBJETO: Tarjeta resultados
+         OBJETO: Tarjeta resultados
 \*-----------------------------------------------*/
 
 function TarjetaResultados() {
 
-    toolbar = new ToolBar()
-    grid = new Grid()
+   toolbar = new ToolBar()
+   grid = new Grid()
 }
 
 /*-----------------------------------------------*\
-            OBJETO: Toolbar
+         OBJETO: Toolbar
 \*-----------------------------------------------*/
 
 function ToolBar() {
 
-    popup_hallazgo = new PopupHallazgo()
-    popup_filtros = new PopupFiltros()
+   popup_hallazgo = new PopupHallazgo()
+   popup_filtros = new PopupFiltros()
 }
 
 /*-----------------------------------------------*\
-            OBJETO: Grid
+         OBJETO: Grid
 \*-----------------------------------------------*/
 
 function Grid() {
 
-    popup_analisis = new PopupAnalisis()
-    popup_acciones = new PopupAcciones()
+   popup_acciones = new PopupAcciones()
+   this.$id_grid_hallazgo = $('#id_grid_hallazgo')
+   this.init_Events()
+}
+Grid.prototype.init_Events = function () {
+
+   this.$id_grid_hallazgo.on("click", '.clickable-row', this.click_FilaGrid)
+}
+Grid.prototype.click_FilaGrid = function (e) {
+
+   $(this).addClass('nova-active-row').siblings().removeClass('nova-active-row')
 }
 
 /*-----------------------------------------------*\
-            OBJETO: popup nuevo
+         OBJETO: PopupHallazgo
 \*-----------------------------------------------*/
 
 function PopupHallazgo(){
 
-    this.$id_subproceso = $('#id_subproceso')
-    this.$id_clasificacion_hallazgo = $('#id_clasificacion_hallazgo')
-    this.$id_requisito_referencia = $('#id_requisito_referencia')
-    this.$id_requisito_adicional = $('#id_requisito_adicional')
-    this.$id_tipo_hallazgo = $('#id_tipo_hallazgo')
-    this.init_Components()
+   this.$id_subproceso = $('#id_subproceso')
+   this.$id_contrato = $('#id_contrato')
+   this.$id_observacion = $("#id_observacion")
+   this.$id_requisito_referencia = $('#id_requisito_referencia')
+   this.$id_descripciones = $('#id_descripciones')
+   this.$id_tipo_hallazgo = $('#id_tipo_hallazgo')
+   this.init_Components()
 }
 PopupHallazgo.prototype.init_Components = function () {
 
-    this.$id_subproceso.select2(appnova.get_ConfigSelect2())
-    this.$id_clasificacion_hallazgo.select2(appnova.get_ConfigSelect2())
-    this.$id_requisito_referencia.multiselect(this.get_ConfMultiSelect())
-    this.$id_requisito_adicional.select2(appnova.get_ConfigSelect2())
-    this.$id_tipo_hallazgo.select2(appnova.get_ConfigSelect2())
+   this.$id_subproceso.select2(appnova.get_ConfigSelect2())
+   this.$id_contrato.select2(appnova.get_ConfigSelect2())
+   this.$id_observacion.wysihtml5(appnova.get_ConfWysi())
+   this.$id_requisito_referencia.multiselect(this.get_ConfMultiSelect())
+   this.$id_descripciones.multiselect(this.get_ConfMultiSelect())
+   this.$id_tipo_hallazgo.select2(appnova.get_ConfigSelect2())
 }
 PopupHallazgo.prototype.get_ConfMultiSelect = function () {
 
-    return{
-        enableFiltering: true,
-        buttonWidth: '100%',
-        numberDisplayed: 2,
-        maxHeight: 150,
-        nonSelectedText: "Sin Selección",
-        allSelectedText: "Todo Seleccionado",
-        nSelectedText: "Seleccionados",
-        filterPlaceholder: "Buscar",
-    }
+   return{
+      enableFiltering: true,
+      buttonWidth: '100%',
+      numberDisplayed: 2,
+      maxHeight: 150,
+      nonSelectedText: "Sin Selección",
+      allSelectedText: "Todo Seleccionado",
+      nSelectedText: "Seleccionados",
+      filterPlaceholder: "Buscar",
+   }
 }
 
 /*-----------------------------------------------*\
-            OBJETO: popup filtros
+         OBJETO: popup filtros
 \*-----------------------------------------------*/
 
 function PopupFiltros(){
 
-    this.$id_proceso = $('#id_proceso')
-    this.$id_zona = $('#id_zona')
-    this.$id_contrato = $('#id_contrato')
-    this.$id_hallazgo = $('#id_hallazgo')
-    this.$id_estado = $('#id_estado')
-    this.$id_tipo_hallazgo_filtro = $('#id_tipo_hallazgo_filtro')
-    this.$id_boton_buscar = $('#id_boton_buscar')
-    this.$id_boton_limpiar = $('#d_boton_limpiar')
-    this.init_Components()
-    this.init_Events()
+   this.$id_proceso = $('#id_proceso')
+   this.$id_sitio = $('#id_sitio')
+   this.$id_contrato_filtro = $('#id_contrato_filtro')
+   this.$id_hallazgo = $('#id_hallazgo')
+   this.$id_estado = $('#id_estado')
+   this.$id_tipo_hallazgo_filtro = $('#id_tipo_hallazgo_filtro')
+   this.$id_boton_buscar = $('#id_boton_buscar')
+   this.$id_boton_limpiar = $('#d_boton_limpiar')
+   this.init_Components()
+   this.init_Events()
 }
 PopupFiltros.prototype.init_Components = function () {
 
-    this.$id_proceso.select2(appnova.get_ConfigSelect2())
-    this.$id_zona.select2(appnova.get_ConfigSelect2())
-    this.$id_contrato.select2(appnova.get_ConfigSelect2())
-    this.$id_estado.select2(appnova.get_ConfigSelect2())
-    this.$id_tipo_hallazgo_filtro.select2(appnova.get_ConfigSelect2())
+   this.$id_proceso.select2(appnova.get_ConfigSelect2())
+   this.$id_sitio.select2(appnova.get_ConfigSelect2())
+   this.$id_contrato_filtro.select2(appnova.get_ConfigSelect2())
+   this.$id_estado.select2(appnova.get_ConfigSelect2())
+   this.$id_tipo_hallazgo_filtro.select2(appnova.get_ConfigSelect2())
 }
 PopupFiltros.prototype.init_Events = function () {
 
-    this.$id_boton_buscar.on("click", this, this.click_BotonBuscar)
-    this.$id_boton_limpiar.on("click", this, this.click_BotonLimpiar)
+   this.$id_boton_buscar.on("click", this, this.click_BotonBuscar)
+   this.$id_boton_limpiar.on("click", this, this.click_BotonLimpiar)
 }
 
 /*-----------------------------------------------*\
-            OBJETO: popup acciones
+         OBJETO: popup acciones
 \*-----------------------------------------------*/
 
 function PopupAcciones() {
 
-    this.$id_tarjeta_acciones = $('#id_tarjeta_acciones')
-    this.$id_boton_evidencias = $('#id_boton_evidencias')
-    this.$id_boton_analisis_causas = $('#id_boton_analisis_causas')
-    this.$id_boton_plan_accion = $('#id_boton_plan_accion')
-    this.$id_boton_editar = $('#id_boton_editar')
-    this.$id_boton_cerrar_hallazgo = $('#id_boton_cerrar_hallazgo')
-    this.$id_boton_no_conformidad = $('#id_boton_no_conformidad')
-    this.init_Events()
+   this.$id_tarjeta_acciones = $('#id_tarjeta_acciones')
+   // this.$id_boton_cerrar_hallazgo = $('#id_boton_cerrar_hallazgo')
+   this.$id_boton_no_conformidad = $('#id_boton_no_conformidad')
+   this.init_Events()
 }
 PopupAcciones.prototype.init_Events = function () {
 
-    this.$id_boton_analisis_causas.on("click", this, this.click_BotonAnalisisCausas)
-    this.$id_boton_editar.on("click", this, this.click_BotonEditar)
+   this.$id_boton_no_conformidad.on("click", this, this.click_BotonReporteNoConformidad)
 }
-PopupAcciones.prototype.click_BotonAnalisisCausas = function (e) {
+PopupAcciones.prototype.click_BotonReporteNoConformidad = function (e) {
 
-    e.preventDefault()
-    e.data.$id_tarjeta_acciones.modal('hide')
-}
-PopupAcciones.prototype.click_BotonEditar = function (e) {
-
-    e.preventDefault()
-    e.data.$id_tarjeta_acciones.modal('hide')
-}
-
-/*-----------------------------------------------*\
-            OBJETO: popup analisis
-\*-----------------------------------------------*/
-
-function PopupAnalisis() {
-
-    this.$id_metodologia = $('#id_metodologia')
-    this.$id_causas = $('#id_causas')
-    this.init_Components()
-}
-PopupAnalisis.prototype.init_Components = function () {
-
-    this.$id_metodologia.select2(appnova.get_ConfigSelect2())
-    this.$id_causas.wysihtml5(appnova.get_ConfWysi())
+   e.preventDefault()
+   e.data.$id_tarjeta_acciones.modal('hide')
 }

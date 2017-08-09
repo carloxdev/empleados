@@ -190,5 +190,3 @@ class VIEW_ORGANIGRAMA_Serializer(serializers.HyperlinkedModelSerializer):
             'asig_ubicacion_desc',
             'tipo',
         )
-
-

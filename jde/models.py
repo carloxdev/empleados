@@ -893,3 +893,26 @@ class VIEW_ITEMS(models.Model):
             self.descripcion,
         )
         return value
+
+
+class VIEW_PROVEEDORES(models.Model):
+    clave = models.CharField(max_length=10, primary_key=True)
+    descripcion = models.CharField(max_length=300)
+
+    class Meta:
+        managed = False
+        db_table = u'"NUVPD"."VIEW_PROVEEDORES"'
+
+    def __str__(self):
+        value = "%s - %s" % (
+            self.clave,
+            self.descripcion,
+        )
+        return value
+
+    def __unicode__(self):
+        value = "%s - %s" % (
+            self.clave,
+            self.descripcion,
+        )
+        return value

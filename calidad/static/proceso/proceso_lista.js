@@ -49,6 +49,16 @@ function ToolBar() {
 function Grid() {
 
    popup_acciones = new PopupAcciones()
+   this.$id_grid_proceso = $('#id_grid_proceso')
+   this.init_Events()
+}
+Grid.prototype.init_Events = function () {
+
+   this.$id_grid_proceso.on("click", '.clickable-row', this.click_FilaGrid)
+}
+Grid.prototype.click_FilaGrid = function (e) {
+
+   $(this).addClass('nova-active-row').siblings().removeClass('nova-active-row')
 }
 
 /*-----------------------------------------------*\
@@ -108,6 +118,10 @@ PopupNuevo.prototype.init_Events = function () {
    
    this.$id_boton_guardar.on("click", this, this.click_BotonGuardar)
 }
+PopupNuevo.prototype.click_BotonGuardar = function (e) {
+
+   this.preventDeafult()
+}
 
 /*-----------------------------------------------*\
          OBJETO: Popup acciones
@@ -116,14 +130,21 @@ PopupNuevo.prototype.init_Events = function () {
 function PopupAcciones () {
    
    this.$id_tarjeta_acciones = $('#id_tarjeta_acciones')
+   this.$id_boton_check_list = $('#id_boton_check_list')
+   this.$id_boton_reporta_auditoria = $('#id_boton_reporta_auditoria')
    this.$id_boton_editar = $('#id_boton_editar')
    this.init_Events()
 }
 PopupAcciones.prototype.init_Events = function () {
    
-   this.$id_boton_editar.on("click", this, this.click_BotonEditar)
+   this.$id_boton_check_list.on("click", this, this.click_BotonCheckList)
+   this.$id_boton_reporta_auditoria.on("click", this, this.click_BotonReporteAuditoria)
 }
-PopupAcciones.prototype.click_BotonEditar = function (e) {
+PopupAcciones.prototype.click_BotonCheckList = function (e) {
 
-   e.data.$id_tarjeta_acciones.modal("hide")
+   e.preventDeafult()
+}
+PopupAcciones.prototype.click_BotonReporteAuditoria = function (e) {
+
+   e.preventDeafult()
 }

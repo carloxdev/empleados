@@ -46,8 +46,8 @@
                </ul>
                <div class="actions">
                   <a href="{% url 'calidad:general_formulario' %}" class="btn btn-xs btn-prev btn-default nova-a-tab">Generales</a>
-                  <a href="{% url 'calidad:equipo_auditor_formulario' %}" class="btn btn-xs btn-next btn-default nova-a-tab">Equipo Auditor</a>
-                  <a href="{% url 'calidad:proceso_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Procesos</a>
+                  <a href="{% url 'calidad:auditor_formulario' %}" class="btn btn-xs btn-next btn-default nova-a-tab">Equipo Auditor</a>
+                  <a href="{% url 'calidad:proceso_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab nova-active-tab">Procesos</a>
                </div>
                <div class="nova-content-nav">
                      
@@ -65,55 +65,53 @@
                   </div>
 
                </div>
-               <div class="step-content nova-panel-no-border-top">
-               </div>
             </div>
 
             <div class="panel panel-default panel-table">
                
                <div class="panel-heading nova-panel-borde-contenido nova-panel-tools">            
                   <a href="#id_tarjeta_filtros" 
-                     class="btn nova-btn btn-rounded btn-sm btn-primary btn-space pull-right" data-toggle="modal" id="boton_filtros">
+                     class="btn nova-btn btn-rounded btn-sm btn-primary btn-space pull-right" data-toggle="modal" id="id_boton_filtros">
                      <i class="icon icon-left mdi mdi-search nova-white"></i> Filtros
                   </a>
                   <a href="#id_tarjeta_nuevo_hallazgo"
-                     class="btn nova-btn btn-rounded btn-sm btn-default btn-space pull-right" data-toggle="modal" id="boton_nuevo">
+                     class="btn nova-btn btn-rounded btn-sm btn-default btn-space pull-right" data-toggle="modal" id="id_boton_nuevo">
                      <i class="icon icon-left mdi mdi-plus-circle nova-black"></i> Nuevo
                   </a>
                </div><!-- Panel Heading -->
 
                <div id="grid_resultados" class="nova-div-overflow">
-                  <table class="table table-bordered">
+                  <table class="table table-bordered table-hover" id="id_grid_hallazgo">
                      <thead>
                         <tr>
-                           <th style="width: 38px;"></th>
+                           <th class="nova-columna-acciones"></th>
                            <th>Título</th>
                            <th>Subproceso</th>
                            <th>Estado</th>
-                           <th>Zona</th>
-                           <th>Contrato</th>
+                           <th>Tipo</th>
+                           
                            <th>Observaciones del Hallazgo</th>
-                           <th>Estado</th>
+                           <th>Cerrado</th>
                         </tr>
                      </thead>
                      <tbody>
-                        <tr>
+                        <tr class="clickable-row">
                            <td>
                               <a href="#id_tarjeta_acciones" data-toggle="modal" class="btn nova-btn btn-default" id="boton_nuevo">
                                  <i class="icon icon-left icon mdi mdi-settings nova-black"></i>
                               </a>
                            </td>
                            <td>
-                              <a href="{% url 'calidad:hallazgo_formulario' %}" class="btn btn-default nova-url" data-toggle="modal">Documento fuera de regla</a>
+                              <a href="{% url 'calidad:hallazgo_detalle' %}" class="btn btn-default nova-url" data-toggle="modal">Documento fuera de regla</a>
                            </td>
                            <td>
                               Licictaciones
                            </td>
-                           <td style="text-align:center">En Captura</td>
-                           <td>Oficinas veracruz</td>
-                           <td>Cont 01</td>
+                           <td class="nova-aling-center">En Captura</td>
+                           <td>Mayor A</td>
+                           
                            <td>Se encontro un documento de licitacion al cual le faltaba un sello.</td>
-                           <td>Abierto</td>
+                           <td>No</td>
                         </tr>
                      </tbody>
                   </table>
@@ -127,59 +125,9 @@
 
    </div> <!-- main content -->
 
-   <!-- tarjeta_analisis -->
-   <div id="tarjeta_analisis" role="dialog" class="modal fade colored-header colored-header-primary">
-      <div class="modal-dialog custom-width">
-         <div class="modal-content">
-            
-            <div class="modal-header nova-modal-header">
-               <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
-               <h3 class="modal-title">Analisis de Causas</h3>
-            </div>
-               
-            <form id="formulario_filtro" class="modal-body form-horizontal">
-
-               <div class="form-group">
-                  <label class="col-sm-3 nova-col-filter control-label">Metodología usada</label>
-                  <div class="col-sm-7 xs-pt-5">
-                     <select class="select2 select2-hidden-accessible" tabindex="-1" aria-hidden="true" id="id_metodologia">
-                        <option value="" selected="selected">-------</option>
-                        <option value="JPJ">ACR</option>
-                        <option value="LALG">Lluvia de ideas</option>
-                        <option value="LALG">Pareto</option>
-                        <option value="LALG">Histograma</option>
-                        <option value="LALG">Causa efecto</option>
-                     </select>
-                  </div>
-               </div>
-               <div class="form-group">
-                  <label class="col-sm-3 nova-col-filter control-label">Causas Probables de la No Conformidad</label>
-                  <div class="col-sm-7 xs-pt-5">
-                     <textarea class="form-control textarea" id="id_causas"><!--placeholder-->
-                     </textarea>
-                  </div>
-               </div>
-
-            </form><!-- Modal body-->
-            <div class="modal-footer nova-modal-footer">
-               <div class="row col-sm-12">
-                  <button type="button" data-dismiss="modal" class="btn btn-default pull-left">
-                     Cancelar
-                  </button>
-
-                  <button type="button" id="boton_buscar" class="btn nova-btn btn-primary btn-lg pull-right">
-                     <i class="icon icon-left mdi mdi-search nova-white"></i>
-                     Guardar
-                  </button>
-               </div>
-            </div>
-         </div> <!-- Modal content-->
-      </div> <!-- Modal dialog -->
-   </div><!-- Modal -->
-
    <!-- tarjeta_acciones-->
    <div id="id_tarjeta_acciones" tabindex="-1" role="dialog" class="modal fade colored-header colored-header-primary">
-      <div style="width: 100px; height: 500px" class="modal-dialog">
+      <div class="modal-dialog nova-modal-acciones">
         <div class="modal-content">
           <div class="modal-header nova-modal-header">
             <button type="button" data-dismiss="modal" aria-hidden="true" class="close"><span class="mdi mdi-close"></span></button>
@@ -188,15 +136,6 @@
           <div class="modal-body">
             <div class="text-center">
                <div role="group" class="btn-group-vertical btn-space">
-                  <a href="{% url 'calidad:evidencia_formulario' %}" class="btn nova-btn btn-space btn-default btn-lg" id="id_boton_evidencias">
-                     <i class="icon icon-left mdi mdi-file nova-black"></i> Evidencias del Hallazgo
-                  </a>
-                  <a href="#tarjeta_analisis" class="btn nova-btn btn-space btn-default btn-lg" data-toggle="modal" id="id_boton_analisis_causas">
-                     <i class="icon icon-left mdi mdi-comments nova-black"></i> Analisis de Causas
-                  </a>
-                  <a href="{% url 'calidad:plan_accion_lista' %}" class="btn nova-btn btn-space btn-default btn-lg" id="id_boton_plan_accion">
-                     <i class="icon icon-left mdi mdi-wrench nova-black"></i> Plan de Acciones Correctivas
-                  </a>
                   <!--<a href="#" class="btn nova-btn btn-space btn-warning btn-lg" id="id_boton_cerrar_hallazgo">
                      <i class="icon icon-left mdi mdi-alert-triangle nova-white"></i> Cerrar Hallazgo
                   </a>-->
@@ -235,25 +174,13 @@
                </div>
 
                <div class="form-group">
-                 <label class="col-sm-3 nova-col-filter control-label">Zona</label>
+                 <label class="col-sm-3 nova-col-filter control-label">sitio</label>
                  <div class="col-sm-7 xs-pt-5">
-                     <select class="select2 select2-hidden-accessible" tabindex="-1" aria-hidden="true" id="id_zona">
+                     <select class="select2 select2-hidden-accessible" tabindex="-1" aria-hidden="true" id="id_sitio">
                         <option value="" selected="selected">-------</option>
                         <option value="JPJ">Oficinas Veracruz</option>
                         <option value="LALG">Oficinas Reynosa</option>
                         <option value="LALG">Oficinas Villahermosa</option>
-                     </select>
-                 </div>
-               </div>
-
-               <div class="form-group">
-                 <label class="col-sm-3 nova-col-filter control-label">Contrato</label>
-                 <div class="col-sm-7 xs-pt-5">
-                     <select class="select2 select2-hidden-accessible" tabindex="-1" aria-hidden="true" id="id_contrato">
-                        <option value="" selected="selected">-------</option>
-                        <option value="JPJ">Gas Amargo</option>
-                        <option value="LALG">Gas Dulce</option>
-                        <option value="LALG">Motocompresores</option>
                      </select>
                  </div>
                </div>
@@ -266,12 +193,12 @@
                </div> 
 
                <div class="form-group">
-                  <label class="col-sm-3 nova-col-filter control-label">Estado</label>
+                  <label class="col-sm-3 nova-col-filter control-label">Cerrado</label>
                   <div class="col-sm-7 xs-pt-5">
                      <select class="select2 select2-hidden-accessible" tabindex="-1" aria-hidden="true" id="id_estado">
                         <option value="" selected="selected">-------</option>
-                        <option value="Vinculado">Abierto</option>
-                        <option value="Directo">Cerrado</option>
+                        <option value="Vinculado">Si</option>
+                        <option value="Directo">No</option>
                      </select>
                   </div>
                </div>
@@ -281,8 +208,8 @@
                  <div class="col-sm-7 xs-pt-5">
                      <select class="select2 select2-hidden-accessible" tabindex="-1" aria-hidden="true" id="id_tipo_hallazgo_filtro">
                         <option value="" selected="selected">-------</option>
-                        <option value="TIPOA">Mayor</option>
-                        <option value="TIPOB">Menor</option>
+                        <option value="TIPOA">Mayor A</option>
+                        <option value="TIPOB">Menor B</option>
                         <option value="Observacion">Observacion</option>
                      </select>
                  </div>
@@ -343,29 +270,8 @@
                      <span class="help-block">{{ error }}</span>
                   {% endfor %}                                        
                </div>
-
-               <!-- id_clasificacion_hallazgo -->
-               <div class="form-group">
-                  <label class="col-sm-3 control-label" 
-                     for="{{ form.auditores.id_for_label }}">
-                     {{ form.auditores.label }}
-                     Clasificación de hallazgo
-                  </label>
-                  <div class="col-sm-7 xs-pt-5">
-                     {{ form.auditores }}
-                     <select class="select2 select2-hidden-accessible" tabindex="-1" aria-hidden="true" id="id_clasificacion_hallazgo">
-                        <option value="" selected="selected">-------</option>
-                        <option value="Norma">Norma</option>
-                        <option value="Legal">Legal</option>
-                        <option value="Contractual">Contractual</option>
-                        <option value="RSC">RSC</option>
-                     </select>
-                  </div> 
-                  {% for error in form.auditores.errors %}
-                     <span class="help-block">{{ error }}</span>
-                  {% endfor %}                                        
-               </div>
-
+               
+               <!-- id_requisito_referencia -->
                <div class="form-group">
                   <label class="col-sm-3 control-label" 
                      for="{{ form.auditores.id_for_label }}">
@@ -389,21 +295,18 @@
                   {% endfor %}                                        
                </div>
 
-               <!-- requisitos_adicionales -->
+               <!-- id_descripciones -->
                <div class="form-group">
                   <label class="col-sm-3 control-label" 
                      for="{{ form.auditores.id_for_label }}">
                      {{ form.auditores.label }}
-                     Requisitos adicionales
+                     Descripciones
                   </label>
                   <div class="col-sm-7 xs-pt-5">
                      {{ form.auditores }}
-                     <select class="select2 select2-hidden-accessible input-xs" tabindex="-1" aria-hidden="true" id="id_requisito_adicional" multiple="multiple">
-                        <option value="Jose Gutierrez Zacarias">Requisito adicional 10.7</option>
-                        <option value="Javier Hernandez Gomez">Requisito adicional 9.3</option>
-                        <option value="Fernanda Fuentes Rocio">Requisito adicional 7.4</option>
-                        <option value="Fernanda Fuentes Rocio">Requisito adicional 5.6</option>
-                        <option value="Fernanda Fuentes Rocio">Requisito adicional 12.7</option>
+                     <select id="id_descripciones" multiple="multiple">
+                        <option value="a">Fuga de gas</option>
+                        <option value="b">Impacto en el suelo</option>
                      </select>
                   </div> 
                   {% for error in form.auditores.errors %}
@@ -428,6 +331,23 @@
                   {% for error in form.tipo_hallazgo.errors %}
                      <span class="help-block">{{ error }}</span>
                   {% endfor %}
+               </div>
+
+               <!-- observaciones -->
+               <div class="form-group">
+                  <label class="col-sm-3 control-label" 
+                     for="{{ form.observaciones.id_for_label }}">
+                     {{ form.observaciones.label }}
+                     Observaciones
+                  </label>
+                  <div class="col-sm-7 xs-pt-5">
+                     {{ form.observaciones }}
+                     <textarea class="form-control textarea" id="id_observacion">
+                     </textarea>
+                  </div> 
+                  {% for error in form.observaciones.errors %}
+                     <span class="help-block">{{ error }}</span>
+                  {% endfor %}                                        
                </div>
 
             </form><!-- Modal body-->

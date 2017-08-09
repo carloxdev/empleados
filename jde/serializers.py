@@ -16,6 +16,7 @@ from .models import VIEW_UNIDADES
 from .models import VIEW_COMPANIAS
 from .models import VIEW_AUTORIZACIONES
 from .models import VIEW_RECEPCIONES
+from .models import VIEW_PROVEEDORES
 
 
 class VIEW_INVENTARIO_UN_Serializer(serializers.HyperlinkedModelSerializer):
@@ -503,4 +504,11 @@ class VIEW_RECEPCIONES_Serializer(serializers.ModelSerializer):
             'fecha_tran',
         )
 
+class VIEW_PROVEEDORES_Serializer(serializers.HyperlinkedModelSerializer):
 
+    class Meta:
+            model = VIEW_PROVEEDORES
+            fields = (
+                'clave',
+                'descripcion',
+            )

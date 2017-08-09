@@ -17,8 +17,12 @@ from .views import PerfilPuestoConfiguraciones
 from .views import PerfilPuestoCompetencias
 from .views import PerfilPuestoCargos
 from .views import PerfilOrganigrama
-from .views import EmpleadoExpedientes
 from .views import EmpleadoExpediente
+from .views import EmpleadoExpedientes
+from .views import EmpleadoExpedientesSolicitud
+from .views import EmpleadoExpedientesGrado
+from .views import EmpleadoExpedientesDocPersonal
+from .views import EmpleadoExpedientesDocCapacitacion
 
 urlpatterns = [
     url(
@@ -46,16 +50,44 @@ urlpatterns = [
         EmpleadoOrganigramaEmpAPI.as_view(),
         name='organigrama_json_emp'
     ),
+    # url(
+    #     r'^expedientes/$',
+    #     EmpleadoExpedientes.as_view(),
+    #     name='empleado_expedientes'
+    # ),
     url(
-        r'^expedientes/$',
+        r'^expedientes/general$',
         EmpleadoExpedientes.as_view(),
-        name='empleado_expedientes'
+        name='empleado_expedientes_general'
     ),
     url(
-        r'^expedientes/(?P<pk>\d+)/expediente/$',
+        r'^expedientes/solicitudes$',
+        EmpleadoExpedientesSolicitud.as_view(),
+        name='empleado_expedientes_solicitudes'
+    ),
+    url(
+        r'^expedientes/grado$',
+        EmpleadoExpedientesGrado.as_view(),
+        name='empleado_expedientes_grado'
+    ),
+    url(
+        r'^expedientes/docpersonal$',
+        EmpleadoExpedientesDocPersonal.as_view(),
+        name='empleado_expedientes_docpersonal'
+    ),
+    url(
+        r'^expedientes/doccapacitacion$',
+        EmpleadoExpedientesDocCapacitacion.as_view(),
+        name='empleado_expedientes_doccapacitacion'
+    ),
+    url(
+        r'^expedientes/(?P<_numero_empleado>\d+)/expediente/$',
         EmpleadoExpediente.as_view(),
         name='empleado_expediente'
     ),
+
+    # ------------------
+
     url(
         r'^perfilpuesto/$',
         PerfilPuesto.as_view(),

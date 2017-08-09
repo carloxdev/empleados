@@ -7,54 +7,62 @@
 	<link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.rtl.min.css' %}"/>
 	<link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.common-bootstrap.min.css' %}"/>
 	<link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.bootstrap.min.css' %}"/>
+
+	<!-- Nova -->
+    <link rel="stylesheet" href="{% static 'grid.css' %}"/>
+
+	<!-- Theme -->
+    <link rel="stylesheet" href="{% static 'theme/lib/datetimepicker/css/bootstrap-datetimepicker.min.css' %}" type="text/css"/>
 {% endblock css %}
 {% block contenido %}
+{% for dato in empleado %}
 <div class="be-content">
-<div class="page-head">
-	<h2 class="page-head-title">Expediente</h2>
-	<br>
-	<ol class="breadcrumb page-head-nav pull-right">
-	 <li> <a href="{% url 'home:inicio'%}">Inicio</a></li>
-	 <li id="menu" data-opcion="capitalhumano_expedientes"><a href="{% url 'capitalhumano:empleado_expedientes'%}">Expedientes</a></li>
-	 <li class="active" >Expediente</li>
-	</ol>
-</div>
+	<div class="page-head">
+		<h2 class="page-head-title">Expediente</h2>
+		<br>
+		<ol class="breadcrumb page-head-nav pull-right">
+		 <li> <a href="{% url 'home:inicio'%}">Inicio</a></li>
+		 <li id="menu" data-opcion="capitalhumano_expedientes"><a href="{% url 'capitalhumano:empleado_expedientes_general'%}">Expedientes</a></li>
+		 <li class="active" >Expediente</li>
+		</ol>
+	</div>
 
-<div class="main-content container-fluid">
-	<div class="user-profile">
-		<div class="row">
-			{% for dato in empleado %}
-			<div class="col-md-12">
-				<!-- Encabezado perfil -->
-				<div class="user-display">
-					<div class="user-display-bottom">
-						<div class="user-display-avatar"><img src="{{ ruta }}" alt="Avatar"></div>
-						<div class="user-display-info">
-							<div class="name">{{ dato.pers_nombre_completo }}</div>
-							<br>
-						</div>
-						<div class="row user-display-details">
-							<div class="col-xs-4">
-								<div class="title">No Empleado</div>
-								<div class="counter">{{ dato.pers_empleado_numero }}</div>
+	<div class="main-content container-fluid">
+		<div class="user-profile">
+			<div class="row">
+				<input type="hide" class="hide" value="{{ dato.pers_empleado_numero }}" id="numero_empleado">
+				<input type="hide" class="hide" value="{{ request.user.profile.pk }}" id="created_by">
+				<div class="col-md-12">
+					<!-- Encabezado perfil -->
+					<div class="user-display">
+						<div class="user-display-bottom">
+							<div class="user-display-avatar"><img src="{{ ruta }}" alt="Avatar"></div>
+							<div class="user-display-info">
+								<div class="name">{{ dato.pers_nombre_completo }}</div>
+								<br>
 							</div>
-							<div class="col-xs-4">
-								<div class="title">Fecha Ingreso</div>
-								<div class="counter">{{ dato.asig_fecha_inicio }}</div>
-							</div>
-							<div class="col-xs-4">
-								<div class="title">Centro costos</div>
-								<div class="counter">{{ dato.grup_fase_jde }}</div>
+							<div class="row user-display-details">
+								<div class="col-xs-4">
+									<div class="title">No Empleado</div>
+									<div class="counter">{{ dato.pers_empleado_numero }}</div>
+								</div>
+								<div class="col-xs-4">
+									<div class="title">Fecha Ingreso</div>
+									<div class="counter">{{ dato.asig_fecha_inicio|date:"d/m/Y" }}</div>
+								</div>
+								<div class="col-xs-4">
+									<div class="title">Centro costos</div>
+									<div class="counter">{{ dato.grup_fase_jde }}</div>
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-			</div>
-
 				<!-- Informacion perfil -->
 				<div class="col-md-6">
 					<div class="user-info-list panel panel-default">
-						<div class="panel-heading nova-panel-heading-divider">Información personal</div>
+						<div class="panel-heading nova-panel-heading-divider">Información personal
+						</div>
 						<div class="panel-body">
 							<table class="no-border no-strip skills">
 								<tbody class="no-border-x no-border-y">
@@ -76,7 +84,7 @@
 									<tr>
 										<td class="icon nova-icon-gray"><span class="mdi mdi-cake"></span></td>
 										<td class="item">Fecha de Nacimiento</td>
-										<td>{{ dato.pers_fecha_nacimiento}}</td>
+										<td>{{ dato.pers_fecha_nacimiento|cut:"00:00:00" }}</td>
 									</tr>
 									<tr>
 										<td class="icon nova-icon-gray"><span class="mdi mdi-globe-alt"></span></td>
@@ -114,7 +122,6 @@
 										<td class="item">Puesto</td>
 										<td>{{ dato.asig_puesto_desc }}</td>
 									</tr>
-
 									<tr>
 										<td class="icon nova-icon-gray"><span class="mdi mdi-pin"></span></td>
 										<td class="item">Ubicacion</td>
@@ -127,8 +134,8 @@
 									</tr>
 									<tr>
 										<td class="icon nova-icon-gray"><span class="mdi mdi-collection-text"></span></td>
-										<td class="item">Grado</td>
-										<td>{{ dato.asig_grado_desc }}</td>
+										<td class="item">Categoria</td>
+										<td>{{ dato.asig_grado_desc }} {{ dato.asig_trabajo_desc }}</td>
 									</tr>
 									<tr>
 										<td class="icon nova-icon-gray"><span class="mdi mdi-collection-text"></span></td>
@@ -145,90 +152,54 @@
 						</div>
 					</div>
 				</div>
-			{% endfor %}
+			</div>
+			
+			<!-- Panel con tabs -->
+			<div class="fuelux">
+	            <div id="wizard1" class="wizard wizard-ux nova-panel-borde-header">
+	               <ul class="steps">
+	               		<li class="active">Documentos</li>
+	               </ul>
+	               <div class="actions">
+	                  <a class="btn btn-xs btn-prev btn-default nova-a-tab nova-active-tab" id="personales" >Documentos personales</a>
+	                  <a class="btn btn-xs btn-next btn-default nova-a-tab" id="capacitaciones">Capacitacion</a>
+	                  <a class="btn btn-xs btn-next btn-default nova-a-tab nova-a-tab-border nova-tab">Incidencia</a>
+	                  <a href="" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Desempeño</a>
+	               </div>
+	            </div>
+	            <div class="panel panel-default panel-table">
+	                  <div class="panel-heading nova-panel-borde-contenido nova-panel-tools">
+	                     <a href="#modal_nuevo" class="btn nova-btn btn-rounded btn-sm btn-space btn-default pull-right " data-toggle="modal" id="boton_nuevo_per">
+	                        <i class="icon icon-left mdi mdi-plus-circle nova-black"></i> Nuevo documento
+	                     </a>
+	                     <a href="#modal_nuevo_cap" class="btn nova-btn btn-rounded btn-sm btn-space btn-default pull-right hidden" data-toggle="modal" id="boton_nuevo_cap">
+	                        <i class="icon icon-left mdi mdi-plus-circle nova-black"></i> Nueva capacitación
+	                     </a>
+	                  </div><!-- Panel Heading -->
+	                  <div id="grid_resultados" class="nova-div-overflow">
+	                  </div>
+	            </div> <!-- Panel -->
+	        </div> <!-- col sm 12-->
+
 		</div>
-		
-		<!-- Panel con tabs -->
-		<div class="fuelux">
-
-            <div id="wizard1" class="wizard wizard-ux nova-panel-borde-header">
-               <ul class="steps">
-
-                  <li class="active">Documentos</li>
-
-               </ul>
-               <div class="actions">
-                  <a href="" class="btn btn-xs btn-prev btn-default nova-active-tab">Documentos personales</a>
-                  <a href="" class="btn btn-xs btn-next btn-default nova-a-tab">Capacitaciones</a>
-                  <a class="btn btn-xs btn-next btn-default nova-a-tab nova-a-tab-border nova-tab">Seguimiento incidencias</a>
-                  <a href="" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Evaluación desempeño</a>
-               </div>
-            </div>
-            
-            <div class="panel panel-default panel-table">
-                  <div class="panel-heading nova-panel-borde-contenido nova-panel-tools">
-                     <a href="#modal_nuevo" class="btn nova-btn btn-rounded btn-sm btn-space btn-default pull-right" data-toggle="modal" id="boton_nuevo">
-                        <i class="icon icon-left mdi mdi-plus-circle nova-black"></i>Nuevo documento
-                     </a>
-                  </div><!-- Panel Heading -->
-                  <div id="grid_resultados" class="nova-div-overflow">
-                     <!--<table class="table table-bordered">
-                        <thead>
-                           <tr>
-                              <th>Documento</th>
-                              <th>Agrupador</th>
-                              <th>Vigencia</th>
-                           </tr>
-                        </thead>
-                        <tbody>
-                           <tr>
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                           </tr>
-                           <tr>
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                           </tr>
-                           <tr>
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                           </tr>
-                           <tr>
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                           </tr>
-                        </tbody>
-                     </table>-->
-                  </div>
-            </div> <!-- Panel -->
-         </div> <!-- col sm 12-->
-
-
 	</div>
 </div>
-</div>
-<!-- Modal -->
-    <div id="modal_nuevo" role="dialog" class="modal fade colored-header colored-header-primary">
-        <div class="modal-dialog custom-width">
-            <div class="modal-content">
-                
-                <div class="modal-header nova-modal-header">
-                    <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
-                    <h3 class="modal-title">Nuevo documento</h3>
-                </div>
-                    
-                <form action="" method="POST" enctype="multipart/form-data"> {% csrf_token %}
-				
+<!-- Modal personal-->
+<div id="modal_nuevo" role="dialog" class="modal fade colored-header colored-header-primary">
+    <div class="modal-dialog custom-width">
+        <div class="modal-content">
+            
+            <div class="modal-header nova-modal-header">
+                <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
+                <h3 class="modal-title">Agregar archivo</h3>
+            </div>
+            <form action="" method="POST" enctype="multipart/form-data" id="formulario_per"> {% csrf_token %}
 				<!-- Subtipo -->
 				<div class="modal-body form-horizontal">
                     <div class="form-group">
                         <label class="col-sm-3 nova-col-filter control-label">Tipo de documento</label>
                         <div class="col-sm-8 xs-pt-5">
-                            {{ form.tipo }}
+                            {{ form.tipo_documento }}
                         </div>
                     </div>                
 					<!-- Agrupador -->
@@ -239,18 +210,37 @@
                         </div>
                     </div>                  
 
-                    <!-- Vigencia -->                                      
+                    <!-- Vigencia -->
                     <div class="form-group">
-                        <label class="col-sm-3 nova-col-filter control-label">Vigencia</label>
-                        <div class="col-sm-8 xs-pt-5">
-                            <div class="input-group"> 
-                                <input type="text" value="" readonly="" class="form-control input-xs" id="fecha_creacion">
-                                <span class="input-group-addon btn btn-primary">
-                                    <i class="icon-th mdi mdi-calendar"></i>
+
+                        <label class="col-sm-3 nova-col-filter control-label">
+                            Vigencia inicio/fin
+                        </label>
+
+                        <div class="col-sm-4 xs-pt-5">
+                            <div class="input-group date" 
+                            data-min-view="2" 
+                            data-date-format="yyyy-mm-dd"
+                            id="id_vigencia_inicio_input">
+                                {{ form.vigencia_inicio }}
+                                <span class="input-group-addon nova-addon-button">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                        </div> 
+                        <div class="col-sm-4 xs-pt-5">
+                            <div class="input-group date" 
+                            data-min-view="2" 
+                            data-date-format="yyyy-mm-dd"
+                            id="id_vigencia_fin_input">
+                                {{ form.vigencia_fin }}
+                                <span class="input-group-addon nova-addon-button">
+                                    <span class="glyphicon glyphicon-calendar"></span>
                                 </span>
                             </div>
                         </div>
                     </div>
+
                     <!-- Documento -->
                     <div class="form-group">
                       <label class="col-sm-3 nova-col-filter control-label">Documento</label>
@@ -261,20 +251,192 @@
 				</div>
                 
                 <!-- Botones de acción -->
-	                <div class="modal-footer nova-modal-footer">
-	                     <div class="row col-sm-12">
-                            <button type="button" data-dismiss="modal" class="btn btn-default pull-left">
-                                Cancelar
-                            </button>
+                <div class="modal-footer nova-modal-footer">
+                     <div class="row col-sm-12">
+                        <button type="button" data-dismiss="modal" class="btn btn-default pull-left">
+                            Cancelar
+                        </button>
+						<button type="button" class="btn btn-primary" id="id_boton_guardar_personal" >Guardar</button>
+                    </div>
+                </div>
+            </form>
+        </div> <!-- Modal content-->
+    </div> <!-- Modal dialog -->
+</div><!-- Modal personal-->
 
-                            <button type="submit" class="btn btn-primary" id="id_boton_guardar" >Guardar</button>
-	                    </div>
-	                </div>
-	            </form>
-            </div> <!-- Modal content-->
-        </div> <!-- Modal dialog -->
-    </div><!-- Modal -->
+<!-- Modal capacitacion-->
+<div id="modal_nuevo_cap" role="dialog" class="modal fade colored-header colored-header-primary">
+    <div class="modal-dialog custom-width">
+        <div class="modal-content">
+            
+            <div class="modal-header nova-modal-header">
+                <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
+                <h3 class="modal-title">Agregar archivos</h3>
+            </div>
+            <form action="" method="POST" enctype="multipart/form-data" id="form_capacitacion"> {% csrf_token %}
+				<div class="modal-body form-horizontal">
+					<!-- Agrupador -->
+                    <div class="form-group">
+                        <label class="col-sm-3 nova-col-filter control-label">Agrupador</label>
+                        <div class="col-sm-8 xs-pt-5">
+                            {{ form2.agrupadorcap }}
+                        </div>
+                    </div>  
+                  	<!-- Area -->
+                    <div class="form-group">
+                        <label class="col-sm-3 nova-col-filter control-label">Area</label>
+                        <div class="col-sm-8 xs-pt-5">
+                            {{ form2.area }}
+                        </div>
+                    </div>      
+					<!-- Curso -->
+                    <div class="form-group">
+                        <label class="col-sm-3 nova-col-filter control-label">Curso</label>
+                        <div class="col-sm-8 xs-pt-5">
+                            {{ form2.curso }}
+                        </div>
+                    </div>                
+					<!-- Proveedor -->
+                    <div class="form-group">
+                        <label class="col-sm-3 nova-col-filter control-label">Proveedor</label>
+                        <div class="col-sm-8 xs-pt-5">
+                            {{ form2.proveedor }}
+                        </div>
+                    </div>    
+                    <!-- Modalidad -->
+                    <div class="form-group">
+                        <label class="col-sm-3 nova-col-filter control-label">Modalidad</label>
+                        <div class="col-sm-8 xs-pt-5">
+                            {{ form2.modalidad }}
+                        </div>
+                    </div>                  
+					<!-- Lugar -->
+                    <div class="form-group">
+                        <label class="col-sm-3 nova-col-filter control-label">Lugar</label>
+                        <div class="col-sm-8 xs-pt-5">
+                            {{ form2.lugar }}
+                        </div>
+                    </div> 
+                    <!-- Costo -->
+                    <div class="form-group">
+                        <label class="col-sm-3 nova-col-filter control-label">Costo</label>
+                        <div class="col-sm-8 xs-pt-5">
+                            {{ form2.costo }}
+                        </div>
+                    </div>
+                    <!-- Moneda -->
+                    <div class="form-group">
+                        <label class="col-sm-3 nova-col-filter control-label">Moneda</label>
+                        <div class="col-sm-8 xs-pt-5">
+                            {{ form2.moneda }}
+                        </div>
+                    </div> 
+                    <!-- Departamento -->
+                    <div class="form-group">
+                        <label class="col-sm-3 nova-col-filter control-label">Departamento</label>
+                        <div class="col-sm-8 xs-pt-5">
+                            {{ form2.departamento }}
+                        </div>
+                    </div>  
+                    <!-- Duracion -->
+                    <div class="form-group">
+                        <label class="col-sm-3 nova-col-filter control-label">Duracion(hrs)</label>
+                        <div class="col-sm-8 xs-pt-5">
+                            {{ form2.duracion }}
+                        </div>
+                    </div>
+                    <!-- Fecha inicio/fin -->
+                    <div class="form-group">
 
+                        <label class="col-sm-3 nova-col-filter control-label">
+                            Fecha inicio/fin
+                        </label>
+
+                        <div class="col-sm-4 xs-pt-5">
+                            <div class="input-group date" 
+                            data-min-view="2" 
+                            data-date-format="yyyy-mm-dd"
+                            id="id_fecha_inicio_input">
+                                {{ form2.fecha_inicio }}
+                                <span class="input-group-addon nova-addon-button">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                        </div> 
+                        <div class="col-sm-4 xs-pt-5">
+                            <div class="input-group date" 
+                            data-min-view="2" 
+                            data-date-format="yyyy-mm-dd"
+                            id="id_fecha_fin_input">
+                                {{ form2.fecha_fin }}
+                                <span class="input-group-addon nova-addon-button">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+					<!-- Observaciones -->
+                    <div class="form-group">
+                        <label class="col-sm-3 nova-col-filter control-label">Observaciones</label>
+                        <div class="col-sm-8 xs-pt-5">
+                            {{ form2.observaciones }}
+                        </div>
+                    </div>    
+                    <!-- Documento -->
+                    <div class="form-group">
+                      <label class="col-sm-3 nova-col-filter control-label">Documento</label>
+                      <div class="col-sm-8 xs-pt-5">
+                        {{ form2.archivocap }}
+                      </div>
+                    </div> 
+				</div>
+                
+                <!-- Botones de acción -->
+                <div class="modal-footer nova-modal-footer">
+                     <div class="row col-sm-12">
+                        <button type="button" data-dismiss="modal" class="btn btn-default pull-left">
+                            Cancelar
+                        </button>
+                        <button type="button" class="btn btn-primary" id="id_boton_guardar_capacitacion" >Guardar</button>
+                    </div>
+                </div>
+            </form>
+        </div> <!-- Modal content-->
+    </div> <!-- Modal dialog -->
+</div><!-- Modal capacitacion-->
+
+<!-- Eliminar-->
+<div id="eliminar" role="dialog" class="modal fade colored-header colored-header-primary">
+    <div class="modal-dialog custom-width">
+        <div class="modal-content">
+            
+            <div class="modal-header nova-modal-header">
+                <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
+                <h3 class="modal-title">Confirmación</h3>
+            </div>
+            <form action="" method="POST" enctype="multipart/form-data"> {% csrf_token %}
+				<!-- Mensaje -->
+				<div class="modal-body form-horizontal">
+                    <div class="form-group">
+                        <h3>¿Desea eliminar el documento " "?
+                    </div>            
+                </div>
+                
+                <!-- Botones de acción -->
+                <div class="modal-footer nova-modal-footer">
+                     <div class="row col-sm-12">
+                        <button type="button" data-dismiss="modal" class="btn btn-default pull-left">
+                            Cancelar
+                        </button>
+
+                        <button type="submit" class="btn btn-primary" id="id_boton_guardar" >Eliminar</button>
+                    </div>
+                </div>
+            </form>
+        </div> <!-- Modal content-->
+    </div> <!-- Modal dialog -->
+</div><!-- Modal personal-->
+{% endfor %}
 {% endblock contenido %}
 {% block scripts %}
 	<!-- Kendo Js -->
@@ -289,6 +451,9 @@
 
 	<!-- Theme -->
 	<script src="{% static 'theme/lib/jquery-ui/jquery-ui.min.js' %}"></script>
+	<script src="{% static 'theme/lib/moment.js/min/moment.min.js' %}"></script>
+    <script src="{% static 'theme/lib/datetimepicker/js/bootstrap-datetimepicker.min.js' %}"></script>
+    <script src="{% static 'theme/lib/datetimepicker/js/locales/bootstrap-datetimepicker.es.js' %}"></script>
 
 	<!-- NOVA-->
    	<script src="{% static 'empleado_expediente.js' %}"></script>

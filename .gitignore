@@ -1,4 +1,4 @@
-# OS generated files 
+# OS generated files
 # ---------------------------------------
 .DS_Store
 .Trashes
@@ -37,5 +37,6 @@ jde/migrations/*
 salud/migrations/*
 seguridad/migrations/*
 seguridadlaboral/migrations/*
-serviciosempleao/migrations/*
+serviciosempleado/migrations/*
 sgi/migrations/*
+rsc/migrations/*

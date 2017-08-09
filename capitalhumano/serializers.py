@@ -8,8 +8,16 @@ import json
 
 # Modelos
 from .models import PerfilPuestoDocumento
+from .models import Archivo
+from .models import TipoDocumento
 from .models import DocumentoPersonal
+from .models import DocumentoCapacitacion
+from .models import Curso
 from ebs.models import VIEW_EMPLEADOS_FULL
+from jde.models import VIEW_PROVEEDORES
+
+# GenerisForeignKey
+from generic_relations.relations import GenericRelatedField
 
 
 class PerfilPuestoDocumentoSerializer(serializers.HyperlinkedModelSerializer):
@@ -35,39 +43,173 @@ class PerfilPuestoDocumentoSerializer(serializers.HyperlinkedModelSerializer):
         )
 
 
-class PersonalSerializer(serializers.HyperlinkedModelSerializer):
-    pk_archivo = serializers.SerializerMethodField()
-    nombre_archivo = serializers.SerializerMethodField()
-    archivo = serializers.SerializerMethodField()
-    tipo = serializers.SerializerMethodField()
-    created_by = serializers.SerializerMethodField()
+# ----------Serializers para insertar registros------------------
+
+
+class DocumentoPersonalSerializers(serializers.HyperlinkedModelSerializer):
+    # tipo_documento = serializers.SerializerMethodField()
+    tipo_documento = serializers.PrimaryKeyRelatedField(
+        queryset=TipoDocumento.objects.all())
 
     class Meta:
         model = DocumentoPersonal
         fields = (
+            'pk',
             'numero_empleado',
+            'tipo_documento',
             'agrupador',
-            'fecha',
             'vigencia_inicio',
             'vigencia_fin',
-            'pk_archivo',
-            'nombre_archivo',
-            'tipo',
-            'archivo',
             'created_by',
             'created_date',
+            'organizacion',
+            'nombre_completo',
         )
 
-    def get_pk_archivo(self, obj):
+
+class DocumentoCapacitacionSerializers(serializers.HyperlinkedModelSerializer):
+    curso = serializers.PrimaryKeyRelatedField(
+        queryset=Curso.objects.all())
+
+    class Meta:
+        model = DocumentoCapacitacion
+        fields = (
+            'pk',
+            'numero_empleado',
+            'curso',
+            'proveedor',
+            'modalidad',
+            'lugar',
+            'costo',
+            'moneda',
+            'departamento',
+            'fecha_inicio',
+            'fecha_fin',
+            'duracion',
+            'observaciones',
+            'agrupador',
+            'area',
+            'created_by',
+            'organizacion',
+            'nombre_completo',
+        )
+
+
+# /api-capitalhumano/documentopersonal/64/
+class ArchivoSerializers(serializers.HyperlinkedModelSerializer):
+    content_object = GenericRelatedField({
+        DocumentoPersonal: serializers.HyperlinkedRelatedField(
+            queryset=DocumentoPersonal.objects.all(),
+            view_name='documentopersonal-detail',
+        ),
+        DocumentoCapacitacion: serializers.HyperlinkedRelatedField(
+            queryset=DocumentoCapacitacion.objects.all(),
+            view_name='documentocapacitacion-detail',
+        )
+    })
+
+    class Meta:
+        model = Archivo
+        fields = (
+            'pk',
+            'tipo_archivo',
+            'archivo',
+            'content_object',
+            'created_by',
+        )
+# ---------- FIN Serializers para insertar registros------------------
+
+class ArchivoPersonalSerializer(serializers.HyperlinkedModelSerializer):
+    numero_empleado = serializers.SerializerMethodField()
+    tipo_documento = serializers.SerializerMethodField()
+    agrupador = serializers.SerializerMethodField()
+    vigencia_inicio = serializers.SerializerMethodField()
+    vigencia_fin = serializers.SerializerMethodField()
+    tipo_archivo = serializers.SerializerMethodField()
+    created_by = serializers.SerializerMethodField()
+    organizacion = serializers.SerializerMethodField()
+    nombre_completo = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Archivo
+        fields = (
+            'numero_empleado',
+            'tipo_documento',
+            'agrupador',
+            'vigencia_inicio',
+            'vigencia_fin',
+            'tipo_archivo',
+            'pk',
+            'archivo',
+            'object_id',
+            'created_by',
+            'created_date',
+            'organizacion',
+            'nombre_completo',
+        )
+
+    def get_numero_empleado(self, obj):
         try:
-            return obj.archivo.pk
+            return obj.content_object.numero_empleado
         except Exception as e:
             print str(e)
             return " "
 
-    def get_nombre_archivo(self, obj):
+    def get_tipo_documento(self, obj):
         try:
-            return obj.archivo.nombre_documento
+            return obj.content_object.tipo_documento.tipo_documento
+        except Exception as e:
+            print str(e)
+            return " "
+
+    def get_tipo_archivo(self, obj):
+        try:
+            tipo = ''
+            if obj.tipo_archivo == 'per':
+                tipo = 'Personal'
+            elif obj.tipo_archivo == 'cap':
+                tipo = 'Capacitacion'
+            return tipo
+        except Exception as e:
+            print str(e)
+            return " "
+
+    def get_agrupador(self, obj):
+        try:
+            agrupador = ''
+            if obj.content_object.agrupador == 'per':
+                agrupador = 'Personal'
+            elif obj.content_object.agrupador == 'qhse':
+                agrupador = 'QHSE'
+            elif obj.content_object.agrupador == 'amo':
+                agrupador = 'Amonestacion'
+            elif obj.content_object.agrupador == 'adm':
+                agrupador = 'Administracion'
+            elif obj.content_object.agrupador == 'ope':
+                agrupador = 'Operaciones'
+            elif obj.content_object.agrupador == 'rec':
+                agrupador = 'Reconocimiento'
+            return agrupador
+        except Exception as e:
+            print str(e)
+            return " "
+
+    def get_vigencia_inicio(self, obj):
+        try:
+            if obj.content_object.vigencia_inicio is None:
+                return '---'
+            else:
+                return obj.content_object.vigencia_inicio.strftime('%d/%m/%Y')
+        except Exception as e:
+            print str(e)
+            return " "
+
+    def get_vigencia_fin(self, obj):
+        try:
+            if obj.content_object.vigencia_fin is None:
+                return '---'
+            else:
+                return obj.content_object.vigencia_fin.strftime('%d/%m/%Y')
         except Exception as e:
             print str(e)
             return " "
@@ -79,16 +221,240 @@ class PersonalSerializer(serializers.HyperlinkedModelSerializer):
             print str(e)
             return " "
 
-    def get_tipo(self, obj):
+    def get_organizacion(self, obj):
         try:
-            return obj.tipo.tipo_documento
+            return obj.content_object.organizacion
         except Exception as e:
             print str(e)
             return " "
 
-    def get_archivo(self, obj):
+    def get_nombre_completo(self, obj):
         try:
-            return str(obj.archivo.archivo)
+            return obj.content_object.nombre_completo
+        except Exception as e:
+            print str(e)
+            return " "
+
+
+class ArchivoCapacitacionSerializer(serializers.HyperlinkedModelSerializer):
+    numero_empleado = serializers.SerializerMethodField()
+    agrupador = serializers.SerializerMethodField()
+    area = serializers.SerializerMethodField()
+    curso = serializers.SerializerMethodField()
+    proveedor = serializers.SerializerMethodField()
+    modalidad = serializers.SerializerMethodField()
+    lugar = serializers.SerializerMethodField()
+    costo = serializers.SerializerMethodField()
+    moneda = serializers.SerializerMethodField()
+    departamento = serializers.SerializerMethodField()
+    fecha_inicio = serializers.SerializerMethodField()
+    fecha_fin = serializers.SerializerMethodField()
+    duracion = serializers.SerializerMethodField()
+    observaciones = serializers.SerializerMethodField()
+    created_by = serializers.SerializerMethodField()
+    fecha_vencimiento = serializers.SerializerMethodField()
+    organizacion = serializers.SerializerMethodField()
+    nombre_completo = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Archivo
+        fields = (
+            'pk',
+            'numero_empleado',
+            'agrupador',
+            'area',
+            'curso',
+            'proveedor',
+            'modalidad',
+            'lugar',
+            'costo',
+            'moneda',
+            'departamento',
+            'fecha_inicio',
+            'fecha_fin',
+            'duracion',
+            'observaciones',
+            'tipo_archivo',
+            'archivo',
+            'object_id',
+            'created_by',
+            'created_date',
+            'fecha_vencimiento',
+            'organizacion',
+            'nombre_completo',
+        )
+
+    def get_numero_empleado(self, obj):
+        try:
+            return obj.content_object.numero_empleado
+        except Exception as e:
+            print str(e)
+            return " "
+
+    def get_agrupador(self, obj):
+        try:
+            agrupador = ''
+            if obj.content_object.agrupador == 'per':
+                agrupador = 'Personal'
+            elif obj.content_object.agrupador == 'qhse':
+                agrupador = 'QHSE'
+            elif obj.content_object.agrupador == 'amo':
+                agrupador = 'Amonestacion'
+            elif obj.content_object.agrupador == 'adm':
+                agrupador = 'Administracion'
+            elif obj.content_object.agrupador == 'ope':
+                agrupador = 'Operaciones'
+            elif obj.content_object.agrupador == 'rec':
+                agrupador = 'Reconocimiento'
+            return agrupador
+        except Exception as e:
+            print str(e)
+            return " "
+
+    def get_area(self, obj):
+        try:
+            area = ''
+            if obj.content_object.area == 'ADMINISTRATIVA':
+                area = 'Administrativa'
+            elif obj.content_object.area == 'OPERATIVA':
+                area = 'Operativa'
+            return area
+        except Exception as e:
+            print str(e)
+            return " "
+
+    def get_curso(self, obj):
+        try:
+            return obj.content_object.curso.nombre_curso
+        except Exception as e:
+            print str(e)
+            return " "
+
+    def get_proveedor(self, obj):
+        try:
+            proveedor = VIEW_PROVEEDORES.objects.using(
+                'jde_p').get(clave=obj.content_object.proveedor)
+            return proveedor.descripcion
+        except Exception as e:
+            print str(e)
+            return " "
+
+    def get_modalidad(self, obj):
+        try:
+            titulo = ''
+            if obj.content_object.modalidad == 'pre':
+                titulo = 'Presencial'
+            elif obj.content_object.modalidad == 'vir':
+                titulo = 'Virtual'
+            elif obj.content_object.modalidad == 'prev':
+                titulo = 'Previo'
+            return titulo
+        except Exception as e:
+            print str(e)
+            return " "
+
+    def get_lugar(self, obj):
+        try:
+            return obj.content_object.lugar
+        except Exception as e:
+            print str(e)
+            return " "
+
+    def get_costo(self, obj):
+        try:
+            return obj.content_object.costo
+        except Exception as e:
+            print str(e)
+            return " "
+
+    def get_moneda(self, obj):
+        try:
+            moneda = ''
+            if obj.content_object.moneda == 'mxn':
+                moneda = 'Moneda nacional'
+            elif obj.content_object.moneda == 'usd':
+                moneda = 'Dolares'
+            elif obj.content_object.moneda == 'eur':
+                moneda = 'Euros'
+            return moneda
+        except Exception as e:
+            print str(e)
+            return " "
+
+    def get_departamento(self, obj):
+        try:
+            return obj.content_object.departamento
+        except Exception as e:
+            print str(e)
+            return " "
+
+    def get_fecha_inicio(self, obj):
+        try:
+            return obj.content_object.fecha_inicio.strftime('%d/%m/%Y')
+        except Exception as e:
+            print str(e)
+            return " "
+
+    def get_fecha_fin(self, obj):
+        try:
+            return obj.content_object.fecha_fin.strftime('%d/%m/%Y')
+        except Exception as e:
+            print str(e)
+            return " "
+
+    def get_duracion(self, obj):
+        try:
+            return obj.content_object.duracion
+        except Exception as e:
+            print str(e)
+            return " "
+
+    def get_observaciones(self, obj):
+        try:
+            return obj.content_object.observaciones
+        except Exception as e:
+            print str(e)
+            return " "
+
+    def get_tipo_archivo(self, obj):
+        try:
+            tipo = ''
+            if obj.tipo_archivo == 'per':
+                tipo = 'Personal'
+            elif obj.tipo_archivo == 'cap':
+                tipo = 'Capacitacion'
+            return tipo
+        except Exception as e:
+            print str(e)
+            return " "
+
+    def get_created_by(self, obj):
+        try:
+            return obj.created_by.usuario.get_full_name()
+        except Exception as e:
+            print str(e)
+            return " "
+
+    def get_fecha_vencimiento(self, obj):
+        try:
+            if obj.content_object.fecha_vencimiento == 'Indefinido':
+                return 'Indefinido'
+            else:
+                return obj.content_object.fecha_vencimiento
+        except Exception as e:
+            print str(e)
+            return " "
+
+    def get_organizacion(self, obj):
+        try:
+            return obj.content_object.organizacion
+        except Exception as e:
+            print str(e)
+            return " "
+
+    def get_nombre_completo(self, obj):
+        try:
+            return obj.content_object.nombre_completo
         except Exception as e:
             print str(e)
             return " "

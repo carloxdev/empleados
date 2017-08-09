@@ -36,7 +36,6 @@
 }
 
 .nova-active-tab {
-
    background-color: #f7f7f7;
 }
 
@@ -148,11 +147,14 @@
    padding: 15px 0 15px 15px !important;
 }
 
-.nova-modal-header{
+.nova-modal-header {
    padding: 15px 20px !important;
 }
+.nova-modal-content {
+   padding: 10px 0px;
+}
 
-.nova-padding-row{
+.nova-padding-row {
    padding: 0 15px;
 }
 
@@ -176,7 +178,7 @@
    right: -7px;   
 }
 
-.nova-div-overflow{
+.nova-div-overflow {
    overflow: auto;
    overflow-x: auto;
    overflow-y: auto;
@@ -214,16 +216,16 @@
    }
 
 }
-.nova-margin-highcharts{
-    margin: 10px 0px 20px ;
+.nova-margin-highcharts {
+    margin: 10px 0px 20px;
 }
-.nova-sparkline{
+.nova-sparkline {
     display: inline-block; 
     width: 85px; 
     height: 35px; 
     vertical-align: top;
 }
-.nova-contenedor-organigrama{
+.nova-contenedor-organigrama {
     background-color: white;
     position: relative;
     display: inline-block;
@@ -231,79 +233,66 @@
     overflow: auto;
     text-align: center;
 }
-.nova-icon-gray{
+.nova-icon-gray {
     fill: gray;
     -webkit-text-fill-color: gray;
 }
-.nova-panel-heading-divider{
+.nova-panel-heading-divider {
     border-bottom: 1px solid #d9d9d9;
     margin: 0 0 8px;
     padding-bottom: 16px;
     padding-left: 20px;
 }
-.nova-panel-heading-titulo{
-   font-size: 18px;
-   font-weight: 300;
-   padding: 10px;
-   margin: 0 20px;
-   border-bottom-width: 0;
-   border-radius: 3px 3px 0 0;
+
+/* nova-navbar */
+.nova-content-nav {
+   border-top: 1px solid #d4d4d4 !important;
+   width: 100%;
+   padding: 10px 0px 20px;
+   clear: both;
+   position: relative;
 }
 
+.nova-nav-tab {
+   width:70%;
+   left:50%;
+   margin:0px;
+}
+
+.nova-nav-tab a {
+   right:50%;
+}
+
+/* Bordes */
+.nova-nav-tab a:first-child {
+   border-top-left-radius: 7px;
+   border-bottom-left-radius: 7px;   
+}
+
+.nova-nav-tab a:last-child {
+   border-top-right-radius: 7px;
+   border-bottom-right-radius: 7px;   
+}
+
+/* nova-navbar */
+
+/* nova-breadcrumb-nav */
+.nova-breadcrumb-nav {
+   background-color: transparent !important;
+   position: relative;
+}
+
+.nova-breadcrumb-nav ol.breadcrumb {
+   background-color: transparent !important;
+}
+
+/* nova-breadcrumb-nav */
+
+/* nova-panel */
 .nova-panel-tools {
    margin: 0px;
    padding: 5px 20px 0px !important;
    overflow: hidden;
-}
-
-.nova-panel-tools-tabs {
-   margin: 0px;
-   padding: 0px 20px 0px 0px !important;
-   overflow: hidden;
-}
-
-.nova-tab-border {
-
-   border-left: 1px solid #d4d4d4 !important;
-   border-right: 1px solid #d4d4d4 !important;
-}
-
-
-/* nova-content-nav */
-.nova-content-nav{
-   border-top: 1px solid #d4d4d4 !important; /* borde en top del contenedor */
-   width: 100%;   /* ancho del contenedor */
-   padding: 10px 0px 20px;   /* padding del contenedor */
-   clear: both;   /* Permite desborde del contenedor */
-   position: relative;  /* Referencia de contenedor para posicionar elemento absoluto */
-}
-.nova-nav-tab{
-   position: absolute;  /* Posiciona elemento de manera absoluta sacandolo del contenedor */
-   width:70%;  /* Ancho del elemento */
-   left:50%;   /* Posiciona el elemento para centrarlo a la izquierda */
-   margin:0px;    /* Quita margenes de otras clases */
-   bottom: -20px;   /* Posiciona el elemento al centro del borde inferior */
-}
-.nova-nav-tab a{
-   right:50%;  /* Posiciona el elemento para centrarlo a la derecha */
-}
-/* Bordes */
-.nova-nav-tab a:first-child{
-   border-top-left-radius: 7px;
-   border-bottom-left-radius: 7px;   
-}
-.nova-nav-tab a:last-child{
-   border-top-right-radius: 7px;
-   border-bottom-right-radius: 7px;   
-}
-/* nova-content-nav */
-.nova-breadcrumb-nav{
-   background-color: transparent !important;
-   position: relative;
-
-}
-.nova-breadcrumb-nav ol.breadcrumb{
-   background-color: transparent !important;
 }
 
 .nova-panel-borde-contenido {
@@ -322,116 +311,331 @@
 .nova-panel-no-border-top {
    border-top: 0px !important;
 }
-.nova-panel-borde-top {
-   border-top: 1px solid #d4d4d4 !important;
-}
+/* nova-panel */
+
 /* nova-panel-arbol */
 .nova-panel-arbol {
    padding: 0px !important;
    border-radius: 0px! important; 
 }
-.nova-icon-lista {
-   padding: 6px 14px !important;
-   margin-right: 0px !important;
-}
+
 div.nova-panel-arbol span.badge {
    border: 0px !important;
    background-color: inherit !important;
    padding: 0px !important;
 }
+
 div.nova-panel-arbol li.list-group-item {
    overflow-y: hidden !important;
    border-radius: 0px !important;
 }
 /* nova-panel-arbol */
 
+/* nova-detalle */
 .nova-btn-space {
-   margin-right: 5px;
-   margin-bottom: 5px;  /* IVALIDO? */
-   margin-top: 12px;
+   margin-top: 5px;
 }
 
-.nova-chevron-color {
-   border-left-color: #d4d4d4 !important;
-}
-
-.nova-panel-step-content {
-   padding: 0px !important;
-}
-
-.nova-step-font {
-   font-weight: 400 !important;
-}
-.nova-step-complete{  
-   color: #777777 !important;
-   background-color: #ffffff !important;
-   
-}
-.nova-step-complete span.chevron:before {
-   border-left: 14px solid #ffffff !important;
-}
-.nova-step-active {
-   background-color: #f7f7f7 !important;
-}
-.nova-step-active span.chevron:before {
-   border-left: 14px solid #f7f7f7 !important;
-}
-
-.nova-btn-delete{
+.nova-btn-delete {
    background-color: #ff4141 !important;
 }
-.nova-btn-edit{
+
+.nova-btn-edit {
    background-color: #fba605 !important;
 }
+/* nova-detalle */
 
+/* nova-home */
 .nova-panel-inicio-top {
    padding: 30px 0px;
    background-color: #ffffff !important;
 }
+
 .nova-panel-inicio-bottom {
    padding: 30px 0px;
    background-color: #ddd !important;
 }
+
 .nova-btn-home {
    padding: 10px !important;
    border: 1px solid #d4d4d4;
    border-radius: 11px;
    font-size: 13px;
    width: 100%;
-
 }
-.nova-btn-home i.icon{
+
+.nova-btn-home i.icon {
    font-size: 32px !important;
 }
+
 .nova-info {
    text-align: center;
    font-size: 16px
 }
-.nova-info h4:first-child{
+
+.nova-info h4:first-child {
    margin-top: 0px;
 }
-.nova-home-title{
+
+.nova-home-title {
    font-size: 22px;
    text-align: center;
    margin-top: 17px;
 }
-.nova-paper{
+
+.nova-paper {
+   background-color: #ffffff;
+   border-radius: 6px;
+}
+
+.nova-titulo-acciones {
+   font-size: 16px;
+   margin-bottom: 5px;
+   border-bottom: 1px solid #d4d4d4;
+}
+
+.nova-img {
+   border-radius: 10px;
+}
+
+.nova-tags {
+   margin-bottom: 3px;
+   font-size: 12px;
+}
+
+.nova-tag-icon {
+   font-size: 16px;
+}
+
+.nova-insignia:before {
+   content: "\f005";
+   font-family: FontAwesome;
+   font-size: 30px;
+   color: #FFF;
+   background-color: #FBCC30;
+   position: absolute;
+   width: 37px;
+   height: 50px;
+   top: 0px;
+   left: 6px;
+   padding: 5px;
+}
+
+.nova-paper-acciones {
    display: inline-block;
-   vertical-align: top;
+   background-color: #ffffff;
+   max-width: 24%;
+   border-radius: 6px;
+   margin-right: 5px;
+   margin-bottom: 5px;
 }
-.nova-texto{
+/* nova-home */
+
+/* nova-menu-slider */
+.nova-panel-slider {
+   background-color: #ffffff;
+   border-right: 1px solid #d4d4d4;
+   border-bottom: 1px solid #d4d4d4;
+   border-left: 1px solid #d4d4d4;
+   overflow: hidden;
+   position: relative;
+}
+
+.nova-slider-menu {
+   border-radius: 0px !important;
+   padding: 15px;
+   position: relative;
+}
+
+.sticky {
+  position: fixed; 
+  top: 60px;
+}
+
+.nova-slider-menu-fixed {
+   position: relative !important;
+   top: 0px !important;
+}
+
+.nova-slider-section {
+   padding: 15px 20px 20px 20px;
+}
+
+.nova-slider-panel {
+   border: 1px solid #d4d4d4;
+   border-radius: 3px;
+}
+
+.nova-slider-panel-heading {
+   background-color: #f5f5f5;
+   border-top-right-radius: 3px;
+   border-top-left-radius: 3px;
+   padding: 5px 10px;
+   border-bottom: 1px solid #d4d4d4;
+}
+
+.nova-slider-panel-heading-table {
+   background-color: #f5f5f5;
+   border-top-right-radius: 3px;
+   border-top-left-radius: 3px;
+   padding: 5px 10px;
    border-top: 1px solid #d4d4d4;
+   border-left: 1px solid #d4d4d4;
+   border-right: 1px solid #d4d4d4;
+   overflow: hidden;
 }
-.nova-titulo-acciones{
+
+.nova-slider-panel-content {
+   padding: 10px 20px;
+}
+
+.nova-slider-panel-footer {
+   background-color: #f5f5f5;
+   border-bottom-right-radius: 3px;
+   border-bottom-left-radius: 3px;
+   padding: 5px 10px;
+   border-top: 1px solid #d4d4d4;
+   overflow: hidden;
+}
+
+.nova-slider-title {
+   font-size: 16px;
+   padding: 5px;
+}
+/* nova-menu-slider */
+
+/* modales */
+.nova-modal-maxwidth {
+   max-width: 930px !important;
+}
+
+.nova-modal-acciones {
+   width: 320px;
+}
+
+.nova-modal-title-seguimientos {
+   width: 80%;
+}
+
+.nova-overflow-hidden {
+   overflow: hidden;
+}
+
+.nova-modal-informacion {
+   padding: 12px 15px;
+}
+.nova-modal-accordion {
+   margin-bottom: 0px !important;
+}
+.nova-accordion-row {
+   padding-left: 15px;
+   padding-right: 15px;
+   overflow: hidden;
+}
+.nova-accordion-border-bottom {
+   border-bottom: 1px solid #d4d4d4;
+}
+.nova-modal-accordion-panel {
+   border-radius: 0px !important;
+   margin-top: 0px !important;
+}
+/* modales */
+
+/* bootstrap tables */
+.nova-active-row {
+   background-color: #f0f0f0;
+}
+
+.nova-columna-acciones {
+   width: 38px;
+}
+
+.nova-aling-center {
+   text-align:center;
+}
+
+.nova-status-en-aprobacion {
+   background-color: #5ac3f6;
+}
+
+.nova-status-cancelado {
+   background-color: #d4d4d4;
+}
+
+.nova-status-aprobado {
+   background-color: #4285f4;
+}
+
+.nova-status-rechazado {
+   background-color: #f6b663;
+}
+
+.nova-status-autorizado {
+   background-color: #34a853;   
+}
+/* bootstrap tables */
+
+/* multiselect 2 */
+.select2-container--default .select2-results__option[aria-selected="true"]{
+   background-color: #4285f4;
+   color: #ffffff;
+}
+/* multiselect 2 */
+
+/* Kendo grid, estilo en las filas*/
+.fecha-vencida {
+  background-color: #E6E6E6;
+}
+/* jquery multiselect */
+.nova-has-error {
+   border: 1px solid #ea4335 !important;
+   box-shadow: 0 0 7px #ff0000 !important;
+}
+/* jquery multiselect */
+.nova-col-popup {
+   padding-right: 0px !important;
+}
+/* bootstrap Tables */
+.nova-sin-resultados {
+   font-size: 32px;
+   background-color: #ececec; 
+}
+.nova-tabla-popup {
+   padding: 0px 74px 0px 74px;
+   margin-top: 20px;
+}
+.nova-table-popup-gradient {
+   border-color: #cccccc;
+   white-space: nowrap;
+   margin-bottom: 0px !important;
+}
+.nova-table-popup-gradient thead {
+   background: #428bca;
+   background: -webkit-linear-gradient(#e6e6e6 ,#ebebeb); /* For Safari 5.1 to 6.0 */
+   background: -o-linear-gradient(#e6e6e6 ,#ebebeb); /* For Opera 11.1 to 12.0 */
+   background: -moz-linear-gradient(#e6e6e6 ,#ebebeb); /* For Firefox 3.6 to 15 */
+   background: linear-gradient(#e6e6e6 ,#ebebeb); /* Standard syntax */
+   color: black;
+}
+.nova-table-popup-gradient > thead > tr > th {
+   font-weight: 400;
    font-size: 14px;
+   border-color: #cccccc;
 }
+.nova-popup-table-footer {
+   text-align: left !important;
+   padding: 15px 0 15px 15px !important;
+}
+/* bootstrap Tables */
+/* kendo grid */
+.nova-grid-column-yellow {
+   background-color: LightYellow;
+}
+.nova-grid-column-purple {
+   background-color: GhostWhite;
+}
+.nova-grid-column-blue {
+   background-color: Azure;
+}
+/* kendo grid */
 
-
-/* .nova-fix-top{
-   width: 200px;
-   height: 90px;
-   position: fixed;
-   
-   top: 200px;
-   border: 1px solid black;
-} */

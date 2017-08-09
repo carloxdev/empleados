@@ -70,3 +70,47 @@ NovaSitio.prototype.get_ConfWysi = function () {
         }
     }
 }
+NovaSitio.prototype.get_ConfDateRangePicker = function () {
+
+    return {
+        locale: {
+            // format: 'YYYY-MM-DD',
+            format: 'DD-MM-YYYY',
+            applyLabel: "Aplicar",
+            cancelLabel: "Cancelar",
+            fromLabel: "Del",
+            separator: " al ",
+            toLabel: "Al",            
+            weekLabel: "S",
+            daysOfWeek: [
+                "Do",
+                "Lu",
+                "Ma",
+                "Mi",
+                "Ju",
+                "Vi",
+                "Sa"
+            ],
+            monthNames: [
+                "Enero",
+                "Febrero",
+                "Marzo",
+                "Abril",
+                "Mayo",
+                "Junio",
+                "Julio",
+                "Agosto",
+                "Septiembre",
+                "Octubre",
+                "Noviembre",
+                "Diciembre"
+            ],          
+        },
+        // startDate: '2017-01-01'
+        startDate: '01-01-2017'
+    }
+}    
+NovaSitio.prototype.validar_EspaciosSaltos = function (_string) 
+{ 
+    return _string.replace(/^\s+|\s+$/g,''); 
+}

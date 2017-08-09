@@ -21,6 +21,7 @@ from home.validators import validate_image
 # Utilidades:
 from utilities import get_FilePath_Incidencia
 from utilities import get_FilePath_Resolucion
+from .validators import valid_extension
 
 
 class CentroAtencion(models.Model):
@@ -159,7 +160,7 @@ class IncidenciaArchivo(models.Model):
     )
 
     archivo = models.FileField(
-        upload_to=get_FilePath_Incidencia
+        upload_to=get_FilePath_Incidencia, validators=[valid_extension]
     )
 
     created_by = models.ForeignKey(Profile, related_name='siar_created_by')

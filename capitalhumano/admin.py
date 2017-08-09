@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.contrib.contenttypes.admin import GenericTabularInline
 
 # Register your models here.
 from .models import PerfilPuestoDocumento
@@ -53,48 +54,21 @@ class TipoDocumentoAdmin(admin.ModelAdmin):
     )
 
 
-@admin.register(Archivo)
-class DocumentoAdmin(admin.ModelAdmin):
-    list_display = (
-        'nombre_documento',
-        'created_by',
-        'created_date',
-        'updated_by',
-        'updated_date',
-    )
+class ArchivoInline(GenericTabularInline):
+    model = Archivo
+    ct_field_name = 'content_type'
+    id_field_name = 'object_id'
 
 
-@admin.register(DocumentoCapacitacion)
-class CapacitacionAdmin(admin.ModelAdmin):
-    list_display = (
-        'curso',
-        'proveedor',
-        'numero_empleado',
-        'modalidad',
-        'lugar',
-        'costo',
-        'moneda',
-        'departamento',
-        'fecha_inicio',
-        'fecha_fin',
-        'duracion',
-        'observaciones',
-        'archivo',
-        'created_by',
-        'created_date',
-    )
+class DocumentoPersonalOptions(admin.ModelAdmin):
+    model = DocumentoPersonal
+    inlines = (ArchivoInline,)
 
 
-@admin.register(DocumentoPersonal)
-class PersonalAdmin(admin.ModelAdmin):
-    list_display = (
-        'numero_empleado',
-        'tipo',
-        'agrupador',
-        'fecha',
-        'vigencia_inicio',
-        'vigencia_fin',
-        'archivo',
-        'created_by',
-        'created_date',
-    )
+class DocumentoCapacitacionOptions(admin.ModelAdmin):
+    model = DocumentoCapacitacion
+    inlines = (ArchivoInline,)
+
+
+admin.site.register(DocumentoPersonal, DocumentoPersonalOptions)
+admin.site.register(DocumentoCapacitacion, DocumentoCapacitacionOptions)

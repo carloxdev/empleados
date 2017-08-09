@@ -49,7 +49,6 @@ function Indicadores () {
 Indicadores.prototype.init_Components = function () {
 
    sparks = this.get_ConfSparkLine()
-
    this.$spark1.sparkline([0,5,3,7,5,10,3,6,5,10],sparks[0])
    this.$spark2.sparkline([2,3,4,5,4,3,2,3,4,5,6,5,4,3,4,5,6,5,4,4,5,10,10],sparks[1])
    this.$spark3.sparkline([2,3,0,5,4,4,5,10,10,10,6,5,4,3,0,5,6,5,4,4,5],sparks[2])
@@ -434,9 +433,9 @@ IndicadorEstadoCivil.prototype.get_EstadoCivil = function (_response, _organizac
          (_response[i].pers_tipo_codigo != '1118')){
             if((_response[i].asig_organizacion_clave == _organizacion) || (_organizacion == 0)){
                // Cuenta el numero de empleados separados por su estado civil
-               if (_response[i].pers_estado_civil_desc == 'Cazad@'){
+               if (_response[i].pers_estado_civil_desc == 'Casado'){
                   estado[0] += 1
-               } else if (_response[i].pers_estado_civil_desc == 'Solter@'){
+               } else if (_response[i].pers_estado_civil_desc == 'Soltero'){
                   estado[1] += 1
                } else if (_response[i].pers_estado_civil_desc == '-'){
                   estado[2] += 1

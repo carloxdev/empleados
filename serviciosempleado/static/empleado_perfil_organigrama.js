@@ -23,20 +23,31 @@ $(document).ready(function(){
 function Organigrama(){
 
   this.$organizacion = $('#id_organizacion')
-  org = this.$organizacion.val()
-  if(org != undefined){
-    this.crear_Url(org)
+  this.$numero_empleado = $('#id_empleado')
+
+  this.obtener_Datos()
+  
+}
+Organigrama.prototype.obtener_Datos = function (){
+
+  organizacion = this.$organizacion.val()
+  numero_empleado = this.$numero_empleado.val()
+  if(organizacion != undefined){
+    this.crear_Url(organizacion, numero_empleado)
   }
 }
-Organigrama.prototype.crear_Url = function(_organizacion){
-  var url = url_datos_org + _organizacion + "/"
+Organigrama.prototype.crear_Url = function(_organizacion, _numero_empleado){
+
+  var url = url_datos_org + _organizacion + "/" + _numero_empleado + "/"
   this.crear_Diagrama(url)
+
 }
 Organigrama.prototype.crear_Diagrama = function(_url){
 
   $('#content-data').orgchart({
     'data' : _url,
-    'depth': 3,
+    // 'depth': 3,
+    // 'collapsed': true,
     'nodeTitle': 'puesto',
     'nodeFoto':'foto',
     'nodeNombre': 'nombre',

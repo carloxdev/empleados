@@ -21,7 +21,6 @@ LOGOUT_URL = 'seguridad:logout'
 
 
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -43,12 +42,12 @@ INSTALLED_APPS = [
     'seguridad.apps.SeguridadConfig',
     'seguridadlaboral.apps.SeguridadlaboralConfig',
     'serviciosempleado.apps.ServiciosempleadoConfig',
-    'sgi.apps.SgiConfig',
 
     'rest_framework',
     'simple_history',
     'django_filters',
     'widget_tweaks',
+    'generic_relations',
 ]
 
 MIDDLEWARE = [

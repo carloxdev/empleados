@@ -1,13 +1,22 @@
 # -*- coding: utf-8 -*-
-
 # Librerias/Clases Python
 from __future__ import unicode_literals
 
+from django.db.models.signals import pre_delete
+from django.dispatch import receiver
+from django.conf import settings
+import os
+from datetime import timedelta
+
 # Librerias/Clases Django
 from django.db import models
+from django.contrib.contenttypes.fields import GenericForeignKey
+from django.contrib.contenttypes.models import ContentType
+from django.contrib.contenttypes.fields import GenericRelation
 
-# Librerias/Clases propias
+# Modelos
 from seguridad.models import Profile
+from ebs.models import VIEW_EMPLEADOS_FULL
 
 # Utilidades:
 from utilities import get_FilePath_Expedientes
@@ -97,40 +106,6 @@ class Curso(models.Model):
         verbose_name_plural = "Cursos"
 
 
-class Archivo(models.Model):
-
-    nombre_documento = models.CharField(max_length=250)
-    archivo = models.FileField(
-        upload_to=get_FilePath_Expedientes
-    )
-
-    created_by = models.ForeignKey(
-        Profile, related_name='doc_created_by')
-    created_date = models.DateTimeField(
-        auto_now=False,
-        auto_now_add=True
-    )
-    updated_by = models.ForeignKey(
-        Profile, related_name='doc_updated_by', null=True, blank=True)
-    updated_date = models.DateTimeField(
-        auto_now=True,
-        auto_now_add=False,
-        null=True,
-        blank=True
-    )
-
-    def __unicode__(self):
-        cadena = "%s" % (self.nombre_documento)
-        return cadena
-
-    def __str__(self):
-        cadena = "%s" % (self.nombre_documento)
-        return cadena
-
-    class Meta:
-        verbose_name_plural = "Documentos"
-
-
 class TipoDocumento(models.Model):
     tipo_documento = models.CharField(max_length=255)
 
@@ -161,45 +136,38 @@ class TipoDocumento(models.Model):
         verbose_name_plural = "Tipo de documento personal"
 
 
-class DocumentoCapacitacion(models.Model):
-    MODALIDAD = (
-        ('CURSO-PRESENCIAL', 'Curso presencial'),
-        ('CURSO-VIRTUAL', 'Curso virtual'),
-        ('CURSO-PREVIO', 'Curso previo'),
-    )
-    MONEDA = (
-        ('MXN', 'Moneda nacional (MXN)'),
-        ('USD', 'Dolares (USD)'),
-        ('EUR', 'Euro (EUR)'),
+class Archivo(models.Model):
+    TIPO = (
+        ('per', 'Personal'),
+        ('cap', 'Capacitacion'),
     )
 
-    curso = models.ForeignKey(Curso, on_delete=models.PROTECT)
-    proveedor = models.CharField(max_length=255)  # Sacar de jde
-    numero_empleado = models.IntegerField(default=0)
-    modalidad = models.CharField(
-        choices=MODALIDAD,
-        default="CURSO-PRESENCIAL",
-        max_length=3
+    tipo_archivo = models.CharField(
+        choices=TIPO,
+        default="per",
+        max_length=3)
+    archivo = models.FileField(
+        upload_to=get_FilePath_Expedientes
     )
-    lugar = models.CharField(max_length=250)
-    costo = models.DecimalField(max_digits=5, decimal_places=2)
-    moneda = models.CharField(
-        choices=MONEDA,
-        default="MXN",
-        max_length=3
-    )
-    departamento = models.CharField(max_length=250)  # Jalar del ebs
-    fecha_inicio = models.DateField(auto_now=False)
-    fecha_fin = models.DateField(auto_now=False)
-    duracion = models.IntegerField()
-    observaciones = models.CharField(max_length=100)
+    content_type = models.ForeignKey(
+        ContentType, on_delete=models.CASCADE,
+        related_name='content_type')
+    object_id = models.PositiveIntegerField()
+    content_object = GenericForeignKey('content_type', 'object_id')
 
-    archivo = models.ForeignKey(Archivo)
-
-    created_by = models.ForeignKey(Profile, related_name='cap_created_by')
+    created_by = models.ForeignKey(
+        Profile, related_name='archcap_created_by')
     created_date = models.DateTimeField(
         auto_now=False,
         auto_now_add=True
+    )
+    updated_by = models.ForeignKey(
+        Profile, related_name='archcap_updated_by', null=True, blank=True)
+    updated_date = models.DateTimeField(
+        auto_now=True,
+        auto_now_add=False,
+        null=True,
+        blank=True
     )
 
     def __unicode__(self):
@@ -211,45 +179,174 @@ class DocumentoCapacitacion(models.Model):
         return cadena
 
     class Meta:
-        verbose_name_plural = "Documentos de Capacitaciones"
+        verbose_name_plural = "Archivos"
 
 
 class DocumentoPersonal(models.Model):
 
     AGRUPADOR = (
-        ('PERSONAL', 'Personal'),
-        ('QHSE', 'QHSE'),
-        ('AMONESTACION', 'Amonestación'),
-        ('ADMINISTRACION', 'Administración'),
-        ('OPERACIONES', 'Operaciones'),
-        ('RECONOCIMIENTO', 'Reconocimiento'),
+        ('per', 'Personal'),
+        ('qhse', 'QHSE'),
+        ('amo', 'Amonestación'),
+        ('adm', 'Administración'),
+        ('ope', 'Operaciones'),
+        ('rec', 'Reconocimiento'),
     )
+
     numero_empleado = models.CharField(max_length=6)
-    tipo = models.ForeignKey(TipoDocumento)  # Catalogo
+    tipo_documento = models.ForeignKey(TipoDocumento)
     agrupador = models.CharField(
         choices=AGRUPADOR,
-        default="PERSONAL",
+        default="per",
         max_length=20
     )
-    fecha = models.DateField(auto_now=True)
     vigencia_inicio = models.DateField(null=True, blank=True)
     vigencia_fin = models.DateField(null=True, blank=True)
+    relacion = GenericRelation(Archivo, related_query_name='relacion_personal')
 
-    archivo = models.ForeignKey(Archivo)
-
-    created_by = models.ForeignKey(Profile, related_name='per_created_by')
+    created_by = models.ForeignKey(Profile, related_name='docper_created_by')
     created_date = models.DateTimeField(
         auto_now=False,
         auto_now_add=True
     )
 
+    def _get_organizacion(self):
+        try:
+            empleado = VIEW_EMPLEADOS_FULL.objects.using('ebs_p').filter(
+                pers_empleado_numero=self.numero_empleado)
+            for dato in empleado:
+                return dato.asig_organizacion_desc
+        except Exception:
+            return 0.0
+    organizacion = property(_get_organizacion)
+
+    def _get_nombre_completo(self):
+        try:
+            empleado = VIEW_EMPLEADOS_FULL.objects.using('ebs_p').filter(
+                pers_empleado_numero=self.numero_empleado)
+            for dato in empleado:
+                return dato.pers_nombre_completo
+        except Exception:
+            return 0.0
+    nombre_completo = property(_get_nombre_completo)
+
     def __unicode__(self):
-        cadena = "%s" % (self.id)
+        cadena = "%s" % (self.numero_empleado)
         return cadena
 
     def __str__(self):
-        cadena = "%s" % (self.id)
+        cadena = "%s" % (self.numero_empleado)
         return cadena
 
     class Meta:
-        verbose_name_plural = "Documentos Personales"
+        verbose_name_plural = "Documento Personal"
+
+
+class DocumentoCapacitacion(models.Model):
+    MODALIDAD = (
+        ('pre', 'Curso presencial'),
+        ('vir', 'Curso virtual'),
+        ('prev', 'Curso previo'),
+    )
+    MONEDA = (
+        ('mxn', 'Moneda nacional (MXN)'),
+        ('usd', 'Dolares (USD)'),
+        ('eur', 'Euro (EUR)'),
+    )
+    AGRUPADOR = (
+        ('per', 'Personal'),
+        ('qhse', 'QHSE'),
+        ('amo', 'Amonestación'),
+        ('adm', 'Administración'),
+        ('ope', 'Operaciones'),
+        ('rec', 'Reconocimiento'),
+    )
+
+    numero_empleado = models.IntegerField(default=0)
+    curso = models.ForeignKey(Curso, on_delete=models.PROTECT)
+    proveedor = models.CharField(max_length=255)  # Sacar de jde
+    modalidad = models.CharField(
+        choices=MODALIDAD,
+        default="pre",
+        max_length=4
+    )
+    lugar = models.CharField(max_length=250)
+    costo = models.DecimalField(max_digits=14, decimal_places=2)
+    moneda = models.CharField(
+        choices=MONEDA,
+        default="mxn",
+        max_length=3
+    )
+    departamento = models.CharField(max_length=250)
+    fecha_inicio = models.DateField(auto_now=False)
+    fecha_fin = models.DateField(auto_now=False)
+    duracion = models.IntegerField()
+    observaciones = models.CharField(max_length=100)
+    agrupador = models.CharField(
+        choices=AGRUPADOR,
+        default="per",
+        max_length=20
+    )
+    area = models.CharField(max_length=50, default='administrativa')
+    relacion = GenericRelation(
+        Archivo, related_query_name='relacion_capacitacion')
+
+    created_by = models.ForeignKey(Profile, related_name='doccap_created_by')
+    created_date = models.DateTimeField(
+        auto_now=False,
+        auto_now_add=True
+    )
+
+    def _get_fecha_vencimiento(self):
+        try:
+            fecha = self.fecha_fin
+            duracion = self.curso.vencimiento
+
+            if (duracion == '*') or (duracion == 'Ind'):
+                return 'Indefinido'
+            else:
+                dias = int(duracion) * 365
+                resultado = fecha + timedelta(days=dias)
+                return resultado
+        except Exception:
+            return 0.0
+    fecha_vencimiento = property(_get_fecha_vencimiento)
+
+    def _get_organizacion(self):
+        try:
+            empleado = VIEW_EMPLEADOS_FULL.objects.using('ebs_p').filter(
+                pers_empleado_numero=self.numero_empleado)
+            for dato in empleado:
+                return dato.asig_organizacion_desc
+        except Exception:
+            return 0.0
+    organizacion = property(_get_organizacion)
+
+    def _get_nombre_completo(self):
+        try:
+            empleado = VIEW_EMPLEADOS_FULL.objects.using('ebs_p').filter(
+                pers_empleado_numero=self.numero_empleado)
+            for dato in empleado:
+                return dato.pers_nombre_completo
+        except Exception:
+            return 0.0
+    nombre_completo = property(_get_nombre_completo)
+
+    def __unicode__(self):
+        cadena = "%s" % (self.numero_empleado)
+        return cadena
+
+    def __str__(self):
+        cadena = "%s" % (self.numero_empleado)
+        return cadena
+
+    class Meta:
+        verbose_name_plural = "Documento Capacitacion"
+
+
+@receiver(pre_delete, sender=Archivo)
+def _directorios_delete(sender, instance, using, **kwargs):
+    file_path = settings.BASE_DIR + "/media/" + "%s" % (instance.archivo)
+
+    if os.path.isfile(file_path):
+        os.remove(file_path)

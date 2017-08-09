@@ -8,15 +8,24 @@ from django.http import HttpResponse
 from django.views.generic.base import View
 from django.core.files.storage import default_storage
 
+# Otras librerias
+import xlwt
+import datetime
+
 # Librerias de Propias
 
 # Formularios
 from .forms import EmpleadoFilterForm
 from .forms import OrganizacionesFilterForm
 from .forms import EmpresasFilterForm
-from .forms import ExpedientesFilterForm
 from .forms import PerfilPuestoDocumentoForm
 from .forms import NuevoDocumentoPersonalForm
+from .forms import NuevoDocumentoCapacitacionForm
+from .forms import GradoAcademicoFilterForm
+from .forms import ExpedientesFilterForm
+from .forms import DocPersonalFilterForm
+from .forms import DocCapacitacionFilterForm
+from .forms import GradoAcademicoFilterForm
 
 # Serializer crear organigrama
 from serializers import VIEW_ORGANIGRAMA_ORG_SERIALIZADO
@@ -36,13 +45,123 @@ class EmpleadoLista(View):
 
     def get(self, request):
 
-        formulario = EmpleadoFilterForm()
+        formulario = EmpleadoFilterForm(use_required_attribute=False)
 
         contexto = {
             'form': formulario
         }
 
         return render(request, self.template_name, contexto)
+
+    def post(self, request):
+        response = HttpResponse(content_type='application/ms-excel')
+        response['Content-Disposition'] = 'attachment; filename="compras.xls"'
+
+        wb = xlwt.Workbook(encoding='utf-8')
+        ws = wb.add_sheet('Empleados')
+
+        row_num = 0
+
+        font_style = xlwt.XFStyle()
+        font_style.font.bold = True
+
+        columns = [
+            'Número', 'Tipo', 'Fecha contratación', 'Primer nombre', 'Segundo nombre',
+            'Apellido paterno', 'Apellido materno', 'Título', 'Género', 'CURP', 'RFC',
+            'IMSS', 'IFE', 'Fecha de nacimiento', 'Ciudad de nacimiento',
+            'Estado de nacimiento', 'País de nacimiento', 'Estado civil',
+            'Correo electrónico', 'TipoN', 'Fecha inicio asignación',
+            'Organización', 'Trabajo', 'Grado', 'Ubicación', 'Puesto', 'Jefe directo',
+            'Nómina', 'Estado asig', 'Base salario', 'Información estatutaria',
+            'Nómina JDE', 'Compañia JDE', 'Proyecto cod. JDE', 'Proyecto JDE',
+            'Fase cod. JDE', 'Fase JDE', 'Puesto IMSS', 'Banco', 'Método pago',
+            'Tipo', 'Prioridad', 'Importe saldo', 'Porcentaje', 'Detalle adicional',
+            'Sucursal', 'Cuenta', 'Clabe',
+        ]
+
+        for col_num in range(len(columns)):
+            ws.col(col_num).width = int(4000)
+            ws.write(row_num, col_num, columns[col_num], font_style)
+
+        date_format = xlwt.XFStyle()
+        date_format.num_format_str = 'dd/mm/yyyy'
+
+        argumentos = {}
+        campos_formulario = []
+        for campos in EmpleadoFilterForm():
+            campos_formulario.append(campos.name)
+
+        for datosPost in request.POST:
+            if datosPost in campos_formulario:
+                if request.POST[datosPost] != '':
+                    if datosPost == 'pers_primer_nombre':
+                        argumentos['pers_primer_nombre__icontains'] = request.POST[datosPost]
+
+                    if datosPost == 'pers_segundo_nombre':
+                        argumentos['pers_segundo_nombre__icontains'] = request.POST[datosPost]
+
+                    if datosPost == 'pers_apellido_paterno':
+                        argumentos['pers_apellido_paterno__icontains'] = request.POST[datosPost]
+
+                    if datosPost == 'pers_apellido_materno':
+                        argumentos['pers_apellido_materno__icontains'] = request.POST[datosPost]
+
+                    if datosPost == 'pers_genero_clave':
+                        argumentos['pers_genero_clave__exact'] = request.POST[datosPost]
+
+                    if datosPost == 'pers_empleado_numero':
+                        argumentos['pers_empleado_numero__exact'] = request.POST[datosPost]
+
+                    if datosPost == 'pers_tipo_codigo':
+                        argumentos['pers_tipo_codigo__exact'] = request.POST[datosPost]
+
+                    if datosPost == 'asig_puesto_clave':
+                        argumentos['asig_puesto_clave__icontains'] = request.POST[datosPost]
+
+                    if datosPost == 'asig_organizacion_clave':
+                        argumentos['asig_organizacion_clave__exact'] = request.POST[datosPost]
+
+                    if datosPost == 'fecha_contratacion':
+                        valores = request.POST.get('fecha_contratacion').split(" al ")
+                        argumentos['pers_fecha_contratacion__gte'] = valores[0]
+                        argumentos['pers_fecha_contratacion__lte'] = valores[1]
+
+                    if datosPost == 'grup_compania_jde':
+                        argumentos['grup_compania_jde__contains'] = request.POST[datosPost]
+
+                    if datosPost == 'grup_fase_jde':
+                        argumentos['grup_fase_jde__exact'] = request.POST[datosPost]
+
+                    if datosPost == 'grup_nomina_jde':
+                        argumentos['grup_nomina_jde__exact'] = request.POST[datosPost]
+
+        rows = VIEW_EMPLEADOS_FULL.objects.using('ebs_d').filter(**argumentos).values_list(
+            'pers_empleado_numero', 'pers_tipo_desc', 'pers_fecha_contratacion', 'pers_primer_nombre',
+            'pers_segundo_nombre', 'pers_apellido_paterno', 'pers_apellido_materno', 'pers_titulo',
+            'pers_genero_desc', 'pers_curp', 'pers_rfc', 'pers_numero_imss', 'pers_ife', 'pers_fecha_nacimiento',
+            'pers_ciudad_nacimiento', 'pers_estado_nacimiento', 'pers_pais_nacimiento_clave', 'pers_estado_civil_desc',
+            'pers_email', 'asig_tipo_empleado', 'asig_fecha_inicio', 'asig_organizacion_desc', 'asig_trabajo_desc',
+            'asig_grado_desc', 'asig_ubicacion_desc', 'asig_puesto_desc', 'asig_jefe_directo_desc', 'asig_nomina_desc',
+            'asig_estado_desc', 'asig_salario_base_desc', 'informacion_estatutaria_desc', 'grup_nomina_jde',
+            'grup_compania_jde', 'grup_proyecto_code_jde', 'grup_proyecto_jde', 'grup_fase_code_jde', 'grup_fase_jde',
+            'grup_puesto_jde', 'metodo_banco', 'metodo_nombre', 'metodo_tipo', 'metodo_prioridad',
+            'metodo_importe_saldo', 'metodo_porcentaje', 'metodo_pago', 'metodo_sucursal', 'metodo_cuenta',
+            'metodo_clabe')
+
+        for row in rows:
+            row_num += 1
+            for col_num in range(len(row)):
+                if isinstance(row[col_num], datetime.date):
+                    ws.write(row_num, col_num, row[col_num], date_format)
+                else:
+                    if (col_num == 2) or (col_num == 13):
+                        fecha = datetime.datetime.strptime(row[col_num], '%Y-%m-%d %H:%M:%S').date()
+                        ws.write(row_num, col_num, fecha, date_format)
+                    else:
+                        ws.write(row_num, col_num, row[col_num])
+
+        wb.save(response)
+        return response
 
 # -------------- DASHBOARD -------------- #
 
@@ -120,25 +239,99 @@ class EmpleadoOrganigramaEmpAPI(View):
 class EmpleadoExpedientes(View):
 
     def __init__(self):
-        self.template_name = 'empleado_expedientes.html'
+        self.template_name = 'empleado_expedientes_general.html'
 
     def get(self, request):
+
         form = ExpedientesFilterForm()
 
         contexto = {
-            'form': form
+            'form': form,
         }
 
         return render(request, self.template_name, contexto)
 
-    def post(self, request):
-        form = ExpedientesFilterForm(request.POST)
+
+class EmpleadoExpedientesSolicitud(View):
+
+    def __init__(self):
+        self.template_name = 'empleado_expedientes_solicitudes.html'
+
+    def get(self, request):
 
         contexto = {
-            'form': form
         }
 
         return render(request, self.template_name, contexto)
+
+
+class EmpleadoExpedientesGrado(View):
+
+    def __init__(self):
+        self.template_name = 'empleado_expedientes_grado.html'
+
+    def get(self, request):
+
+        form = GradoAcademicoFilterForm()
+
+        contexto = {
+            'form': form,
+        }
+
+        return render(request, self.template_name, contexto)
+
+
+class EmpleadoExpedientesDocPersonal(View):
+
+    def __init__(self):
+        self.template_name = 'empleado_expedientes_docpersonal.html'
+
+    def get(self, request):
+
+        form = DocPersonalFilterForm()
+
+        contexto = {
+            'form': form,
+        }
+
+        return render(request, self.template_name, contexto)
+
+
+class EmpleadoExpedientesDocCapacitacion(View):
+
+    def __init__(self):
+        self.template_name = 'empleado_expedientes_doccapacitacion.html'
+
+    def get(self, request):
+
+        form = DocCapacitacionFilterForm()
+
+        contexto = {
+            'form': form,
+        }
+
+        return render(request, self.template_name, contexto)
+
+# class EmpleadoExpedientes(View):
+
+#     def __init__(self):
+#         self.template_name = 'empleado_expedientes.html'
+
+#     def get(self, request):
+
+#         form = ExpedientesFilterForm()
+#         form_per = DocPersonalFilterForm()
+#         form_cap = DocCapacitacionFilterForm()
+#         form_grado = GradoAcademicoFilterForm()
+
+#         contexto = {
+#             'form': form,
+#             'form_per': form_per,
+#             'form_cap': form_cap,
+#             'form_grado': form_grado,
+#         }
+
+#         return render(request, self.template_name, contexto)
 
 
 class EmpleadoExpediente(View):
@@ -146,53 +339,46 @@ class EmpleadoExpediente(View):
     def __init__(self):
         self.template_name = 'empleado_expediente.html'
 
-    def get(self, request, pk):
-        form = NuevoDocumentoPersonalForm()
-        empleado = VIEW_EMPLEADOS_FULL.objects.using(
-            "ebs_p").filter(pers_empleado_numero=pk)
+    def get(self, request, _numero_empleado):
+        try:
 
-        url = self.construir_Url(empleado)
-        ruta = self.comprobar_Direccion(url)
+            form_per = NuevoDocumentoPersonalForm()
+            form_cap = NuevoDocumentoCapacitacionForm()
+            empleado = VIEW_EMPLEADOS_FULL.objects.using(
+                "ebs_p").filter(pers_empleado_numero=_numero_empleado)
 
-        contexto = {
-            'empleado': empleado,
-            'ruta': ruta,
-            'form': form,
-        }
+            ruta = self.comprobar_Direccion(empleado)
 
-        return render(request, self.template_name, contexto)
+            contexto = {
+                'empleado': empleado,
+                'ruta': ruta,
+                'form': form_per,
+                'form2': form_cap
+            }
 
-    def construir_Url(self, _empleado):
-        nombre = ''
-        for dato in _empleado:
-            if dato.pers_segundo_nombre == '-':
-                nombre = dato.pers_primer_nombre + '_' \
-                    + dato.pers_apellido_paterno + '_'  \
-                    + dato.pers_apellido_materno
-            else:
-                nombre = dato.pers_primer_nombre + '_' \
-                    + dato.pers_segundo_nombre + '_'  \
-                    + dato.pers_apellido_paterno + '_'  \
-                    + dato.pers_apellido_materno
-        url = 'capitalhumano/images/user_foto/' + nombre + '.jpg'
-        return url
+            return render(request, self.template_name, contexto)
 
-    def comprobar_Direccion(self, _url):
+        except Exception as e:
+            print e
+            template_error = 'error_conexion.html'
+            return render(request, template_error, {})
+
+    def comprobar_Direccion(self, _empleado):
         ruta = ''
+        url = ''
 
-        if default_storage.exists(_url):
-            ruta = '/media/' + _url
+        for dato in _empleado:
+            url = 'capitalhumano/images/' + dato.nombre_foto
+
+        if default_storage.exists(url):
+            ruta = '/media/' + url
         else:
             ruta = '/static/theme/img/avatar-150.png'
 
         return ruta
 
-    def archivos_Personales(self, _empleado):
-        lista = []
 
-        return lista
-
-        # -------------- PERFILES DE PUESTOS DOCUMENTO  -------------- #
+# -------------- PERFILES DE PUESTOS DOCUMENTO  -------------- #
 
 
 class PerfilPuesto(View):

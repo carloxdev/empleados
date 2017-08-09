@@ -33,15 +33,14 @@
             
             <!-- wizzard tab -->
             <div id="wizard1" class="wizard wizard-ux nova-panel-borde-header">
+               
                <ul class="steps">
-
                   <li class="active">Auditoría No: <strong>AUD-01-15</strong>
                   </li>
-
                </ul>
                <div class="actions">
                   <a href="{% url 'calidad:general_formulario' %}" class="btn btn-xs btn-prev btn-default nova-a-tab">Generales</a>
-                  <a href="{% url 'calidad:equipo_auditor_formulario' %}" class="btn btn-xs btn-next btn-default nova-a-tab">Equipo Auditor</a>
+                  <a href="{% url 'calidad:auditor_formulario' %}" class="btn btn-xs btn-next btn-default nova-a-tab">Equipo Auditor</a>
                   <a href="{% url 'calidad:proceso_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab nova-a-tab-border nova-active-tab">Procesos</a>
                </div>
                <div class="nova-content-nav">
@@ -60,34 +59,31 @@
                   </div>
 
                </div>
-               <div class="step-content nova-panel-no-border-top">
-               </div>
+
             </div>
-            
-            
 
             <!-- Tarjeta resultados-->
             <div class="panel panel-default panel-table">
 
                <div class="panel-heading nova-panel-borde-contenido nova-panel-tools">   
                   <a href="#id_tarjeta_nuevo_requisito"
-                     class="btn nova-btn btn-rounded btn-sm btn-space btn-default pull-right" data-toggle="modal" id="boton_nuevo">
+                     class="btn nova-btn btn-rounded btn-sm btn-space btn-default pull-right" data-toggle="modal" id="id_boton_nuevo">
                      <i class="icon icon-left mdi mdi-plus-circle nova-black"></i>Nuevo
                   </a>
                </div><!-- Panel Heading -->
 
                <div id="grid_resultados" class="nova-div-overflow">
-                  <table class="table table-bordered">
+                  <table class="table table-bordered table-hover" id="id_grid_requisito">
                      <thead>
                         <tr>
-                           <th style="width: 38px;"></th>
+                           <th class="nova-columna-acciones"></th>
                            <th>Requisito</th>
-                           <th>Tipo</th>
+                           <th>Clasificación</th>
                            <th>Criterio</th>
                         </tr>
                      </thead>
                      <tbody>
-                        <tr>
+                        <tr class="clickable-row">
                            <td>
                               <a href="#id_tarjeta_acciones" data-toggle="modal" class="btn nova-btn nova-btn-delete" id="id_boton_eliminar">
                                  <i class="icon icon-left icon mdi mdi-delete nova-white"></i>
@@ -99,7 +95,7 @@
                            <td>Norma</td>
                            <td>ISO 9001:2008</td>
                         </tr>
-                        <tr>
+                        <tr class="clickable-row">
                            <td>
                               <a href="#id_tarjeta_acciones" data-toggle="modal" class="btn nova-btn nova-btn-delete" id="id_boton_eliminar">
                                  <i class="icon icon-left icon mdi mdi-delete nova-white"></i>
@@ -111,7 +107,7 @@
                            <td>Norma</td>
                            <td>ISO 14001:2004</td>
                         </tr>
-                        <tr>
+                        <tr class="clickable-row">
                            <td>
                               <a href="#id_tarjeta_acciones" data-toggle="modal" class="btn nova-btn nova-btn-delete" id="id_boton_eliminar">
                                  <i class="icon icon-left icon mdi mdi-delete nova-white"></i>
@@ -123,7 +119,7 @@
                            <td>Norma</td>
                            <td>ISO 14001:2004</td>
                         </tr>
-                        <tr>
+                        <tr class="clickable-row">
                            <td>
                               <a href="#id_tarjeta_acciones" data-toggle="modal" class="btn nova-btn nova-btn-delete" id="id_boton_eliminar">
                                  <i class="icon icon-left icon mdi mdi-delete nova-white"></i>
@@ -156,9 +152,9 @@
             <form id="formulario_proceso" class="modal-body form-horizontal">
 
                <div class="form-group">
-                  <label class="col-sm-3 nova-col-filter control-label">Tipo</label>
+                  <label class="col-sm-3 nova-col-filter control-label">Clasificación</label>
                   <div class="col-sm-7 xs-pt-5">
-                     <select class="select2 select2-hidden-accessible" tabindex="-1" aria-hidden="true" id="id_clasificacion_hallazgo">
+                     <select class="select2 select2-hidden-accessible" tabindex="-1" aria-hidden="true" id="id_clasificacion_requisito">
                         <option value="" selected="selected">-------</option>
                         <option value="Norma">Norma</option>
                         <option value="Legal">Legal</option>
