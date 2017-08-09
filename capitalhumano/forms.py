@@ -167,7 +167,7 @@ class EmpleadoFilterForm(Form):
 
         valores = [('', '-------')]
 
-        tipos = VIEW_TIPO_PERSONAS.objects.using('ebs_d').all()
+        tipos = VIEW_TIPO_PERSONAS.objects.using('ebs_p').all()
 
         for tipo in tipos:
 
@@ -183,7 +183,7 @@ class EmpleadoFilterForm(Form):
 
         valores = [('', '-------')]
 
-        puestos = VIEW_PUESTOS.objects.using('ebs_d').all()
+        puestos = VIEW_PUESTOS.objects.using('ebs_p').all()
 
         for puesto in puestos:
 
@@ -199,7 +199,7 @@ class EmpleadoFilterForm(Form):
 
         valores = [('', '-------')]
 
-        organizaciones = VIEW_ORGANIZACIONES.objects.using('ebs_d').all()
+        organizaciones = VIEW_ORGANIZACIONES.objects.using('ebs_p').all()
 
         for organizacion in organizaciones:
 

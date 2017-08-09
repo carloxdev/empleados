@@ -15,9 +15,6 @@ $(document).ready(function () {
     appnova = new NovaSitio()
 })
 
-
-
-
 /*-----------------------------------------------*\
             OBJETO: NovaSitio
 \*-----------------------------------------------*/
@@ -54,20 +51,6 @@ NovaSitio.prototype.set_AlertifyConfig = function () {
 NovaSitio.prototype.get_ConfigSelect2 = function () {
     return {
         width: '100%'
-    }
-}
-NovaSitio.prototype.get_ConfWysi = function () {
-    return {
-        toolbar: {
-            "font-styles": true,
-            "emphasis": true,
-            "lists": true,
-            "html": false,
-            "link": false,
-            "image": false,
-            "color": false,
-            "blockquote": false,
-        }
     }
 }
 NovaSitio.prototype.validar_EspaciosSaltos = function (_string) 
