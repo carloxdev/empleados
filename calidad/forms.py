@@ -15,6 +15,7 @@ from django.forms import NumberInput
 # modelos
 from ebs.models import VIEW_EMPLEADOS_SIMPLE
 from jde.models import VIEW_COMPANIAS
+from .models import Criterio
 
 
 class CriterioForm(Form):
@@ -72,8 +73,6 @@ class ResponsableForm(Form):
 
         valores = []
 
-        # empleados = VIEW_EMPLEADOS_SIMPLE.objects.using('ebs_d').all()
-        # AQUI APLICAR FILTRO DE EXCLUIR
         empleados = VIEW_EMPLEADOS_SIMPLE.objects.using('ebs_p')
 
         for empleado in empleados:
@@ -265,6 +264,108 @@ class FormatoForm(Form):
                 (
                     str(compania.comp_code) + ':' + compania.comp_desc,
                     str(int(compania.comp_code)) + ' - ' + compania.comp_desc,
+                )
+            )
+        return valores
+
+class GeneralAuditoriaForm(Form):
+    TIPO_AUDITORIA = (
+        ('', '------'),
+        ('AUI', 'Auditoria Interna'),
+        ('AUE', 'Auditoria Externa'),
+        ('MC', 'Mejora Continua'),
+    )
+
+    tipo_de_auditoria = ChoiceField(
+        widget=Select(attrs={'class': 'select2'}),
+        choices=TIPO_AUDITORIA
+    )
+
+    compania = ChoiceField(
+        widget=Select(attrs={'class': 'select2'})
+    )
+
+    contratos = ChoiceField(
+        widget=Select(attrs={'class': 'select2', 'multiple': 'multiple'})
+    )
+
+    criterios = ChoiceField(
+        widget=Select(attrs={'class': 'select2', 'multiple': 'multiple'})
+    )
+
+    fecha_programada_ini = CharField(
+        label='Fecha Programada inicial / final',
+        widget=TextInput(attrs={'class': 'form-control input-xs'})
+    )
+
+    fecha_programada_fin = CharField(
+        label='',
+        widget=TextInput(attrs={'class': 'form-control input-xs'})
+    )
+
+    objetivo = CharField(
+        widget=Textarea(attrs={'class': 'form-control input-xs'})
+    )
+
+    alcance = CharField(
+        widget=Textarea(attrs={'class': 'form-control input-xs'})
+    )
+
+    recursos_necesarios = CharField(
+        widget=Textarea(attrs={'class': 'form-control input-xs'})
+    )
+
+    def __init__(self, *args, **kwargs):
+        super(GeneralAuditoriaForm, self).__init__(*args, **kwargs)
+        self.fields['compania'].choices = self.get_Compania()
+        # self.fields['contratos'].choices = self.get_Contratos()
+        self.fields['criterios'].choices = self.get_Criterios()
+
+    def get_Compania(self):
+
+        valores = [('', '-------')]
+
+        companias = VIEW_COMPANIAS.objects.using('jde_p').all()
+
+        for compania in companias:
+
+            valores.append(
+                (
+                    str(compania.comp_code) + ':' + compania.comp_desc,
+                    str(int(compania.comp_code)) + ' - ' + compania.comp_desc,
+                )
+            )
+        return valores
+
+    def get_Contratos(self):
+
+        valores = [('', '-------')]
+
+        companias = VIEW_COMPANIAS.objects.using('jde_p').all()
+
+        for compania in companias:
+
+            valores.append(
+                (
+                    str(compania.comp_code) + ':' + compania.comp_desc,
+                    str(int(compania.comp_code)) + ' - ' + compania.comp_desc,
+                )
+            )
+        return valores
+
+
+    def get_Criterios(self):
+
+        valores = []
+
+        criterios = Criterio.objects.all()
+
+        for criterio in criterios:
+
+            valores.append(
+                (
+                    criterio.pk,
+                    criterio.criterio,
                 )
             )
         return valores

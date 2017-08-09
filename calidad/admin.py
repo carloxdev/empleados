@@ -3,6 +3,8 @@ from __future__ import unicode_literals
 
 from django.contrib import admin
 
+from import_export.admin import ImportExportModelAdmin
+
 # Register your models here.
 from .models import Criterio
 from .models import Requisito
@@ -19,7 +21,7 @@ from .models import Auditoria
 
 
 @admin.register(Criterio)
-class Criterio(admin.ModelAdmin):
+class Criterio(ImportExportModelAdmin):
     list_display = (
         'pk',
         'criterio',

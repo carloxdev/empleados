@@ -22,7 +22,7 @@ $(document).ready(function () {
 \*-----------------------------------------------*/
 function Formulario() {
 
-    this.$id_tipo_auditoria = $("#id_tipo_auditoria")
+    this.$id_tipo_auditoria = $("#id_tipo_de_auditoria")
     this.$id_compania = $("#id_compania")
     this.$id_contratos = $("#id_contratos")
     this.$id_criterios = $("#id_criterios")
@@ -64,9 +64,9 @@ Formulario.prototype.init_Components = function () {
     )
     this.$id_fecha_programada_final_input.datetimepicker(this.get_DateTimePickerConfig())
 
-    this.$id_objetivo.wysihtml5(appnova.get_ConfWysi())
-    this.$id_alcance_auditoria.wysihtml5(appnova.get_ConfWysi())
-    this.$id_recursos_necesarios.wysihtml5(appnova.get_ConfWysi())
+    // this.$id_objetivo.wysihtml5(appnova.get_ConfWysi())
+    // this.$id_alcance_auditoria.wysihtml5(appnova.get_ConfWysi())
+    // this.$id_recursos_necesarios.wysihtml5(appnova.get_ConfWysi())
     
 }
 Formulario.prototype.get_DateTimePickerConfig = function () {

@@ -44,6 +44,7 @@ from .forms import SitioForm
 from .forms import MetodologiaForm
 from .forms import FallaForm
 from .forms import FormatoForm
+from .forms import GeneralAuditoriaForm
 
 # Serializadore:
 from .serializers import RequisitoSerilizado
@@ -94,13 +95,13 @@ class GeneralFormulario(View):
 
     def get(self, request):
 
-        # formulario = EmpleadoFilterForm()
+        formulario = GeneralAuditoriaForm()
 
-        # contexto = {
-        #     'form': formulario
-        # }
+        contexto = {
+            'form': formulario
+        }
 
-        return render(request, self.template_name, {})
+        return render(request, self.template_name, contexto)
 
 
 class AuditorFormulario(View):

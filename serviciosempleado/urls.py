@@ -24,7 +24,7 @@ urlpatterns = [
         name="empleado_organigrama"
     ),
     url(
-        r'^perfil/organigrama/json-org/(?P<pk>\d+)/$',
+        r'^perfil/organigrama/json-org/(?P<pk>\d+)/(?P<clave_rh>\d+)/$',
         EmpleadoOrganigramaAPI.as_view(),
         name='organigrama_json_org'
     ),

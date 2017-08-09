@@ -63,7 +63,7 @@ function TarjetaFiltros() {
    this.$fecha_contratacion = $("#id_fecha_contratacion")
    this.$boton_buscar = $('#boton_buscar')
    this.$boton_limpiar = $('#boton_limpiar')
-   this.$campos_iguales = true
+   this.$campos_usados = []
    this.init_Components()
    this.init_Events()
 }
@@ -126,20 +126,21 @@ TarjetaFiltros.prototype.init_Events = function () {
    this.$fecha_contratacion.on("apply.daterangepicker", this, this.aplicar_Rango)
    this.$fecha_contratacion.siblings('[data-event=\'calendario\']').on("click", this, this.click_MostrarPicker)
    this.$fecha_contratacion.siblings('[data-event=\'limpiar\']').on("click", this, this.click_LimpiarCampo)
-   this.$id_pers_primer_nombre.on("click", this, this.cambio_Estado)
-   this.$id_pers_segundo_nombre.on("click", this, this.cambio_Estado)
-   this.$id_pers_apellido_paterno.on("click", this, this.cambio_Estado)
-   this.$id_pers_apellido_materno.on("click", this, this.cambio_Estado)
-   this.$id_pers_genero_clave.on("click", this, this.cambio_Estado)
-   this.$id_pers_empleado_numero.on("click", this, this.cambio_Estado)
-   this.$id_pers_tipo_codigo.on("click", this, this.cambio_Estado)
-   this.$id_asig_puesto_clave.on("click", this, this.cambio_Estado)
-   this.$id_asig_organizacion_clave.on("click", this, this.cambio_Estado)
-   this.$id_grup_compania_jde.on("click", this, this.cambio_Estado)
-   this.$id_grup_fase_jde.on("click", this, this.cambio_Estado)
-   this.$id_grup_nomina_jde.on("click", this, this.cambio_Estado)
-   this.$fecha_contratacion.on("click", this, this.cambio_Estado)
+   // this.$id_pers_primer_nombre.on("click", this, this.cambio_Estado)
+   // this.$id_pers_segundo_nombre.on("click", this, this.cambio_Estado)
+   // this.$id_pers_apellido_paterno.on("click", this, this.cambio_Estado)
+   // this.$id_pers_apellido_materno.on("click", this, this.cambio_Estado)
+   // this.$id_pers_genero_clave.on("click", this, this.cambio_Estado)
+   // this.$id_pers_empleado_numero.on("click", this, this.cambio_Estado)
+   // this.$id_pers_tipo_codigo.on("click", this, this.cambio_Estado)
+   // this.$id_asig_puesto_clave.on("click", this, this.cambio_Estado)
+   // this.$id_asig_organizacion_clave.on("click", this, this.cambio_Estado)
+   // this.$id_grup_compania_jde.on("click", this, this.cambio_Estado)
+   // this.$id_grup_fase_jde.on("click", this, this.cambio_Estado)
+   // this.$id_grup_nomina_jde.on("click", this, this.cambio_Estado)
+   // this.$fecha_contratacion.on("click", this, this.cambio_Estado)
    this.$id.on("hide.bs.modal", this, this.hide_Modal)
+   this.$id.on("shown.bs.modal", this, this.shown_Modal)
 
 }
 TarjetaFiltros.prototype.keydown_ValidarNegativos = function (e) {
@@ -168,6 +169,86 @@ TarjetaFiltros.prototype.click_LimpiarCampo = function (e) {
 TarjetaFiltros.prototype.hide_Modal = function (e) {
 
    e.data.$fecha_contratacion.data('daterangepicker').hide()
+   e.data.limpiar_CampoNoAplicado()
+}
+TarjetaFiltros.prototype.limpiar_CampoNoAplicado = function () {
+   var campos = ["id_pers_primer_nombre", "id_pers_segundo_nombre", "id_pers_apellido_paterno", "id_pers_apellido_materno",
+   "pers_genero_clave", "id_pers_empleado_numero", "id_pers_tipo_codigo", "id_asig_puesto_clave", "id_asig_organizacion_clave",
+   "fecha_contratacion", "id_grup_compania_jde", "id_grup_fase_jde", "grup_nomina_jde"]
+
+   var resultados
+
+   tarjeta_filtros.$campos_usados.forEach(function(campo) {
+      resultados
+   })
+   // tarjeta_filtros.$campos_usados.forEach(function(campo) {
+   //    resultados = campos.filter(
+   //       function(elem) {
+   //          return elem != campo;
+   //       }
+   //    )
+   // }
+
+   console.log(resultados)
+   resultados.forEach(function(campo) {
+
+      if (campo == "id_pers_primer_nombre") {
+         tarjeta_filtros.$id_pers_primer_nombre.val("")
+
+      }
+      if (campo == "id_pers_segundo_nombre") {
+         tarjeta_filtros.$id_pers_segundo_nombre.val("")
+
+      }
+      if (campo == "id_pers_apellido_paterno") {
+         tarjeta_filtros.$id_pers_apellido_paterno.val("")
+
+      }
+      if (campo == "id_pers_apellido_materno") {
+         tarjeta_filtros.$id_pers_apellido_materno.val("")
+
+      }
+      if ($("input[name='pers_genero_clave']:checked").val() != undefined) {
+         tarjeta_filtros.$id_pers_genero_clave.prop('checked', false)
+
+      }
+      if (campo == "id_pers_empleado_numero") {
+         tarjeta_filtros.$id_pers_empleado_numero.val("")
+
+      }
+      if (campo == "id_pers_tipo_codigo") {
+         tarjeta_filtros.$id_pers_tipo_codigo.data('select2').val(0)
+
+      }
+      if (campo == "id_asig_puesto_clave") {
+         tarjeta_filtros.$id_asig_puesto_clave.data('select2').val(0)
+
+      }
+      if (campo == "id_asig_organizacion_clave") {
+         tarjeta_filtros.$id_asig_organizacion_clave.data('select2').val(0)
+
+      }
+      if (campo == "fecha_contratacion") {
+         tarjeta_filtros.$fecha_contratacion.val("")
+
+      }
+      if (campo == "id_grup_compania_jde") {
+         tarjeta_filtros.$id_grup_compania_jde.data('select2').val(0)
+
+      }
+      if (campo == "id_grup_fase_jde") {
+         tarjeta_filtros.$id_grup_fase_jde.data('select2').val(0)
+
+      }
+      if ($("input[name='grup_nomina_jde']:checked").val() != undefined) {
+         tarjeta_filtros.$id_grup_nomina_jde.prop('checked', false)
+
+      }
+   })
+}
+TarjetaFiltros.prototype.shown_Modal = function (e) {
+
+   e.data.$id_pers_primer_nombre.focus()
 }
 TarjetaFiltros.prototype.get_Values = function (_page, _pageSize) {
 
@@ -192,30 +273,9 @@ TarjetaFiltros.prototype.get_Values = function (_page, _pageSize) {
       grup_nomina_jde: $("input[name='grup_nomina_jde']:checked").val(),
    }
 }
-TarjetaFiltros.prototype.get_FiltrosExcel = function () {
-
-   return {
-      pers_primer_nombre: this.$id_pers_primer_nombre.val(),
-      pers_segundo_nombre: this.$id_pers_segundo_nombre.val(),
-      pers_apellido_paterno: this.$id_pers_apellido_paterno.val(),
-      pers_apellido_materno: this.$id_pers_apellido_materno.val(),
-      pers_genero_clave: $("input[name='pers_genero_clave']:checked").val(),
-      pers_empleado_numero: this.$id_pers_empleado_numero.val(),
-      pers_tipo_codigo: this.$id_pers_tipo_codigo.val(),
-      asig_puesto_clave: this.$id_asig_puesto_clave.val(),
-      asig_organizacion_clave: this.$id_asig_organizacion_clave.val(),
-      pers_fecha_contratacion_desde: this.$fecha_contratacion.val().split(" al ")[0],
-      pers_fecha_contratacion_hasta: this.$fecha_contratacion.val().split(" al ")[1],
-      grup_compania_jde: this.$id_grup_compania_jde.val(),
-      //zona: this.$id_zona.val(),
-      grup_fase_jde: this.$id_grup_fase_jde.val(),
-      grup_nomina_jde: $("input[name='grup_nomina_jde']:checked").val(),
-   }
-}
 TarjetaFiltros.prototype.click_BotonBuscar = function (e) {
 
    e.data.apply_Filters()
-   e.data.$campos_iguales = true
    e.data.$id.modal('hide')
 }
 TarjetaFiltros.prototype.click_BotonLimpiar = function (e) {
@@ -239,58 +299,76 @@ TarjetaFiltros.prototype.click_BotonLimpiar = function (e) {
 TarjetaFiltros.prototype.get_NoFiltrosAplicados = function () {
 
    cantidad = 0
+   filtros = []
 
    if (this.$id_pers_primer_nombre.val() != "") {
       cantidad += 1
+      filtros.push('id_pers_primer_nombre')
    }
    if (this.$id_pers_segundo_nombre.val() != "") {
       cantidad += 1
+      filtros.push('id_pers_segundo_nombre')
    }
    if (this.$id_pers_apellido_paterno.val() != "") {
       cantidad += 1
+      filtros.push('id_pers_apellido_paterno')
    }
    if (this.$id_pers_apellido_materno.val() != "") {
       cantidad += 1
+      filtros.push('id_pers_apellido_materno')
    }
    if ($("input[name='pers_genero_clave']:checked").val() != undefined) {
       cantidad += 1
+      filtros.push('pers_genero_clave')
    }
    if (this.$id_pers_empleado_numero.val() != "") {
       cantidad += 1
+      filtros.push('id_pers_empleado_numero')
    }
    if (this.$id_pers_tipo_codigo.val() != "") {
       cantidad += 1
+      filtros.push('id_pers_tipo_codigo')
    }
    if (this.$id_asig_puesto_clave.val() != "") {
       cantidad += 1
+      filtros.push('id_asig_puesto_clave')
    }
    if (this.$id_asig_organizacion_clave.val() != "") {
       cantidad += 1
+      filtros.push('id_asig_organizacion_clave')
    }
    if (this.$fecha_contratacion.val() != "") {
       cantidad += 1
+      filtros.push('fecha_contratacion')
    }
    if (this.$id_grup_compania_jde.val() != "") {
       cantidad += 1
+      filtros.push('id_grup_compania_jde')
    }
    if (this.$id_grup_fase_jde.val() != "") {
       cantidad += 1
+      filtros.push('id_grup_fase_jde')
    }
    if ($("input[name='grup_nomina_jde']:checked").val() != undefined) {
       cantidad += 1
+      filtros.push('grup_nomina_jde')
    }
 
-   return cantidad
+   return [cantidad, filtros]
 }
 TarjetaFiltros.prototype.apply_Filters = function () {
 
    tarjeta_resultados.grid.buscar()
+   var [no_filtros, filtros] = [ 0, []]
 
-   no_filtros = this.get_NoFiltrosAplicados()
+   [no_filtros, filtros] = this.get_NoFiltrosAplicados()
+
+   this.$campos_usados = filtros
 
    if (no_filtros != 0) {
         tarjeta_resultados.toolbar.change_BotonFiltros(no_filtros)
-   }   else {
+   }
+   else {
         tarjeta_resultados.toolbar.restart_BotonFiltros()
    }
 
@@ -334,24 +412,17 @@ ToolBar.prototype.click_BotonExportar = function (e) {
 
    if (tarjeta_filtros.get_NoFiltrosAplicados() != 0) {
 
-      if (tarjeta_filtros.$campos_iguales) {
+      if ((tarjeta_resultados.grid.$id.data("kendoGrid").dataSource.total() <= 65535) && (tarjeta_resultados.grid.$id.data("kendoGrid").dataSource.total() >= 1)) {
 
-         if ((tarjeta_resultados.grid.$id.data("kendoGrid").dataSource.total() <= 65535) && (tarjeta_resultados.grid.$id.data("kendoGrid").dataSource.total() >= 1)) {
+         tarjeta_filtros.$formulario.submit()
+      }
+      else if(tarjeta_resultados.grid.$id.data("kendoGrid").dataSource.total() == 0) {
 
-            tarjeta_filtros.$formulario.submit()
-         }
-         else if(tarjeta_resultados.grid.$id.data("kendoGrid").dataSource.total() == 0) {
-
-            alertify.warning("No hay registros a exportar.")
-         }
-         else {
-
-            alertify.warning("Muchos datos, ingresa un rango de fecha de contratación menor.")
-         }
+         alertify.warning("No hay registros a exportar.")
       }
       else {
 
-         alertify.warning("Filtros sin aplicar, los datos no se reflejarán en el Excel")
+         alertify.warning("Muchos datos, ingresa un rango de fecha de contratación menor.")
       }
    }
    else {
@@ -428,11 +499,6 @@ ToolBar.prototype.get_Columnas_Excel_Ancho = function () {
 
    var columnas_excel = []
 
-   for (var i=0; i < tarjeta_resultados.grid.get_Columnas().length; i++) {
-      columnas_excel.push({ autoWidth: true })
-   }
-   return columnas_excel
-}
 /*-----------------------------------------------*\
          OBJETO: Grid
 \*-----------------------------------------------*/
@@ -441,7 +507,6 @@ function Grid() {
 
    this.$id = $("#grid_resultados")
    this.kfuente_datos = null
-   this.kfuente_datos_excel = null
 
    this.kgrid = null
    this.init()
@@ -450,7 +515,6 @@ Grid.prototype.init = function () {
 
    kendo.culture("es-MX")
    this.kfuente_datos = new kendo.data.DataSource(this.get_DataSourceConfig())
-   this.kfuente_datos_excel = new kendo.data.DataSource(this.get_FuenteDatosExcel())
    this.kgrid = this.$id.kendoGrid(this.get_Configuracion())
 }
 Grid.prototype.get_DataSourceConfig = function (e) {

@@ -315,6 +315,6 @@ class VIEW_INCIDENCIAS_ZONA(models.Model):
 
     class Meta:
         managed = False
-        db_table = "VIEW_INCIDENCIAS_ZONA"      
+        db_table = "view_incidencias_zona"      
 
 

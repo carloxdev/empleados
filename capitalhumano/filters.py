@@ -7,6 +7,9 @@ from django_filters import CharFilter
 # Modelos:
 from .models import PerfilPuestoDocumento
 from .models import Archivo
+from ebs.models import VIEW_EMPLEADOS_FULL
+from .models import DocumentoPersonal
+from .models import DocumentoCapacitacion
 
 
 class PerfilpuestoDocumentoFilter(filters.FilterSet):
@@ -24,17 +27,212 @@ class PerfilpuestoDocumentoFilter(filters.FilterSet):
         ]
 
 
+class DocumentoPersonalFilter(filters.FilterSet):
+
+    numero_empleado = CharFilter(
+        name="numero_empleado",
+        lookup_expr="contains")
+
+    tipo_documento = CharFilter(
+        name="tipo_documento",
+        method="filter_documento")
+
+    numero_empleado_organizacion = CharFilter(
+        name="numero_empleado_organizacion",
+        method="filter_organizacion")
+
+    agrupador = CharFilter(
+        name="agrupador",
+        lookup_expr="contains")
+
+    class Meta:
+        model = DocumentoPersonal
+        fields = [
+            'numero_empleado',
+            'tipo_documento',
+            'numero_empleado_organizacion',
+            'agrupador',
+        ]
+
+    def filter_documento(self, queryset, name, value):
+
+        if not value:
+            return ' '
+        else:
+            documento = queryset.filter(
+                tipo_documento=value)
+            return documento
+
+    def filter_organizacion(self, queryset, name, value):
+
+        if not value:
+            return ' '
+        else:
+            organizacion = VIEW_EMPLEADOS_FULL.objects.using(
+                'ebs_p').filter(asig_organizacion_clave=value)
+            empleados = queryset.all()
+            incluir = []
+
+            for dato in empleados:
+                if organizacion.filter(pers_empleado_numero=dato.content_object.numero_empleado):
+                    incluir.append(dato.id)
+
+            return empleados.filter(id__in=incluir)
+
+
+class DocumentoCapacitacionFilter(filters.FilterSet):
+
+    numero_empleado = CharFilter(
+        name="numero_empleado",
+        lookup_expr="contains")
+
+    tipo_documento = CharFilter(
+        name="tipo_documento",
+        method="filter_documento")
+
+    numero_empleado_organizacion = CharFilter(
+        name="numero_empleado_organizacion",
+        method="filter_organizacion")
+
+    proveedor = CharFilter(
+        name="proveedor",
+        method="filter_proveedor")
+
+    class Meta:
+        model = DocumentoCapacitacion
+        fields = [
+            'numero_empleado',
+            'tipo_documento',
+            'numero_empleado_organizacion',
+            'proveedor',
+        ]
+
+    def filter_documento(self, queryset, name, value):
+
+        if not value:
+            return ' '
+        else:
+            documento = queryset.filter(
+                tipo_documento=value)
+            return documento
+
+    def filter_proveedor(self, queryset, name, value):
+
+        if not value:
+            return ' '
+        else:
+            proveedor = queryset.filter(
+                proveedor=value)
+            return proveedor
+
+    def filter_organizacion(self, queryset, name, value):
+
+        if not value:
+            return ' '
+        else:
+            organizacion = VIEW_EMPLEADOS_FULL.objects.using(
+                'ebs_p').filter(asig_organizacion_clave=value)
+            empleados = queryset.all()
+            incluir = []
+
+            for dato in empleados:
+                if organizacion.filter(pers_empleado_numero=dato.content_object.numero_empleado):
+                    incluir.append(dato.id)
+
+            return empleados.filter(id__in=incluir)
+
+
 class ArchivoPersonalFilter(filters.FilterSet):
 
     relacion_personal__numero_empleado = CharFilter(
         name="relacion_personal__numero_empleado",
         lookup_expr="contains")
 
+    relacion_personal__tipo_documento = CharFilter(
+        name="relacion_personal__tipo_documento",
+        method="filter_documento")
+
+    relacion_personal__agrupador = CharFilter(
+        name="relacion_personal__agrupador",
+        method="filter_agrupador")
+
+    relacion_personal__numero_empleado_organizacion = CharFilter(
+        name="relacion_personal__numero_empleado_organizacion",
+        method="filter_organizacion")
+
+    relacion_personal__vigencia_inicio = CharFilter(
+        name='relacion_personal__vigencia_inicio',
+        method="filter_vigencia_inicio"
+    )
+
+    relacion_personal__vigencia_fin = CharFilter(
+        name='relacion_personal__vigencia_fin',
+        method="filter_vigencia_fin"
+    )
+
     class Meta:
         model = Archivo
         fields = [
             'relacion_personal__numero_empleado',
+            'relacion_personal__tipo_documento',
+            'relacion_personal__agrupador',
+            'relacion_personal__numero_empleado_organizacion',
+            'relacion_personal__vigencia_inicio',
+            'relacion_personal__vigencia_fin',
         ]
+
+    def filter_documento(self, queryset, name, value):
+
+        if not value:
+            return ' '
+        else:
+
+            documento = queryset.filter(
+                relacion_personal__tipo_documento=value)
+            return documento
+
+    def filter_agrupador(self, queryset, name, value):
+
+        if not value:
+            return ' '
+        else:
+            documento = queryset.filter(
+                relacion_personal__agrupador=value)
+            return documento
+
+    def filter_organizacion(self, queryset, name, value):
+
+        if not value:
+            return ' '
+        else:
+            organizacion = VIEW_EMPLEADOS_FULL.objects.using(
+                'ebs_p').filter(asig_organizacion_clave=value)
+            empleados = queryset.all()
+            incluir = []
+
+            for dato in empleados:
+                if organizacion.filter(pers_empleado_numero=dato.content_object.numero_empleado):
+                    incluir.append(dato.id)
+
+            return empleados.filter(id__in=incluir)
+
+    def filter_vigencia_inicio(self, queryset, name, value):
+
+        if not value:
+            return queryset
+        else:
+            consulta = queryset.filter(
+                relacion_personal__vigencia_inicio__gte=value)
+            return consulta
+
+    def filter_vigencia_fin(self, queryset, name, value):
+
+        if not value:
+            return queryset
+        else:
+            consulta = queryset.filter(
+                relacion_personal__vigencia_fin__lte=value)
+            return consulta
 
 
 class ArchivoCapacitacionFilter(filters.FilterSet):
@@ -43,8 +241,128 @@ class ArchivoCapacitacionFilter(filters.FilterSet):
         name="relacion_capacitacion__numero_empleado",
         lookup_expr="contains")
 
+    relacion_capacitacion__curso = CharFilter(
+        name="relacion_capacitacion__curso",
+        method="filter_curso")
+
+    relacion_capacitacion__agrupador = CharFilter(
+        name="relacion_capacitacion__agrupador",
+        method="filter_agrupador")
+
+    relacion_capacitacion__area = CharFilter(
+        name="relacion_capacitacion__area",
+        method="filter_area")
+
+    relacion_capacitacion__numero_empleado_organizacion = CharFilter(
+        name="relacion_capacitacion__numero_empleado_organizacion",
+        method="filter_organizacion")
+
+    relacion_capacitacion__fecha_inicio = CharFilter(
+        name='relacion_capacitacion__fecha_inicio',
+        method="filter_fecha_inicio"
+    )
+
+    relacion_capacitacion__fecha_fin = CharFilter(
+        name='relacion_capacitacion__fecha_fin',
+        method="filter_fecha_fin"
+    )
+    proveedor = CharFilter(
+        name="proveedor",
+        method="filter_proveedor")
+
     class Meta:
         model = Archivo
         fields = [
             'relacion_capacitacion__numero_empleado',
+            'relacion_capacitacion__curso',
+            'relacion_capacitacion__agrupador',
+            'relacion_capacitacion__area',
+            'relacion_capacitacion__numero_empleado_organizacion',
+            'relacion_capacitacion__fecha_inicio',
+            'relacion_capacitacion__fecha_fin',
+            'relacion_capacitacion__proveedor',
+        ]
+
+    def filter_curso(self, queryset, name, value):
+
+        if not value:
+            return ' '
+        else:
+
+            curso = queryset.filter(
+                relacion_capacitacion__curso=value)
+            return curso
+
+    def filter_agrupador(self, queryset, name, value):
+
+        if not value:
+            return ' '
+        else:
+            documento = queryset.filter(
+                relacion_capacitacion__agrupador=value)
+            return documento
+
+    def filter_area(self, queryset, name, value):
+
+        if not value:
+            return ' '
+        else:
+            documento = queryset.filter(
+                relacion_capacitacion__area=value)
+            return documento
+
+    def filter_organizacion(self, queryset, name, value):
+
+        if not value:
+            return ' '
+        else:
+            organizacion = VIEW_EMPLEADOS_FULL.objects.using(
+                'ebs_p').filter(asig_organizacion_clave=value)
+            empleados = queryset.all()
+            incluir = []
+
+            for dato in empleados:
+                if organizacion.filter(pers_empleado_numero=dato.content_object.numero_empleado):
+                    incluir.append(dato.id)
+
+            return empleados.filter(id__in=incluir)
+
+    def filter_fecha_inicio(self, queryset, name, value):
+
+        if not value:
+            return queryset
+        else:
+            consulta = queryset.filter(
+                relacion_capacitacion__fecha_inicio__gte=value)
+            return consulta
+
+    def filter_fecha_fin(self, queryset, name, value):
+
+        if not value:
+            return queryset
+        else:
+            consulta = queryset.filter(
+                relacion_capacitacion__fecha_fin__lte=value)
+            return consulta
+
+    def filter_proveedor(self, queryset, name, value):
+
+        if not value:
+            return ' '
+        else:
+            proveedor = queryset.filter(
+                proveedor=value)
+            return proveedor
+
+
+class ArchivoFilter(filters.FilterSet):
+
+    pk = CharFilter(
+        name="pk",
+        lookup_expr="icontains")
+
+    class Meta:
+        model = Archivo
+        fields = [
+            'pk',
         ]

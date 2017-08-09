@@ -1,0 +1,12 @@
+<div class="form-group">
+   <label class="col-sm-{{size_label}} control-label" 
+      for="{{ campo.label.id_for_label }}">
+      {{ campo.label }}
+   </label>
+   <div class="col-sm-{{size_field}} xs-pt-5">
+      {{ campo }}
+   </div>
+   {% for error in campo.errors %}
+      <span class="help-block">{{ campo.error }}</span>
+   {% endfor %}
+</div>

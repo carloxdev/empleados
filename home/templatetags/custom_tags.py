@@ -127,3 +127,16 @@ def tag_field_popup_radio_button(_field, _size_col):
         'size_col': _size_col,
     }
     return contexto
+
+
+@register.inclusion_tag(
+    'tags/field.html',
+    takes_context=False)
+def tag_field(_field, _size_label, _size_field):
+
+    contexto = {
+        'campo': _field,
+        'size_label': _size_label,
+        'size_field': _size_field,
+    }
+    return contexto

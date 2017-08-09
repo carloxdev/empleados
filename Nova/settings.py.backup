@@ -21,6 +21,7 @@ LOGOUT_URL = 'seguridad:logout'
 
 
 # Application definition
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -42,12 +43,14 @@ INSTALLED_APPS = [
     'seguridad.apps.SeguridadConfig',
     'seguridadlaboral.apps.SeguridadlaboralConfig',
     'serviciosempleado.apps.ServiciosempleadoConfig',
+    'sgi.apps.SgiConfig',
 
     'rest_framework',
     'simple_history',
     'django_filters',
     'widget_tweaks',
     'generic_relations',
+    'import_export',
 ]
 
 MIDDLEWARE = [
@@ -109,6 +112,12 @@ DATABASES = {
     'ebs_d': {
         'ENGINE': 'django.db.backends.oracle',
         'NAME': '10.10.3.216/DEV',
+        'USER': 'APPS',
+        'PASSWORD': 'APPS',
+    },
+    'ebs_p': {
+        'ENGINE': 'django.db.backends.oracle',
+        'NAME': '10.10.3.212:1521/PROD',
         'USER': 'APPS',
         'PASSWORD': 'APPS',
     }

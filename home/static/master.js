@@ -15,9 +15,6 @@ $(document).ready(function () {
     appnova = new NovaSitio()
 })
 
-
-
-
 /*-----------------------------------------------*\
             OBJETO: NovaSitio
 \*-----------------------------------------------*/
@@ -56,18 +53,44 @@ NovaSitio.prototype.get_ConfigSelect2 = function () {
         width: '100%'
     }
 }
-NovaSitio.prototype.get_ConfWysi = function () {
+NovaSitio.prototype.get_ConfDateRangePicker = function () {
+
     return {
-        toolbar: {
-            "font-styles": true,
-            "emphasis": true,
-            "lists": true,
-            "html": false,
-            "link": false,
-            "image": false,
-            "color": false,
-            "blockquote": false,
-        }
+        locale: {
+            // format: 'YYYY-MM-DD',
+            format: 'DD-MM-YYYY',
+            applyLabel: "Aplicar",
+            cancelLabel: "Cancelar",
+            fromLabel: "Del",
+            separator: " al ",
+            toLabel: "Al",            
+            weekLabel: "S",
+            daysOfWeek: [
+                "Do",
+                "Lu",
+                "Ma",
+                "Mi",
+                "Ju",
+                "Vi",
+                "Sa"
+            ],
+            monthNames: [
+                "Enero",
+                "Febrero",
+                "Marzo",
+                "Abril",
+                "Mayo",
+                "Junio",
+                "Julio",
+                "Agosto",
+                "Septiembre",
+                "Octubre",
+                "Noviembre",
+                "Diciembre"
+            ],          
+        },
+        // startDate: '2017-01-01'
+        startDate: '01-01-2017'
     }
 }
 NovaSitio.prototype.validar_EspaciosSaltos = function (_string) 
