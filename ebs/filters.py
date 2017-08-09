@@ -102,10 +102,6 @@ class VIEW_EMPLEADOS_FULL_Filter(filters.FilterSet):
         name="grup_compania_jde",
         lookup_expr="contains"
     )
-    # zona = CharFilter(
-    #     name="zona",
-    #     lookup_expr="icontains"
-    # )
     grup_fase_jde = CharFilter(
         name="grup_fase_jde",
         lookup_expr="exact"
@@ -211,6 +207,14 @@ class VIEW_EMPLEADOS_GRADO_Filter(filters.FilterSet):
         name="pers_empleado_numero",
         lookup_expr="icontains"
     )
+    qua_grado_academico = CharFilter(
+        name="qua_grado_academico",
+        method="filter_grado_academico"
+    )
+    qua_especialidad = CharFilter(
+        name="qua_especialidad",
+        lookup_expr="icontains"
+    )
 
     class Meta:
         model = VIEW_EMPLEADOS_GRADO
@@ -218,12 +222,23 @@ class VIEW_EMPLEADOS_GRADO_Filter(filters.FilterSet):
             'pers_clave',
             'pers_empleado_numero',
             'pers_nombre_completo',
+            'asig_organizacion_id',
             'asig_puesto_desc',
             'qua_grado_academico',
             'qua_ultimo_estudio',
             'qua_especialidad',
             'qua_version_num',
         ]
+
+    def filter_grado_academico(self, queryset, name, value):
+
+        if not value:
+            return ' '
+        else:
+            if value == 'NINGUNA':
+                return queryset.filter(qua_version_num__isnull=True)
+            else:
+                return queryset.filter(qua_grado_academico=value)
 
 
 class VIEW_ORGANIGRAMA_Filter(filters.FilterSet):

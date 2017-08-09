@@ -572,3 +572,8 @@ div.nova-panel-arbol li.list-group-item {
    color: #ffffff;
 }
 /* multiselect 2 */
+
+/* Kendo grid, estilo en las filas*/
+.fecha-vencida {
+  background-color: #E6E6E6;
+}

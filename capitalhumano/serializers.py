@@ -14,14 +14,9 @@ from .models import DocumentoPersonal
 from .models import DocumentoCapacitacion
 from .models import Curso
 from ebs.models import VIEW_EMPLEADOS_FULL
+from jde.models import VIEW_PROVEEDORES
 
-from django.contrib.contenttypes.models import ContentType
-from django.core.urlresolvers import resolve
-from rest_framework.fields import Field
-from django.urls import reverse
-from django.http import Http404
-from django.core.exceptions import MultipleObjectsReturned
-from django.core.exceptions import ObjectDoesNotExist
+# GenerisForeignKey
 from generic_relations.relations import GenericRelatedField
 
 
@@ -48,7 +43,11 @@ class PerfilPuestoDocumentoSerializer(serializers.HyperlinkedModelSerializer):
         )
 
 
+# ----------Serializers para insertar registros------------------
+
+
 class DocumentoPersonalSerializers(serializers.HyperlinkedModelSerializer):
+    # tipo_documento = serializers.SerializerMethodField()
     tipo_documento = serializers.PrimaryKeyRelatedField(
         queryset=TipoDocumento.objects.all())
 
@@ -62,6 +61,9 @@ class DocumentoPersonalSerializers(serializers.HyperlinkedModelSerializer):
             'vigencia_inicio',
             'vigencia_fin',
             'created_by',
+            'created_date',
+            'organizacion',
+            'nombre_completo',
         )
 
 
@@ -88,6 +90,8 @@ class DocumentoCapacitacionSerializers(serializers.HyperlinkedModelSerializer):
             'agrupador',
             'area',
             'created_by',
+            'organizacion',
+            'nombre_completo',
         )
 
 
@@ -113,7 +117,7 @@ class ArchivoSerializers(serializers.HyperlinkedModelSerializer):
             'content_object',
             'created_by',
         )
-
+# ---------- FIN Serializers para insertar registros------------------
 
 class ArchivoPersonalSerializer(serializers.HyperlinkedModelSerializer):
     numero_empleado = serializers.SerializerMethodField()
@@ -123,7 +127,8 @@ class ArchivoPersonalSerializer(serializers.HyperlinkedModelSerializer):
     vigencia_fin = serializers.SerializerMethodField()
     tipo_archivo = serializers.SerializerMethodField()
     created_by = serializers.SerializerMethodField()
-    updated_by = serializers.SerializerMethodField()
+    organizacion = serializers.SerializerMethodField()
+    nombre_completo = serializers.SerializerMethodField()
 
     class Meta:
         model = Archivo
@@ -139,8 +144,8 @@ class ArchivoPersonalSerializer(serializers.HyperlinkedModelSerializer):
             'object_id',
             'created_by',
             'created_date',
-            'updated_by',
-            'updated_date',
+            'organizacion',
+            'nombre_completo',
         )
 
     def get_numero_empleado(self, obj):
@@ -148,7 +153,7 @@ class ArchivoPersonalSerializer(serializers.HyperlinkedModelSerializer):
             return obj.content_object.numero_empleado
         except Exception as e:
             print str(e)
-            return ""
+            return " "
 
     def get_tipo_documento(self, obj):
         try:
@@ -216,9 +221,16 @@ class ArchivoPersonalSerializer(serializers.HyperlinkedModelSerializer):
             print str(e)
             return " "
 
-    def get_updated_by(self, obj):
+    def get_organizacion(self, obj):
         try:
-            return obj.updated_by.usuario.get_full_name()
+            return obj.content_object.organizacion
+        except Exception as e:
+            print str(e)
+            return " "
+
+    def get_nombre_completo(self, obj):
+        try:
+            return obj.content_object.nombre_completo
         except Exception as e:
             print str(e)
             return " "
@@ -240,7 +252,9 @@ class ArchivoCapacitacionSerializer(serializers.HyperlinkedModelSerializer):
     duracion = serializers.SerializerMethodField()
     observaciones = serializers.SerializerMethodField()
     created_by = serializers.SerializerMethodField()
-    updated_by = serializers.SerializerMethodField()
+    fecha_vencimiento = serializers.SerializerMethodField()
+    organizacion = serializers.SerializerMethodField()
+    nombre_completo = serializers.SerializerMethodField()
 
     class Meta:
         model = Archivo
@@ -265,8 +279,9 @@ class ArchivoCapacitacionSerializer(serializers.HyperlinkedModelSerializer):
             'object_id',
             'created_by',
             'created_date',
-            'updated_by',
-            'updated_date',
+            'fecha_vencimiento',
+            'organizacion',
+            'nombre_completo',
         )
 
     def get_numero_empleado(self, obj):
@@ -274,7 +289,7 @@ class ArchivoCapacitacionSerializer(serializers.HyperlinkedModelSerializer):
             return obj.content_object.numero_empleado
         except Exception as e:
             print str(e)
-            return ""
+            return " "
 
     def get_agrupador(self, obj):
         try:
@@ -299,9 +314,9 @@ class ArchivoCapacitacionSerializer(serializers.HyperlinkedModelSerializer):
     def get_area(self, obj):
         try:
             area = ''
-            if obj.content_object.area == 'administrativa':
+            if obj.content_object.area == 'ADMINISTRATIVA':
                 area = 'Administrativa'
-            elif obj.content_object.area == 'operativa':
+            elif obj.content_object.area == 'OPERATIVA':
                 area = 'Operativa'
             return area
         except Exception as e:
@@ -317,7 +332,9 @@ class ArchivoCapacitacionSerializer(serializers.HyperlinkedModelSerializer):
 
     def get_proveedor(self, obj):
         try:
-            return obj.content_object.proveedor
+            proveedor = VIEW_PROVEEDORES.objects.using(
+                'jde_p').get(clave=obj.content_object.proveedor)
+            return proveedor.descripcion
         except Exception as e:
             print str(e)
             return " "
@@ -418,9 +435,26 @@ class ArchivoCapacitacionSerializer(serializers.HyperlinkedModelSerializer):
             print str(e)
             return " "
 
-    def get_updated_by(self, obj):
+    def get_fecha_vencimiento(self, obj):
         try:
-            return obj.updated_by.usuario.get_full_name()
+            if obj.content_object.fecha_vencimiento == 'Indefinido':
+                return 'Indefinido'
+            else:
+                return obj.content_object.fecha_vencimiento
+        except Exception as e:
+            print str(e)
+            return " "
+
+    def get_organizacion(self, obj):
+        try:
+            return obj.content_object.organizacion
+        except Exception as e:
+            print str(e)
+            return " "
+
+    def get_nombre_completo(self, obj):
+        try:
+            return obj.content_object.nombre_completo
         except Exception as e:
             print str(e)
             return " "

@@ -4,8 +4,8 @@
 var url_documento_personal = window.location.origin  + "/api-capitalhumano/documentopersonal/"
 var url_documento_capacitacion = window.location.origin  + "/api-capitalhumano/documentocapacitacion/"
 var url_archivo =  window.location.origin + "/api-capitalhumano/archivo/"
-var url_expediente_personal_bypage = window.location.origin  + "/api-capitalhumano/documentopersonal_bypage/"
-var url_expediente_capacitacion_bypage = window.location.origin  + "/api-capitalhumano/documentocapacitacion_bypage/"
+var url_expediente_personal_bypage = window.location.origin  + "/api-capitalhumano/archivopersonal_bypage/"
+var url_expediente_capacitacion_bypage = window.location.origin  + "/api-capitalhumano/archivocapacitacion_bypage/"
 var url_eliminar = window.location.origin + "/expedientes/"
 var url_profile =  window.location.origin + "/api-seguridad/profile/"
 
@@ -13,7 +13,6 @@ var url_profile =  window.location.origin + "/api-seguridad/profile/"
 // OBJS
 var popup = null
 var popup_cap = null
-var toolbar = null
 var grid_personal = null
 var grid_capacitacion = null
 var filtro = null
@@ -35,11 +34,10 @@ $(document).ready(function () {
 \*-----------------------------------------------*/
 
 function TarjetaResultados(){
-    popup = new PopupPersonal()
-    popup_cap = new PopupCapacitacion()
-    toolbar = new Toolbar()
-    personalizacion = new Personalizacion
-    grid_personal = new GridPersonal()
+    this.popup = new PopupPersonal()
+    this.popup_cap = new PopupCapacitacion()
+    this.personalizacion = new Personalizacion
+    this.grid_personal = new GridPersonal()
 }
 
 /*-----------------------------------------------*\
@@ -110,48 +108,47 @@ PopupPersonal.prototype.get_DateTimePickerConfig = function () {
     }
 }
 PopupPersonal.prototype.click_BotonGuardar = function (e) {
-
-    var promesa = $.ajax({
-         url: url_documento_personal,
-         method: "POST",
-         headers: { "X-CSRFToken": appnova.galletita },
-         data: {
-            'numero_empleado' : e.data.$numero_empleado.val(),
-            'tipo_documento' : e.data.$tipo_documento.val(),
-            'agrupador' : e.data.$agrupador.val(),
-            'vigencia_inicio' : e.data.$vigencia_inicio.val(),
-            'vigencia_fin' : e.data.$vigencia_fin.val(),
-            'created_by' : url_profile+e.data.$created_by.val()+"/",
-         },
-         success: function (_response) {
-         },
-         error: function (_response) {
-            alertify.error("Ocurrio error al guardar")
-         }
-      })
-    promesa.then(function(){
-        popup.buscar_UltimoRegistro()
-    })
-}
-PopupPersonal.prototype.buscar_UltimoRegistro = function () {
-
-    $.ajax({
-         url: url_documento_personal,
-         method: "GET",
-         success: function (_response) {
-            posicion = _response.length - 1
-            id_personal = _response[posicion].pk
-            popup.guardar_Archivo(id_personal)
-         },
-         error: function (_response) {
-            alertify.error("Ocurrio error al consultar")
-         }
-    })
+    id_personal = ''
+    extension = tarjeta_resultados.popup.validar_Archivo(e.data.$archivo.val())
+    if (tarjeta_resultados.popup.validar_Campos() != 'True'){
+        if (extension == ".pdf"){
+            var promesa = $.ajax({
+                 url: url_documento_personal,
+                 method: "POST",
+                 headers: { "X-CSRFToken": appnova.galletita },
+                 data: {
+                    'numero_empleado' : e.data.$numero_empleado.val(),
+                    'tipo_documento' : e.data.$tipo_documento.val(),
+                    'agrupador' : e.data.$agrupador.val(),
+                    'vigencia_inicio' : e.data.$vigencia_inicio.val(),
+                    'vigencia_fin' : e.data.$vigencia_fin.val(),
+                    'created_by' : url_profile+e.data.$created_by.val()+"/",
+                 },
+                 success: function (_response) {
+                    id_personal = _response.pk
+                 },
+                 error: function (_response) {
+                    alertify.error("Ocurrio error al guardar")
+                 }
+              })
+            promesa.then(function(){
+                tarjeta_resultados.popup.guardar_Archivo(id_personal)
+            })
+        }else if(extension=="")
+        {   alertify.error("Debe adjuntar un archivo")
+        }
+        else{
+            alertify.error("Solo se permiten archivos pdf")
+        }
+    }
+    else{
+        alertify.error("Asegurese de llenar los campos correspondientes")
+    }
 }
 PopupPersonal.prototype.guardar_Archivo = function (_id_personal){
 
     var data = new FormData()
-     popup.$formulario_per.find(':input').each(function() {
+     tarjeta_resultados.popup.$formulario_per.find(':input').each(function() {
         var elemento= this;
         if(elemento.type === 'file'){
            if(elemento.value !== ''){
@@ -161,7 +158,7 @@ PopupPersonal.prototype.guardar_Archivo = function (_id_personal){
               
                 data.append('tipo_archivo', "per")
                 data.append('content_object', url_documento_personal+_id_personal+"/")
-                data.append('created_by', url_profile+popup.$created_by.val()+"/")
+                data.append('created_by', url_profile+tarjeta_resultados.popup.$created_by.val()+"/")
             }              
          }
      })
@@ -175,9 +172,9 @@ PopupPersonal.prototype.guardar_Archivo = function (_id_personal){
          data: data,
          success: function (_response) {
 
-            alert('Se ha guardado el archivo')
-            popup.hidden_Modal()
-            popup.actualizar_Grid()
+            alertify.success("Se ha guardado el archivo")
+            tarjeta_resultados.popup.hidden_Modal()
+            tarjeta_resultados.popup.actualizar_Grid()
          },
          error: function (_response) {
 
@@ -192,7 +189,7 @@ PopupPersonal.prototype.hidden_Modal = function () {
 }
 PopupPersonal.prototype.actualizar_Grid = function () {
     $("#grid_resultados").empty()
-    grid_personal.init()
+    tarjeta_resultados.grid_personal.init()
 }
 PopupPersonal.prototype.limpiar_Formulario = function () {
 
@@ -201,7 +198,18 @@ PopupPersonal.prototype.limpiar_Formulario = function () {
     this.$vigencia_inicio.val("")
     this.$vigencia_fin.val("")
     this.$archivo.val("")
-
+}
+PopupPersonal.prototype.validar_Campos = function () {
+  bandera = 'False'
+  if ((this.$tipo_documento.data('select2').val() == "") ||
+    (this.$agrupador.data('select2').val() == "") ){
+    bandera = 'True'
+  }
+  return bandera
+}
+PopupPersonal.prototype.validar_Archivo = function (_archivo) {
+    extension = (_archivo.substring(_archivo.lastIndexOf("."))).toLowerCase();
+    return extension
 }
 
 /*-----------------------------------------------*\
@@ -232,7 +240,7 @@ function PopupCapacitacion () {
     this.$fecha_fin = $('#id_fecha_fin')
     this.$fecha_fin_input = $('#id_fecha_fin_input')
     this.$created_by = $('#created_by')
-    this.$archivo_cap = $('#archivocap')
+    this.$archivo_cap = $('#id_archivocap')
 
     this.init_Components()
     this.init_Events()
@@ -240,6 +248,7 @@ function PopupCapacitacion () {
 PopupCapacitacion.prototype.init_Components = function () {
 
     this.$agrupadorcap.select2(appnova.get_ConfigSelect2())
+    this.$proveedor.select2(appnova.get_ConfigSelect2())
     this.$area.select2(appnova.get_ConfigSelect2())
     this.$curso.select2(appnova.get_ConfigSelect2())
     this.$modalidad.select2(appnova.get_ConfigSelect2())
@@ -263,57 +272,57 @@ PopupCapacitacion.prototype.get_DateTimePickerConfig = function () {
     }
 }
 PopupCapacitacion.prototype.click_BotonGuardar = function (e) {
-    var promesa = $.ajax({
-         url: url_documento_capacitacion,
-         method: "POST",
-         headers: { "X-CSRFToken": appnova.galletita },
-         data: {
-            'numero_empleado' : e.data.$numero_empleado.val(),
-            'curso' : e.data.$curso.val(),
-            'proveedor' : e.data.$proveedor.val(),
-            'modalidad' : e.data.$modalidad.val(),
-            'lugar' : e.data.$lugar.val(),
-            'costo' : e.data.$costo.val(),
-            'moneda' : e.data.$moneda.val(),
-            'departamento' : e.data.$departamento.val(),
-            'fecha_inicio' : e.data.$fecha_inicio.val(),
-            'fecha_fin' : e.data.$fecha_fin.val(),
-            'duracion' : e.data.$duracion.val(),
-            'observaciones' : e.data.$observaciones.val(),
-            'agrupador' : e.data.$agrupadorcap.val(),
-            'area' : e.data.$area.val(),
-            'created_by' : url_profile+e.data.$created_by.val()+"/",
-         },
-         success: function (_response) {
-         },
-         error: function (_response) {
-            alertify.error("Ocurrio error al guardar")
-         }
-      })
-    promesa.then(function(){
-        popup_cap.buscar_UltimoRegistro()
-    })
+    id_capacitacion = ''
+    extension = tarjeta_resultados.popup_cap.validar_Archivo(e.data.$archivo_cap.val())
+    if (tarjeta_resultados.popup_cap.validar_Campos() != 'True'){
+        if (extension == ".pdf"){
+            var promesa = $.ajax({
+                 url: url_documento_capacitacion,
+                 method: "POST",
+                 headers: { "X-CSRFToken": appnova.galletita },
+                 data: {
+                    'numero_empleado' : e.data.$numero_empleado.val(),
+                    'curso' : e.data.$curso.val(),
+                    'proveedor' : e.data.$proveedor.val(),
+                    'modalidad' : e.data.$modalidad.val(),
+                    'lugar' : e.data.$lugar.val(),
+                    'costo' : e.data.$costo.val(),
+                    'moneda' : e.data.$moneda.val(),
+                    'departamento' : e.data.$departamento.val(),
+                    'fecha_inicio' : e.data.$fecha_inicio.val(),
+                    'fecha_fin' : e.data.$fecha_fin.val(),
+                    'duracion' : e.data.$duracion.val(),
+                    'observaciones' : e.data.$observaciones.val(),
+                    'agrupador' : e.data.$agrupadorcap.val(),
+                    'area' : e.data.$area.val(),
+                    'created_by' : url_profile+e.data.$created_by.val()+"/",
+                 },
+                 success: function (_response) {
+                    // alert(e.data.$proveedor.val())
+                    id_capacitacion = _response.pk
+                 },
+                 error: function (_response) {
+                    alertify.error("Ocurrio error al guardar")
+                 }
+              })
+            promesa.then(function(){
+                tarjeta_resultados.popup_cap.guardar_Archivo(id_capacitacion)
+            })
+        }else if(extension=="")
+        {   alertify.error("Debe adjuntar un archivo")
+        }
+        else{
+            alertify.error("Solo se permiten archivos pdf")
+        }
+    }
+    else {
+        alertify.error("Asegurese de llenar los campos correspondientes")
+    }
 }
-PopupCapacitacion.prototype.buscar_UltimoRegistro = function () {
+PopupCapacitacion.prototype.guardar_Archivo = function (_id_capacitacion){
 
-    $.ajax({
-         url: url_documento_capacitacion,
-         method: "GET",
-         success: function (_response) {
-            posicion = _response.length - 1
-            id_personal = _response[posicion].pk
-            popup_cap.guardar_Archivo(id_personal)
-         },
-         error: function (_response) {
-            alertify.error("Ocurrio error al consultar")
-         }
-    })
-}
-PopupCapacitacion.prototype.guardar_Archivo = function (_id_personal){
-    // e.stopPropagation()
-    // e.preventDefault()
     var data = new FormData()
-     popup_cap.$formulario_cap.find(':input').each(function() {
+     tarjeta_resultados.popup_cap.$formulario_cap.find(':input').each(function() {
         var elemento= this;
         if(elemento.type === 'file'){
            if(elemento.value !== ''){
@@ -322,8 +331,8 @@ PopupCapacitacion.prototype.guardar_Archivo = function (_id_personal){
                }
               
                 data.append('tipo_archivo', "cap")
-                data.append('content_object', url_documento_capacitacion+_id_personal+"/")
-                data.append('created_by', url_profile+popup_cap.$created_by.val()+"/")
+                data.append('content_object', url_documento_capacitacion+_id_capacitacion+"/")
+                data.append('created_by', url_profile+tarjeta_resultados.popup_cap.$created_by.val()+"/")
             }              
          }
      })
@@ -337,9 +346,9 @@ PopupCapacitacion.prototype.guardar_Archivo = function (_id_personal){
          data: data,
          success: function (_response) {
 
-            alert('Se ha guardado el archivo')
-            popup_cap.hidden_Modal()
-            popup_cap.actualizar_Grid()
+            alertify.success("Se ha guardado el archivo")
+            tarjeta_resultados.popup_cap.hidden_Modal()
+            tarjeta_resultados.popup_cap.actualizar_Grid()
          },
          error: function (_response) {
 
@@ -357,8 +366,8 @@ PopupCapacitacion.prototype.actualizar_Grid = function () {
     grid_capacitacion.init()
 }
 PopupCapacitacion.prototype.limpiar_Formulario = function () {
-
-    this.$proveedor.val("")
+    
+    this.$proveedor.data('select2').val(0)
     this.$lugar.val("")
     this.$costo.val("")
     this.$duracion.val("")
@@ -373,28 +382,29 @@ PopupCapacitacion.prototype.limpiar_Formulario = function () {
     this.$fecha_fin.val("")
     this.$archivo_cap.val("")
 }
-
-/*-----------------------------------------------*\
-            OBJETO: TOOLBAR
-\*-----------------------------------------------*/
-
-function Toolbar() {
-    
-    this.$boton_nuevo = $('#boton_nuevo')
-    this.init_Events()
+PopupCapacitacion.prototype.validar_Campos = function () {
+    bandera = 'False'
+    if ((this.$proveedor.data('select2').val() == "") ||
+        (this.$agrupadorcap.data('select2').val() == "") ||
+        (this.$area.data('select2').val() == "") ||
+        (this.$curso.data('select2').val() == "") ||
+        (this.$modalidad.data('select2').val() == "") ||
+        (this.$moneda.data('select2').val() == "") ||
+        (this.$departamento.data('select2').val() == "") ||
+        (this.$lugar.val() == "") ||
+        (this.$costo.val() == "") ||
+        (this.$duracion.val() == "") ||
+        (this.$observaciones.val() == "") ||
+        (this.$fecha_inicio.val() == "") ||
+        (this.$fecha_fin.val() == "") ||
+        (this.$archivo_cap.val() == "") ){
+        bandera = 'True'
+    }
+    return bandera
 }
-Toolbar.prototype.init_Events = function () {
-
-    this.$boton_nuevo.on("click", this, this.mostrar_Modal)
-    // this.$boton_nuevo_cap.on("click", this, this.mostrar_Modal) 
-}
-Toolbar.prototype.mostrar_Modal = function (e){
-    
-    // popup_per.$id.hasClass('in')
-}
-Toolbar.prototype.mostrar_ModalCap = function (e){
-    
-    popup_cap.$id.hasClass('in')
+PopupCapacitacion.prototype.validar_Archivo = function (_archivo) {
+    extension = (_archivo.substring(_archivo.lastIndexOf("."))).toLowerCase();
+    return extension
 }
 
 /*-----------------------------------------------*\
@@ -417,17 +427,17 @@ Personalizacion.prototype.mostrar_Personales = function(e){
     
     e.data.$capacitaciones.removeClass('nova-active-tab')
     e.data.$personales.addClass('nova-active-tab')
-    popup_cap.$boton_nuevo.addClass('hidden')
-    popup.$boton_nuevo.removeClass('hidden')
+    tarjeta_resultados.popup_cap.$boton_nuevo.addClass('hidden')
+    tarjeta_resultados.popup.$boton_nuevo.removeClass('hidden')
     $("#grid_resultados").empty()
-    grid_personal.init()
+    tarjeta_resultados.grid_personal.init()
 }
 Personalizacion.prototype.mostrar_Capacitaciones = function(e){
     
     e.data.$personales.removeClass('nova-active-tab')
     e.data.$capacitaciones.addClass('nova-active-tab')
-    popup.$boton_nuevo.addClass('hidden')
-    popup_cap.$boton_nuevo.removeClass('hidden')
+    tarjeta_resultados.popup.$boton_nuevo.addClass('hidden')
+    tarjeta_resultados.popup_cap.$boton_nuevo.removeClass('hidden')
     $("#grid_resultados").empty()
     grid_capacitacion = new GridCapacitacion()
 }
@@ -443,6 +453,7 @@ function GridPersonal() {
 
     this.kgrid = null
     this.init()
+    this.init_Events()
 }
 GridPersonal.prototype.init = function () {
 
@@ -455,9 +466,13 @@ GridPersonal.prototype.init = function () {
     // Se inicializa y configura el grid:
     this.kgrid = this.$id.kendoGrid(this.get_Configuracion())
 }
-GridPersonal.prototype.get_DataSourceConfig = function () {
-    return {
+GridPersonal.prototype.init_Events = function () {
 
+    this.$id.on('click', 'a', this.eliminar_Registro)
+}
+GridPersonal.prototype.get_DataSourceConfig = function () {
+
+    return {
         serverPaging: true,
         pageSize: 10,
         transport: {
@@ -514,7 +529,7 @@ GridPersonal.prototype.get_Configuracion = function () {
         scrollable: true,
         pageable: true,
         noRecords: {
-            template: "<div class='grid-empty'> No se encontraron registros </div>"
+            template: "<div class='nova-grid-empy'> No se encontraron registros </div>"
         },
         dataBound: this.set_Icons,
     }
@@ -525,12 +540,12 @@ GridPersonal.prototype.get_Columnas = function () {
         { field: "pk", 
           title: " ", 
           width:"50px" ,
-          template: '<a href="#=url_eliminar + numero_empleado+ "/" + pk #/expediente/eliminar/personal/" class="btn nova-btn btn-default nova-btn-delete" id="boton_nuevo"> <i class="icon icon-left icon mdi mdi-delete nova-white"></i></a>',
+          template: '<a class="btn nova-btn btn-default nova-btn-delete" id="per_#=pk#"> <i class="icon icon-left icon mdi mdi-delete nova-white"></i></a>',
         },
         { field: "tipo_documento", 
           title: "Archivo", 
           width:"150px" ,
-          template: '<a href="#=archivo#" target="_blank">#=tipo_documento#</a>',
+          template: '<a href="#=archivo#" target="_blank" id="documento">#=tipo_documento#</a>',
         },
         { field: "agrupador", title: "Agrupador", width:"100px"},
         { field: "vigencia_inicio",title: "Vigencia inicio",width:"100px"},
@@ -543,6 +558,68 @@ GridPersonal.prototype.get_Columnas = function () {
 GridPersonal.prototype.buscar = function() {
 
     this.kfuente_datos.page(1)
+}
+GridPersonal.prototype.eliminar_Registro = function () {
+
+    id = $(this).attr('id')
+    if(id != 'documento'){
+        identificador = id.split("_")[0]
+        id_archivo = id.split("_")[1]
+
+        if(identificador == "per"){
+            tarjeta_resultados.grid_personal.consultar_Registro(id_archivo)
+        }
+        else if(identificador == "cap"){
+            grid_capacitacion.consultar_Registro(id_archivo)
+        }
+    }
+}
+GridPersonal.prototype.consultar_Registro = function (_id_archivo) {
+
+    if (_id_archivo != 'documento'){
+        $.ajax({
+             url: url_archivo +"?pk="+_id_archivo,
+             method: "GET",
+             headers: { "X-CSRFToken": appnova.galletita },
+             success: function (_response) {
+                url = _response[0].content_object
+                id_personal = url.split("/")[5]
+                tarjeta_resultados.grid_personal.eliminar_Archivo(_id_archivo,id_personal)
+             },
+             error: function (_response) {
+                alertify.error("No se ha podido realizar la consulta")
+             }
+          })
+    }
+}
+GridPersonal.prototype.eliminar_Archivo = function (_id_archivo, _id_personal) {
+    var promesa = $.ajax({
+                     url: url_archivo +_id_archivo+"/",
+                     method: "DELETE",
+                     headers: { "X-CSRFToken": appnova.galletita },
+                     success: function (_response) {
+
+                     },
+                     error: function (_response) {
+                        alertify.error("No se ha podido eliminar el registro")
+                     }
+                  })
+    promesa.then(function(){
+        $.ajax({
+         url: url_documento_personal +_id_personal+"/",
+         method: "DELETE",
+         headers: { "X-CSRFToken": appnova.galletita },
+         success: function (_response) {
+            alertify.success('Se elimino documento personal')
+            $("#grid_resultados").empty()
+            tarjeta_resultados.grid_personal.init()
+
+         },
+         error: function (_response) {
+            alertify.error("No se ha podido eliminar el registro")
+         }
+      })
+    })
 }
 
 /*-----------------------------------------------*\
@@ -607,9 +684,9 @@ GridCapacitacion.prototype.get_CamposCap = function () {
         modalidad : { type: "string" },
         costo : { type: "string" },
         moneda : { type: "integer" },
-        departamento : { type: "string" },
         fecha_inicio : { type: "string" },
         fecha_fin : { type: "string" },
+        fecha_vencimiento: { type: "date" },
         duracion : { type: "string" },
         observaciones : { type: "string" },
         created_by : { type: "string" },
@@ -630,9 +707,9 @@ GridCapacitacion.prototype.get_Configuracion = function () {
         scrollable: true,
         pageable: true,
         noRecords: {
-            template: "<div class='grid-empty'> No se encontraron registros </div>"
+            template: "<div class='nova-grid-empy'> No se encontraron registros </div>"
         },
-        dataBound: this.set_Icons,
+        dataBound: this.aplicar_Estilos
     }
 }
 GridCapacitacion.prototype.get_Columnas = function () {
@@ -640,13 +717,13 @@ GridCapacitacion.prototype.get_Columnas = function () {
     return [  
         { field: "pk", 
           title: " ", 
-          width:"60px" ,
-          template: '<a href="#=url_eliminar + numero_empleado+ "/" + pk #/expediente/eliminar/capacitacion/" class="btn nova-btn btn-default nova-btn-delete" id="boton_nuevo"> <i class="icon icon-left icon mdi mdi-delete nova-white"></i></a>',
+          width:"70px" ,
+          template: '<a class="btn nova-btn btn-default nova-btn-delete" id="cap_#=pk#"> <i class="icon icon-left icon mdi mdi-delete nova-white"></i></a>',
         },
         { field: "curso", 
           title: "Curso", 
           width:"150px" ,
-          template: '<a href="#=archivo#" target="_blank">#=curso#</a>',
+          template: '<a href="#=archivo#" target="_blank" id="documento">#=curso#</a>',
         },
         { field: "agrupador", title: "Agrupador", width:"100px"},
         { field: "area", title: "Area", width:"100px"},
@@ -654,9 +731,9 @@ GridCapacitacion.prototype.get_Columnas = function () {
         { field: "modalidad",title: "Modalidad",width:"100px"},
         { field: "costo", title: "Costo", width:"100px" },
         { field: "moneda",title: "Moneda",width:"100px"},
-        { field: "departamento",title: "Departamento",width:"150px"},
         { field: "fecha_inicio", title: "Fecha inicio", width:"100px" },
         { field: "fecha_fin",title: "Fecha fin",width:"100px"},
+        { field: "fecha_vencimiento", title: "Fecha vencimiento", width:"100px", format: "{0:dd/MM/yyyy}" },
         { field: "duracion", title: "Duración", width:"100px",template: '#=duracion# hrs' },
         { field: "observaciones", title: "Observaciones", width:"200px" },
         { field: "created_by", title: "Creado por", width:"150px" },
@@ -664,8 +741,72 @@ GridCapacitacion.prototype.get_Columnas = function () {
 
     ]
 }
+GridCapacitacion.prototype.aplicar_Estilos = function (e) {
+
+    columns = e.sender.columns
+    dataItems = e.sender.dataSource.view()
+    fecha_hoy = new Date()
+
+    for (var j = 0; j < dataItems.length; j++) {
+        fecha_vencimiento = dataItems[j].get("fecha_vencimiento")
+        row = e.sender.tbody.find("[data-uid='" + dataItems[j].uid + "']")
+        row.removeClass("k-alt");
+        if(fecha_vencimiento != null){
+  
+            if (fecha_vencimiento.getTime() <= fecha_hoy.getTime()) {
+                row.addClass("fecha-vencida")
+            }
+        }
+    }
+}
 GridCapacitacion.prototype.buscar = function() {
 
     this.kfuente_datos.page(1)
+}
+GridCapacitacion.prototype.consultar_Registro = function (_id_archivo) {
+    if (_id_archivo != 'documento'){
+        $.ajax({
+             url: url_archivo +"?pk="+_id_archivo,
+             method: "GET",
+             headers: { "X-CSRFToken": appnova.galletita },
+             success: function (_response) {
+                url = _response[0].content_object
+                id_capacitacion = url.split("/")[5]
+                grid_capacitacion.eliminar_Archivo(_id_archivo,id_capacitacion)
+             },
+             error: function (_response) {
+                alertify.error("No se ha podido realizar la consulta")
+             }
+          })
+    }
+}
+GridCapacitacion.prototype.eliminar_Archivo = function (_id_archivo, _id_capacitacion) {
+    var promesa = $.ajax({
+                     url: url_archivo +_id_archivo+"/",
+                     method: "DELETE",
+                     headers: { "X-CSRFToken": appnova.galletita },
+                     success: function (_response) {
+
+                     },
+                     error: function (_response) {
+                        alertify.error("No se ha podido eliminar el registro")
+                     }
+                  })
+    promesa.then(function(){
+        $.ajax({
+         url: url_documento_capacitacion +_id_capacitacion+"/",
+         method: "DELETE",
+         headers: { "X-CSRFToken": appnova.galletita },
+         success: function (_response) {
+            alertify.success('Se elimino capacitacion')
+            $("#grid_resultados").empty()
+            grid_capacitacion.init()
+
+         },
+         error: function (_response) {
+            alertify.error("No se ha podido eliminar el registro")
+         }
+      })
+    })
 }
 

@@ -8,6 +8,9 @@
 	<link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.common-bootstrap.min.css' %}"/>
 	<link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.bootstrap.min.css' %}"/>
 
+	<!-- Nova -->
+    <link rel="stylesheet" href="{% static 'grid.css' %}"/>
+
 	<!-- Theme -->
     <link rel="stylesheet" href="{% static 'theme/lib/datetimepicker/css/bootstrap-datetimepicker.min.css' %}" type="text/css"/>
 {% endblock css %}
@@ -19,7 +22,7 @@
 		<br>
 		<ol class="breadcrumb page-head-nav pull-right">
 		 <li> <a href="{% url 'home:inicio'%}">Inicio</a></li>
-		 <li id="menu" data-opcion="capitalhumano_expedientes"><a href="{% url 'capitalhumano:empleado_expedientes'%}">Expedientes</a></li>
+		 <li id="menu" data-opcion="capitalhumano_expedientes"><a href="{% url 'capitalhumano:empleado_expedientes_general'%}">Expedientes</a></li>
 		 <li class="active" >Expediente</li>
 		</ol>
 	</div>
@@ -132,7 +135,7 @@
 									<tr>
 										<td class="icon nova-icon-gray"><span class="mdi mdi-collection-text"></span></td>
 										<td class="item">Categoria</td>
-										<td>{{ dato.asig_grado_desc }}</td>
+										<td>{{ dato.asig_grado_desc }} {{ dato.asig_trabajo_desc }}</td>
 									</tr>
 									<tr>
 										<td class="icon nova-icon-gray"><span class="mdi mdi-collection-text"></span></td>

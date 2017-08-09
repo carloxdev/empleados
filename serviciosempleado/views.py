@@ -21,6 +21,7 @@ from .models import ViaticoCabecera
 from serializers import VIEW_ORGANIGRAMA_ORG_SERIALIZADO
 
 # Formularios:
+from .forms import NuevaSolicitudForm
 from .forms import ViaticoCabeceraForm
 # from .forms import ViaticoLineaForm
 from .forms import ViaticoFilterForm
@@ -32,15 +33,17 @@ class EmpleadoPerfil(View):
         self.template_name = 'empleado_perfil.html'
 
     def get(self, request):
+
+        form = NuevaSolicitudForm()
         usuario_logeado = request.user.profile.clave_rh
         if usuario_logeado is not None:
-            empleado = VIEW_EMPLEADOS_FULL.objects.using('ebs_d').filter(
+            empleado = VIEW_EMPLEADOS_FULL.objects.using('ebs_p').filter(
                 pers_empleado_numero=usuario_logeado)
 
-            url = self.construir_Url(empleado)
-            ruta = self.comprobar_Direccion(url)
+            ruta = self.comprobar_Direccion(empleado)
 
             contexto = {
+                'form': form,
                 'empleado': empleado,
                 'ruta': ruta,
             }
@@ -48,26 +51,15 @@ class EmpleadoPerfil(View):
             contexto = {}
         return render(request, self.template_name, contexto)
 
-    def construir_Url(self, _empleado):
-        nombre = ''
-        for dato in _empleado:
-            if dato.pers_segundo_nombre == '-':
-                nombre = dato.pers_primer_nombre + '_' \
-                    + dato.pers_apellido_paterno + '_'  \
-                    + dato.pers_apellido_materno
-            else:
-                nombre = dato.pers_primer_nombre + '_' \
-                    + dato.pers_segundo_nombre + '_'  \
-                    + dato.pers_apellido_paterno + '_'  \
-                    + dato.pers_apellido_materno
-        url = 'capitalhumano/images/user_foto/' + nombre + '.jpg'
-        return url
-
-    def comprobar_Direccion(self, _url):
+    def comprobar_Direccion(self, _empleado):
         ruta = ''
+        url = ''
 
-        if default_storage.exists(_url):
-            ruta = '/media/' + _url
+        for dato in _empleado:
+            url = 'capitalhumano/images/' + dato.nombre_foto
+
+        if default_storage.exists(url):
+            ruta = '/media/' + url
         else:
             ruta = '/static/theme/img/avatar-150.png'
 
@@ -83,7 +75,7 @@ class EmpleadoOrganigrama(View):
         clave = request.user.profile.clave_rh
         if clave is not None:
             empleado = VIEW_ORGANIGRAMA.objects.using(
-                "ebs_d").get(pers_empleado_numero=clave)
+                "ebs_p").get(pers_empleado_numero=clave)
 
             organizacion = empleado.asig_organizacion_clave
 
@@ -97,13 +89,13 @@ class EmpleadoOrganigrama(View):
 
 class EmpleadoOrganigramaAPI(View):
 
-    def get(self, request, pk):
+    def get(self, request, pk, clave_rh):
 
         daddies = VIEW_ORGANIGRAMA.objects.using(
-            'ebs_d').filter(asig_organizacion_clave=pk)
+            'ebs_p').filter(asig_organizacion_clave=pk)
 
         serializador = VIEW_ORGANIGRAMA_ORG_SERIALIZADO()
-        lista_json = serializador.get_Json(daddies)
+        lista_json = serializador.get_Json(daddies, clave_rh)
 
         return HttpResponse(
             lista_json,
@@ -114,6 +106,7 @@ class EmpleadoOrganigramaAPI(View):
 
 
 class ViaticoLista(View):
+
     def __init__(self):
         self.template_name = 'viatico/viatico_lista.html'
 
@@ -183,7 +176,8 @@ class ViaticoCabeceraEditar(View):
 
     def post(self, request, pk):
 
-        formulario = ViaticoCabeceraForm(request.POST, instance=self.obtener_Viatico(pk))
+        formulario = ViaticoCabeceraForm(
+            request.POST, instance=self.obtener_Viatico(pk))
 
         if formulario.is_valid():
             viatico = formulario.save(commit=False)
@@ -199,6 +193,7 @@ class ViaticoCabeceraEditar(View):
 
 
 class ViaticoLineas(View):
+
     def __init__(self):
         self.template_name = 'viatico/viatico_lineas.html'
 

@@ -6,6 +6,8 @@ from capitalhumano.view_rest import DocumentoPersonalAPI
 from capitalhumano.view_rest import DocumentoCapacitacionAPI
 from capitalhumano.view_rest import ArchivoPersonalByPageAPI
 from capitalhumano.view_rest import ArchivoCapacitacionByPageAPI
+from capitalhumano.view_rest import ArchivoPersonalAPI
+from capitalhumano.view_rest import ArchivoCapacitacionAPI
 from capitalhumano.view_rest import ArchivoAPI
 
 router_capitalhumano = routers.DefaultRouter()
@@ -32,12 +34,22 @@ router_capitalhumano.register(
     'archivo'
 )
 router_capitalhumano.register(
-    r'documentopersonal_bypage',
-    ArchivoPersonalByPageAPI,
-    'documentopersonal_bypage'
+    r'archivopersonal',
+    ArchivoPersonalAPI,
+    'archivopersonal'
 )
 router_capitalhumano.register(
-    r'documentocapacitacion_bypage',
+    r'archivopersonal_bypage',
+    ArchivoPersonalByPageAPI,
+    'archivopersonal_bypage'
+)
+router_capitalhumano.register(
+    r'archivocapacitacion',
+    ArchivoCapacitacionAPI,
+    'archivocapacitacion'
+)
+router_capitalhumano.register(
+    r'archivocapacitacion_bypage',
     ArchivoCapacitacionByPageAPI,
-    'documentocapacitacion_bypage'
+    'archivocapacitacion_bypage'
 )

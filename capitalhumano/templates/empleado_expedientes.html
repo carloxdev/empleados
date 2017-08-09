@@ -8,6 +8,9 @@
 	<link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.common-bootstrap.min.css' %}"/>
 	<link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.bootstrap.min.css' %}"/>
 
+    <!-- Nova -->
+    <link rel="stylesheet" href="{% static 'grid.css' %}"/>
+
 {% endblock css %}
 {% block contenido %}
 <div class="be-content">
@@ -20,23 +23,22 @@
 		</ol>
 	</div>
 
-	<!-- Filtro -->
-
+	<!-- Filtros -->
 	<div class="main-content container-fluid">
-
         <div class="col-sm-12">
+
+            <!-- Filtro general-->
             <div class="panel panel-border panel-contrast">
-                <div class="panel-heading panel-heading-default nova-border-bottom">Filtros
-                    <div class="tools" data-toggle="collapse" href="#cabecera_colapsible"><span class="icon mdi mdi-caret-down-circle" id="boton_colapsible"></span>
+                <div class="panel-heading panel-heading-default nova-border-bottom">Filtro general
+                    <div class="tools" data-toggle="collapse" href="#filtro_general"><span class="icon mdi mdi-caret-down-circle" id="boton_colapsible"></span>
                     </div>
                 </div> 
-                <div class="panel-body collapse in" id="cabecera_colapsible">
+                <div class="panel-body collapse " id="filtro_general">
 
                     <form action="" method="POST"> {% csrf_token %} 
-
                         <div class="row">
-                                
                             <div class="row nova-padding-row">
+
                                 <!-- Formulario -->
                                 <div class="col-sm-3">
                                 	<label class="control-label">{{ form.pers_empleado_numero.label }}</label>
@@ -85,33 +87,7 @@
                                 	<p>
                                         {{ form.pers_apellido_materno }} 
                                     </p>
-                                </div>
-                                <div class="col-sm-3">
-                                    <label class="control-label">{{ form.grado_academico.label }}</label>
-                                    <p>
-                                        {{ form.grado_academico }} 
-                                    </p>
-                                </div>
-                                <div class="col-sm-3">
-                                    <label class="control-label">{{ form.disciplina_academica.label }}</label>
-                                    <p>
-                                        {{ form.disciplina_academica }} 
-                                    </p>
-                                </div>
-                                <div class="col-sm-3">
-                                    <label class="control-label">{{ form.tipo_documento.label }}</label>
-                                    <p>
-                                        {{ form.tipo_documento }} 
-                                    </p>
-                                </div>
-                                <div class="col-sm-3">
-                                    <label class="control-label">{{ form.curso.label }}</label>
-                                    <p>
-                                        {{ form.curso }} 
-                                    </p>
-                                </div>
-                                
-                                    
+                                </div>                                  
                             </div>
                         </div>
                         <button type="button" id="boton_limpiar" class="btn btn-default pull-left">
@@ -127,18 +103,207 @@
                 </div> <!-- Panel Body -->
             </div>  <!-- Panel -->
 
-            <div class="col-ms-12">
-		    	<div class="panel panel-default panel-table" id="div_busqueda">
-					<div id="grid_resultados">
-					</div>
-				</div><!-- End Panel default (GRID) -->
-		    </div>
+            <!-- Grados academicos -->
+            <div class="panel panel-border panel-contrast">
+                <div class="panel-heading panel-heading-default nova-border-bottom">Filtro por grado academico
+                    <div class="tools" data-toggle="collapse" href="#filtro_academico"><span class="icon mdi mdi-caret-down-circle" id="boton_colapsible2"></span>
+                    </div>
+                </div> 
 
-        </div>  <!-- col-sm-12 -->
-    </div>
+                <div class="panel-body collapse" id="filtro_academico">
+
+                    <form action="" method="POST"> {% csrf_token %} 
+
+                        <div class="row">
+                                
+                            <div class="row nova-padding-row">
+                                <!-- Formulario -->
+                                
+                                <div class="col-sm-2">
+                                    <div class="be-radio">
+                                      <input type="radio" checked="" name="opcion" id="con" value="Con">
+                                      <label for="con">Con</label>
+                                    </div>
+                                    <div class="be-radio">
+                                      <input type="radio" checked="" name="opcion" id="sin" value="Sin">
+                                      <label for="sin">Sin</label>
+                                    </div>
+                                  </div>
+
+                                <div class="col-sm-3">
+                                    <label class="control-label">{{ form_grado.grado_academico.label }}</label>
+                                    <p>
+                                        {{ form_grado.grado_academico }} 
+                                    </p>
+                                </div>
+                                <div class="col-sm-3">
+                                    <label class="control-label">{{ form_grado.disciplina_academica.label }}</label>
+                                    <p>
+                                        {{ form_grado.disciplina_academica }} 
+                                    </p>
+                                </div>
+                                <div class="col-sm-3">
+                                    <label class="control-label">{{ form_grado.asig_organizacion_clave_grado.label }}</label>
+                                    <p>
+                                        {{ form_grado.asig_organizacion_clave_grado }} 
+                                    </p>
+                                </div>
+                                    
+                            </div>
+                        </div>
+                        <button type="button" id="boton_limpiar_doc" class="btn btn-default pull-left">
+                            <i class="fa fa-eraser"></i>
+                            Limpiar
+                        </button>
+
+                        <button type="button" id="boton_buscar_doc" class="btn nova-btn btn-primary btn-lg pull-right" >
+                            <i class="icon icon-left mdi mdi-search nova-white"></i>
+                            Buscar
+                        </button>
+                    </form>
+                </div> <!-- Panel Body -->
+            </div>  <!-- Panel -->
+            
+            <!-- Filtro por documento personal -->
+            <div class="panel panel-border panel-contrast">
+                <div class="panel-heading panel-heading-default nova-border-bottom">Filtro por documento personal
+                    <div class="tools" data-toggle="collapse" href="#filtro_docpersonal"><span class="icon mdi mdi-caret-down-circle" id="boton_colapsible2"></span>
+                    </div>
+                </div> 
+
+                <div class="panel-body collapse" id="filtro_docpersonal">
+
+                    <form action="" method="POST"> {% csrf_token %} 
+
+                        <div class="row">
+                                
+                            <div class="row nova-padding-row">
+                                <!-- Formulario -->
+                                
+                                <div class="col-sm-2">
+                                    <div class="be-radio">
+                                      <input type="radio" checked="" name="opcion" id="con" value="Con">
+                                      <label for="con">Con</label>
+                                    </div>
+                                    <div class="be-radio">
+                                      <input type="radio" checked="" name="opcion" id="sin" value="Sin">
+                                      <label for="sin">Sin</label>
+                                    </div>
+                                  </div>
+
+                                <div class="col-sm-3">
+                                    <label class="control-label">{{ form_per.tipo_documento.label }}</label>
+                                    <p>
+                                        {{ form_per.tipo_documento }} 
+                                    </p>
+                                </div>
+                                <div class="col-sm-3">
+                                    <label class="control-label">{{ form_per.asig_organizacion_clave_per.label }}</label>
+                                    <p>
+                                        {{ form_per.asig_organizacion_clave_per }} 
+                                    </p>
+                                </div>
+                                    
+                            </div>
+                        </div>
+                        <button type="button" id="boton_limpiar_doc" class="btn btn-default pull-left">
+                            <i class="fa fa-eraser"></i>
+                            Limpiar
+                        </button>
+
+                        <button type="button" id="boton_buscar_doc" class="btn nova-btn btn-primary btn-lg pull-right" >
+                            <i class="icon icon-left mdi mdi-search nova-white"></i>
+                            Buscar
+                        </button>
+                    </form>
+                </div> <!-- Panel Body -->
+            </div>  <!-- Panel -->
+
+            <!-- Filtro por documento capacitacion -->
+            <div class="panel panel-border panel-contrast">
+                <div class="panel-heading panel-heading-default nova-border-bottom">Filtro por capacitación
+                    <div class="tools" data-toggle="collapse" href="#filtro_doccapacitacion"><span class="icon mdi mdi-caret-down-circle" id="boton_colapsible2"></span>
+                    </div>
+                </div> 
+
+                <div class="panel-body collapse" id="filtro_doccapacitacion">
+
+                    <form action="" method="POST"> {% csrf_token %} 
+
+                        <div class="row">
+                                
+                            <div class="row nova-padding-row">
+                                <!-- Formulario -->
+                                
+                                <div class="col-sm-2">
+                                    <div class="be-radio">
+                                      <input type="radio" checked="" name="opcion" id="con" value="Con">
+                                      <label for="con">Con</label>
+                                    </div>
+                                    <div class="be-radio">
+                                      <input type="radio" checked="" name="opcion" id="sin" value="Sin">
+                                      <label for="sin">Sin</label>
+                                    </div>
+                                  </div>
+
+                                <div class="col-sm-3">
+                                    <label class="control-label">{{ form_cap.curso.label }}</label>
+                                    <p>
+                                        {{ form_cap.curso }} 
+                                    </p>
+                                </div>
+                                <div class="col-sm-3">
+                                    <label class="control-label">{{ form_cap.asig_organizacion_clave_cap.label }}</label>
+                                    <p>
+                                        {{ form_cap.asig_organizacion_clave_cap }} 
+                                    </p>
+                                </div>
+                                    
+                            </div>
+                        </div>
+                        <button type="button" id="boton_limpiar_doc" class="btn btn-default pull-left">
+                            <i class="fa fa-eraser"></i>
+                            Limpiar
+                        </button>
+
+                        <button type="button" id="boton_buscar_curso" class="btn nova-btn btn-primary btn-lg pull-right" >
+                            <i class="icon icon-left mdi mdi-search nova-white"></i>
+                            Buscar
+                        </button>
+                    </form>
+                </div> <!-- Panel Body -->
+            </div>  <!-- Panel -->
+
+            <!-- Grid de resultados -->
+            <div class="main-content container-fluid nova-main-content hidden" id="div_busqueda">
+                <div class="row">
+                    <div class="col-xs-12 nova-col">
+                            <div class="panel panel-default panel-table">
+                                <div class="panel-heading panel-border nova-panel-heading"> 
+                                    <div class="tools pull-right nova-tools" id="toolbar">
+
+                                        <button class="btn nova-btn btn-rounded btn-space btn-success" id="boton_excel">
+                                            <i class="icon icon-left mdi mdi-download nova-white"></i>Exportar
+                                        </button>
+                                    </div>
+                                    <div class="title hidden-xs"></div>
+                                </div><!-- Panel Heading -->
+
+                                    <div id="grid_resultados">
+                                    </div>
+
+                          </div> <!-- Panel -->
+                    </div><!-- col md 12 -->            
+                </div>
+            </div>
+
+        </div>
+    </div>  <!-- col-sm-12 -->
 </div>
 {% endblock contenido %}
 {% block scripts %}
+    <!--JSZIP -->
+    <script src="{% static 'libs/kendo/2015.2.624/js/jszip.min.js' %}"></script>
 	<!-- Kendo Js -->
 	<script src="{% static 'libs/kendo/2015.2.624/js/cultures/kendo.culture.es-MX.min.js' %}"></script>
 	<script src="{% static 'libs/kendo/2015.2.624/js/kendo.web.min.js' %}"></script>

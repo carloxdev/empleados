@@ -13,7 +13,7 @@ from .models import ViaticoLinea
 
 class VIEW_ORGANIGRAMA_ORG_SERIALIZADO(object):
 
-    def get_Descendencia(self, _daddies, _hijos, _nodo_jefe_nombre_completo):
+    def get_Descendencia(self, _daddies, _hijos, _nodo_jefe_nombre_completo, _clave_rh):
 
         lista_descendencia = []
 
@@ -25,24 +25,27 @@ class VIEW_ORGANIGRAMA_ORG_SERIALIZADO(object):
             for persona in _daddies:
                 if persona.jefe_nombre_completo == hijo.pers_nombre_completo:
                     hijos.append(persona)
-
-                self.get_Estructura(nodo, hijo)
+                if _clave_rh == hijo.pers_empleado_numero:
+                    self.get_EstructuraEmpleado(nodo, hijo)
+                else:
+                    self.get_Estructura(nodo, hijo)
 
             if len(hijos):
-                self.get_ColorNivel(nodo, hijo)
-                nodo["children"] = self.get_Descendencia(_daddies, hijos, nodo)
+                self.get_ColorNivel(nodo, hijo, _clave_rh)
+                nodo["children"] = self.get_Descendencia(
+                    _daddies, hijos, nodo, _clave_rh)
             else:
                 if hijo.tipo == 'STAFF':
                     nodo["staff"] = 'STAFF'
                     nodo["className"] = 'staff-level'
                 else:
-                    self.get_ColorNivel(nodo, hijo)
+                    self.get_ColorNivel(nodo, hijo, _clave_rh)
 
             lista_descendencia.append(nodo)
 
         return lista_descendencia
 
-    def get_Json(self, _daddies):
+    def get_Json(self, _daddies, _clave_rh):
 
         sys.setrecursionlimit(1500)
 
@@ -62,16 +65,17 @@ class VIEW_ORGANIGRAMA_ORG_SERIALIZADO(object):
                     nodo["className"] = 'nivel-1'
                 else:
                     nodo["className"] = 'niveles'
-            nodo["children"] = self.get_Descendencia(_daddies, hijos, nodo)
+            nodo["children"] = self.get_Descendencia(
+                _daddies, hijos, nodo, _clave_rh)
         else:
-            self.get_Estructura(nodo, padre)
-            self.get_ColorNivel(nodo, padre)
+            self.get_EstructuraEmpleado(nodo, padre)
+            self.get_ColorNivel(nodo, padre, _clave_rh)
 
         lista_json = json.dumps(nodo)
 
         return lista_json
 
-    def get_Estructura(self, _nodo, _datos):
+    def get_EstructuraEmpleado(self, _nodo, _datos):
         _nodo["nombre"] = "%s" % (_datos.pers_nombre_completo)
         _nodo["num_empleado"] = "%s" % (_datos.pers_empleado_numero)
         _nodo["compania"] = "%s" % (_datos.grup_compania_jde)
@@ -80,7 +84,11 @@ class VIEW_ORGANIGRAMA_ORG_SERIALIZADO(object):
         _nodo["centro_costos"] = "%s" % (_datos.grup_fase_jde)
         _nodo["ubicacion"] = "%s" % (_datos.asig_ubicacion_desc)
 
-    def get_ColorNivel(self, _nodo, _dato):
+    def get_Estructura(self, _nodo, _datos):
+        _nodo["puesto"] = "%s" % (_datos.asig_puesto_desc)
+        _nodo["nombre"] = "None"
+
+    def get_ColorNivel(self, _nodo, _dato, _clave_rh):
         if _dato.nivel_estructura == 1:
             _nodo["className"] = 'nivel-1'
         elif (_dato.nivel_estructura == 2) or \
@@ -88,7 +96,8 @@ class VIEW_ORGANIGRAMA_ORG_SERIALIZADO(object):
                 (_dato.nivel_estructura == 4) or \
                 (_dato.nivel_estructura == 5) or \
                 (_dato.nivel_estructura == 6):
-            _nodo["className"] = 'niveles'
+
+            _nodo["className"] = "niveles"
 
     def get_Padre(self, _daddies):
 
@@ -217,4 +226,3 @@ class ViaticoLineaSerializer(serializers.ModelSerializer):
             'updated_date',
             'updated_by',
         )
-

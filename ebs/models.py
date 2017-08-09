@@ -41,6 +41,23 @@ class VIEW_EMPLEADOS_SIMPLE(models.Model):
         db_table = u'"NUVAPP"."VIEW_EMPLEADOS_SIMPLE"'
 
 
+class VIEW_EMPLEADOS_GRADO(models.Model):
+    pers_clave = models.IntegerField(primary_key=True)
+    pers_empleado_numero = models.CharField(max_length=30)
+    pers_nombre_completo = models.CharField(max_length=240)
+    asig_puesto_desc = models.CharField(max_length=240)
+    asig_organizacion_id = models.IntegerField()
+    asig_organizacion_desc = models.CharField(max_length=240)
+    qua_grado_academico = models.CharField(max_length=240)
+    qua_ultimo_estudio = models.CharField(max_length=240)
+    qua_especialidad = models.CharField(max_length=240)
+    qua_version_num = models.IntegerField()
+
+    class Meta:
+        managed = False
+        db_table = u'"NUVAPP"."VIEW_EMPLEADOS_GRADO"'
+
+
 class VIEW_EMPLEADOS_FULL(models.Model):
     pers_clave = models.IntegerField(primary_key=True)
     pers_tipo_codigo = models.IntegerField()
@@ -181,23 +198,6 @@ class VIEW_GRADO_ACADEMICO(models.Model):
     class Meta:
         managed = False
         db_table = u'"NUVAPP"."VIEW_GRADO_ACADEMICO"'
-
-
-class VIEW_EMPLEADOS_GRADO(models.Model):
-    pers_clave = models.IntegerField(primary_key=True)
-    pers_empleado_numero = models.CharField(max_length=30)
-    pers_nombre_completo = models.CharField(max_length=240)
-    asig_puesto_desc = models.CharField(max_length=240)
-    asig_organizacion_id = models.IntegerField()
-    asig_organizacion_desc = models.CharField(max_length=240)
-    qua_grado_academico = models.CharField(max_length=240)
-    qua_ultimo_estudio = models.CharField(max_length=240)
-    qua_especialidad = models.CharField(max_length=240)
-    qua_version_num = models.IntegerField()
-
-    class Meta:
-        managed = False
-        db_table = u'"NUVAPP"."VIEW_EMPLEADOS_GRADO"'
 
 
 class VIEW_ORGANIGRAMA(models.Model):
