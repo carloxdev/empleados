@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Librerias/Clases Django
+# Django's Libraries
 from django.forms import ModelForm
 from django.forms import TextInput
 from django.forms import Textarea
@@ -10,13 +10,13 @@ from django.forms import CharField
 from django.forms import ChoiceField
 from django.forms import HiddenInput
 
-# Librerias/Clases propias
+# Own's Libraries
 from .models import ViaticoCabecera
-
-from home.forms_fields import SelectCustom
 
 from jde.business import CentroCostoBusiness
 from ebs.business import EmpleadoBusiness
+
+from home.forms_fields import SelectCustom
 
 
 class ViaticoFilterForm(Form):
@@ -93,8 +93,8 @@ class ViaticoCabeceraForm(ModelForm):
             'empleado_descripcion': HiddenInput(),
             'unidad_negocio_descripcion': HiddenInput(),
             'proposito_viaje': Textarea(attrs={'class': 'form-control'}),
-            'fecha_partida': TextInput(attrs={'class': 'form-control input-xs'}),
-            'fecha_regreso': TextInput(attrs={'class': 'form-control input-xs'}),
+            'fecha_partida': TextInput(attrs={'class': 'form-control input-xs', 'readonly': 'readonly'}),
+            'fecha_regreso': TextInput(attrs={'class': 'form-control input-xs', 'readonly': 'readonly'}),
             'ciudad_destino': TextInput(attrs={'class': 'form-control input-xs'}),
         }
 
@@ -115,7 +115,6 @@ class ViaticoLineaForm(Form):
     importe = CharField(
         widget=TextInput(attrs={'class': 'form-control input-xs'})
     )
-
 
 
 class AnticipoFilterForm(Form):

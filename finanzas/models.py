@@ -15,7 +15,7 @@ from administracion.models import Empresa
 class ViaticoCabecera(models.Model):
 
     VIATICO_ESTADOS = (
-        ('cap', 'En edición'),
+        ('cap', 'En edicion'),
         ('sau', 'Sin autorizar'),
         ('aut', 'Autorizado'),
         ('rec', 'Rechazado'),

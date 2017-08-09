@@ -30,7 +30,7 @@ function Formulario() {
     this.$fecha_partida_input = $('#id_fecha_partida_input')
     this.$fecha_regreso = $('#id_fecha_regreso')
     this.$fecha_regreso_input = $('#id_fecha_regreso_input')
-    
+
     this.$ciudad_destino = $('#id_ciudad_destino')
     this.$proposito_viaje = $('#id_proposito_viaje')
 
@@ -41,7 +41,7 @@ Formulario.prototype.init_Components = function () {
 
     this.$empleado_clave.select2()
     this.$unidad_negocio_clave.select2()
-    
+
     this.$fecha_partida.mask(
         "9999-99-99",
         {
@@ -62,7 +62,7 @@ Formulario.prototype.init_Events = function () {
 
     this.$empleado_clave.on("change", this, this.seleccionar_Empleado)
     this.$unidad_negocio_clave.on("change", this, this.seleccionar_UnidadNegocio)
-    
+
 }
 Formulario.prototype.get_DateTimePickerConfig = function () {
     return {
@@ -75,12 +75,11 @@ Formulario.prototype.get_DateTimePickerConfig = function () {
 Formulario.prototype.seleccionar_Empleado = function(e) {
 
     e.data.$empleado_descripcion.val(
-        e.data.$empleado_clave.find(":selected").data("desc")
+        e.data.$empleado_clave.find(":selected").data("text")
     )
 }
 Formulario.prototype.seleccionar_UnidadNegocio = function(e) {
     e.data.$unidad_negocio_descripcion.val(
-        e.data.$unidad_negocio_clave.find(":selected").data("desc")
+        e.data.$unidad_negocio_clave.find(":selected").data("text")
     )
 }
-

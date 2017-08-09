@@ -90,14 +90,14 @@ class CentroCostoBusiness(object):
 
         for centro in centros:
 
-            option_value = centro.clave,
+            option_value = centro.clave
             option_status_desc = self.get_StatusDescription(centro.estado)
             option_label = "%s : %s %s" % (
                 centro.clave,
                 centro.descripcion,
                 option_status_desc
             )
-            option_text = centro.descripcion,
+            option_text = centro.descripcion
             option_status = centro.estado
 
             valores.append(
@@ -123,14 +123,14 @@ class CentroCostoBusiness(object):
 
         for centro in centros:
 
-            option_value = centro.clave,
+            option_value = centro.clave
             option_status_desc = self.get_StatusDescription(centro.estado)
             option_label = "%s : %s %s" % (
                 centro.clave,
                 centro.descripcion,
                 option_status_desc
             )
-            option_text = centro.descripcion,
+            option_text = centro.descripcion
             option_status = centro.estado
 
             valores.append(

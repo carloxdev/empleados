@@ -18,7 +18,7 @@ var grid = null
 \*-----------------------------------------------*/
 
 $(document).ready(function () {
-   
+
    tarjeta_filtros = new TarjetaFiltros()
    tarjeta_resultados = new TarjetaResultados()
 
@@ -37,7 +37,7 @@ $(document).ready(function () {
       }
       // Tecla ESC
    })
-   
+
 })
 
 /*-----------------------------------------------*\
@@ -86,7 +86,7 @@ TarjetaFiltros.prototype.get_ConfDateRangePicker = function () {
          cancelLabel: "Cancelar",
          fromLabel: "Del",
          separator: " al ",
-         toLabel: "Al",            
+         toLabel: "Al",
          weekLabel: "S",
          daysOfWeek: [
             "Do",
@@ -110,13 +110,13 @@ TarjetaFiltros.prototype.get_ConfDateRangePicker = function () {
             "Octubre",
             "Noviembre",
             "Diciembre"
-         ],          
+         ],
       },
       "dateLimit": {
 
          "months": 6
       },
-   }    
+   }
 }
 TarjetaFiltros.prototype.init_Events = function () {
 
@@ -154,7 +154,7 @@ TarjetaFiltros.prototype.cambio_Estado = function (e) {
    e.data.$campos_iguales = false
 }
 TarjetaFiltros.prototype.aplicar_Rango = function (e, picker) {
-   
+
    $(this).val(picker.startDate.format('YYYY-MM-DD') + ' al ' + picker.endDate.format('YYYY-MM-DD'))
 }
 TarjetaFiltros.prototype.click_MostrarPicker = function (e) {
@@ -167,14 +167,14 @@ TarjetaFiltros.prototype.click_LimpiarCampo = function (e) {
 }
 TarjetaFiltros.prototype.hide_Modal = function (e) {
 
-   e.data.$fecha_contratacion.data('daterangepicker').hide()  
+   e.data.$fecha_contratacion.data('daterangepicker').hide()
 }
 TarjetaFiltros.prototype.get_Values = function (_page, _pageSize) {
 
    return {
       page: _page,
       pageSize: _pageSize,
-      
+
       pers_primer_nombre: this.$id_pers_primer_nombre.val(),
       pers_segundo_nombre: this.$id_pers_segundo_nombre.val(),
       pers_apellido_paterno: this.$id_pers_apellido_paterno.val(),
@@ -193,8 +193,8 @@ TarjetaFiltros.prototype.get_Values = function (_page, _pageSize) {
    }
 }
 TarjetaFiltros.prototype.get_FiltrosExcel = function () {
-      
-   return {        
+
+   return {
       pers_primer_nombre: this.$id_pers_primer_nombre.val(),
       pers_segundo_nombre: this.$id_pers_segundo_nombre.val(),
       pers_apellido_paterno: this.$id_pers_apellido_paterno.val(),
@@ -213,13 +213,13 @@ TarjetaFiltros.prototype.get_FiltrosExcel = function () {
    }
 }
 TarjetaFiltros.prototype.click_BotonBuscar = function (e) {
-   
+
    e.data.apply_Filters()
    e.data.$campos_iguales = true
    e.data.$id.modal('hide')
 }
 TarjetaFiltros.prototype.click_BotonLimpiar = function (e) {
-   
+
    e.preventDefault()
    e.data.$id_pers_primer_nombre.val("")
    e.data.$id_pers_segundo_nombre.val("")
@@ -293,7 +293,7 @@ TarjetaFiltros.prototype.apply_Filters = function () {
    }   else {
         tarjeta_resultados.toolbar.restart_BotonFiltros()
    }
-    
+
    this.$id.modal('hide')
 }
 /*-----------------------------------------------*\
@@ -301,7 +301,7 @@ TarjetaFiltros.prototype.apply_Filters = function () {
 \*-----------------------------------------------*/
 
 function TarjetaResultados(){
-   
+
    this.toolbar = new ToolBar()
    this.grid = new Grid()
 }
@@ -321,31 +321,31 @@ ToolBar.prototype.init_Events = function () {
    this.$boton_exportar.on("click", this, this.click_BotonExportar)
 }
 ToolBar.prototype.change_BotonFiltros = function (_no_filtros) {
-       
+
    html = "<i class='icon icon-left mdi mdi-search nova-white'></i> Filtros <span class='badge nova-border-bottom'>no_filtros</span>".replace("no_filtros", _no_filtros)
 
    this.$boton_filtros.html(html)
 }
 ToolBar.prototype.restart_BotonFiltros = function () {
-    
-   this.$boton_filtros.html("<i class='icon icon-left mdi mdi-search nova-white'></i> Filtros")   
+
+   this.$boton_filtros.html("<i class='icon icon-left mdi mdi-search nova-white'></i> Filtros")
 }
 ToolBar.prototype.click_BotonExportar = function (e) {
-   
+
    if (tarjeta_filtros.get_NoFiltrosAplicados() != 0) {
 
       if (tarjeta_filtros.$campos_iguales) {
 
-         if ((tarjeta_resultados.grid.$id.data("kendoGrid").dataSource.total() <= 65535) && (tarjeta_resultados.grid.$id.data("kendoGrid").dataSource.total() >= 1)) {            
-            
+         if ((tarjeta_resultados.grid.$id.data("kendoGrid").dataSource.total() <= 65535) && (tarjeta_resultados.grid.$id.data("kendoGrid").dataSource.total() >= 1)) {
+
             tarjeta_filtros.$formulario.submit()
          }
          else if(tarjeta_resultados.grid.$id.data("kendoGrid").dataSource.total() == 0) {
-            
+
             alertify.warning("No hay registros a exportar.")
          }
          else {
-            
+
             alertify.warning("Muchos datos, ingresa un rango de fecha de contratación menor.")
          }
       }
@@ -357,7 +357,7 @@ ToolBar.prototype.click_BotonExportar = function (e) {
    else {
 
       alertify.warning("Debe seleccionar filtros")
-   }     
+   }
 }
 ToolBar.prototype.Inicializar_CeldasExcel = function (e) {
 
@@ -373,14 +373,14 @@ ToolBar.prototype.Inicializar_CeldasExcel = function (e) {
    }];
 }
 // ToolBar.prototype.click_BotonExportar = function (e) {
-   
+
 //    tarjeta_resultados.grid.leer_Datos()
 //    e.data.Inicializar_CeldasExcel()
 
 //    tarjeta_resultados.grid.kfuente_datos_excel.fetch(function () {
 
 //       var data = this.data();
-      
+
 //       for (var i = 0; i < data.length; i++) {
 
 //          e.data.kRows.push({
@@ -403,7 +403,7 @@ ToolBar.prototype.Inicializar_CeldasExcel = function (e) {
 //    });
 // }
 ToolBar.prototype.get_Celdas = function () {
-   
+
    var celdas = []
    var columnas = tarjeta_resultados.grid.get_Columnas()
 
@@ -414,7 +414,7 @@ ToolBar.prototype.get_Celdas = function () {
    return celdas
 }
 ToolBar.prototype.get_Registros_Excel = function (data) {
-   
+
    var registros = []
    var columnas = tarjeta_resultados.grid.get_Columnas()
 
@@ -425,7 +425,7 @@ ToolBar.prototype.get_Registros_Excel = function (data) {
    return registros
 }
 ToolBar.prototype.get_Columnas_Excel_Ancho = function () {
-   
+
    var columnas_excel = []
 
    for (var i=0; i < tarjeta_resultados.grid.get_Columnas().length; i++) {
@@ -482,7 +482,7 @@ Grid.prototype.get_DataSourceConfig = function (e) {
       error: function (e) {
          alertify.error("Status: " + e.status + "; Error message: " + e.errorThrown)
       },
-   }    
+   }
 }
 Grid.prototype.get_FuenteDatosExcel = function (e) {
 
@@ -511,7 +511,7 @@ Grid.prototype.get_FuenteDatosExcel = function (e) {
       error: function (e) {
          alertify.error("Status: " + e.status + "; Error message: " + e.errorThrown)
       },
-   }    
+   }
 }
 Grid.prototype.get_Campos = function () {
 
@@ -587,6 +587,10 @@ Grid.prototype.get_Configuracion = function () {
       noRecords: {
          template: "<div class='nova-grid-empy'> No se encontraron registros </div>"
       },
+    //   noRecords: true,
+    //   messages: {
+    //       noRecords: "There is no data on current page"
+    //   },
       dataBound: this.set_Icons,
    }
 }
@@ -647,10 +651,10 @@ Grid.prototype.get_Columnas = function () {
    ]
 }
 Grid.prototype.buscar = function() {
-   
+
    this.kfuente_datos.page(1)
 }
 Grid.prototype.leer_Datos = function() {
-   
+
    this.kfuente_datos_excel.read()
 }
