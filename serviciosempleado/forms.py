@@ -2,14 +2,11 @@
 
 # Librerias/Clases Django
 
-from django.forms import ModelForm
 from django.forms import TextInput
-from django.forms import Textarea
 from django.forms import Textarea
 from django.forms import Form
 from django.forms import CharField
 from django.forms import ChoiceField
-from django.forms import HiddenInput
 from django.forms import FileField
 from django.forms import FileInput
 
@@ -17,6 +14,7 @@ from home.forms_fields import SelectCustom
 
 from jde.business import CentroCostoBusiness
 from ebs.business import EmpleadoBusiness
+
 
 class NuevaSolicitudForm(Form):
 
@@ -27,7 +25,6 @@ class NuevaSolicitudForm(Form):
     archivo = FileField(
         label="Archivo",
         widget=FileInput(attrs={'class': 'dropzone dz-clickable dz-started'}))
-
 
 
 class MiViaticoFilterForm(Form):
@@ -65,6 +62,9 @@ class MiViaticoFilterForm(Form):
 
     def __init__(self, *args, **kwargs):
         super(MiViaticoFilterForm, self).__init__(*args, **kwargs)
-        self.fields['empleado'].choices = EmpleadoBusiness.get_Todos_ForSelectCustom()
-        self.fields['unidad_negocio'].choices = CentroCostoBusiness.get_Todos_ForSelectCustom()
-        self.fields['autorizador'].choices = EmpleadoBusiness.get_Todos_ForSelectCustom()
+        self.fields[
+            'empleado'].choices = EmpleadoBusiness.get_Todos_ForSelectCustom()
+        self.fields[
+            'unidad_negocio'].choices = CentroCostoBusiness.get_Todos_ForSelectCustom()
+        self.fields[
+            'autorizador'].choices = EmpleadoBusiness.get_Todos_ForSelectCustom()

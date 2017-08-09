@@ -92,4 +92,3 @@ class VIEW_ORGANIGRAMA_API(viewsets.ModelViewSet):
     serializer_class = VIEW_ORGANIGRAMA_Serializer
     filter_backends = (DjangoFilterBackend,)
     filter_class = VIEW_ORGANIGRAMA_Filter
-

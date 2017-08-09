@@ -328,7 +328,7 @@ class ArchivoCapacitacionFilter(filters.FilterSet):
             return empleados.filter(id__in=incluir)
 
     def filter_fecha_inicio(self, queryset, name, value):
-        print value
+
         if not value:
             return queryset
         else:
@@ -337,7 +337,7 @@ class ArchivoCapacitacionFilter(filters.FilterSet):
             return consulta
 
     def filter_fecha_fin(self, queryset, name, value):
-        print value
+
         if not value:
             return queryset
         else:

@@ -70,7 +70,6 @@ NovaSitio.prototype.get_ConfWysi = function () {
         }
     }
 }
-<<<<<<< HEAD
 NovaSitio.prototype.get_ConfDateRangePicker = function () {
 
     return {
@@ -109,10 +108,9 @@ NovaSitio.prototype.get_ConfDateRangePicker = function () {
         },
         // startDate: '2017-01-01'
         startDate: '01-01-2017'
-    }    
-=======
+    }
+}    
 NovaSitio.prototype.validar_EspaciosSaltos = function (_string) 
 { 
     return _string.replace(/^\s+|\s+$/g,''); 
->>>>>>> origin/master
 }

@@ -3,9 +3,6 @@
 # Django's Libraries
 from django.http import HttpResponse
 from django.shortcuts import render
-from django.shortcuts import get_object_or_404
-from django.shortcuts import redirect
-from django.core.urlresolvers import reverse
 from django.views.generic.base import View
 from django.core.files.storage import default_storage
 
@@ -15,15 +12,8 @@ from ebs.models import VIEW_ORGANIGRAMA
 
 from .serializers import VIEW_ORGANIGRAMA_ORG_SERIALIZADO
 
-<<<<<<< HEAD
-# Formularios:
-from .forms import NuevaSolicitudForm
-from .forms import ViaticoCabeceraForm
-# from .forms import ViaticoLineaForm
-from .forms import ViaticoFilterForm
-=======
 from .forms import MiViaticoFilterForm
->>>>>>> origin/master
+from .forms import NuevaSolicitudForm
 
 
 class EmpleadoPerfil(View):
@@ -102,13 +92,8 @@ class EmpleadoOrganigramaAPI(View):
         )
 
 
-<<<<<<< HEAD
-
-class ViaticoLista(View):
-
-=======
 class MiViaticoLista(View):
->>>>>>> origin/master
+
     def __init__(self):
         self.template_name = 'mi_viatico/mi_viatico_lista.html'
 
@@ -121,39 +106,3 @@ class MiViaticoLista(View):
         }
 
         return render(request, self.template_name, contexto)
-<<<<<<< HEAD
-
-    def post(self, request, pk):
-
-        formulario = ViaticoCabeceraForm(
-            request.POST, instance=self.obtener_Viatico(pk))
-
-        if formulario.is_valid():
-            viatico = formulario.save(commit=False)
-            viatico.updated_by = request.user.profile
-            viatico.save()
-
-            return redirect(reverse('serviciosempleado:viatico_lista'))
-
-        contexto = {
-            'form': formulario,
-        }
-        return render(request, self.template_name, contexto)
-
-
-class ViaticoLineas(View):
-
-    def __init__(self):
-        self.template_name = 'viatico/viatico_lineas.html'
-
-    def get(self, request, pk):
-
-        # formulario = ViaticoFilterForm()
-
-        # contexto = {
-        #     'form': formulario
-        # }
-
-        return render(request, self.template_name, {})
-=======
->>>>>>> origin/master

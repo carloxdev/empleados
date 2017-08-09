@@ -127,16 +127,6 @@ class EmpleadoFilterForm(Form):
             attrs={'class': 'select2 nova-select2'}))
 
     asig_organizacion_clave = ChoiceField(
-<<<<<<< HEAD
-        widget=Select(attrs={'class': 'select2 nova-select2'}))
-    grup_compania_jde = ChoiceField(widget=Select(
-        attrs={'class': 'select2 nova-select2'}))
-    # zona = CharField(widget=TextInput(attrs={'class': 'form-control
-    # input-xs'}))
-    grup_fase_jde = ChoiceField(widget=Select(
-        attrs={'class': 'select2 nova-select2'}))
-    grup_nomina_jde = ChoiceField(widget=RadioSelect, choices=NOMINA)
-=======
         label='Organización',
         widget=Select(
             attrs={'class': 'select2 nova-select2'}))
@@ -166,7 +156,6 @@ class EmpleadoFilterForm(Form):
     grup_nomina_jde = ChoiceField(
         label='Nómina',
         widget=RadioSelect, choices=NOMINA)
->>>>>>> origin/master
 
     def __init__(self, *args, **kwargs):
         super(EmpleadoFilterForm, self).__init__(
@@ -560,8 +549,9 @@ class DocCapacitacionFilterForm(Form):
         )
     )
     fecha = CharField(
-        label="Fecha"
+        label="Fecha curso"
     )
+
     proveedor = ChoiceField(
         label="Proveedor",
         widget=Select(attrs={'class': 'select2 nova-select2'}))
