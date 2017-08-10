@@ -118,7 +118,7 @@ TarjetaFiltros.prototype.get_Values = function (_page) {
     
         return {
                 page: _page,
-                relacion_personal__numero_empleado_organizacion: this.$asig_organizacion_clave.val(),
+                relacion_personal__tipo_documento_organizacion: this.$asig_organizacion_clave.val(),
                 relacion_personal__tipo_documento: this.$tipo_documento.val(),
                 relacion_personal__agrupador: this.$agrupador.val(),
                 relacion_personal__numero_empleado: this.$numero_empleado.val(),
@@ -129,7 +129,7 @@ TarjetaFiltros.prototype.get_Values = function (_page) {
 TarjetaFiltros.prototype.get_Values_Excel = function () {
     
         return {
-                relacion_personal__numero_empleado_organizacion: this.$asig_organizacion_clave.val(),
+                relacion_personal__tipo_documento_organizacion: this.$asig_organizacion_clave.val(),
                 relacion_personal__tipo_documento: this.$tipo_documento.val(),
                 relacion_personal__agrupador: this.$agrupador.val(),
                 relacion_personal__numero_empleado: this.$numero_empleado.val(),

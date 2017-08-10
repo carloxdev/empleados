@@ -165,8 +165,8 @@ class ArchivoPersonalFilter(filters.FilterSet):
         name="relacion_personal__agrupador",
         method="filter_agrupador")
 
-    relacion_personal__numero_empleado_organizacion = CharFilter(
-        name="relacion_personal__numero_empleado_organizacion",
+    relacion_personal__tipo_documento_organizacion = CharFilter(
+        name="relacion_personal__tipo_documento_organizacion",
         method="filter_organizacion")
 
     relacion_personal__vigencia_inicio = CharFilter(
@@ -185,7 +185,7 @@ class ArchivoPersonalFilter(filters.FilterSet):
             'relacion_personal__numero_empleado',
             'relacion_personal__tipo_documento',
             'relacion_personal__agrupador',
-            'relacion_personal__numero_empleado_organizacion',
+            'relacion_personal__tipo_documento_organizacion',
             'relacion_personal__vigencia_inicio',
             'relacion_personal__vigencia_fin',
         ]
@@ -219,11 +219,11 @@ class ArchivoPersonalFilter(filters.FilterSet):
             empleados = queryset.all()
             incluir = []
 
-            for dato in empleados:
-                if organizacion.filter(pers_empleado_numero=dato.content_object.numero_empleado):
-                    incluir.append(dato.id)
+            for dato in organizacion:
+                if empleados.filter(relacion_personal__numero_empleado=dato.pers_empleado_numero):
+                    incluir.append(dato.pers_empleado_numero)
 
-            return empleados.filter(id__in=incluir)
+            return empleados.filter(relacion_personal__numero_empleado__in=incluir)
 
     def filter_vigencia_inicio(self, queryset, name, value):
 
@@ -262,17 +262,17 @@ class ArchivoCapacitacionFilter(filters.FilterSet):
         name="relacion_capacitacion__area",
         method="filter_area")
 
-    relacion_capacitacion__numero_empleado_organizacion = CharFilter(
-        name="relacion_capacitacion__numero_empleado_organizacion",
+    relacion_capacitacion__proveedor = CharFilter(
+        name="relacion_capacitacion__proveedor",
+        method="filter_proveedor")
+
+    relacion_capacitacion__curso_organizacion = CharFilter(
+        name="relacion_capacitacion__curso_organizacion",
         method="filter_organizacion")
 
     relacion_capacitacion__curso_estatus = CharFilter(
         name="relacion_capacitacion__curso_estatus",
         method="filter_estatus")
-
-    proveedor = CharFilter(
-        name="proveedor",
-        method="filter_proveedor")
 
     class Meta:
         model = Archivo
@@ -281,10 +281,8 @@ class ArchivoCapacitacionFilter(filters.FilterSet):
             'relacion_capacitacion__curso',
             'relacion_capacitacion__agrupador',
             'relacion_capacitacion__area',
-            'relacion_capacitacion__numero_empleado_organizacion',
-            'relacion_capacitacion__fecha_inicio',
-            'relacion_capacitacion__fecha_fin',
             'relacion_capacitacion__proveedor',
+            'relacion_capacitacion__curso_organizacion',
             'relacion_capacitacion__curso_estatus'
         ]
 
@@ -294,8 +292,7 @@ class ArchivoCapacitacionFilter(filters.FilterSet):
             return ' '
         else:
 
-            curso = queryset.filter(
-                relacion_capacitacion__curso=value)
+            curso = queryset.filter(relacion_capacitacion__curso=value)
             return curso
 
     def filter_agrupador(self, queryset, name, value):
@@ -303,8 +300,7 @@ class ArchivoCapacitacionFilter(filters.FilterSet):
         if not value:
             return ' '
         else:
-            documento = queryset.filter(
-                relacion_capacitacion__agrupador=value)
+            documento = queryset.filter(relacion_capacitacion__agrupador=value)
             return documento
 
     def filter_area(self, queryset, name, value):
@@ -312,8 +308,7 @@ class ArchivoCapacitacionFilter(filters.FilterSet):
         if not value:
             return ' '
         else:
-            documento = queryset.filter(
-                relacion_capacitacion__area=value)
+            documento = queryset.filter(relacion_capacitacion__area=value)
             return documento
 
     def filter_organizacion(self, queryset, name, value):
@@ -326,11 +321,11 @@ class ArchivoCapacitacionFilter(filters.FilterSet):
             empleados = queryset.all()
             incluir = []
 
-            for dato in empleados:
-                if organizacion.filter(pers_empleado_numero=dato.content_object.numero_empleado):
-                    incluir.append(dato.id)
+            for dato in organizacion:
+                if empleados.filter(relacion_capacitacion__numero_empleado=dato.pers_empleado_numero):
+                    incluir.append(dato.pers_empleado_numero)
 
-            return empleados.filter(id__in=incluir)
+            return empleados.filter(relacion_capacitacion__numero_empleado__in=incluir)
 
     def filter_estatus(self, queryset, name, value):
 
@@ -362,7 +357,7 @@ class ArchivoCapacitacionFilter(filters.FilterSet):
             return ' '
         else:
             proveedor = queryset.filter(
-                proveedor=value)
+                relacion_capacitacion__proveedor=value)
             return proveedor
 
 

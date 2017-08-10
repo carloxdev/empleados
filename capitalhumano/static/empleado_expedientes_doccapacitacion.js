@@ -121,7 +121,7 @@ TarjetaFiltros.prototype.get_Values = function (_page) {
                 page: _page,
                 relacion_capacitacion__numero_empleado: this.$numero_empleado.val(),
                 relacion_capacitacion__curso: this.$curso.val(),
-                relacion_capacitacion__numero_empleado_organizacion: this.$asig_organizacion_clave.val(),
+                relacion_capacitacion__curso_organizacion: this.$asig_organizacion_clave.val(),
                 relacion_capacitacion__agrupador: this.$agrupador.val(),
                 relacion_capacitacion__area: this.$area.val(),
                 relacion_capacitacion__proveedor: this.$proveedor.val(),
@@ -133,7 +133,7 @@ TarjetaFiltros.prototype.get_Values_Excel = function () {
         return {
                 relacion_capacitacion__numero_empleado: this.$numero_empleado.val(),
                 relacion_capacitacion__curso: this.$curso.val(),
-                relacion_capacitacion__numero_empleado_organizacion: this.$asig_organizacion_clave.val(),
+                relacion_capacitacion__curso_organizacion: this.$asig_organizacion_clave.val(),
                 relacion_capacitacion__agrupador: this.$agrupador.val(),
                 relacion_capacitacion__area: this.$area.val(),
                 relacion_capacitacion__proveedor: this.$proveedor.val(),
