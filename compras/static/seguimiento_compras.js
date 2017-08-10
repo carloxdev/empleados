@@ -41,14 +41,6 @@ $(document).ready(function () {
       }
       // Tecla ESC
    })
-   window.paceOptions = {
-  // Disable the 'elements' source
-  elements: false,
-
-  // Only show the progress on regular and ajax-y page navigation,
-  // not every request
-  restartOnRequestAfter: false
-}
 })
 
 /*-----------------------------------------------*\
@@ -80,7 +72,12 @@ function TarjetaFiltros() {
    this.$fecha_ord_desde_hasta = $("#fecha_ord_desde_hasta")
    this.$boton_buscar = $('#boton_buscar')
    this.$boton_limpiar = $('#boton_limpiar')
-   this.$campos_iguales = true
+   this.$campos_usados = []
+   this.$colapsible_compania = $('#id_collapse_compania')
+   this.$colapsible_requisicion = $('#id_collapse_requisicion')
+   this.$colapsible_cotizacion = $('#id_collapse_cotizacion')
+   this.$colapsible_orden = $('#id_collapse_orden')
+   this.$colapsible_almacen = $('#id_collapse_almacen')
    this.init_Components()
    this.init_Events()
 }
@@ -146,7 +143,9 @@ TarjetaFiltros.prototype.init_Events = function () {
 
    this.$boton_buscar.on('click', this, this.click_BotonBuscar)
    this.$boton_limpiar.on('click', this, this.click_BotonLimpiar)
+   this.$id.on("hide.bs.modal", this, this.hide_Modal)
    this.$id.on("hidden.bs.modal", this, this.hidden_Modal)
+   this.$id.on("shown.bs.modal", this, this.shown_Modal)
    this.$id_requisicion.on("keydown", this, this.keydown_ValidarNegativos)
    this.$id_cotizacion.on("keydown", this, this.keydown_ValidarNegativos)
    this.$id_oc.on("keydown", this, this.keydown_ValidarNegativos)
@@ -156,26 +155,6 @@ TarjetaFiltros.prototype.init_Events = function () {
    this.$fecha_ord_desde_hasta.on("apply.daterangepicker", this, this.aplicar_Rango)
    this.$fecha_ord_desde_hasta.siblings('[data-event=\'calendario\']').on("click", this, this.click_MostrarPicker)
    this.$fecha_ord_desde_hasta.siblings('[data-event=\'limpiar\']').on("click", this, this.click_LimpiarCampo)
-   this.$id_compania.on("change", this, this.cambio_Estado)
-   this.$id_sucursal.on("change", this, this.cambio_Estado)
-   this.$id_comprador.on("change", this, this.cambio_Estado)
-   this.$id_requisicion.on("change", this, this.cambio_Estado)
-   this.$id_requisicion_tipo.on("change", this, this.cambio_Estado)
-   this.$id_requisicion_originador.on("change", this, this.cambio_Estado)
-   this.$id_requisicion_canceladas.on("change", this, this.cambio_Estado)
-   this.$id_cotizacion.on("change", this, this.cambio_Estado)
-   this.$id_cotizacion_tipo.on("change", this, this.cambio_Estado)
-   this.$id_cotizacion_originador.on("change", this, this.cambio_Estado)
-   this.$id_cotizacion_canceladas.on("change", this, this.cambio_Estado)
-   this.$id_oc.on("change", this, this.cambio_Estado)
-   this.$id_oc_tipo.on("change", this, this.cambio_Estado)
-   this.$id_oc_originador.on("change", this, this.cambio_Estado)
-   this.$id_oc_canceladas.on("change", this, this.cambio_Estado)
-   this.$id_proveedor.on("change", this, this.cambio_Estado)
-   this.$id_item.on("change", this, this.cambio_Estado)
-   this.$id_recepcion.on("change", this, this.cambio_Estado)
-   this.$fecha_req_desde_hasta.on("change", this, this.cambio_Estado)
-   this.$fecha_ord_desde_hasta.on("change", this, this.cambio_Estado)
 }
 TarjetaFiltros.prototype.keydown_ValidarNegativos = function (e) {
 
@@ -184,30 +163,10 @@ TarjetaFiltros.prototype.keydown_ValidarNegativos = function (e) {
       return false
    }
 }
-TarjetaFiltros.prototype.cambio_Estado = function (e) {
+TarjetaFiltros.prototype.aplicar_Rango = function (e, _picker) {
 
-   e.data.$campos_iguales = false
+   $(this).val(_picker.startDate.format('YYYY-MM-DD') + ' al ' + _picker.endDate.format('YYYY-MM-DD'))
 }
-TarjetaFiltros.prototype.aplicar_Rango = function (e, picker) {
-
-   // if (this.validar_RangoMeses) {
-
-      $(this).val(picker.startDate.format('YYYY-MM-DD') + ' al ' + picker.endDate.format('YYYY-MM-DD'))
-   // }
-   // else {
-
-   //    alertify.warning("Selecciona un rango no mayor a 6 meses")
-   // }
-}
-// TarjetaFiltros.prototype.validar_RangoMeses = function (e) {
-
-//    var bandera = true
-
-//    if 
-
-//    return bandera
-
-// }
 TarjetaFiltros.prototype.click_MostrarPicker = function (e) {
 
    $(this).siblings('input').data('daterangepicker').show()
@@ -249,7 +208,6 @@ TarjetaFiltros.prototype.get_Values = function (_page, _pageSize) {
 TarjetaFiltros.prototype.click_BotonBuscar = function (e) {
    
    e.data.apply_Filters()
-   e.data.$campos_iguales = true
    e.data.$id.modal('hide')
 }
 TarjetaFiltros.prototype.click_BotonLimpiar = function (e) {
@@ -276,87 +234,241 @@ TarjetaFiltros.prototype.click_BotonLimpiar = function (e) {
    e.data.$fecha_req_desde_hasta.val("")
    e.data.$fecha_ord_desde_hasta.val("")
 }
+TarjetaFiltros.prototype.hide_Modal = function (e) {
+
+   e.data.$fecha_ord_desde_hasta.data('daterangepicker').hide()
+   e.data.$fecha_req_desde_hasta.data('daterangepicker').hide()
+
+   if (e.data.$campos_usados.length) {
+      
+      e.data.limpiar_CampoNoAplicado()
+   }
+}
 TarjetaFiltros.prototype.hidden_Modal = function (e) {
 
-   // tarjeta_resultados.grid.buscar()
+   if (!e.data.$colapsible_compania.hasClass('in')) {
+      
+      e.data.$colapsible_compania.collapse('show')
+      e.data.$colapsible_requisicion.collapse('hide')
+      e.data.$colapsible_cotizacion.collapse('hide')
+      e.data.$colapsible_orden.collapse('hide')
+      e.data.$colapsible_almacen.collapse('hide')
+   }
+}
+TarjetaFiltros.prototype.shown_Modal = function (e) {
+   
+   e.data.$id_compania.focus()
+}
+TarjetaFiltros.prototype.limpiar_CampoNoAplicado = function () {
+   
+   var campos = [ 'id_compania', 'id_sucursal', 'id_comprador', 'id_requisicion', 'id_requisicion_tipo',
+                  'id_requisicion_originador', 'id_requisicion_canceladas', 'id_cotizacion', 'id_cotizacion_tipo',
+                  'id_cotizacion_originador', 'id_cotizacion_canceladas', 'id_oc', 'id_oc_tipo', 'id_oc_originador',
+                  'id_oc_canceladas', 'id_proveedor', 'id_item', 'id_recepcion', 'fecha_req_desde_hasta', 'fecha_ord_desde_hasta',
+   ]
+
+   var resultados
+
+   tarjeta_filtros.$campos_usados.forEach(function(_campo) {
+
+      resultados = campos.filter(
+
+         function(_elem) {
+            
+            return _elem != _campo
+         }
+      )
+      campos = resultados
+   })
+
+   resultados.forEach(function(_campo) {
+
+      if (_campo == "id_compania") {
+
+         tarjeta_filtros.$id_compania.data('select2').val(0)
+      }
+      if (_campo == "id_sucursal") {
+
+         tarjeta_filtros.$id_sucursal.data('select2').val(0)
+      }
+      if (_campo == "id_comprador") {
+
+         tarjeta_filtros.$id_comprador.val("")
+      }
+      if (_campo == "id_requisicion") {
+
+         tarjeta_filtros.$id_requisicion.val("")
+      }
+      if (_campo == "id_requisicion_tipo") {
+
+         tarjeta_filtros.$id_requisicion_tipo.data('select2').val(0)
+      }
+      if (_campo == "id_requisicion_originador") {
+
+         tarjeta_filtros.$id_requisicion_originador.data('select2').val(0)
+      }
+      if (_campo == "id_requisicion_canceladas") {
+
+         tarjeta_filtros.$id_requisicion_canceladas.prop('checked', true)
+      }
+      if (_campo == "id_cotizacion") {
+
+         tarjeta_filtros.$id_cotizacion.val("")
+      }
+      if (_campo == "id_cotizacion_tipo") {
+
+         tarjeta_filtros.$id_cotizacion_tipo.data('select2').val(0)
+      }
+      if (_campo == "id_cotizacion_originador") {
+
+         tarjeta_filtros.$id_cotizacion_originador.data('select2').val(0)
+      }
+      if (_campo == "id_cotizacion_canceladas") {
+
+         tarjeta_filtros.$id_cotizacion_canceladas.prop('checked', true)
+      }
+      if (_campo == "id_oc") {
+
+         tarjeta_filtros.$id_oc.val("")
+      }
+      if (_campo == "id_oc_tipo") {
+
+         tarjeta_filtros.$id_oc_tipo.data('select2').val(0)
+      }
+      if (_campo == "id_oc_originador") {
+
+         tarjeta_filtros.$id_oc_originador.data('select2').val(0)
+      }
+      if (_campo == "id_oc_canceladas") {
+
+         tarjeta_filtros.$id_oc_canceladas.prop('checked', true)
+      }
+      if (_campo == "id_proveedor") {
+
+         tarjeta_filtros.$id_proveedor.val("")
+      }
+      if (_campo == "id_item") {
+
+         tarjeta_filtros.$id_item.val("")
+      }
+      if (_campo == "id_recepcion") {
+
+         tarjeta_filtros.$id_recepcion.data('select2').val(0)
+      }
+      if (_campo == "fecha_req_desde_hasta") {
+
+         tarjeta_filtros.$fecha_req_desde_hasta.val("")
+      }
+      if (_campo == "fecha_ord_desde_hasta") {
+
+         tarjeta_filtros.$fecha_ord_desde_hasta.val("")
+      }
+   })
 }
 TarjetaFiltros.prototype.get_NoFiltrosAplicados = function () {
 
    cantidad = 0
+   filtros = []
 
    if (this.$id_compania.val() != "") {
       cantidad += 1
+      filtros.push('id_compania')
    }
    if (this.$id_sucursal.val() != "") {
       cantidad += 1
+      filtros.push('id_sucursal')
    }
    if (this.$id_comprador.val() != "") {
       cantidad += 1
+      filtros.push('id_comprador')
    }
    if (this.$id_requisicion.val() != "") {
       cantidad += 1
+      filtros.push('id_requisicion')
    }
    if (this.$id_requisicion_tipo.val() != "") {
       cantidad += 1
+      filtros.push('id_requisicion_tipo')
    }
    if (this.$id_requisicion_originador.val() != "") {
       cantidad += 1
+      filtros.push('id_requisicion_originador')
    }
    if ($("input[name='requisicion_canceladas']:checked").val() != "") {
       cantidad += 1
+      filtros.push('id_requisicion_canceladas')
    }
    if (this.$id_cotizacion.val() != "") {
       cantidad += 1
+      filtros.push('id_cotizacion')
    }
    if (this.$id_cotizacion_tipo.val() != "") {
       cantidad += 1
+      filtros.push('id_cotizacion_tipo')
    }
    if (this.$id_cotizacion_originador.val() != "") {
       cantidad += 1
+      filtros.push('id_cotizacion_originador')
    }
    if ($("input[name='cotizacion_canceladas']:checked").val() != "") {
       cantidad += 1
+      filtros.push('id_cotizacion_canceladas')
    }
    if (this.$id_oc.val() != "") {
       cantidad += 1
+      filtros.push('id_oc')
    }
    if (this.$id_oc_tipo.val() != "") {
       cantidad += 1
+      filtros.push('id_oc_tipo')
    }
    if (this.$id_oc_originador.val() != "") {
       cantidad += 1
+      filtros.push('id_oc_originador')
    }
    if ($("input[name='oc_canceladas']:checked").val() != "") {
       cantidad += 1
+      filtros.push('id_oc_canceladas')
    }
    if (this.$id_proveedor.val() != "") {
       cantidad += 1
+      filtros.push('id_proveedor')
    }
    if (this.$id_item.val() != "") {
       cantidad += 1
+      filtros.push('id_item')
    }
    if (this.$id_recepcion.val() != "") {
       cantidad += 1
+      filtros.push('id_recepcion')
    }
    if (this.$fecha_req_desde_hasta.val() != "") {
       cantidad += 1
+      filtros.push('fecha_req_desde_hasta')
    }
    if (this.$fecha_ord_desde_hasta.val() != "") {
       cantidad += 1
+      filtros.push('fecha_ord_desde_hasta')
    }
 
-   return cantidad
+   return [cantidad, filtros]
 }
 TarjetaFiltros.prototype.apply_Filters = function () {
 
    tarjeta_resultados.grid.buscar()
+   var [no_filtros, filtros] = [ 0, []]
 
-   no_filtros = this.get_NoFiltrosAplicados()
+   [no_filtros, filtros] = this.get_NoFiltrosAplicados()
+
+   this.$campos_usados = filtros
 
    if (no_filtros != 0) {
-        tarjeta_resultados.toolbar.change_BotonFiltros(no_filtros)
-   }   else {
-        tarjeta_resultados.toolbar.restart_BotonFiltros()
+
+      tarjeta_resultados.toolbar.change_BotonFiltros(no_filtros)
+   }
+   else {
+
+      tarjeta_resultados.toolbar.restart_BotonFiltros()
    }
     
    this.$id.modal('hide')
@@ -400,70 +512,33 @@ ToolBar.prototype.click_BotonExportar = function (e) {
    
    if (tarjeta_filtros.get_NoFiltrosAplicados() != 0) {
 
-      if (tarjeta_filtros.$campos_iguales) {
-
-         if ((tarjeta_resultados.grid.$id.data("kendoGrid").dataSource.total() <= 65535) && (tarjeta_resultados.grid.$id.data("kendoGrid").dataSource.total() >= 1)) {            
-            
-            
-            tarjeta_filtros.$formulario.submit()
-            // $.ajax({
-            //    url: 'http://127.0.0.1:8000/seguimiento_compras/',
-            //    method: "POST",
-            //    headers: { "X-CSRFToken": appnova.galletita },
-            //    success: function (response) {
-
-            //       alertify.success('listo')
-            //    },
-            //    error: function(response){
-            //       alertify.error("Ocurrio error al exportar")
-            //    }                    
-            // })
-            
-
-                  // $.ajax({
-                  //      type:"POST",
-                  //      headers: { "X-CSRFToken": appnova.galletita },
-                  //      data: $("#id_formulario_filtro").serialize(),
-                  //      url:"http://127.0.0.1:8000/seguimiento_compras/",
-                  //      success: function(){
-                  //           alertify.success('listo')
-                  //      },
-                  //      error: function (_response) {
-                  //          alertify.error('nads')
-                  //      }
-                  // });
-                  // return false; //<---- move it here
-            
-         }
-         else if(tarjeta_resultados.grid.$id.data("kendoGrid").dataSource.total() == 0) {
-            
-            alertify.warning("No hay registros a exportar.")
-         }
-         else {
-            
-            alertify.warning("Demasiados datos, ingresa un rango de fecha de requisicion menor.")
-         }
+      if ((tarjeta_resultados.grid.$id.data("kendoGrid").dataSource.total() <= 65535) && (tarjeta_resultados.grid.$id.data("kendoGrid").dataSource.total() >= 1)) {            
+         
+         tarjeta_filtros.$formulario.submit()
+      }
+      else if(tarjeta_resultados.grid.$id.data("kendoGrid").dataSource.total() == 0) {
+         
+         alertify.warning("No hay registros a exportar.")
       }
       else {
-
-         alertify.warning("Filtros sin aplicar, los datos no se reflejarán en el Excel")
+         
+         alertify.warning("Demasiados datos, ingresa un rango de fecha de requisicion menor.")
       }
    }
    else {
 
       alertify.warning("Debe seleccionar filtros")
-   }
-      
+   }  
 }
 ToolBar.prototype.get_Formato_Columnas = function () {
    
    var columnas = tarjeta_resultados.grid.get_Columnas()
    var columnas_formateadas = []
 
-   $.each(columnas, function (index) {
-      $.each(this, function (name) {
-         if (name === 'field'){
-            columnas_formateadas.push(columnas[index])
+   $.each(columnas, function (_index) {
+      $.each(this, function (_name) {
+         if (_name === 'field'){
+            columnas_formateadas.push(columnas[_index])
          }
       })
    })
@@ -522,9 +597,9 @@ Grid.prototype.get_DataSourceConfig = function (e) {
             type: "GET",
             dataType: "json",
          },
-         parameterMap: function (data, action) {
-            if (action === "read"){
-               return tarjeta_filtros.get_Values(data.page, data.pageSize)
+         parameterMap: function (_data, _action) {
+            if (_action === "read"){
+               return tarjeta_filtros.get_Values(_data.page, _data.pageSize)
             }
          }
       },
@@ -664,9 +739,9 @@ Grid.prototype.click_BotonAcciones = function (e) {
 }
 Grid.prototype.set_Icons = function (e) {
 
-   e.sender.tbody.find(".k-button.btn.nova-btn.btn-default").each(function(idx, element){
-      $(element).removeClass('k-button k-button-icontext').find("span").remove()
-      $(element).append('<i class="icon icon mdi mdi-settings nova-black"></i>')
+   e.sender.tbody.find(".k-button.btn.nova-btn.btn-default").each(function(idx, _element){
+      $(_element).removeClass('k-button k-button-icontext').find("span").remove()
+      $(_element).append('<i class="icon icon mdi mdi-settings nova-black"></i>')
    })
 }
 Grid.prototype.buscar = function() {
@@ -794,10 +869,10 @@ PopupAcciones.prototype.filtrar_Autorizaciones = function (_fila) {
          oc_tipo:_fila.ord_tipo,
          oc_compania:_fila.ord_compania
       },
-      success: function(data) {
+      success: function(_data) {
          tarjeta_detalles.construir_Tabla(
             '#tabla_detalles',
-            data.results,
+            _data.results,
             [   'ruta',
                'autorizador_desc',
                'autorizacion_fecha',
@@ -811,7 +886,7 @@ PopupAcciones.prototype.filtrar_Autorizaciones = function (_fila) {
          )
          tarjeta_acciones.hide()
       },
-      failure: function(data) { 
+      failure: function(_data) { 
          alert.error('Error al recuperar datos.')
       }
    })
@@ -830,10 +905,10 @@ PopupAcciones.prototype.filtrar_Recepciones = function (_fila) {
          oc_linea:_fila.ord_linea,
          tran_tipo:'1',
       },
-      success: function(data) {
+      success: function(_data) {
          tarjeta_detalles.construir_Tabla(
             '#tabla_detalles',
-            data.results,
+            _data.results,
             [   'doc_tipo', 
                'doc',
                'oc_tipo',
@@ -864,7 +939,7 @@ PopupAcciones.prototype.filtrar_Recepciones = function (_fila) {
          )
          tarjeta_acciones.hide()
       },
-      failure: function(data) { 
+      failure: function(_data) { 
          alertify.error('Error al recuperar datos.')
       }
    })
@@ -882,10 +957,10 @@ PopupAcciones.prototype.filtrar_Cotejo = function (_fila) {
          oc_linea:_fila.ord_linea,
          tran_tipo:'2',
       },
-      success: function(data) {
+      success: function(_data) {
          tarjeta_detalles.construir_Tabla(
             '#tabla_detalles',
-            data.results,
+            _data.results,
             [   'tran_compania',
                'doc_tipo',
                'doc',
@@ -920,7 +995,7 @@ PopupAcciones.prototype.filtrar_Cotejo = function (_fila) {
          )
          tarjeta_acciones.hide()
       },
-      failure: function(data) { 
+      failure: function(_data) { 
          alert.error('Error al recuperar datos.')
       }
    })
