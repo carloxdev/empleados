@@ -44,8 +44,8 @@ function TarjetaFiltros(){
     this.$agrupador = $('#id_agrupador')
     this.$area = $('#id_area')
     this.$numero_empleado = $('#id_numero_empleado')
-    this.$fecha = $('#id_fecha')
     this.$proveedor = $('#id_proveedor')
+    this.$estatus = $('#id_estatus')
 
     this.$boton_buscar = $('#boton_buscar')
     this.$boton_limpiar = $('#boton_limpiar')
@@ -59,7 +59,7 @@ TarjetaFiltros.prototype.init_Components = function () {
     this.$curso.select2(appnova.get_ConfigSelect2())
     this.$area.select2(appnova.get_ConfigSelect2())
     this.$agrupador.select2(appnova.get_ConfigSelect2())
-    this.$fecha.daterangepicker(this.get_ConfDateRangePicker())
+    this.$estatus.select2(appnova.get_ConfigSelect2())
     this.$proveedor.select2(appnova.get_ConfigSelect2())
 }
 TarjetaFiltros.prototype.get_ConfDateRangePicker = function () {
@@ -105,11 +105,6 @@ TarjetaFiltros.prototype.init_Events = function () {
 
      this.$boton_buscar.on("click", this, this.click_BotonBuscar)
      this.$boton_limpiar.on("click", this, this.click_BotonLimpiar)
-     this.$fecha.on("apply.daterangepicker", this, this.aplicar_Rango)
-}
-TarjetaFiltros.prototype.aplicar_Rango = function (e, picker) {
-
-      e.data.$fecha.val(picker.startDate.format('YYYY-MM-DD') + ' al ' + picker.endDate.format('YYYY-MM-DD'))
 }
 TarjetaFiltros.prototype.click_BotonBuscar = function (e) {
 
@@ -129,9 +124,8 @@ TarjetaFiltros.prototype.get_Values = function (_page) {
                 relacion_capacitacion__numero_empleado_organizacion: this.$asig_organizacion_clave.val(),
                 relacion_capacitacion__agrupador: this.$agrupador.val(),
                 relacion_capacitacion__area: this.$area.val(),
-                relacion_capacitacion__fecha_inicio: this.$fecha.val().split(" al ")[0],
-                relacion_capacitacion__fecha_fin: this.$fecha.val().split(" al ")[1],
                 relacion_capacitacion__proveedor: this.$proveedor.val(),
+                relacion_capacitacion__curso_estatus: this.$estatus.val(),
      }
 }
 TarjetaFiltros.prototype.get_Values_Excel = function () {
@@ -142,9 +136,8 @@ TarjetaFiltros.prototype.get_Values_Excel = function () {
                 relacion_capacitacion__numero_empleado_organizacion: this.$asig_organizacion_clave.val(),
                 relacion_capacitacion__agrupador: this.$agrupador.val(),
                 relacion_capacitacion__area: this.$area.val(),
-                relacion_capacitacion__fecha_inicio: this.$fecha.val().split(" al ")[0],
-                relacion_capacitacion__fecha_fin: this.$fecha.val().split(" al ")[1],
                 relacion_capacitacion__proveedor: this.$proveedor.val(),
+                relacion_capacitacion__curso_estatus: this.$estatus.val(),
      }
 }
 TarjetaFiltros.prototype.validar_Campos = function (){
@@ -155,7 +148,7 @@ TarjetaFiltros.prototype.validar_Campos = function (){
                 (this.$agrupador.val() == '') &&
                 (this.$numero_empleado.val() == '') &&
                 (this.$area.val() == '')  &&
-                (this.$fecha.val() == '') &&
+                (this.$estatus.val() == '') &&
                 (this.$proveedor.val() == '')
             ){
             bandera = 'True'
@@ -171,7 +164,7 @@ TarjetaFiltros.prototype.click_BotonLimpiar = function (e) {
         e.data.$curso.data('select2').val(0)  
         e.data.$agrupador.data('select2').val(0)
         e.data.$area.data('select2').val(0)
-        e.data.$fecha.val("")
+        e.data.$estatus.data('select2').val(0)
         e.data.$proveedor.data('select2').val(0)
 }
 
@@ -423,18 +416,27 @@ Grid.prototype.aplicar_Estilos = function (e) {
     columns = e.sender.columns
     dataItems = e.sender.dataSource.view()
     fecha_hoy = new Date()
+    fecha_por_vencer = tarjeta_resultados.grid.sumar_Dias(new Date(), 90)
 
     for (var j = 0; j < dataItems.length; j++) {
         fecha_vencimiento = dataItems[j].get("fecha_vencimiento")
         row = e.sender.tbody.find("[data-uid='" + dataItems[j].uid + "']")
         row.removeClass("k-alt");
         if(fecha_vencimiento != null){
-  
-            if (fecha_vencimiento.getTime() <= fecha_hoy.getTime()) {
-                row.addClass("fecha-vencida")
+            vencimiento = fecha_vencimiento.getTime()
+            if (vencimiento <= fecha_hoy.getTime()) {
+                row.addClass("nova-fecha-vencida")
+            }
+            else if ((vencimiento > fecha_hoy.getTime()) && (vencimiento <= fecha_por_vencer)){
+                row.addClass("nova-fecha-por-vencer")
             }
         }
     }
+}
+Grid.prototype.sumar_Dias = function (fecha, dias){
+
+  fecha.setDate(fecha.getDate() + dias);
+  return fecha;
 }
 Grid.prototype.buscar = function() {
 

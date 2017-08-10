@@ -95,45 +95,58 @@ class EmpleadoLista(View):
             if datosPost in campos_formulario:
                 if request.POST[datosPost] != '':
                     if datosPost == 'pers_primer_nombre':
-                        argumentos['pers_primer_nombre__icontains'] = request.POST[datosPost]
+                        argumentos['pers_primer_nombre__icontains'] = request.POST[
+                            datosPost]
 
                     if datosPost == 'pers_segundo_nombre':
-                        argumentos['pers_segundo_nombre__icontains'] = request.POST[datosPost]
+                        argumentos['pers_segundo_nombre__icontains'] = request.POST[
+                            datosPost]
 
                     if datosPost == 'pers_apellido_paterno':
-                        argumentos['pers_apellido_paterno__icontains'] = request.POST[datosPost]
+                        argumentos['pers_apellido_paterno__icontains'] = request.POST[
+                            datosPost]
 
                     if datosPost == 'pers_apellido_materno':
-                        argumentos['pers_apellido_materno__icontains'] = request.POST[datosPost]
+                        argumentos['pers_apellido_materno__icontains'] = request.POST[
+                            datosPost]
 
                     if datosPost == 'pers_genero_clave':
-                        argumentos['pers_genero_clave__exact'] = request.POST[datosPost]
+                        argumentos['pers_genero_clave__exact'] = request.POST[
+                            datosPost]
 
                     if datosPost == 'pers_empleado_numero':
-                        argumentos['pers_empleado_numero__exact'] = request.POST[datosPost]
+                        argumentos['pers_empleado_numero__exact'] = request.POST[
+                            datosPost]
 
                     if datosPost == 'pers_tipo_codigo':
-                        argumentos['pers_tipo_codigo__exact'] = request.POST[datosPost]
+                        argumentos['pers_tipo_codigo__exact'] = request.POST[
+                            datosPost]
 
                     if datosPost == 'asig_puesto_clave':
-                        argumentos['asig_puesto_clave__icontains'] = request.POST[datosPost]
+                        argumentos['asig_puesto_clave__icontains'] = request.POST[
+                            datosPost]
 
                     if datosPost == 'asig_organizacion_clave':
-                        argumentos['asig_organizacion_clave__exact'] = request.POST[datosPost]
+                        argumentos['asig_organizacion_clave__exact'] = request.POST[
+                            datosPost]
 
                     if datosPost == 'fecha_contratacion':
-                        valores = request.POST.get('fecha_contratacion').split(" al ")
+                        valores = request.POST.get(
+                            'fecha_contratacion').split(" al ")
                         argumentos['pers_fecha_contratacion__gte'] = valores[0]
                         argumentos['pers_fecha_contratacion__lte'] = valores[1]
 
                     if datosPost == 'grup_compania_jde':
-                        argumentos['grup_compania_jde__contains'] = request.POST[datosPost]
+                        argumentos['grup_compania_jde__contains'] = request.POST[
+                            datosPost]
 
                     if datosPost == 'grup_fase_jde':
-                        argumentos['grup_fase_jde__exact'] = request.POST[datosPost]
+                        argumentos['grup_fase_jde__exact'] = request.POST[
+                            datosPost]
 
                     if datosPost == 'grup_nomina_jde':
-                        argumentos['grup_nomina_jde__exact'] = request.POST[datosPost]
+                        argumentos['grup_nomina_jde__exact'] = request.POST[
+                            datosPost]
 
         rows = VIEW_EMPLEADOS_FULL.objects.using('ebs_p').filter(**argumentos).values_list(
             'pers_empleado_numero', 'pers_tipo_desc', 'pers_fecha_contratacion', 'pers_primer_nombre',
@@ -155,7 +168,8 @@ class EmpleadoLista(View):
                     ws.write(row_num, col_num, row[col_num], date_format)
                 else:
                     if (col_num == 2) or (col_num == 13):
-                        fecha = datetime.datetime.strptime(row[col_num], '%Y-%m-%d %H:%M:%S').date()
+                        fecha = datetime.datetime.strptime(
+                            row[col_num], '%Y-%m-%d %H:%M:%S').date()
                         ws.write(row_num, col_num, fecha, date_format)
                     else:
                         ws.write(row_num, col_num, row[col_num])
@@ -252,19 +266,6 @@ class EmpleadoExpedientes(View):
         return render(request, self.template_name, contexto)
 
 
-class EmpleadoExpedientesSolicitud(View):
-
-    def __init__(self):
-        self.template_name = 'empleado_expedientes_solicitudes.html'
-
-    def get(self, request):
-
-        contexto = {
-        }
-
-        return render(request, self.template_name, contexto)
-
-
 class EmpleadoExpedientesGrado(View):
 
     def __init__(self):
@@ -311,27 +312,6 @@ class EmpleadoExpedientesDocCapacitacion(View):
         }
 
         return render(request, self.template_name, contexto)
-
-# class EmpleadoExpedientes(View):
-
-#     def __init__(self):
-#         self.template_name = 'empleado_expedientes.html'
-
-#     def get(self, request):
-
-#         form = ExpedientesFilterForm()
-#         form_per = DocPersonalFilterForm()
-#         form_cap = DocCapacitacionFilterForm()
-#         form_grado = GradoAcademicoFilterForm()
-
-#         contexto = {
-#             'form': form,
-#             'form_per': form_per,
-#             'form_cap': form_cap,
-#             'form_grado': form_grado,
-#         }
-
-#         return render(request, self.template_name, contexto)
 
 
 class EmpleadoExpediente(View):

@@ -14,7 +14,6 @@ from django.forms import FileInput
 from django.forms import DateInput
 from django.forms import DateField
 from django.forms import FileField
-from django.forms import ModelChoiceField
 
 # Modelos
 from jde.models import VIEW_UNIDADES
@@ -23,8 +22,6 @@ from ebs.models import VIEW_PUESTOS
 from ebs.models import VIEW_ORGANIZACIONES
 from administracion.models import Empresa
 from capitalhumano.models import PerfilPuestoDocumento
-from .models import Curso
-from .models import TipoDocumento
 
 # Business
 from .business import EmpleadoBusiness
@@ -134,7 +131,8 @@ class EmpleadoFilterForm(Form):
     fecha_contratacion = CharField(
         label='Fecha de contratación',
         widget=TextInput(
-            attrs={'name': 'fecha_contratacion', 'class': 'form-control input-xs', 'readonly': ''}
+            attrs={'name': 'fecha_contratacion',
+                   'class': 'form-control input-xs', 'readonly': ''}
         ),
     )
 
@@ -336,7 +334,7 @@ class PerfilPuestoDocumentoForm(Form):
 class ExpedientesFilterForm(Form):
 
     TIPO_CHOICES = (
-        ('', '---------'),
+        ('', '------------'),
         ('1120', 'ADMINISTRATIVO'),
         ('1123', 'EX-EMPLEADO'),
         ('1124', 'EX-EMPLEADO Y CANDIDATO'),
@@ -403,7 +401,7 @@ class ExpedientesFilterForm(Form):
 class GradoAcademicoFilterForm(Form):
 
     GRADO_ACADEMICO_CHOICES = (
-        ('', '---------'),
+        ('', '------------'),
         ('NINGUNA', 'NINGUNA'),
         ('LEER Y ESCRIBIR', 'LEER Y ESCRIBIR'),
         ('PRIMARIA', 'PRIMARIA'),
@@ -445,12 +443,13 @@ class GradoAcademicoFilterForm(Form):
         self.fields[
             'asig_organizacion_id'].choices = EmpleadoBusiness.get_Organizaciones()
         self.fields['asig_organizacion_id'].required = False
+        self.fields['qua_especialidad'].choices = EmpleadoBusiness.get_Especialidades()
 
 
 class DocPersonalFilterForm(Form):
 
     AGRUPADOR_CHOICES = (
-        ('', '---------'),
+        ('', '------------'),
         ('per', 'Personal'),
         ('qhse', 'QHSE'),
         ('amo', 'Amonestación'),
@@ -502,7 +501,7 @@ class DocPersonalFilterForm(Form):
 class DocCapacitacionFilterForm(Form):
 
     AGRUPADOR_CHOICES = (
-        ('', '---------'),
+        ('', '------------'),
         ('per', 'Personal'),
         ('qhse', 'QHSE'),
         ('amo', 'Amonestación'),
@@ -511,9 +510,14 @@ class DocCapacitacionFilterForm(Form):
         ('rec', 'Reconocimiento'),
     )
     AREA_CHOICES = (
-        ('', '---------'),
+        ('', '------------'),
         ('administrativa', 'Administrativa'),
         ('operativa', 'Operativa'),
+    )
+    ESTATUS = (
+        ('', '------------'),
+        ('ven', 'VENCIDOS'),
+        ('por', 'POR VENCER'),
     )
 
     agrupador = ChoiceField(
@@ -548,17 +552,22 @@ class DocCapacitacionFilterForm(Form):
             attrs={'class': 'select2 nova-select2'}
         )
     )
-    fecha = CharField(
-        label="Fecha curso"
+    estatus = ChoiceField(
+        label="Vencimiento",
+        choices=ESTATUS,
+        widget=Select(attrs={'class': 'select2 nova-select2'}
+                      )
     )
-
     proveedor = ChoiceField(
         label="Proveedor",
-        widget=Select(attrs={'class': 'select2 nova-select2'}))
+        widget=Select(attrs={'class': 'select2 nova-select2'}
+                      )
+    )
 
     def __init__(self, *args, **kwargs):
         super(DocCapacitacionFilterForm, self).__init__(*args, **kwargs)
-        self.fields['asig_organizacion_clave'].choices = EmpleadoBusiness.get_Organizaciones()
+        self.fields[
+            'asig_organizacion_clave'].choices = EmpleadoBusiness.get_Organizaciones()
         self.fields['asig_organizacion_clave'].required = False
         self.fields['curso'].choices = EmpleadoBusiness.get_Curso()
         self.fields['curso'].required = False
@@ -684,6 +693,7 @@ class NuevoDocumentoCapacitacionForm(Form):
     fecha_fin = DateField(
         widget=DateInput(format=('%d/%m/%Y'),
                          attrs={'class': 'form-control input-xs'}))
+
     duracion = CharField(
         label="Duración",
         widget=TextInput(attrs={'class': 'form-control input-xs'}))

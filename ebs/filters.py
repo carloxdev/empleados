@@ -213,7 +213,7 @@ class VIEW_EMPLEADOS_GRADO_Filter(filters.FilterSet):
     )
     qua_especialidad = CharFilter(
         name="qua_especialidad",
-        lookup_expr="icontains"
+        method="filter_especialidad"
     )
 
     class Meta:
@@ -239,6 +239,13 @@ class VIEW_EMPLEADOS_GRADO_Filter(filters.FilterSet):
                 return queryset.filter(qua_version_num__isnull=True)
             else:
                 return queryset.filter(qua_grado_academico=value)
+
+    def filter_especialidad(self, queryset, name, value):
+
+        if not value:
+            return ' '
+        else:
+            return queryset.filter(qua_especialidad=value)
 
 
 class VIEW_ORGANIGRAMA_Filter(filters.FilterSet):

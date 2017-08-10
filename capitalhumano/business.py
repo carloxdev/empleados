@@ -1,6 +1,7 @@
 
 # Own's Libraries
 from ebs.models import VIEW_ORGANIZACIONES
+from ebs.models import VIEW_EMPLEADOS_GRADO
 from jde.models import VIEW_PROVEEDORES
 from .models import TipoDocumento
 from .models import Curso
@@ -66,3 +67,23 @@ class EmpleadoBusiness(object):
                 )
             )
         return valores
+
+    @classmethod
+    def get_Especialidades(self):
+
+        valores = [('', '------------')]
+
+        especialidades = VIEW_EMPLEADOS_GRADO.objects.using('ebs_p').all()
+
+        for especialidad in especialidades:
+
+            valores.append(
+                (
+                    especialidad.qua_especialidad,
+                    "%s" % (especialidad.qua_especialidad),
+                )
+            )
+        d = {}
+        lista = [d.setdefault(x, x) for x in valores if x not in d]
+
+        return lista
