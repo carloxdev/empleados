@@ -1,28 +1,19 @@
 # -*- coding: utf-8 -*-
 
-# Django Atajos:
+# Django's Libraries
 from django.shortcuts import render
-from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.core.urlresolvers import reverse
 from django.views.generic.base import View
 
-# Librerias de Django
-from django.views.generic.base import View
-from django.core.files.storage import default_storage
-
-# Modelos
-from finanzas.models import ViaticoCabecera
+# Own's Libraries
 from .models import ViaticoCabecera
 
-# Formularios
-from .forms import AnticipoFilterForm
-
-# Formularios:
 from .forms import ViaticoCabeceraForm
-# from .forms import ViaticoLineaForm
 from .forms import ViaticoFilterForm
+
+from .forms import AnticipoFilterForm
 
 
 class AnticipoLista(View):
@@ -71,8 +62,7 @@ class ViaticoCabeceraNuevo(View):
 
     def post(self, request):
 
-        formulario = ViaticoCabeceraForm(request.POST)
-
+        formulario = ViaticoCabeceraForm(data=request.POST)
         if formulario.is_valid():
 
             viatico = formulario.save(commit=False)

@@ -18,7 +18,7 @@ var grid = null
 \*-----------------------------------------------*/
 
 $(document).ready(function () {
-   
+
    tarjeta_filtros = new TarjetaFiltros()
    tarjeta_resultados = new TarjetaResultados()
 
@@ -37,7 +37,7 @@ $(document).ready(function () {
       }
       // Tecla ESC
    })
-   
+
 })
 
 /*-----------------------------------------------*\
@@ -88,7 +88,7 @@ TarjetaFiltros.prototype.get_ConfDateRangePicker = function () {
          cancelLabel: "Cancelar",
          fromLabel: "Del",
          separator: " al ",
-         toLabel: "Al",            
+         toLabel: "Al",
          weekLabel: "S",
          daysOfWeek: [
             "Do",
@@ -112,13 +112,13 @@ TarjetaFiltros.prototype.get_ConfDateRangePicker = function () {
             "Octubre",
             "Noviembre",
             "Diciembre"
-         ],          
+         ],
       },
       "dateLimit": {
 
          "months": 6
       },
-   }    
+   }
 }
 TarjetaFiltros.prototype.init_Events = function () {
 
@@ -175,7 +175,7 @@ TarjetaFiltros.prototype.hidden_Modal = function (e) {
 TarjetaFiltros.prototype.limpiar_CampoNoAplicado = function () {
    
    var campos = ["id_pers_primer_nombre", "id_pers_segundo_nombre", "id_pers_apellido_paterno", "id_pers_apellido_materno",
-   "pers_genero_clave", "id_pers_empleado_numero", "id_pers_tipo_codigo", "id_asig_puesto_clave", "id_asig_organizacion_clave", 
+   "pers_genero_clave", "id_pers_empleado_numero", "id_pers_tipo_codigo", "id_asig_puesto_clave", "id_asig_organizacion_clave",
    "fecha_contratacion", "id_grup_compania_jde", "id_grup_fase_jde", "grup_nomina_jde"]
 
    var resultados
@@ -193,55 +193,54 @@ TarjetaFiltros.prototype.limpiar_CampoNoAplicado = function () {
       
       if (_campo == "id_pers_primer_nombre") {
          tarjeta_filtros.$id_pers_primer_nombre.val("")
-         tarjeta_filtros.$formulario.get(1).reset()
       }
       if (_campo == "id_pers_segundo_nombre") {
          tarjeta_filtros.$id_pers_segundo_nombre.val("")
-         
+
       }
       if (_campo == "id_pers_apellido_paterno") {
          tarjeta_filtros.$id_pers_apellido_paterno.val("")
-         
+
       }
       if (_campo == "id_pers_apellido_materno") {
          tarjeta_filtros.$id_pers_apellido_materno.val("")
-         
+
       }
       if (_campo == "pers_genero_clave") {
          tarjeta_filtros.$id_pers_genero_clave.prop('checked', false)
-         
+
       }
       if (_campo == "id_pers_empleado_numero") {
          tarjeta_filtros.$id_pers_empleado_numero.val("")
-         
+
       }
       if (_campo == "id_pers_tipo_codigo") {
          tarjeta_filtros.$id_pers_tipo_codigo.data('select2').val(0)
-         
+
       }
       if (_campo == "id_asig_puesto_clave") {
          tarjeta_filtros.$id_asig_puesto_clave.data('select2').val(0)
-         
+
       }
       if (_campo == "id_asig_organizacion_clave") {
          tarjeta_filtros.$id_asig_organizacion_clave.data('select2').val(0)
-         
+
       }
       if (_campo == "fecha_contratacion") {
          tarjeta_filtros.$fecha_contratacion.val("")
-         
+
       }
       if (_campo == "id_grup_compania_jde") {
          tarjeta_filtros.$id_grup_compania_jde.data('select2').val(0)
-         
+
       }
       if (_campo == "id_grup_fase_jde") {
          tarjeta_filtros.$id_grup_fase_jde.data('select2').val(0)
-         
+
       }
       if (_campo == "grup_nomina_jde") {
          tarjeta_filtros.$id_grup_nomina_jde.prop('checked', false)
-         
+
       }
    })
 }
@@ -254,7 +253,7 @@ TarjetaFiltros.prototype.get_Values = function (_page, _pageSize) {
    return {
       page: _page,
       pageSize: _pageSize,
-      
+
       pers_primer_nombre: this.$id_pers_primer_nombre.val(),
       pers_segundo_nombre: this.$id_pers_segundo_nombre.val(),
       pers_apellido_paterno: this.$id_pers_apellido_paterno.val(),
@@ -273,12 +272,12 @@ TarjetaFiltros.prototype.get_Values = function (_page, _pageSize) {
    }
 }
 TarjetaFiltros.prototype.click_BotonBuscar = function (e) {
-   
+
    e.data.apply_Filters()
    e.data.$id.modal('hide')
 }
 TarjetaFiltros.prototype.click_BotonLimpiar = function (e) {
-   
+
    e.preventDefault()
    e.data.$formulario.get(0).reset()
    e.data.$id_pers_primer_nombre.val("")
@@ -367,11 +366,11 @@ TarjetaFiltros.prototype.apply_Filters = function () {
 
    if (no_filtros != 0) {
         tarjeta_resultados.toolbar.change_BotonFiltros(no_filtros)
-   }   
+   }
    else {
         tarjeta_resultados.toolbar.restart_BotonFiltros()
    }
-   
+
    this.$id.modal('hide')
 }
 /*-----------------------------------------------*\
@@ -379,7 +378,7 @@ TarjetaFiltros.prototype.apply_Filters = function () {
 \*-----------------------------------------------*/
 
 function TarjetaResultados(){
-   
+
    this.toolbar = new ToolBar()
    this.grid = new Grid()
 }
@@ -399,39 +398,52 @@ ToolBar.prototype.init_Events = function () {
    this.$boton_exportar.on("click", this, this.click_BotonExportar)
 }
 ToolBar.prototype.change_BotonFiltros = function (_no_filtros) {
-       
+
    html = "<i class='icon icon-left mdi mdi-search nova-white'></i> Filtros <span class='badge nova-border-bottom'>no_filtros</span>".replace("no_filtros", _no_filtros)
 
    this.$boton_filtros.html(html)
 }
 ToolBar.prototype.restart_BotonFiltros = function () {
-    
-   this.$boton_filtros.html("<i class='icon icon-left mdi mdi-search nova-white'></i> Filtros")   
+
+   this.$boton_filtros.html("<i class='icon icon-left mdi mdi-search nova-white'></i> Filtros")
 }
 ToolBar.prototype.click_BotonExportar = function (e) {
-   
+
    if (tarjeta_filtros.get_NoFiltrosAplicados() != 0) {
 
-      if ((tarjeta_resultados.grid.$id.data("kendoGrid").dataSource.total() <= 65535) && (tarjeta_resultados.grid.$id.data("kendoGrid").dataSource.total() >= 1)) {            
-         
+      if ((tarjeta_resultados.grid.$id.data("kendoGrid").dataSource.total() <= 65535) && (tarjeta_resultados.grid.$id.data("kendoGrid").dataSource.total() >= 1)) {
+
          tarjeta_filtros.$formulario.submit()
       }
       else if(tarjeta_resultados.grid.$id.data("kendoGrid").dataSource.total() == 0) {
-         
+
          alertify.warning("No hay registros a exportar.")
       }
       else {
-         
+
          alertify.warning("Muchos datos, ingresa un rango de fecha de contratación menor.")
       }
    }
    else {
 
       alertify.warning("Debe seleccionar filtros")
-   }     
+   }
+}
+ToolBar.prototype.Inicializar_CeldasExcel = function (e) {
+
+   if (tarjeta_resultados.grid.get_Columnas != null)
+   {
+      if (tarjeta_resultados.grid.get_Columnas.length != 1) {
+         tarjeta_resultados.grid.get_Columnas.length = 0;
+      }
+   }
+
+   this.kRows = [{
+      cells: this.get_Celdas()
+   }];
 }
 ToolBar.prototype.get_Celdas = function () {
-   
+
    var celdas = []
    var columnas = tarjeta_resultados.grid.get_Columnas()
 
@@ -489,7 +501,36 @@ Grid.prototype.get_DataSourceConfig = function (e) {
       error: function (e) {
          alertify.error("Status: " + e.status + "; Error message: " + e.errorThrown)
       },
-   }    
+   }
+}
+Grid.prototype.get_FuenteDatosExcel = function (e) {
+
+   return {
+
+      serverPaging: true,
+      pageSize: 10,
+      transport: {
+         read: {
+
+            url: url_empleados,
+            type: "GET",
+            dataType: "json",
+         },
+         parameterMap: function (data, action) {
+            if (action === "read"){
+               return tarjeta_filtros.get_FiltrosExcel()
+            }
+         }
+      },
+      schema: {
+         model: {
+            fields: this.get_Campos()
+         }
+      },
+      error: function (e) {
+         alertify.error("Status: " + e.status + "; Error message: " + e.errorThrown)
+      },
+   }
 }
 Grid.prototype.get_Campos = function () {
 
@@ -628,6 +669,10 @@ Grid.prototype.get_Columnas = function () {
    ]
 }
 Grid.prototype.buscar = function() {
-   
+
    this.kfuente_datos.page(1)
+}
+Grid.prototype.leer_Datos = function() {
+
+   this.kfuente_datos_excel.read()
 }

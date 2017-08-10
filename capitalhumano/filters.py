@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
 
+from datetime import date
+from datetime import timedelta
+
 # Django API REST
 from rest_framework import filters
 from django_filters import CharFilter
@@ -78,6 +81,12 @@ class DocumentoPersonalFilter(filters.FilterSet):
                     incluir.append(dato.id)
 
             return empleados.filter(id__in=incluir)
+
+            # for dato in organizacion:
+            #     if empleados.filter(numero_empleado=dato.pers_empleado_numero):
+            #         incluir.append(dato.pers_empleado_numero)
+
+            # return empleados.filters(numero_empleado__in=incluir)
 
 
 class DocumentoCapacitacionFilter(filters.FilterSet):
@@ -257,15 +266,10 @@ class ArchivoCapacitacionFilter(filters.FilterSet):
         name="relacion_capacitacion__numero_empleado_organizacion",
         method="filter_organizacion")
 
-    relacion_capacitacion__fecha_inicio = CharFilter(
-        name='relacion_capacitacion__fecha_inicio',
-        method="filter_fecha_inicio"
-    )
+    relacion_capacitacion__curso_estatus = CharFilter(
+        name="relacion_capacitacion__curso_estatus",
+        method="filter_estatus")
 
-    relacion_capacitacion__fecha_fin = CharFilter(
-        name='relacion_capacitacion__fecha_fin',
-        method="filter_fecha_fin"
-    )
     proveedor = CharFilter(
         name="proveedor",
         method="filter_proveedor")
@@ -281,6 +285,7 @@ class ArchivoCapacitacionFilter(filters.FilterSet):
             'relacion_capacitacion__fecha_inicio',
             'relacion_capacitacion__fecha_fin',
             'relacion_capacitacion__proveedor',
+            'relacion_capacitacion__curso_estatus'
         ]
 
     def filter_curso(self, queryset, name, value):
@@ -327,23 +332,29 @@ class ArchivoCapacitacionFilter(filters.FilterSet):
 
             return empleados.filter(id__in=incluir)
 
-    def filter_fecha_inicio(self, queryset, name, value):
+    def filter_estatus(self, queryset, name, value):
 
         if not value:
-            return queryset
+            return ''
         else:
-            consulta = queryset.filter(
-                relacion_capacitacion__fecha_inicio__gte=value)
-            return consulta
+            empleados = queryset.all()
+            fecha_actual = date.today()
+            incluir = []
+            fecha_por_vencer = fecha_actual + timedelta(days=90)
 
-    def filter_fecha_fin(self, queryset, name, value):
+            if value == 'ven':
+                for dato in empleados:
+                    if dato.content_object.fecha_vencimiento != "Indefinido":
+                        if dato.content_object.fecha_vencimiento < fecha_actual:
+                            incluir.append(dato.id)
+            elif value == 'por':
+                for dato in empleados:
+                    if dato.content_object.fecha_vencimiento != "Indefinido":
+                        if (dato.content_object.fecha_vencimiento > fecha_actual) and \
+                                (dato.content_object.fecha_vencimiento <= fecha_por_vencer):
+                            incluir.append(dato.id)
 
-        if not value:
-            return queryset
-        else:
-            consulta = queryset.filter(
-                relacion_capacitacion__fecha_fin__lte=value)
-            return consulta
+            return empleados.filter(id__in=incluir)
 
     def filter_proveedor(self, queryset, name, value):
 

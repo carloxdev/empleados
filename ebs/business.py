@@ -41,15 +41,14 @@ class EmpleadoBusiness(object):
 
         for empleado in empleados:
 
-            option_value = empleado.pers_empleado_numero,
-            option_status_desc = self.get_StatusDescription(
-                empleado.pers_tipo_codigo)
+            option_value = empleado.pers_empleado_numero
+            option_status_desc = self.get_StatusDescription(empleado.pers_tipo_codigo)
             option_label = "%s : %s %s" % (
                 empleado.pers_empleado_numero,
                 empleado.pers_nombre_completo,
                 option_status_desc
             )
-            option_text = empleado.pers_nombre_completo,
+            option_text = empleado.pers_nombre_completo
             option_status = empleado.pers_tipo_codigo
 
             valores.append(
@@ -75,15 +74,14 @@ class EmpleadoBusiness(object):
 
         for empleado in empleados:
 
-            option_value = empleado.pers_empleado_numero,
-            option_status_desc = self.get_StatusDescription(
-                empleado.pers_tipo_codigo)
+            option_value = empleado.pers_empleado_numero
+            option_status_desc = self.get_StatusDescription(empleado.pers_tipo_codigo)
             option_label = "%s : %s %s" % (
                 empleado.pers_empleado_numero,
                 empleado.pers_nombre_completo,
                 option_status_desc
             )
-            option_text = empleado.pers_nombre_completo,
+            option_text = empleado.pers_nombre_completo
             option_status = empleado.pers_tipo_codigo
 
             valores.append(
@@ -117,7 +115,7 @@ class EmpleadoBusiness(object):
                 (
                     option_value,
                     option_label
-                ),
+                )
             )
 
         return valores
