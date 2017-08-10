@@ -353,7 +353,7 @@ Grid.prototype.get_Campos = function () {
 
         return {
                 pk: {type: "integer"},
-                departamento : { type: "string" },
+                organizacion : { type: "string" },
                 nombre_completo : { type: "string" },
                 area : { type: "string" },
                 curso : { type: "string" },
@@ -406,7 +406,7 @@ Grid.prototype.get_Columnas = function () {
                 { field: "fecha_inicio",title: "Fecha inicio",width:"100px"},
                 { field: "fecha_fin", title: "Fecha fin", width:"100px" },
                 { field: "fecha_vencimiento", title: "Fecha vencimiento", width:"100px", format: "{0:dd/MM/yyyy}" },
-                { field: "departamento", title: "Organizacion", width:"200px" },
+                { field: "organizacion", title: "Organizacion", width:"200px" },
                 { field: "created_by", title: "Creado por", width:"150px" },
                 { field: "created_date", title: "Fecha de creación", width:"150px", format: "{0:dd/MM/yyyy}" },
         ]
