@@ -1,0 +1,17 @@
+{% if set_label %}
+   <label class="col-sm-{{ size_label }} control-label">
+      {{ campo.label }}
+   </label>
+{% endif %}
+
+<div class="col-sm-{{ size_field }} xs-pt-5">
+   <div class="input-group date" data-min-view="2" data-date-format="yyyy-mm-dd" id="{{ campo.auto_id }}_group">
+      {{ campo }}
+      <span class="input-group-addon nova-addon-button">
+         <span class="glyphicon glyphicon-calendar"></span>
+      </span>
+   </div>
+</div> 
+{% for error in campo.errors %}
+   <span class="help-block">{{ campo.error }}</span>
+{% endfor %}

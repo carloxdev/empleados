@@ -140,3 +140,17 @@ def tag_field(_field, _size_label, _size_field):
         'size_field': _size_field,
     }
     return contexto
+
+
+@register.inclusion_tag(
+    'tags/field_date.html',
+    takes_context=False)
+def tag_field_date(_field, _size_label, _size_field, _set_label):
+
+    contexto = {
+        'campo': _field,
+        'size_label': _size_label,
+        'size_field': _size_field,
+        'set_label': _set_label,
+    }
+    return contexto

@@ -418,6 +418,7 @@ ToolBar.prototype.click_BotonExportar = function (e) {
       if ((tarjeta_resultados.grid.$id.data("kendoGrid").dataSource.total() <= 65535) && (tarjeta_resultados.grid.$id.data("kendoGrid").dataSource.total() >= 1)) {
 
          tarjeta_filtros.$formulario.submit()
+         
       }
       else if (tarjeta_resultados.grid.$id.data("kendoGrid").dataSource.total() == 0) {
 
