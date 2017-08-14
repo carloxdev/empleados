@@ -8,6 +8,7 @@ from django.db import models
 
 # Otros Modelos:
 from administracion.models import Empresa
+from administracion.models import Contrato
 
 
 class Criterio(models.Model):
@@ -302,6 +303,8 @@ class Auditoria(models.Model):
     folio = models.CharField(primary_key=True, max_length=12)
     tipo_auditoria = models.CharField(max_length=17)
     compania = models.CharField(max_length=60)
+    criterio = models.ManyToManyField(Criterio, blank=True)
+    contrato = models.ManyToManyField(Contrato, blank=True)
     fecha_programada_inicial = models.DateField(null=True, blank=True)
     fecha_programada_final = models.DateField(null=True, blank=True)
     objetivo = models.CharField(max_length=400, blank=True)

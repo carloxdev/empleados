@@ -4,10 +4,12 @@
 from django.forms import Form
 from django.forms import CharField
 from django.forms import ChoiceField
+from django.forms import MultipleChoiceField
 from django.forms import TextInput
 from django.forms import Select
 from django.forms import Textarea
 from django.forms import NumberInput
+from django.forms import SelectMultiple
 
 # Librerias/Clases propias
 
@@ -287,34 +289,41 @@ class GeneralAuditoriaForm(Form):
         widget=Select(attrs={'class': 'select2'})
     )
 
-    contratos = ChoiceField(
-        widget=Select(attrs={'class': 'select2', 'multiple': 'multiple'})
+    contratos = MultipleChoiceField(
+        widget=SelectMultiple(attrs={'class': 'select2', 'multiple': 'multiple'}),
+        required=False
     )
 
-    criterios = ChoiceField(
-        widget=Select(attrs={'class': 'select2', 'multiple': 'multiple'})
+    criterios = MultipleChoiceField(
+        widget=SelectMultiple(attrs={'class': 'select2', 'multiple': 'multiple'}),
+        required=False
     )
 
     fecha_programada_ini = CharField(
         label='Fecha Programada inicial / final',
-        widget=TextInput(attrs={'class': 'form-control input-xs', 'name': 'fecha_programada_ini'})
+        widget=TextInput(attrs={'class': 'form-control input-xs', 'name': 'fecha_programada_ini'}),
+        required=False
     )
 
     fecha_programada_fin = CharField(
         label='',
-        widget=TextInput(attrs={'class': 'form-control input-xs', 'name': 'fecha_programada_fin'})
+        widget=TextInput(attrs={'class': 'form-control input-xs', 'name': 'fecha_programada_fin'}),
+        required=False
     )
 
     objetivo = CharField(
-        widget=Textarea(attrs={'class': 'form-control input-xs', 'rows': '6'})
+        widget=Textarea(attrs={'class': 'form-control input-xs', 'rows': '6'}),
+        required=False
     )
 
     alcance = CharField(
-        widget=Textarea(attrs={'class': 'form-control input-xs', 'rows': '6'})
+        widget=Textarea(attrs={'class': 'form-control input-xs', 'rows': '6'}),
+        required=False
     )
 
     recursos_necesarios = CharField(
-        widget=Textarea(attrs={'class': 'form-control input-xs', 'rows': '6'})
+        widget=Textarea(attrs={'class': 'form-control input-xs', 'rows': '6'}),
+        required=False
     )
 
     def __init__(self, *args, **kwargs):

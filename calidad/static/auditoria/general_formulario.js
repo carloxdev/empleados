@@ -13,7 +13,7 @@ var formulario = null
 \*-----------------------------------------------*/
 
 $(document).ready(function () {
-   
+
    formulario = new Formulario()
 })
 
@@ -63,7 +63,7 @@ Formulario.prototype.init_Components = function () {
       }
    )
    this.$id_fecha_programada_fin_group.datetimepicker(this.get_DateTimePickerConfig())
-   
+
 }
 Formulario.prototype.get_DateTimePickerConfig = function () {
    return {
@@ -78,7 +78,7 @@ Formulario.prototype.init_Events = function () {
    this.$id_boton_guardar.on("click", this, this.click_BotonGuardar)
 }
 Formulario.prototype.click_BotonGuardar = function (e) {
-   
-   e.preventDefault()
+
+  //  e.preventDefault()
 
 }

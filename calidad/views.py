@@ -26,6 +26,9 @@ from .models import Criterio
 from .models import Proceso
 from .models import Rol
 from .models import Formato
+from .models import Auditoria
+from administracion.models import Contrato
+from .models import Criterio
 
 # Otros Modelos:
 
@@ -102,6 +105,67 @@ class GeneralFormulario(View):
         }
 
         return render(request, self.template_name, contexto)
+
+    def post(self, request):
+
+        formulario = GeneralAuditoriaForm(request.POST)
+        # print(request.POST)
+        # print(formulario.is_valid())
+        #
+        # print(datos_formulario.get('tipo_de_auditoria'))
+        # print(datos_formulario)
+        # print("CONTRATOS")
+        # print(datos_formulario.get('contratos'))
+        # print(datos_formulario.getlist('contratos'))
+
+        if formulario.is_valid():
+            datos_formulario = formulario.cleaned_data
+
+            auditoria = Auditoria()
+            contrato = Contrato()
+            criterio = Criterio()
+            auditoria.tipo_auditoria = datos_formulario.get('tipo_de_auditoria')
+            auditoria.compania = datos_formulario.get('compania')
+            auditoria.fecha_programada_inicial = datos_formulario.get('fecha_programada_ini')
+            auditoria.fecha_programada_final = datos_formulario.get('fecha_programada_fin')
+            auditoria.objetivo = datos_formulario.get('objetivo')
+            auditoria.alcance = datos_formulario.get('alcance')
+            auditoria.recurso_necesario = datos_formulario.get('recursos_necesarios')
+            auditoria.save()
+            print(auditoria.pk)
+
+            # for contrato in datos_formulario.get('contratos'):
+            #     auditoria.
+            #
+            # for criterio in datos_formulario.get('criterios'):
+
+
+            # if datos_formulario.get('contratos'):
+            #     contratos = datos_formulario.get('contratos')
+            #     for contrato in contratos:
+
+            # if datos_formulario.get('criterios'):
+
+            # auditoria = Auditoria()
+            # auditoria.tipo_auditoria = datos_formulario.get('tipo_de_auditoria')
+            # auditoria.compania = datos_formulario.get('compania')
+            # auditoria.fecha_programada_inicial = datos_formulario.get('fecha_programada_ini')
+            # auditoria.fecha_programada_final = datos_formulario.get('fecha_programada_fin')
+            # auditoria.objetivo = datos_formulario.get('objetivo')
+            # auditoria.alcance = datos_formulario.get('alcance')
+            # auditoria.recurso_necesario = datos_formulario.get('recursos_necesarios')
+            #
+            # auditoria.save()
+
+            return redirect(reverse('calidad:auditor_formulario'))
+
+        contexto = {
+            'form': formulario,
+            'operation': 'Nuevo',
+        }
+
+        return render(request, self.template_name, contexto)
+
 
 
 class AuditorFormulario(View):
