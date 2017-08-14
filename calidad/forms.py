@@ -15,6 +15,7 @@ from django.forms import NumberInput
 # modelos
 from ebs.models import VIEW_EMPLEADOS_SIMPLE
 from jde.models import VIEW_COMPANIAS
+from administracion.models import Contrato
 from .models import Criterio
 
 
@@ -120,7 +121,7 @@ class RolForm(Form):
 
         valores = [('', '-------')]
 
-        empleados = VIEW_EMPLEADOS_SIMPLE.objects.using('ebs_p').filter(pers_nombre_completo__icontains="GARCIA JIMENEZ")
+        empleados = VIEW_EMPLEADOS_SIMPLE.objects.using('ebs_p').all()
 
         for empleado in empleados:
 
@@ -155,7 +156,7 @@ class RolFilterForm(Form):
 
         valores = [('', '-------')]
 
-        empleados = VIEW_EMPLEADOS_SIMPLE.objects.using('ebs_p').filter(pers_nombre_completo__icontains="GARCIA JIMENEZ")
+        empleados = VIEW_EMPLEADOS_SIMPLE.objects.using('ebs_p').all()
 
         for empleado in empleados:
 
@@ -268,6 +269,7 @@ class FormatoForm(Form):
             )
         return valores
 
+
 class GeneralAuditoriaForm(Form):
     TIPO_AUDITORIA = (
         ('', '------'),
@@ -295,30 +297,30 @@ class GeneralAuditoriaForm(Form):
 
     fecha_programada_ini = CharField(
         label='Fecha Programada inicial / final',
-        widget=TextInput(attrs={'class': 'form-control input-xs'})
+        widget=TextInput(attrs={'class': 'form-control input-xs', 'name': 'fecha_programada_ini'})
     )
 
     fecha_programada_fin = CharField(
         label='',
-        widget=TextInput(attrs={'class': 'form-control input-xs'})
+        widget=TextInput(attrs={'class': 'form-control input-xs', 'name': 'fecha_programada_fin'})
     )
 
     objetivo = CharField(
-        widget=Textarea(attrs={'class': 'form-control input-xs'})
+        widget=Textarea(attrs={'class': 'form-control input-xs', 'rows': '6'})
     )
 
     alcance = CharField(
-        widget=Textarea(attrs={'class': 'form-control input-xs'})
+        widget=Textarea(attrs={'class': 'form-control input-xs', 'rows': '6'})
     )
 
     recursos_necesarios = CharField(
-        widget=Textarea(attrs={'class': 'form-control input-xs'})
+        widget=Textarea(attrs={'class': 'form-control input-xs', 'rows': '6'})
     )
 
     def __init__(self, *args, **kwargs):
         super(GeneralAuditoriaForm, self).__init__(*args, **kwargs)
         self.fields['compania'].choices = self.get_Compania()
-        # self.fields['contratos'].choices = self.get_Contratos()
+        self.fields['contratos'].choices = self.get_Contratos()
         self.fields['criterios'].choices = self.get_Criterios()
 
     def get_Compania(self):
@@ -339,20 +341,20 @@ class GeneralAuditoriaForm(Form):
 
     def get_Contratos(self):
 
-        valores = [('', '-------')]
+        valores = []
 
-        companias = VIEW_COMPANIAS.objects.using('jde_p').all()
+        # contratos = VIEW_COMPANIAS.objects.using('jde_p').all()
+        contratos = Contrato.objects.all()
 
-        for compania in companias:
+        for contrato in contratos:
 
             valores.append(
                 (
-                    str(compania.comp_code) + ':' + compania.comp_desc,
-                    str(int(compania.comp_code)) + ' - ' + compania.comp_desc,
+                    contrato.con_clave,
+                    str(int(contrato.con_clave)) + ' - ' + contrato.con_nombre,
                 )
             )
         return valores
-
 
     def get_Criterios(self):
 

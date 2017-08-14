@@ -37,7 +37,6 @@ $(document).ready(function () {
       }
       // Tecla ESC
    })
-
 })
 
 /*-----------------------------------------------*\
@@ -166,8 +165,8 @@ TarjetaFiltros.prototype.hide_Modal = function (e) {
 }
 TarjetaFiltros.prototype.hidden_Modal = function (e) {
 
-   if (!e.data.$colapsible_personales.hasClass('in')){
-      
+   if (!e.data.$colapsible_personales.hasClass('in')) {
+
       e.data.$colapsible_personales.collapse('show')
       e.data.$colapsible_corporativo.collapse('hide')
    }
@@ -181,8 +180,11 @@ TarjetaFiltros.prototype.limpiar_CampoNoAplicado = function () {
    var resultados
 
    tarjeta_filtros.$campos_usados.forEach(function(_campo) {
+
       resultados = campos.filter(
+
          function(_elem) {
+
             return _elem != _campo
          }
       )
@@ -365,9 +367,11 @@ TarjetaFiltros.prototype.apply_Filters = function () {
    this.$campos_usados = filtros
 
    if (no_filtros != 0) {
+
         tarjeta_resultados.toolbar.change_BotonFiltros(no_filtros)
    }
    else {
+
         tarjeta_resultados.toolbar.restart_BotonFiltros()
    }
 
@@ -414,8 +418,9 @@ ToolBar.prototype.click_BotonExportar = function (e) {
       if ((tarjeta_resultados.grid.$id.data("kendoGrid").dataSource.total() <= 65535) && (tarjeta_resultados.grid.$id.data("kendoGrid").dataSource.total() >= 1)) {
 
          tarjeta_filtros.$formulario.submit()
+         
       }
-      else if(tarjeta_resultados.grid.$id.data("kendoGrid").dataSource.total() == 0) {
+      else if (tarjeta_resultados.grid.$id.data("kendoGrid").dataSource.total() == 0) {
 
          alertify.warning("No hay registros a exportar.")
       }
@@ -428,19 +433,6 @@ ToolBar.prototype.click_BotonExportar = function (e) {
 
       alertify.warning("Debe seleccionar filtros")
    }
-}
-ToolBar.prototype.Inicializar_CeldasExcel = function (e) {
-
-   if (tarjeta_resultados.grid.get_Columnas != null)
-   {
-      if (tarjeta_resultados.grid.get_Columnas.length != 1) {
-         tarjeta_resultados.grid.get_Columnas.length = 0;
-      }
-   }
-
-   this.kRows = [{
-      cells: this.get_Celdas()
-   }];
 }
 ToolBar.prototype.get_Celdas = function () {
 
@@ -494,35 +486,6 @@ Grid.prototype.get_DataSourceConfig = function (e) {
       schema: {
          data: "results",
          total: "count",
-         model: {
-            fields: this.get_Campos()
-         }
-      },
-      error: function (e) {
-         alertify.error("Status: " + e.status + "; Error message: " + e.errorThrown)
-      },
-   }
-}
-Grid.prototype.get_FuenteDatosExcel = function (e) {
-
-   return {
-
-      serverPaging: true,
-      pageSize: 10,
-      transport: {
-         read: {
-
-            url: url_empleados,
-            type: "GET",
-            dataType: "json",
-         },
-         parameterMap: function (data, action) {
-            if (action === "read"){
-               return tarjeta_filtros.get_FiltrosExcel()
-            }
-         }
-      },
-      schema: {
          model: {
             fields: this.get_Campos()
          }
@@ -671,8 +634,4 @@ Grid.prototype.get_Columnas = function () {
 Grid.prototype.buscar = function() {
 
    this.kfuente_datos.page(1)
-}
-Grid.prototype.leer_Datos = function() {
-
-   this.kfuente_datos_excel.read()
 }

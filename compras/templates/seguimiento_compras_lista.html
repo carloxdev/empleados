@@ -70,17 +70,17 @@
                   
                <form role="form" action="" method="POST" id="id_formulario_filtro" name="formulario_filtro"> {% csrf_token %}
 
-                  <div id="accordion1" class="panel-group accordion nova-modal-accordion">
+                  <div id="id_accordion_compras" class="panel-group accordion nova-modal-accordion">
                      
                      <div class="panel panel-default nova-modal-accordion-panel nova-accordion-border-bottom">
                         <div class="panel-heading">
                            <h4 class="panel-title">
-                              <a data-toggle="collapse" data-parent="#accordion1" href="#collapseOne" aria-expanded="true" class="">
-                                 <i class="icon mdi mdi-chevron-down"></i> Datos deCompañia:
+                              <a data-toggle="collapse" data-parent="#id_accordion_compras" href="#id_collapse_compania" aria-expanded="true" class="">
+                                 <i class="icon mdi mdi-chevron-down"></i> Datos de Compañia:
                               </a>
                            </h4>
                         </div>
-                        <div id="collapseOne" class="panel-collapse collapse in" aria-expanded="true">
+                        <div id="id_collapse_compania" class="panel-collapse collapse in" aria-expanded="true">
                            
                            <div class="nova-accordion-row">
 
@@ -108,12 +108,12 @@
                      <div class="panel panel-default nova-modal-accordion-panel nova-accordion-border-bottom">
                         <div class="panel-heading">
                            <h4 class="panel-title">
-                              <a data-toggle="collapse" data-parent="#accordion1" href="#collapseTwo" class="collapsed" aria-expanded="false">
+                              <a data-toggle="collapse" data-parent="#id_accordion_compras" href="#id_collapse_requisicion" class="collapsed" aria-expanded="false">
                                  <i class="icon mdi mdi-chevron-down"></i> Requisición:
                               </a>
                            </h4>
                         </div>
-                        <div id="collapseTwo" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
+                        <div id="id_collapse_requisicion" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
 
                            <div class="nova-accordion-row">
 
@@ -141,12 +141,12 @@
                      <div class="panel panel-default nova-modal-accordion-panel nova-accordion-border-bottom">
                         <div class="panel-heading">
                            <h4 class="panel-title">
-                              <a data-toggle="collapse" data-parent="#accordion1" href="#collapseThree" class="collapsed" aria-expanded="false">
+                              <a data-toggle="collapse" data-parent="#id_accordion_compras" href="#id_collapse_cotizacion" class="collapsed" aria-expanded="false">
                                  <i class="icon mdi mdi-chevron-down"></i> Cotización:
                               </a>
                            </h4>
                         </div>
-                        <div id="collapseThree" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
+                        <div id="id_collapse_cotizacion" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
                            
                            <div class="nova-accordion-row">
 
@@ -174,12 +174,12 @@
                      <div class="panel panel-default nova-modal-accordion-panel nova-accordion-border-bottom">
                         <div class="panel-heading">
                            <h4 class="panel-title">
-                              <a data-toggle="collapse" data-parent="#accordion1" href="#collapseFour" class="collapsed" aria-expanded="false">
+                              <a data-toggle="collapse" data-parent="#id_accordion_compras" href="#id_collapse_orden" class="collapsed" aria-expanded="false">
                                  <i class="icon mdi mdi-chevron-down"></i> Orden de Compra:
                               </a>
                            </h4>
                         </div>
-                        <div id="collapseFour" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
+                        <div id="id_collapse_orden" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
                            
                            <div class="nova-accordion-row">
                               
@@ -210,9 +210,13 @@
 
                      <div class="panel panel-default nova-modal-accordion-panel">
                         <div class="panel-heading">
-                           <h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion1" href="#collapseFive" class="collapsed" aria-expanded="false"><i class="icon mdi mdi-chevron-down"></i> Almacen:</a></h4>
+                           <h4 class="panel-title">
+                              <a data-toggle="collapse" data-parent="#id_accordion_compras" href="#id_collapse_almacen" class="collapsed" aria-expanded="false">
+                                 <i class="icon mdi mdi-chevron-down"></i> Almacen:
+                              </a>
+                           </h4>
                         </div>
-                        <div id="collapseFive" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
+                        <div id="id_collapse_almacen" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
                            
                            <div class="nova-accordion-row">
 
@@ -228,6 +232,7 @@
                      </div>
 
                   </div><!-- Accordion-->
+                  <input type="hidden" id="download_token_value_id"/>
                </form>
                <div class="modal-footer nova-modal-footer">
                   <div class="row col-sm-12">

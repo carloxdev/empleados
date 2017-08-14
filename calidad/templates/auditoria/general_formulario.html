@@ -67,25 +67,7 @@
                            {% tag_field form.compania 3 6 %}
                            
                            <!-- contratos -->
-                           <div class="form-group">
-                              <label class="col-sm-3 control-label" 
-                                 for="{{ form.contratos.id_for_label }}">
-                                 {{ form.contratos.label }}
-                                 
-                              </label>
-                              <div class="col-sm-6 xs-pt-5">
-                                 {{ form.contratos }}
-                                 <select class="select2 select2-hidden-accessible input-xs" tabindex="-1" aria-hidden="true" id="id_contratos" multiple="multiple">
-                                    <option value="con01">Contrato 1</option>
-                                    <option value="con02">Contrato 2</option>
-                                    <option value="con02">Contrato 3</option>
-                                    <option value="con02">Contrato 4</option>
-                                 </select>
-                              </div> 
-                              {% for error in form.contratos.errors %}
-                                 <span class="help-block">{{ error }}</span>
-                              {% endfor %}                                        
-                           </div>
+                           {% tag_field form.contratos 3 6 %}
 
                            <!-- criterios -->
                            {% tag_field form.criterios 3 6 %}
@@ -93,41 +75,9 @@
                            <!-- fecha_programada_ini_fin -->
                            <div class="form-group">
 
-                              <label class="col-sm-3 control-label">
-                                 Fecha Programada inicial / final
-                              </label>
+                              {% tag_field_date form.fecha_programada_ini 3 3 True %}
 
-                              <div class="col-sm-3 xs-pt-5">
-                                 <div class="input-group date" 
-                                 data-min-view="2" 
-                                 data-date-format="yyyy-mm-dd"
-                                 id="id_fecha_programada_inicial_input">
-                                    {{ form.fecha_partida }}
-                                    <input type="text" name="fecha_programada_inicial" required="" class="form-control input-xs" id="id_fecha_programada_inicial">
-                                    <span class="input-group-addon nova-addon-button">
-                                       <span class="glyphicon glyphicon-calendar"></span>
-                                    </span>
-                                 </div>
-                              </div> 
-                              {% for error in form.fecha_partida.errors %}
-                                 <span class="help-block">{{ error }}</span>
-                              {% endfor %}
-
-                              <div class="col-sm-3 xs-pt-5">
-                                 <div class="input-group date" 
-                                 data-min-view="2" 
-                                 data-date-format="yyyy-mm-dd"
-                                 id="id_fecha_programada_final_input">
-                                    {{ form.fecha_regreso }}
-                                    <input type="text" name="fecha_programada_final" required="" class="form-control input-xs" id="id_fecha_programada_final">
-                                    <span class="input-group-addon nova-addon-button">
-                                       <span class="glyphicon glyphicon-calendar"></span>
-                                    </span>
-                                 </div>
-                              </div>
-                              {% for error in form.fecha_regreso.errors %}
-                                 <span class="help-block">{{ error }}</span>
-                              {% endfor %}
+                              {% tag_field_date form.fecha_programada_fin 3 3 false %}
 
                            </div>
 
@@ -144,7 +94,8 @@
                      </div>
                   </div>
 
-               </div>
+               </div> <!-- wizard wizard-ux -->
+
                <!-- Botones -->
                <div class="modal-footer nova-modal-footer">
 

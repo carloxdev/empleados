@@ -163,14 +163,25 @@ class EmpleadoLista(View):
         for row in rows:
             row_num += 1
             for col_num in range(len(row)):
+
                 if isinstance(row[col_num], datetime.date):
+
                     ws.write(row_num, col_num, row[col_num], date_format)
                 else:
+
                     if (col_num == 2) or (col_num == 13):
-                        fecha = datetime.datetime.strptime(
-                            row[col_num], '%Y-%m-%d %H:%M:%S').date()
-                        ws.write(row_num, col_num, fecha, date_format)
+                        if (row[col_num] != '-'):
+
+                            fecha = datetime.datetime.strptime(row[col_num], '%Y-%m-%d %H:%M:%S').date()
+                            ws.write(row_num, col_num, fecha, date_format)
+                        else:
+
+                            ws.write(row_num, col_num, row[col_num])
+                            fecha = datetime.datetime.strptime(
+                                row[col_num], '%Y-%m-%d %H:%M:%S').date()
+                            ws.write(row_num, col_num, fecha, date_format)
                     else:
+
                         ws.write(row_num, col_num, row[col_num])
 
         wb.save(response)
