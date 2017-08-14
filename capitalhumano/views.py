@@ -25,7 +25,6 @@ from .forms import GradoAcademicoFilterForm
 from .forms import ExpedientesFilterForm
 from .forms import DocPersonalFilterForm
 from .forms import DocCapacitacionFilterForm
-from .forms import GradoAcademicoFilterForm
 
 # Serializer crear organigrama
 from serializers import VIEW_ORGANIGRAMA_ORG_SERIALIZADO
@@ -168,18 +167,9 @@ class EmpleadoLista(View):
                     ws.write(row_num, col_num, row[col_num], date_format)
                 else:
                     if (col_num == 2) or (col_num == 13):
-<<<<<<< HEAD
-
-                        if (row[col_num] != '-'):
-                            fecha = datetime.datetime.strptime(row[col_num], '%Y-%m-%d %H:%M:%S').date()
-                            ws.write(row_num, col_num, fecha, date_format)
-                        else:
-                            ws.write(row_num, col_num, row[col_num])    
-=======
                         fecha = datetime.datetime.strptime(
                             row[col_num], '%Y-%m-%d %H:%M:%S').date()
                         ws.write(row_num, col_num, fecha, date_format)
->>>>>>> origin/master
                     else:
                         ws.write(row_num, col_num, row[col_num])
 
@@ -243,9 +233,11 @@ class EmpleadoOrganigramaOrgAPI(View):
 class EmpleadoOrganigramaEmpAPI(View):
 
     def get(self, request, pk):
-
         daddies = VIEW_ORGANIGRAMA.objects.using(
             'ebs_p').filter(grup_compania_jde=pk)
+
+        for dato in daddies:
+            print dato.grup_compania_jde
 
         serializador = VIEW_ORGANIGRAMA_EMP_SERIALIZADO()
         lista_json = serializador.get_Json(daddies)
@@ -329,28 +321,22 @@ class EmpleadoExpediente(View):
         self.template_name = 'empleado_expediente.html'
 
     def get(self, request, _numero_empleado):
-        try:
 
-            form_per = NuevoDocumentoPersonalForm()
-            form_cap = NuevoDocumentoCapacitacionForm()
-            empleado = VIEW_EMPLEADOS_FULL.objects.using(
-                "ebs_p").filter(pers_empleado_numero=_numero_empleado)
+        form_per = NuevoDocumentoPersonalForm()
+        form_cap = NuevoDocumentoCapacitacionForm()
+        empleado = VIEW_EMPLEADOS_FULL.objects.using(
+            "ebs_p").filter(pers_empleado_numero=_numero_empleado)
 
-            ruta = self.comprobar_Direccion(empleado)
+        ruta = self.comprobar_Direccion(empleado)
 
-            contexto = {
-                'empleado': empleado,
-                'ruta': ruta,
-                'form': form_per,
-                'form2': form_cap
-            }
+        contexto = {
+            'empleado': empleado,
+            'ruta': ruta,
+            'form': form_per,
+            'form2': form_cap
+        }
 
-            return render(request, self.template_name, contexto)
-
-        except Exception as e:
-            print e
-            template_error = 'error_conexion.html'
-            return render(request, template_error, {})
+        return render(request, self.template_name, contexto)
 
     def comprobar_Direccion(self, _empleado):
         ruta = ''

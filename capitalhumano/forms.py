@@ -36,7 +36,7 @@ class OrganizacionesFilterForm(Form):
         self.fields['organizaciones'].choices = self.get_Organizaciones()
 
     def get_Organizaciones(self):
-        valores = [('0', 'TODAS LAS ORGANIZACIONES')]
+        valores = [('', 'TODAS LAS ORGANIZACIONES')]
 
         organizaciones = VIEW_ORGANIZACIONES.objects.using('ebs_p').all()
         for organizacion in organizaciones:
@@ -60,7 +60,7 @@ class EmpresasFilterForm(Form):
         self.fields['empresas'].choices = self.get_Empresas()
 
     def get_Empresas(self):
-        valores = [('0', 'TODAS LAS EMPRESAS')]
+        valores = [('', 'TODAS LAS EMPRESAS')]
 
         empresas = Empresa.objects.all()
         for empresa in empresas:

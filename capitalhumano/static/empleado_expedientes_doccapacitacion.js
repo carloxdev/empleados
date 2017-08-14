@@ -207,32 +207,34 @@ Toolbar.prototype.Inicializar_CeldasExcel = function (e) {
 }
 Toolbar.prototype.click_BotonExportar = function (e) {
 
-    tarjeta_resultados.grid.leer_Datos()
-    e.data.Inicializar_CeldasExcel()
+    if( tarjeta_filtro.validar_Campos() != 'True'){
+        tarjeta_resultados.grid.leer_Datos()
+        e.data.Inicializar_CeldasExcel()
 
-    tarjeta_resultados.grid.kfuente_datos_excel.fetch(function () {
+        tarjeta_resultados.grid.kfuente_datos_excel.fetch(function () {
 
-        var data = this.data();
-        for (var i = 0; i < data.length; i++) {
+            var data = this.data();
+            for (var i = 0; i < data.length; i++) {
 
-                e.data.kRows.push({
-                    cells: e.data.get_Registros_Excel(data[i])
-                })
-        }
-        var workbook = new kendo.ooxml.Workbook({
-                sheets: [
-                    {
-                        columns: e.data.get_Columnas_Excel_Ancho(),
-                        title: "ListaCapacitacion",
-                        rows: e.data.kRows
-                    }
-                ]
+                    e.data.kRows.push({
+                        cells: e.data.get_Registros_Excel(data[i])
+                    })
+            }
+            var workbook = new kendo.ooxml.Workbook({
+                    sheets: [
+                        {
+                            columns: e.data.get_Columnas_Excel_Ancho(),
+                            title: "ListaCapacitacion",
+                            rows: e.data.kRows
+                        }
+                    ]
+                });
+            kendo.saveAs({
+                dataURI: workbook.toDataURL(),
+                fileName: "ListaCapacitacion.xlsx",
             });
-        kendo.saveAs({
-            dataURI: workbook.toDataURL(),
-            fileName: "ListaCapacitacion.xlsx",
-        });
-    })
+        })
+    }
 }
 Toolbar.prototype.get_Columnas_Excel_Ancho = function () {
     
@@ -405,7 +407,7 @@ Grid.prototype.get_Columnas = function () {
                 { field: "area", title: "Area", width:"100px" },
                 { field: "fecha_inicio",title: "Fecha inicio",width:"100px"},
                 { field: "fecha_fin", title: "Fecha fin", width:"100px" },
-                { field: "fecha_vencimiento", title: "Fecha vencimiento", width:"100px", format: "{0:dd/MM/yyyy}" },
+                { field: "fecha_vencimiento", title: "Fecha vencimiento", width:"150px", format: "{0:dd/MM/yyyy}" },
                 { field: "organizacion", title: "Organizacion", width:"200px" },
                 { field: "created_by", title: "Creado por", width:"150px" },
                 { field: "created_date", title: "Fecha de creación", width:"150px", format: "{0:dd/MM/yyyy}" },

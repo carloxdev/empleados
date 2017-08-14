@@ -119,6 +119,7 @@ class ArchivoSerializers(serializers.HyperlinkedModelSerializer):
         )
 # ---------- FIN Serializers para insertar registros------------------
 
+
 class ArchivoPersonalSerializer(serializers.HyperlinkedModelSerializer):
     numero_empleado = serializers.SerializerMethodField()
     tipo_documento = serializers.SerializerMethodField()
@@ -612,7 +613,7 @@ class VIEW_ORGANIGRAMA_EMP_SERIALIZADO(object):
         for persona in _daddies:
             if persona.jefe_nombre_completo == padre.pers_nombre_completo:
                 hijos.append(persona)
-                # print 'jefe'+persona.pers_nombre_completo.encode('utf-8')
+                # print 'jefe' + persona.pers_nombre_completo.encode('utf-8')
 
         if len(hijos):
             self.get_Estructura(nodo, padre)

@@ -641,4 +641,10 @@ div.nova-panel-arbol li.list-group-item {
    background-color: Azure;
 }
 /* kendo grid */
+/* modal descripcion */
+.nova-modal-contenido{
+  font-size: 14px;
+  margin-left: 0 30px 0 30px;
+}
+/* modal descripcion */
 
