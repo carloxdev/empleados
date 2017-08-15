@@ -10,12 +10,16 @@ from django_filters import CharFilter
 # Modelos:
 from .models import PerfilPuestoDocumento
 from .models import Archivo
+<<<<<<< Updated upstream
 from ebs.models import VIEW_EMPLEADOS_FULL
 from .models import DocumentoPersonal
 from .models import DocumentoCapacitacion
+=======
+from .models import PerfilPuestosCargo
+>>>>>>> Stashed changes
 
 
-class PerfilpuestoDocumentoFilter(filters.FilterSet):
+class PerfilPuestoDocumentoFilter(filters.FilterSet):
 
     empleado_puesto_desc = CharFilter(
         name="empleado_puesto_desc",
@@ -27,6 +31,19 @@ class PerfilpuestoDocumentoFilter(filters.FilterSet):
         fields = [
             'id',
             'empleado_puesto_desc',
+        ]
+
+class PerfilpuestosCargoFilter(filters.FilterSet):
+
+    id_puesto = CharFilter(
+        name="id_puesto",
+        lookup_expr="icontains"
+    )
+
+    class Meta:
+        model = PerfilPuestosCargo
+        fields = [
+            'id_puesto',
         ]
 
 

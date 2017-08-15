@@ -9,6 +9,7 @@ from ebs.views_rest import VIEW_ORGANIZACIONES_API
 from ebs.views_rest import VIEW_EMPLEADOS_GRADO_API
 from ebs.views_rest import VIEW_EMPLEADOS_GRADO_ByPageAPI
 from ebs.views_rest import VIEW_ORGANIGRAMA_API
+from ebs.views_rest import VIEW_ESPECIALIDADES_API
 
 
 router_ebs = routers.DefaultRouter()
@@ -53,3 +54,12 @@ router_ebs.register(
     VIEW_ORGANIGRAMA_API,
     'vieworganigrama'
 )
+<<<<<<< Updated upstream
+=======
+router_ebs.register(
+    r'viewespecialidades',
+    VIEW_ESPECIALIDADES_API,
+    'viewespecialidades'
+)
+
+>>>>>>> Stashed changes

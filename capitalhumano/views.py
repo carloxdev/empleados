@@ -21,10 +21,15 @@ from .forms import EmpresasFilterForm
 from .forms import PerfilPuestoDocumentoForm
 from .forms import NuevoDocumentoPersonalForm
 from .forms import NuevoDocumentoCapacitacionForm
+<<<<<<< Updated upstream
 from .forms import GradoAcademicoFilterForm
 from .forms import ExpedientesFilterForm
 from .forms import DocPersonalFilterForm
 from .forms import DocCapacitacionFilterForm
+=======
+from .forms import PerfilAgregarPuestoCargoForm
+from .forms import PerfilPuestoListaForm
+>>>>>>> Stashed changes
 
 # Serializer crear organigrama
 from serializers import VIEW_ORGANIGRAMA_ORG_SERIALIZADO
@@ -371,24 +376,54 @@ class PerfilPuesto(View):
 
     def get(self, request):
 
-        return render(request, 'perfilpuesto/perfil_lista.html')
+        formulario = PerfilPuestoListaForm()
+        
+        contexto = {
+            'form': formulario
+        }
+
+        return render(request, 'perfilpuesto/perfil_lista.html', contexto)
 
 
 class PerfilPuestoNuevo(View):
 
     def __init__(self):
 
-        self.template_name = 'perfilpuesto/perfil_nuevo.html'
+        #self.template_name = 'perfilpuesto/perfil_nuevo.html'
+        self.template_name = 'perfilpuesto/perfil.html'
+
 
     def get(self, request):
 
         formulario = PerfilPuestoDocumentoForm()
+        form_puesto_cargo = PerfilAgregarPuestoCargoForm()
 
+        contexto = {
+            'form': formulario,
+            'form2': form_puesto_cargo
+        }
+
+        return render(request, self.template_name, contexto)
+    
+    def post(self, request):
+
+        formulario = PerfilPuestoDocumentoForm(request.POST)
+
+        if formulario.is_valid():
+            perfilpuesto = formulario.save(commit=False)
+            
+            perfilpuesto.asig_puesto_clave = '11893'
+            perfilpuesto.created_by = request.user.profile
+
+            perfilpuesto.save()
+
+            return redirect(reverse('capitalhumano:perfil_nuevo'))
+            
         contexto = {
             'form': formulario
         }
 
-        return render(request, self.template_name, contexto)
+        return render(request, self.template_name, contexto)     
 
 
 class PerfilPuestoNuevo2(View):

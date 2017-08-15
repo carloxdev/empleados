@@ -36,9 +36,7 @@ function TargetaIncidencia(){
 }
 TargetaIncidencia.prototype.init_Components = function () {
 
-
     this.$empleado.select2()
-    
     
     //this.$fecha.inputmask("yyyy-mm-dd", {"placeholder": "yyyy-mm-dd"})
     this.$fecha.mask(
@@ -66,7 +64,6 @@ TargetaIncidencia.prototype.escoger_Zona = function (e) {
         success: function (response) {
             
             // Validar cuando no obtenga regitros
-
 
             if (response[0].asig_ubicacion_desc == 'OFICINA VILLAHERMOSA JUJO' ||
                     response[0].asig_ubicacion_desc == 'OFICINA VILLAHERMOSA CEDROS' ||

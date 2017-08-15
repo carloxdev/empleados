@@ -5,20 +5,15 @@
 \*-----------------------------------------------*/
 
 // URLS:
-var url_incidenciadocumento = window.location.origin + "/api-capitalhumano/perfilpuestodocumento/"
-var url_incidenciadocumento_bypage = window.location.origin + "/api-capitalhumano/perfilpuestodocumento/"
-
+var url_perfil_puesto_bypage = window.location.origin + "/api-capitalhumano/perfilpuestosdoc_bypage/"
 
 var url_excel = window.location.origin + "/api-sgi/incidenciadocumento/"
-
 
 // OBJS
 var grid = null
 var filtros = null
 var resultados = null
 var toolbar = null
-
-
 
 /*-----------------------------------------------*\
             LOAD
@@ -28,7 +23,19 @@ $(document).ready(function () {
     
     filtros = new TarjetaFiltros()
     resultados = new TargetaResultados()
-  
+
+   // Asigna eventos a teclas
+    $(document).keypress(function (e) {
+        // Tecla Enter
+        if (e.which == 13) {
+
+            if (filtros.$id.hasClass('in')) {
+                filtros.apply_Filters()
+            }
+
+        }
+        // Tecla ESC
+    })
 })
 
 
@@ -37,23 +44,53 @@ $(document).ready(function () {
 \*-----------------------------------------------*/
 
 function TarjetaFiltros(){
-    this.$puesto = $('#id_puesto')
+    this.$puesto = $('#id_asig_puesto_clave')
     this.$departamento = $('#id_departamento')
     this.$nivel_estudios = $('#id_estudios')
     this.$experiencia = $('#id_experiencia')
+
+     this.$boton_buscar = $('#boton_buscar')
     
     this.init_Components()
+    this.init_Events()
 }  
+
 TarjetaFiltros.prototype.init_Components= function(){
     this.$puesto.select2(this.get_ConfSelect2())
     this.$departamento.select2(this.get_ConfSelect2())
     this.$nivel_estudios.select2(this.get_ConfSelect2())
     this.$experiencia.select2(this.get_ConfSelect2())
 }
+
 TarjetaFiltros.prototype.get_ConfSelect2 = function () {
    return {
       width: '100%'
     }
+}
+
+TarjetaFiltros.prototype.init_Events = function () {
+    // Asosciar Eventos
+    this.$boton_buscar.on("click", this, this.click_BotonBuscar)   
+}
+
+TarjetaFiltros.prototype.get_Values = function (_page) {
+
+    return {
+        page: _page,
+        id_puesto: this.$puesto.val(),
+        //departamento: this.$departamento.val(),
+        //nivel_estudios: this.$nivel_estudios.val(),
+        //experiencia: this.$experiencia.val(),
+      
+    }
+
+}
+
+TarjetaFiltros.prototype.click_BotonBuscar = function (e) {
+
+    e.preventDefault()
+    resultados.grid.buscar()
+   
 }
 
 /*-----------------------------------------------*\
@@ -65,8 +102,6 @@ function TargetaResultados () {
     this.toolbar = new Toolbar()
     this.grid = new Grid()
 }
-
-
 
 /*-----------------------------------------------*\
             OBJETO: Grid
@@ -90,9 +125,9 @@ Grid.prototype.init_Components = function () {
     // Se inicializa la fuente da datos (datasource)
     this.kfuente_datos = new kendo.data.DataSource(this.get_DataSourceConfig())
     //this.kfuente_datos_excel = new kendo.data.DataSource(this.get_FuenteDatosExcel())
-
+   
     // Se inicializa y configura el grid:
-    this.kgrid = this.$id.kendoGrid(this.get_Configuracion())    
+    this.kgrid = this.$id.kendoGrid(this.get_Configuracion()) 
 }
 
 
@@ -105,12 +140,15 @@ Grid.prototype.get_DataSourceConfig = function () {
         pageSize: 10,
         transport: {
             read: {
-
-                url: url_incidenciadocumento_bypage,
+                url: url_perfil_puesto_bypage,
                 type: "GET",
                 dataType: "json",
             },
-           
+             parameterMap: function (data, action) {
+                 if (action === "read"){
+                     return filtros.get_Values(data.page)
+                 }
+             }
         },
         schema: {
             data: "results",
@@ -131,19 +169,21 @@ Grid.prototype.get_Campos = function () {
     return {
         pk : { type: "number" },
         empleado_puesto_desc : { type: "string" },
+        asig_puesto_clave : { type: "string" },
         reporta : { type: "string" },
-        proposito : { type: "string" },
+        objetivo : { type: "string" },
         funciones : { type: "string" },
         responsabilidades : { type: "string" },
         reporte : { type: "string" },
+        posicion: { type: "string" },
         edad_minima : { type: "string" },
         edad_maxima : { type: "string" },
         nivel_estudio : { type: "string" },
         estado_civil : { type: "string" },
         genero : { type: "number" },
         cambio_residencia : { type: "string" },
-        disponibilidad_viajar : { type: "string" },
-        
+        requerimientos : { type: "string" },
+        proposito : { type: "string" },
     }
 }
 Grid.prototype.get_Configuracion = function () {
@@ -175,60 +215,42 @@ Grid.prototype.get_Columnas = function () {
             //template: '<a class="btn btn-default nova-url" href="#=Grid.prototype.get_EditUrl(pk)#">#=pk#</a>',
             //template: '<a class="btn btn-default nova-url" href="#=url_incidencia_editar  + pk + "/" + "editar/"  #">#=pk#</a>',
         },
+        { field: "empleado_puesto_desc", title: "Puesto", width:"100px" },
+ 		{ field: "asig_puesto_clave", title: "asig_puesto_clave", width:"200px" },
+        { field: "reporta", title: "Reporta a", width:"100px" },
+        { field: "objetivo", title: "Objetivo", width:"70px" },
+        { field: "funciones", title: "Funciones", width:"70px" },
+        { field: "responsabilidades", title: "Responsabilidades", width:"100px" },
+        { field: "reporte", title: "Reporte", width:"70px" },
+        { field: "posicion", title: "Staf", width:"70px" },
+        { field: "edad_minima", title: "Edad Minima", width:"70px" },
+        { field: "edad_maxima", title: "Edad Maxima", width:"70px" },
+        { field: "nivel_estudio", title: "Nivel Estudio", width:"90px" },
+        { field: "estado_civil", title: "Estado Civil", width:"90px" },
+        { field: "genero", title: "genero", width:"70px" },
+        { field: "cambio_residencia", title: "cambio de Residencia", width:"100px" },
+        { field: "disponibilidad_viajar", title: "Disponibilidad Viajar", width:"100px" },
+        { field: "requerimientos", title: "Requerimientos", width:"100px" },
+        { field: "proposito", title: "Proposito", width:"70px" },
+ 
         {
            command: [ 
                 {
-                   text: "Competencias",
-                   //click: this.click_BotonAnexos,
-                   className: "btn btn-space btn-primary"
-                },          
-            ],           
-           title: " ",
-           width: "150px"
-        },
-        {
-           command: [ 
-                {
-                   text: "Areas Experiencias",
-                   //click: this.click_BotonAnexos,
-                   className: "btn btn-space btn-primary"
-                },          
-            ],           
-           title: " ",
-           width: "150px"
-
-        },
-        {
-           command: [ 
-                {
-                   text: "Puestos a Cargo",
+                   text: "Seguimiento",
                    //click: this.click_BotonSeguimiento,
                    className: "btn btn-space btn-primary"
                 },             
             ],           
            title: " ",
-           width: "150px"
+           width: "120px"
         },
 
-        { field: "reporta", title: "Reporta A", width:"200px" },
-        { field: "proposito", title: "Proposito", width:"100px" },
-        { field: "funciones", title: "Funciones", width:"100px" },
-        { field: "responsabilidades", title: "Responsabilidades", width:"70px" },
-        { field: "reporte", title: "Reporte", width:"220px" },
-        { field: "edad_minima", title: "Edad Minima", width:"100px" },
-        { field: "edad_maxima", title: "Edad Maxima", width:"70px" },
-        { field: "nivel_estudio", title: "Nivel Estudio", width:"200px" },
-        { field: "estado_civil", title: "Estado Civil", width:"70px" },
-        
-        
     ]
+
 }
 
 
 
-Grid.prototype.get_EditUrl = function(_pk) {
-  return url_incidencia_editar.replace('/0/', '/' + _pk + '/')   
-} 
 
 Grid.prototype.buscar = function() {
     

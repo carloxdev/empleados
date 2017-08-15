@@ -14,10 +14,29 @@ from .models import DocumentoPersonal
 from .models import DocumentoCapacitacion
 from .models import Curso
 from ebs.models import VIEW_EMPLEADOS_FULL
+<<<<<<< Updated upstream
 from jde.models import VIEW_PROVEEDORES
+=======
+from .models import PerfilPuestosCargo
+>>>>>>> Stashed changes
 
 # GenerisForeignKey
 from generic_relations.relations import GenericRelatedField
+
+
+class PerfilPuestosCargoSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = PerfilPuestosCargo
+        fields = (
+            'pk',
+            'id_puesto',
+            'id_puesto_cargo',
+            'descripcion',
+            'created_by',
+            'created_date',
+            'updated_by',
+            'updated_date',
+        )
 
 
 class PerfilPuestoDocumentoSerializer(serializers.HyperlinkedModelSerializer):
@@ -27,11 +46,13 @@ class PerfilPuestoDocumentoSerializer(serializers.HyperlinkedModelSerializer):
         fields = (
             'pk',
             'empleado_puesto_desc',
+            'asig_puesto_clave',
             'reporta',
-            'proposito',
+            'objetivo',
             'funciones',
             'responsabilidades',
             'reporte',
+            'posicion',
             'edad_minima',
             'edad_maxima',
             'nivel_estudio',
@@ -40,6 +61,10 @@ class PerfilPuestoDocumentoSerializer(serializers.HyperlinkedModelSerializer):
             'cambio_residencia',
             'disponibilidad_viajar',
             'requerimentos',
+            'areas_experiencia_id',
+            'competencias_id',
+            'proposito',
+            'puesto_acargo_id',
         )
 
 

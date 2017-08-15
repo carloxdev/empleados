@@ -8,6 +8,9 @@ from django.conf import settings
 import os
 from datetime import timedelta
 
+# Librerias/Clases de Terceros
+from simple_history.models import HistoricalRecords
+
 # Librerias/Clases Django
 from django.db import models
 from django.contrib.contenttypes.fields import GenericForeignKey
@@ -20,6 +23,111 @@ from ebs.models import VIEW_EMPLEADOS_FULL
 
 # Utilidades:
 from utilities import get_FilePath_Expedientes
+
+
+class PerfilPuestosCargo(models.Model):
+
+    id_puesto= models.CharField(max_length=144)
+    id_puesto_cargo = models.CharField(max_length=144)
+    descripcion = models.CharField(max_length=144)
+    
+    created_by = models.ForeignKey(Profile, related_name='pp_created_by')
+    created_date = models.DateTimeField(
+        auto_now=False,
+        auto_now_add=True
+    )
+    updated_by = models.ForeignKey(Profile, related_name='pp_updated_by', null=True, blank=True)
+    updated_date = models.DateTimeField(
+        auto_now=True,
+        auto_now_add=False,
+        null=True,
+        blank=True
+    )
+    ##history = HistoricalRecords()
+
+    def __unicode__(self):
+        cadena = "%s - %s" % (self.id_puesto, self.descripcion)
+        return cadena
+
+    def __str__(self):
+        cadena = "%s - %s" % (self.id_puesto, self.descripcion)
+        return cadena
+
+    class Meta:
+        verbose_name_plural = "Perfil - Puestos a Cargo"
+
+
+class PerfilExperencia(models.Model):
+
+    descripcion = models.CharField(max_length=144)
+    anios = models.CharField(max_length=3)
+
+    created_by = models.ForeignKey(Profile, related_name='pexp_created_by')
+    created_date = models.DateTimeField(
+        auto_now=False,
+        auto_now_add=True
+    )
+    updated_by = models.ForeignKey(Profile, related_name='pexp_updated_by', null=True, blank=True)
+    updated_date = models.DateTimeField(
+        auto_now=True,
+        auto_now_add=False,
+        null=True,
+        blank=True
+    )
+    history = HistoricalRecords()
+
+    def __unicode__(self):
+        cadena = "%s - %s" % (self.id, self.descripcion)
+        return cadena
+
+    def __str__(self):
+        cadena = "%s - %s" % (self.id, self.descripcion)
+        return cadena
+
+    class Meta:
+        verbose_name_plural = "Areas de Experiencia"
+
+
+class PerfilCompetencias(models.Model):
+
+    OPCIONES = (
+        ('adm', 'Administrativas'),
+        ('tec', 'Tecnicas'),
+    )
+
+    tipo_competencia = models.CharField(
+        choices=OPCIONES,
+        default="adm",
+        max_length=3       
+    )
+
+    descripcion = models.CharField(max_length=144)
+    porcentaje = models.IntegerField(default=0)
+
+    created_by = models.ForeignKey(Profile, related_name='pper_created_by')
+    created_date = models.DateTimeField(
+        auto_now=False,
+        auto_now_add=True,
+    )
+    updated_by = models.ForeignKey(Profile, related_name='pper_updated_by', null=True, blank=True)
+    updated_date = models.DateTimeField(
+        auto_now=True,
+        auto_now_add=False,
+        null=True,
+        blank=True
+    )
+    history = HistoricalRecords()
+
+    def __unicode__(self):
+        cadena = "%s - %s" % (self.id, self.descripcion)
+        return cadena
+
+    def __str__(self):
+        cadena = "%s - %s" % (self.id, self.descripcion)
+        return cadena
+
+    class Meta:
+        verbose_name_plural = "Areas de Experiencia"
 
 
 class PerfilPuestoDocumento(models.Model):
@@ -40,15 +148,17 @@ class PerfilPuestoDocumento(models.Model):
     )
 
     empleado_puesto_desc = models.CharField(max_length=144)
-    asig_puesto_clave = models.CharField(max_length=144, default=True)
-    reporta = models.CharField(max_length=144)
-    proposito = models.CharField(max_length=144)
-    funciones = models.CharField(max_length=144)
-    responsabilidades = models.CharField(max_length=144)
-    reporte = models.CharField(max_length=144)
-    edad_minima = models.CharField(max_length=10)
-    edad_maxima = models.CharField(max_length=10)
-    nivel_estudio = models.CharField(max_length=144)
+    asig_puesto_clave = models.CharField(max_length=144)
+    reporta = models.CharField(max_length=144, null=True, blank=True)
+    objetivo = models.CharField(max_length=144, null=True, blank=True)
+    funciones = models.CharField(max_length=144, null=True, blank=True)
+    responsabilidades = models.CharField(max_length=144, null=True, blank=True)
+    reporte = models.CharField(max_length=144, null=True, blank=True)
+    posicion = models.CharField(max_length=144)
+    puesto_acargo =  models.ForeignKey(PerfilPuestosCargo, blank=True, null=True)
+    edad_minima = models.CharField(max_length=10, blank=True)
+    edad_maxima = models.CharField(max_length=10, blank=True)
+    nivel_estudio = models.CharField(max_length=144, blank=True)
     estado_civil = models.CharField(
         choices=ESTADO_OPCIONES,
         default="ind",
@@ -62,6 +172,9 @@ class PerfilPuestoDocumento(models.Model):
     cambio_residencia = models.BooleanField(default=False)
     disponibilidad_viajar = models.BooleanField(default=False)
     requerimentos = models.CharField(max_length=144)
+    areas_experiencia = models.ForeignKey(PerfilExperencia, blank=True, null=True)
+    competencias = models.ForeignKey(PerfilCompetencias, blank=True, null=True)
+    proposito = models.CharField(max_length=144, blank=True)
 
     def __unicode__(self):
         cadena = "%s" % (self.id)

@@ -43,26 +43,49 @@
                         <div class="row">
                                 
                             <div class="row nova-padding-row">
-                                <!-- pers_primer_nombre -->
+                                <!-- asig_puesto_clave -->
                                 <div class="col-sm-4">
-                                    <div class="form-group {% if form.pers_primer_nombre.errors %} has-error {% endif %}">
+                                    <div class="form-group {% if form.asig_puesto_clave.errors %} has-error {% endif %}">
 
                                     <label class="control-label">
-                                    <i class="fa {% if form.pers_primer_nombre.errors %} fa-asterisk {% endif %}"></i> 
+                                    <i class="fa {% if form.asig_puesto_clave.errors %} fa-asterisk {% endif %}"></i> 
                                         Puesto
                                     </label>
                                     <p>
-                                    <select class="select2 nova-select2" id="id_puesto">
-                        			     <option value="p1">Seleccione</option>
-                           			     <option value="p1">59.95.SUPERVISOR DE CONSTRUCCION</option>
-                                         <option value="p2">59.223.JEFE DE CONTROL DE CALIDAD</option>
-                                         <option value="p2">59.104.TECNICO INSTRUMENTISTA</option>
-                           			 </select>
+                                    {{ form.asig_puesto_clave}}  
                            			 </p>
+                                      {% for error in form.asig_puesto_clave.errors %}
+                                      <span class="help-block">{{ error }}</span>
+                                      {% endfor %}
                                     </div>
                                 </div>
 
-                                 <!-- pers_segundo_nombre -->
+
+                                <!-- pers_apellido_paterno -->
+                                <div class="col-sm-4">
+                                    <div class="form-group {% if form.reporta.errors %} has-error {% endif %}">
+
+                                    <label class="control-label">
+                                    <i class="fa {% if form.reporta.errors %} fa-asterisk {% endif %}"></i> 
+                                        Departamento
+                                    </label>
+                                    <p>
+                                       <select  class="select2 nova-select2" id="id_departamento">
+                                          <option value="p1">Seleccione</option>
+                                          <optgroup label="Corporativo">
+                                            <option value="p1">Capital Humano</option>
+                                            <option value="p2">Juridico</option>
+                                            <option value="p3">Tecnologias de Informacion</option>
+                                            <option value="p4">Gestion de Calidad</option>
+                                            <option value="p5">Licitaciones</option>
+                                          </optgroup>
+                                        </select> 
+                                    </p>
+                                    </div>
+                                </div>
+
+
+                                 <!-- pertenece -->
                                 <div class="col-sm-4">
                                     <div class="form-group {% if form.pers_segundo_nombre.errors %} has-error {% endif %}">
                                         <label class="control-label">
@@ -75,28 +98,7 @@
                                     </div>
                                 </div>   
                                 
-                                <!-- pers_apellido_paterno -->
-                                <div class="col-sm-4">
-                                    <div class="form-group {% if form.pers_apellido_paterno.errors %} has-error {% endif %}">
-
-                                    <label class="control-label">
-                                    <i class="fa {% if form.pers_apellido_paterno.errors %} fa-asterisk {% endif %}"></i> 
-                                        Departamento
-                                    </label>
-                                    <p>
-                                       <select  class="select2 nova-select2" id="id_departamento">
-			                              <option value="p1">Seleccione</option>
-			                              <optgroup label="Corporativo">
-			                                <option value="p1">Capital Humano</option>
-			                                <option value="p2">Juridico</option>
-			                                <option value="p3">Tecnologias de Informacion</option>
-			                                <option value="p4">Gestion de Calidad</option>
-			                                <option value="p5">Licitaciones</option>
-			                              </optgroup>
-			                            </select> 
-                                    </p>
-                                    </div>
-                                </div>
+                 
                             </div>                       
 
                             <!-- pers_apellido_materno -->
@@ -175,57 +177,8 @@
    
    <div class="title hidden-xs">Registros</div>
             </div><!-- Panel Heading -->
-            <div id="grid_resultados2">
-            <table class="table table-bordered">
-               <thead>
-                  <tr>
-                     <th>Id</th>
-                     <th>Puesto</th>
-                     <th>Reporta A</th>
-                     <th>Proposito</th>
-                     <th>Funciones</th>
-                     <th>Responsabilidades</th>
-                     <th>Nivel Estudio</th>
-                     <th>Estado Civil</th>
-                     <th>Cambio Residencia</th>
-
-                     <th>Acciones</th>
-                  </tr>
-               </thead>
-               <tbody>
-                  <tr>
-                     <th scope="row">01</th>
-                     <td>54.192 COORDINADOR DE TECNOLOGIAS DE INFORMACION</td>
-                     <td>01.36 DIRECTOR DE PLANEACION, ADMINISTRACION Y FINANZAS</td>
-                     <td>Administrar eficazmente los recursos tecnologicos</td>
-                     <td>Gestionar eficazmente los recursos, Manejo y administracion de persona</td>
-                     <td>Manejo y administracin de personal</td>
-                     <td>Licenciatura</td>
-                     <td>Indistinto</td>
-                     <td>No</td>
-                     <td>
-                        <a href="{% url 'calidad:auditoria_lista' %}" class="btn nova-btn btn-rounded btn-space btn-default" id="boton_nuevo">
-                           <i class="icon icon-left mdi mdi-edit nova-black"></i> Editar
-                        </a>
-                         <button class="btn nova-btn btn-rounded btn-space btn-success" id="boton_excel">
-                        <i class="icon icon-left mdi mdi-collection-pdf nova-white"></i>Formato
-                        </button>
-                         <a href="{% url 'calidad:auditoria_lista' %}" class="btn nova-btn btn-rounded btn-space btn-default" id="boton_nuevo">
-                           Competencias
-                        </a>
-                         <a href="{% url 'calidad:auditoria_lista' %}" class="btn nova-btn btn-rounded btn-space btn-default" id="boton_nuevo">
-                           Areas de Experiencias
-                        </a>
-                         <a href="{% url 'calidad:auditoria_lista' %}" class="btn nova-btn btn-rounded btn-space btn-default" id="boton_nuevo">
-                           Puestos a cargo
-                        </a>
-                       
-                       
-                     </td>
-                  </tr>
-                  
-               </tbody>
-            </table>
+            <div id="grid_resultados">
+           
             </div>
 
                 <div class="panel-footer panel-border nova-panel-footer panel-border">
