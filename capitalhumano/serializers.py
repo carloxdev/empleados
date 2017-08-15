@@ -14,11 +14,9 @@ from .models import DocumentoPersonal
 from .models import DocumentoCapacitacion
 from .models import Curso
 from ebs.models import VIEW_EMPLEADOS_FULL
-<<<<<<< Updated upstream
 from jde.models import VIEW_PROVEEDORES
-=======
 from .models import PerfilPuestosCargo
->>>>>>> Stashed changes
+
 
 # GenerisForeignKey
 from generic_relations.relations import GenericRelatedField

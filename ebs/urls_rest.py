@@ -54,12 +54,11 @@ router_ebs.register(
     VIEW_ORGANIGRAMA_API,
     'vieworganigrama'
 )
-<<<<<<< Updated upstream
-=======
+
 router_ebs.register(
     r'viewespecialidades',
     VIEW_ESPECIALIDADES_API,
     'viewespecialidades'
 )
 
->>>>>>> Stashed changes
+

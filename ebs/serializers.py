@@ -191,8 +191,7 @@ class VIEW_ORGANIGRAMA_Serializer(serializers.HyperlinkedModelSerializer):
             'asig_ubicacion_desc',
             'tipo',
         )
-<<<<<<< Updated upstream
-=======
+
 
 class VIEW_ESPECIALIDADES_Serializer(serializers.HyperlinkedModelSerializer):
 
@@ -202,4 +201,4 @@ class VIEW_ESPECIALIDADES_Serializer(serializers.HyperlinkedModelSerializer):
             'qua_especialidad',
         )
 
->>>>>>> Stashed changes
+

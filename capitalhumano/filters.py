@@ -10,13 +10,13 @@ from django_filters import CharFilter
 # Modelos:
 from .models import PerfilPuestoDocumento
 from .models import Archivo
-<<<<<<< Updated upstream
+
 from ebs.models import VIEW_EMPLEADOS_FULL
 from .models import DocumentoPersonal
 from .models import DocumentoCapacitacion
-=======
+
 from .models import PerfilPuestosCargo
->>>>>>> Stashed changes
+
 
 
 class PerfilPuestoDocumentoFilter(filters.FilterSet):

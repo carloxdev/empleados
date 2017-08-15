@@ -32,12 +32,12 @@ from .pagination import GenericPagination
 from .filters import PerfilPuestoDocumentoFilter
 from .filters import ArchivoPersonalFilter
 from .filters import ArchivoCapacitacionFilter
-<<<<<<< Updated upstream
+
 from .filters import ArchivoFilter
 from .filters import DocumentoPersonalFilter
-=======
+
 from .filters import PerfilpuestosCargoFilter
->>>>>>> Stashed changes
+
 
 
 
@@ -99,9 +99,8 @@ class ArchivoCapacitacionByPageAPI(viewsets.ModelViewSet):
     pagination_class = GenericPagination
     filter_backends = (DjangoFilterBackend,)
     filter_class = ArchivoCapacitacionFilter
-<<<<<<< Updated upstream
     permission_classes = (IsAuthenticated,)
-=======
+
 
 # -------------- DOCUMENTO PERFIL PUESTOS - API REST -------------- #
 class PerfilPuestosCargoAPI(viewsets.ModelViewSet):
@@ -127,4 +126,4 @@ class PerfilPuestosDocumentoByPageAPI(viewsets.ModelViewSet):
     filter_class = PerfilPuestoDocumentoFilter
     pagination_class = GenericPagination
     permission_classes = (IsAuthenticated,)        
->>>>>>> Stashed changes
+

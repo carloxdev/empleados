@@ -713,12 +713,12 @@ class NuevoDocumentoCapacitacionForm(Form):
 
     def __init__(self, *args, **kwargs):
         super(NuevoDocumentoCapacitacionForm, self).__init__(*args, **kwargs)
-<<<<<<< Updated upstream
+
         self.fields[
             'departamento'].choices = EmpleadoBusiness.get_Organizaciones()
         self.fields['proveedor'].choices = EmpleadoBusiness.get_Proveedores()
         self.fields['curso'].choices = EmpleadoBusiness.get_Curso()
-=======
+
         self.fields['departamento'].choices = self.get_Organizaciones()
 
     def get_Organizaciones(self):
@@ -837,4 +837,4 @@ class PerfilPuestoListaForm(Form):
                 )
             )
         return valores
->>>>>>> Stashed changes
+

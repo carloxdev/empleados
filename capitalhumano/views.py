@@ -21,15 +21,15 @@ from .forms import EmpresasFilterForm
 from .forms import PerfilPuestoDocumentoForm
 from .forms import NuevoDocumentoPersonalForm
 from .forms import NuevoDocumentoCapacitacionForm
-<<<<<<< Updated upstream
+
 from .forms import GradoAcademicoFilterForm
 from .forms import ExpedientesFilterForm
 from .forms import DocPersonalFilterForm
 from .forms import DocCapacitacionFilterForm
-=======
+
 from .forms import PerfilAgregarPuestoCargoForm
 from .forms import PerfilPuestoListaForm
->>>>>>> Stashed changes
+
 
 # Serializer crear organigrama
 from serializers import VIEW_ORGANIGRAMA_ORG_SERIALIZADO
