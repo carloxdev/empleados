@@ -509,6 +509,19 @@
   background-repeat: no-repeat;
   background-size: 70px 70px ;
 }
+.orgchart-div-imagen{
+  height: 70px;
+  width: 70px;
+  background-repeat: no-repeat;
+  background-size: 100% 100% ;
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+}
+.orgchart-foto{
+  margin: 1px 1px 1px 1px;
+  width: 70px;
+  height: 100%;
+}
 .orgchart .slide-down {
   opacity: 0;
   top: 40px;

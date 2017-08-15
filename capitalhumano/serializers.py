@@ -1,6 +1,8 @@
 
 # Librerias Django
 from rest_framework import serializers
+from django.core.files.storage import default_storage
+import os
 
 # Librerias Python:
 import sys
@@ -552,6 +554,18 @@ class VIEW_ORGANIGRAMA_ORG_SERIALIZADO(object):
         _nodo["puesto"] = "%s" % (_datos.asig_puesto_desc)
         _nodo["centro_costos"] = "%s" % (_datos.grup_fase_jde)
         _nodo["ubicacion"] = "%s" % (_datos.asig_ubicacion_desc)
+        self.buscar_Foto(_nodo, _datos)
+
+    def buscar_Foto(self, _nodo, _datos):
+        empleado = VIEW_EMPLEADOS_FULL.objects.using('ebs_p').filter(
+            pers_empleado_numero=_datos.pers_empleado_numero)
+        for dato in empleado:
+            foto = dato.nombre_foto.encode('utf-8')
+        ruta = os.path.join('capitalhumano', 'fotos', '%s' % (foto),)
+        if default_storage.exists(ruta):
+            _nodo["foto"] = '/media/' + ruta
+        else:
+            _nodo["foto"] = '/static/images/decoradores/no-image-user.jpg '
 
     def get_ColorNivel(self, _nodo, _dato):
         if _dato.nivel_estructura == 1:
@@ -647,7 +661,7 @@ class VIEW_ORGANIGRAMA_EMP_SERIALIZADO(object):
             self.get_ColorNivel(nodo, padre)
 
         lista_json = json.dumps(nodo)
-
+        print 'lista'
         return lista_json
 
     def get_Estructura(self, _nodo, _datos):
@@ -658,30 +672,40 @@ class VIEW_ORGANIGRAMA_EMP_SERIALIZADO(object):
         _nodo["puesto"] = "%s" % (_datos.asig_puesto_desc)
         _nodo["centro_costos"] = "%s" % (_datos.grup_fase_jde)
         _nodo["ubicacion"] = "%s" % (_datos.asig_ubicacion_desc)
-        _nodo["foto"] = "' images/decoradores/no-image-user.jpg '"
+        _nodo["foto"] = '/static/images/decoradores/no-image-user.jpg '
+        # self.get_Foto(_nodo, _datos)
+
+    def get_Foto(self, _nodo, _datos):
+        empleado = VIEW_EMPLEADOS_FULL.objects.using('ebs_p').get(pers_empleado_numero=_datos.pers_empleado_numero)
+        ruta = os.path.join('capitalhumano', 'fotos', '%s' % (empleado.nombre_foto))
+        if default_storage.exists(ruta):
+            _nodo["foto"]='/media/' + ruta
+        else:
+            _nodo["foto"]='/static/images/decoradores/no-image-user.jpg '
+
 
     def get_ColorNivel(self, _nodo, _dato):
         if _dato.nivel_estructura == 1:
-            _nodo["className"] = 'nivel-1'
-        elif (_dato.nivel_estructura == 2) or \
-                (_dato.nivel_estructura == 3) or \
-                (_dato.nivel_estructura == 4) or \
-                (_dato.nivel_estructura == 5) or \
-                (_dato.nivel_estructura == 6):
-            _nodo["className"] = 'niveles'
+            _nodo["className"]='nivel-1'
+        elif ((_dato.nivel_estructura == 2) or
+                (_dato.nivel_estructura == 3) or
+                (_dato.nivel_estructura == 4) or
+                (_dato.nivel_estructura == 5) or
+                (_dato.nivel_estructura == 6)):
+            _nodo["className"]='niveles'
 
     def get_NivelPadre(self, _daddies):
-        nivel = 6
-        padre = _daddies[0]
-        cont = 0
+        nivel=6
+        padre=_daddies[0]
+        cont=0
 
         for persona in _daddies:
             if persona.nivel_estructura < nivel:
-                nivel = persona.nivel_estructura
+                nivel=persona.nivel_estructura
 
         for posicion in _daddies:
             if posicion.nivel_estructura == nivel:
-                padre = _daddies[cont]
+                padre=_daddies[cont]
             cont += 1
 
         return padre

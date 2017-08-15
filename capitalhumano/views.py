@@ -252,9 +252,7 @@ class EmpleadoOrganigramaEmpAPI(View):
         daddies = VIEW_ORGANIGRAMA.objects.using(
             'ebs_p').filter(grup_compania_jde=pk)
 
-        for dato in daddies:
-            print dato.grup_compania_jde
-
+        len(daddies)
         serializador = VIEW_ORGANIGRAMA_EMP_SERIALIZADO()
         lista_json = serializador.get_Json(daddies)
 
@@ -359,7 +357,7 @@ class EmpleadoExpediente(View):
         url = ''
 
         for dato in _empleado:
-            url = 'capitalhumano/images/' + dato.nombre_foto
+            url = 'capitalhumano/fotos/' + dato.nombre_foto
 
         if default_storage.exists(url):
             ruta = '/media/' + url
