@@ -380,3 +380,42 @@ class GeneralAuditoriaForm(Form):
                 )
             )
         return valores
+
+
+class AuditorForm(Form):
+
+    auditor_lider = CharField(
+        widget=TextInput(attrs={'class': 'form-control input-xs', 'disabled': 'true'})
+    )
+
+    auditores_designados = MultipleChoiceField(
+        widget=SelectMultiple(attrs={'class': 'select2', 'multiple': 'multiple'}),
+        required=False
+    )
+
+    auditores_colaboradores = MultipleChoiceField(
+        widget=SelectMultiple(attrs={'class': 'select2', 'multiple': 'multiple'}),
+        required= False
+    )
+
+    def __init__(self, *args, **kargs):
+        super(AuditorForm, self).__init__(*args, **kargs)
+        self.fields['auditores_designados'].choices = self.get_Empleados()
+        self.fields['auditores_colaboradores'].choices = self.get_Empleados()
+
+    def get_Empleados(self):
+
+        valores = []
+
+        empleados = VIEW_EMPLEADOS_SIMPLE.objects.using('ebs_p')
+
+        for empleado in empleados:
+
+            if not (empleado.pers_empleado_numero is u''):
+                valores.append(
+                    (
+                        empleado.pers_empleado_numero,
+                        empleado.pers_empleado_numero + ' : ' + empleado.pers_nombre_completo
+                    )
+                )
+        return valores

@@ -18,7 +18,7 @@ var tarjeta_resultados = null
 \*-----------------------------------------------*/
 
 $(document).ready(function () {
-      
+
    popup_filtro = new PopupFiltro()
    tarjeta_resultados = new TarjetaResultados()
 
@@ -45,7 +45,7 @@ $(document).ready(function () {
 \*-----------------------------------------------*/
 
 function TarjetaResultados() {
-   
+
    this.toolbar = new ToolBar()
    this.grid = new Grid()
 }
@@ -55,7 +55,7 @@ function TarjetaResultados() {
 \*-----------------------------------------------*/
 
 function ToolBar() {
-   
+
    popup_rol = new PopupRol()
    this.$id_boton_nuevo_rol = $('#id_boton_nuevo_rol')
    this.$id_boton_filtro = $('#id_boton_filtros')
@@ -76,8 +76,8 @@ ToolBar.prototype.change_BotonFiltros = function (_no_filtros) {
     this.$id_boton_filtro.html(html)
 }
 ToolBar.prototype.restart_BotonFiltros = function () {
-    
-    this.$id_boton_filtro.html("<i class='icon icon-left mdi mdi-search nova-white'></i> Filtros")   
+
+    this.$id_boton_filtro.html("<i class='icon icon-left mdi mdi-search nova-white'></i> Filtros")
 }
 
 /*-----------------------------------------------*\
@@ -137,7 +137,7 @@ Grid.prototype.eliminar_Seleccion = function (_url) {
                alertify.error("Ocurrió un error al eliminar")
             }
          })
-      }, 
+      },
       null
    )
 }
@@ -207,14 +207,14 @@ PopupRol.prototype.mostrar = function (_id, _accion) {
    }
 }
 PopupRol.prototype.set_Data = function (_pk) {
-   
+
       $.ajax({
 
          url: url_api_rol + _pk +"/",
          method: "GET",
          context: this,
          success: function (_response) {
-            
+
             this.$id_empleado.val(_response.numero_empleado + ":" + _response.nombre_completo).trigger("change").select2("enable",false)
             this.$id_rol.val(_response.rol).trigger("change")
          },
@@ -264,7 +264,7 @@ PopupRol.prototype.clear_Formulario = function (e) {
    e.data.$id_boton_guardar.removeAttr("disabled")
 }
 PopupRol.prototype.crear = function (e) {
-   
+
    var texto = e.data.$id_empleado.val().split(':')
    var numero_empleado = texto[0]
    var nombre_completo = texto[1]
@@ -293,7 +293,7 @@ PopupRol.prototype.crear = function (e) {
    })
 }
 PopupRol.prototype.editar = function (e, _pk) {
-   
+
    var texto = e.data.$id_empleado.val().split(':')
    var numero_empleado = texto[0]
    var nombre_completo = texto[1]
@@ -305,7 +305,7 @@ PopupRol.prototype.editar = function (e, _pk) {
       method: "PUT",
       headers: { "X-CSRFToken": appnova.galletita },
       data: {
-         
+
          "numero_empleado": numero_empleado,
          "nombre_completo" : nombre_completo,
          "rol" : rol,
@@ -385,7 +385,7 @@ PopupFiltro.prototype.apply_Filters = function () {
    else {
         tarjeta_resultados.toolbar.restart_BotonFiltros()
    }
-    
+
    this.$id.modal('hide')
 }
 PopupFiltro.prototype.buscar = function () {
@@ -476,7 +476,7 @@ PopupCompania.prototype.click_GuardarSeleccion = function (e) {
    e.data.guardar_Seleccion(pk)
 }
 PopupCompania.prototype.guardar_Seleccion = function (_pk) {
-   
+
    var texto = this.$id_compania.val().split(':')
    var compania_codigo = texto[0]
    var compania = texto[1]
@@ -502,7 +502,7 @@ PopupCompania.prototype.guardar_Seleccion = function (_pk) {
       error: function( jqXHR) {
          alertify.warning(jqXHR.responseJSON.non_field_errors[0])
       }
-   })  
+   })
 }
 PopupCompania.prototype.click_EliminarSeleccion = function (e) {
 
@@ -532,7 +532,7 @@ PopupCompania.prototype.eliminar_Seleccion = function (_url) {
                alertify.error("Ocurrió un error al eliminar")
             }
          })
-      }, 
+      },
       null
    )
 }
@@ -553,7 +553,7 @@ PopupCompania.prototype.cargarSeleccionados = function () {
       context: this,
       data: {
 
-         rol_id: pk_rol,
+         personal_rol_id: pk_rol,
       },
       success: function (_response) {
 

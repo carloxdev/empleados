@@ -2,6 +2,8 @@
 
 {% load static from staticfiles %}
 
+{% load custom_tags %}
+
 {% block titulo %} Equipo Auditor {% endblock titulo %}
 
 {% block title-page %} Equipo Auditor {% endblock title-page %}
@@ -27,14 +29,14 @@
    <div class="main-content container-fluid nova-main-content">
 
       <div class="row wizard-row">
-         
+
          <div class="col-md-12 fuelux">
             <form class="block-wizard panel panel-default nova-panel-borde-header" action="" method="POST" > {% csrf_token %}
-               
+
                <div id="wizard1" class="wizard wizard-ux">
                   <ul class="steps">
 
-                     <li class="active">Auditoría No:</li>
+                     <li class="active">Auditoría No: {{folio}}</li>
 
                   </ul>
                   <div class="actions">
@@ -53,61 +55,16 @@
                               </div>
                            </div>
 
-                           {{ form.non_field_errors }} 
-               
-                           <div class="form-group">
-                              <label class="col-sm-3 nova-col-filter control-label">Auditor lider</label>
-                              <div class="col-sm-6 xs-pt-5">
-                                 <select class="select2 select2-hidden-accessible" tabindex="-1" aria-hidden="true" id="id_auditor_lider" disabled="true">
-                                    <option value="JPJ">Diana Castillo Hernandez</option>
-                                    <option value="LALG">Luis Alberto Lopez Gonzalez</option>
-                                 </select>
-                              </div>
-                           </div>
-                           
+                           {{ form.non_field_errors }}
+
+                           <!-- auditor_lider -->
+                           {% tag_field form.auditor_lider 3 6 %}
+
                            <!-- auditores -->
-                           <div class="form-group">
-                              <label class="col-sm-3 control-label" 
-                                 for="{{ form.auditores.id_for_label }}">
-                                 {{ form.auditores.label }}
-                                 Asignar Auditores
-                              </label>
-                              <div class="col-sm-6 xs-pt-5">
-                                 {{ form.auditores }}
-                                 <select class="select2 select2-hidden-accessible input-xs" tabindex="-1" aria-hidden="true" id="id_auditores" multiple="multiple">
-                                    <option value="Jose Gutierrez Zacarias">Jose Gutierrez Zacarias</option>
-                                    <option value="Javier Hernandez Gomez">Javier Hernandez Gomez</option>
-                                    <option value="Fernanda Fuentes Rocio">Fernanda Fuentes Rocio</option>
-                                    <option value="Fernanda Fuentes Rocio">Anahi Campos Fuentes</option>
-                                    <option value="Fernanda Fuentes Rocio">Carolina Mendez Miron</option>
-                                 </select>
-                              </div> 
-                              {% for error in form.auditores.errors %}
-                                 <span class="help-block">{{ error }}</span>
-                              {% endfor %}                                        
-                           </div>
+                           {% tag_field form.auditores_designados 3 6 %}
 
                            <!-- auditores_colaboradores -->
-                           <div class="form-group">
-                              <label class="col-sm-3 control-label" 
-                                 for="{{ form.auditores_colaboradores.id_for_label }}">
-                                 {{ form.auditores_colaboradores.label }}
-                                 Asignar Auditores Colaboradores
-                              </label>
-                              <div class="col-sm-6 xs-pt-5">
-                                 {{ form.auditores_colaboradores }}
-                                 <select class="select2 select2-hidden-accessible input-xs" tabindex="-1" aria-hidden="true" id="id_auditores_colaboradores" multiple="multiple">
-                                    <option value="Jose Gutierrez Zacarias">Jose Gutierrez Zacarias</option>
-                                    <option value="Javier Hernandez Gomez">Javier Hernandez Gomez</option>
-                                    <option value="Fernanda Fuentes Rocio">Fernanda Fuentes Rocio</option>
-                                    <option value="Fernanda Fuentes Rocio">Anahi Campos Fuentes</option>
-                                    <option value="Fernanda Fuentes Rocio">Carolina Mendez Miron</option>
-                                 </select>
-                              </div> 
-                              {% for error in form.auditores_colaboradores.errors %}
-                                 <span class="help-block">{{ error }}</span>
-                              {% endfor %}
-                           </div>
+                           {% tag_field form.auditores_colaboradores 3 6 %}
 
                         </div>
                      </div>
@@ -118,7 +75,7 @@
                <div class="modal-footer nova-modal-footer">
 
                   <div class="row col-sm-12">
-                  
+
                      <button type="submit" id="id_boton_guardar" class="btn nova-btn btn-primary btn-lg pull-right">
                         <i class="icon icon-left mdi mdi-save nova-white"></i>
                         Guardar
@@ -139,6 +96,6 @@
 {% block scripts %}
 
    <!-- JS Template -->
-   <script src="{% static 'auditor/auditor_formulario.js' %}"></script>      
+   <script src="{% static 'auditor/auditor_formulario.js' %}"></script>
 
 {% endblock scripts %}
