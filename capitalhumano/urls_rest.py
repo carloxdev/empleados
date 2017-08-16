@@ -1,7 +1,7 @@
 # Librerias APi Rest:
 from rest_framework import routers
 
-from capitalhumano.view_rest import VIEW_DOCUMENTO_PERFIL_PUESTO_ByPageAPI
+
 from capitalhumano.view_rest import DocumentoPersonalAPI
 from capitalhumano.view_rest import DocumentoCapacitacionAPI
 from capitalhumano.view_rest import ArchivoPersonalByPageAPI
@@ -9,14 +9,23 @@ from capitalhumano.view_rest import ArchivoCapacitacionByPageAPI
 from capitalhumano.view_rest import ArchivoPersonalAPI
 from capitalhumano.view_rest import ArchivoCapacitacionAPI
 from capitalhumano.view_rest import ArchivoAPI
+from capitalhumano.view_rest import PerfilPuestosCargoAPI
+from capitalhumano.view_rest import PerfilPuestosCargoByPageAPI
+from capitalhumano.view_rest import PerfilPuestosDocumentoAPI
+from capitalhumano.view_rest import PerfilPuestosDocumentoByPageAPI
 
 router_capitalhumano = routers.DefaultRouter()
 
 
 router_capitalhumano.register(
-    r'perfilpuestodocumento',
-    VIEW_DOCUMENTO_PERFIL_PUESTO_ByPageAPI,
-    'perfilpuestodocumento'
+    r'perfilpuestoacargo_bypage',
+    PerfilPuestosCargoByPageAPI,
+    'perfilpuestoacargo_bypage'
+)
+router_capitalhumano.register(
+    r'perfilpuestoacargo',
+    PerfilPuestosCargoAPI,
+    'perfilpuestosacargo'
 )
 router_capitalhumano.register(
     r'documentopersonal',
@@ -53,3 +62,14 @@ router_capitalhumano.register(
     ArchivoCapacitacionByPageAPI,
     'archivocapacitacion_bypage'
 )
+router_capitalhumano.register(
+    r'perfilpuestosdocumento',
+    PerfilPuestosDocumentoAPI,
+    'perfilpuestosdocumento'
+)
+router_capitalhumano.register(
+    r'perfilpuestosdoc_bypage',
+    PerfilPuestosDocumentoByPageAPI,
+    'perfilpuestosdoc_bypage'
+)
+

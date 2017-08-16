@@ -4,10 +4,12 @@
 from django.forms import Form
 from django.forms import CharField
 from django.forms import ChoiceField
+from django.forms import MultipleChoiceField
 from django.forms import TextInput
 from django.forms import Select
 from django.forms import Textarea
 from django.forms import NumberInput
+from django.forms import SelectMultiple
 
 # Librerias/Clases propias
 
@@ -15,6 +17,7 @@ from django.forms import NumberInput
 # modelos
 from ebs.models import VIEW_EMPLEADOS_SIMPLE
 from jde.models import VIEW_COMPANIAS
+from administracion.models import Contrato
 from .models import Criterio
 
 
@@ -120,7 +123,7 @@ class RolForm(Form):
 
         valores = [('', '-------')]
 
-        empleados = VIEW_EMPLEADOS_SIMPLE.objects.using('ebs_p').filter(pers_nombre_completo__icontains="GARCIA JIMENEZ")
+        empleados = VIEW_EMPLEADOS_SIMPLE.objects.using('ebs_p').all()
 
         for empleado in empleados:
 
@@ -155,7 +158,7 @@ class RolFilterForm(Form):
 
         valores = [('', '-------')]
 
-        empleados = VIEW_EMPLEADOS_SIMPLE.objects.using('ebs_p').filter(pers_nombre_completo__icontains="GARCIA JIMENEZ")
+        empleados = VIEW_EMPLEADOS_SIMPLE.objects.using('ebs_p').all()
 
         for empleado in empleados:
 
@@ -268,6 +271,7 @@ class FormatoForm(Form):
             )
         return valores
 
+
 class GeneralAuditoriaForm(Form):
     TIPO_AUDITORIA = (
         ('', '------'),
@@ -285,40 +289,47 @@ class GeneralAuditoriaForm(Form):
         widget=Select(attrs={'class': 'select2'})
     )
 
-    contratos = ChoiceField(
-        widget=Select(attrs={'class': 'select2', 'multiple': 'multiple'})
+    contratos = MultipleChoiceField(
+        widget=SelectMultiple(attrs={'class': 'select2', 'multiple': 'multiple'}),
+        required=False
     )
 
-    criterios = ChoiceField(
-        widget=Select(attrs={'class': 'select2', 'multiple': 'multiple'})
+    criterios = MultipleChoiceField(
+        widget=SelectMultiple(attrs={'class': 'select2', 'multiple': 'multiple'}),
+        required=False
     )
 
     fecha_programada_ini = CharField(
         label='Fecha Programada inicial / final',
-        widget=TextInput(attrs={'class': 'form-control input-xs'})
+        widget=TextInput(attrs={'class': 'form-control input-xs', 'name': 'fecha_programada_ini'}),
+        required=False
     )
 
     fecha_programada_fin = CharField(
         label='',
-        widget=TextInput(attrs={'class': 'form-control input-xs'})
+        widget=TextInput(attrs={'class': 'form-control input-xs', 'name': 'fecha_programada_fin'}),
+        required=False
     )
 
     objetivo = CharField(
-        widget=Textarea(attrs={'class': 'form-control input-xs'})
+        widget=Textarea(attrs={'class': 'form-control input-xs', 'rows': '6'}),
+        required=False
     )
 
     alcance = CharField(
-        widget=Textarea(attrs={'class': 'form-control input-xs'})
+        widget=Textarea(attrs={'class': 'form-control input-xs', 'rows': '6'}),
+        required=False
     )
 
     recursos_necesarios = CharField(
-        widget=Textarea(attrs={'class': 'form-control input-xs'})
+        widget=Textarea(attrs={'class': 'form-control input-xs', 'rows': '6'}),
+        required=False
     )
 
     def __init__(self, *args, **kwargs):
         super(GeneralAuditoriaForm, self).__init__(*args, **kwargs)
         self.fields['compania'].choices = self.get_Compania()
-        # self.fields['contratos'].choices = self.get_Contratos()
+        self.fields['contratos'].choices = self.get_Contratos()
         self.fields['criterios'].choices = self.get_Criterios()
 
     def get_Compania(self):
@@ -339,20 +350,20 @@ class GeneralAuditoriaForm(Form):
 
     def get_Contratos(self):
 
-        valores = [('', '-------')]
+        valores = []
 
-        companias = VIEW_COMPANIAS.objects.using('jde_p').all()
+        # contratos = VIEW_COMPANIAS.objects.using('jde_p').all()
+        contratos = Contrato.objects.all()
 
-        for compania in companias:
+        for contrato in contratos:
 
             valores.append(
                 (
-                    str(compania.comp_code) + ':' + compania.comp_desc,
-                    str(int(compania.comp_code)) + ' - ' + compania.comp_desc,
+                    contrato.con_clave,
+                    str(int(contrato.con_clave)) + ' - ' + contrato.con_nombre,
                 )
             )
         return valores
-
 
     def get_Criterios(self):
 
@@ -368,4 +379,43 @@ class GeneralAuditoriaForm(Form):
                     criterio.criterio,
                 )
             )
+        return valores
+
+
+class AuditorForm(Form):
+
+    auditor_lider = CharField(
+        widget=TextInput(attrs={'class': 'form-control input-xs', 'disabled': 'true'})
+    )
+
+    auditores_designados = MultipleChoiceField(
+        widget=SelectMultiple(attrs={'class': 'select2', 'multiple': 'multiple'}),
+        required=False
+    )
+
+    auditores_colaboradores = MultipleChoiceField(
+        widget=SelectMultiple(attrs={'class': 'select2', 'multiple': 'multiple'}),
+        required= False
+    )
+
+    def __init__(self, *args, **kargs):
+        super(AuditorForm, self).__init__(*args, **kargs)
+        self.fields['auditores_designados'].choices = self.get_Empleados()
+        self.fields['auditores_colaboradores'].choices = self.get_Empleados()
+
+    def get_Empleados(self):
+
+        valores = []
+
+        empleados = VIEW_EMPLEADOS_SIMPLE.objects.using('ebs_p')
+
+        for empleado in empleados:
+
+            if not (empleado.pers_empleado_numero is u''):
+                valores.append(
+                    (
+                        empleado.pers_empleado_numero,
+                        empleado.pers_empleado_numero + ' : ' + empleado.pers_nombre_completo
+                    )
+                )
         return valores

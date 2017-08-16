@@ -1,6 +1,8 @@
 # Librerias Python:
 import sys
 import json
+from django.core.files.storage import default_storage
+import os
 
 # API Rest:
 from rest_framework import serializers
@@ -81,6 +83,16 @@ class VIEW_ORGANIGRAMA_ORG_SERIALIZADO(object):
         _nodo["puesto"] = "%s" % (_datos.asig_puesto_desc)
         _nodo["centro_costos"] = "%s" % (_datos.grup_fase_jde)
         _nodo["ubicacion"] = "%s" % (_datos.asig_ubicacion_desc)
+        self.get_Foto(_nodo, _datos)
+
+    def get_Foto(self, _nodo, _datos):
+        empleado = VIEW_EMPLEADOS_FULL.objects.using('ebs_p').get(pers_empleado_numero=_datos.pers_empleado_numero)
+        ruta = os.path.join('capitalhumano', 'fotos', '%s' % (empleado.nombre_foto))
+        if default_storage.exists(ruta):
+            _nodo["foto"]='/media/' + ruta
+        else:
+            _nodo["foto"]='/static/images/decoradores/no-image-user.jpg '
+
 
     def get_Estructura(self, _nodo, _datos):
         _nodo["puesto"] = "%s" % (_datos.asig_puesto_desc)

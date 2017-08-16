@@ -136,8 +136,6 @@ TargetaFiltros.prototype.get_ConfDateRangePicker = function () {
     }    
 }
 
-
-
 TargetaFiltros.prototype.click_BotonBuscar = function (e) {
 
     e.preventDefault()
@@ -149,7 +147,7 @@ TargetaFiltros.prototype.click_BotonBuscar = function (e) {
 TargetaFiltros.prototype.click_BotonLimpiar = function (e) {
     
     e.preventDefault()
-alert("entro");
+    alert("entro");
     e.data.$numero.val("")
     e.data.$tipo.val("").trigger("change")
     e.data.$es_registrable.val("").trigger("change")

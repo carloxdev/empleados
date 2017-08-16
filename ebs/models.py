@@ -151,8 +151,14 @@ class VIEW_EMPLEADOS_FULL(models.Model):
                                          self.pers_apellido_paterno,
                                          self.pers_apellido_materno)
             else:
+                particion = self.pers_segundo_nombre.split(" ")
+                if len(particion) >= 2:
+                    segundo_nombre = '%s_%s' % (particion[0], particion[1])
+                else:
+                    segundo_nombre = '%s' % (self.pers_segundo_nombre)
+
                 return '%s_%s_%s_%s.jpg' % (self.pers_primer_nombre,
-                                            self.pers_segundo_nombre,
+                                            segundo_nombre,
                                             self.pers_apellido_paterno,
                                             self.pers_apellido_materno)
         except Exception:
@@ -223,3 +229,12 @@ class VIEW_ORGANIGRAMA(models.Model):
     class Meta:
         managed = False
         db_table = u'"NUVAPP"."VIEW_ORGANIGRAMA"'
+
+
+class VIEW_ESPECIALIDADES(models.Model):
+
+    qua_especialidad = models.CharField(primary_key=True, max_length=255)
+    
+    class Meta:
+        managed = False
+        db_table = u'"NUVAPP"."VIEW_ESPECIALIDADES"'        

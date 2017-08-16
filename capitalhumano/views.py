@@ -21,11 +21,15 @@ from .forms import EmpresasFilterForm
 from .forms import PerfilPuestoDocumentoForm
 from .forms import NuevoDocumentoPersonalForm
 from .forms import NuevoDocumentoCapacitacionForm
+
 from .forms import GradoAcademicoFilterForm
 from .forms import ExpedientesFilterForm
 from .forms import DocPersonalFilterForm
 from .forms import DocCapacitacionFilterForm
-from .forms import GradoAcademicoFilterForm
+
+from .forms import PerfilAgregarPuestoCargoForm
+from .forms import PerfilPuestoListaForm
+
 
 # Serializer crear organigrama
 from serializers import VIEW_ORGANIGRAMA_ORG_SERIALIZADO
@@ -171,7 +175,6 @@ class EmpleadoLista(View):
                 else:
 
                     if (col_num == 2) or (col_num == 13):
-
                         if (row[col_num] != '-'):
 
                             fecha = datetime.datetime.strptime(row[col_num], '%Y-%m-%d %H:%M:%S').date()
@@ -246,10 +249,10 @@ class EmpleadoOrganigramaOrgAPI(View):
 class EmpleadoOrganigramaEmpAPI(View):
 
     def get(self, request, pk):
-
         daddies = VIEW_ORGANIGRAMA.objects.using(
             'ebs_p').filter(grup_compania_jde=pk)
 
+        len(daddies)
         serializador = VIEW_ORGANIGRAMA_EMP_SERIALIZADO()
         lista_json = serializador.get_Json(daddies)
 
@@ -332,35 +335,29 @@ class EmpleadoExpediente(View):
         self.template_name = 'empleado_expediente.html'
 
     def get(self, request, _numero_empleado):
-        try:
 
-            form_per = NuevoDocumentoPersonalForm()
-            form_cap = NuevoDocumentoCapacitacionForm()
-            empleado = VIEW_EMPLEADOS_FULL.objects.using(
-                "ebs_p").filter(pers_empleado_numero=_numero_empleado)
+        form_per = NuevoDocumentoPersonalForm()
+        form_cap = NuevoDocumentoCapacitacionForm()
+        empleado = VIEW_EMPLEADOS_FULL.objects.using(
+            "ebs_p").filter(pers_empleado_numero=_numero_empleado)
 
-            ruta = self.comprobar_Direccion(empleado)
+        ruta = self.comprobar_Direccion(empleado)
 
-            contexto = {
-                'empleado': empleado,
-                'ruta': ruta,
-                'form': form_per,
-                'form2': form_cap
-            }
+        contexto = {
+            'empleado': empleado,
+            'ruta': ruta,
+            'form': form_per,
+            'form2': form_cap
+        }
 
-            return render(request, self.template_name, contexto)
-
-        except Exception as e:
-            print e
-            template_error = 'error_conexion.html'
-            return render(request, template_error, {})
+        return render(request, self.template_name, contexto)
 
     def comprobar_Direccion(self, _empleado):
         ruta = ''
         url = ''
 
         for dato in _empleado:
-            url = 'capitalhumano/images/' + dato.nombre_foto
+            url = 'capitalhumano/fotos/' + dato.nombre_foto
 
         if default_storage.exists(url):
             ruta = '/media/' + url
@@ -377,24 +374,54 @@ class PerfilPuesto(View):
 
     def get(self, request):
 
-        return render(request, 'perfilpuesto/perfil_lista.html')
+        formulario = PerfilPuestoListaForm()
+        
+        contexto = {
+            'form': formulario
+        }
+
+        return render(request, 'perfilpuesto/perfil_lista.html', contexto)
 
 
 class PerfilPuestoNuevo(View):
 
     def __init__(self):
 
-        self.template_name = 'perfilpuesto/perfil_nuevo.html'
+        #self.template_name = 'perfilpuesto/perfil_nuevo.html'
+        self.template_name = 'perfilpuesto/perfil.html'
+
 
     def get(self, request):
 
         formulario = PerfilPuestoDocumentoForm()
+        form_puesto_cargo = PerfilAgregarPuestoCargoForm()
 
+        contexto = {
+            'form': formulario,
+            'form2': form_puesto_cargo
+        }
+
+        return render(request, self.template_name, contexto)
+    
+    def post(self, request):
+
+        formulario = PerfilPuestoDocumentoForm(request.POST)
+
+        if formulario.is_valid():
+            perfilpuesto = formulario.save(commit=False)
+            
+            perfilpuesto.asig_puesto_clave = '11893'
+            perfilpuesto.created_by = request.user.profile
+
+            perfilpuesto.save()
+
+            return redirect(reverse('capitalhumano:perfil_nuevo'))
+            
         contexto = {
             'form': formulario
         }
 
-        return render(request, self.template_name, contexto)
+        return render(request, self.template_name, contexto)     
 
 
 class PerfilPuestoNuevo2(View):

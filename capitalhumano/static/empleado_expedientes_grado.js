@@ -149,32 +149,35 @@ Toolbar.prototype.Inicializar_CeldasExcel = function (e) {
 }
 Toolbar.prototype.click_BotonExportar = function (e) {
 
-    tarjeta_resultados.grid.leer_Datos()
-    e.data.Inicializar_CeldasExcel()
+    if( tarjeta_filtro.validar_Campos() != 'True'){
 
-    tarjeta_resultados.grid.kfuente_datos_excel.fetch(function () {
+        tarjeta_resultados.grid.leer_Datos()
+        e.data.Inicializar_CeldasExcel()
 
-        var data = this.data();
-        for (var i = 0; i < data.length; i++) {
+        tarjeta_resultados.grid.kfuente_datos_excel.fetch(function () {
 
-                e.data.kRows.push({
-                    cells: e.data.get_Registros_Excel(data[i])
-                })
-        }
-        var workbook = new kendo.ooxml.Workbook({
-                sheets: [
-                    {
-                        columns: e.data.get_Columnas_Excel_Ancho(),
-                        title: "ListaEmpleadosGrado",
-                        rows: e.data.kRows
-                    }
-                ]
+            var data = this.data();
+            for (var i = 0; i < data.length; i++) {
+
+                    e.data.kRows.push({
+                        cells: e.data.get_Registros_Excel(data[i])
+                    })
+            }
+            var workbook = new kendo.ooxml.Workbook({
+                    sheets: [
+                        {
+                            columns: e.data.get_Columnas_Excel_Ancho(),
+                            title: "ListaEmpleadosGrado",
+                            rows: e.data.kRows
+                        }
+                    ]
+                });
+            kendo.saveAs({
+                dataURI: workbook.toDataURL(),
+                fileName: "ListaEmpleadosGrado.xlsx",
             });
-        kendo.saveAs({
-            dataURI: workbook.toDataURL(),
-            fileName: "ListaEmpleadosGrado.xlsx",
-        });
-    })
+        })
+    }
 }
 Toolbar.prototype.get_Columnas_Excel_Ancho = function () {
     
