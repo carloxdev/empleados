@@ -9,6 +9,7 @@ from django.forms import Form
 from django.forms import CharField
 from django.forms import ChoiceField
 from django.forms import HiddenInput
+from django.forms import ValidationError
 
 # Own's Libraries
 from .models import ViaticoCabecera
@@ -63,14 +64,14 @@ class ViaticoCabeceraForm(ModelForm):
 
     empleado_clave = ChoiceField(
         label="Empleado",
-        widget=SelectCustom(
+        widget=Select(
             attrs={'class': 'form-control input-xs'}
         )
     )
 
     unidad_negocio_clave = ChoiceField(
         label="Unidad Negocio",
-        widget=SelectCustom(
+        widget=Select(
             attrs={'class': 'form-control input-xs'}
         )
     )
@@ -100,8 +101,18 @@ class ViaticoCabeceraForm(ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(ViaticoCabeceraForm, self).__init__(*args, **kwargs)
-        self.fields['empleado_clave'].choices = EmpleadoBusiness.get_Activos_ForSelectCustom()
-        self.fields['unidad_negocio_clave'].choices = CentroCostoBusiness.get_Activos_ForSelectCustom()
+        self.fields['empleado_clave'].choices = EmpleadoBusiness.get_Activos_ForSelect()
+        self.fields['unidad_negocio_clave'].choices = CentroCostoBusiness.get_Activos_ForSelect()
+
+    def clean(self):
+        cleaned_data = super(ViaticoCabeceraForm, self).clean()
+        f_partida = cleaned_data.get("fecha_partida")
+        f_regreso = cleaned_data.get("fecha_regreso")
+
+        if f_partida > f_regreso:
+            raise ValidationError(
+                "Las fechas valen verga"
+            )
 
 
 class ViaticoLineaForm(Form):

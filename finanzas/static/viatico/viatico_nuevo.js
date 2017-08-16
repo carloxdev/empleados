@@ -43,20 +43,7 @@ Formulario.prototype.init_Components = function () {
     this.$empleado_clave.select2()
     this.$unidad_negocio_clave.select2()
 
-    this.$fecha_partida.mask(
-        "9999-99-99",
-        {
-            placeholder:"aaaa/mm/dd"
-        }
-    )
     this.$fecha_partida_input.datetimepicker(this.get_DateTimePickerConfig())
-
-    this.$fecha_regreso.mask(
-        "9999-99-99",
-        {
-            placeholder:"aaaa/mm/dd"
-        }
-    )
     this.$fecha_regreso_input.datetimepicker(this.get_DateTimePickerConfig())
 }
 Formulario.prototype.init_Events = function () {
@@ -69,7 +56,7 @@ Formulario.prototype.get_DateTimePickerConfig = function () {
     return {
         autoclose: true,
         orientation: "bottom left",
-        minViewMode: 2,
+        minView: 2,
         format: "yyyy-mm-dd",
     }
 }

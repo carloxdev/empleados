@@ -20,6 +20,22 @@ def tag_field_registro(_field, _size_label, _size_field):
 
 
 @register.inclusion_tag(
+    'tags/field_registro_dates.html',
+    takes_context=False)
+def tag_field_registro_dates(_label, _field1, _field2, _size_label, _size_field1, _size_field2):
+
+    contexto = {
+        'etiqueta': _label,
+        'campo1': _field1,
+        'campo2': _field2,
+        'size_label': _size_label,
+        'size_field1': _size_field1,
+        'size_field2': _size_field2
+    }
+    return contexto
+
+
+@register.inclusion_tag(
     'tags/field_registro_nval.html',
     takes_context=False)
 def tag_field_registro_nval(_field, _size_label, _size_field):

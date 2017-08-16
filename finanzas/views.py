@@ -62,7 +62,8 @@ class ViaticoCabeceraNuevo(View):
 
     def post(self, request):
 
-        formulario = ViaticoCabeceraForm(data=request.POST)
+        formulario = ViaticoCabeceraForm(request.POST)
+
         if formulario.is_valid():
 
             viatico = formulario.save(commit=False)
@@ -70,7 +71,7 @@ class ViaticoCabeceraNuevo(View):
             viatico.updated_by = request.user.profile
             viatico.save()
 
-            return redirect(reverse('serviciosempleado:viatico_lineas'))
+            return redirect(reverse('finanzas:viatico_lineas'))
 
         contexto = {
             'form': formulario
