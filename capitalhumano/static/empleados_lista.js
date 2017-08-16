@@ -37,7 +37,6 @@ $(document).ready(function () {
       }
       // Tecla ESC
    })
-
 })
 
 /*-----------------------------------------------*\
@@ -64,6 +63,8 @@ function TarjetaFiltros() {
    this.$boton_buscar = $('#boton_buscar')
    this.$boton_limpiar = $('#boton_limpiar')
    this.$campos_usados = []
+   this.$colapsible_personales = $('#collapse_personales')
+   this.$colapsible_corporativo = $('#collapse_corporativo')
    this.init_Components()
    this.init_Events()
 }
@@ -126,22 +127,9 @@ TarjetaFiltros.prototype.init_Events = function () {
    this.$fecha_contratacion.on("apply.daterangepicker", this, this.aplicar_Rango)
    this.$fecha_contratacion.siblings('[data-event=\'calendario\']').on("click", this, this.click_MostrarPicker)
    this.$fecha_contratacion.siblings('[data-event=\'limpiar\']').on("click", this, this.click_LimpiarCampo)
-   // this.$id_pers_primer_nombre.on("click", this, this.cambio_Estado)
-   // this.$id_pers_segundo_nombre.on("click", this, this.cambio_Estado)
-   // this.$id_pers_apellido_paterno.on("click", this, this.cambio_Estado)
-   // this.$id_pers_apellido_materno.on("click", this, this.cambio_Estado)
-   // this.$id_pers_genero_clave.on("click", this, this.cambio_Estado)
-   // this.$id_pers_empleado_numero.on("click", this, this.cambio_Estado)
-   // this.$id_pers_tipo_codigo.on("click", this, this.cambio_Estado)
-   // this.$id_asig_puesto_clave.on("click", this, this.cambio_Estado)
-   // this.$id_asig_organizacion_clave.on("click", this, this.cambio_Estado)
-   // this.$id_grup_compania_jde.on("click", this, this.cambio_Estado)
-   // this.$id_grup_fase_jde.on("click", this, this.cambio_Estado)
-   // this.$id_grup_nomina_jde.on("click", this, this.cambio_Estado)
-   // this.$fecha_contratacion.on("click", this, this.cambio_Estado)
    this.$id.on("hide.bs.modal", this, this.hide_Modal)
+   this.$id.on("hidden.bs.modal", this, this.hidden_Modal)
    this.$id.on("shown.bs.modal", this, this.shown_Modal)
-
 }
 TarjetaFiltros.prototype.keydown_ValidarNegativos = function (e) {
 
@@ -154,9 +142,9 @@ TarjetaFiltros.prototype.cambio_Estado = function (e) {
 
    e.data.$campos_iguales = false
 }
-TarjetaFiltros.prototype.aplicar_Rango = function (e, picker) {
-
-   $(this).val(picker.startDate.format('YYYY-MM-DD') + ' al ' + picker.endDate.format('YYYY-MM-DD'))
+TarjetaFiltros.prototype.aplicar_Rango = function (e, _picker) {
+   
+   $(this).val(_picker.startDate.format('YYYY-MM-DD') + ' al ' + _picker.endDate.format('YYYY-MM-DD'))
 }
 TarjetaFiltros.prototype.click_MostrarPicker = function (e) {
 
@@ -169,85 +157,97 @@ TarjetaFiltros.prototype.click_LimpiarCampo = function (e) {
 TarjetaFiltros.prototype.hide_Modal = function (e) {
 
    e.data.$fecha_contratacion.data('daterangepicker').hide()
-   e.data.limpiar_CampoNoAplicado()
+
+   if (e.data.$campos_usados.length) {
+      
+      e.data.limpiar_CampoNoAplicado()
+   }
+}
+TarjetaFiltros.prototype.hidden_Modal = function (e) {
+
+   if (!e.data.$colapsible_personales.hasClass('in')) {
+
+      e.data.$colapsible_personales.collapse('show')
+      e.data.$colapsible_corporativo.collapse('hide')
+   }
 }
 TarjetaFiltros.prototype.limpiar_CampoNoAplicado = function () {
+   
    var campos = ["id_pers_primer_nombre", "id_pers_segundo_nombre", "id_pers_apellido_paterno", "id_pers_apellido_materno",
    "pers_genero_clave", "id_pers_empleado_numero", "id_pers_tipo_codigo", "id_asig_puesto_clave", "id_asig_organizacion_clave",
    "fecha_contratacion", "id_grup_compania_jde", "id_grup_fase_jde", "grup_nomina_jde"]
 
    var resultados
 
-   tarjeta_filtros.$campos_usados.forEach(function(campo) {
-      resultados
+   tarjeta_filtros.$campos_usados.forEach(function(_campo) {
+
+      resultados = campos.filter(
+
+         function(_elem) {
+
+            return _elem != _campo
+         }
+      )
+      campos = resultados
    })
-   // tarjeta_filtros.$campos_usados.forEach(function(campo) {
-   //    resultados = campos.filter(
-   //       function(elem) {
-   //          return elem != campo;
-   //       }
-   //    )
-   // }
 
-   console.log(resultados)
-   resultados.forEach(function(campo) {
-
-      if (campo == "id_pers_primer_nombre") {
+   resultados.forEach(function(_campo) {
+      
+      if (_campo == "id_pers_primer_nombre") {
          tarjeta_filtros.$id_pers_primer_nombre.val("")
-
       }
-      if (campo == "id_pers_segundo_nombre") {
+      if (_campo == "id_pers_segundo_nombre") {
          tarjeta_filtros.$id_pers_segundo_nombre.val("")
 
       }
-      if (campo == "id_pers_apellido_paterno") {
+      if (_campo == "id_pers_apellido_paterno") {
          tarjeta_filtros.$id_pers_apellido_paterno.val("")
 
       }
-      if (campo == "id_pers_apellido_materno") {
+      if (_campo == "id_pers_apellido_materno") {
          tarjeta_filtros.$id_pers_apellido_materno.val("")
 
       }
-      if ($("input[name='pers_genero_clave']:checked").val() != undefined) {
+      if (_campo == "pers_genero_clave") {
          tarjeta_filtros.$id_pers_genero_clave.prop('checked', false)
 
       }
-      if (campo == "id_pers_empleado_numero") {
+      if (_campo == "id_pers_empleado_numero") {
          tarjeta_filtros.$id_pers_empleado_numero.val("")
 
       }
-      if (campo == "id_pers_tipo_codigo") {
+      if (_campo == "id_pers_tipo_codigo") {
          tarjeta_filtros.$id_pers_tipo_codigo.data('select2').val(0)
 
       }
-      if (campo == "id_asig_puesto_clave") {
+      if (_campo == "id_asig_puesto_clave") {
          tarjeta_filtros.$id_asig_puesto_clave.data('select2').val(0)
 
       }
-      if (campo == "id_asig_organizacion_clave") {
+      if (_campo == "id_asig_organizacion_clave") {
          tarjeta_filtros.$id_asig_organizacion_clave.data('select2').val(0)
 
       }
-      if (campo == "fecha_contratacion") {
+      if (_campo == "fecha_contratacion") {
          tarjeta_filtros.$fecha_contratacion.val("")
 
       }
-      if (campo == "id_grup_compania_jde") {
+      if (_campo == "id_grup_compania_jde") {
          tarjeta_filtros.$id_grup_compania_jde.data('select2').val(0)
 
       }
-      if (campo == "id_grup_fase_jde") {
+      if (_campo == "id_grup_fase_jde") {
          tarjeta_filtros.$id_grup_fase_jde.data('select2').val(0)
 
       }
-      if ($("input[name='grup_nomina_jde']:checked").val() != undefined) {
+      if (_campo == "grup_nomina_jde") {
          tarjeta_filtros.$id_grup_nomina_jde.prop('checked', false)
 
       }
    })
 }
 TarjetaFiltros.prototype.shown_Modal = function (e) {
-
+   
    e.data.$id_pers_primer_nombre.focus()
 }
 TarjetaFiltros.prototype.get_Values = function (_page, _pageSize) {
@@ -281,6 +281,7 @@ TarjetaFiltros.prototype.click_BotonBuscar = function (e) {
 TarjetaFiltros.prototype.click_BotonLimpiar = function (e) {
 
    e.preventDefault()
+   e.data.$formulario.get(0).reset()
    e.data.$id_pers_primer_nombre.val("")
    e.data.$id_pers_segundo_nombre.val("")
    e.data.$id_pers_apellido_paterno.val("")
@@ -366,9 +367,11 @@ TarjetaFiltros.prototype.apply_Filters = function () {
    this.$campos_usados = filtros
 
    if (no_filtros != 0) {
+
         tarjeta_resultados.toolbar.change_BotonFiltros(no_filtros)
    }
    else {
+
         tarjeta_resultados.toolbar.restart_BotonFiltros()
    }
 
@@ -415,8 +418,9 @@ ToolBar.prototype.click_BotonExportar = function (e) {
       if ((tarjeta_resultados.grid.$id.data("kendoGrid").dataSource.total() <= 65535) && (tarjeta_resultados.grid.$id.data("kendoGrid").dataSource.total() >= 1)) {
 
          tarjeta_filtros.$formulario.submit()
+         
       }
-      else if(tarjeta_resultados.grid.$id.data("kendoGrid").dataSource.total() == 0) {
+      else if (tarjeta_resultados.grid.$id.data("kendoGrid").dataSource.total() == 0) {
 
          alertify.warning("No hay registros a exportar.")
       }
@@ -430,49 +434,6 @@ ToolBar.prototype.click_BotonExportar = function (e) {
       alertify.warning("Debe seleccionar filtros")
    }
 }
-ToolBar.prototype.Inicializar_CeldasExcel = function (e) {
-
-   if (tarjeta_resultados.grid.get_Columnas != null)
-   {
-      if (tarjeta_resultados.grid.get_Columnas.length != 1) {
-         tarjeta_resultados.grid.get_Columnas.length = 0;
-      }
-   }
-
-   this.kRows = [{
-      cells: this.get_Celdas()
-   }];
-}
-// ToolBar.prototype.click_BotonExportar = function (e) {
-
-//    tarjeta_resultados.grid.leer_Datos()
-//    e.data.Inicializar_CeldasExcel()
-
-//    tarjeta_resultados.grid.kfuente_datos_excel.fetch(function () {
-
-//       var data = this.data();
-
-//       for (var i = 0; i < data.length; i++) {
-
-//          e.data.kRows.push({
-//             cells: e.data.get_Registros_Excel(data[i])
-//          })
-//       }
-//       var workbook = new kendo.ooxml.Workbook({
-//          sheets: [
-//             {
-//                columns: e.data.get_Columnas_Excel_Ancho(),
-//                title: "Empleados",
-//                rows: e.data.kRows
-//             }
-//          ]
-//       });
-//       kendo.saveAs({
-//          dataURI: workbook.toDataURL(),
-//          fileName: "ListadoEmpleados.xlsx",
-//       });
-//    });
-// }
 ToolBar.prototype.get_Celdas = function () {
 
    var celdas = []
@@ -484,20 +445,6 @@ ToolBar.prototype.get_Celdas = function () {
    }
    return celdas
 }
-ToolBar.prototype.get_Registros_Excel = function (data) {
-
-   var registros = []
-   var columnas = tarjeta_resultados.grid.get_Columnas()
-
-   for (var i=0; i < columnas.length; i++) {
-      campo = columnas[i].field
-      registros.push({ value: data[campo] })
-   }
-   return registros
-}
-ToolBar.prototype.get_Columnas_Excel_Ancho = function () {
-
-   var columnas_excel = []
 
 /*-----------------------------------------------*\
          OBJETO: Grid
@@ -530,9 +477,9 @@ Grid.prototype.get_DataSourceConfig = function (e) {
             type: "GET",
             dataType: "json",
          },
-         parameterMap: function (data, action) {
-            if (action === "read"){
-               return tarjeta_filtros.get_Values(data.page, data.pageSize)
+         parameterMap: function (_data, _action) {
+            if (_action === "read"){
+               return tarjeta_filtros.get_Values(_data.page, _data.pageSize)
             }
          }
       },
@@ -548,38 +495,10 @@ Grid.prototype.get_DataSourceConfig = function (e) {
       },
    }
 }
-Grid.prototype.get_FuenteDatosExcel = function (e) {
-
-   return {
-
-      serverPaging: true,
-      pageSize: 10,
-      transport: {
-         read: {
-
-            url: url_empleados,
-            type: "GET",
-            dataType: "json",
-         },
-         parameterMap: function (data, action) {
-            if (action === "read"){
-               return tarjeta_filtros.get_FiltrosExcel()
-            }
-         }
-      },
-      schema: {
-         model: {
-            fields: this.get_Campos()
-         }
-      },
-      error: function (e) {
-         alertify.error("Status: " + e.status + "; Error message: " + e.errorThrown)
-      },
-   }
-}
 Grid.prototype.get_Campos = function () {
 
    return {
+
       pers_empleado_numero : { type: "string" },
       pers_tipo_desc : { type: "string" },
       pers_fecha_contratacion : { type: "date" },
@@ -636,6 +555,7 @@ Grid.prototype.get_Campos = function () {
 Grid.prototype.get_Configuracion = function () {
 
    return {
+
       autoBind: false,
       dataSource: this.kfuente_datos,
       columnMenu: true,
@@ -651,16 +571,13 @@ Grid.prototype.get_Configuracion = function () {
       noRecords: {
          template: "<div class='nova-grid-empy'> No se encontraron registros </div>"
       },
-    //   noRecords: true,
-    //   messages: {
-    //       noRecords: "There is no data on current page"
-    //   },
       dataBound: this.set_Icons,
    }
 }
 Grid.prototype.get_Columnas = function () {
 
    return [
+
       { field: "pers_empleado_numero", title: "Número", width: "100px" },
       { field: "pers_tipo_desc", title: "Tipo", width: "100px" },
       { field: "pers_fecha_contratacion", title: "Fecha contratación", width: "130px", format: "{0:dd-MM-yyyy}" },
@@ -717,8 +634,4 @@ Grid.prototype.get_Columnas = function () {
 Grid.prototype.buscar = function() {
 
    this.kfuente_datos.page(1)
-}
-Grid.prototype.leer_Datos = function() {
-
-   this.kfuente_datos_excel.read()
 }

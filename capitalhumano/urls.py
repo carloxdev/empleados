@@ -19,7 +19,6 @@ from .views import PerfilPuestoCargos
 from .views import PerfilOrganigrama
 from .views import EmpleadoExpediente
 from .views import EmpleadoExpedientes
-from .views import EmpleadoExpedientesSolicitud
 from .views import EmpleadoExpedientesGrado
 from .views import EmpleadoExpedientesDocPersonal
 from .views import EmpleadoExpedientesDocCapacitacion
@@ -50,20 +49,10 @@ urlpatterns = [
         EmpleadoOrganigramaEmpAPI.as_view(),
         name='organigrama_json_emp'
     ),
-    # url(
-    #     r'^expedientes/$',
-    #     EmpleadoExpedientes.as_view(),
-    #     name='empleado_expedientes'
-    # ),
     url(
         r'^expedientes/general$',
         EmpleadoExpedientes.as_view(),
         name='empleado_expedientes_general'
-    ),
-    url(
-        r'^expedientes/solicitudes$',
-        EmpleadoExpedientesSolicitud.as_view(),
-        name='empleado_expedientes_solicitudes'
     ),
     url(
         r'^expedientes/grado$',

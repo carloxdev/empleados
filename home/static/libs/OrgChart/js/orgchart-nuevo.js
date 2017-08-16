@@ -697,7 +697,7 @@
       } else {
         $nodeDiv.append('<div class="title">' + nodeData[opts.nodeTitle] + '</div>')
           .append(nodeData[opts.nodeNombre] != 'None' ? '<div class="content">' 
-              + '<div class="col-sm-3 orgchart-no-imagen-user"></div>'
+              + '<div class="col-sm-3 orgchart-div-imagen"><img class="orgchart-foto" src='+(nodeData[opts.nodeFoto])+'></img></div>' // orgchart-no-imagen-user src='+(nodeData[opts.nodeFoto])+' <div class="col-sm-3 orgchart-no-imagen-user"></div>
               + '<div class="col-sm-8"><b>' + (nodeData[opts.nodeNombre] +'</b>' || '')
               + '<br>' +(nodeData[opts.nodeNumEmpleado] || '')
               + '<br>' +(nodeData[opts.nodeCentroCostos] || '') +'</div>'

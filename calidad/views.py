@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 # Librerias/Clases Python
+import datetime
 
 # Librerias/Clases Django
 from django.shortcuts import render
@@ -26,6 +27,10 @@ from .models import Criterio
 from .models import Proceso
 from .models import Rol
 from .models import Formato
+from .models import Auditoria
+from administracion.models import Contrato
+from .models import Criterio
+from .models import CompaniaAccion
 
 # Otros Modelos:
 
@@ -45,6 +50,7 @@ from .forms import MetodologiaForm
 from .forms import FallaForm
 from .forms import FormatoForm
 from .forms import GeneralAuditoriaForm
+from .forms import AuditorForm
 
 # Serializadore:
 from .serializers import RequisitoSerilizado
@@ -103,21 +109,84 @@ class GeneralFormulario(View):
 
         return render(request, self.template_name, contexto)
 
+    def post(self, request):
+
+        formulario = GeneralAuditoriaForm(request.POST)
+
+        if formulario.is_valid():
+            datos_formulario = formulario.cleaned_data
+            auditoria = Auditoria()
+            contrato = Contrato()
+            criterio = Criterio()
+            auditoria.folio = self.get_Folio()
+            auditoria.tipo_auditoria = datos_formulario.get('tipo_de_auditoria')
+            auditoria.compania = datos_formulario.get('compania')
+            if datos_formulario.get('fecha_programada_ini') is not u'':
+                auditoria.fecha_programada_inicial = datos_formulario.get('fecha_programada_ini')
+            if datos_formulario.get('fecha_programada_fin') is not u'':
+                auditoria.fecha_programada_final = datos_formulario.get('fecha_programada_fin')
+            auditoria.objetivo = datos_formulario.get('objetivo')
+            auditoria.alcance = datos_formulario.get('alcance')
+            auditoria.recurso_necesario = datos_formulario.get('recursos_necesarios')
+            auditoria.save()
+
+            for criterio in datos_formulario.get('criterios'):
+                cri = Criterio.objects.get(pk=criterio)
+                auditoria.criterio.add(cri)
+
+            for contrato in datos_formulario.get('contratos'):
+                con = Contrato.objects.get(con_clave=contrato)
+                auditoria.contrato.add(con)
+
+            return redirect(reverse('calidad:auditor_formulario', kwargs={'pk': auditoria.pk}))
+
+        contexto = {
+            'form': formulario,
+            'operation': 'Nuevo',
+        }
+
+        return render(request, self.template_name, contexto)
+
+    def get_Folio(self):
+        fecha = datetime.datetime.now()
+        last_digits = str(fecha.year)[2:]
+        auditorias = Auditoria.objects.filter(folio__icontains=last_digits)
+        noAuditoria = ""
+        no_aud_act = 1
+
+        if len(auditorias):
+            for auditoria in auditorias:
+                folio = int(auditoria.folio.split("-")[1])
+                if folio > no_aud_act:
+                    no_aud_act = folio
+            no_aud_act = no_aud_act + 1
+
+        if len(str(no_aud_act)) == 1:
+            noAuditoria = "0"+str(no_aud_act)
+        return "AUD-" +noAuditoria+ "-" + last_digits
+
 
 class AuditorFormulario(View):
 
     def __init__(self):
         self.template_name = 'auditor/auditor_formulario.html'
 
-    def get(self, request):
+    def get(self, request, pk):
 
+
+        auditoria = Auditoria.objects.get(pk = pk)
+        compania_codigo = auditoria.compania.split(':')[0]
+        # auditor_lider = CompaniaAccion.objects.filter(compania_codigo = compania_codigo, rol__rol='Auditor Lider')
+        auditor_lider = Rol.objects.filter(companiaaccion__compania_codigo=compania_codigo, rol='Auditor Lider' )
+        # auditor_lider = Rol.objects.filter(compania=auditoria.compania, rol='Auditor Lider')
         # formulario = EmpleadoFilterForm()
+        formulario = AuditorForm(initial = {'auditor_lider': auditor_lider[0].nombre_completo})
+        contexto = {
+            'form': formulario,
+            'folio': auditoria.folio,
+        }
 
-        # contexto = {
-        #     'form': formulario
-        # }
-
-        return render(request, self.template_name, {})
+        return render(request, self.template_name, contexto)
 
 
 class ProcesoLista(View):

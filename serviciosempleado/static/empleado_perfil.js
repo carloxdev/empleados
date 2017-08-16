@@ -10,6 +10,7 @@ var grid_capacitacion = null
 var filtros = null
 var tarjeta_resultados = null
 var personalizacion = null
+var modal_actualizacion = null
 
 /*-----------------------------------------------*\
             LOAD
@@ -26,7 +27,8 @@ $(document).ready(function () {
 \*-----------------------------------------------*/
 
 function TarjetaResultados(){
-    personalizacion = new Personalizacion
+    this.personalizacion = new Personalizacion
+    this.modal_actualizacion = new ModalActualizacion()
     grid_personal = new GridPersonal()
 }
 
@@ -37,7 +39,6 @@ function TarjetaResultados(){
 function Filtros(){
 
     this.$numero_empleado = $('#numero_empleado')
-
 }
 Filtros.prototype.get_Values = function (_page) {
     return {
@@ -52,6 +53,27 @@ Filtros.prototype.get_ValuesCap = function (_page) {
    }
 }
 
+/*-----------------------------------------------*\
+            OBJETO: Modal actualizacion
+\*-----------------------------------------------*/
+
+function ModalActualizacion(){
+
+    this.$asunto = $('#id_asunto')
+    this.$archivo = $('#id_archivo')
+    this.$boton_limpiar = $('#boton_limpiar')
+
+    this.init_Events()
+
+}
+ModalActualizacion.prototype.init_Events = function(){
+    
+    this.$boton_limpiar.on("click", this , this.limpiar_Campos)
+}
+ModalActualizacion.prototype.limpiar_Campos = function (e){
+    e.data.$asunto.val("")
+    e.data.$archivo.val("")
+}
 
 /*-----------------------------------------------*\
             OBJETO: Personalizacion del tab
@@ -163,7 +185,7 @@ GridPersonal.prototype.get_Configuracion = function () {
         scrollable: true,
         pageable: true,
         noRecords: {
-            template: "<div class='grid-empty'> No se encontraron registros </div>"
+            template: "<div class='nova-grid-empy'> No se encontraron registros </div>"
         },
         dataBound: this.set_Icons,
     }
@@ -273,7 +295,7 @@ GridCapacitacion.prototype.get_Configuracion = function () {
         scrollable: true,
         pageable: true,
         noRecords: {
-            template: "<div class='grid-empty'> No se encontraron registros </div>"
+            template: "<div class='nova-grid-empy'> No se encontraron registros </div>"
         },
         dataBound: this.aplicar_Estilos
     }

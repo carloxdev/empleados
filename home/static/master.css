@@ -594,8 +594,11 @@ div.nova-panel-arbol li.list-group-item {
 /* multiselect 2 */
 
 /* Kendo grid, estilo en las filas*/
-.fecha-vencida {
+.nova-fecha-vencida {
   background-color: #E6E6E6;
+}
+.nova-fecha-por-vencer{
+   background-color: #FBFBEF;
 }
 /* jquery multiselect */
 .nova-has-error {
@@ -649,6 +652,12 @@ div.nova-panel-arbol li.list-group-item {
    background-color: Azure;
 }
 /* kendo grid */
+/* modal descripcion */
+.nova-modal-contenido{
+  font-size: 14px;
+  margin-left: 0 30px 0 30px;
+}
+/* modal descripcion */
 
 
 @media (min-width: 992px) {

@@ -118,7 +118,7 @@ TarjetaFiltros.prototype.get_Values = function (_page) {
     
         return {
                 page: _page,
-                relacion_personal__numero_empleado_organizacion: this.$asig_organizacion_clave.val(),
+                relacion_personal__tipo_documento_organizacion: this.$asig_organizacion_clave.val(),
                 relacion_personal__tipo_documento: this.$tipo_documento.val(),
                 relacion_personal__agrupador: this.$agrupador.val(),
                 relacion_personal__numero_empleado: this.$numero_empleado.val(),
@@ -129,7 +129,7 @@ TarjetaFiltros.prototype.get_Values = function (_page) {
 TarjetaFiltros.prototype.get_Values_Excel = function () {
     
         return {
-                relacion_personal__numero_empleado_organizacion: this.$asig_organizacion_clave.val(),
+                relacion_personal__tipo_documento_organizacion: this.$asig_organizacion_clave.val(),
                 relacion_personal__tipo_documento: this.$tipo_documento.val(),
                 relacion_personal__agrupador: this.$agrupador.val(),
                 relacion_personal__numero_empleado: this.$numero_empleado.val(),
@@ -199,32 +199,34 @@ Toolbar.prototype.Inicializar_CeldasExcel = function (e) {
 }
 Toolbar.prototype.click_BotonExportar = function (e) {
 
-    tarjeta_resultados.grid.leer_Datos()
-    e.data.Inicializar_CeldasExcel()
+    if( tarjeta_filtro.validar_Campos() != 'True'){
+        tarjeta_resultados.grid.leer_Datos()
+        e.data.Inicializar_CeldasExcel()
 
-    tarjeta_resultados.grid.kfuente_datos_excel.fetch(function () {
+        tarjeta_resultados.grid.kfuente_datos_excel.fetch(function () {
 
-        var data = this.data();
-        for (var i = 0; i < data.length; i++) {
+            var data = this.data();
+            for (var i = 0; i < data.length; i++) {
 
-                e.data.kRows.push({
-                    cells: e.data.get_Registros_Excel(data[i])
-                })
-        }
-        var workbook = new kendo.ooxml.Workbook({
-                sheets: [
-                    {
-                        columns: e.data.get_Columnas_Excel_Ancho(),
-                        title: "ListaDocumentos",
-                        rows: e.data.kRows
-                    }
-                ]
+                    e.data.kRows.push({
+                        cells: e.data.get_Registros_Excel(data[i])
+                    })
+            }
+            var workbook = new kendo.ooxml.Workbook({
+                    sheets: [
+                        {
+                            columns: e.data.get_Columnas_Excel_Ancho(),
+                            title: "ListaDocumentoPersonal",
+                            rows: e.data.kRows
+                        }
+                    ]
+                });
+            kendo.saveAs({
+                dataURI: workbook.toDataURL(),
+                fileName: "ListaDocumentoPersonal.xlsx",
             });
-        kendo.saveAs({
-            dataURI: workbook.toDataURL(),
-            fileName: "ListaDocumentos.xlsx",
-        });
-    })
+        })
+    }
 }
 Toolbar.prototype.get_Columnas_Excel_Ancho = function () {
     

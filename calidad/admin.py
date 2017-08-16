@@ -34,7 +34,7 @@ class Criterio(ImportExportModelAdmin):
 
 
 @admin.register(Requisito)
-class Requisito(admin.ModelAdmin):
+class Requisito(ImportExportModelAdmin):
     list_display = (
         'pk',
         'requisito',

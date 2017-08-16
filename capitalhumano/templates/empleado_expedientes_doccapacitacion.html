@@ -1,4 +1,4 @@
-{% extends 'empleado_expedientes_solicitudes.html' %}
+{% extends 'empleado_expedientes_general.html' %}
 {% load static from staticfiles %}
 {% block titulo %} Capital humano {% endblock titulo %}
 {% block title-page %} Expedientes  {% endblock title-page %}
@@ -10,9 +10,8 @@
                 <li class="active">Capacitaciones</li>
         </ul>
         <div class="actions">
-            <a class="btn btn-xs btn-prev btn-default nova-a-tab" id="solicitudes" href="{% url 'capitalhumano:empleado_expedientes_solicitudes' %}"> Solicitudes</a>
             <a class="btn btn-xs btn-prev btn-default nova-a-tab" id="general" href="{% url 'capitalhumano:empleado_expedientes_general' %}"> Empleados</a>
-            <a class="btn btn-xs btn-prev btn-default nova-a-tab nova-a-tab-border" id="general" href="{% url 'capitalhumano:empleado_expedientes_grado' %}"> Grados academicos</a>
+            <a class="btn btn-xs btn-prev btn-default nova-a-tab " id="general" href="{% url 'capitalhumano:empleado_expedientes_grado' %}"> Grados academicos</a>
             <a class="btn btn-xs btn-next btn-default nova-a-tab nova-a-tab-border" id="personales"href="{% url 'capitalhumano:empleado_expedientes_docpersonal' %}">Documentos personales</a>
             <a class="btn btn-xs btn-next btn-default nova-a-tab nova-a-tab-border nova-active-tab" id="capacitaciones"href="{% url 'capitalhumano:empleado_expedientes_doccapacitacion' %}">Capacitacion</a>
         </div>
@@ -69,16 +68,11 @@
                         {{ form.agrupador }}
                     </div>
                 </div>
-                 <!-- Fecha -->
-                <div class="form-group">
-                    <label class="col-sm-3 nova-col-filter control-label">Fecha</label>
+                 <!-- Estatus -->
+                 <div class="form-group">
+                    <label class="col-sm-3 nova-col-filter control-label">{{ form.estatus.label }}</label>
                     <div class="col-sm-8 xs-pt-5">
-                        <div class="input-group"> 
-                            <input type="text" value="" readonly="" class="form-control input-xs" id="id_fecha">
-                            <span class="input-group-addon btn btn-primary">
-                                <i class="icon-th mdi mdi-calendar"></i>
-                            </span>
-                        </div>
+                        {{ form.estatus }}
                     </div>
                 </div>
                 <!-- Area -->
@@ -126,10 +120,6 @@
 
     <!-- Theme -->
     <script src="{% static 'theme/lib/jquery-ui/jquery-ui.min.js' %}"></script>
-    <script src="{% static 'theme/lib/moment.js/min/moment.min.js' %}"></script>
-    <script src="{% static 'theme/lib/datetimepicker/js/bootstrap-datetimepicker.min.js' %}"></script>
-    <script src="{% static 'theme/lib/datetimepicker/js/locales/bootstrap-datetimepicker.es.js' %}"></script>
-    <script src="{% static 'theme/lib/daterangepicker/js/daterangepicker.js' %}"></script>
 
     <!-- NOVA-->
      <script src="{% static 'empleado_expedientes_doccapacitacion.js' %}"></script>

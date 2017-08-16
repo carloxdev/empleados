@@ -14,7 +14,7 @@ from django.forms import FileInput
 from django.forms import DateInput
 from django.forms import DateField
 from django.forms import FileField
-from django.forms import ModelChoiceField
+from django.forms import Textarea 
 
 # Modelos
 from jde.models import VIEW_UNIDADES
@@ -23,8 +23,6 @@ from ebs.models import VIEW_PUESTOS
 from ebs.models import VIEW_ORGANIZACIONES
 from administracion.models import Empresa
 from capitalhumano.models import PerfilPuestoDocumento
-from .models import Curso
-from .models import TipoDocumento
 
 # Business
 from .business import EmpleadoBusiness
@@ -39,7 +37,7 @@ class OrganizacionesFilterForm(Form):
         self.fields['organizaciones'].choices = self.get_Organizaciones()
 
     def get_Organizaciones(self):
-        valores = [('0', 'TODAS LAS ORGANIZACIONES')]
+        valores = [('', 'TODAS LAS ORGANIZACIONES')]
 
         organizaciones = VIEW_ORGANIZACIONES.objects.using('ebs_p').all()
         for organizacion in organizaciones:
@@ -63,7 +61,7 @@ class EmpresasFilterForm(Form):
         self.fields['empresas'].choices = self.get_Empresas()
 
     def get_Empresas(self):
-        valores = [('0', 'TODAS LAS EMPRESAS')]
+        valores = [('', 'TODAS LAS EMPRESAS')]
 
         empresas = Empresa.objects.all()
         for empresa in empresas:
@@ -134,7 +132,8 @@ class EmpleadoFilterForm(Form):
     fecha_contratacion = CharField(
         label='Fecha de contratación',
         widget=TextInput(
-            attrs={'name': 'fecha_contratacion', 'class': 'form-control input-xs', 'readonly': ''}
+            attrs={'name': 'fecha_contratacion',
+                   'class': 'form-control input-xs', 'readonly': ''}
         ),
     )
 
@@ -250,17 +249,14 @@ class EmpleadoFilterForm(Form):
 
 class PerfilPuestoDocumentoForm(Form):
 
-    desc_puesto = ChoiceField(
-        label='Empleado: ',
-        widget=Select(attrs={'class': 'form-control input-sm'})
-    )
+    asig_puesto_clave = ChoiceField(widget=Select(
+        attrs={'class': 'select2 nova-select2'}))
+
 
     class Meta:
         model = PerfilPuestoDocumento
 
         fields = [
-            'desc_puesto',
-            'reporta',
             'proposito',
             'funciones',
             'responsabilidades',
@@ -272,7 +268,8 @@ class PerfilPuestoDocumentoForm(Form):
             'genero',
             'cambio_residencia',
             'disponibilidad_viajar',
-            'requerimentos'
+            'requerimentos',
+            'puesto_acargo',
         ]
         # 'created_by',
         # 'created_date',
@@ -280,7 +277,6 @@ class PerfilPuestoDocumentoForm(Form):
         # 'updated_date' ]
 
         labels = {
-            'reporta': 'Reporta a :',
             'proposito': 'Proposito :',
             'funciones': 'Funciones :',
             'responsabilidades': 'Responsabilidades :',
@@ -296,10 +292,10 @@ class PerfilPuestoDocumentoForm(Form):
         }
 
         widgets = {
-            'reporta': Select(attrs={'class': 'form-control input-sm'}),
+           ## 'reporta': Select(attrs={'class': 'form-control input-sm'}),
             'proposito': TextInput(attrs={'class': 'form-control input-xs'}),
             'funciones': TextInput(attrs={'class': 'form-control input-xs'}),
-            'responsabilidades': TextInput(attrs={'class': 'form-control input-xs'}),
+            'responsabilidades': Textarea(attrs={'class': 'form-control input-xs', 'rows': '5'}),
             'edad_minima': TextInput(attrs={'class': 'form-control input-xs'}),
             'edad_maxima': TextInput(attrs={'class': 'form-control input-xs'}),
             'nivel_estudio': TextInput(attrs={'class': 'form-control input-xs'}),
@@ -310,9 +306,17 @@ class PerfilPuestoDocumentoForm(Form):
             'requerimentos': TextInput(attrs={'class': 'form-control input-xs'}),
         }
 
+    desc_puesto = ChoiceField(label='Puesto', widget=Select(
+        attrs={'class': 'select2 nova-select2'}))
+
+    reporta = ChoiceField(label='Reporta', widget=Select(
+        attrs={'class': 'select2 nova-select2'}))
+    
+
     def __init__(self, *args, **kwargs):
         super(PerfilPuestoDocumentoForm, self).__init__(
             *args, **kwargs)
+        self.fields['reporta'].choices = self.get_Puestos()
         self.fields['desc_puesto'].choices = self.get_Puestos()
         # self.fields['zona'].choices = self.get_Zonas()
 
@@ -336,7 +340,7 @@ class PerfilPuestoDocumentoForm(Form):
 class ExpedientesFilterForm(Form):
 
     TIPO_CHOICES = (
-        ('', '---------'),
+        ('', '------------'),
         ('1120', 'ADMINISTRATIVO'),
         ('1123', 'EX-EMPLEADO'),
         ('1124', 'EX-EMPLEADO Y CANDIDATO'),
@@ -403,7 +407,7 @@ class ExpedientesFilterForm(Form):
 class GradoAcademicoFilterForm(Form):
 
     GRADO_ACADEMICO_CHOICES = (
-        ('', '---------'),
+        ('', '------------'),
         ('NINGUNA', 'NINGUNA'),
         ('LEER Y ESCRIBIR', 'LEER Y ESCRIBIR'),
         ('PRIMARIA', 'PRIMARIA'),
@@ -445,12 +449,13 @@ class GradoAcademicoFilterForm(Form):
         self.fields[
             'asig_organizacion_id'].choices = EmpleadoBusiness.get_Organizaciones()
         self.fields['asig_organizacion_id'].required = False
+        self.fields['qua_especialidad'].choices = EmpleadoBusiness.get_Especialidades()
 
 
 class DocPersonalFilterForm(Form):
 
     AGRUPADOR_CHOICES = (
-        ('', '---------'),
+        ('', '------------'),
         ('per', 'Personal'),
         ('qhse', 'QHSE'),
         ('amo', 'Amonestación'),
@@ -502,7 +507,7 @@ class DocPersonalFilterForm(Form):
 class DocCapacitacionFilterForm(Form):
 
     AGRUPADOR_CHOICES = (
-        ('', '---------'),
+        ('', '------------'),
         ('per', 'Personal'),
         ('qhse', 'QHSE'),
         ('amo', 'Amonestación'),
@@ -511,9 +516,14 @@ class DocCapacitacionFilterForm(Form):
         ('rec', 'Reconocimiento'),
     )
     AREA_CHOICES = (
-        ('', '---------'),
+        ('', '------------'),
         ('administrativa', 'Administrativa'),
         ('operativa', 'Operativa'),
+    )
+    ESTATUS = (
+        ('', '------------'),
+        ('ven', 'VENCIDOS'),
+        ('por', 'POR VENCER'),
     )
 
     agrupador = ChoiceField(
@@ -548,17 +558,22 @@ class DocCapacitacionFilterForm(Form):
             attrs={'class': 'select2 nova-select2'}
         )
     )
-    fecha = CharField(
-        label="Fecha curso"
+    estatus = ChoiceField(
+        label="Vencimiento",
+        choices=ESTATUS,
+        widget=Select(attrs={'class': 'select2 nova-select2'}
+                      )
     )
-
     proveedor = ChoiceField(
         label="Proveedor",
-        widget=Select(attrs={'class': 'select2 nova-select2'}))
+        widget=Select(attrs={'class': 'select2 nova-select2'}
+                      )
+    )
 
     def __init__(self, *args, **kwargs):
         super(DocCapacitacionFilterForm, self).__init__(*args, **kwargs)
-        self.fields['asig_organizacion_clave'].choices = EmpleadoBusiness.get_Organizaciones()
+        self.fields[
+            'asig_organizacion_clave'].choices = EmpleadoBusiness.get_Organizaciones()
         self.fields['asig_organizacion_clave'].required = False
         self.fields['curso'].choices = EmpleadoBusiness.get_Curso()
         self.fields['curso'].required = False
@@ -684,6 +699,7 @@ class NuevoDocumentoCapacitacionForm(Form):
     fecha_fin = DateField(
         widget=DateInput(format=('%d/%m/%Y'),
                          attrs={'class': 'form-control input-xs'}))
+
     duracion = CharField(
         label="Duración",
         widget=TextInput(attrs={'class': 'form-control input-xs'}))
@@ -698,7 +714,128 @@ class NuevoDocumentoCapacitacionForm(Form):
 
     def __init__(self, *args, **kwargs):
         super(NuevoDocumentoCapacitacionForm, self).__init__(*args, **kwargs)
+
         self.fields[
             'departamento'].choices = EmpleadoBusiness.get_Organizaciones()
         self.fields['proveedor'].choices = EmpleadoBusiness.get_Proveedores()
         self.fields['curso'].choices = EmpleadoBusiness.get_Curso()
+
+        self.fields['departamento'].choices = self.get_Organizaciones()
+
+    def get_Organizaciones(self):
+        valores = []
+
+        organizaciones = VIEW_ORGANIZACIONES.objects.using('ebs_d').all()
+        for organizacion in organizaciones:
+            valores.append(
+                (
+                    organizacion.desc_org,
+                    organizacion.desc_org
+                )
+            )
+        return valores
+
+
+class PerfilAgregarPuestoCargoForm(Form):
+
+ 
+    desc_puesto2 = ChoiceField(label='Puesto', widget=Select(
+        attrs={'class': 'select2 nova-select2'}))
+
+
+    def __init__(self, *args, **kwargs):
+        super(PerfilAgregarPuestoCargoForm, self).__init__(
+            *args, **kwargs)
+        self.fields['desc_puesto2'].choices = self.get_Puestos()
+        # self.fields['zona'].choices = self.get_Zonas()
+
+    def get_Puestos(self):
+
+        valores = [('', '-------')]
+
+        puestos = VIEW_PUESTOS.objects.using('ebs_d').all()
+
+        for puesto in puestos:
+
+            valores.append(
+                (
+                    str(int(puesto.clave_puesto)) + ' - ' + puesto.desc_puesto,
+                    # puesto.clave_puesto,
+                    str(int(puesto.clave_puesto)) + ' - ' + puesto.desc_puesto,
+                )
+            )
+        return valores
+
+
+class PerfilPuestoListaForm(Form):
+
+    TIPO_ESTUDIOS = (
+            ('ind', 'Indistinto'),
+            ('sol', 'Soltero'),
+            ('cas', 'Casado'),
+            ('uni', 'Union Libre'),
+            ('viu', 'Viudo'),
+            ('div', 'Divorciado'),
+        )
+
+    asig_puesto_clave = ChoiceField(widget=Select(
+        attrs={'class': 'select2 nova-select2'}))
+
+
+    class Meta:
+        model = PerfilPuestoDocumento
+
+        fields = [
+            'asig_puesto_clave',
+            'nivel_estudio',
+            'reporta',
+            'areas_experiencia_id',
+            'departamento',
+        ]
+
+
+        labels = {
+            'asig_puesto_clave': 'Puesto:',
+            'nivel_estudio': 'Nivel Estudio :',
+            'reporta': 'Reporta :',
+            'areas_experiencia_id': 'Areas_experiencia :',
+            'departamento': 'Departamento:',
+        }
+
+        
+    asig_puesto_clave = ChoiceField(label='Puesto', widget=Select(
+        attrs={'class': 'select2 nova-select2'}))
+    
+    reporta = ChoiceField(label='Reporta', widget=Select(
+        attrs={'class': 'select2 nova-select2'}))
+
+    nivel_estudio = ChoiceField(
+        label="Nivel de Estudios",
+        choices=TIPO_ESTUDIOS,
+        widget=Select(
+            attrs={'class': 'select2 nova-select2'}
+        )
+    )
+
+    def __init__(self, *args, **kwargs):
+        super(PerfilPuestoListaForm, self).__init__(
+            *args, **kwargs)
+        self.fields['reporta'].choices = self.get_Puestos()
+        self.fields['asig_puesto_clave'].choices = self.get_Puestos()
+        
+    def get_Puestos(self):
+
+        valores = [('', '-------')]
+
+        puestos = VIEW_PUESTOS.objects.using('ebs_d').all()
+
+        for puesto in puestos:
+
+            valores.append(
+                (
+                    puesto.clave_puesto,
+                    str(int(puesto.clave_puesto)) + ' - ' + puesto.desc_puesto,
+                )
+            )
+        return valores
+

@@ -69,17 +69,17 @@
                   
                <form role="form" action="" method="POST" id="id_formulario_filtro" name="formulario_filtro"> {% csrf_token %}
 
-                  <div id="accordion1" class="panel-group accordion nova-modal-accordion">
+                  <div id="id_accordion_empleados" class="panel-group accordion nova-modal-accordion">
                      
                      <div class="panel panel-default nova-modal-accordion-panel nova-accordion-border-bottom">
                         <div class="panel-heading">
                            <h4 class="panel-title">
-                              <a data-toggle="collapse" data-parent="#accordion1" href="#collapseOne" aria-expanded="true" class="">
+                              <a data-toggle="collapse" data-parent="#id_accordion_empleados" href="#collapse_personales" aria-expanded="true" class="">
                                  <i class="icon mdi mdi-chevron-down"></i> Datos Personales:
                               </a>
                            </h4>
                         </div>
-                        <div id="collapseOne" class="panel-collapse collapse in" aria-expanded="true">
+                        <div id="collapse_personales" class="panel-collapse collapse in" aria-expanded="true">
                            
                            <div class="nova-accordion-row">
 
@@ -110,12 +110,12 @@
                      <div class="panel panel-default nova-modal-accordion-panel">
                         <div class="panel-heading">
                            <h4 class="panel-title">
-                              <a data-toggle="collapse" data-parent="#accordion1" href="#collapseTwo" class="collapsed" aria-expanded="false">
+                              <a data-toggle="collapse" data-parent="#id_accordion_empleados" href="#collapse_corporativo" class="collapsed" aria-expanded="false">
                                  <i class="icon mdi mdi-chevron-down"></i> Datos Corporativos:
                               </a>
                            </h4>
                         </div>
-                        <div id="collapseTwo" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
+                        <div id="collapse_corporativo" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
 
                            <div class="nova-accordion-row">
 
