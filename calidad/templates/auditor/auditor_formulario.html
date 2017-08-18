@@ -40,9 +40,13 @@
 
                   </ul>
                   <div class="actions">
-                     <a href="{% url 'calidad:general_formulario' %}" class="btn btn-xs btn-prev btn-default nova-a-tab">Generales</a>
+                     <a href="{% url 'calidad:general_formulario_update' pk %}" class="btn btn-xs btn-prev btn-default nova-a-tab">Generales</a>
                      <a class="btn btn-xs btn-next btn-default nova-a-tab nova-active-tab">Equipo Auditor</a>
-                     <a href="{% url 'calidad:proceso_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Procesos</a>
+                     <a {% if operation == 'Editar' %}
+                          href="{% url 'calidad:proceso_lista' pk %}"
+                        {% endif %}
+                        class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Procesos
+                     </a>
                   </div>
                   <div class="step-content nova-panel-border-top">
                      <div class="step-pane active">

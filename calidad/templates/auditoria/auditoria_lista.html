@@ -26,18 +26,18 @@
    </div>
 
    <div class="main-content container-fluid nova-main-content">
-      
+
       <div class="row">
          <!-- Tarjeta resultados-->
          <div class="col-sm-12 nova-col">
             <div class="panel panel-default panel-table">
             <div class="panel-heading panel-border nova-panel-heading">
             <div class="tools pull-right" id="toolbar">
-               <a href="{% url 'calidad:general_formulario' %}"
+               <a href="{% url 'calidad:general_formulario_create' %}"
                   class="btn nova-btn btn-rounded btn-space btn-default" id="id_boton_nueva_auditoria">
                   <i class="icon icon-left mdi mdi-plus-circle nova-black"></i>Nuevo
                </a>
-               <a href="#tarjeta_filtros" 
+               <a href="#tarjeta_filtros"
                   class="btn nova-btn btn-rounded btn-space btn-primary" data-toggle="modal" id="boton_filtros">
                   <i class="icon icon-left mdi mdi-search nova-white"></i>Filtros
                </a>
@@ -61,114 +61,46 @@
                      </tr>
                   </thead>
                   <tbody>
-                     <tr class="clickable-row">
-                        <td>
-                           <a href="#id_tarjeta_acciones" data-toggle="modal" class="btn nova-btn btn-default">
-                              <i class="icon icon-left icon mdi mdi-settings nova-black"></i>
-                           </a>
+                    {% if auditorias %}
+                      {% for auditoria in auditorias %}
+                        <tr class="clickable-row">
+                           <td>
+                              <a href="#id_tarjeta_acciones" data-toggle="modal" class="btn nova-btn btn-default">
+                                 <i class="icon icon-left icon mdi mdi-settings nova-black"></i>
+                              </a>
+                           </td>
+                           <td>
+                              <a href="{% url 'calidad:general_formulario_update' auditoria.pk%}" class="btn btn-default nova-url" data-toggle="modal">{{auditoria.folio}}</a>
+                           </td>
+                           <td>{{auditoria.objetivo}}</td>
+                           <td>{{auditoria.elaborador}}</td>
+                           <td>{{auditoria.autorizador}}</td>
+                           <td>{{auditoria.aprobador}}</td>
+                           <td>{{auditoria.compania}}</td>
+                           <td class="nova-aling-center
+                           {% if auditoria.estado == 'Autorizado' %}
+                              nova-status-autorizado
+                           {% elif auditoria.estado == 'En Aprobacion' %}
+                              nova-status-en-aprobacion
+                           {% elif auditoria.estado == 'Aprobado' %}
+                              nova-status-aprobado
+                           {% elif auditoria.estado == 'Rechazado' %}
+                              nova-status-rechazado
+                           {% elif auditoria.estado == 'Cancelado' %}
+                              nova-status-cancelado
+                           {% endif %}
+                           ">{{auditoria.estado}}</td>
+                           <td>{{auditoria.recurso_necesario}}</td>
+                           <td>{{auditoria.tipo_auditoria}}</td>
+                        </tr>
+                      {% endfor %}
+                    {% else %}
+                      <tr class="clickable-row">
+                        <td colspan="10" class="nova-aling-center nova-sin-resultados">
+                          Sin auditorias actualmente.
                         </td>
-                        <td>
-                           <a href="{% url 'calidad:general_formulario' %}" class="btn btn-default nova-url" data-toggle="modal">AUD-01-15</a>
-                        </td>
-                        <td>Determinar la conformidad del sistema</td>
-                        <td>Juan Guerrero Hidalgo</td>
-                        <td>Armando Villanueva Jimenez</td>
-                        <td>Ingrid Coliaza Reyes</td>
-                        <td>SIC</td>
-                        <td class="nova-aling-center nova-status-en-aprobacion">En aprobación</td>
-                        <td>$1830</td>
-                        <td>Auditoria Interna</td>
-                     </tr>
-                     <tr class="clickable-row">
-                        <td>
-                           <a href="#id_tarjeta_acciones" data-toggle="modal" class="btn nova-btn btn-default">
-                              <i class="icon icon-left icon mdi mdi-settings nova-black"></i>
-                           </a>
-                        </td>
-                        <td>
-                           <a href="{% url 'calidad:general_formulario' %}" class="btn btn-default nova-url" data-toggle="modal">AUD-02-15</a>
-                        </td>
-                        <td>Determinar la conformidad del sistema</td>
-                        <td>Juan Guerrero Hidalgo</td>
-                        <td>Armando Villanueva Jimenez</td>
-                        <td>Ingrid Coliaza Reyes</td>
-                        <td>MET</td>
-                        <td class="nova-aling-center nova-status-cancelado">Cancelado</td>
-                        <td>$1830</td>
-                        <td>Mejora continua</td>
-                     </tr>
-                     <tr class="clickable-row">
-                        <td>
-                           <a href="#id_tarjeta_acciones" data-toggle="modal" class="btn nova-btn btn-default">
-                              <i class="icon icon-left icon mdi mdi-settings nova-black"></i>
-                           </a>
-                        </td>
-                        <td>
-                           <a href="{% url 'calidad:general_formulario' %}" class="btn btn-default nova-url" data-toggle="modal">AUD-03-15</a>
-                        </td>
-                        <td>Determinar la conformidad del sistema</td>
-                        <td>Juan Guerrero Hidalgo</td>
-                        <td>Armando Villanueva Jimenez</td>
-                        <td>Ingrid Coliaza Reyes</td>
-                        <td>GEOLIS</td>
-                        <td class="nova-aling-center nova-status-aprobado nova-white">Aprobado</td>
-                        <td>$1830</td>
-                        <td>Auditoria Externa</td>
-                     </tr>
-                     <tr class="clickable-row">
-                        <td>
-                           <a href="#id_tarjeta_acciones" data-toggle="modal" class="btn nova-btn btn-default">
-                              <i class="icon icon-left icon mdi mdi-settings nova-black"></i>
-                           </a>
-                        </td>
-                        <td>
-                           <a href="{% url 'calidad:general_formulario' %}" class="btn btn-default nova-url" data-toggle="modal">AUD-01-16</a>
-                        </td>
-                        <td>Determinar la conformidad del sistema</td>
-                        <td>Jose Gutierrez Zacarias</td>
-                        <td>Javier Hernandez Gomez</td>
-                        <td>Fernanda Fuentes Rocio</td>
-                        <td>SIC</td>
-                        <td class="nova-aling-center nova-status-rechazado">Rechazado</td>
-                        <td>$2630</td>
-                        <td>Auditoria Interna</td>
-                     </tr>
-                     <tr class="clickable-row">
-                        <td>
-                           <a href="#id_tarjeta_acciones" data-toggle="modal" class="btn nova-btn btn-default">
-                              <i class="icon icon-left icon mdi mdi-settings nova-black"></i>
-                           </a>
-                        </td>
-                        <td>
-                           <a href="{% url 'calidad:general_formulario' %}" class="btn btn-default nova-url" data-toggle="modal">AUD-01-17</a>
-                        </td>
-                        <td>Determinar la conformidad del sistema</td>
-                        <td>Fernando Cabrera Gonzalez</td>
-                        <td>Antonio Corcino Donato</td>
-                        <td>Anahi Campos Fuentes</td>
-                        <td>SIC</td>
-                        <td class="nova-aling-center nova-status-autorizado nova-white">Autorizado</td>
-                        <td>$2330</td>
-                        <td>Auditoria Interna</td>
-                     </tr>
-                     <tr class="clickable-row">
-                        <td>
-                           <a href="#id_tarjeta_acciones" data-toggle="modal" class="btn nova-btn btn-default">
-                              <i class="icon icon-left icon mdi mdi-settings nova-black"></i>
-                           </a>
-                        </td>
-                        <td>
-                           <a href="{% url 'calidad:general_formulario' %}" class="btn btn-default nova-url" data-toggle="modal">AUD-01-18</a>
-                        </td>
-                        <td>Determinar la conformidad del sistema</td>
-                        <td>Alvaro Arias Martinez</td>
-                        <td>Julio Cabrera Mendez</td>
-                        <td>Carolina Mendez Miron</td>
-                        <td>MET</td>
-                        <td class="nova-aling-center">En captura</td>
-                        <td>$964</td>
-                        <td>Auditoria Interna</td>
-                     </tr>
+                      </tr>
+                    {% endif %}
                   </tbody>
                </table>
             </div>
@@ -183,12 +115,12 @@
    <div id="tarjeta_filtros" role="dialog" class="modal fade colored-header colored-header-primary">
       <div class="modal-dialog custom-width">
          <div class="modal-content">
-            
+
             <div class="modal-header nova-modal-header">
                <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
                <h3 class="modal-title">Filtros</h3>
             </div>
-               
+
             <form id="formulario_filtro" class="modal-body form-horizontal">
 
                <div class="form-group">
@@ -200,7 +132,7 @@
                         <option value="LALG">Luis Alberto Lopez Gonzalez</option>
                      </select>
                   </div>
-               </div>                
+               </div>
 
                <div class="form-group">
                   <label class="col-sm-3 nova-col-filter control-label">Autorizador</label>
@@ -234,7 +166,7 @@
                         </span>
                      </div>
                   </div>
-               </div>                    
+               </div>
 
                <div class="form-group">
                   <label class="col-sm-3 nova-col-filter control-label">Fecha inicial y final real</label>
@@ -246,7 +178,7 @@
                         </span>
                      </div>
                   </div>
-               </div>                                        
+               </div>
 
                <div class="form-group">
                   <label class="col-sm-3 nova-col-filter control-label">Estado</label>
@@ -309,7 +241,7 @@
           <div class="modal-body">
             <div class="text-center">
                <div role="group" class="btn-group-vertical btn-space">
-                  <a href="{% url 'calidad:proceso_lista' %}" class="btn nova-btn btn-space btn-primary btn-lg" id="id_boton_checklist">
+                  <a href="" class="btn nova-btn btn-space btn-primary btn-lg" id="id_boton_checklist">
                      <i class="icon icon-left mdi mdi-arrow-right nova-white"></i> Ir a Check List
                   </a>
                   <button class="btn nova-btn btn-space btn-success btn-lg" id="id_boton_plan_auditoria">
@@ -327,7 +259,7 @@
 {% endblock contenido %}
 
 {% block scripts %}
-   
+
    <!-- Beagle Theme -->
    <script src="{% static 'theme/lib/daterangepicker/js/daterangepicker.js' %}"></script>
 

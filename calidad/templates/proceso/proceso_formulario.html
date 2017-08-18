@@ -20,13 +20,13 @@
       <ol class="breadcrumb page-head-nav pull-right">
          <li><a href="{% url 'home:inicio' %}">Inicio</a></li>
          <li id="menu" data-opcion="auditorias_lista"><a href="{% url 'calidad:auditoria_lista' %}">Procesos de Auditoría</a></li>
-         <li><a href="{% url 'calidad:proceso_lista' %}">Procesos</a></li>
+         <li><a href="{% url 'calidad:proceso_lista' 1 %}">Procesos</a></li>
          <li class="active">Información</li>
       </ol>
    </div>
 
    <div class="main-content container-fluid nova-main-content">
-      
+
       <div class="row wizard-row">
 
          <!-- Tarjeta formulario-->
@@ -42,15 +42,15 @@
 
                   </ul>
                   <div class="actions">
-                     <a href="{% url 'calidad:general_formulario' %}" class="btn btn-xs btn-prev btn-default nova-a-tab">Generales</a>
-                     <a href="{% url 'calidad:auditor_formulario' %}" class="btn btn-xs btn-next btn-default nova-a-tab">Equipo Auditor</a>
-                     <a href="{% url 'calidad:proceso_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab nova-active-tab">Procesos</a>
+                     <a href="{% url 'calidad:general_formulario_create' %}" class="btn btn-xs btn-prev btn-default nova-a-tab">Generales</a>
+                     <a href="{% url 'calidad:auditor_formulario_update' pk %}" class="btn btn-xs btn-next btn-default nova-a-tab">Equipo Auditor</a>
+                     <a href="{% url 'calidad:proceso_lista' 1 %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab nova-active-tab">Procesos</a>
                   </div>
                   <div class="nova-content-nav">
-                     
+
                      <div class="nova-breadcrumb-nav"> 
                         <ol class="breadcrumb">
-                           <li id="menu" data-opcion="auditorias_lista"><a href="{% url 'calidad:proceso_lista' %}"><span class="badge">Lista de Procesos</span></a></li>
+                           <li id="menu" data-opcion="auditorias_lista"><a href="{% url 'calidad:proceso_lista' 1 %}"><span class="badge">Lista de Procesos</span></a></li>
                            <li class="active"><a><span class="badge">Proceso: Licitaciones</a></span></li>
                         </ol>
                      </div>
@@ -63,12 +63,12 @@
 
                   </div>
                   <div class="step-content nova-panel-no-border-top">
-                     
+
                      <div class="step-pane active">
 
                         <div class="form-horizontal group-border-dashed">
 
-                           {{ form.non_field_errors }} 
+                           {{ form.non_field_errors }}
 
                            <div class="form-group">
                               <label class="col-sm-3 nova-col-filter control-label">Proceso</label>
@@ -80,7 +80,7 @@
                                     <option value="LALG">Suministro, Logística y Control</option>
                                  </select>
                               </div>
-                           </div>                
+                           </div>
 
                            <div class="form-group">
                               <label class="col-sm-3 nova-col-filter control-label">Subproceso</label>
@@ -103,7 +103,7 @@
                               </div>
                            </div>
 
-                           <!-- fecha_desde_hasta -->    
+                           <!-- fecha_desde_hasta -->
                            <div class="form-group">
 
                               <label class="col-sm-3 control-label">
@@ -111,8 +111,8 @@
                               </label>
 
                               <div class="col-sm-4 xs-pt-5">
-                                 <div class="input-group date" 
-                                 data-min-view="2" 
+                                 <div class="input-group date"
+                                 data-min-view="2"
                                  data-date-format="yyyy-mm-dd"
                                  id="id_fecha_planificada_desde_input">
                                     {{ form.fecha_partida }}
@@ -121,11 +121,11 @@
                                        <span class="glyphicon glyphicon-calendar"></span>
                                     </span>
                                  </div>
-                              </div> 
+                              </div>
 
                               <div class="col-sm-4 xs-pt-5">
-                                 <div class="input-group date" 
-                                 data-min-view="2" 
+                                 <div class="input-group date"
+                                 data-min-view="2"
                                  data-date-format="yyyy-mm-dd"
                                  id="id_fecha_planificada_hasta_input">
                                     {{ form.fecha_regreso }}
@@ -188,7 +188,7 @@
 {% endblock contenido %}
 
 {% block scripts %}
-   
+
    <!-- Beagle Theme -->
    <script src="{% static 'theme/lib/datetimepicker/js/bootstrap-datetimepicker.min.js' %}"></script>
    <script src="{% static 'theme/lib/jquery.maskedinput/jquery.maskedinput.min.js' %}"></script>

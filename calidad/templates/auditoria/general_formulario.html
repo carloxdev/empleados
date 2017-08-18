@@ -6,7 +6,7 @@
 
 {% block titulo %} Auditorías {% endblock titulo %}
 
-{% block title-page %} Nueva Solicitud de Auditoría {% endblock title-page %}
+{% block title-page %} {% if folio %}Editar{% else %}Nueva{% endif %} Solicitud de Auditoría {% endblock title-page %}
 
 {% block css %}
 
@@ -20,7 +20,7 @@
 <div class="be-content">
 
    <div class="page-head nova-page-head">
-      <h2 class="page-head-title nova-title">Nueva Auditoría</h2>
+      <h2 class="page-head-title nova-title"> {% if folio %}Editar{% else %}Nueva{% endif %} Auditoría</h2>
       <ol class="breadcrumb page-head-nav pull-right">
          <li><a href="{% url 'home:inicio' %}">Inicio</a></li>
          <li id="menu" data-opcion="auditorias_lista"><a href="{% url 'calidad:auditoria_lista' %}">Procesos de Auditoría</a></li>
@@ -39,13 +39,22 @@
                <div id="wizard1" class="wizard wizard-ux">
                   <ul class="steps">
 
-                     <li class="active">Auditoría No:</li>
+                     <li class="active">Auditoría No: {{folio}}
+                     </li>
 
                   </ul>
                   <div class="actions">
                      <a class="btn btn-xs btn-prev btn-default nova-a-tab nova-active-tab">Generales</a>
-                     <a href="{% url 'calidad:auditor_formulario' %}" class="btn btn-xs btn-next btn-default nova-a-tab">Equipo Auditor</a>
-                     <a href="{% url 'calidad:proceso_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Procesos</a>
+                     <a {% if operation == 'Editar' %}
+                          href="{% url 'calidad:auditor_formulario_update' pk %}"
+                        {% endif %}
+                        class="btn btn-xs btn-next btn-default nova-a-tab">Equipo Auditor
+                     </a>
+                     <a {% if operation == 'Editar'%}
+                          href="{% url 'calidad:proceso_lista' pk %}"
+                        {% endif %}
+                        class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Procesos
+                     </a>
                   </div>
                   <div class="step-content nova-panel-border-top">
                      <div class="step-pane active">
