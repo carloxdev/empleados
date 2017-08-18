@@ -41,6 +41,7 @@ class VIEW_EMPLEADOS_SIMPLE_API(viewsets.ModelViewSet):
     serializer_class = VIEW_EMPLEADOS_SIMPLE_Serializer
     filter_backends = (DjangoFilterBackend,)
     filter_class = VIEW_EMPLEADOS_SIMPLE_Filter
+    # permission_classes = (IsAuthenticated,)
 
 
 class VIEW_EMPLEADOS_SIMPLE_ByPageAPI(viewsets.ModelViewSet):

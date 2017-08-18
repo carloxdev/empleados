@@ -53,6 +53,7 @@
                     <li data-step="4">Competencias<span class="chevron"></span></li>
                   </ul>
                   <input type="hide" class="hide" value="{{ request.user.profile.pk }}" id="created_by">
+
                   <div class="actions">
                     <button type="button" class="btn btn-xs btn-prev btn-default"><i class="icon mdi mdi-chevron-left"></i>Prev</button>
                     <button type="button" data-last="Finish" class="btn btn-xs btn-next btn-default">Next<i class="icon mdi mdi-chevron-right"></i></button>
@@ -67,7 +68,7 @@
                             <h3 class="wizard-title">General</h3>
                           </div>
                         </div>
-
+<input   id="numero_puesto">
                        <!-- puesto de empleado-->
                         <div class="form-group">
                           <label class="col-sm-3 control-label">Puesto</label>
@@ -143,8 +144,8 @@
                               </label>
                               <div class="col-sm-6 xs-pt-5">
                                  {{ form.responsabilidades }}
-                                 <textarea class="form-control input-sm" cols="40" id="responsabilidades" >
-                                 </textarea>
+                                 <!--<textarea class="form-control input-sm" cols="40" id="responsabilidades" >
+                                 </textarea>-->
                               </div> 
                               {% for error in form.responsabilidades.errors %}
                                  <span class="help-block">{{ error }}</span>
