@@ -104,14 +104,28 @@ class ViaticoCabeceraForm(ModelForm):
         self.fields['empleado_clave'].choices = EmpleadoBusiness.get_Activos_ForSelect()
         self.fields['unidad_negocio_clave'].choices = CentroCostoBusiness.get_Activos_ForSelect()
 
-    def clean(self):
-        cleaned_data = super(ViaticoCabeceraForm, self).clean()
-        f_partida = cleaned_data.get("fecha_partida")
-        f_regreso = cleaned_data.get("fecha_regreso")
+    def clean_fecha_regreso(self):
+        f_partida = self.cleaned_data['fecha_partida']
+        f_regreso = self.cleaned_data['fecha_regreso']
 
         if f_partida > f_regreso:
+            raise ValidationError("La fecha de regreso no puede ser menor a la fecha partida")
+
+        return f_regreso
+
+    def clean(self):
+        cleaned_data = super(ViaticoCabeceraForm, self).clean()
+        empleado_desc = cleaned_data.get("empleado_descripcion")
+        unidad_negocio_desc = cleaned_data.get("unidad_negocio_descripcion")
+
+        if empleado_desc is None:
             raise ValidationError(
-                "Las fechas valen verga"
+                "No se pudo obtener la descripcion de empleado"
+            )
+
+        if unidad_negocio_desc is None:
+            raise ValidationError(
+                "No se pudo obtener la descripcion de la UN"
             )
 
 

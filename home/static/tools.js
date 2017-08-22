@@ -1,6 +1,6 @@
 
 function Miner() {}
-Miner.get_DescFromSelectOption = function (_value) {
+Miner.get_TextFromSelectOption = function (_value) {
 
     var indice = _value.indexOf(":")
     var text = _value.substr(indice+1)

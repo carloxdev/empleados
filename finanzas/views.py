@@ -65,7 +65,6 @@ class ViaticoCabeceraNuevo(View):
         formulario = ViaticoCabeceraForm(request.POST)
 
         if formulario.is_valid():
-
             viatico = formulario.save(commit=False)
             viatico.created_by = request.user.profile
             viatico.updated_by = request.user.profile

@@ -17,7 +17,7 @@
    <!-- Theme -->
    <link rel="stylesheet" href="{% static 'theme/lib/datetimepicker/css/bootstrap-datetimepicker.min.css' %}"/>
    <link rel="stylesheet" href="{% static 'theme/lib/daterangepicker/css/daterangepicker.css' %}"/>
-   
+
    <!-- Nova -->
    <link rel="stylesheet" href="{% static 'grid.css' %}"/>
 
@@ -44,7 +44,7 @@
                         class="btn nova-btn btn-rounded btn-sm btn-space btn-primary" data-toggle="modal" id="id_boton_filtro">
                         <i class="icon icon-left mdi mdi-search nova-white"></i> Filtros
                      </a>
-                     
+
                      <button type="submit" name="exportar" value="exportar" class="btn nova-btn btn-rounded btn-space btn-success" id="id_boton_exportar">
                         <i class="icon icon-left mdi mdi-download nova-white"></i>
                         Exportar
@@ -62,16 +62,16 @@
       <div id="id_tarjeta_filtros" role="dialog" class="modal fade colored-header colored-header-primary">
          <div class="modal-dialog modal-lg">
             <div class="modal-content nova-modal-maxwidth">
-               
+
                <div class="modal-header nova-modal-header">
                   <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
                   <h3 class="modal-title">Filtros</h3>
                </div>
-                  
+
                <form role="form" action="" method="POST" id="id_formulario_filtro" name="formulario_filtro"> {% csrf_token %}
 
                   <div id="id_accordion_compras" class="panel-group accordion nova-modal-accordion">
-                     
+
                      <div class="panel panel-default nova-modal-accordion-panel nova-accordion-border-bottom">
                         <div class="panel-heading">
                            <h4 class="panel-title">
@@ -81,7 +81,7 @@
                            </h4>
                         </div>
                         <div id="id_collapse_compania" class="panel-collapse collapse in" aria-expanded="true">
-                           
+
                            <div class="nova-accordion-row">
 
                               <!-- compañia -->
@@ -92,16 +92,6 @@
 
                            </div>
 
-                           <div class="nova-accordion-row">
-
-                              <!-- comprador -->
-                              {% tag_field_popup_filter form.comprador 6 %}
-                              
-                              <!-- requisicion_originador -->
-                              {% tag_field_popup_filter form.requisicion_originador 6 %}
-
-                           </div>
-                           
                         </div>
                      </div>
 
@@ -130,8 +120,14 @@
 
                            <div class="nova-accordion-row">
 
+                              <!-- comprador -->
+                              {% tag_field_popup_filter form.comprador 4 %}
+
+                              <!-- requisicion_originador -->
+                              {% tag_field_popup_filter form.requisicion_originador 4 %}
+
                               <!-- req_desde  y req_hasta-->
-                              {% tag_field_popup_daterangepicker form.req_desde_hasta 6 %}
+                              {% tag_field_popup_daterangepicker form.req_desde_hasta 4 %}
 
                            </div>
 
@@ -147,7 +143,7 @@
                            </h4>
                         </div>
                         <div id="id_collapse_cotizacion" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
-                           
+
                            <div class="nova-accordion-row">
 
                               <!-- cotizacion -->
@@ -160,7 +156,7 @@
                               {% tag_field_popup_radio_button form.cotizacion_canceladas 3 %}
 
                            </div>
-                           
+
                            <div class="nova-accordion-row">
 
                               <!-- cotización_originador -->
@@ -180,12 +176,12 @@
                            </h4>
                         </div>
                         <div id="id_collapse_orden" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
-                           
+
                            <div class="nova-accordion-row">
-                              
+
                               <!-- oc -->
                               {% tag_field_popup_filter form.oc 4 %}
-                              
+
                               <!-- oc_tipo -->
                               {% tag_field_popup_filter form.oc_tipo 5 %}
 
@@ -194,7 +190,7 @@
 
                            </div>
                            <div class="nova-accordion-row">
-                              
+
                               <!-- oc_desde_hasta -->
                               {% tag_field_popup_daterangepicker form.oc_desde_hasta 4 %}
 
@@ -203,7 +199,7 @@
 
                               <!-- oc_originador -->
                               {% tag_field_popup_filter form.oc_originador 4 %}
-                              
+
                            </div>
                         </div>
                      </div>
@@ -217,7 +213,7 @@
                            </h4>
                         </div>
                         <div id="id_collapse_almacen" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
-                           
+
                            <div class="nova-accordion-row">
 
                               <!-- item -->
@@ -225,7 +221,7 @@
 
                               <!-- recepcion -->
                               {% tag_field_popup_filter form.recepcion 6 %}
-                              
+
                            </div>
 
                         </div>
@@ -254,26 +250,26 @@
             </div> <!-- Modal content-->
          </div> <!-- Modal dialog -->
       </div><!-- Modal -->
-   
+
       <!-- tarjeta_detalles-->
       <div id="id_tarjeta_detalles" role="dialog" class="modal fade colored-header colored-header-primary in">
-         <div class="modal-dialog custom-width">
-            <div class="modal-content">
-                 
+         <div class="modal-dialog full-width">
+            <div class="modal-content nova-content">
                <div class="modal-header nova-modal-header">
                   <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
                   <h3 class="modal-title" id="id_titulo_detalles"></h3>
                </div>
                <div id="tabla_detalles" class="nova-div-overflow">
-                   
-               </div>
-               <div class="modal-footer nova-popup-table-footer">  
-                  <div class="row col-sm-12">
-                      <button type="button" data-dismiss="modal" class="btn nova-btn btn-primary btn-lg pull-right">Aceptar
-                      </button>
-                  </div>
+
                </div>
 
+               <div class="modal-footer nova-popup-table-footer">
+                   <div class="row col-sm-12">
+                       <button type="button" data-dismiss="modal" class="btn nova-btn btn-primary btn-lg pull-right">
+                           OK
+                       </button>
+                   </div>
+               </div>
             </div> <!-- Modal content-->
          </div> <!-- Modal dialog -->
       </div><!-- Modal -->
@@ -284,7 +280,7 @@
             <div class="modal-content">
                <div class="modal-header nova-modal-header">
                   <button type="button" data-dismiss="modal" aria-hidden="true" class="close"><span class="mdi mdi-close"></span></button>
-                  <h3 class="modal-title">Acciones de la Compra</h3>
+                  <h3 class="modal-title">Acciones</h3>
                 </div>
                 <div class="modal-body">
                   <div class="text-center">

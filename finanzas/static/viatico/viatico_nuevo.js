@@ -65,7 +65,7 @@ Formulario.prototype.seleccionar_ComboBoxEmpleado = function(e) {
     var value_select = e.data.$empleado_clave.find(":selected").text()
 
     e.data.$empleado_descripcion.val(
-        Miner.get_DescFromSelectOption(value_select)
+        Miner.get_TextFromSelectOption(value_select)
     )
 }
 Formulario.prototype.seleccionar_ComboBoxUnidadNegocio = function(e) {
@@ -73,6 +73,6 @@ Formulario.prototype.seleccionar_ComboBoxUnidadNegocio = function(e) {
     var value_select = e.data.$unidad_negocio_clave.find(":selected").text()
 
     e.data.$unidad_negocio_descripcion.val(
-        Miner.get_DescFromSelectOption(value_select)
+        Miner.get_TextFromSelectOption(value_select)
     )
 }

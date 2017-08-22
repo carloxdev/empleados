@@ -38,7 +38,13 @@
                     </div>
                     <div class="panel-body form-horizontal">
 
-                        {{ form.non_field_errors }}
+                        {% if form.non_field_errors %}
+
+                            {% for error in form.non_field_errors %}
+                                {% tag_mensaje 'error' error %}
+                            {% endfor %}
+
+                        {% endif %}
 
                         {% tag_field_registro form.empleado_clave 3 6 %}
 
@@ -50,6 +56,12 @@
 
                         {% tag_field_registro form.proposito_viaje 3 6 %}
 
+                        <!-- Ocultos -->
+                        <div>
+                            {{ form.empleado_descripcion }}
+                            {{ form.unidad_negocio_descripcion }}
+                        </div>
+
                     </div>
                     <div class="modal-footer nova-modal-footer">
                         <button type="submit" id="boton_buscar" class="btn nova-btn btn-primary btn-lg">
@@ -59,12 +71,6 @@
                 </form>
             </div>
         </div>
-    </div>
-
-    <!-- Ocultos -->
-    <div>
-        {{ form.empleado_descripcion }}
-        {{ form.unidad_negocio_descripcion }}
     </div>
 
 </div>

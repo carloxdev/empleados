@@ -170,3 +170,25 @@ def tag_field_date(_field, _size_label, _size_field, _set_label):
         'set_label': _set_label,
     }
     return contexto
+
+
+@register.inclusion_tag('tags/section_info.html', takes_context=False)
+def tag_section_info(_size, _offset, _type, _message):
+
+    contexto = {
+        'size': _size,
+        'offset': _offset,
+        'type': _type,
+        'message': _message
+    }
+    return contexto
+
+
+@register.inclusion_tag('tags/mensaje.html', takes_context=False)
+def tag_mensaje(_type, _message):
+
+    contexto = {
+        'type': _type,
+        'message': _message
+    }
+    return contexto
