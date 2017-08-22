@@ -14,6 +14,7 @@ from .models import DocumentoPersonal
 from .models import DocumentoCapacitacion
 from .models import Archivo
 from .models import PerfilPuestosCargo
+from .models import PerfilCompetencias
 
 
 # Serializadores:
@@ -24,6 +25,7 @@ from .serializers import ArchivoCapacitacionSerializer
 from .serializers import ArchivoSerializers
 from .serializers import DocumentoCapacitacionSerializers
 from .serializers import PerfilPuestosCargoSerializer
+from .serializers import PerfilCompetenciaSerializer
 
 # Paginadores:
 from .pagination import GenericPagination
@@ -127,3 +129,6 @@ class PerfilPuestosDocumentoByPageAPI(viewsets.ModelViewSet):
     pagination_class = GenericPagination
     permission_classes = (IsAuthenticated,)        
 
+class PerfilCompetenciasAPI(viewsets.ModelViewSet):
+    queryset = PerfilCompetencias.objects.all()
+    serializer_class =PerfilCompetenciaSerializer

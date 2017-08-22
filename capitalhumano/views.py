@@ -29,6 +29,7 @@ from .forms import DocCapacitacionFilterForm
 
 from .forms import PerfilAgregarPuestoCargoForm
 from .forms import PerfilPuestoListaForm
+from .forms import PerfilAgregarCompetenciaForm
 
 
 # Serializer crear organigrama
@@ -38,6 +39,7 @@ from serializers import VIEW_ORGANIGRAMA_EMP_SERIALIZADO
 # Modelos
 from ebs.models import VIEW_ORGANIGRAMA
 from ebs.models import VIEW_EMPLEADOS_FULL
+from ebs.models import VIEW_COMPETENCIAS
 
 
 # -------------- EMPLEADOS -------------- #
@@ -395,10 +397,12 @@ class PerfilPuestoNuevo(View):
 
         formulario = PerfilPuestoDocumentoForm()
         form_puesto_cargo = PerfilAgregarPuestoCargoForm()
+        form_competencias = PerfilAgregarCompetenciaForm()
 
         contexto = {
             'form': formulario,
-            'form2': form_puesto_cargo
+            'form2': form_puesto_cargo,
+            'formc': form_competencias
         }
 
         return render(request, self.template_name, contexto)

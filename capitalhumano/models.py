@@ -127,7 +127,7 @@ class PerfilCompetencias(models.Model):
         return cadena
 
     class Meta:
-        verbose_name_plural = "Areas de Experiencia"
+        verbose_name_plural = "Perfil Competencias"
 
 
 class PerfilPuestoDocumento(models.Model):

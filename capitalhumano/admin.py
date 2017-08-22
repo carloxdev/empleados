@@ -13,6 +13,7 @@ from .models import PerfilCompetencias
 from .models import PerfilExperencia
 
 
+
 @admin.register(PerfilPuestoDocumento)
 class DocumentoPerfilPuestoAdmin(admin.ModelAdmin):
     list_display = (

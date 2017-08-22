@@ -77,7 +77,8 @@ TarjetaFiltros.prototype.get_Values = function (_page) {
 
     return {
         page: _page,
-        id_puesto: this.$puesto.val(),
+        //id: this.$puesto.val(),
+        asig_puesto_clave: this.$puesto.val(),
         //departamento: this.$departamento.val(),
         //nivel_estudios: this.$nivel_estudios.val(),
         //experiencia: this.$experiencia.val(),

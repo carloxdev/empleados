@@ -8,6 +8,7 @@ var url_perfil_puestocargo = window.location.origin + "/api-capitalhumano/perfil
 var url_profile =  window.location.origin + "/api-seguridad/profile/"
 var url_perfil_puesto = window.location.origin + "/api-capitalhumano/perfilpuestosdocumento/"
 var url_perfil_puestodoc_bypage = window.location.origin + "/api-capitalhumano/perfilpuestosdoc_bypage/"
+var url_perfil_competencia = window.location.origin + "/api-ebs/viewcompetencias/"
 
 // OBJS
 var formulario = null
@@ -26,6 +27,9 @@ $(document).ready(function () {
     select_componente = new Componente()
     resultados = new TargetaResultados()
     popup = new PopupPerfil()
+    popup_com = new PopupPerfilCompetencia()
+
+    resultados_competencia = new TargetaResultadosCompetencias()
 
 })
 
@@ -41,6 +45,10 @@ function Componente(){
     this.$responsabilidades = $('#id_responsabilidades')
     this.$posicion = $('#posicion')
     this.$numero_puesto = $('#id_numero_puesto')
+    this.$nivel_estudio = $('#id_nivel_estudio')
+    this.$estado_civil = $('#id_estado_civil')
+
+
 
     this.$reportar = $('#id_reporta')
     this.$boton_guardar_perfil = $('#id_boton_guardar_perfil')
@@ -51,6 +59,9 @@ function Componente(){
 }  
 Componente.prototype.init_Components = function(){
     this.$puesto.select2(this.get_ConfSelect2())  
+    this.$nivel_estudio.select2(this.get_ConfSelect2())
+    this.$estado_civil.select2(this.get_ConfSelect2())
+
 }
 
 Componente.prototype.get_ConfSelect2 = function () {
@@ -64,7 +75,6 @@ Componente.prototype.get_Values = function (_page) {
         page: _page,
         id_puesto: this.$puesto.val(),
     }
-
 }
 
 Componente.prototype.init_Events = function () {
@@ -104,6 +114,9 @@ Componente.prototype.click_BotonGuardar = function (e) {
             'proposito' : '-',
          },
          success: function (_response) {
+          alertify.success("Se ha guardado el Perfil general")
+                  popup.hidden_Modal()
+                  popup.actualizar_Grid()
          },
          error: function (_response) {
             alertify.error("Ocurrio error al guardar")
@@ -127,10 +140,10 @@ function Formulario() {
 
     this.grid = new Grid()
 
+    this.gri2 = new Grid2()
+
      //var creador = $('#created_by')
-
-//alert(creador)
-
+     //alert(creador)
     this.init_Components()
     this.init_Events()
 
@@ -192,9 +205,10 @@ Formulario.prototype.escoger_puestosacargo = function (e) {
     //alert(numero_empleado)
     // alert(numero_empleado)
     $('#numero_puesto').val(id_puesto2)
+    var no_puesto = $('#numero_puesto').val(id_puesto2)
     alert(id_puesto2)
-    alert(numero_puesto)
-    
+    //alert(numero_puesto)
+
    // Consultar el API con el numero del empleado.
     var num_empleado = id_puesto2
     //var num_empleado = 8
@@ -216,7 +230,7 @@ Formulario.prototype.escoger_puestosacargo = function (e) {
                 cont+=1
               }
 
-              if (cont == 0){
+              if (cont == 0 && no_puesto != ''){
                 //$("#grid_resultados").empty()
                 //grid = new Grid()
                 resultados.grid.buscar()
@@ -225,6 +239,7 @@ Formulario.prototype.escoger_puestosacargo = function (e) {
               }
               else{
                  alert("Entro2")
+                 alertify.error("No se ha seleccionado el puesto")
                 //organigrama.mostrar_Mensaje(cont)
                 //organigrama.crear_Diagrama(url)
               }
@@ -266,15 +281,12 @@ function Grid() {
 }
 
 Grid.prototype.init_Components = function () {
-
-
     // Se inicializa la fuente da datos (datasource)
     this.kfuente_datos = new kendo.data.DataSource(this.get_DataSourceConfig())
 
     // Se inicializa y configura el grid:
     this.kgrid = this.$id.kendoGrid(this.get_Configuracion())    
 }
-
 
 Grid.prototype.get_DataSourceConfig = function () {
 
@@ -446,15 +458,32 @@ PopupPerfil.prototype.click_BotonGuardar = function (e) {
 
          },
          success: function (_response) {
+                  alertify.success("Se ha guardado el Puesto a Cargo")
+                  popup.hidden_Modal()
+                  popup.actualizar_Grid()
          },
          error: function (_response) {
-            alertify.error("Ocurrio error al guardar")
+                   alertify.error("Ocurrio error al guardar")
+                   popup.hidden_Modal()
+                   //popup.actualizar_Grid()
          }
       })
     //promesa.then(function(){
     //    popup.buscar_UltimoRegistro()
     //})
 }
+
+PopupPerfil.prototype.hidden_Modal = function () {
+
+     this.$modal_per.modal('hide')
+     //this.limpiar_Formulario()
+}
+
+PopupPerfil.prototype.actualizar_Grid = function () {
+        //$("#grid_resultados").empty()
+        resultados.grid.init()
+}
+
 PopupPerfil.prototype.buscar_UltimoRegistro = function () {
 
     $.ajax({
@@ -496,10 +525,9 @@ PopupPerfil.prototype.guardar_Archivo = function (_id_personal){
          processData: false,
          data: data,
          success: function (_response) {
-
-            alert('Se ha guardado el archivo')
             popup.hidden_Modal()
             popup.actualizar_Grid()
+            alert('Se ha guardado el Puesto')
          },
          error: function (_response) {
 
@@ -510,11 +538,11 @@ PopupPerfil.prototype.guardar_Archivo = function (_id_personal){
 PopupPerfil.prototype.hidden_Modal = function () {
 
    this.$modal_per.modal('hide')
-   this.limpiar_Formulario()
+   //this.limpiar_Formulario()
 }
 PopupPerfil.prototype.actualizar_Grid = function () {
-    $("#grid_resultados").empty()
-    grid_personal.init()
+    //$("#grid_resultados").empty()
+    resultados.grid.buscar()
 }
 PopupPerfil.prototype.limpiar_Formulario = function () {
 
@@ -524,3 +552,201 @@ PopupPerfil.prototype.limpiar_Formulario = function () {
     this.$vigencia_fin.val("")
     this.$archivo.val("")
 }
+
+
+/*-----------------------------------------------*\
+            OBJETO: Targeta Resultados
+\*-----------------------------------------------*/
+
+function TargetaResultadosCompetencias () {
+
+    this.grid2 = new Grid2()
+    //this.toolbar = new Toolbar()
+}
+
+/*-----------------------------------------------*\
+            OBJETO: Grid
+\*-----------------------------------------------*/
+
+function Grid2() {
+
+    this.$id = $('#grid_resultados_competencias')
+    this.kfuente_datos = null
+    this.kgrid = null
+
+    this.init_Components()
+
+}
+
+Grid2.prototype.init_Components = function () {
+    // Se inicializa la fuente da datos (datasource)
+    this.kfuente_datos = new kendo.data.DataSource(this.get_DataSourceConfig())
+
+    // Se inicializa y configura el grid:
+    this.kgrid = this.$id.kendoGrid(this.get_Configuracion())    
+}
+
+Grid2.prototype.get_DataSourceConfig = function () {
+
+    return {
+
+        serverPaging: true,
+        pageSize: 10,
+        transport: {
+            read: {
+
+                url: url_perfil_puestocargo_bypage,
+                type: "GET",
+                dataType: "json",
+            },
+            parameterMap: function (data, action) {
+                if (action === "read"){
+                    return select_componente.get_Values(data.page)
+                }
+            }
+        },
+        schema: {
+            data: "results",
+            total: "count",
+            model: {
+                fields: this.get_Campos()
+            }
+        },
+        error: function (e) {
+            alertify.error("Status: " + e.status + "; Error message: " + e.errorThrown)
+        },
+    } 
+}
+
+Grid2.prototype.get_Campos = function () {
+
+    return {
+        pk : { type: "number" },
+        id_puesto : { type: "string" },
+        id_puesto_cargo : { type: "string" },
+        descripcion : { type: "string" },
+    }
+}
+Grid2.prototype.get_Configuracion = function () {
+    return {
+        autoBind: false,
+        dataSource: this.kfuente_datos,
+        columnMenu: true,
+        groupable: false,
+        sortable: false,
+        editable: false,
+        resizable: true,
+        selectable: true,
+        columns: this.get_Columnas(),
+        scrollable: true,
+        pageable: true,
+        noRecords: {
+            template: "<div class='grid-empy'> No se encontraron registros </div>"
+        },
+        dataBound: this.set_Icons,
+    }    
+}
+
+Grid2.prototype.get_Columnas = function () {
+
+    return [
+        { 
+            field: "pk", 
+            title: "Id", 
+            width:"70px",
+        },
+        { field: "id_puesto", title: "Id Puesto", width:"70px" },
+        { field: "id_puesto_cargo", title: "Puesto Cargo", width:"70px" },
+        { field: "descripcion", title: "Descripcion", width:"300px" },
+        
+    ]
+}
+
+Grid2.prototype.buscar = function() {
+    
+    this.kfuente_datos.page(1)
+}
+
+
+Grid2.prototype.set_Icons = function (e) {
+
+        e.sender.tbody.find(".k-button.fa.fa-pencil").each(function(idx, element){
+        $(element).removeClass("fa fa-pencil").find("span").addClass("fa fa-pencil")
+    })   
+}
+
+
+
+/*-----------------------------------------------*\
+            OBJETO: Pop up Competencias
+\*-----------------------------------------------*/
+
+function PopupPerfilCompetencia() {
+
+    this.$modal_competencia = $('#modal_nuevo_competencia')
+    this.$descripcion_comp = $('#id_descripcion')
+    this.$boton_guardar_competencia = $('#boton_guardar_competencia')
+    this.$created_by = $('#created_by')
+
+    //this.$numero_puesto = $('#numero_puesto')
+
+    this.init_Components()
+    this.init_Events()
+}
+PopupPerfilCompetencia.prototype.init_Components = function () {
+
+    this.$descripcion_comp.select2(appnova.get_ConfigSelect2())
+
+}
+
+PopupPerfilCompetencia.prototype.init_Events = function () {
+
+   this.$boton_guardar_competencia.on('click', this, this.click_BotonGuardar)
+}
+
+PopupPerfilCompetencia.prototype.click_BotonGuardar = function (e) {
+
+ var id_competencia = e.data.$descripcion_comp.val()
+ // alert(id_puestocargo)
+
+ var promesa = $.ajax({
+         url: url_perfil_competencia,
+         method: "POST",
+         headers: { "X-CSRFToken": appnova.galletita },
+         data: {
+            'empleado_puesto_desc' : e.data.$puesto.val(),
+            'asig_puesto_clave' : e.data.$puesto.val(), 
+            'reporta' : e.data.$reporta.val(),
+            'objetivo' :  e.data.$objetivo.val(),
+            'funciones' :  e.data.$funciones.val(),
+            'responsabilidades' :  e.data.$responsabilidades.val(),
+            'reporte' :  e.data.$reportar.val(),
+            'posicion' :  e.data.$posicion.val(),
+            'puesto_acargo' :  'omitir',
+            'edad_minima' :  '',
+            'edad_maxima' :  '',
+            'nivel_estudio' :  '',
+            'estado_civil' : 'ind',
+            'genero' :  '',
+            'cambio_residencia' :  false,
+            'disponibilidad_viajar' : false,
+            'requerimentos' : '-',
+            'areas_experiencia' : '-',
+            'competencias' : '-',
+            'proposito' : '-',
+         },
+         success: function (_response) {
+          alertify.success("Se ha guardado el Perfil general")
+                  popup.hidden_Modal()
+                  popup.actualizar_Grid()
+         },
+         error: function (_response) {
+            alertify.error("Ocurrio error al guardar")
+         }
+      })
+}
+
+
+
+
+

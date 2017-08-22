@@ -18,6 +18,7 @@ from .models import Curso
 from ebs.models import VIEW_EMPLEADOS_FULL
 from jde.models import VIEW_PROVEEDORES
 from .models import PerfilPuestosCargo
+from .models import PerfilCompetencias
 
 
 # GenerisForeignKey
@@ -709,3 +710,18 @@ class VIEW_ORGANIGRAMA_EMP_SERIALIZADO(object):
             cont += 1
 
         return padre
+
+
+class PerfilCompetenciaSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = PerfilCompetencias
+        fields = (
+            'pk',
+            'descripcion',
+            'porcentaje',
+            'tipo_competencia',
+            'created_by',
+            'created_date',
+            'updated_by',
+            'updated_date',
+        )        

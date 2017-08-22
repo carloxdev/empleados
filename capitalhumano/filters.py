@@ -31,6 +31,7 @@ class PerfilPuestoDocumentoFilter(filters.FilterSet):
         fields = [
             'id',
             'empleado_puesto_desc',
+            'asig_puesto_clave',
         ]
 
 class PerfilpuestosCargoFilter(filters.FilterSet):

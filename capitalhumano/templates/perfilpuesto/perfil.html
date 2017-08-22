@@ -53,6 +53,7 @@
                     <li data-step="4">Competencias<span class="chevron"></span></li>
                   </ul>
                   <input type="hide" class="hide" value="{{ request.user.profile.pk }}" id="created_by">
+                  <input type="hide" class="hide"  id="numero_puesto">
 
                   <div class="actions">
                     <button type="button" class="btn btn-xs btn-prev btn-default"><i class="icon mdi mdi-chevron-left"></i>Prev</button>
@@ -68,7 +69,7 @@
                             <h3 class="wizard-title">General</h3>
                           </div>
                         </div>
-<input   id="numero_puesto">
+
                        <!-- puesto de empleado-->
                         <div class="form-group">
                           <label class="col-sm-3 control-label">Puesto</label>
@@ -107,12 +108,11 @@
                                  for="{{ form.objetivo.id_for_label }}">
                                  <i class="fa {% if form.objetivo.field.required %} fa-asterisk {% endif %} {% if form.objetivo.errors %} fa-asterisk {% endif %}"></i>
                                  {{ form.objetivo.label }}
-                                 Objetivo
                               </label>
                               <div class="col-sm-6 xs-pt-5">
                                  {{ form.objetivo }}
-                                 <textarea class="form-control input-sm" cols="40" id="id_objetivo" >
-                                 </textarea>
+                                <!-- <textarea class="form-control input-sm" cols="40" id="id_objetivo" >
+                                 </textarea> -->
                               </div> 
                               {% for error in form.objetivo.errors %}
                                  <span class="help-block">{{ error }}</span>
@@ -124,23 +124,20 @@
                               <label class="col-sm-3 control-label" 
                                  for="{{ form.funciones.id_for_label }}">
                                  {{ form.funciones.label }}
-                                 Funciones
                               </label>
                               <div class="col-sm-6 xs-pt-5">
                                  {{ form.funciones }}
-                                 <textarea class="form-control input-sm" cols="40" id="funciones" >
-                                 </textarea>
                               </div> 
                               {% for error in form.funciones.errors %}
                                  <span class="help-block">{{ error }}</span>
                               {% endfor %}                                        
                            </div>
 
+                          <!-- RESPONSABILIDADES -->
                            <div class="form-group">
                               <label class="col-sm-3 control-label" 
                                  for="{{ form.responsabilidades.id_for_label }}">
                                  {{ form.responsabilidades.label }}
-                                 Responsabilidades
                               </label>
                               <div class="col-sm-6 xs-pt-5">
                                  {{ form.responsabilidades }}
@@ -271,93 +268,126 @@
 
                       </form>
                        
-                        
-
                     </div>
+
+
+
+
                     <div data-step="3" class="step-pane">
-                      <form action="#" data-parsley-namespace="data-parsley-" data-parsley-validate="" novalidate="" class="form-horizontal group-border-dashed">
+                      <!--<form action="#" data-parsley-namespace="data-parsley-" data-parsley-validate="" novalidate="" class="form-horizontal group-border-dashed">-->
+                       <form action="" method="POST" enctype="multipart/form-data" id="formulario_per"> {% csrf_token %}
                         <div class="form-group no-padding">
                           <div class="col-sm-7">
-                            <h3 class="wizard-title">Configuration</h3>
+                            <h3 class="wizard-title">Requerimiento</h3>
                           </div>
                         </div>
+
+                         <br><br><br>
+
                         <div class="form-group">
-                          <div class="col-sm-3 xs-pt-15">
-                            <label class="control-label">Edad Minima</label>
-                           <input type="text" placeholder="edad minima" class="form-control">
-                          </div>
+                          <!--<div class="col-sm-3 xs-pt-15">-->
                         
-                          <div class="col-sm-3 xs-pt-15">
-                            <label class="control-label">Edad Maxima</label>
-                           <input type="text" placeholder="edad maxima" class="form-control">
-                          </div>
+                               <div class="col-sm-6">
+                               <label class="control-label">Edad Minima</label>
+                               {{ form.edad_minima }}
+
+                               {% for error in form.edad_minima.errors %}
+                                 <span class="help-block">{{ error }}</span>
+                               {% endfor %}   
+                           <!--<input type="text" placeholder="edad minima" class="form-control">-->
+                               </div>
+                        
+                               <div class="col-sm-6">
+                                <label class="control-label">Edad Maxima</label>
+                               <!--<input type="text" placeholder="edad maxima" class="form-control">-->
+                                {{ form.edad_maxima }}
+                               </div>
 
                         </div>
+
+                         <br><br><br>
+                         <p>
 
                         <div class="form-group">
                           <div class="col-sm-7">
                             <label class="control-label">Nivel de Estudios</label>
-                          
-                            <select class="form-control">
-                                  <option value="n0">Indistinto</option>
-                                  <option value="n1">Trunco</option>
-                                  <option value="n2">Pasante</option>
-                                  <option value="n3">Titulado</option>
-                             </select>
+                           {{ form.nivel_estudio }}
                           </div>
                         </div>
+                        <br><br><br>
+                        </p>
 
+                        <p>
                         <div class="form-group">
                           <div class="col-sm-7">
                             <label class="control-label">Estado Civil</label>                        
-                            <select class="form-control">
-                                  <option value="n0">Indistinto</option>
-                                  <option value="n1">Soltero</option>
-                                  <option value="n2">Casado</option>
-                                  <option value="n3">Indistinto</option>
-                                  <option value="n3">Viudo</option>
-                                  <option value="n3">Divorciado</option>
-                                  <option value="n3">Union Libre</option>
-                             </select>
+                            {{ form.estado_civil }}
                           </div>
                         </div>
+                        <br><br><br>
+                        </p>
 
+                        <p>
                          <div class="form-group">
                           <div class="col-sm-7">
                             <label class="control-label">Sexo/Genero </label>
                             <p>
-                                 <input type="radio" id="indistinct" name="sex" value="0" checked="checked">
+                                {{ form.genero }}
+                                <!-- <input type="radio" id="indistinct" name="sex" value="0" checked="checked">
                                  <label class="control-label">Indistinto</label>
                                  
                                  <input type="radio" id="male" name="sex" value="1" >
                                  <label class="control-label">Hombre </label>
                                  
                                  <input type="radio" id="female" name="sex" value="2" >
-                                 <label class="control-label">Mujer </label>
+                                 <label class="control-label">Mujer </label>-->
                             </p> 
                           </div>
                         </div>
+                        </p>
+                        <br><br><br>
+
+                        <div class="form-group">
+                        <p>
+                          <div class="col-sm-7">
+                            <label class="col-sm-7 control-label" 
+                                 for="{{ form.cambio_residencia.id_for_label }}">
+                                 {{ form.cambio_residencia.label }}
+                              </label>                       
+                             {{ form.cambio_residencia }}
+
+                             {% for error in form.cambio_residencia.errors %}
+                                 <span class="help-block">{{ error }}</span>
+                              {% endfor %}   
+                          </div>
+                          </p>
+                        </div>
+
+                         <br><br>
 
                         <div class="form-group">
                           <div class="col-sm-7">
-                            <label class="control-label">Disponibilidad para cambiar de residencia</label>                        
-                             <input type="checkbox"  >
+                            <label class="col-sm-7 control-label" 
+                                 for="{{ form.disponibilidad_viajar.id_for_label }}">
+                                 {{ form.disponibilidad_viajar.label }}
+                              </label>                         
+                             {{ form.disponibilidad_viajar }}
+                             {% for error in form.disponibilidad_viajar.errors %}
+                                 <span class="help-block">{{ error }}</span>
+                              {% endfor %}  
                           </div>
                         </div>
 
-                        <div class="form-group">
-                          <div class="col-sm-7">
-                            <label class="control-label">Disponibilidad para viajar</label>                        
-                             <input type="checkbox"  >
-                          </div>
-                        </div>
+                        <br><br><br>
 
+                        <p>
                         <div class="form-group">
                           <div class="col-sm-7">
                             <label class="control-label">Otros Requerimientos</label>                        
                             <textarea class="form-control"></textarea>
                           </div>
                         </div>
+                        </p>
 
 
                         <div class="form-group">
@@ -370,7 +400,8 @@
                     </div>
 
                     <div data-step="4" class="step-pane">
-                     <form action="#" data-parsley-namespace="data-parsley-" data-parsley-validate="" novalidate="" class="form-horizontal group-border-dashed">
+                     <!-- <form action="#" data-parsley-namespace="data-parsley-" data-parsley-validate="" novalidate="" class="form-horizontal group-border-dashed"> -->
+                     <form action="" method="POST" enctype="multipart/form-data" id="formulario_per2"> {% csrf_token %}
                         <div class="form-group no-padding">
                           <div class="col-sm-7">
                             <h3 class="wizard-title">Competencias</h3>
@@ -378,7 +409,7 @@
                         </div>
 
                         <div class="form-group">
-                          <label class="col-sm-3 control-label"> Competencias Administrativas</label>
+                          <!--<label class="col-sm-3 control-label"> Competencias Administrativas</label>-->
                            
                             <div class="main-content container-fluid">
                                       <div class="row">
@@ -388,47 +419,14 @@
                                               <div class="tools"><span class="icon mdi mdi-download"></span><span class="icon mdi mdi-more-vert"></span></div>
                                             </div>
                                             <div class="panel-body">
-                                              <table class="table">
-                                                <thead>
-                                                  <tr>
-                                                    <th style="width:50%;">Descripcion</th>
-                                                    <th style="width:10%;">Porcentaje</th>
-                                                    <th class="number">Nivel</th>
-                                                  </tr>
-                                                </thead>
-                                                <tbody>
-                                                  <tr>
-                                                    <td>Liderazgo</td>
-                                                    <td>60%</td>
-                                                    <td class="number">1</td>
-                                                    <td class="actions"><a href="#" class="icon"><i class="mdi mdi-delete"></i></a></td>
-                                                  </tr>
-                                                  <tr>
-                                                    <td>Manejo y administracion de Personal</td>
-                                                    <td>N/A</td>
-                                                    <td class="number">2</td>
-                                                    <td class="actions"><a href="#" class="icon"><i class="mdi mdi-delete"></i></a></td>
-                                                  </tr>
-                                                  <tr>
-                                                    <td>Seguridad Industrial Higiene y Medio Ambiente</td>
-                                                    <td>50 %</td>
-                                                    <td class="number">1</td>
-                                                    <td class="actions"><a href="#" class="icon"><i class="mdi mdi-delete"></i></a></td>
-                                                  </tr>
-                                                  <tr>
-                                                    <td>Normatividad ISO 9001</td>
-                                                    <td>50 %</td>
-                                                    <td class="number">3</td>
-                                                    <td class="actions"><a href="#" class="icon"><i class="mdi mdi-delete"></i></a></td>
-                                                  </tr>
-                                                   <tr>
-                                                    <td>Planear y Programar</td>
-                                                    <td>60</td>
-                                                    <td class="number">4</td>
-                                                    <td class="actions"><a href="#" class="icon"><i class="mdi mdi-delete"></i></a></td>
-                                                  </tr>
-                                                </tbody>
-                                              </table>
+                                             
+                                               <div class="panel-heading nova-panel-borde-contenido nova-panel-tools">
+                                                 <a href="#modal_nuevo_competencia" class="btn nova-btn btn-rounded btn-sm btn-space btn-default pull-right " data-toggle="modal" id="boton_nuevo_per">
+                                                    <i class="icon icon-left mdi mdi-plus-circle nova-black"></i> Agregar Competencia
+                                                 </a>
+                                              </div><!-- Panel Heading -->
+                                              <div id="grid_resultados_competencias" class="nova-div-overflow"> </div>
+
                                             </div>
                                           </div>
                                         </div>
@@ -451,47 +449,7 @@
                                                   <div class="tools"><span class="icon mdi mdi-download"></span><span class="icon mdi mdi-more-vert"></span></div>
                                                 </div>
                                                 <div class="panel-body">
-                                                  <table class="table">
-                                                    <thead>
-                                                      <tr>
-                                                        <th style="width:50%;">Descripcion</th>
-                                                        <th style="width:10%;">Porcentaje</th>
-                                                        <th class="number">Nivel</th>
-                                                      </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                      <tr>
-                                                        <td>Ingles (hablado y escrito)</td>
-                                                        <td>40%</td>
-                                                        <td class="number">1</td>
-                                                        <td class="actions"><a href="#" class="icon"><i class="mdi mdi-delete"></i></a></td>
-                                                      </tr>
-                                                      <tr>
-                                                        <td>Manejo de Excel</td>
-                                                        <td>50%</td>
-                                                        <td class="number">2</td>
-                                                        <td class="actions"><a href="#" class="icon"><i class="mdi mdi-delete"></i></a></td>
-                                                      </tr>
-                                                      <tr>
-                                                        <td>Manejo de ERP JDE</td>
-                                                        <td>0%</td>
-                                                        <td class="number">1</td>
-                                                        <td class="actions"><a href="#" class="icon"><i class="mdi mdi-delete"></i></a></td>
-                                                      </tr>
-                                                      <tr>
-                                                        <td>Comunicacion efectiva</td>
-                                                        <td>70%</td>
-                                                        <td class="number">3</td>
-                                                        <td class="actions"><a href="#" class="icon"><i class="mdi mdi-delete"></i></a></td>
-                                                      </tr>
-                                                       <tr>
-                                                        <td>Habilidades de negociacion</td>
-                                                        <td>60</td>
-                                                        <td class="number">4</td>
-                                                        <td class="actions"><a href="#" class="icon"><i class="mdi mdi-delete"></i></a></td>
-                                                      </tr>
-                                                    </tbody>
-                                                  </table>
+                                                <div id="grid_resultados_competencias" class="nova-div-overflow"> </div>
                                                 </div>
                                               </div>
                                             </div>
@@ -504,6 +462,47 @@
 
                                     </div>
                             </div>
+
+
+<!-- Modal puestos competencia-->
+<div id="modal_nuevo_competencia" role="dialog" class="modal fade colored-header colored-header-primary">
+    <div class="modal-dialog custom-width">
+        <div class="modal-content">
+            
+            <div class="modal-header nova-modal-header">
+                <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
+                <h3 class="modal-title">Agregar Competencia</h3>
+            </div>
+            <form action="" method="POST" enctype="multipart/form-data" id="formulario_per"> {% csrf_token %}
+                <!-- competencias -->
+                <div class="modal-body form-horizontal">
+                    <div class="form-group">
+                        <label class="col-sm-3 nova-col-filter control-label">Competencias</label>
+                        <div class="col-sm-8 xs-pt-5">
+                            {{ formc.descripcion }}
+                        </div>
+
+                    </div> 
+                </div>
+
+               {% for error in formc.descripcion.errors %}
+                 <span class="help-block">{{ error }}</span>
+               {% endfor %}  
+
+                <!-- Botones de acción -->
+                <div class="modal-footer nova-modal-footer">
+                     <div class="row col-sm-12">
+                        <button type="button" data-dismiss="modal" class="btn btn-default pull-left">
+                            Cancelar
+                        </button>
+                        <button type="button" class="btn btn-primary" id="boton_guardar_competencia" >Guardar</button>
+                    </div>
+                </div>
+            </form>
+        </div> <!-- Modal content-->
+    </div> <!-- Modal dialog -->
+</div><!-- Modal puestos a cargo-->
+
 
                               <div class="form-group">
                                  <div class="col-sm-12">
