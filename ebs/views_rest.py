@@ -98,4 +98,4 @@ class VIEW_ORGANIGRAMA_API(viewsets.ModelViewSet):
 
 class VIEW_ESPECIALIDADES_API(viewsets.ModelViewSet):
     queryset = VIEW_ESPECIALIDADES.objects.using('ebs_d').all()
-    serializer_class = VIEW_ESPECIALIDADES_Serializer    
+    serializer_class = VIEW_ESPECIALIDADES_Serializer

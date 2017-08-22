@@ -2,6 +2,8 @@
 
 {% load static from staticfiles %}
 
+{% load custom_tags %}
+
 {% block titulo %} Procesos de la Auditoría {% endblock titulo %}
 
 {% block title-page %} Procesos de la Auditoría {% endblock title-page %}
@@ -30,7 +32,7 @@
    </div>
 
    <div class="main-content container-fluid nova-main-content">
-      
+
       <div class="row wizard-row">
          <!-- Tarjeta resultados-->
          <div class="col-md-12 fuelux">
@@ -42,12 +44,12 @@
 
                </ul>
                <div class="actions">
-                  <a href="{% url 'calidad:general_formulario' %}" class="btn btn-xs btn-prev btn-default nova-a-tab">Generales</a>
-                  <a href="{% url 'calidad:auditor_formulario' %}" class="btn btn-xs btn-next btn-default nova-a-tab">Equipo Auditor</a>
+                  <a href="{% url 'calidad:general_formulario_update' pk %}" class="btn btn-xs btn-prev btn-default nova-a-tab">Generales</a>
+                  <a href="{% url 'calidad:auditor_formulario_update' pk %}" class="btn btn-xs btn-next btn-default nova-a-tab">Equipo Auditor</a>
                   <a class="btn btn-xs btn-next btn-default nova-a-tab nova-a-tab-border nova-active-tab">Procesos</a>
                </div>
             </div>
-            
+
             <div class="panel panel-default panel-table">
                   <div class="panel-heading nova-panel-borde-contenido nova-panel-tools">
                      <a href="#id_tarjeta_nuevo_proceso" class="btn nova-btn btn-rounded btn-sm btn-space btn-default pull-right" data-toggle="modal" id="boton_nuevo">
@@ -73,7 +75,7 @@
                                  </a>
                               </td>
                               <td>
-                                 <a href="{% url 'calidad:proceso_formulario' %}" class="btn btn-default nova-url" data-toggle="modal">Licitaciones</a>
+                                 <a href="{% url 'calidad:proceso_formulario' pk %}" class="btn btn-default nova-url" data-toggle="modal">Licitaciones</a>
                               </td>
                               <td>Licitaciones</td>
                               <td>Armando Villanueva Jimenez</td>
@@ -86,7 +88,7 @@
                                  </a>
                               </td>
                               <td>
-                                 <a href="{% url 'calidad:proceso_formulario' %}" class="btn btn-default nova-url" data-toggle="modal">Capital humano</a>
+                                 <a href="{% url 'calidad:proceso_formulario' pk %}" class="btn btn-default nova-url" data-toggle="modal">Capital humano</a>
                               </td>
                               <td>Capacitación, Selección y Reclutamiento</td>
                               <td>Armando Villanueva Jimenez</td>
@@ -99,7 +101,7 @@
                                  </a>
                               </td>
                               <td>
-                                 <a href="{% url 'calidad:proceso_formulario' %}" class="btn btn-default nova-url" data-toggle="modal">Tecnologías de información</a>
+                                 <a href="{% url 'calidad:proceso_formulario' pk %}" class="btn btn-default nova-url" data-toggle="modal">Tecnologías de información</a>
                               </td>
                               <td>Redes y Telecomunicaciones</td>
                               <td>Claudia Villegas</td>
@@ -112,7 +114,7 @@
                                  </a>
                               </td>
                               <td>
-                                 <a href="{% url 'calidad:proceso_formulario' %}" class="btn btn-default nova-url" data-toggle="modal">Suministro, Logística y Control</a>
+                                 <a href="{% url 'calidad:proceso_formulario' pk %}" class="btn btn-default nova-url" data-toggle="modal">Suministro, Logística y Control</a>
                               </td>
                               <td>Compras y Almacén</td>
                               <td>Antonio Corcino Donato</td>
@@ -125,13 +127,13 @@
                                  </a>
                               </td>
                               <td>
-                                 <a href="{% url 'calidad:proceso_formulario' %}" class="btn btn-default nova-url" data-toggle="modal">Facturación y Cobranza</a>
+                                 <a href="{% url 'calidad:proceso_formulario' pk %}" class="btn btn-default nova-url" data-toggle="modal">Facturación y Cobranza</a>
                               </td>
                               <td>Facturación y Cobranza</td>
                               <td>Julio Cabrera Mendez</td>
                               <td>Fernanda Fuentes Rocio</td>
                            </tr>
-                           
+
                         </tbody>
                      </table>
                   </div>
@@ -139,108 +141,42 @@
          </div> <!-- col sm 12-->
       </div>
    </div> <!-- main content -->
-   
+
    <!-- Targeta Nuevo -->
    <div id="id_tarjeta_nuevo_proceso" role="dialog" class="modal fade colored-header colored-header-primary">
       <div class="modal-dialog custom-width">
          <div class="modal-content">
-            
+
             <div class="modal-header nova-modal-header">
                <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
                <h3 class="modal-title">Nuevo proceso</h3>
             </div>
-               
+
             <form id="formulario_proceso" class="modal-body form-horizontal">
 
-               <div class="form-group">
-                  <label class="col-sm-3 nova-col-filter control-label">Proceso</label>
-                  <div class="col-sm-8 xs-pt-5">
-                     <select class="select2 select2-hidden-accessible" tabindex="-1" aria-hidden="true" id="id_proceso">
-                        <option value="" selected="selected">-------</option>
-                        <option value="JPJ">Capital humano</option>
-                        <option value="LALG">Tecnologías de información</option>
-                        <option value="LALG">Suministro, Logística y Control</option>
-                     </select>
-                  </div>
-               </div>                
+               <!-- proceso -->
+               {% tag_field_popup form.proceso 3 8 %}
 
-               <div class="form-group">
-                  <label class="col-sm-3 nova-col-filter control-label">Subproceso</label>
-                  <div class="col-sm-8 xs-pt-5">
-                     <select class="select2 select2-hidden-accessible" tabindex="-1" aria-hidden="true" id="id_subproceso">
-                           <option value="" selected="selected">-------</option>
-                           <option value="JPJ">Capacitación, Selección y Reclutamiento</option>
-                     </select>
-                  </div>
-               </div>
+               <!-- subproceso -->
+               {% tag_field_popup form.subproceso 3 8 %}
 
-               <div class="form-group">
-                  <label class="col-sm-3 nova-col-filter control-label">Representante del subproceso</label>
-                  <div class="col-sm-8 xs-pt-5">
-                     <select class="select2 select2-hidden-accessible" tabindex="-1" aria-hidden="true" id="id_representante_subproceso">
-                           <option value="" selected="selected">-------</option>
-                           <option value="JPJ">Juan Perez Jimenez</option>
-                           <option value="LALG">Luis Alberto Lopez Gonzalez</option>
-                     </select>
-                  </div>
-               </div>
+               <!-- representante subproceso -->
+               {% tag_field_popup form.rep_subproceso 3 8 %}
 
-               <!-- fecha_desde_hasta -->    
+               <!-- fecha_desde_hasta -->
                <div class="form-group">
 
-                  <label class="col-sm-3 control-label">
-                     Fecha Programada desde/hasta
-                  </label>
+                  {% tag_field_popup_datepicker form.fecha_programada_ini 3 4 True %}
 
-                  <div class="col-sm-4 xs-pt-5">
-                     <div class="input-group date" 
-                     data-min-view="2" 
-                     data-date-format="yyyy-mm-dd"
-                     id="id_fecha_planificada_desde_input">
-                        {{ form.fecha_partida }}
-                        <input type="text" name="fecha_planificada_desde" required="" class="form-control input-xs" id="id_fecha_planificada_desde">
-                        <span class="input-group-addon nova-addon-button">
-                           <span class="glyphicon glyphicon-calendar"></span>
-                        </span>
-                     </div>
-                  </div> 
-
-                  <div class="col-sm-4 xs-pt-5">
-                     <div class="input-group date" 
-                     data-min-view="2" 
-                     data-date-format="yyyy-mm-dd"
-                     id="id_fecha_planificada_hasta_input">
-                        {{ form.fecha_regreso }}
-                        <input type="text" name="fecha_planificada_hasta" required="" class="form-control input-xs" id="id_fecha_planificada_hasta">
-                        <span class="input-group-addon nova-addon-button">
-                           <span class="glyphicon glyphicon-calendar"></span>
-                        </span>
-                     </div>
-                  </div>
+                  {% tag_field_popup_datepicker form.fecha_programada_fin 3 4 False %}
 
                </div>
 
-               <div class="form-group">
-                  <label class="col-sm-3 nova-col-filter control-label">Auditor</label>
-                  <div class="col-sm-8 xs-pt-5">
-                     <select class="select2 select2-hidden-accessible" tabindex="-1" aria-hidden="true" id="id_auditor">
-                           <option value="" selected="selected">-------</option>
-                           <option value="JPJ">Juan Perez Jimenez</option>
-                           <option value="LALG">Luis Alberto Lopez Gonzalez</option>
-                     </select>
-                  </div>
-               </div>
+               <!-- auditor -->
+               {% tag_field_popup form.auditor 3 8 %}
 
-               <div class="form-group">
-                  <label class="col-sm-3 nova-col-filter control-label">Sitio</label>
-                  <div class="col-sm-8 xs-pt-5">
-                     <select class="select2 select2-hidden-accessible" tabindex="-1" aria-hidden="true" id="id_sitio">
-                           <option value="" selected="selected">-------</option>
-                           <option value="JPJ">Sala de juntas</option>
-                           <option value="LALG">Oficinas</option>
-                     </select>
-                  </div>
-               </div>
+               <!-- sitio -->
+               {% tag_field_popup form.sitio 3 8 %}
 
             </form><!-- Modal body-->
             <div class="modal-footer nova-modal-footer">
@@ -258,7 +194,7 @@
          </div> <!-- Modal content-->
       </div> <!-- Modal dialog -->
    </div><!-- Modal -->
-   
+
    <!-- tarjeta_acciones-->
    <div id="id_tarjeta_acciones" tabindex="-1" role="dialog" class="modal fade colored-header colored-header-primary">
       <div class="modal-dialog nova-modal-acciones">
@@ -273,10 +209,10 @@
                <div class="text-center">
                   <div role="group" class="btn-group-vertical btn-space">
 
-                     <a href="{% url 'calidad:general_formulario' %}" class="btn nova-btn btn-space btn-success btn-lg" id="id_boton_check_list">
+                     <a href="{% url 'calidad:general_formulario_create' %}" class="btn nova-btn btn-space btn-success btn-lg" id="id_boton_check_list">
                         <i class="icon icon-left mdi mdi-collection-pdf nova-white"></i> Reporte De Check-list
                      </a>
-                     <a href="{% url 'calidad:general_formulario' %}" class="btn nova-btn btn-space btn-success btn-lg" id="id_boton_reporta_auditoria">
+                     <a href="{% url 'calidad:general_formulario_create' %}" class="btn nova-btn btn-space btn-success btn-lg" id="id_boton_reporta_auditoria">
                         <i class="icon icon-left mdi mdi-collection-pdf nova-white"></i> Reporte De Auditoria
                      </a>
 
@@ -292,7 +228,7 @@
 {% endblock contenido %}
 
 {% block scripts %}
-   
+
    <!-- Beagle Theme -->
    <script src="{% static 'theme/lib/datetimepicker/js/bootstrap-datetimepicker.min.js' %}"></script>
    <script src="{% static 'theme/lib/jquery.maskedinput/jquery.maskedinput.min.js' %}"></script>

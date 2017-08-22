@@ -24,7 +24,7 @@
       <ol class="breadcrumb page-head-nav pull-right">
          <li><a href="{% url 'home:inicio' %}">Inicio</a></li>
          <li id="menu" data-opcion="auditorias_lista"><a href="{% url 'calidad:auditoria_lista' %}">Procesos de Auditoría</a></li>
-         <li><a href="{% url 'calidad:proceso_lista' %}">Procesos</a></li>
+         <li><a href="{% url 'calidad:proceso_lista' 1 %}">Procesos</a></li>
          <li class="active">Hallazgos</li>
       </ol>
    </div>
@@ -42,15 +42,15 @@
 
                </ul>
                <div class="actions">
-                  <a href="{% url 'calidad:general_formulario' %}" class="btn btn-xs btn-prev btn-default nova-a-tab">Generales</a>
-                  <a href="{% url 'calidad:auditor_formulario' %}" class="btn btn-xs btn-next btn-default nova-a-tab">Equipo Auditor</a>
-                  <a href="{% url 'calidad:proceso_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab nova-active-tab">Procesos</a>
+                  <a href="{% url 'calidad:general_formulario_create' %}" class="btn btn-xs btn-prev btn-default nova-a-tab">Generales</a>
+                  <a href="{% url 'calidad:auditor_formulario_update' pk %}" class="btn btn-xs btn-next btn-default nova-a-tab">Equipo Auditor</a>
+                  <a href="{% url 'calidad:proceso_lista' 1 %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab nova-active-tab">Procesos</a>
                </div>
                <div class="nova-content-nav">
                      
                   <div class="nova-breadcrumb-nav"> 
                      <ol class="breadcrumb">
-                        <li id="menu" data-opcion="auditorias_lista"><a href="{% url 'calidad:proceso_lista' %}"><span class="badge">Lista de Procesos</span></a></li>
+                        <li id="menu" data-opcion="auditorias_lista"><a href="{% url 'calidad:proceso_lista' 1 %}"><span class="badge">Lista de Procesos</span></a></li>
                         <li class="active"><a><span class="badge">Proceso: Licitaciones </span></a></li>
                      </ol>
                   </div>
