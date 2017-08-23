@@ -128,7 +128,10 @@ class ArchivoSolicitudSerializer(serializers.HyperlinkedModelSerializer):
 
     def get_updated_by(self, obj):
         try:
-            return obj.content_object.updated_by.usuario.get_full_name()
+            if obj.content_object.updated_by is None:
+                return '--'
+            else:
+                return obj.content_object.updated_by.usuario.get_full_name()
         except Exception as e:
             print str(e)
             return " "

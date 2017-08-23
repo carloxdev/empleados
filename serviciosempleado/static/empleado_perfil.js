@@ -283,10 +283,10 @@ PopupInformacion.prototype.consultar_Registro = function (_id){
 }
 PopupInformacion.prototype.llenar_Informacion = function (_folio,_asunto,_descripcion,_status,_observaciones){
     this.$folio.text("Folio: #"+_folio)
-    this.$asunto_informacion.text(_asunto)
-    this.$descripcion_informacion.text(_descripcion)
-    this.$estatus_informacion.text(_status)
-    this.$observaciones_informacion.text(_observaciones)
+    this.$asunto_informacion.val(_asunto)
+    this.$descripcion_informacion.val(_descripcion)
+    this.$estatus_informacion.val(_status)
+    this.$observaciones_informacion.val(_observaciones)
 }
 
 /*-----------------------------------------------*\

@@ -5,6 +5,7 @@ var url_solicitud = window.location.origin + "/api-administracion/solicitud/"
 var url_asunto = window.location.origin + "/api-administracion/asunto/"
 var url_solicitudes_bypage = window.location.origin + "/api-administracion/archivosolicitud_bypage/"
 var url_profile =  window.location.origin + "/api-seguridad/profile/"
+var url_archivo =  window.location.origin + "/api-capitalhumano/archivo/"
 
 //OBJS
 var tarjeta_filtro = null
@@ -299,8 +300,8 @@ PopupEditar.prototype.obtener_Asunto = function (_response){
     })
 }
 PopupEditar.prototype.llenar_Informacion = function (_status,_asunto,_descripcion){
-    this.$asunto_informacion.text(_asunto)
-    this.$descripcion_informacion.text(_descripcion)
+    this.$asunto_informacion.val(_asunto)
+    this.$descripcion_informacion.val(_descripcion)
     this.$status.val(_status).trigger("change")
 }
 PopupEditar.prototype.guardar_Cambios = function (e) {
@@ -442,6 +443,11 @@ Grid.prototype.onDataBound = function (e) {
         tarjeta_resultados.popup_editar.obtener_Id(this.id)
       })
    })
+   e.sender.tbody.find("[data-event='eliminar']").each(function(idx, element){ 
+      $(this).on("click", function(){
+        tarjeta_resultados.grid.consultar_Registro(this.id)
+      })
+   })
    //color de la fila
     columns = e.sender.columns
     dataItems = e.sender.dataSource.view()
@@ -464,7 +470,12 @@ Grid.prototype.onDataBound = function (e) {
 }
 Grid.prototype.get_Columnas = function () {
 
-        return [ 
+        return [
+            { field: "pk", 
+                title: " ", 
+                width:"70px" ,
+                template: '<a class="btn nova-btn btn-default nova-btn-delete" id="#=pk#" data-event="eliminar"> <i class="icon icon-left icon mdi mdi-delete nova-white"></i></a>',
+            },
             { field: "object_id",
               title: "Folio",
               width:"70px",
@@ -487,6 +498,61 @@ Grid.prototype.get_Columnas = function () {
             { field: "updated_by", title: "Actualizado por", width:"150px" },
             { field: "updated_date", title: "Fecha de actualización", width:"150px", format: "{0:dd/MM/yyyy}" },
         ]
+}
+Grid.prototype.consultar_Registro = function (_id_archivo) {
+
+
+    if (_id_archivo != 'documento'){
+            $.ajax({
+                     url: url_archivo +_id_archivo+"/",
+                     method: "GET",
+                     headers: { "X-CSRFToken": appnova.galletita },
+                     success: function (_response) {
+                            url = _response.content_object
+                            id_solicitud = url.split("/")[5]
+                            tarjeta_resultados.grid.eliminar_Archivo(_id_archivo,id_solicitud)
+                     },
+                     error: function (_response) {
+                            alertify.error("No se ha podido realizar la consulta")
+                     }
+                })
+    }
+}
+Grid.prototype.eliminar_Archivo = function (_id_archivo, _id_solicitud) {
+    alertify.confirm(
+      'Eliminar Registro',
+      '¿Desea Eliminar este registro?.',
+      function () {
+            var promesa = $.ajax({
+                                     url: url_archivo +_id_archivo+"/",
+                                     method: "DELETE",
+                                     headers: { "X-CSRFToken": appnova.galletita },
+                                     success: function (_response) {
+
+                                     },
+                                     error: function (_response) {
+                                            alertify.error("No se ha podido eliminar el registro")
+                                     }
+                                })
+            promesa.then(function(){
+                    $.ajax({
+                     url: url_solicitud +_id_solicitud+"/",
+                     method: "DELETE",
+                     headers: { "X-CSRFToken": appnova.galletita },
+                     success: function (_response) {
+                            alertify.success('Se elimino documento personal')
+                            $("#grid_resultados").empty()
+                            tarjeta_resultados.grid.init()
+
+                     },
+                     error: function (_response) {
+                            alertify.error("No se ha podido eliminar el registro")
+                     }
+                })
+            })
+          }, 
+      null
+   ) 
 }
 Grid.prototype.buscar = function() {
 
