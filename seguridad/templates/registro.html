@@ -58,6 +58,8 @@
             <div class="col-md-12 fuelux">
                 <div class="panel panel-border panel-contrast">
                     <form action="" method="POST" novalidate> {% csrf_token %}
+
+                        <!-- SECCION 1 -->
                         <div class="panel-body collapse in">
                             <div class="step-content">
                                 <div data-step="1" class="step-pane">
@@ -98,7 +100,7 @@
                             </div>
                         </div>
 
-                        <!-- Botones -->
+                        <!-- SECCION 2 -->
                         <div class="panel-body collapse in nova-panel-2ndseccion">
                             <div class="step-content">
                                 <div data-step="1" class="step-pane">
@@ -135,7 +137,7 @@
 
                         <div class="modal-footer nova-modal-footer">
 
-                            <div class="row col-sm-12">
+                            <div class="nova-footer-botons">
 
                                 <a href=" {% url 'seguridad:login' %}" class="btn btn-default">
                                     <i class="icon mdi mdi-arrow-left"></i>
@@ -143,7 +145,7 @@
                                 </a>
 
                                 <button type="submit" id="btn_registrar" class="btn nova-btn btn-success btn-lg pull-right">
-                                    <i class="icon mdi mdi-assignment-check"></i>
+                                    <i class="icon mdi mdi-assignment"></i>
                                     Registrarse
                                 </button>
                             </div>

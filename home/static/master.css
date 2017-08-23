@@ -19,7 +19,8 @@
 }
 
 .nova-widget-head {
-    padding: 10px 20px 10px !important;
+    /*padding: 10px 20px 10px !important;*/
+    margin-bottom: 0;
 }
 
 .nova-sidebar-elements li a {
@@ -105,6 +106,12 @@
    font-weight: 500;
 }
 
+.nova-border {
+    border-bottom: 1px solid #d4d4d4 !important;
+    color: black !important;
+    background-color: #ffffff !important;
+ }
+
 .nova-border-bottom {
    border-bottom: 1px solid #d4d4d4 !important;
    color: black !important;
@@ -147,23 +154,29 @@
    padding: 0px !important;
 }
 
+
+.nova-modal-header {
+   padding: 15px 20px !important;
+}
+
+.nova-modal-content {
+   padding: 10px 0px;
+}
+
 .nova-modal-body-padding {
    padding:  15px 60px 0px 60px !important;
 }
 
 .nova-modal-footer {
-
    text-align: left !important;
    border-top: 1px solid #d4d4d4;;
    padding: 15px 0 15px 15px !important;
 }
 
-.nova-modal-header {
-   padding: 15px 20px !important;
-}
-.nova-modal-content {
-   padding: 10px 0px;
-}
+    .nova-footer-botons {
+        padding-right: 1em;
+    }
+
 
 .nova-content {
     max-width: none;

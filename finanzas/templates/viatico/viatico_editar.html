@@ -2,6 +2,8 @@
 
 {% load static from staticfiles %}
 
+{% load custom_tags %}
+
 {% block titulo %} Viaticos {% endblock titulo %}
 
 {% block title-page %} Solicitud de Viatico {% endblock title-page %}
@@ -29,158 +31,175 @@
     <div class="main-content container-fluid nova-main-content">
 
         <div class="row">
-            <div class="col-md-12">
-                <div class="widget widget-fullwidth be-loading nova-toolbar">
-                    <div class="widget-head nova-widget-head">
-                        <div class="tools">
-                            <div class="dropdown"><span data-toggle="dropdown" class="icon mdi mdi-more-vert visible-xs-inline-block dropdown-toggle"></span>
-                                <ul role="menu" class="dropdown-menu">
-                                    <li><a href="{% url 'finanzas:viatico_editar' form.instance.id %}">Cabecera</a></li>
-                                    <li><a href="{% url 'finanzas:viatico_lineas' form.instance.id %}">Linea</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="button-toolbar hidden-xs">
-                            <div class="btn-group">
-                                <a href="{% url 'finanzas:viatico_editar' form.instance.id %}" type="button" class="btn btn-default active">Cabecera</a>
-                                <a href="{% url 'finanzas:viatico_lineas' form.instance.id %}" type="button" class="btn btn-default">Lineas</a>
-                            </div>
-                        </div>
-                        <span class="title"><strong>VIA-{{ form.instance.id }}</strong></span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
             <div class="col-md-8 nova-panel-main">
-                <form class="panel panel-border panel-contrast" action="" method="POST"> {% csrf_token %}
+                <form class="panel panel-border panel-contrast nova-toolbar" action="" method="POST"> {% csrf_token %}
                     <div class="panel-heading panel-heading-default nova-border-bottom">
-                        Informacion de la solicitud:
+                        <div class="widget-head nova-widget-head">
+                            <div class="tools">
+                                <div class="dropdown"><span data-toggle="dropdown" class="icon mdi mdi-more-vert visible-xs-inline-block dropdown-toggle"></span>
+                                    <ul role="menu" class="dropdown-menu">
+                                        <li><a href="{% url 'finanzas:viatico_editar' form.instance.id %}">Cabecera</a></li>
+                                        <li><a href="{% url 'finanzas:viatico_lineas' form.instance.id %}">Linea</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="button-toolbar hidden-xs">
+                                <div class="btn-group">
+                                    <a href="{% url 'finanzas:viatico_editar' form.instance.id %}" type="button" class="btn btn-default active">Cabecera</a>
+                                    <a href="{% url 'finanzas:viatico_lineas' form.instance.id %}" type="button" class="btn btn-default">Lineas</a>
+                                </div>
+                            </div>
+                            <span class="title">Informacion de la solicitud: <strong>VIA-{{ form.instance.id }}</strong></span>
+                        </div>
                     </div>
                     <div class="panel-body form-horizontal">
 
-                        {{ form.non_field_errors }}
+                        {% if form.non_field_errors %}
 
-                        <div class="form-group">
-
-                            <label class="col-sm-3 control-label"
-                                for="{{ form.empleado_clave.id_for_label }}">
-                                {{ form.empleado_clave.label }}
-                            </label>
-                            <div class="col-sm-8 xs-pt-5">
-                                {{ form.empleado_clave }}
-                            </div>
-                            {% for error in form.empleado_clave.errors %}
-                                <span class="help-block">{{ error }}</span>
+                            {% for error in form.non_field_errors %}
+                                {% tag_mensaje 'error' error %}
                             {% endfor %}
+
+                        {% endif %}
+
+                        {% if flag_new %}
+                            {% tag_mensaje 'exito' 'Solicitud Creada con exito' %}
+                        {% endif %}
+
+                        {% tag_section_info 12 0 '¡Instrucciones!' 'Da click en el boton <strong>"Lineas"</strong> para agregar/modificar gastos a la solicitud' %}
+
+                        {% tag_field_registro form.empleado_clave 3 8 %}
+
+                        {% tag_field_registro form.unidad_negocio_clave 3 8 %}
+
+                        {% tag_field_registro_dates 'Fecha partida/regreso' form.fecha_partida form.fecha_regreso 3 4 4 %}
+
+                        {% tag_field_registro form.ciudad_destino 3 8 %}
+
+                        {% tag_field_registro form.proposito_viaje 3 8 %}
+
+                        <!-- Ocultos -->
+                        <div>
+                            {{ form.empleado_descripcion }}
+                            {{ form.unidad_negocio_descripcion }}
                         </div>
 
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label"
-                                for="{{ form.unidad_negocio_clave.id_for_label }}">
-                                {{ form.unidad_negocio_clave.label }}
-                            </label>
-                            <div class="col-sm-8 xs-pt-5">
-                                {{ form.unidad_negocio_clave }}
-                            </div>
-                            {% for error in form.unidad_negocio_clave.errors %}
-                                <span class="help-block">{{ error }}</span>
-                            {% endfor %}
-                        </div>
-
-                        <div class="form-group">
-
-                            <label class="col-sm-3 control-label">
-                                Fecha partida/regreso
-                            </label>
-
-                            <div class="col-sm-4 xs-pt-5">
-                                <div class="input-group date"
-                                data-min-view="2"
-                                data-date-format="yyyy-mm-dd"
-                                id="id_fecha_partida_input">
-                                    {{ form.fecha_partida }}
-                                    <span class="input-group-addon nova-addon-button">
-                                        <span class="glyphicon glyphicon-calendar"></span>
-                                    </span>
-                                </div>
-                            </div>
-                            {% for error in form.fecha_partida.errors %}
-                                <span class="help-block">{{ error }}</span>
-                            {% endfor %}
-
-                            <div class="col-sm-4 xs-pt-5">
-                                <div class="input-group date"
-                                data-min-view="2"
-                                data-date-format="yyyy-mm-dd"
-                                id="id_fecha_regreso_input">
-                                    {{ form.fecha_regreso }}
-                                    <span class="input-group-addon nova-addon-button">
-                                        <span class="glyphicon glyphicon-calendar"></span>
-                                    </span>
-                                </div>
-                            </div>
-                            {% for error in form.fecha_regreso.errors %}
-                                <span class="help-block">{{ error }}</span>
-                            {% endfor %}
-
-
-                        </div>
-
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label"
-                                for="{{ form.ciudad_destino.id_for_label }}">
-                                {{ form.ciudad_destino.label }}
-                            </label>
-                            <div class="col-sm-8 xs-pt-5">
-                                {{ form.ciudad_destino }}
-                            </div>
-                            {% for error in form.ciudad_destino.errors %}
-                                <span class="help-block">{{ error }}</span>
-                            {% endfor %}
-                        </div>
-
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label"
-                                for="{{ form.proposito_viaje.id_for_label }}">
-                                {{ form.proposito_viaje.label }}
-                            </label>
-                            <div class="col-sm-8 xs-pt-5">
-                                {{ form.proposito_viaje }}
-                            </div>
-                            {% for error in form.proposito_viaje.errors %}
-                                <span class="help-block">{{ error }}</span>
-                            {% endfor %}
-                        </div>
                     </div>
                     <div class="modal-footer nova-modal-footer">
-                        <button type="submit" id="boton_buscar" class="btn nova-btn btn-primary btn-lg">
-                            Guardar
-                        </button>
+                        <div class="nova-footer-botons">
+                            <a href=" {% url 'finanzas:viatico_lista' %}" class="btn btn-default">
+                                <i class="icon mdi mdi-arrow-left"></i>
+                                Regresar a Listado
+                            </a>
+
+                            <button type="submit" id="btn_registrar" class="btn nova-btn btn-success btn-lg pull-right">
+                                <i class="icon mdi mdi-floppy"></i>
+                                Guardar
+                            </button>
+                        </div>
                     </div>
                 </form>
+
+                <div class="panel panel-border panel-contrast ">
+                    <div class="panel-body text-center">
+                        <button type="button" class="btn btn-warning btn-lg">Finalizar y Enviar</button>
+                    </div>
+                </div>
+
             </div>
 
             <div class="col-md-4">
-                  <div class="panel panel-border panel-contrast">
+                  <div class="panel panel-border panel-contrast user-info-list nova-toolbar">
                       <div class="panel-heading panel-heading-default nova-border-bottom">
-                          Datos de Autorizacion
+                          Datos de Autorización
                       </div>
                       <div class="panel-body">
+                          <table class="no-border no-strip skills">
+                              <tbody class="no-border-x no-border-y">
+                                  <tr>
+                                      <td class="icon"><span class="mdi mdi-flag"></span></td>
+                                      <td class="item">Estado:<span class="icon s7-flag"></span></td>
+                                      <td><strong>PENDIENTE</strong></td>
+                                  </tr>
+                                  <tr>
+                                      <td class="icon"><span class="mdi mdi-assignment-check"></span></td>
+                                      <td class="item">Autorizador:<span class="icon s7-assignment-check"></span></td>
+                                      <td><strong>Claudia Villegas</strong></td>
+                                  </tr>
+                                  <tr>
+                                      <td class="icon"><span class="glyphicon glyphicon-calendar"></td>
+                                      <td class="item">Fecha Autorizacion:<span class="icon s7-glyphicon-calendar"></span></td>
+                                      <td><strong>16 September 1989</strong></td>
+                                  </tr>
+                              </tbody>
+                          </table>
+                      </div>
+                </div>
+            </div>
 
+            <div class="col-md-4">
+                  <div class="panel panel-border panel-contrast user-info-list nova-toolbar">
+                      <div class="panel-heading panel-heading-default nova-border-bottom">
+                          Datos de Autitoria
+                      </div>
+                      <div class="panel-body">
+                        <table class="no-border no-strip skills">
+                            <tbody class="no-border-x no-border-y">
+                                <tr>
+                                    <td class="icon"><span class="mdi mdi-face"></span></td>
+                                    <td class="item">Creada por:<span class="icon s7-face"></span></td>
+                                    <td><strong>Paquito Gomez</strong></td>
+                                </tr>
+                                <tr>
+                                    <td class="icon"><span class="glyphicon glyphicon-calendar"></td>
+                                    <td class="item">Fecha Creacion:<span class="icon s7-glyphicon-calendar"></span></td>
+                                    <td><strong>16 September 1989</strong></td>
+                                </tr>
+                                <tr>
+                                    <td class="icon"><span class="mdi mdi-face"></span></td>
+                                    <td class="item">Actualizada por:<span class="icon s7-face"></span></td>
+                                    <td><strong>Paquito Ortiz</strong></td>
+                                </tr>
+                                <tr>
+                                    <td class="icon"><span class="glyphicon glyphicon-calendar"></td>
+                                    <td class="item">Fecha Actualizacion:<span class="icon s7-glyphicon-calendar"></span></td>
+                                    <td><strong>16 September 1989</strong></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                      </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                  <div class="panel panel-border panel-contrast user-info-list nova-toolbar">
+                      <div class="panel-heading panel-heading-default nova-border-bottom">
+                          Datos para Facturacion
+                      </div>
+                      <div class="panel-body">
+                          <table class="no-border no-strip skills">
+                              <tbody class="no-border-x no-border-y">
+                                  <tr>
+                                      <td class="icon"><span class="mdi mdi-case"></span></td>
+                                      <td class="item">Razon Social:<span class="icon s7-portfolio"></span></td>
+                                      <td><strong>SISTEMAS INTEGRALES DE COMPRESION</strong></td>
+                                  </tr>
+                                  <tr>
+                                      <td class="icon"><span class="mdi mdi-globe-alt"></span></td>
+                                      <td class="item">RFC:<span class="icon s7-globe-alt"></span></td>
+                                      <td><strong>SIC030626932</strong></td>
+                                  </tr>
+                                  <tr>
+                                      <td class="icon"><span class="mdi mdi-pin"></span></td>
+                                      <td class="item">Direccion:<span class="icon s7-pin"></span></td>
+                                      <td><strong>AV INSURGENTES SUR 1700 PISO 5 COLONIA FLORIDA 01030 CIUDAD DE MÉXICO</strong></td>
+                                  </tr>
+                              </tbody>
+                          </table>
                       </div>
                 </div>
             </div>
         </div>
-
-    </div>
-
-
-    <!-- Ocultos -->
-    <div>
-        {{ form.empleado_descripcion }}
-        {{ form.unidad_negocio_descripcion }}
     </div>
 
 </div>
@@ -193,12 +212,10 @@
     <script src="{% static 'theme/lib/jquery-ui/jquery-ui.min.js' %}"></script>
     <script src="{% static 'theme/lib/moment.js/min/moment.min.js' %}"></script>
     <script src="{% static 'theme/lib/datetimepicker/js/bootstrap-datetimepicker.min.js' %}"></script>
-    <script src="{% static 'theme/lib/jquery.maskedinput/jquery.maskedinput.min.js' %}"></script>
-
-    <!-- InputMask -->
-    <script src="{% static 'libs/plugins/input-mask/jquery.inputmask.js' %}"></script>
+    <script src="{% static 'theme/lib/datetimepicker/js/locales/bootstrap-datetimepicker.es.js' %}"></script>
 
     <!-- Nova -->
-    <script src="{% static 'viatico/viatico_formulario.js' %}"></script>
+    <script src="{% static 'tools.js' %}"></script>
+    <script src="{% static 'viatico/viatico_editar.js' %}"></script>
 
 {% endblock scripts %}
