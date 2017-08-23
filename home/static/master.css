@@ -172,7 +172,6 @@
    border-top: 1px solid #d4d4d4;;
    padding: 15px 0 15px 15px !important;
 }
-<<<<<<< HEAD
 .nova-modal-informacion {
    font-size: 14px;
 }
@@ -184,18 +183,13 @@
 }
 .nova-modal-content {
    padding: 10px 0px;
-=======
-
-    .nova-footer-botons {
-        padding-right: 1em;
-    }
-
-
+}
+.nova-footer-botons {
+    padding-right: 1em;
+}
 .nova-content {
     max-width: none;
->>>>>>> origin/master
 }
-
 .nova-padding-row {
    padding: 0 15px;
 }
