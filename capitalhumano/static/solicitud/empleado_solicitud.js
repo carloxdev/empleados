@@ -1,10 +1,10 @@
 /*-----------------------------------------------*\
             GLOBAL VARIABLES
 \*-----------------------------------------------*/
-
-var url_expediente = window.location.origin  + "/expedientes/"
-var url_expediente_personal_bypage = window.location.origin  + "/api-capitalhumano/archivopersonal_bypage/"
-var url_archivo_personal_excel = window.location.origin  + "/api-capitalhumano/archivopersonal/"
+var url_solicitud = window.location.origin + "/api-administracion/solicitud/"
+var url_asunto = window.location.origin + "/api-administracion/asunto/"
+var url_solicitudes_bypage = window.location.origin + "/api-administracion/archivosolicitud_bypage/"
+var url_profile =  window.location.origin + "/api-seguridad/profile/"
 
 //OBJS
 var tarjeta_filtro = null
@@ -12,6 +12,9 @@ var grid = null
 var toolbar = null
 var tarjeta_resultados = null
 var popup = null
+var popup_editar= null
+var id = ''
+var datos = ''
 
 
 /*------------------------------------------------*\  
@@ -39,11 +42,10 @@ $(document).ready(function(){
 
 function TarjetaFiltros(){
 
-    this.$asig_organizacion_clave = $('#id_asig_organizacion_clave')
-    this.$tipo_documento = $('#id_tipo_documento')
-    this.$agrupador = $('#id_agrupador')
     this.$numero_empleado = $('#id_numero_empleado')
-    this.$estatus = $('#id_estatus')
+    this.$asunto = $('#id_asunto')
+    this.$status = $('#id_status')
+    this.$folio = $('#id_folio')
 
     this.$boton_buscar = $('#boton_buscar')
     this.$boton_limpiar = $('#boton_limpiar')
@@ -54,10 +56,8 @@ function TarjetaFiltros(){
 TarjetaFiltros.prototype.init_Components = function () {
 
     this.$numero_empleado.select2(appnova.get_ConfigSelect2())
-    this.$asig_organizacion_clave.select2(appnova.get_ConfigSelect2())
-    this.$tipo_documento.select2(appnova.get_ConfigSelect2())
-    this.$agrupador.select2(appnova.get_ConfigSelect2())
-    this.$estatus.select2(appnova.get_ConfigSelect2())
+    this.$asunto.select2(appnova.get_ConfigSelect2())
+    this.$status.select2(appnova.get_ConfigSelect2())
 }
 TarjetaFiltros.prototype.init_Events = function () {
 
@@ -68,53 +68,35 @@ TarjetaFiltros.prototype.click_BotonBuscar = function (e) {
 
         e.preventDefault()
 
-        if(tarjeta_filtro.validar_Campos() != 'True'){
-            tarjeta_resultados.grid.buscar()
-            tarjeta_resultados.popup.hidden_Modal()
-        }
+        tarjeta_resultados.grid.buscar()
+        tarjeta_resultados.popup.hidden_Modal()
 }
 TarjetaFiltros.prototype.get_Values = function (_page) {
     
         return {
                 page: _page,
-                relacion_personal__tipo_documento_organizacion: this.$asig_organizacion_clave.val(),
-                relacion_personal__tipo_documento: this.$tipo_documento.val(),
-                relacion_personal__agrupador: this.$agrupador.val(),
-                relacion_personal__numero_empleado: this.$numero_empleado.val(),
-                relacion_personal__tipo_documento_estatus: this.$estatus.val(),
+                relacion_solicitud__id: this.$folio.val(),
+                relacion_solicitud__numero_empleado: this.$numero_empleado.val(),
+                relacion_solicitud__asunto: this.$asunto.val(),
+                relacion_solicitud__status: this.$status.val(),
      }
 }
 TarjetaFiltros.prototype.get_Values_Excel = function () {
     
         return {
-                relacion_personal__tipo_documento_organizacion: this.$asig_organizacion_clave.val(),
-                relacion_personal__tipo_documento: this.$tipo_documento.val(),
-                relacion_personal__agrupador: this.$agrupador.val(),
-                relacion_personal__numero_empleado: this.$numero_empleado.val(),
-                relacion_personal__tipo_documento_estatus: this.$estatus.val(),
+                relacion_solicitud__id: this.$folio.val(),
+                relacion_solicitud__numero_empleado: this.$numero_empleado.val(),
+                relacion_solicitud__asunto: this.$asunto.val(),
+                relacion_solicitud__status: this.$status.val(),
      }
-}
-TarjetaFiltros.prototype.validar_Campos = function (){
-
-        bandera = 'False'
-        if ((this.$asig_organizacion_clave.val() == '') &&
-                (this.$tipo_documento.val() == '') &&
-                (this.$agrupador.val() == '') &&
-                (this.$numero_empleado.val() == '') &&
-                (this.$estatus.val() == 0)
-            ){
-            bandera = 'True'
-        }
-        return bandera
 }
 TarjetaFiltros.prototype.click_BotonLimpiar = function (e) {
         
         e.preventDefault()
-        e.data.$asig_organizacion_clave.data('select2').val(0)
-        e.data.$numero_empleado.data('select2').val(0)
-        e.data.$tipo_documento.data('select2').val(0)  
-        e.data.$agrupador.data('select2').val(0)
-        e.data.$estatus.data('select2').val(0)
+        e.data.$folio.val("")
+        e.data.$numero_empleado.val("")
+        e.data.$asunto.data('select2').val(0)  
+        e.data.$status.data('select2').val(0)
 }
 
 /*-----------------------------------------------*\
@@ -124,6 +106,7 @@ TarjetaFiltros.prototype.click_BotonLimpiar = function (e) {
 function TarjetaResultados(){
     this.grid = new Grid()
     this.popup = new Popup()
+    this.popup_editar = new PopupEditar()
     this.toolbar = new Toolbar()
 }
 
@@ -173,14 +156,14 @@ Toolbar.prototype.click_BotonExportar = function (e) {
                     sheets: [
                         {
                             columns: e.data.get_Columnas_Excel_Ancho(),
-                            title: "ListaDocumentoPersonal",
+                            title: "Solicitudes",
                             rows: e.data.kRows
                         }
                     ]
                 });
             kendo.saveAs({
                 dataURI: workbook.toDataURL(),
-                fileName: "ListaDocumentoPersonal.xlsx",
+                fileName: "Solicitudes.xlsx",
             });
         })
     }
@@ -233,13 +216,129 @@ Toolbar.prototype.get_Registros_Excel = function (data) {
 }
 
 /*-----------------------------------------------*\
-            OBJETO: Tarjeta resultados
+            OBJETO: Popup
 \*-----------------------------------------------*/
 
 function Popup(){
     this.$modal = $('#modal_filtro')
 }
 Popup.prototype.hidden_Modal = function () {
+
+   this.$modal.modal('hide')
+}
+
+/*-----------------------------------------------*\
+            OBJETO: Popup editar
+\*-----------------------------------------------*/
+
+function PopupEditar(){
+    this.$modal = $('#modal_editar')
+    this.$id = ''
+    this.$status = $('#id_status_editar')
+    this.$observaciones = $('#id_observaciones')
+    this.$updated_by = $('#id_updated_by')
+
+    this.$asunto_informacion = $('#id_asunto_informacion')
+    this.$descripcion_informacion = $('#id_descripcion_informacion')
+
+    this.$boton_editar = $('#boton_editar')
+    this.$boton_cancelar = $('#boton_cancelar')
+
+    this.init_Components()
+    this.init_Events()
+}
+PopupEditar.prototype.init_Components = function (){
+    this.$status.select2(appnova.get_ConfigSelect2())
+}
+PopupEditar.prototype.init_Events = function () {
+    this.$boton_editar.on("click", this, this.guardar_Cambios)
+    this.$boton_cancelar.on("click", this, this.cancelar_Cambios)
+}
+PopupEditar.prototype.obtener_Id = function (_id) {
+    id = _id
+    this.consultar_Registro(id)
+}
+PopupEditar.prototype.consultar_Registro = function (_id){
+    dts = ''
+    var promesa = $.ajax({
+                      url: url_solicitud + _id +"/",
+                      type: "GET",
+                      headers: { "X-CSRFToken": appnova.galletita },
+                      contentType: "application/json; charset=utf-8",
+
+                      success: function (_response) {
+                        dts = _response
+                        tarjeta_resultados.popup_editar.obtener_Asunto(_response)
+                      },
+                      error: function (_response) {
+                         alertify.error("Ocurrio un error al consultar")
+                      }
+                   })
+    promesa.then(function(){
+        datos = dts
+    })
+}
+PopupEditar.prototype.obtener_Asunto = function (_response){
+    asunto = ''
+    status = _response.status
+    var promesa = $.ajax({
+                      url: url_asunto + _response.asunto +"/",
+                      type: "GET",
+                      headers: { "X-CSRFToken": appnova.galletita },
+                      contentType: "application/json; charset=utf-8",
+
+                      success: function (response) {
+                        asunto = response.nombre
+                      },
+                      error: function (response) {
+                         alertify.error("Ocurrio un error al consultar")
+                      }
+                   })
+    promesa.then(function(){
+        tarjeta_resultados.popup_editar.llenar_Informacion(status,asunto, _response.descripcion)
+    })
+}
+PopupEditar.prototype.llenar_Informacion = function (_status,_asunto,_descripcion){
+    this.$asunto_informacion.text(_asunto)
+    this.$descripcion_informacion.text(_descripcion)
+    this.$status.val(_status).trigger("change")
+}
+PopupEditar.prototype.guardar_Cambios = function (e) {
+
+    informacion = {
+        'status': e.data.$status.val(),
+        'clave_departamento': datos.clave_departamento,
+        'asunto': datos.asunto,
+        'descripcion': datos.descripcion,
+        'numero_empleado': datos.numero_empleado,
+        'observaciones': e.data.$observaciones.val(),
+        'created_by': datos.created_by,
+        'updated_by': url_profile+e.data.$updated_by.val()+"/",
+    }
+
+   $.ajax({
+
+      url: url_solicitud + id +"/",
+      data : JSON.stringify(informacion),
+      type: "PUT",
+      headers: { "X-CSRFToken": appnova.galletita },
+      contentType: "application/json; charset=utf-8",
+
+      success: function (_response) {
+
+         tarjeta_resultados.grid.init()
+         tarjeta_resultados.popup_editar.hidden_Modal()
+      },
+      error: function (_response) {
+         alertify.error("Ocurrio un error al modificar")
+      }
+   })
+}
+PopupEditar.prototype.cancelar_Cambios = function (e) {
+    e.data.$observaciones.val("")
+    tarjeta_resultados.popup_editar.hidden_Modal()
+}
+PopupEditar.prototype.hidden_Modal = function () {
 
    this.$modal.modal('hide')
 }
@@ -277,7 +376,7 @@ Grid.prototype.get_DataSourceConfig = function () {
                 transport: {
                         read: {
 
-                                url: url_expediente_personal_bypage,
+                                url: url_solicitudes_bypage,
                                 type: "GET",
                                 dataType: "json",
                         },
@@ -291,6 +390,7 @@ Grid.prototype.get_DataSourceConfig = function () {
                         data: "results",
                         total: "count",
                         model: {
+                                id: "pk",
                                 fields: this.get_Campos()
                         }
                 },
@@ -302,23 +402,23 @@ Grid.prototype.get_DataSourceConfig = function () {
 Grid.prototype.get_Campos = function () {
 
         return {
-                pk: { type: "integer" },
-                organizacion : { type: "string" },
-                nombre_completo : { type: "string" },
-                tipo_documento : { type: "string" },
-                agrupador : { type: "string"},
-                numero_empleado : { type: "string" },
-                archivo : { type: "string" },
-                vigencia_inicio : { type: "string" },
-                vigencia_fin : { type: "string" },
-                created_by : { type: "string" },
-                created_date : { type: "date" },
+            pk: { type:"integer" },
+            object_id: { type: "string"},
+            status : { type: "string"},
+            clave_departamento : { type: "string"},
+            asunto : { type: "string"},
+            descripcion : { type: "string"},
+            observaciones : { type: "string"},
+            archivo : { type: "string"},
+            created_by : { type: "string"},
+            created_date : { type: "date"},
+            updated_by : { type: "string"},
+            updated_date : { type: "date"},
         }
 }
 Grid.prototype.get_Configuracion = function () {
 
         return {
-                autoBind: false,
                 dataSource: this.kfuente_datos,
                 columnMenu: true,
                 groupable: false,
@@ -332,71 +432,65 @@ Grid.prototype.get_Configuracion = function () {
                 noRecords: {
                         template: "<div class='nova-grid-empy'> No se encontraron registros </div>"
                 },
-                dataBound: this.aplicar_Estilos,
+                dataBound: this.onDataBound,
         }
+}
+Grid.prototype.onDataBound = function (e) {
+    // pk del elemento
+   e.sender.tbody.find("[data-event='editar']").each(function(idx, element){ 
+      $(this).on("click", function(){
+        tarjeta_resultados.popup_editar.obtener_Id(this.id)
+      })
+   })
+   //color de la fila
+    columns = e.sender.columns
+    dataItems = e.sender.dataSource.view()
+
+    for (var j = 0; j < dataItems.length; j++) {
+        estatus = dataItems[j].get("status")
+        row = e.sender.tbody.find("[data-uid='" + dataItems[j].uid + "']")
+        row.removeClass("k-alt");
+        if(estatus != null){
+            if (estatus == 'En captura') {
+            }
+            else if (estatus == 'Actualizado'){
+                row.addClass("nova-fecha-por-vencer")
+            }
+            else if (estatus == 'Rechazado'){
+                row.addClass("nova-fecha-vencida")
+            }
+        }
+    }
 }
 Grid.prototype.get_Columnas = function () {
 
-        return [  
-                { field: "numero_empleado", 
-                    title: "No. de empleado", 
-                    width:"150px" ,
-                    template: '<a href="#=url_expediente + numero_empleado #/expediente/">#=numero_empleado#</a>',
-                },
-                { field: "nombre_completo", title: "Nombre", width:"200px" },
-                { field: "tipo_documento", 
-                  title: "Archivo", 
-                  width:"150px" ,
-                  template: '<a href="#=archivo#" target="_blank" id="documento">#=tipo_documento#</a>',
-                },
-                { field: "agrupador", title: "Agrupador", width:"100px" },
-                { field: "vigencia_inicio",title: "Vigencia inicio",width:"100px"},
-                { field: "vigencia_fin", title: "Vigencia fin", width:"100px" },
-                { field: "organizacion", title: "Organizacion", width:"200px" },
-                { field: "created_by", title: "Creado por", width:"150px" },
-                { field: "created_date", title: "Fecha de creación", width:"150px", format: "{0:dd/MM/yyyy}" },
-
+        return [ 
+            { field: "object_id",
+              title: "Folio",
+              width:"70px",
+              template: '<a href="\\#modal_editar" data-toggle="modal" id="#=object_id#" data-event="editar">#=object_id#</a>',
+            }, 
+            { field: "status", 
+              title: "Estatus",
+              width:"100px",
+            },
+            { field: "asunto", 
+              title: "Archivo", 
+              width:"150px" ,
+              template: '<a href="#=archivo#" target="_blank">#=asunto#</a>',
+            },
+            // { field: "descripcion",title: "Descripcion",width:"200px"},
+            { field: "observaciones",title: "Observaciones",width:"200px"},
+            { field: "clave_departamento", title: "Se solicito a", width:"150px"},
+            { field: "created_by", title: "Creado por", width:"150px" },
+            { field: "created_date", title: "Fecha de creación", width:"150px", format: "{0:dd/MM/yyyy}" },
+            { field: "updated_by", title: "Actualizado por", width:"150px" },
+            { field: "updated_date", title: "Fecha de actualización", width:"150px", format: "{0:dd/MM/yyyy}" },
         ]
 }
 Grid.prototype.buscar = function() {
 
         this.kfuente_datos.page(1)
-}
-Grid.prototype.aplicar_Estilos = function (e) {
-
-    columns = e.sender.columns
-    dataItems = e.sender.dataSource.view()
-    fecha_hoy = new Date()
-    fecha_por_vencer = tarjeta_resultados.grid.sumar_Dias(new Date(), 90)
-
-    for (var j = 0; j < dataItems.length; j++) {
-        fecha_vencimiento = dataItems[j].get("vigencia_fin")
-        fecha = tarjeta_resultados.grid.convertir_Fecha(fecha_vencimiento)
-        row = e.sender.tbody.find("[data-uid='" + dataItems[j].uid + "']")
-        row.removeClass("k-alt");
-        if(fecha != null){
-            vencimiento = fecha.getTime()
-            if (vencimiento <= fecha_hoy.getTime()) {
-                row.addClass("nova-fecha-vencida")
-            }
-            else if ((vencimiento > fecha_hoy.getTime()) && (vencimiento <= fecha_por_vencer)){
-                row.addClass("nova-fecha-por-vencer")
-            }
-        }
-    }
-}
-Grid.prototype.sumar_Dias = function (fecha, dias){
-
-  fecha.setDate(fecha.getDate() + dias);
-  return fecha;
-}
-Grid.prototype.convertir_Fecha = function (_fecha){
-    año = _fecha.split("/")[2]
-    mes = _fecha.split("/")[1]
-    dia = _fecha.split("/")[0]
-    fecha_formateada = año+"-"+mes+"-"+dia
-    fecha = new Date(fecha_formateada)
-    return fecha
 }
 Grid.prototype.leer_Datos = function() {
     
@@ -409,7 +503,7 @@ Grid.prototype.get_FuenteDatosExcel = function (e) {
         transport: {
             read: {
 
-                url: url_archivo_personal_excel,
+                url: url_solicitud,
                 type: "GET",
                 dataType: "json",
             },

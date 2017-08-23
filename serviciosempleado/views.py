@@ -22,10 +22,9 @@ class EmpleadoPerfil(View):
         self.template_name = 'empleado_perfil.html'
 
     def get(self, request):
-
-        form = NuevaSolicitudForm()
         usuario_logeado = request.user.profile.clave_rh
         if usuario_logeado is not None:
+            form = NuevaSolicitudForm()
             empleado = VIEW_EMPLEADOS_FULL.objects.using('ebs_p').filter(
                 pers_empleado_numero=usuario_logeado)
 

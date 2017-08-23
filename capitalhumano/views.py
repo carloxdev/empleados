@@ -21,14 +21,14 @@ from .forms import EmpresasFilterForm
 from .forms import PerfilPuestoDocumentoForm
 from .forms import NuevoDocumentoPersonalForm
 from .forms import NuevoDocumentoCapacitacionForm
-
 from .forms import GradoAcademicoFilterForm
 from .forms import ExpedientesFilterForm
 from .forms import DocPersonalFilterForm
 from .forms import DocCapacitacionFilterForm
-
 from .forms import PerfilAgregarPuestoCargoForm
 from .forms import PerfilPuestoListaForm
+from .forms import SolicitudesFilterForm
+from .forms import SolicitudesEditarForm
 
 
 # Serializer crear organigrama
@@ -177,7 +177,8 @@ class EmpleadoLista(View):
                     if (col_num == 2) or (col_num == 13):
                         if (row[col_num] != '-'):
 
-                            fecha = datetime.datetime.strptime(row[col_num], '%Y-%m-%d %H:%M:%S').date()
+                            fecha = datetime.datetime.strptime(
+                                row[col_num], '%Y-%m-%d %H:%M:%S').date()
                             ws.write(row_num, col_num, fecha, date_format)
                         else:
 
@@ -281,6 +282,24 @@ class EmpleadoExpedientes(View):
         return render(request, self.template_name, contexto)
 
 
+class EmpleadoSolicitudes(View):
+
+    def __init__(self):
+        self.template_name = 'solicitud/empleado_solicitud.html'
+
+    def get(self, request):
+
+        form = SolicitudesFilterForm()
+        form2 = SolicitudesEditarForm()
+
+        contexto = {
+            'form': form,
+            'form2': form2,
+        }
+
+        return render(request, self.template_name, contexto)
+
+
 class EmpleadoExpedientesGrado(View):
 
     def __init__(self):
@@ -375,7 +394,7 @@ class PerfilPuesto(View):
     def get(self, request):
 
         formulario = PerfilPuestoListaForm()
-        
+
         contexto = {
             'form': formulario
         }
@@ -390,7 +409,6 @@ class PerfilPuestoNuevo(View):
         #self.template_name = 'perfilpuesto/perfil_nuevo.html'
         self.template_name = 'perfilpuesto/perfil.html'
 
-
     def get(self, request):
 
         formulario = PerfilPuestoDocumentoForm()
@@ -402,26 +420,26 @@ class PerfilPuestoNuevo(View):
         }
 
         return render(request, self.template_name, contexto)
-    
+
     def post(self, request):
 
         formulario = PerfilPuestoDocumentoForm(request.POST)
 
         if formulario.is_valid():
             perfilpuesto = formulario.save(commit=False)
-            
+
             perfilpuesto.asig_puesto_clave = '11893'
             perfilpuesto.created_by = request.user.profile
 
             perfilpuesto.save()
 
             return redirect(reverse('capitalhumano:perfil_nuevo'))
-            
+
         contexto = {
             'form': formulario
         }
 
-        return render(request, self.template_name, contexto)     
+        return render(request, self.template_name, contexto)
 
 
 class PerfilPuestoNuevo2(View):

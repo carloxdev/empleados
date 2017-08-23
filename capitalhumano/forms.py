@@ -14,6 +14,7 @@ from django.forms import FileInput
 from django.forms import DateInput
 from django.forms import DateField
 from django.forms import FileField
+from django.forms import Textarea
 
 # Modelos
 from jde.models import VIEW_UNIDADES
@@ -21,7 +22,9 @@ from ebs.models import VIEW_TIPO_PERSONAS
 from ebs.models import VIEW_PUESTOS
 from ebs.models import VIEW_ORGANIZACIONES
 from administracion.models import Empresa
+from administracion.models import Asunto
 from capitalhumano.models import PerfilPuestoDocumento
+
 
 # Business
 from .business import EmpleadoBusiness
@@ -251,7 +254,6 @@ class PerfilPuestoDocumentoForm(Form):
     asig_puesto_clave = ChoiceField(widget=Select(
         attrs={'class': 'select2 nova-select2'}))
 
-
     class Meta:
         model = PerfilPuestoDocumento
 
@@ -291,7 +293,7 @@ class PerfilPuestoDocumentoForm(Form):
         }
 
         widgets = {
-           ## 'reporta': Select(attrs={'class': 'form-control input-sm'}),
+            # 'reporta': Select(attrs={'class': 'form-control input-sm'}),
             'proposito': TextInput(attrs={'class': 'form-control input-xs'}),
             'funciones': TextInput(attrs={'class': 'form-control input-xs'}),
             'responsabilidades': TextInput(attrs={'class': 'form-control input-xs'}),
@@ -310,7 +312,6 @@ class PerfilPuestoDocumentoForm(Form):
 
     reporta = ChoiceField(label='Reporta', widget=Select(
         attrs={'class': 'select2 nova-select2'}))
-    
 
     def __init__(self, *args, **kwargs):
         super(PerfilPuestoDocumentoForm, self).__init__(
@@ -347,30 +348,6 @@ class ExpedientesFilterForm(Form):
         ('1118', 'CANDIDATO'),
     )
 
-    pers_primer_nombre = CharField(
-        label="Primer nombre",
-        widget=TextInput(
-            attrs={'class': 'form-control input-xs'}
-        )
-    )
-    pers_segundo_nombre = CharField(
-        label="Segundo nombre",
-        widget=TextInput(
-            attrs={'class': 'form-control input-xs'}
-        )
-    )
-    pers_apellido_paterno = CharField(
-        label="Apellido paterno",
-        widget=TextInput(
-            attrs={'class': 'form-control input-xs'}
-        )
-    )
-    pers_apellido_materno = CharField(
-        label="Apellido materno",
-        widget=TextInput(
-            attrs={'class': 'form-control input-xs'}
-        )
-    )
     asig_organizacion_clave = ChoiceField(
         label="Organización",
         widget=Select(
@@ -378,15 +355,15 @@ class ExpedientesFilterForm(Form):
         )
     )
     grup_fase_jde = CharField(
-        label="Unidad de negocio(JDE)",
+        label="Unidad de negocio",
         widget=TextInput(
             attrs={'class': 'form-control input-xs'}
         )
     )
-    pers_empleado_numero = CharField(
+    pers_empleado_numero = ChoiceField(
         label="Numero de empleado",
-        widget=TextInput(
-            attrs={'class': 'form-control input-xs'}
+        widget=Select(
+            attrs={'class': 'select2 nova-select2'}
         )
     )
     pers_tipo_codigo = ChoiceField(
@@ -401,6 +378,74 @@ class ExpedientesFilterForm(Form):
         super(ExpedientesFilterForm, self).__init__(*args, **kwargs)
         self.fields[
             'asig_organizacion_clave'].choices = EmpleadoBusiness.get_Organizaciones()
+        self.fields[
+            'pers_empleado_numero'].choices = EmpleadoBusiness.get_Empleados()
+
+
+class SolicitudesFilterForm(Form):
+    STATUS = (
+        ('', '------------'),
+        ('cap', 'En captura'),
+        ('act', 'Actualizado'),
+        ('rech', 'Rechazado'),
+    )
+    asunto = ChoiceField(
+        label="Asunto",
+        widget=Select(attrs={'class': 'select2 nova-select2'}))
+
+    folio = CharField(
+        label="Folio",
+        widget=TextInput(attrs={'class': 'form-control input-xs'}))
+
+    numero_empleado = ChoiceField(
+        label="Numero empleado",
+        widget=Select(attrs={'class': 'select2 nova-select2'}))
+
+    status = ChoiceField(
+        label="Estatus",
+        choices=STATUS,
+        widget=Select(attrs={'class': 'select2 nova-select2'}))
+
+    def __init__(self, *args, **kwargs):
+        super(SolicitudesFilterForm, self).__init__(*args, **kwargs)
+        self.fields['asunto'].choices = self.get_Asuntos()
+        self.fields[
+            'numero_empleado'].choices = EmpleadoBusiness.get_Empleados()
+
+    def get_Asuntos(self):
+        valores = [('', '------------')]
+
+        asuntos = Asunto.objects.all()
+        for asunto in asuntos:
+
+            valores.append(
+                (
+                    asunto.pk,
+                    asunto.nombre
+                )
+            )
+        return valores
+
+
+class SolicitudesEditarForm(Form):
+    STATUS = (
+        ('cap', 'En captura'),
+        ('act', 'Actualizado'),
+        ('rech', 'Rechazado'),
+    )
+
+    observaciones = CharField(
+        label="Observaciones:",
+        widget=Textarea(attrs={'class': 'form-control input-xs', 'rows': '4'}))
+
+    status_editar = ChoiceField(
+        label="Estatus",
+        choices=STATUS,
+        widget=Select(attrs={'class': 'select2 nova-select2'}))
+
+    def __init__(self, *args, **kwargs):
+        super(SolicitudesEditarForm, self).__init__(*args, **kwargs)
+        self.fields['observaciones'].required = False
 
 
 class GradoAcademicoFilterForm(Form):
@@ -417,10 +462,10 @@ class GradoAcademicoFilterForm(Form):
         ('MAESTRIA', 'MAESTRIA'),
         ('DOCTORADO', 'DOCTORADO'),
     )
-    pers_empleado_numero = CharField(
+    pers_empleado_numero = ChoiceField(
         label="Numero de empleado",
-        widget=TextInput(
-            attrs={'class': 'form-control input-xs'}
+        widget=Select(
+            attrs={'class': 'select2 nova-select2'}
         )
     )
     qua_grado_academico = ChoiceField(
@@ -448,7 +493,10 @@ class GradoAcademicoFilterForm(Form):
         self.fields[
             'asig_organizacion_id'].choices = EmpleadoBusiness.get_Organizaciones()
         self.fields['asig_organizacion_id'].required = False
-        self.fields['qua_especialidad'].choices = EmpleadoBusiness.get_Especialidades()
+        self.fields[
+            'qua_especialidad'].choices = EmpleadoBusiness.get_Especialidades()
+        self.fields[
+            'pers_empleado_numero'].choices = EmpleadoBusiness.get_Empleados()
 
 
 class DocPersonalFilterForm(Form):
@@ -462,7 +510,11 @@ class DocPersonalFilterForm(Form):
         ('ope', 'Operaciones'),
         ('rec', 'Reconocimiento'),
     )
-
+    ESTATUS = (
+        ('', '------------'),
+        ('ven', 'VENCIDOS'),
+        ('por', 'POR VENCER'),
+    )
     agrupador = ChoiceField(
         label="Agrupador",
         choices=AGRUPADOR_CHOICES,
@@ -470,10 +522,10 @@ class DocPersonalFilterForm(Form):
             attrs={'class': 'select2 nova-select2'}
         )
     )
-    numero_empleado = CharField(
+    numero_empleado = ChoiceField(
         label="Numero de empleado",
-        widget=TextInput(
-            attrs={'class': 'form-control input-xs'}
+        widget=Select(
+            attrs={'class': 'select2 nova-select2'}
         )
     )
     asig_organizacion_clave = ChoiceField(
@@ -489,8 +541,11 @@ class DocPersonalFilterForm(Form):
             attrs={'class': 'select2 nova-select2'}
         )
     )
-    vigencia = CharField(
-        label="Vigencia inicio"
+    estatus = ChoiceField(
+        label="Vencimiento",
+        choices=ESTATUS,
+        widget=Select(attrs={'class': 'select2 nova-select2'}
+                      )
     )
 
     def __init__(self, *args, **kwargs):
@@ -501,6 +556,8 @@ class DocPersonalFilterForm(Form):
         self.fields[
             'tipo_documento'].choices = EmpleadoBusiness.get_TipoDocumento()
         self.fields['tipo_documento'].required = False
+        self.fields[
+            'numero_empleado'].choices = EmpleadoBusiness.get_Empleados()
 
 
 class DocCapacitacionFilterForm(Form):
@@ -539,10 +596,10 @@ class DocCapacitacionFilterForm(Form):
             attrs={'class': 'select2 nova-select2'}
         )
     )
-    numero_empleado = CharField(
+    numero_empleado = ChoiceField(
         label="Numero de empleado",
-        widget=TextInput(
-            attrs={'class': 'form-control input-xs'}
+        widget=Select(
+            attrs={'class': 'select2 nova-select2'}
         )
     )
     asig_organizacion_clave = ChoiceField(
@@ -577,6 +634,8 @@ class DocCapacitacionFilterForm(Form):
         self.fields['curso'].choices = EmpleadoBusiness.get_Curso()
         self.fields['curso'].required = False
         self.fields['proveedor'].choices = EmpleadoBusiness.get_Proveedores()
+        self.fields[
+            'numero_empleado'].choices = EmpleadoBusiness.get_Empleados()
 
 
 class NuevoDocumentoPersonalForm(Form):
@@ -719,28 +778,10 @@ class NuevoDocumentoCapacitacionForm(Form):
         self.fields['proveedor'].choices = EmpleadoBusiness.get_Proveedores()
         self.fields['curso'].choices = EmpleadoBusiness.get_Curso()
 
-        self.fields['departamento'].choices = self.get_Organizaciones()
-
-    def get_Organizaciones(self):
-        valores = []
-
-        organizaciones = VIEW_ORGANIZACIONES.objects.using('ebs_d').all()
-        for organizacion in organizaciones:
-            valores.append(
-                (
-                    organizacion.desc_org,
-                    organizacion.desc_org
-                )
-            )
-        return valores
-
-
 class PerfilAgregarPuestoCargoForm(Form):
 
- 
     desc_puesto2 = ChoiceField(label='Puesto', widget=Select(
         attrs={'class': 'select2 nova-select2'}))
-
 
     def __init__(self, *args, **kwargs):
         super(PerfilAgregarPuestoCargoForm, self).__init__(
@@ -769,17 +810,16 @@ class PerfilAgregarPuestoCargoForm(Form):
 class PerfilPuestoListaForm(Form):
 
     TIPO_ESTUDIOS = (
-            ('ind', 'Indistinto'),
-            ('sol', 'Soltero'),
-            ('cas', 'Casado'),
-            ('uni', 'Union Libre'),
-            ('viu', 'Viudo'),
-            ('div', 'Divorciado'),
-        )
+        ('ind', 'Indistinto'),
+        ('sol', 'Soltero'),
+        ('cas', 'Casado'),
+        ('uni', 'Union Libre'),
+        ('viu', 'Viudo'),
+        ('div', 'Divorciado'),
+    )
 
     asig_puesto_clave = ChoiceField(widget=Select(
         attrs={'class': 'select2 nova-select2'}))
-
 
     class Meta:
         model = PerfilPuestoDocumento
@@ -792,7 +832,6 @@ class PerfilPuestoListaForm(Form):
             'departamento',
         ]
 
-
         labels = {
             'asig_puesto_clave': 'Puesto:',
             'nivel_estudio': 'Nivel Estudio :',
@@ -801,10 +840,9 @@ class PerfilPuestoListaForm(Form):
             'departamento': 'Departamento:',
         }
 
-        
     asig_puesto_clave = ChoiceField(label='Puesto', widget=Select(
         attrs={'class': 'select2 nova-select2'}))
-    
+
     reporta = ChoiceField(label='Reporta', widget=Select(
         attrs={'class': 'select2 nova-select2'}))
 
@@ -821,7 +859,7 @@ class PerfilPuestoListaForm(Form):
             *args, **kwargs)
         self.fields['reporta'].choices = self.get_Puestos()
         self.fields['asig_puesto_clave'].choices = self.get_Puestos()
-        
+
     def get_Puestos(self):
 
         valores = [('', '-------')]
@@ -837,4 +875,3 @@ class PerfilPuestoListaForm(Form):
                 )
             )
         return valores
-

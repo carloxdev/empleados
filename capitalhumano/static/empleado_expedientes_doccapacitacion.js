@@ -55,6 +55,7 @@ function TarjetaFiltros(){
 }
 TarjetaFiltros.prototype.init_Components = function () {
 
+    this.$numero_empleado.select2(appnova.get_ConfigSelect2())
     this.$asig_organizacion_clave.select2(appnova.get_ConfigSelect2())
     this.$curso.select2(appnova.get_ConfigSelect2())
     this.$area.select2(appnova.get_ConfigSelect2())
@@ -160,7 +161,7 @@ TarjetaFiltros.prototype.click_BotonLimpiar = function (e) {
         
         e.preventDefault()
         e.data.$asig_organizacion_clave.data('select2').val(0)
-        e.data.$numero_empleado.val("")
+        e.data.$numero_empleado.data('select2').val(0)
         e.data.$curso.data('select2').val(0)  
         e.data.$agrupador.data('select2').val(0)
         e.data.$area.data('select2').val(0)

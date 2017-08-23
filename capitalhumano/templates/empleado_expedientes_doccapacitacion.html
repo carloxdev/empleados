@@ -11,7 +11,7 @@
         </ul>
         <div class="actions">
             <a class="btn btn-xs btn-prev btn-default nova-a-tab" id="general" href="{% url 'capitalhumano:empleado_expedientes_general' %}"> Empleados</a>
-            <a class="btn btn-xs btn-prev btn-default nova-a-tab " id="general" href="{% url 'capitalhumano:empleado_expedientes_grado' %}"> Grados academicos</a>
+            <a class="btn btn-xs btn-prev btn-default nova-a-tab" id="general" href="{% url 'capitalhumano:empleado_expedientes_grado' %}"> Grados academicos</a>
             <a class="btn btn-xs btn-next btn-default nova-a-tab nova-a-tab-border" id="personales"href="{% url 'capitalhumano:empleado_expedientes_docpersonal' %}">Documentos personales</a>
             <a class="btn btn-xs btn-next btn-default nova-a-tab nova-a-tab-border nova-active-tab" id="capacitaciones"href="{% url 'capitalhumano:empleado_expedientes_doccapacitacion' %}">Capacitacion</a>
         </div>
@@ -56,7 +56,7 @@
                 </div>
                  <!-- Proveedor -->
                 <div class="form-group">
-                    <label class="col-sm-3 nova-col-filter control-label">{{ form.proveedor.label }}</label>
+                    <label class="col-sm-3 nova-col-filter control-label">{{ form.proveedor.label }}<br><small>(JDE)</small></label>
                     <div class="col-sm-8 xs-pt-5">
                         {{ form.proveedor }}
                     </div>
@@ -77,14 +77,14 @@
                 </div>
                 <!-- Area -->
                 <div class="form-group">
-                    <label class="col-sm-3 nova-col-filter control-label">{{ form.area.label }}</label>
+                    <label class="col-sm-3 nova-col-filter control-label">{{ form.area.label }}<br><small>(EBS)</small></label>
                     <div class="col-sm-8 xs-pt-5">
                         {{ form.area }}
                     </div>
                 </div>                
                 <!-- Organizacion -->
                 <div class="form-group">
-                        <label class="col-sm-3 nova-col-filter control-label">{{ form.asig_organizacion_clave.label }}</label>
+                        <label class="col-sm-3 nova-col-filter control-label">{{ form.asig_organizacion_clave.label }}<br><small>(EBS)</small></label>
                         <div class="col-sm-8 xs-pt-5">
                                 {{ form.asig_organizacion_clave }}
                         </div>

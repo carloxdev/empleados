@@ -1,6 +1,10 @@
 from django.contrib import admin
+from django.contrib.contenttypes.admin import GenericTabularInline
 
 # Register your models here.
+from capitalhumano.models import Archivo
+from .models import Asunto
+from .models import Solicitud
 from .models import Zona
 from .models import Empresa
 from .models import Contrato
@@ -67,3 +71,22 @@ class ContratoAdmin(admin.ModelAdmin):
         'updated_by',
         'updated_date',
     )
+
+@admin.register(Asunto)
+class AsuntoAdmin(admin.ModelAdmin):
+    list_display = (
+        'pk',
+        'nombre',
+    )
+
+class ArchivoInline(GenericTabularInline):
+    model = Archivo
+    ct_field_name = 'content_type'
+    id_field_name = 'object_id'
+
+
+class SolicitudOptions(admin.ModelAdmin):
+    model = Solicitud
+    inlines = (ArchivoInline,)
+
+admin.site.register(Solicitud, SolicitudOptions)

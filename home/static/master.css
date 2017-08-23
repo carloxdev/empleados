@@ -146,7 +146,12 @@
    border-top: 1px solid #d4d4d4;;
    padding: 15px 0 15px 15px !important;
 }
-
+.nova-modal-informacion {
+   font-size: 14px;
+}
+.nova-modal-espaciado{
+   padding: 0 0 !important;
+}
 .nova-modal-header {
    padding: 15px 20px !important;
 }
@@ -645,6 +650,9 @@ div.nova-panel-arbol li.list-group-item {
 .nova-modal-contenido{
   font-size: 14px;
   margin-left: 0 30px 0 30px;
+}
+.nova-margin{
+   margin-bottom: 0 !important;
 }
 /* modal descripcion */
 

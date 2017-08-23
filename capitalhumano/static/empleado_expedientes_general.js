@@ -39,10 +39,6 @@ $(document).ready(function(){
 
 function TarjetaFiltros(){
 
-    this.$pers_primer_nombre = $('#id_pers_primer_nombre')
-    this.$pers_segundo_nombre = $('#id_pers_segundo_nombre')
-    this.$pers_apellido_paterno = $('#id_pers_apellido_paterno')
-    this.$pers_apellido_materno = $('#id_pers_apellido_materno')
     this.$grup_fase_jde= $('#id_grup_fase_jde')
     this.$asig_organizacion_clave= $('#id_asig_organizacion_clave')
     this.$pers_empleado_numero= $('#id_pers_empleado_numero')
@@ -56,6 +52,7 @@ function TarjetaFiltros(){
 }
 TarjetaFiltros.prototype.init_Components = function () {
 
+    this.$pers_empleado_numero.select2(appnova.get_ConfigSelect2())
     this.$asig_organizacion_clave.select2(appnova.get_ConfigSelect2())
     this.$pers_tipo_codigo.select2(appnova.get_ConfigSelect2())
 }
@@ -77,10 +74,6 @@ TarjetaFiltros.prototype.get_Values = function (_page) {
     
         return {
                 page: _page,
-                pers_primer_nombre: this.$pers_primer_nombre.val(),
-                pers_segundo_nombre: this.$pers_segundo_nombre.val(),
-                pers_apellido_paterno: this.$pers_apellido_paterno.val(),
-                pers_apellido_materno: this.$pers_apellido_materno.val(),
                 grup_fase_jde: this.$grup_fase_jde.val(),
                 asig_organizacion_clave: this.$asig_organizacion_clave.val(),
                 pers_tipo_codigo: this.$pers_tipo_codigo.val(),
@@ -90,10 +83,6 @@ TarjetaFiltros.prototype.get_Values = function (_page) {
 TarjetaFiltros.prototype.get_Values_Excel = function () {
     
         return {
-                pers_primer_nombre: this.$pers_primer_nombre.val(),
-                pers_segundo_nombre: this.$pers_segundo_nombre.val(),
-                pers_apellido_paterno: this.$pers_apellido_paterno.val(),
-                pers_apellido_materno: this.$pers_apellido_materno.val(),
                 grup_fase_jde: this.$grup_fase_jde.val(),
                 asig_organizacion_clave: this.$asig_organizacion_clave.val(),
                 pers_tipo_codigo: this.$pers_tipo_codigo.val(),
@@ -103,11 +92,7 @@ TarjetaFiltros.prototype.get_Values_Excel = function () {
 TarjetaFiltros.prototype.validar_Campos = function (){
 
         bandera = 'False'
-        if ((this.$pers_primer_nombre.val() == '') &&
-                (this.$pers_segundo_nombre.val() == '') &&
-                (this.$pers_apellido_paterno.val() == '') &&
-                (this.$pers_apellido_materno.val() == '') &&
-                (this.$grup_fase_jde.val() == '') &&
+        if (    (this.$grup_fase_jde.val() == '') &&
                 (this.$pers_empleado_numero.val() == '') &&
                 (this.$asig_organizacion_clave.data('select2').val() == 0) &&
                 (this.$pers_tipo_codigo.data('select2').val() == 0) 
@@ -119,12 +104,8 @@ TarjetaFiltros.prototype.validar_Campos = function (){
 TarjetaFiltros.prototype.click_BotonLimpiar = function (e) {
         
         e.preventDefault()
-        e.data.$pers_primer_nombre.val("")
-        e.data.$pers_segundo_nombre.val("")
-        e.data.$pers_apellido_paterno.val("")
-        e.data.$pers_apellido_materno.val("")
         e.data.$grup_fase_jde.val("")
-        e.data.$pers_empleado_numero.val("")
+        e.data.$pers_empleado_numero.data('select2').val(0)
         e.data.$asig_organizacion_clave.data('select2').val(0)  
         e.data.$pers_tipo_codigo.data('select2').val(0)
 }

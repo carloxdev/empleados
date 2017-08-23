@@ -115,6 +115,7 @@ PopupPersonal.prototype.click_BotonCancelar = function (e){
         e.data.$vigencia_inicio.val("")
         e.data.$vigencia_fin.val("")
         e.data.$archivo.val("")
+        tarjeta_resultados.popup.clear_Estilos()
 }
 PopupPersonal.prototype.click_BotonGuardar = function (e) {
         id_personal = ''
@@ -143,15 +144,10 @@ PopupPersonal.prototype.click_BotonGuardar = function (e) {
                         promesa.then(function(){
                                 tarjeta_resultados.popup.guardar_Archivo(id_personal)
                         })
-                }else if(extension=="")
-                {   alertify.error("Debe adjuntar un archivo")
                 }
                 else{
-                        alertify.error("Solo se permiten archivos pdf")
+                    e.data.$formulario_per.append('<div class="alert alert-danger nova-margin" id="id_error"><span class="icon mdi mdi-close-circle-o"></span><strong>Solo se permiten archivos pdf</strong></div>')
                 }
-        }
-        else{
-                alertify.error("Asegurese de llenar los campos correspondientes")
         }
 }
 PopupPersonal.prototype.guardar_Archivo = function (_id_personal){
@@ -202,7 +198,6 @@ PopupPersonal.prototype.guardar_Archivo = function (_id_personal){
                  }
             })
 }
-
 PopupPersonal.prototype.hidden_Modal = function () {
 
      this.$modal_per.modal('hide')
@@ -219,14 +214,47 @@ PopupPersonal.prototype.limpiar_Formulario = function () {
         this.$vigencia_inicio.val("")
         this.$vigencia_fin.val("")
         this.$archivo.val("")
+        tarjeta_resultados.popup.clear_Estilos()
 }
 PopupPersonal.prototype.validar_Campos = function () {
     bandera = 'False'
-    if ((this.$tipo_documento.data('select2').val() == "") ||
-        (this.$agrupador.data('select2').val() == "") ){
+
+    $('#id_error').detach()
+    if(this.$tipo_documento.data('select2').val() == ""){
+        this.$tipo_documento.data('select2').$selection.addClass("nova-has-error");
         bandera = 'True'
     }
+    else{
+        this.$tipo_documento.data('select2').$selection.removeClass("nova-has-error");
+    }
+    if(this.$agrupador.data('select2').val() == ""){
+        this.$agrupador.data('select2').$selection.addClass("nova-has-error");
+        bandera = 'True'
+    }
+    else{
+        this.$agrupador.data('select2').$selection.removeClass("nova-has-error");
+    }
+    if(this.$archivo.val() == ""){
+        this.$archivo.addClass("nova-has-error");
+        bandera = 'True'
+    }
+    else{
+        this.$archivo.removeClass("nova-has-error");
+    }
+    if (bandera == 'True' ){
+        this.$formulario_per.append('<div class="alert alert-danger nova-margin" id="id_error"><span class="icon mdi mdi-close-circle-o"></span><strong>Completa los campos correspondientes</strong></div>')
+    }
+    else{
+        $('#id_error').detach()
+    }
     return bandera
+}
+PopupPersonal.prototype.clear_Estilos = function () {
+
+   this.$tipo_documento.data('select2').$selection.removeClass("nova-has-error");
+   this.$agrupador.data('select2').$selection.removeClass("nova-has-error");
+   this.$archivo.removeClass("nova-has-error");
+   $('#id_error').detach()
 }
 PopupPersonal.prototype.validar_Archivo = function (_archivo) {
         extension = (_archivo.substring(_archivo.lastIndexOf("."))).toLowerCase();
@@ -308,7 +336,8 @@ PopupCapacitacion.prototype.click_BotonCancelar = function(e){
     e.data.$departamento.data('select2').val(0)
     e.data.$fecha_inicio.val("")
     e.data.$fecha_fin.val("")
-    e.data.$archivo_cap.val("")     
+    e.data.$archivo_cap.val("")
+    tarjeta_resultados.popup_cap.validar_Campos()     
 }
 PopupCapacitacion.prototype.click_BotonGuardar = function (e) {
     id_capacitacion = ''
@@ -337,7 +366,6 @@ PopupCapacitacion.prototype.click_BotonGuardar = function (e) {
                                     'created_by' : url_profile+e.data.$created_by.val()+"/",
                              },
                              success: function (_response) {
-                                    // alert(e.data.$proveedor.val())
                                     id_capacitacion = _response.pk
                              },
                              error: function (_response) {
@@ -347,15 +375,10 @@ PopupCapacitacion.prototype.click_BotonGuardar = function (e) {
                     promesa.then(function(){
                             tarjeta_resultados.popup_cap.guardar_Archivo(id_capacitacion)
                     })
-            }else if(extension=="")
-            {   alertify.error("Debe adjuntar un archivo")
             }
             else{
-                    alertify.error("Solo se permiten archivos pdf")
+                e.data.$formulario_cap.append('<div class="alert alert-danger nova-margin" id="id_error"><span class="icon mdi mdi-close-circle-o"></span><strong>Solo se permiten archivos pdf</strong></div>')
             }
-    }
-    else {
-            alertify.error("Asegurese de llenar los campos correspondientes")
     }
 }
 PopupCapacitacion.prototype.guardar_Archivo = function (_id_capacitacion){
@@ -431,24 +454,115 @@ PopupCapacitacion.prototype.limpiar_Formulario = function () {
     this.$fecha_inicio.val("")
     this.$fecha_fin.val("")
     this.$archivo_cap.val("")
+    tarjeta_resultados.popup_cap.validar_Campos()
 }
 PopupCapacitacion.prototype.validar_Campos = function () {
     bandera = 'False'
-    if ((this.$proveedor.data('select2').val() == "") ||
-            (this.$agrupadorcap.data('select2').val() == "") ||
-            (this.$area.data('select2').val() == "") ||
-            (this.$curso.data('select2').val() == "") ||
-            (this.$modalidad.data('select2').val() == "") ||
-            (this.$moneda.data('select2').val() == "") ||
-            (this.$departamento.data('select2').val() == "") ||
-            (this.$lugar.val() == "") ||
-            (this.$costo.val() == "") ||
-            (this.$duracion.val() == "") ||
-            (this.$observaciones.val() == "") ||
-            (this.$fecha_inicio.val() == "") ||
-            (this.$fecha_fin.val() == "") ||
-            (this.$archivo_cap.val() == "") ){
-            bandera = 'True'
+
+    $('#id_error').detach()
+    if(this.$proveedor.data('select2').val() == ""){
+        this.$proveedor.data('select2').$selection.addClass("nova-has-error");
+        bandera = 'True'
+    }
+    else{
+        this.$proveedor.data('select2').$selection.removeClass("nova-has-error");
+    }
+    if(this.$agrupadorcap.data('select2').val() == ""){
+        this.$agrupadorcap.data('select2').$selection.addClass("nova-has-error");
+        bandera = 'True'
+    }
+    else{
+        this.$agrupadorcap.data('select2').$selection.removeClass("nova-has-error");
+    }
+    if(this.$area.data('select2').val() == ""){
+        this.$area.data('select2').$selection.addClass("nova-has-error");
+        bandera = 'True'
+    }
+    else{
+        this.$area.data('select2').$selection.removeClass("nova-has-error");
+    }
+    if(this.$curso.data('select2').val() == ""){
+        this.$curso.data('select2').$selection.addClass("nova-has-error");
+        bandera = 'True'
+    }
+    else{
+        this.$curso.data('select2').$selection.removeClass("nova-has-error");
+    }
+    if(this.$modalidad.data('select2').val() == ""){
+        this.$modalidad.data('select2').$selection.addClass("nova-has-error");
+        bandera = 'True'
+    }
+    else{
+        this.$modalidad.data('select2').$selection.removeClass("nova-has-error");
+    }
+    if(this.$moneda.data('select2').val() == ""){
+        this.$moneda.data('select2').$selection.addClass("nova-has-error");
+        bandera = 'True'
+    }
+    else{
+        this.$moneda.data('select2').$selection.removeClass("nova-has-error");
+    }
+    if(this.$departamento.data('select2').val() == ""){
+        this.$departamento.data('select2').$selection.addClass("nova-has-error");
+        bandera = 'True'
+    }
+    else{
+        this.$departamento.data('select2').$selection.removeClass("nova-has-error");
+    }
+    if(this.$lugar.val() == ""){
+        this.$lugar.addClass("nova-has-error");
+        bandera = 'True'
+    }
+    else{
+        this.$lugar.removeClass("nova-has-error");
+    }
+    if(this.$costo.val() == ""){
+        this.$costo.addClass("nova-has-error");
+        bandera = 'True'
+    }
+    else{
+        this.$costo.removeClass("nova-has-error");
+    }
+    if(this.$duracion.val() == ""){
+        this.$duracion.addClass("nova-has-error");
+        bandera = 'True'
+    }
+    else{
+        this.$duracion.removeClass("nova-has-error");
+    }
+    if(this.$observaciones.val() == ""){
+        this.$observaciones.addClass("nova-has-error");
+        bandera = 'True'
+    }
+    else{
+        this.$observaciones.removeClass("nova-has-error");
+    }
+    if(this.$fecha_inicio.val() == ""){
+        this.$fecha_inicio.addClass("nova-has-error");
+        bandera = 'True'
+    }
+    else{
+        this.$fecha_inicio.removeClass("nova-has-error");
+    }
+    if(this.$fecha_fin.val() == ""){
+        this.$fecha_fin.addClass("nova-has-error");
+        bandera = 'True'
+    }
+    else{
+        this.$fecha_fin.removeClass("nova-has-error");
+    }
+    if(this.$archivo_cap.val() == ""){
+        this.$archivo_cap.addClass("nova-has-error");
+        bandera = 'True'
+    }
+    else{
+        this.$archivo_cap.removeClass("nova-has-error");
+    }
+    if (bandera == 'True' ){
+        this.$formulario_cap.append('<div class="alert alert-danger nova-margin" id="id_error"><span class="icon mdi mdi-close-circle-o"></span><strong>Completa los campos correspondientes</strong></div>')
+    }
+    else{
+        $('#id_error').detach()
     }
     return bandera
 }
@@ -581,7 +695,7 @@ GridPersonal.prototype.get_Configuracion = function () {
             noRecords: {
                     template: "<div class='nova-grid-empy'> No se encontraron registros </div>"
             },
-            dataBound: this.set_Icons,
+            dataBound: this.aplicar_Estilos,
     }
 }
 GridPersonal.prototype.get_Columnas = function () {
@@ -590,7 +704,7 @@ GridPersonal.prototype.get_Columnas = function () {
             { field: "pk", 
                 title: " ", 
                 width:"50px" ,
-                template: '<a class="btn nova-btn btn-default nova-btn-delete" id="per_#=pk#" > <i class="icon icon-left icon mdi mdi-delete nova-white"></i></a>',
+                template: '<a class="btn nova-btn btn-default nova-btn-delete" id="#=pk#" data-event="eliminar-personal"> <i class="icon icon-left icon mdi mdi-delete nova-white"></i></a>',
             },
             { field: "tipo_documento", 
                 title: "Archivo", 
@@ -609,30 +723,60 @@ GridPersonal.prototype.buscar = function() {
 
     this.kfuente_datos.page(1)
 }
-GridPersonal.prototype.eliminar_Registro = function () {
+GridPersonal.prototype.aplicar_Estilos = function (e) {
 
-    id = $(this).attr('id')
-    if(id != 'documento'){
-            identificador = id.split("_")[0]
-            id_archivo = id.split("_")[1]
+    e.sender.tbody.find("[data-event='eliminar-personal']").each(function(idx, element){
+        
+      $(this).on("click", function(){
 
-            if(identificador == "per"){
-                    // tarjeta_resultados.grid_personal.consultar_Registro(id_archivo)
+         tarjeta_resultados.grid_personal.consultar_Registro(this.id)
+      })
+    })
+
+    columns = e.sender.columns
+    dataItems = e.sender.dataSource.view()
+    fecha_hoy = new Date()
+    fecha_por_vencer = tarjeta_resultados.grid_personal.sumar_Dias(new Date(), 90)
+
+    for (var j = 0; j < dataItems.length; j++) {
+        fecha_vencimiento = dataItems[j].get("vigencia_fin")
+        fecha = tarjeta_resultados.grid_personal.convertir_Fecha(fecha_vencimiento)
+        row = e.sender.tbody.find("[data-uid='" + dataItems[j].uid + "']")
+        row.removeClass("k-alt");
+        if(fecha != null){
+            vencimiento = fecha.getTime()
+            if (vencimiento <= fecha_hoy.getTime()) {
+                row.addClass("nova-fecha-vencida")
             }
-            else if(identificador == "cap"){
-                    // grid_capacitacion.consultar_Registro(id_archivo)
+            else if ((vencimiento > fecha_hoy.getTime()) && (vencimiento <= fecha_por_vencer)){
+                row.addClass("nova-fecha-por-vencer")
             }
+        }
     }
+}
+GridPersonal.prototype.sumar_Dias = function (fecha, dias){
+
+  fecha.setDate(fecha.getDate() + dias);
+  return fecha;
+}
+GridPersonal.prototype.convertir_Fecha = function (_fecha){
+    año = _fecha.split("/")[2]
+    mes = _fecha.split("/")[1]
+    dia = _fecha.split("/")[0]
+    fecha_formateada = año+"-"+mes+"-"+dia
+    fecha = new Date(fecha_formateada)
+    return fecha
 }
 GridPersonal.prototype.consultar_Registro = function (_id_archivo) {
 
+
     if (_id_archivo != 'documento'){
             $.ajax({
-                     url: url_archivo +"?pk="+_id_archivo,
+                     url: url_archivo +_id_archivo+"/",
                      method: "GET",
                      headers: { "X-CSRFToken": appnova.galletita },
                      success: function (_response) {
-                            url = _response[0].content_object
+                            url = _response.content_object
                             id_personal = url.split("/")[5]
                             tarjeta_resultados.grid_personal.eliminar_Archivo(_id_archivo,id_personal)
                      },
@@ -643,33 +787,40 @@ GridPersonal.prototype.consultar_Registro = function (_id_archivo) {
     }
 }
 GridPersonal.prototype.eliminar_Archivo = function (_id_archivo, _id_personal) {
-    var promesa = $.ajax({
-                             url: url_archivo +_id_archivo+"/",
-                             method: "DELETE",
-                             headers: { "X-CSRFToken": appnova.galletita },
-                             success: function (_response) {
+    alertify.confirm(
+      'Eliminar Registro',
+      '¿Desea Eliminar este registro?.',
+      function () {
+            var promesa = $.ajax({
+                                     url: url_archivo +_id_archivo+"/",
+                                     method: "DELETE",
+                                     headers: { "X-CSRFToken": appnova.galletita },
+                                     success: function (_response) {
 
-                             },
-                             error: function (_response) {
-                                    alertify.error("No se ha podido eliminar el registro")
-                             }
-                        })
-    promesa.then(function(){
-            $.ajax({
-             url: url_documento_personal +_id_personal+"/",
-             method: "DELETE",
-             headers: { "X-CSRFToken": appnova.galletita },
-             success: function (_response) {
-                    alertify.success('Se elimino documento personal')
-                    $("#grid_resultados").empty()
-                    tarjeta_resultados.grid_personal.init()
+                                     },
+                                     error: function (_response) {
+                                            alertify.error("No se ha podido eliminar el registro")
+                                     }
+                                })
+            promesa.then(function(){
+                    $.ajax({
+                     url: url_documento_personal +_id_personal+"/",
+                     method: "DELETE",
+                     headers: { "X-CSRFToken": appnova.galletita },
+                     success: function (_response) {
+                            alertify.success('Se elimino documento personal')
+                            $("#grid_resultados").empty()
+                            tarjeta_resultados.grid_personal.init()
 
-             },
-             error: function (_response) {
-                    alertify.error("No se ha podido eliminar el registro")
-             }
-        })
-    })
+                     },
+                     error: function (_response) {
+                            alertify.error("No se ha podido eliminar el registro")
+                     }
+                })
+            })
+          }, 
+      null
+   ) 
 }
 
 /*-----------------------------------------------*\
@@ -768,7 +919,7 @@ GridCapacitacion.prototype.get_Columnas = function () {
             { field: "pk", 
                 title: " ", 
                 width:"70px" ,
-                template: '<a class="btn nova-btn btn-default nova-btn-delete" id="cap_#=pk#"> <i class="icon icon-left icon mdi mdi-delete nova-white"></i></a>',
+                template: '<a class="btn nova-btn btn-default nova-btn-delete" id="#=pk#" data-event="eliminar-capacitacion"> <i class="icon icon-left icon mdi mdi-delete nova-white"></i></a>',
             },
             { field: "curso", 
                 title: "Curso", 
@@ -793,6 +944,14 @@ GridCapacitacion.prototype.get_Columnas = function () {
 }
 GridCapacitacion.prototype.aplicar_Estilos = function (e) {
 
+    e.sender.tbody.find("[data-event='eliminar-capacitacion']").each(function(idx, element){
+        
+      $(this).on("click", function(){
+
+         grid_capacitacion.consultar_Registro(this.id)
+      })
+    })
+
     columns = e.sender.columns
     dataItems = e.sender.dataSource.view()
     fecha_hoy = new Date()
@@ -814,49 +973,56 @@ GridCapacitacion.prototype.buscar = function() {
     this.kfuente_datos.page(1)
 }
 GridCapacitacion.prototype.consultar_Registro = function (_id_archivo) {
-    if (_id_archivo != 'documento'){
-            $.ajax({
-                     url: url_archivo +"?pk="+_id_archivo,
-                     method: "GET",
-                     headers: { "X-CSRFToken": appnova.galletita },
-                     success: function (_response) {
-                            url = _response[0].content_object
-                            id_capacitacion = url.split("/")[5]
-                            grid_capacitacion.eliminar_Archivo(_id_archivo,id_capacitacion)
-                     },
-                     error: function (_response) {
-                            alertify.error("No se ha podido realizar la consulta")
-                     }
-                })
-    }
+
+    $.ajax({
+        url: url_archivo +_id_archivo+"/",
+        method: "GET",
+        headers: { "X-CSRFToken": appnova.galletita },
+        success: function (_response) {
+                url = _response.content_object
+                id_capacitacion = url.split("/")[5]
+                grid_capacitacion.eliminar_Archivo(_id_archivo,id_capacitacion)
+        },
+        error: function (_response) {
+                alertify.error("No se ha podido realizar la consulta")
+        }
+    })
 }
 GridCapacitacion.prototype.eliminar_Archivo = function (_id_archivo, _id_capacitacion) {
-    var promesa = $.ajax({
-                                     url: url_archivo +_id_archivo+"/",
-                                     method: "DELETE",
-                                     headers: { "X-CSRFToken": appnova.galletita },
-                                     success: function (_response) {
 
-                                     },
-                                     error: function (_response) {
-                                            alertify.error("No se ha podido eliminar el registro")
-                                     }
-                                })
-    promesa.then(function(){
-            $.ajax({
-             url: url_documento_capacitacion +_id_capacitacion+"/",
-             method: "DELETE",
-             headers: { "X-CSRFToken": appnova.galletita },
-             success: function (_response) {
-                    alertify.success('Se elimino capacitacion')
-                    $("#grid_resultados").empty()
-                    grid_capacitacion.init()
+    alertify.confirm(
+      'Eliminar Registro',
+      '¿Desea Eliminar este registro?.',
+      function () {
+            var promesa = $.ajax({
+                                 url: url_archivo +_id_archivo+"/",
+                                 method: "DELETE",
+                                 headers: { "X-CSRFToken": appnova.galletita },
+                                 success: function (_response) {
 
-             },
-             error: function (_response) {
-                    alertify.error("No se ha podido eliminar el registro")
-             }
-        })
-    })
+                                 },
+                                 error: function (_response) {
+                                        alertify.error("No se ha podido eliminar el registro1")
+                                 }
+                            })
+            promesa.then(function(){
+                    $.ajax({
+                     url: url_documento_capacitacion +_id_capacitacion+"/",
+                     method: "DELETE",
+                     headers: { "X-CSRFToken": appnova.galletita },
+                     success: function (_response) {
+                            alertify.success('Se elimino capacitacion')
+                            $("#grid_resultados").empty()
+                            grid_capacitacion.init()
+
+                     },
+                     error: function (_response) {
+                            alertify.error("No se ha podido eliminar el registro2")
+                     }
+                })
+            })
+        }, 
+      null
+   ) 
 }
 

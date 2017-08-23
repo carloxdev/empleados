@@ -17,7 +17,9 @@ from .models import DocumentoCapacitacion
 from .models import Curso
 from ebs.models import VIEW_EMPLEADOS_FULL
 from jde.models import VIEW_PROVEEDORES
+from ebs.models import VIEW_ORGANIZACIONES
 from .models import PerfilPuestosCargo
+from administracion.models import Solicitud
 
 
 # GenerisForeignKey
@@ -37,7 +39,6 @@ class PerfilPuestosCargoSerializer(serializers.HyperlinkedModelSerializer):
             'updated_by',
             'updated_date',
         )
-
 
 class PerfilPuestoDocumentoSerializer(serializers.HyperlinkedModelSerializer):
 
@@ -67,9 +68,7 @@ class PerfilPuestoDocumentoSerializer(serializers.HyperlinkedModelSerializer):
             'puesto_acargo_id',
         )
 
-
 # ----------Serializers para insertar registros------------------
-
 
 class DocumentoPersonalSerializers(serializers.HyperlinkedModelSerializer):
     # tipo_documento = serializers.SerializerMethodField()
@@ -119,7 +118,6 @@ class DocumentoCapacitacionSerializers(serializers.HyperlinkedModelSerializer):
             'nombre_completo',
         )
 
-
 # /api-capitalhumano/documentopersonal/64/
 class ArchivoSerializers(serializers.HyperlinkedModelSerializer):
     content_object = GenericRelatedField({
@@ -130,7 +128,11 @@ class ArchivoSerializers(serializers.HyperlinkedModelSerializer):
         DocumentoCapacitacion: serializers.HyperlinkedRelatedField(
             queryset=DocumentoCapacitacion.objects.all(),
             view_name='documentocapacitacion-detail',
-        )
+        ),
+        Solicitud: serializers.HyperlinkedRelatedField(
+            queryset=Solicitud.objects.all(),
+            view_name='solicitud-detail',
+        ),
     })
 
     class Meta:
@@ -143,7 +145,6 @@ class ArchivoSerializers(serializers.HyperlinkedModelSerializer):
             'created_by',
         )
 # ---------- FIN Serializers para insertar registros------------------
-
 
 class ArchivoPersonalSerializer(serializers.HyperlinkedModelSerializer):
     numero_empleado = serializers.SerializerMethodField()
@@ -260,7 +261,6 @@ class ArchivoPersonalSerializer(serializers.HyperlinkedModelSerializer):
         except Exception as e:
             print str(e)
             return " "
-
 
 class ArchivoCapacitacionSerializer(serializers.HyperlinkedModelSerializer):
     numero_empleado = serializers.SerializerMethodField()
@@ -484,7 +484,6 @@ class ArchivoCapacitacionSerializer(serializers.HyperlinkedModelSerializer):
         except Exception as e:
             print str(e)
             return " "
-
 
 class VIEW_ORGANIGRAMA_ORG_SERIALIZADO(object):
 

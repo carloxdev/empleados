@@ -9,6 +9,7 @@ from ebs.urls_rest import router_ebs
 from jde.urls_rest import router_jde
 from seguridad.urls_rest import router_seguridad
 from capitalhumano.urls_rest import router_capitalhumano
+from administracion.urls_rest import router_administracion
 from seguridadlaboral.urls_rest import router_seguridadlaboral
 from calidad.urls_rest import router_calidad
 from finanzas.urls_rest import router_viaticos
@@ -24,6 +25,7 @@ urlpatterns = [
     url(r'^api-finanzas/', include(router_viaticos.urls)),
     url(r'^api-seguridad/', include(router_seguridad.urls)),
     url(r'^api-capitalhumano/', include(router_capitalhumano.urls)),
+    url(r'^api-administracion/', include(router_administracion.urls)),
     url(r'^api-seguridadlaboral/', include(router_seguridadlaboral.urls)),
     url(r'^api-calidad/', include(router_calidad.urls)),
 

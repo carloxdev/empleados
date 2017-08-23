@@ -1,0 +1,182 @@
+{% extends 'master.html' %}
+{% load static from staticfiles %}
+{% block titulo %} Capital humano {% endblock titulo %}
+{% block title-page %} Expedientes  {% endblock title-page %}
+{% block css %}
+    <!-- Kendo -->
+    <link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.rtl.min.css' %}"/>
+    <link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.common-bootstrap.min.css' %}"/>
+    <link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.bootstrap.min.css' %}"/>
+
+    <!-- Theme -->
+    <link rel="stylesheet" href="{% static 'theme/lib/datetimepicker/css/bootstrap-datetimepicker.min.css' %}"/>
+    <link rel="stylesheet" href="{% static 'theme/lib/daterangepicker/css/daterangepicker.css' %}"/>
+
+    <!-- Nova -->
+    <link rel="stylesheet" href="{% static 'grid.css' %}"/>
+
+{% endblock css %}
+{% block contenido %}
+
+<div class="be-content">
+    <div class="page-head">
+        <h2 class="page-head-title">Buzón interno</h2>
+        <br>
+        <ol class="breadcrumb page-head-nav pull-right">
+         <li> <a href="{% url 'home:inicio'%}">Inicio</a></li>
+         <li id="menu" data-opcion="capitalhumano_buzon">Buzón interno</li>
+        </ol>
+    </div>
+    <div class="main-content container-fluid">
+        <div class="fuelux">
+            <div class="panel panel-default panel-table">
+                    <div class="panel-heading nova-panel-borde-contenido nova-panel-tools">
+                                <button class="btn nova-btn btn-rounded btn-space btn-success pull-right" id="id_exportar">
+                                    <i class="icon icon-left mdi mdi-download nova-white"></i>Exportar
+                                </button>
+                                <a href="#modal_filtro" class="btn nova-btn btn-rounded btn-space btn-primary pull-right" data-toggle="modal" id="boton_filtros">
+                                        <i class="icon icon-left mdi mdi-search nova-white"></i>Filtros
+                                </a>
+                    </div>
+                    <div id="grid_resultados" class="nova-div-overflow">
+                    </div>
+            </div> <!-- Panel -->
+        </div> <!-- col sm 12-->
+    </div>
+
+<!-- Modal solicitudes-->
+<div id="modal_filtro" role="dialog" class="modal fade colored-header colored-header-primary">
+        <div class="modal-dialog custom-width">
+                <div class="modal-content">
+                        <div class="modal-header nova-modal-header">
+                            <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
+                            <h3 class="modal-title">Filtros</h3>
+                        </div>
+                        <div class="modal-body form-horizontal">
+                            <!-- Folio -->
+                            <div class="form-group">
+                                    <label class="col-sm-3 nova-col-filter control-label">{{ form.folio.label }}</label>
+                                    <div class="col-sm-8 xs-pt-5">
+                                            {{ form.folio }}
+                                    </div>
+                            </div> 
+                            <!-- Numero empleado -->
+                            <div class="form-group">
+                                    <label class="col-sm-3 nova-col-filter control-label">{{ form.numero_empleado.label }}<br><small>(EBS)</small></label>
+                                    <div class="col-sm-8 xs-pt-5">
+                                            {{ form.numero_empleado }}
+                                    </div>
+                            </div> 
+                            <!-- Status -->
+                            <div class="form-group">
+                                <label class="col-sm-3 nova-col-filter control-label">{{ form.status.label }}</label>
+                                <div class="col-sm-8 xs-pt-5">
+                                    {{ form.status }}
+                                </div>
+                            </div>
+                            <!-- Asunto -->
+                            <div class="form-group">
+                                <label class="col-sm-3 nova-col-filter control-label">{{ form.asunto.label }}</label>
+                                <div class="col-sm-8 xs-pt-5">
+                                    {{ form.asunto }}
+                                </div>
+                            </div>                
+                          
+                        </div>
+                                                
+                        <!-- Botones de acción -->
+                        <div class="modal-footer nova-modal-footer">
+                                <div class="row col-sm-12">
+                                        <button type="button" id="boton_limpiar" class="btn btn-default pull-left">
+                                                <i class="fa fa-eraser"></i>
+                                                Limpiar
+                                        </button>
+
+                                        <button type="submit" id="boton_buscar" class="btn nova-btn btn-primary btn-lg pull-right" method='POST'>
+                                                <i class="icon icon-left mdi mdi-search nova-white"></i>
+                                                Buscar
+                                        </button>
+                                </div>
+                        </div>
+                </div> <!-- Modal content-->
+        </div> <!-- Modal dialog -->
+</div><!-- Modal -->
+    <!-- Modal editar-->
+    <div id="modal_editar" role="dialog" class="modal fade colored-header colored-header-primary">
+            <div class="modal-dialog custom-width">
+                    <div class="modal-content">
+                            <div class="modal-header nova-modal-header">
+                                <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
+                                <h3 class="modal-title">Editar</h3>
+                            </div>
+                            <input type="hide" class="hide" value="{{ request.user.profile.id }}" id="id_updated_by">
+                            
+                            <div class="modal-body form-horizontal">
+                                <!-- Asunto -->
+                                <div class="form-group">
+                                    <label class="col-sm-3 nova-col-filter control-label">Asunto:</label>
+                                    <div class="col-sm-8 xs-pt-5 nova-modal-informacion">
+                                        <p id="id_asunto_informacion"></p>
+                                    </div>
+                                </div>
+                                <!-- Descripcion -->
+                                <div class="form-group">
+                                    <label class="col-sm-3 nova-col-filter control-label">Descripción:</label>
+                                    <div class="col-sm-8 xs-pt-5 nova-modal-informacion">
+                                        <p id="id_descripcion_informacion"></p>
+                                    </div>
+                                </div>
+                                <!-- Status -->
+                                <div class="form-group">
+                                    <label class="col-sm-3 nova-col-filter control-label">{{ form2.status_editar.label }}</label>
+                                    <div class="col-sm-8 xs-pt-5">
+                                        {{ form2.status_editar }}
+                                    </div>
+                                </div>
+                                <!-- Observaciones -->
+                                <div class="form-group">
+                                    <label class="col-sm-3 nova-col-filter control-label">{{ form2.observaciones.label }}</label>
+                                    <div class="col-sm-8 xs-pt-5">
+                                        {{ form2.observaciones }}
+                                    </div>
+                                </div>                
+                              
+                            </div>
+                                                    
+                            <!-- Botones de acción -->
+                            <div class="modal-footer nova-modal-footer">
+                                    <div class="row col-sm-12">
+                                            <button type="button" id="boton_cancelar" class="btn btn-default pull-left">
+                                                    <i class="fa fa-eraser"></i>
+                                                    Cancelar
+                                            </button>
+
+                                            <button type="submit" id="boton_editar" class="btn nova-btn btn-primary btn-lg pull-right" method='POST'>
+                                                    <i class="icon icon-left mdi mdi-search nova-white"></i>
+                                                    Guardar
+                                            </button>
+                                    </div>
+                            </div>
+                    </div> <!-- Modal content-->
+            </div> <!-- Modal dialog -->
+    </div><!-- Modal -->
+</div>  
+
+{% endblock contenido %}
+{% block scripts %}
+    <!--JSZIP -->
+    <script src="{% static 'libs/kendo/2015.2.624/js/jszip.min.js' %}"></script>
+    <!-- Kendo Js -->
+    <script src="{% static 'libs/kendo/2015.2.624/js/cultures/kendo.culture.es-MX.min.js' %}"></script>
+    <script src="{% static 'libs/kendo/2015.2.624/js/kendo.web.min.js' %}"></script>
+
+    <!-- Theme -->
+    <script src="{% static 'theme/lib/jquery-ui/jquery-ui.min.js' %}"></script>
+    <script src="{% static 'theme/lib/moment.js/min/moment.min.js' %}"></script>
+    <script src="{% static 'theme/lib/datetimepicker/js/bootstrap-datetimepicker.min.js' %}"></script>
+    <script src="{% static 'theme/lib/datetimepicker/js/locales/bootstrap-datetimepicker.es.js' %}"></script>
+    <script src="{% static 'theme/lib/daterangepicker/js/daterangepicker.js' %}"></script>
+
+    <!-- NOVA-->
+     <script src="{% static 'solicitud/empleado_solicitud.js' %}"></script>
+{% endblock scripts %}
