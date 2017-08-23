@@ -24,11 +24,11 @@ class ViaticoCabecera(models.Model):
     )
 
     empleado_clave = models.IntegerField(default=0)
-    empleado_descripcion = models.CharField(max_length=60, null=True)
+    empleado_descripcion = models.CharField(max_length=60, null=True, blank=True)
     fecha_partida = models.DateField()
     fecha_regreso = models.DateField()
     unidad_negocio_clave = models.CharField(max_length=80, blank=False, null=False)
-    unidad_negocio_descripcion = models.CharField(max_length=144, null=True)
+    unidad_negocio_descripcion = models.CharField(max_length=144, null=True, blank=True)
     ciudad_destino = models.CharField(max_length=150, blank=False, null=False)
     proposito_viaje = models.TextField(max_length=250, blank=False, null=False)
     empresa = models.ForeignKey(Empresa, blank=True, null=True)

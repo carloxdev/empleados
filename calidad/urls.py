@@ -5,8 +5,9 @@ from .views import CalidadDashboard
 
 # CALIDAD - AUDITORIAS
 from .views import AuditoriaLista
-from .views import GeneralFormulario
-from .views import AuditorFormulario
+from .views import GeneralFormularioCreate
+from .views import GeneralFormularioUpdate
+from .views import AuditorFormularioUpdate
 from .views import ProcesoLista
 from .views import RequisitoLista
 from .views import ProcesoFormulario
@@ -51,21 +52,26 @@ urlpatterns = [
     ),
     url(
         r'^auditorias/nuevo/$',
-        GeneralFormulario.as_view(),
-        name="general_formulario"
+        GeneralFormularioCreate.as_view(),
+        name="general_formulario_create"
     ),
     url(
-        r'^auditorias/nuevo/auditores/$',
-        AuditorFormulario.as_view(),
-        name="auditor_formulario"
+        r'^auditorias/(?P<pk>\d+)/editar$',
+        GeneralFormularioUpdate.as_view(),
+        name="general_formulario_update"
     ),
     url(
-        r'^auditorias/nuevo/procesos/$',
+        r'^auditorias/(?P<pk>\d+)/auditores/$',
+        AuditorFormularioUpdate.as_view(),
+        name="auditor_formulario_update"
+    ),
+    url(
+        r'^auditorias/(?P<pk>\d+)/procesos/$',
         ProcesoLista.as_view(),
         name="proceso_lista"
     ),
     url(
-        r'^auditorias/nuevo/procesos/#/editar/$',
+        r'^auditorias/nuevo/procesos/(?P<pk>\d+)/editar/$',
         ProcesoFormulario.as_view(),
         name="proceso_formulario"
     ),

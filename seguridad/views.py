@@ -71,7 +71,7 @@ class Login(View):
             else:
                 mensaje = "Cuenta desactivada"
         else:
-            mensaje = "Cuenta usuario o contraseña no valida"
+            mensaje = "Cuenta o contraseña no valida"
 
         contexto = {
             'mensaje': mensaje
@@ -101,36 +101,30 @@ class Registro(View):
 
             datos_formulario = form_usuario.cleaned_data
 
-            valor = datos_formulario.get('clave_rh')
-            clave = Profile.objects.filter(clave_rh=valor)
+            # valor = datos_formulario.get('clave_rh')
+            # clave = Profile.objects.filter(clave_rh=valor)
 
-            if not(valor and clave):
+            usuario = User.objects.create_user(
+                username=datos_formulario.get('username'),
+                password=datos_formulario.get('password1')
+            )
 
-                usuario = User.objects.create_user(
-                    username=datos_formulario.get('username'),
-                    password=datos_formulario.get('password1')
-                )
+            usuario.first_name = datos_formulario.get('first_name')
+            usuario.last_name = datos_formulario.get('last_name')
+            usuario.email = datos_formulario.get('email')
+            usuario.is_active = True
+            usuario.is_staff = False
+            usuario.is_superuser = False
+            usuario.save()
 
-                usuario.first_name = datos_formulario.get('first_name')
-                usuario.last_name = datos_formulario.get('last_name')
-                usuario.email = datos_formulario.get('email')
-                usuario.is_active = True
-                usuario.is_staff = False
-                usuario.is_superuser = False
-                usuario.save()
+            usuario.profile.clave_rh = datos_formulario.get('clave_rh')
+            usuario.profile.clave_jde = datos_formulario.get('clave_jde')
+            usuario.profile.fecha_nacimiento = datos_formulario.get(
+                'fecha_nacimiento')
+            usuario.profile.foto = datos_formulario.get('foto')
+            usuario.profile.save()
 
-                usuario.profile.clave_rh = datos_formulario.get('clave_rh')
-                usuario.profile.clave_jde = datos_formulario.get('clave_jde')
-                usuario.profile.fecha_nacimiento = datos_formulario.get(
-                    'fecha_nacimiento')
-                usuario.profile.foto = datos_formulario.get('foto')
-                usuario.profile.save()
-
-                return redirect(reverse('seguridad:usuario_registro_exito', kwargs={'_pk': usuario.pk}))
-
-            else:
-                messages.error(
-                    _request, 'La clave de empleado ya se encuentra asociada a una cuenta')
+            return redirect(reverse('seguridad:usuario_registro_exito', kwargs={'_pk': usuario.pk}))
 
         contexto = {
             'form': form_usuario,
@@ -203,7 +197,7 @@ class ContrasenaReset(View):
                     messages.success(
                         _request,
                         'Se envio un link al correo %s con el cual podra cambiar su contraseña' % (
-                            usuarios[0].email
+                            usuarios[0].email.encode('utf-8')
                         )
                     )
 

@@ -2,6 +2,8 @@
 
 {% load static from staticfiles %}
 
+{% load custom_tags %}
+
 {% block titulo %} Viaticos {% endblock titulo %}
 
 {% block title-page %} Nueva Solicitud de Viatico {% endblock title-page %}
@@ -17,7 +19,7 @@
 <div class="be-content">
 
     <div class="page-head nova-page-head">
-        <h2 class="page-head-title nova-title">Nueva Solicitud</h2>
+        <h2 class="page-head-title nova-title">Nueva solicitud de Viatico</h2>
         <ol class="breadcrumb page-head-nav pull-right">
             <li><a href="{% url 'home:inicio' %}">Inicio</a></li>
             <li><a href="{% url 'finanzas:viatico_lista' %}">Viaticos</a></li>
@@ -28,164 +30,49 @@
 	<!-- Targeta Formulario -->
     <div class="main-content container-fluid nova-main-content">
 
-        <div class="row wizard-row">
-            <div class="col-md-12 fuelux">
-                <form class="block-wizard panel panel-default" action="" method="POST" > {% csrf_token %}
+        <div class="row">
+            <div class="col-md-12">
+                <form class="panel panel-border panel-contrast" action="" method="POST"> {% csrf_token %}
+                    <div class="panel-heading panel-heading-default nova-border-bottom">
+                        Informacion de la solicitud:
+                    </div>
+                    <div class="panel-body form-horizontal">
 
-                    <div id="wizard1" class="wizard wizard-ux">
-                        <ul class="steps">
+                        {% if form.non_field_errors %}
 
-                            <li class="active">Numero:</li>
+                            {% for error in form.non_field_errors %}
+                                {% tag_mensaje 'error' error %}
+                            {% endfor %}
 
-                        </ul>
-                        <div class="actions">
-                            <button type="button" class="btn btn-xs btn-prev btn-default nova-active-tab">General</button>
-                            <button type="button" class="btn btn-xs btn-next btn-default">Lineas</button>
-                        </div>
-                        <div class="step-content">
-                            <div data-step="1" class="step-pane active">
+                        {% endif %}
 
-                                <div class="form-horizontal group-border-dashed">
+                        {% tag_field_registro form.empleado_clave 3 6 %}
 
-                                    <div class="form-group no-padding">
-                                        <div class="col-sm-7">
-                                            <h5 class="wizard-title">Informacion de la solicitud:</h5>
-                                        </div>
-                                    </div>
+                        {% tag_field_registro form.unidad_negocio_clave 3 6 %}
 
-                                    {{ form.non_field_errors }}
+                        {% tag_field_registro_dates 'Fecha partida/regreso' form.fecha_partida form.fecha_regreso 3 3 3 %}
 
-                                    <div class="form-group">
+                        {% tag_field_registro form.ciudad_destino 3 6 %}
 
-                                        <label class="col-sm-3 control-label"
-                                            for="{{ form.empleado_clave.id_for_label }}">
-                                            {{ form.empleado_clave.label }}
-                                        </label>
-                                        <div class="col-sm-6 xs-pt-5">
-                                            {{ form.empleado_clave }}
-                                        </div>
-                                        {% for error in form.empleado_clave.errors %}
-                                            <span class="help-block">{{ error }}</span>
-                                        {% endfor %}
-                                    </div>
+                        {% tag_field_registro form.proposito_viaje 3 6 %}
 
-                                    <div class="form-group">
-                                        <label class="col-sm-3 control-label"
-                                            for="{{ form.unidad_negocio_clave.id_for_label }}">
-                                            {{ form.unidad_negocio_clave.label }}
-                                        </label>
-                                        <div class="col-sm-6 xs-pt-5">
-                                            {{ form.unidad_negocio_clave }}
-                                        </div>
-                                        {% for error in form.unidad_negocio_clave.errors %}
-                                            <span class="help-block">{{ error }}</span>
-                                        {% endfor %}
-                                    </div>
-
-                                    <div class="form-group">
-
-                                        <label class="col-sm-3 control-label">
-                                            Fecha partida/regreso
-                                        </label>
-
-                                        <div class="col-sm-3 xs-pt-5">
-                                            <div class="input-group date"
-                                            data-min-view="2"
-                                            data-date-format="yyyy-mm-dd"
-                                            id="id_fecha_partida_input">
-                                                {{ form.fecha_partida }}
-                                                <span class="input-group-addon nova-addon-button">
-                                                    <span class="glyphicon glyphicon-calendar"></span>
-                                                </span>
-                                            </div>
-                                        </div>
-                                        {% for error in form.fecha_partida.errors %}
-                                            <span class="help-block">{{ error }}</span>
-                                        {% endfor %}
-
-                                        <div class="col-sm-3 xs-pt-5">
-                                            <div class="input-group date"
-                                            data-min-view="2"
-                                            data-date-format="yyyy-mm-dd"
-                                            id="id_fecha_regreso_input">
-                                                {{ form.fecha_regreso }}
-                                                <span class="input-group-addon nova-addon-button">
-                                                    <span class="glyphicon glyphicon-calendar"></span>
-                                                </span>
-                                            </div>
-                                        </div>
-                                        {% for error in form.fecha_regreso.errors %}
-                                            <span class="help-block">{{ error }}</span>
-                                        {% endfor %}
-
-
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label class="col-sm-3 control-label"
-                                            for="{{ form.ciudad_destino.id_for_label }}">
-                                            {{ form.ciudad_destino.label }}
-                                        </label>
-                                        <div class="col-sm-6 xs-pt-5">
-                                            {{ form.ciudad_destino }}
-                                        </div>
-                                        {% for error in form.ciudad_destino.errors %}
-                                            <span class="help-block">{{ error }}</span>
-                                        {% endfor %}
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label class="col-sm-3 control-label"
-                                            for="{{ form.proposito_viaje.id_for_label }}">
-                                            {{ form.proposito_viaje.label }}
-                                        </label>
-                                        <div class="col-sm-6 xs-pt-5">
-                                            {{ form.proposito_viaje }}
-                                        </div>
-                                        {% for error in form.proposito_viaje.errors %}
-                                            <span class="help-block">{{ error }}</span>
-                                        {% endfor %}
-                                    </div>
-
-                                    <div class="form-group no-padding">
-                                        <div class="col-sm-7">
-                                            <h5 class="wizard-title">Informacion de la autorizacion:</h5>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
+                        <!-- Ocultos -->
+                        <div>
+                            {{ form.empleado_descripcion }}
+                            {{ form.unidad_negocio_descripcion }}
                         </div>
 
                     </div>
-                    <!-- Botones -->
                     <div class="modal-footer nova-modal-footer">
-
-                        <div class="row col-sm-12">
-
-                            <button type="button" id="boton_limpiar" class="btn btn-default pull-left">
-                                <i class="icon mdi mdi-arrow-left"></i>
-                                Regresar
-                            </button>
-
-                            <button type="submit" id="boton_buscar" class="btn nova-btn btn-primary btn-lg pull-right">
-                                <i class="icon icon-left mdi mdi-save nova-white"></i>
-                                Guardar Encabezado
-                            </button>
-                        </div>
+                        <button type="submit" id="boton_buscar" class="btn nova-btn btn-primary btn-lg">
+                            Guardar
+                        </button>
                     </div>
-
-                    <!-- Ocultos -->
-                    <div>
-                        {{ form.empleado_descripcion }}
-                        {{ form.unidad_negocio_descripcion }}
-                    </div>
-
                 </form>
             </div>
         </div>
-
     </div>
+
 </div>
 
 {% endblock contenido %}
@@ -197,12 +84,10 @@
     <script src="{% static 'theme/lib/moment.js/min/moment.min.js' %}"></script>
     <script src="{% static 'theme/lib/datetimepicker/js/bootstrap-datetimepicker.min.js' %}"></script>
     <script src="{% static 'theme/lib/datetimepicker/js/locales/bootstrap-datetimepicker.es.js' %}"></script>
-    <script src="{% static 'theme/lib/jquery.maskedinput/jquery.maskedinput.min.js' %}"></script>
 
-    <!-- InputMask -->
-    <script src="{% static 'libs/plugins/input-mask/jquery.inputmask.js' %}"></script>
 
 	<!-- Nova -->
-	<script src="{% static 'viatico/viatico_formulario.js' %}"></script>
+    <script src="{% static 'tools.js' %}"></script>
+	<script src="{% static 'viatico/viatico_nuevo.js' %}"></script>
 
 {% endblock scripts %}

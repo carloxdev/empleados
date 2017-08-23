@@ -9,6 +9,7 @@ from django.forms import Form
 from django.forms import CharField
 from django.forms import ChoiceField
 from django.forms import HiddenInput
+from django.forms import ValidationError
 
 # Own's Libraries
 from .models import ViaticoCabecera
@@ -63,14 +64,14 @@ class ViaticoCabeceraForm(ModelForm):
 
     empleado_clave = ChoiceField(
         label="Empleado",
-        widget=SelectCustom(
+        widget=Select(
             attrs={'class': 'form-control input-xs'}
         )
     )
 
     unidad_negocio_clave = ChoiceField(
         label="Unidad Negocio",
-        widget=SelectCustom(
+        widget=Select(
             attrs={'class': 'form-control input-xs'}
         )
     )
@@ -100,8 +101,32 @@ class ViaticoCabeceraForm(ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(ViaticoCabeceraForm, self).__init__(*args, **kwargs)
-        self.fields['empleado_clave'].choices = EmpleadoBusiness.get_Activos_ForSelectCustom()
-        self.fields['unidad_negocio_clave'].choices = CentroCostoBusiness.get_Activos_ForSelectCustom()
+        self.fields['empleado_clave'].choices = EmpleadoBusiness.get_Activos_ForSelect()
+        self.fields['unidad_negocio_clave'].choices = CentroCostoBusiness.get_Activos_ForSelect()
+
+    def clean_fecha_regreso(self):
+        f_partida = self.cleaned_data['fecha_partida']
+        f_regreso = self.cleaned_data['fecha_regreso']
+
+        if f_partida > f_regreso:
+            raise ValidationError("La fecha de regreso no puede ser menor a la fecha partida")
+
+        return f_regreso
+
+    def clean(self):
+        cleaned_data = super(ViaticoCabeceraForm, self).clean()
+        empleado_desc = cleaned_data.get("empleado_descripcion")
+        unidad_negocio_desc = cleaned_data.get("unidad_negocio_descripcion")
+
+        if empleado_desc is None:
+            raise ValidationError(
+                "No se pudo obtener la descripcion de empleado"
+            )
+
+        if unidad_negocio_desc is None:
+            raise ValidationError(
+                "No se pudo obtener la descripcion de la UN"
+            )
 
 
 class ViaticoLineaForm(Form):

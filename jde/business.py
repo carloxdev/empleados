@@ -53,9 +53,6 @@ class CentroCostoBusiness(object):
 
     @classmethod
     def get_Activos_ForSelect(self):
-        """ Funcion que devuelve solo a a centro de costos activos,
-            excluye a los antigusos y
-            los regresa ordenados por clave """
 
         valores = [('', '-------'), ]
 
@@ -80,9 +77,6 @@ class CentroCostoBusiness(object):
 
     @classmethod
     def get_Activos_ForSelectCustom(self):
-        """ Funcion que devuelve una lista de Tuplas,
-            con ciertos datos del centro de costo y
-            los regresa ordenados"""
 
         valores = [('', '-------', '', ''), ]
 
@@ -113,9 +107,6 @@ class CentroCostoBusiness(object):
 
     @classmethod
     def get_Todos_ForSelectCustom(self):
-        """ Funcion que devuelve una lista de Tuplas,
-            con ciertos datos del centro de costo y
-            los regresa ordenados"""
 
         valores = [('', '-------', '', ''), ]
 

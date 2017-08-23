@@ -2,9 +2,6 @@
          GLOBAL VARIABLES
 \*-----------------------------------------------*/
 
-// URLS:api-
-//var url_empleados_bypage = window.location.origin + "/api-ebs/viewempleadosfull_bypage/"
-
 // OBJS
 var formulario = null
 
@@ -36,10 +33,7 @@ function Formulario() {
    this.$id_alcance_auditoria = $("#id_alcance_auditoria")
    this.$id_recursos_necesarios = $("#id_recursos_necesarios")
 
-   this.$id_boton_guardar = $('#id_boton_guardar')
-
    this.init_Components()
-   this.init_Events()
 }
 Formulario.prototype.init_Components = function () {
 
@@ -72,13 +66,4 @@ Formulario.prototype.get_DateTimePickerConfig = function () {
       minViewMode: 2,
       format: "yyyy-mm-dd",
    }
-}
-Formulario.prototype.init_Events = function () {
-
-   this.$id_boton_guardar.on("click", this, this.click_BotonGuardar)
-}
-Formulario.prototype.click_BotonGuardar = function (e) {
-
-  //  e.preventDefault()
-
 }

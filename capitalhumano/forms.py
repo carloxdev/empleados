@@ -14,7 +14,7 @@ from django.forms import FileInput
 from django.forms import DateInput
 from django.forms import DateField
 from django.forms import FileField
-from django.forms import Textarea
+from django.forms import Textarea 
 
 # Modelos
 from jde.models import VIEW_UNIDADES
@@ -296,7 +296,7 @@ class PerfilPuestoDocumentoForm(Form):
             # 'reporta': Select(attrs={'class': 'form-control input-sm'}),
             'proposito': TextInput(attrs={'class': 'form-control input-xs'}),
             'funciones': TextInput(attrs={'class': 'form-control input-xs'}),
-            'responsabilidades': TextInput(attrs={'class': 'form-control input-xs'}),
+            'responsabilidades': Textarea(attrs={'class': 'form-control input-xs', 'rows': '5'}),
             'edad_minima': TextInput(attrs={'class': 'form-control input-xs'}),
             'edad_maxima': TextInput(attrs={'class': 'form-control input-xs'}),
             'nivel_estudio': TextInput(attrs={'class': 'form-control input-xs'}),

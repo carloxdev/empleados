@@ -3,7 +3,7 @@
    background-color: #eee;
 }
 
-.nova-be-left-sidebar .sidebar-elements > li ul { 
+.nova-be-left-sidebar .sidebar-elements > li ul {
    background-color: #f5f5f5 !important;
 }
 
@@ -11,8 +11,24 @@
    background-color: #f5f5f5;
 } */
 
+.nova-toolbar {
+    color: #333333;
+    /*background-color: transparent;*/
+    border: 1px solid #d4d4d4;
+    margin-bottom: 10px;
+}
+
+.nova-widget-head {
+    /*padding: 10px 20px 10px !important;*/
+    margin-bottom: 0;
+}
+
 .nova-sidebar-elements li a {
    text-overflow: clip !important;
+}
+
+.nova-main-content {
+   padding: 15px 10px 25px;
 }
 
 .nova-panel-heading {
@@ -29,10 +45,6 @@
    margin: 0px;
    padding: 15px 20px 15px !important;
    min-height: 55px;
-}
-
-.nova-main-content {
-   padding: 15px 10px 25px;   
 }
 
 .nova-active-tab {
@@ -52,13 +64,13 @@
    margin-right: 0px !important;
 }
 .nova-a-tab-border {
-   border-left: 1px solid #d4d4d4 !important;  
+   border-left: 1px solid #d4d4d4 !important;
 }
 
-/* 
+/*
 .nova-col {
    padding-left: 0px !important;
-   padding-right: 0px !important;   
+   padding-right: 0px !important;
 } */
 
 .nova-title {
@@ -83,7 +95,7 @@
 }
 
 /* .nov-filter {
-   padding-right: 15px !important;  
+   padding-right: 15px !important;
 } */
 
 .nova-tools {
@@ -93,6 +105,12 @@
 .nova-btn {
    font-weight: 500;
 }
+
+.nova-border {
+    border-bottom: 1px solid #d4d4d4 !important;
+    color: black !important;
+    background-color: #ffffff !important;
+ }
 
 .nova-border-bottom {
    border-bottom: 1px solid #d4d4d4 !important;
@@ -136,16 +154,25 @@
    padding: 0px !important;
 }
 
+
+.nova-modal-header {
+   padding: 15px 20px !important;
+}
+
+.nova-modal-content {
+   padding: 10px 0px;
+}
+
 .nova-modal-body-padding {
    padding:  15px 60px 0px 60px !important;
 }
 
 .nova-modal-footer {
-
    text-align: left !important;
    border-top: 1px solid #d4d4d4;;
    padding: 15px 0 15px 15px !important;
 }
+<<<<<<< HEAD
 .nova-modal-informacion {
    font-size: 14px;
 }
@@ -157,6 +184,16 @@
 }
 .nova-modal-content {
    padding: 10px 0px;
+=======
+
+    .nova-footer-botons {
+        padding-right: 1em;
+    }
+
+
+.nova-content {
+    max-width: none;
+>>>>>>> origin/master
 }
 
 .nova-padding-row {
@@ -180,7 +217,7 @@
 .select2-container--default .select2-selection--single .select2-selection__arrow {
    height: 30px !important;
    top: -7px;
-   right: -7px;   
+   right: -7px;
 }
 
 .nova-div-overflow {
@@ -211,7 +248,7 @@
 }
 
 @media (min-width: 768px) {
-   
+
    .nova-col-filter {
       width: 25%;
    }
@@ -225,9 +262,9 @@
     margin: 10px 0px 20px;
 }
 .nova-sparkline {
-    display: inline-block; 
-    width: 85px; 
-    height: 35px; 
+    display: inline-block;
+    width: 85px;
+    height: 35px;
     vertical-align: top;
 }
 .nova-contenedor-organigrama {
@@ -271,12 +308,12 @@
 /* Bordes */
 .nova-nav-tab a:first-child {
    border-top-left-radius: 7px;
-   border-bottom-left-radius: 7px;   
+   border-bottom-left-radius: 7px;
 }
 
 .nova-nav-tab a:last-child {
    border-top-right-radius: 7px;
-   border-bottom-right-radius: 7px;   
+   border-bottom-right-radius: 7px;
 }
 
 /* nova-navbar */
@@ -305,12 +342,12 @@
    border-bottom: none !important;
    border-left: 1px solid #d4d4d4 !important;
    border-right: 1px solid #d4d4d4 !important;
-   border-radius: 0px! important; 
+   border-radius: 0px! important;
 }
 
 .nova-panel-borde-header {
    border: 1px solid #d4d4d4 !important;
-   border-radius: 0px! important; 
+   border-radius: 0px! important;
 }
 
 .nova-panel-no-border-top {
@@ -321,7 +358,7 @@
 /* nova-panel-arbol */
 .nova-panel-arbol {
    padding: 0px !important;
-   border-radius: 0px! important; 
+   border-radius: 0px! important;
 }
 
 div.nova-panel-arbol span.badge {
@@ -453,7 +490,7 @@ div.nova-panel-arbol li.list-group-item {
 }
 
 .sticky {
-  position: fixed; 
+  position: fixed;
   top: 60px;
 }
 
@@ -576,7 +613,7 @@ div.nova-panel-arbol li.list-group-item {
 }
 
 .nova-status-autorizado {
-   background-color: #34a853;   
+   background-color: #34a853;
 }
 /* bootstrap tables */
 
@@ -606,7 +643,7 @@ div.nova-panel-arbol li.list-group-item {
 /* bootstrap Tables */
 .nova-sin-resultados {
    font-size: 32px;
-   background-color: #ececec; 
+   background-color: #ececec;
 }
 .nova-tabla-popup {
    padding: 0px 74px 0px 74px;
@@ -656,3 +693,9 @@ div.nova-panel-arbol li.list-group-item {
 }
 /* modal descripcion */
 
+
+@media (min-width: 992px) {
+    .nova-panel-main {
+        padding-right: 0;
+    }
+}

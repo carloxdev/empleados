@@ -3,7 +3,7 @@
 \*-----------------------------------------------*/
 
 // URLS:
-var url_perfil_bypage = window.location.origin + "/api-capitalhumano/perfilpuestoacargo_bypage/"
+var url_perfil_puestocargo_bypage = window.location.origin + "/api-capitalhumano/perfilpuestoacargo_bypage/"
 var url_perfil_puestocargo = window.location.origin + "/api-capitalhumano/perfilpuestoacargo/"
 var url_profile =  window.location.origin + "/api-seguridad/profile/"
 var url_perfil_puesto = window.location.origin + "/api-capitalhumano/perfilpuestosdocumento/"
@@ -40,6 +40,7 @@ function Componente(){
     this.$funciones = $('#id_funciones')
     this.$responsabilidades = $('#id_responsabilidades')
     this.$posicion = $('#posicion')
+    this.$numero_puesto = $('#id_numero_puesto')
 
     this.$reportar = $('#id_reporta')
     this.$boton_guardar_perfil = $('#id_boton_guardar_perfil')
@@ -59,10 +60,9 @@ Componente.prototype.get_ConfSelect2 = function () {
 }
 
 Componente.prototype.get_Values = function (_page) {
-
     return {
         page: _page,
-        id: this.$puesto.val(),
+        id_puesto: this.$puesto.val(),
     }
 
 }
@@ -75,7 +75,7 @@ Componente.prototype.init_Events = function () {
 Componente.prototype.click_BotonGuardar = function (e) {
 
  var id_puestocargo= e.data.$puesto.val()
- alert(id_puestocargo)
+ // alert(id_puestocargo)
 
  var promesa = $.ajax({
          url: url_perfil_puesto,
@@ -179,21 +179,32 @@ Formulario.prototype.init_Events = function () {
 }
 
 Formulario.prototype.escoger_puestosacargo = function (e) {
-
+    console.log(select_componente.$puesto.val())
     // Consultar el API con el numero del empleado.
-    var id_puesto= e.data.$puesto.val()
-    alert(id_puesto)
+    //alert(numero_puesto)
+    var id_puesto = e.data.$puesto.val()
+    var id_puesto2 = select_componente.$puesto.val()
 
+    //$("#numero_puesto").val() = e.data.$puesto.val()
+ 
+    //select_componente.$numero_puesto.val() = e.data.$puesto.val()
+    //this.$numero_empleado = e.data.$puesto.val()
+    //alert(numero_empleado)
+    // alert(numero_empleado)
+    $('#numero_puesto').val(id_puesto2)
+    alert(id_puesto2)
+    alert(numero_puesto)
+    
    // Consultar el API con el numero del empleado.
-    var num_empleado = id_puesto
-    var num_empleado = 8
+    var num_empleado = id_puesto2
+    //var num_empleado = 8
 
-    var url = url_perfil_puestodoc_bypage + "?pk=" + num_empleado
+    var url = url_perfil_puestocargo_bypage + "?id_puesto=" + num_empleado
 
     $.ajax({
-            url: url_perfil_puestodoc_bypage,
+            url: url_perfil_puestocargo_bypage,
             data: {
-              pk:num_empleado
+              id_puesto : num_empleado
             },
             dataType: "json",
             type: "GET",
@@ -206,8 +217,10 @@ Formulario.prototype.escoger_puestosacargo = function (e) {
               }
 
               if (cont == 0){
+                //$("#grid_resultados").empty()
+                //grid = new Grid()
                 resultados.grid.buscar()
-                alert("entro buscar")
+                //alert("entro buscar")
                 
               }
               else{
@@ -272,15 +285,15 @@ Grid.prototype.get_DataSourceConfig = function () {
         transport: {
             read: {
 
-                url: url_perfil_bypage,
+                url: url_perfil_puestocargo_bypage,
                 type: "GET",
                 dataType: "json",
             },
-            // parameterMap: function (data, action) {
-            //     if (action === "read"){
-            //         return filtros.get_Values(data.page)
-            //     }
-            // }
+            parameterMap: function (data, action) {
+                if (action === "read"){
+                    return select_componente.get_Values(data.page)
+                }
+            }
         },
         schema: {
             data: "results",
@@ -306,6 +319,7 @@ Grid.prototype.get_Campos = function () {
 }
 Grid.prototype.get_Configuracion = function () {
     return {
+        autoBind: false,
         dataSource: this.kfuente_datos,
         columnMenu: true,
         groupable: false,
@@ -373,6 +387,7 @@ function PopupPerfil () {
     this.$desc_puesto2 = $('#id_desc_puesto2')
     this.$boton_guardar = $('#id_boton_guardar_acargo')
     this.$created_by = $('#created_by')
+    this.$numero_puesto = $('#numero_puesto')
 
     this.init_Components()
     this.init_Events()
@@ -393,6 +408,7 @@ PopupPerfil.prototype.click_BotonGuardar = function (e) {
 
  var id_creator= e.data.$created_by.val()
  var id_creator=e.data.$desc_puesto2.val()
+ var numero_puesto = e.data.$numero_puesto.val()
     //alert(id_creator)
 
     var cadena_id = e.data.$desc_puesto2.val()
@@ -402,7 +418,7 @@ PopupPerfil.prototype.click_BotonGuardar = function (e) {
     arregloDeSubCadenas = cadena_id.split(separador);
     console.log(arregloDeSubCadenas)
     alert(arregloDeSubCadenas[0])
-    alert(arregloDeSubCadenas[2])
+    //alert(arregloDeSubCadenas[2])
     
     var puesto_cargo = arregloDeSubCadenas[2]
     alert(puesto_cargo)
@@ -411,7 +427,7 @@ PopupPerfil.prototype.click_BotonGuardar = function (e) {
     arreglo1 = arreglo_puesto_cargo[0] + "." + arreglo_puesto_cargo[1]
     descripcion = puesto_cargo;
     
-    alert(arreglo_puesto_cargo)
+    //alert(arreglo_puesto_cargo)
     console.log(arreglo1)
     console.log(descripcion)
 
@@ -422,7 +438,7 @@ PopupPerfil.prototype.click_BotonGuardar = function (e) {
          method: "POST",
          headers: { "X-CSRFToken": appnova.galletita },
          data: {
-            'id_puesto' : '320',
+            'id_puesto' : numero_puesto,
             'id_puesto_cargo' : arregloDeSubCadenas[0], 
             'descripcion' : cadena_id,
             'created_by' :  url_profile+e.data.$created_by.val()+"/",

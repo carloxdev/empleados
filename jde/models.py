@@ -916,3 +916,26 @@ class VIEW_PROVEEDORES(models.Model):
             self.descripcion,
         )
         return value
+
+
+class VIEW_CONTRATO(models.Model):
+    proyecto = models.CharField(max_length=3, primary_key=True)
+    proyecto_desc = models.CharField(max_length=30)
+
+    class Meta:
+        managed = False
+        db_table = u'"NUVPD"."VIEW_CONTRATO"'
+
+    def __str__(self):
+        value = "%s - %s" % (
+            self.proyecto,
+            self.proyecto_desc,
+        )
+        return value
+
+    def __unicode__(self):
+        value = "%s - %s" % (
+            self.proyecto,
+            self.proyecto_desc,
+        )
+        return value

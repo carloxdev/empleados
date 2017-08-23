@@ -1,6 +1,7 @@
 
 # Own's Libraries
 from ebs.models import VIEW_EMPLEADOS_SIMPLE
+from ebs.models import VIEW_EMPLEADOS_FULL
 from seguridad.business import UserBusiness
 
 
@@ -8,9 +9,6 @@ class EmpleadoBusiness(object):
 
     @classmethod
     def get_Activos(self):
-        """ Funcion que devuelve solo a empleados activos,
-            que tienen numero de empleado y
-            los regresa ordenados por nombre """
 
         empleados = VIEW_EMPLEADOS_SIMPLE.objects.using('ebs_p').filter(
             pers_tipo_codigo__in=['1121', '1120']
@@ -31,9 +29,6 @@ class EmpleadoBusiness(object):
 
     @classmethod
     def get_Todos_ForSelectCustom(self):
-        """ Funcion que devuelve una lista de Tuplas,
-            con ciertos datos del empleado y
-            los regresa ordenados por nombre """
 
         valores = [('', '-------', '', ''), ]
 
@@ -64,9 +59,6 @@ class EmpleadoBusiness(object):
 
     @classmethod
     def get_Activos_ForSelectCustom(self):
-        """ Funcion que devuelve una lista de Tuplas,
-            con ciertos datos del empleado y
-            los regresa ordenados por nombre """
 
         valores = [('', '-------', '', ''), ]
 
@@ -131,10 +123,6 @@ class EmpleadoBusiness(object):
 
     @classmethod
     def get_SinUsuario_ForSelect(self):
-        """ Funcion que devuelve una lista de tuplas,
-            con los Empleados que no tienen
-            usuario asignado
-        """
 
         valores = [('', '------')]
 
@@ -161,3 +149,12 @@ class EmpleadoBusiness(object):
             )
 
         return valores
+
+    @classmethod
+    def get_Empresa(self, _value):
+
+        empleado = VIEW_EMPLEADOS_FULL.objects.using('ebs_p').get(
+            pers_empleado_numero=_value
+        )
+
+        return empleado.grup_compania_jde

@@ -1,0 +1,26 @@
+
+{% if type == "error" %}
+
+    <div role="alert" class="alert alert-danger alert-dismissible">
+        <button type="button" data-dismiss="alert" aria-label="Close" class="close"><span aria-hidden="true" class="mdi mdi-close"></span></button><span class="icon mdi mdi-close-circle-o"></span>{{ message }}
+    </div>
+
+{% elif type == "exito" %}
+
+    <div role="alert" class="alert alert-success alert-dismissible">
+        <button type="button" data-dismiss="alert" aria-label="Close" class="close"><span aria-hidden="true" class="mdi mdi-close"></span></button><span class="icon mdi mdi-check"></span>{{ message }}
+    </div>
+
+{% elif type == "aviso" %}
+
+    <div role="alert" class="alert alert-primary alert-dismissible">
+        <button type="button" data-dismiss="alert" aria-label="Close" class="close"><span aria-hidden="true" class="mdi mdi-close"></span></button><span class="icon mdi mdi-info-outline"></span>{{ message }}
+    </div>
+
+{% elif type == "advertencia" %}
+
+    <div role="alert" class="alert alert-warning alert-dismissible">
+        <button type="button" data-dismiss="alert" aria-label="Close" class="close"><span aria-hidden="true" class="mdi mdi-close"></span></button><span class="icon mdi mdi-alert-triangle"></span>{{ message }}
+    </div>
+
+{% endif %}

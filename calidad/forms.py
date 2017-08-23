@@ -17,8 +17,14 @@ from django.forms import SelectMultiple
 # modelos
 from ebs.models import VIEW_EMPLEADOS_SIMPLE
 from jde.models import VIEW_COMPANIAS
+from jde.models import VIEW_CONTRATO
 from administracion.models import Contrato
 from .models import Criterio
+from .models import Rol
+from .models import Proceso
+from .models import Subproceso
+from .models import Sitio
+from .models import Responsable
 
 
 class CriterioForm(Form):
@@ -352,15 +358,14 @@ class GeneralAuditoriaForm(Form):
 
         valores = []
 
-        # contratos = VIEW_COMPANIAS.objects.using('jde_p').all()
-        contratos = Contrato.objects.all()
+        contratos = VIEW_CONTRATO.objects.using('jde_p').all()
 
         for contrato in contratos:
 
             valores.append(
                 (
-                    contrato.con_clave,
-                    str(int(contrato.con_clave)) + ' - ' + contrato.con_nombre,
+                    contrato.proyecto,
+                    str(int(contrato.proyecto)) + ' - ' + contrato.proyecto_desc,
                 )
             )
         return valores
@@ -377,6 +382,153 @@ class GeneralAuditoriaForm(Form):
                 (
                     criterio.pk,
                     criterio.criterio,
+                )
+            )
+        return valores
+
+
+class AuditorForm(Form):
+
+    auditor_lider = CharField(
+        widget=TextInput(attrs={'class': 'form-control input-xs', 'readonly': 'true'})
+    )
+
+    auditores_designados = MultipleChoiceField(
+        widget=SelectMultiple(attrs={'class': 'select2', 'multiple': 'multiple'}),
+        required=False
+    )
+
+    auditores_colaboradores = MultipleChoiceField(
+        widget=SelectMultiple(attrs={'class': 'select2', 'multiple': 'multiple'}),
+        required= False
+    )
+
+    def __init__(self, *args, **kargs):
+        super(AuditorForm, self).__init__(*args, **kargs)
+        self.fields['auditores_designados'].choices = self.get_Auditores()
+        self.fields['auditores_colaboradores'].choices = self.get_Auditores()
+
+    def get_Auditores(self):
+
+        valores = []
+
+        auditores = Rol.objects.filter(rol="Auditor Interno")
+
+        for auditor in auditores:
+
+            if not (auditor.numero_empleado is u''):
+                valores.append(
+                    (
+                        auditor.pk,
+                        auditor.numero_empleado + ' : ' + auditor.nombre_completo
+                    )
+                )
+        return valores
+
+
+class AuditoriaProcesoForm(Form):
+
+    proceso = ChoiceField(
+        widget=Select(attrs={'class': 'select2'})
+    )
+
+    subproceso = ChoiceField(
+        widget=Select(attrs={'class': 'select2'})
+    )
+
+    rep_subproceso = ChoiceField(
+        label='Representate del Subproceso',
+        widget=Select(attrs={'class': 'select2'})
+    )
+
+    fecha_programada_ini = CharField(
+        label='Fecha Programada desde / hasta',
+        widget=TextInput(attrs={'class': 'form-control input-xs', 'name': 'fecha_programada_ini'}),
+        required=False
+    )
+
+    fecha_programada_fin = CharField(
+        label='',
+        widget=TextInput(attrs={'class': 'form-control input-xs', 'name': 'fecha_programada_fin'}),
+        required=False
+    )
+
+    auditor = ChoiceField(
+        widget=Select(attrs={'class': 'select2'})
+    )
+
+    sitio = ChoiceField(
+        widget=Select(attrs={'class': 'select2'})
+    )
+
+    def __init__(self, auditores_designados_choices, *args, **kwargs):
+        super(AuditoriaProcesoForm, self).__init__( *args, **kwargs)
+        self.fields['proceso'].choices = self.get_Proceso()
+        self.fields['subproceso'].choices = self.get_Subproceso()
+        self.fields['rep_subproceso'].choices = self.get_Representante()
+        self.fields['auditor'].choices = auditores_designados_choices
+        self.fields['sitio'].choices = self.get_Sitio()
+
+    def get_Proceso(self):
+
+        valores = [('', '-------')]
+
+        procesos = Proceso.objects.all()
+
+        for proceso in procesos:
+
+            valores.append(
+                (
+                    proceso.proceso,
+                    proceso.proceso
+                )
+            )
+        return valores
+
+    def get_Subproceso(self):
+
+        valores = [('', '-------')]
+
+        subprocesos = Subproceso.objects.all()
+
+        for subproceso in subprocesos:
+
+            valores.append(
+                (
+                    subproceso.subproceso,
+                    subproceso.subproceso
+                )
+            )
+        return valores
+
+    def get_Representante(self):
+
+        valores = [('', '-------')]
+
+        responsables = Responsable.objects.all()
+
+        for responsable in responsables:
+
+            valores.append(
+                (
+                    responsable.pk,
+                    responsable.numero_empleado + ' : ' + responsable.nombre_completo
+                )
+            )
+        return valores
+
+    def get_Sitio(self):
+
+        valores = [('', '-------')]
+
+        sitios = Sitio.objects.all()
+
+        for sitio in sitios:
+
+            valores.append(
+                (
+                    sitio.sitio,
+                    sitio.sitio
                 )
             )
         return valores
