@@ -83,9 +83,9 @@ PopupFiltros.prototype.start_Show = function (e) {
     e.data.$unidad_negocio.select2()
     e.data.$autorizador.select2()
 }
-PopupFiltros.prototype.end_Show = function (e) {
-    e.data.$proposito_viaje.focus()
-}
+// PopupFiltros.prototype.end_Show = function (e) {
+//     e.data.$proposito_viaje.focus()
+// }
 PopupFiltros.prototype.hide = function (e) {
     e.data.$fecha_creacion.data('daterangepicker').hide()
 }
