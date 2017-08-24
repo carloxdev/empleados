@@ -10,6 +10,7 @@ var url_viaticocabecera_editar = ""
 var tarjeta_filtros = null
 var tarjeta_resultados = null
 
+$.fn.modal.Constructor.prototype.enforceFocus = function () {}
 
 /*-----------------------------------------------*\
             LOAD
@@ -61,6 +62,7 @@ function PopupFiltros() {
 
     this.init_Components()
     this.init_Events()
+
 }
 PopupFiltros.prototype.init_Components = function () {
 

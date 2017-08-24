@@ -39,41 +39,9 @@
 		</ol>
 	</div>
 
-    <!-- Targeta Resultados -->
-    <div class="main-content container-fluid nova-main-content">
-        <div class="row">
-            <div class="col-xs-12 nova-col">
-                    <div class="panel panel-default panel-table">
-                        <div class="panel-heading panel-border nova-panel-heading">
-                            <div class="tools pull-right nova-tools" id="toolbar">
-
-                                <a href="{% url 'finanzas:viatico_nuevo' %}"
-                                    class="btn nova-btn btn-rounded btn-space btn-default" id="boton_nuevo">
-                                    <i class="icon icon-left mdi mdi-plus-circle nova-black"></i>Nuevo
-                                </a>
-
-                                <a href="#tarjeta_filtros"
-                                    class="btn nova-btn btn-rounded btn-space btn-primary" data-toggle="modal" id="boton_filtros">
-                                    <i class="icon icon-left mdi mdi-search nova-white"></i>Filtros
-                                </a>
-
-                                <button class="btn nova-btn btn-rounded btn-space btn-success" id="boton_excel">
-                                    <i class="icon icon-left mdi mdi-download nova-white"></i>Exportar
-                                </button>
-                            </div>
-                            <div class="title hidden-xs">Registros</div>
-                        </div><!-- Panel Heading -->
-
-                        <div id="grid_resultados">
-                        </div><!-- "Panel Body" -->
-                  </div> <!-- Panel -->
-            </div><!-- col md 12 -->
-        </div>
-	</div>
-
     <!-- Targeta Filtros -->
-    <div id="tarjeta_filtros" tabindex="-1" role="dialog" class="modal fade colored-header colored-header-primary">
-        <div class="modal-dialog">
+    <div id="tarjeta_filtros" role="dialog" class="modal fade colored-header colored-header-primary">
+        <div class="modal-dialog custom-width">
             <div class="modal-content">
 
                 <div class="modal-header nova-modal-header">
@@ -116,6 +84,39 @@
             </div> <!-- Modal content-->
         </div> <!-- Modal dialog -->
     </div><!-- Modal -->
+
+    <!-- Targeta Resultados -->
+    <div class="main-content container-fluid nova-main-content">
+        <div class="row">
+            <div class="col-xs-12 nova-col">
+                    <div class="panel panel-default panel-table">
+                        <div class="panel-heading panel-border nova-panel-heading">
+                            <div class="tools pull-right nova-tools" id="toolbar">
+
+                                <a href="{% url 'finanzas:viatico_nuevo' %}"
+                                    class="btn nova-btn btn-rounded btn-space btn-default" id="boton_nuevo">
+                                    <i class="icon icon-left mdi mdi-plus-circle nova-black"></i>Nuevo
+                                </a>
+
+                                <a href="#tarjeta_filtros"
+                                    class="btn nova-btn btn-rounded btn-space btn-primary" data-toggle="modal" id="boton_filtros">
+                                    <i class="icon icon-left mdi mdi-search nova-white"></i>Filtros
+                                </a>
+
+                                <button class="btn nova-btn btn-rounded btn-space btn-success" id="boton_excel">
+                                    <i class="icon icon-left mdi mdi-download nova-white"></i>Exportar
+                                </button>
+                            </div>
+                            <div class="title hidden-xs">Registros</div>
+                        </div><!-- Panel Heading -->
+
+                        <div id="grid_resultados">
+                        </div><!-- "Panel Body" -->
+                  </div> <!-- Panel -->
+            </div><!-- col md 12 -->
+        </div>
+	</div>
+
 </div>
 
 {% endblock contenido %}
