@@ -643,6 +643,8 @@ GridSolicitudes.prototype.get_Campos = function () {
         archivo : { type: "string" },
         created_by : { type: "string" },
         created_date : { type: "date" },
+        updated_by : { type: "string"},
+        updated_date : { type: "date"},
     }
 }
 GridSolicitudes.prototype.get_Configuracion = function () {
@@ -683,7 +685,7 @@ GridSolicitudes.prototype.onDataBound = function (e) {
             if (estatus == 'En captura') {
             }
             else if (estatus == 'Actualizado'){
-                row.addClass("nova-fecha-por-vencer")
+                row.addClass("nova-actualizado")
             }
             else if (estatus == 'Rechazado'){
                 row.addClass("nova-fecha-vencida")
@@ -705,10 +707,11 @@ GridSolicitudes.prototype.get_Columnas = function () {
           width:"150px" ,
           template: '<a href="#=archivo#" target="_blank">#=asunto#</a>',
         },
-        // { field: "descripcion",title: "Descripcion",width:"200px"},
         { field: "clave_departamento", title: "Se solicito a", width:"150px"},
         { field: "created_by", title: "Creado por", width:"150px" },
         { field: "created_date", title: "Fecha de creación", width:"150px", format: "{0:dd/MM/yyyy}" },
+        { field: "updated_by", title: "Actualizado por", width:"150px" },
+        { field: "updated_date", title: "Fecha de actualización", width:"150px", format: "{0:dd/MM/yyyy}" },
 
     ]
 }

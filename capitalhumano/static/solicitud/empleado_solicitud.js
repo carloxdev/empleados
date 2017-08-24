@@ -4,6 +4,7 @@
 var url_solicitud = window.location.origin + "/api-administracion/solicitud/"
 var url_asunto = window.location.origin + "/api-administracion/asunto/"
 var url_solicitudes_bypage = window.location.origin + "/api-administracion/archivosolicitud_bypage/"
+var url_archivo_solicitud = window.location.origin + "/api-administracion/archivosolicitud/"
 var url_profile =  window.location.origin + "/api-seguridad/profile/"
 var url_archivo =  window.location.origin + "/api-capitalhumano/archivo/"
 
@@ -140,7 +141,6 @@ Toolbar.prototype.Inicializar_CeldasExcel = function (e) {
 }
 Toolbar.prototype.click_BotonExportar = function (e) {
 
-    if( tarjeta_filtro.validar_Campos() != 'True'){
         tarjeta_resultados.grid.leer_Datos()
         e.data.Inicializar_CeldasExcel()
 
@@ -167,7 +167,6 @@ Toolbar.prototype.click_BotonExportar = function (e) {
                 fileName: "Solicitudes.xlsx",
             });
         })
-    }
 }
 Toolbar.prototype.get_Columnas_Excel_Ancho = function () {
     
@@ -305,7 +304,7 @@ PopupEditar.prototype.llenar_Informacion = function (_status,_asunto,_descripcio
     this.$status.val(_status).trigger("change")
 }
 PopupEditar.prototype.guardar_Cambios = function (e) {
-
+    // fecha = new Date()
     informacion = {
         'status': e.data.$status.val(),
         'clave_departamento': datos.clave_departamento,
@@ -315,8 +314,8 @@ PopupEditar.prototype.guardar_Cambios = function (e) {
         'observaciones': e.data.$observaciones.val(),
         'created_by': datos.created_by,
         'updated_by': url_profile+e.data.$updated_by.val()+"/",
+        // 'updated_date': moment(fecha).format("YYYY-MM-DD hh:mm:ss.ms"),
     }
-
    $.ajax({
 
       url: url_solicitud + id +"/",
@@ -460,7 +459,7 @@ Grid.prototype.onDataBound = function (e) {
             if (estatus == 'En captura') {
             }
             else if (estatus == 'Actualizado'){
-                row.addClass("nova-fecha-por-vencer")
+                row.addClass("nova-actualizado")
             }
             else if (estatus == 'Rechazado'){
                 row.addClass("nova-fecha-vencida")
@@ -569,7 +568,7 @@ Grid.prototype.get_FuenteDatosExcel = function (e) {
         transport: {
             read: {
 
-                url: url_solicitud,
+                url: url_archivo_solicitud,
                 type: "GET",
                 dataType: "json",
             },

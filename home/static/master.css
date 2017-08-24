@@ -625,6 +625,9 @@ div.nova-panel-arbol li.list-group-item {
 .nova-fecha-por-vencer{
    background-color: #FBFBEF;
 }
+.nova-actualizado{
+  background-color: #E6F8E0;
+}
 /* jquery multiselect */
 .nova-has-error {
    border: 1px solid #ea4335 !important;
