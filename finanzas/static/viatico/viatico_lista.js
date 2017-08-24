@@ -64,31 +64,34 @@ function PopupFiltros() {
 }
 PopupFiltros.prototype.init_Components = function () {
 
+    this.$empleado.select2(appnova.get_ConfigSelect2())
+    this.$unidad_negocio.select2(appnova.get_ConfigSelect2())
+    this.$autorizador.select2(appnova.get_ConfigSelect2())
     this.$fecha_creacion.daterangepicker(this.get_ConfDateRangePicker())
 }
 PopupFiltros.prototype.init_Events = function () {
 
-    this.$id.on("hidden.bs.modal", this, this.hide)
-    this.$id.on("show.bs.modal", this, this.start_Show)
-    this.$id.on("shown.bs.modal", this, this.end_Show)
+    // this.$id.on("hidden.bs.modal", this, this.hide)
+    // this.$id.on("show.bs.modal", this, this.start_Show)
+    // this.$id.on("shown.bs.modal", this, this.end_Show)
 
     this.$boton_buscar.on("click", this, this.click_BotonBuscar)
     this.$boton_limpiar.on("click", this, this.click_BotonLimpiar)
 }
-PopupFiltros.prototype.start_Show = function (e) {
-
-    e.data.$empleado.select2({
-        dropdownParent: this.$id
-    })
-    e.data.$unidad_negocio.select2()
-    e.data.$autorizador.select2()
-}
-PopupFiltros.prototype.end_Show = function (e) {
-    e.data.$proposito_viaje.focus()
-}
-PopupFiltros.prototype.hide = function (e) {
-    e.data.$fecha_creacion.data('daterangepicker').hide()
-}
+// PopupFiltros.prototype.start_Show = function (e) {
+//
+//     e.data.$empleado.select2({
+//         dropdownParent: this.$id
+//     })
+//     e.data.$unidad_negocio.select2()
+//     e.data.$autorizador.select2()
+// }
+// PopupFiltros.prototype.end_Show = function (e) {
+//     e.data.$proposito_viaje.focus()
+// }
+// PopupFiltros.prototype.hide = function (e) {
+//     e.data.$fecha_creacion.data('daterangepicker').hide()
+// }
 PopupFiltros.prototype.get_ConfDateRangePicker = function () {
 
     return {
