@@ -66,7 +66,7 @@ function PopupFiltros() {
 }
 PopupFiltros.prototype.init_Components = function () {
 
-    this.$empleado.select2(appnova.get_ConfigSelect2())
+    this.$empleado.select2({ dropdownParent: this.$id })
     this.$unidad_negocio.select2(appnova.get_ConfigSelect2())
     this.$autorizador.select2(appnova.get_ConfigSelect2())
     this.$fecha_creacion.daterangepicker(this.get_ConfDateRangePicker())
