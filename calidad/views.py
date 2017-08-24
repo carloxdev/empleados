@@ -11,6 +11,8 @@ from django.views.generic.edit import UpdateView
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.core.urlresolvers import reverse_lazy
+from django.db import IntegrityError
+from django.contrib import messages
 
 # Django Urls:
 from django.core.urlresolvers import reverse
@@ -55,8 +57,8 @@ from .forms import FallaForm
 from .forms import FormatoForm
 from .forms import GeneralAuditoriaForm
 from .forms import AuditorForm
-from .forms import AuditoriaProcesoForm
-from .forms import ProcesoRequisitoForm
+from .forms import ProcesoAuditoriaForm
+from .forms import RequisitoProcesoForm
 
 # Serializadore:
 from .serializers import RequisitoSerilizado
@@ -390,7 +392,7 @@ class ProcesoLista(View):
         auditores_designados = self.get_AuditoresDesignados( auditoria )
         procesos = ProcesoAuditoria.objects.all()
 
-        formulario = AuditoriaProcesoForm( auditores_designados, True )
+        formulario = ProcesoAuditoriaForm( auditores_designados, True )
 
         contexto = {
             'pk': pk,
@@ -406,7 +408,7 @@ class ProcesoLista(View):
         auditoria = get_object_or_404(Auditoria, pk = pk)
         auditores_designados = self.get_AuditoresDesignados( auditoria )
 
-        formulario = AuditoriaProcesoForm( auditores_designados, True, request.POST )
+        formulario = ProcesoAuditoriaForm( auditores_designados, True, request.POST )
 
         if formulario.is_valid():
             datos_formulario = formulario.cleaned_data
@@ -478,7 +480,7 @@ class ProcesoFormularioUpdate(View):
             'auditor' : auditor_des.pk,
             'sitio' : proceso_aud.sitio,
         }
-        formulario = AuditoriaProcesoForm( auditores_designados, False, initial_data )
+        formulario = ProcesoAuditoriaForm( auditores_designados, False, initial_data )
 
         contexto = {
             'pk': pk,
@@ -496,7 +498,7 @@ class ProcesoFormularioUpdate(View):
         auditoria = get_object_or_404(Auditoria, pk = pk)
         auditores_designados = self.get_AuditoresDesignados( auditoria )
 
-        formulario = AuditoriaProcesoForm( auditores_designados, False, request.POST )
+        formulario = ProcesoAuditoriaForm( auditores_designados, False, request.POST )
 
         if formulario.is_valid():
             datos_formulario = formulario.cleaned_data
@@ -550,7 +552,7 @@ class RequisitoLista(View):
         auditoria = Auditoria.objects.get(pk = pk)
         proceso = ProcesoAuditoria.objects.get(pk = pk_pro)
         criterios_auditoria = self.get_criterio(auditoria)
-        formulario = ProcesoRequisitoForm(criterios_auditoria)
+        formulario = RequisitoProcesoForm(criterios_auditoria)
         requisitos = RequisitoProceso.objects.all()
 
         contexto = {
@@ -558,7 +560,8 @@ class RequisitoLista(View):
             'pk': pk,
             'pk_pro': pk_pro,
             'proceso': proceso.proceso,
-            'requisitos': requisitos
+            'requisitos': requisitos,
+            'folio': auditoria.folio
         }
 
         return render(request, self.template_name, contexto)
@@ -568,16 +571,21 @@ class RequisitoLista(View):
         auditoria = Auditoria.objects.get(pk = pk)
         proceso = ProcesoAuditoria.objects.get(pk = pk_pro)
         criterios_auditoria = self.get_criterio(auditoria)
-        formulario = ProcesoRequisitoForm(criterios_auditoria, request.POST)
+        formulario = RequisitoProcesoForm(criterios_auditoria, request.POST)
 
         if formulario.is_valid():
 
-            req_pro = RequisitoProceso()
-            datos_formulario = formulario.cleaned_data
-            req_pro.proceso_auditoria = ProcesoAuditoria.objects.get(pk = pk_pro )
-            req_pro.requisito = Requisito.objects.get(pk = datos_formulario.get('requisito'))
-            req_pro.create_by = Profile.objects.get(pk = request.user.id)
-            req_pro.save()
+            try:
+
+                req_pro = RequisitoProceso()
+                datos_formulario = formulario.cleaned_data
+                req_pro.proceso_auditoria = ProcesoAuditoria.objects.get(pk = pk_pro )
+                req_pro.requisito = Requisito.objects.get(pk = datos_formulario.get('requisito'))
+                req_pro.create_by = Profile.objects.get(pk = request.user.id)
+                req_pro.save()
+            except IntegrityError as e:
+
+                messages.add_message(request, messages.WARNING, "Este requisito ya existe para el proceso.", extra_tags='requisito_existe')
 
             return redirect(reverse('calidad:requisito_lista', kwargs={ 'pk': pk, 'pk_pro': pk_pro }))
 
@@ -595,7 +603,7 @@ class RequisitoLista(View):
 
     def get_criterio(self, auditoria):
 
-        valores = [('', '-------')]
+        valores = [('0', '-------')]
 
         for criterio in auditoria.criterio.all():
 
@@ -613,15 +621,24 @@ class HallazgoLista(View):
     def __init__(self):
         self.template_name = 'hallazgo/hallazgo_lista.html'
 
-    def get(self, request):
+    def get(self, request, pk, pk_pro):
+
+        auditoria = Auditoria.objects.get(pk = pk)
+        proceso = ProcesoAuditoria.objects.get(pk = pk_pro)
+        requisitos = RequisitoProceso.objects.all()
 
         # formulario = EmpleadoFilterForm()
 
-        # contexto = {
-        #     'form': formulario
-        # }
+        contexto = {
+            # 'form': formulario
+            'pk': pk,
+            'pk_pro': pk_pro,
+            'proceso': proceso.proceso,
+            'requisitos': requisitos,
+            'folio': auditoria.folio
+        }
 
-        return render(request, self.template_name, {})
+        return render(request, self.template_name, contexto)
 
 
 class HallazgoDetalle(View):

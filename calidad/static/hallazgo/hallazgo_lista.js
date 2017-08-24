@@ -18,7 +18,7 @@ var tarjeta_resultados = null
 \*-----------------------------------------------*/
 
 $(document).ready(function () {
-   
+
    tarjeta_resultados = new TarjetaResultados()
 })
 
@@ -79,14 +79,14 @@ PopupHallazgo.prototype.init_Components = function () {
 
    this.$id_subproceso.select2(appnova.get_ConfigSelect2())
    this.$id_contrato.select2(appnova.get_ConfigSelect2())
-   this.$id_observacion.wysihtml5(appnova.get_ConfWysi())
    this.$id_requisito_referencia.multiselect(this.get_ConfMultiSelect())
    this.$id_descripciones.multiselect(this.get_ConfMultiSelect())
    this.$id_tipo_hallazgo.select2(appnova.get_ConfigSelect2())
 }
 PopupHallazgo.prototype.get_ConfMultiSelect = function () {
 
-   return{
+   return {
+
       enableFiltering: true,
       buttonWidth: '100%',
       numberDisplayed: 2,
@@ -136,7 +136,6 @@ PopupFiltros.prototype.init_Events = function () {
 function PopupAcciones() {
 
    this.$id_tarjeta_acciones = $('#id_tarjeta_acciones')
-   // this.$id_boton_cerrar_hallazgo = $('#id_boton_cerrar_hallazgo')
    this.$id_boton_no_conformidad = $('#id_boton_no_conformidad')
    this.init_Events()
 }

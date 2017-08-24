@@ -417,3 +417,12 @@ class RequisitoProceso(models.Model):
         null=True,
         blank=True
     )
+
+    class Meta:
+        unique_together = (("proceso_auditoria", "requisito"),)
+
+    def __str__(self):
+        return "%s - %s" % (self.requisito, self.proceso_auditoria)
+
+    def __unicode__(self):
+        return "%s - %s" % (self.requisito, self.proceso_auditoria)

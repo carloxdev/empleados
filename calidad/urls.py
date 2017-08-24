@@ -81,7 +81,7 @@ urlpatterns = [
         name="requisito_lista"
     ),
     url(
-        r'^auditorias/nuevo/procesos/nuevo/hallazgos/$',
+        r'^auditorias/(?P<pk>\d+)/procesos/(?P<pk_pro>\d+)/hallazgos/$',
         HallazgoLista.as_view(),
         name="hallazgo_lista"
     ),

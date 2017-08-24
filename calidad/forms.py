@@ -10,6 +10,7 @@ from django.forms import Select
 from django.forms import Textarea
 from django.forms import NumberInput
 from django.forms import SelectMultiple
+from django.core.exceptions import NON_FIELD_ERRORS
 
 # Librerias/Clases propias
 
@@ -426,7 +427,7 @@ class AuditorForm(Form):
         return valores
 
 
-class AuditoriaProcesoForm(Form):
+class ProcesoAuditoriaForm(Form):
 
     proceso = ChoiceField(
         widget=Select(attrs={'class': 'select2'})
@@ -460,7 +461,7 @@ class AuditoriaProcesoForm(Form):
     )
 
     def __init__(self, auditores_designados_choices, proceso_required, *args, **kwargs):
-        super(AuditoriaProcesoForm, self).__init__(*args, **kwargs)
+        super(ProcesoAuditoriaForm, self).__init__(*args, **kwargs)
         self.fields['proceso'].choices = self.get_Proceso()
         self.fields['proceso'].required = proceso_required
         if not proceso_required:
@@ -534,7 +535,7 @@ class AuditoriaProcesoForm(Form):
             )
         return valores
 
-class ProcesoRequisitoForm(Form):
+class RequisitoProcesoForm(Form):
 
     criterio = ChoiceField(
         widget=Select(attrs={'class': 'select2'}),
@@ -546,5 +547,5 @@ class ProcesoRequisitoForm(Form):
     )
 
     def __init__(self, criterios_auditoria, *args, **kwargs):
-        super(ProcesoRequisitoForm, self).__init__(*args, **kwargs)
+        super(RequisitoProcesoForm, self).__init__(*args, **kwargs)
         self.fields['criterio'].choices = criterios_auditoria
