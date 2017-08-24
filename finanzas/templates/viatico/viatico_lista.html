@@ -70,53 +70,53 @@
             </div><!-- col md 12 -->
         </div>
 	</div>
-</div>
 
-<!-- Targeta Filtros -->
-<div id="tarjeta_filtros" role="dialog" class="modal fade colored-header colored-header-primary">
-    <div class="modal-dialog">
-        <div class="modal-content">
+    <!-- Targeta Filtros -->
+    <div id="tarjeta_filtros" tabindex="-1" role="dialog" class="modal fade colored-header colored-header-primary">
+        <div class="modal-dialog">
+            <div class="modal-content">
 
-            <div class="modal-header nova-modal-header">
-                <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
-                <h3 class="modal-title">Filtros</h3>
-            </div>
-
-            <form id="formulario_filtro" class="modal-body form-horizontal">
-
-                {% tag_filter form.proposito_viaje %}
-
-                {% tag_filter form.empleado %}
-
-                {% tag_filter form.unidad_negocio %}
-
-                {% tag_filter form.ciudad_destino %}
-
-                {% tag_filter form.autorizador %}
-
-                {% tag_filter_date_range 'Fecha Creacion' 'fecha_creacion' %}
-
-            </form>
-            <div class="modal-footer nova-modal-footer">
-                 <div class="row col-sm-12">
-                        <button type="button" data-dismiss="modal" class="btn btn-default pull-left">
-                            Cancelar
-                        </button>
-
-                        <button type="button" id="boton_limpiar" class="btn btn-default nova-btn">
-                            <i class="fa fa-eraser"></i>
-                            Limpiar
-                        </button>
-
-                        <button type="button" id="boton_buscar" class="btn nova-btn btn-primary btn-lg pull-right">
-                            <i class="icon icon-left mdi mdi-search nova-white"></i>
-                            Buscar
-                        </button>
+                <div class="modal-header nova-modal-header">
+                    <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
+                    <h3 class="modal-title">Filtros</h3>
                 </div>
-            </div>
-        </div> <!-- Modal content-->
-    </div> <!-- Modal dialog -->
-</div><!-- Modal -->
+
+                <form id="formulario_filtro" class="modal-body form-horizontal">
+
+                    {% tag_filter form.proposito_viaje %}
+
+                    {% tag_filter form.empleado %}
+
+                    {% tag_filter form.unidad_negocio %}
+
+                    {% tag_filter form.ciudad_destino %}
+
+                    {% tag_filter form.autorizador %}
+
+                    {% tag_filter_date_range 'Fecha Creacion' 'fecha_creacion' %}
+
+                </form>
+                <div class="modal-footer nova-modal-footer">
+                     <div class="row col-sm-12">
+                            <button type="button" data-dismiss="modal" class="btn btn-default pull-left">
+                                Cancelar
+                            </button>
+
+                            <button type="button" id="boton_limpiar" class="btn btn-default nova-btn">
+                                <i class="fa fa-eraser"></i>
+                                Limpiar
+                            </button>
+
+                            <button type="button" id="boton_buscar" class="btn nova-btn btn-primary btn-lg pull-right">
+                                <i class="icon icon-left mdi mdi-search nova-white"></i>
+                                Buscar
+                            </button>
+                    </div>
+                </div>
+            </div> <!-- Modal content-->
+        </div> <!-- Modal dialog -->
+    </div><!-- Modal -->
+</div>
 
 {% endblock contenido %}
 
