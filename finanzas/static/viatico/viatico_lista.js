@@ -35,9 +35,11 @@ $(document).ready(function () {
             }
 
         }
-        // Tecla ESC
     })
+
 })
+
+
 
 /*-----------------------------------------------*\
             OBJETO: Popup filtro
@@ -75,7 +77,9 @@ PopupFiltros.prototype.init_Events = function () {
 }
 PopupFiltros.prototype.start_Show = function (e) {
 
-    e.data.$empleado.select2()
+    e.data.$empleado.select2({
+        dropdownParent: this.$id
+    })
     e.data.$unidad_negocio.select2()
     e.data.$autorizador.select2()
 }
