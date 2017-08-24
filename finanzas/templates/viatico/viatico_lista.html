@@ -26,9 +26,10 @@
 
 {% block contenido %}
 
-<div class="be-content">
+<!-- URLs -->
+<input type="text" id="url_viaticocabecera_editar" class="hidden" value="{% url 'finanzas:viatico_editar' 0 %}">
 
-    <input type="text" id="url_viaticocabecera_editar" class="hidden" value="{% url 'finanzas:viatico_editar' 0 %}">
+<div class="be-content">
 
 	<div class="page-head nova-page-head">
 		<h2 class="page-head-title nova-title">Solicitudes de Viaticos</h2>
