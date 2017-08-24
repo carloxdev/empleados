@@ -69,7 +69,7 @@
 									<tr>
 										<td class="icon nova-icon-gray"><span class="mdi mdi-face"></span></td>
 										<td class="item">Genero</td>
-										<td>{{ dato.pers_genero_desc }}</td>
+										<td>{{ dato.pers_genero_desc|upper }}</td>
 									</tr>
 									<tr>
 										<td class="icon nova-icon-gray"><span class="mdi mdi-collection-text"></span></td>
@@ -193,62 +193,63 @@
                 <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
                 <h3 class="modal-title">Agregar archivo</h3>
             </div>
-            <form action="" method="POST" enctype="multipart/form-data" id="formulario_per"> {% csrf_token %}
-				<!-- Subtipo -->
-				<div class="modal-body form-horizontal">
-                    <div class="form-group">
-                        <label class="col-sm-3 nova-col-filter control-label">Tipo de documento</label>
-                        <div class="col-sm-8 xs-pt-5">
-                            {{ form.tipo_documento }}
-                        </div>
-                    </div>                
-					<!-- Agrupador -->
-                    <div class="form-group">
-                        <label class="col-sm-3 nova-col-filter control-label">Agrupador</label>
-                        <div class="col-sm-8 xs-pt-5">
-                            {{ form.agrupador }}
-                        </div>
-                    </div>                  
+            	<form action="" method="POST" enctype="multipart/form-data" id="formulario_per"> {% csrf_token %}
+					<!-- Subtipo -->
+					<div class="modal-body form-horizontal">
+	                    <div class="form-group">
+	                        <label class="col-sm-3 nova-col-filter control-label">Tipo de documento</label>
+	                        <div class="col-sm-8 xs-pt-5">
+	                            {{ form.tipo_documento }}
+	                        </div>
+	                    </div>                
+						<!-- Agrupador -->
+	                    <div class="form-group">
+	                        <label class="col-sm-3 nova-col-filter control-label">Agrupador</label>
+	                        <div class="col-sm-8 xs-pt-5">
+	                            {{ form.agrupador }}
+	                        </div>
+	                    </div>                  
 
-                    <!-- Vigencia -->
-                    <div class="form-group">
+	                    <!-- Vigencia -->
+	                    <div class="form-group">
 
-                        <label class="col-sm-3 nova-col-filter control-label">
-                            Vigencia inicio/fin
-                        </label>
+	                        <label class="col-sm-3 nova-col-filter control-label">
+	                            Vigencia inicio/fin
+	                        </label>
 
-                        <div class="col-sm-4 xs-pt-5">
-                            <div class="input-group date" 
-                            data-min-view="2" 
-                            data-date-format="yyyy-mm-dd"
-                            id="id_vigencia_inicio_input">
-                                {{ form.vigencia_inicio }}
-                                <span class="input-group-addon nova-addon-button">
-                                    <span class="glyphicon glyphicon-calendar"></span>
-                                </span>
-                            </div>
-                        </div> 
-                        <div class="col-sm-4 xs-pt-5">
-                            <div class="input-group date" 
-                            data-min-view="2" 
-                            data-date-format="yyyy-mm-dd"
-                            id="id_vigencia_fin_input">
-                                {{ form.vigencia_fin }}
-                                <span class="input-group-addon nova-addon-button">
-                                    <span class="glyphicon glyphicon-calendar"></span>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
+	                        <div class="col-sm-4 xs-pt-5">
+	                            <div class="input-group date" 
+	                            data-min-view="2" 
+	                            data-date-format="yyyy-mm-dd"
+	                            id="id_vigencia_inicio_input">
+	                                {{ form.vigencia_inicio }}
+	                                <span class="input-group-addon nova-addon-button">
+	                                    <span class="glyphicon glyphicon-calendar"></span>
+	                                </span>
+	                            </div>
+	                        </div> 
+	                        <div class="col-sm-4 xs-pt-5">
+	                            <div class="input-group date" 
+	                            data-min-view="2" 
+	                            data-date-format="yyyy-mm-dd"
+	                            id="id_vigencia_fin_input">
+	                                {{ form.vigencia_fin }}
+	                                <span class="input-group-addon nova-addon-button">
+	                                    <span class="glyphicon glyphicon-calendar"></span>
+	                                </span>
+	                            </div>
+	                        </div>
+	                    </div>
 
-                    <!-- Documento -->
-                    <div class="form-group">
-                      <label class="col-sm-3 nova-col-filter control-label">Documento</label>
-                      <div class="col-sm-8 xs-pt-5">
-                        {{ form.archivo }}
-                      </div>
-                    </div> 
-				</div>
+	                    <!-- Documento -->
+	                    <div class="form-group">
+	                      <label class="col-sm-3 nova-col-filter control-label">Documento</label>
+	                      <div class="col-sm-8 xs-pt-5">
+	                        {{ form.archivo }}
+	                      </div>
+	                    </div> 
+					</div>
+				</form>
                 
                 <!-- Botones de acción -->
                 <div class="modal-footer nova-modal-footer">
@@ -259,7 +260,6 @@
 						<button type="button" class="btn btn-primary pull-right" id="id_boton_guardar_personal" >Guardar</button>
                     </div>
                 </div>
-            </form>
         </div> <!-- Modal content-->
     </div> <!-- Modal dialog -->
 </div><!-- Modal personal-->
@@ -390,17 +390,17 @@
                       </div>
                     </div> 
 				</div>
+			</form>
                 
-                <!-- Botones de acción -->
-                <div class="modal-footer nova-modal-footer">
-                     <div class="row col-sm-12">
-                        <button type="button" data-dismiss="modal" class="btn btn-default pull-left" id="id_boton_cancelar_cap">
-                            Cancelar
-                        </button>
-                        <button type="button" class="btn btn-primary pull-right" id="id_boton_guardar_capacitacion"> Guardar</button>
-                    </div>
+            <!-- Botones de acción -->
+            <div class="modal-footer nova-modal-footer">
+                 <div class="row col-sm-12">
+                    <button type="button" data-dismiss="modal" class="btn btn-default pull-left" id="id_boton_cancelar_cap">
+                        Cancelar
+                    </button>
+                    <button type="button" class="btn btn-primary pull-right" id="id_boton_guardar_capacitacion"> Guardar</button>
                 </div>
-            </form>
+            </div>
         </div> <!-- Modal content-->
     </div> <!-- Modal dialog -->
 </div><!-- Modal capacitacion-->

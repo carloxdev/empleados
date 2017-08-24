@@ -51,6 +51,7 @@ function TarjetaFiltros(){
 }
 TarjetaFiltros.prototype.init_Components = function () {
 
+    this.$pers_empleado_numero.select2(appnova.get_ConfigSelect2())
     this.$qua_grado_academico.select2(appnova.get_ConfigSelect2())
     this.$qua_especialidad.select2(appnova.get_ConfigSelect2())
     this.$asig_organizacion_id.select2(appnova.get_ConfigSelect2())
@@ -105,7 +106,7 @@ TarjetaFiltros.prototype.click_BotonLimpiar = function (e) {
         
         e.preventDefault()
         e.data.$qua_grado_academico.data('select2').val(0)
-        e.data.$pers_empleado_numero.val("")
+        e.data.$pers_empleado_numero.data('select2').val(0)
         e.data.$qua_especialidad.data('select2').val(0)  
         e.data.$asig_organizacion_id.data('select2').val(0)
 }

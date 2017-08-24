@@ -30,10 +30,10 @@ from .models import Responsable
 class CriterioForm(Form):
     CLASIFICACION = (
         ('', '------'),
-        ('norma', 'Norma'),
-        ('legal', 'Legal'),
-        ('contractual', 'Contractual'),
-        ('rsc', 'RSC'),
+        ('Norma', 'Norma'),
+        ('Legal', 'Legal'),
+        ('Contractual', 'Contractual'),
+        ('RSC', 'RSC'),
     )
 
     clasificacion = ChoiceField(
@@ -444,13 +444,11 @@ class AuditoriaProcesoForm(Form):
     fecha_programada_ini = CharField(
         label='Fecha Programada desde / hasta',
         widget=TextInput(attrs={'class': 'form-control input-xs', 'name': 'fecha_programada_ini'}),
-        required=False
     )
 
     fecha_programada_fin = CharField(
         label='',
         widget=TextInput(attrs={'class': 'form-control input-xs', 'name': 'fecha_programada_fin'}),
-        required=False
     )
 
     auditor = ChoiceField(
@@ -461,9 +459,12 @@ class AuditoriaProcesoForm(Form):
         widget=Select(attrs={'class': 'select2'})
     )
 
-    def __init__(self, auditores_designados_choices, *args, **kwargs):
-        super(AuditoriaProcesoForm, self).__init__( *args, **kwargs)
+    def __init__(self, auditores_designados_choices, proceso_required, *args, **kwargs):
+        super(AuditoriaProcesoForm, self).__init__(*args, **kwargs)
         self.fields['proceso'].choices = self.get_Proceso()
+        self.fields['proceso'].required = proceso_required
+        if not proceso_required:
+            self.fields['proceso'].widget.attrs['disabled'] = 'disabled'
         self.fields['subproceso'].choices = self.get_Subproceso()
         self.fields['rep_subproceso'].choices = self.get_Representante()
         self.fields['auditor'].choices = auditores_designados_choices
@@ -532,3 +533,18 @@ class AuditoriaProcesoForm(Form):
                 )
             )
         return valores
+
+class ProcesoRequisitoForm(Form):
+
+    criterio = ChoiceField(
+        widget=Select(attrs={'class': 'select2'}),
+    )
+
+    requisito = CharField(
+        widget=Select(attrs={'class': 'select2'}),
+        required=False
+    )
+
+    def __init__(self, criterios_auditoria, *args, **kwargs):
+        super(ProcesoRequisitoForm, self).__init__(*args, **kwargs)
+        self.fields['criterio'].choices = criterios_auditoria

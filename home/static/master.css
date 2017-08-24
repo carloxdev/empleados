@@ -176,16 +176,24 @@
    border-top: 1px solid #d4d4d4;;
    padding: 15px 0 15px 15px !important;
 }
-
-    .nova-footer-botons {
-        padding-right: 1em;
-    }
-
-
+.nova-modal-informacion {
+   font-size: 14px;
+}
+.nova-modal-espaciado{
+   padding: 0 0 !important;
+}
+.nova-modal-header {
+   padding: 15px 20px !important;
+}
+.nova-modal-content {
+   padding: 10px 0px;
+}
+.nova-footer-botons {
+    padding-right: 1em;
+}
 .nova-content {
     max-width: none;
 }
-
 .nova-padding-row {
    padding: 0 15px;
 }
@@ -621,6 +629,9 @@ div.nova-panel-arbol li.list-group-item {
 .nova-fecha-por-vencer{
    background-color: #FBFBEF;
 }
+.nova-actualizado{
+  background-color: #E6F8E0;
+}
 /* jquery multiselect */
 .nova-has-error {
    border: 1px solid #ea4335 !important;
@@ -677,6 +688,9 @@ div.nova-panel-arbol li.list-group-item {
 .nova-modal-contenido{
   font-size: 14px;
   margin-left: 0 30px 0 30px;
+}
+.nova-margin{
+   margin-bottom: 0 !important;
 }
 /* modal descripcion */
 

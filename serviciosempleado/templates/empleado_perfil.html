@@ -35,7 +35,7 @@
 							<div class="user-display-avatar"><img src="{{ ruta }}" alt="Avatar">
 							</div>
 							<a href="#modal_actualizar" class="btn nova-btn btn-rounded btn-space btn-primary pull-right" data-toggle="modal" id="boton_filtros">
-					                <i class="icon icon-left mdi mdi-edit nova-white"></i> Actualizar datos
+					                <i class="icon icon-left mdi mdi-edit nova-white"></i> Solicitar
 					        </a>
 							<div class="user-display-info">
 								<div class="name">{{ dato.pers_nombre_completo }}</div>
@@ -68,7 +68,7 @@
 									<tr>
 										<td class="icon nova-icon-gray"><span class="mdi mdi-face"></span></td>
 										<td class="item">Genero</td>
-										<td>{{ dato.pers_genero_desc }}</td>
+										<td>{{ dato.pers_genero_desc|upper }}</td>
 									</tr>
 									<tr>
 										<td class="icon nova-icon-gray"><span class="mdi mdi-collection-text"></span></td>
@@ -165,8 +165,10 @@
 	               	<div class="actions">
 		                  <a class="btn btn-xs btn-prev btn-default nova-a-tab nova-active-tab" id="personales" >Documentos personales</a>
 		                  <a class="btn btn-xs btn-next btn-default nova-a-tab" id="capacitaciones">Capacitacion</a>
-		                  <a class="btn btn-xs btn-next btn-default nova-a-tab nova-a-tab-border nova-tab">Incidencias</a>
-		                  <a href="" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Desempeño</a>
+		                  <a class="btn btn-xs btn-next btn-default nova-a-tab nova-a-tab-border nova-tab" id="solicitudes">Buzón interno</a>
+		                  <a class="btn btn-xs btn-next btn-default nova-a-tab nova-a-tab-border nova-tab" id="nomina">Nómina</a>
+		                  <!--<a class="btn btn-xs btn-next btn-default nova-a-tab nova-a-tab-border nova-tab">Incidencias</a>
+		                  <a href="" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Desempeño</a>-->
 	               	</div>
 	            </div>
 	            <div class="panel panel-default panel-table">
@@ -191,26 +193,38 @@
         <div class="modal-content">
             <div class="modal-header nova-modal-header">
                 <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
-                <h3 class="modal-title">Actualizar datos</h3>
+                <h3 class="modal-title">Solicitud</h3>
             </div>
+
+            <form action="" method="POST" enctype="multipart/form-data" id="formulario"> {% csrf_token %}
+
             <div class="modal-body form-horizontal">
 				<!-- Informacion -->
 				<div class="nova-modal-contenido">
-	                Si algún dato/archivo en su expediente personal es erróneo o necesita actualizarse indique a continuación cual es y su nuevo valor.
+	                Si desea agregar archivos a su expediente personal u algún dato/archivo es erróneo o necesita actualizarse, indique a continuación el asunto de la solicitud, descripción de la operación a realizarse y adjunte un archivo que corrobore la información proporcionada.
                 </div>
-				<!-- Asunto -->
-                <div class="form-group xs-mt-10">
-	                <div class="col-sm-12 nova-modal-contenido">
-	                    {{ form.asunto }}
+                <input type="hide" class="hide" value="107" id="departamento">
+					<!-- Asunto -->
+	                <div class="form-group xs-mt-10">
+		                <div class="col-sm-12 nova-modal-contenido">
+		                    {{ form.asunto }}
+		                </div>
 	                </div>
-                </div>
-                <!-- Archivo -->
-                <div class="form-group xs-mt-10">
-	                <div class="col-sm-12 nova-modal-contenido">
-	                    {{ form.archivo }}
+	                <!-- Descripcion -->
+	                <div class="form-group xs-mt-10">
+		                <div class="col-sm-12 nova-modal-contenido">
+		                    {{ form.descripcion }}
+		                </div>
 	                </div>
-                </div>
-            </div>            
+	                <!-- Archivo -->
+	                <div class="form-group xs-mt-10">
+		                <div class="col-sm-12 nova-modal-contenido">
+		                    {{ form.archivo }}
+		                </div>
+	                </div>
+                <input type="hide" class="hide" value="{{ request.user.profile.pk }}" id="id_created_by">
+            </div>  
+            </form>          
                                     
             <!-- Botones de acción -->
             <div class="modal-footer nova-modal-footer">
@@ -219,7 +233,7 @@
                             <i class="fa fa-eraser"></i>
                             Limpiar
                     </button>
-                    <button type="submit" id="boton_buscar" class="btn btn-primary pull-right" method='POST'>
+                    <button type="submit" id="boton_enviar" class="btn btn-primary pull-right" method='POST'>
                             <i class="icon icon-left mdi mdi-mail-send nova-white"></i>
                             Enviar
                     </button>
@@ -228,6 +242,48 @@
         </div> <!-- Modal content-->
     </div> <!-- Modal dialog -->
 </div><!-- Modal actualizar-->
+
+<!-- Modal mostrar informacion-->
+<div id="modal_informacion" role="dialog" class="modal fade colored-header colored-header-primary">
+        <div class="modal-dialog custom-width">
+                <div class="modal-content">
+                    <div class="modal-header nova-modal-header">
+                        <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
+                        <h3 class="modal-title" id="modal_titulo"></h3>
+                    </div>
+                    <div class="modal-body form-horizontal">
+                        <!-- Asunto -->
+                        <div class="form-group nova-modal-espaciado">
+                            <label class="col-sm-3 nova-col-filter control-label">Asunto:</label>
+                            <div class="col-sm-8 xs-pt-5 nova-modal-informacion">
+                                <input class="form-control input-xs" id="id_asunto_informacion" readonly="true"></input>
+                            </div>
+                        </div>
+                        <!-- Descripcion -->
+                        <div class="form-group nova-modal-espaciado">
+                            <label class="col-sm-3 nova-col-filter control-label">Descripción:</label>
+                            <div class="col-sm-8 xs-pt-5 nova-modal-informacion">
+                                <textarea class="form-control input-xs" id="id_descripcion_informacion" readonly="true" id="id_descripcion_informacion"></textarea>
+                            </div>
+                        </div>
+                        <!-- Estatus -->
+                        <div class="form-group nova-modal-espaciado">
+                            <label class="col-sm-3 nova-col-filter control-label">Estatus:</label>
+                            <div class="col-sm-8 xs-pt-5 nova-modal-informacion">
+                                <input class="form-control input-xs" id="id_status_informacion" readonly="true"></input>
+                            </div>
+                        </div>
+                        <!-- Observaciones -->
+                        <div class="form-group nova-modal-espaciado">
+                            <label class="col-sm-3 nova-col-filter control-label">Observaciones:</label>
+                            <div class="col-sm-8 xs-pt-5 nova-modal-informacion">
+                                <textarea class="form-control input-xs"readonly="true" id="id_observaciones_informacion"></textarea>
+                            </div>
+                        </div>                
+                    </div>
+                </div> <!-- Modal mostrar informacion-->
+        </div> <!-- Modal dialog -->
+</div><!-- Modal -->
 {% endblock contenido %}
 {% block scripts %}
 	<!-- Kendo Js -->

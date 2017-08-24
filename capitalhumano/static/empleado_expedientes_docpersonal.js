@@ -43,7 +43,7 @@ function TarjetaFiltros(){
     this.$tipo_documento = $('#id_tipo_documento')
     this.$agrupador = $('#id_agrupador')
     this.$numero_empleado = $('#id_numero_empleado')
-    this.$vigencia = $('#id_vigencia')
+    this.$estatus = $('#id_estatus')
 
     this.$boton_buscar = $('#boton_buscar')
     this.$boton_limpiar = $('#boton_limpiar')
@@ -53,57 +53,16 @@ function TarjetaFiltros(){
 }
 TarjetaFiltros.prototype.init_Components = function () {
 
+    this.$numero_empleado.select2(appnova.get_ConfigSelect2())
     this.$asig_organizacion_clave.select2(appnova.get_ConfigSelect2())
     this.$tipo_documento.select2(appnova.get_ConfigSelect2())
     this.$agrupador.select2(appnova.get_ConfigSelect2())
-    this.$vigencia.daterangepicker(this.get_ConfDateRangePicker())
-}
-TarjetaFiltros.prototype.get_ConfDateRangePicker = function () {
-    return {
-        autoUpdateInput: false,
-        locale: {
-            format: 'YYYY-MM-DD',
-            applyLabel: "Aplicar",
-            cancelLabel: "Cancelar",
-            fromLabel: "Del",
-            separator: " al ",
-            toLabel: "Al",            
-            weekLabel: "S",
-            daysOfWeek: [
-                "Do",
-                "Lu",
-                "Ma",
-                "Mi",
-                "Ju",
-                "Vi",
-                "Sa"
-            ],
-            monthNames: [
-                "Enero",
-                "Febrero",
-                "Marzo",
-                "Abril",
-                "Mayo",
-                "Junio",
-                "Julio",
-                "Agosto",
-                "Septiembre",
-                "Octubre",
-                "Noviembre",
-                "Diciembre"
-            ],          
-        },
-        startDate: '2017-01-01'
-    }    
+    this.$estatus.select2(appnova.get_ConfigSelect2())
 }
 TarjetaFiltros.prototype.init_Events = function () {
 
      this.$boton_buscar.on("click", this, this.click_BotonBuscar)
      this.$boton_limpiar.on("click", this, this.click_BotonLimpiar)
-     this.$vigencia.on("apply.daterangepicker", this, this.aplicar_Rango)
-}
-TarjetaFiltros.prototype.aplicar_Rango = function (e, picker) {
-      e.data.$vigencia.val(picker.startDate.format('YYYY-MM-DD') + ' al ' + picker.endDate.format('YYYY-MM-DD'))
 }
 TarjetaFiltros.prototype.click_BotonBuscar = function (e) {
 
@@ -122,8 +81,7 @@ TarjetaFiltros.prototype.get_Values = function (_page) {
                 relacion_personal__tipo_documento: this.$tipo_documento.val(),
                 relacion_personal__agrupador: this.$agrupador.val(),
                 relacion_personal__numero_empleado: this.$numero_empleado.val(),
-                relacion_personal__vigencia_inicio: this.$vigencia.val().split(" al ")[0],
-                relacion_personal__vigencia_fin: this.$vigencia.val().split(" al ")[1],
+                relacion_personal__tipo_documento_estatus: this.$estatus.val(),
      }
 }
 TarjetaFiltros.prototype.get_Values_Excel = function () {
@@ -133,8 +91,7 @@ TarjetaFiltros.prototype.get_Values_Excel = function () {
                 relacion_personal__tipo_documento: this.$tipo_documento.val(),
                 relacion_personal__agrupador: this.$agrupador.val(),
                 relacion_personal__numero_empleado: this.$numero_empleado.val(),
-                relacion_personal__vigencia_inicio: this.$vigencia.val().split(" al ")[0],
-                relacion_personal__vigencia_fin: this.$vigencia.val().split(" al ")[1],
+                relacion_personal__tipo_documento_estatus: this.$estatus.val(),
      }
 }
 TarjetaFiltros.prototype.validar_Campos = function (){
@@ -144,7 +101,7 @@ TarjetaFiltros.prototype.validar_Campos = function (){
                 (this.$tipo_documento.val() == '') &&
                 (this.$agrupador.val() == '') &&
                 (this.$numero_empleado.val() == '') &&
-                (this.$vigencia.val() == '')
+                (this.$estatus.val() == 0)
             ){
             bandera = 'True'
         }
@@ -154,10 +111,10 @@ TarjetaFiltros.prototype.click_BotonLimpiar = function (e) {
         
         e.preventDefault()
         e.data.$asig_organizacion_clave.data('select2').val(0)
-        e.data.$numero_empleado.val("")
+        e.data.$numero_empleado.data('select2').val(0)
         e.data.$tipo_documento.data('select2').val(0)  
         e.data.$agrupador.data('select2').val(0)
-        e.data.$vigencia.val("")
+        e.data.$estatus.data('select2').val(0)
 }
 
 /*-----------------------------------------------*\
@@ -375,7 +332,7 @@ Grid.prototype.get_Configuracion = function () {
                 noRecords: {
                         template: "<div class='nova-grid-empy'> No se encontraron registros </div>"
                 },
-                dataBound: this.set_Icons,
+                dataBound: this.aplicar_Estilos,
         }
 }
 Grid.prototype.get_Columnas = function () {
@@ -404,6 +361,42 @@ Grid.prototype.get_Columnas = function () {
 Grid.prototype.buscar = function() {
 
         this.kfuente_datos.page(1)
+}
+Grid.prototype.aplicar_Estilos = function (e) {
+
+    columns = e.sender.columns
+    dataItems = e.sender.dataSource.view()
+    fecha_hoy = new Date()
+    fecha_por_vencer = tarjeta_resultados.grid.sumar_Dias(new Date(), 90)
+
+    for (var j = 0; j < dataItems.length; j++) {
+        fecha_vencimiento = dataItems[j].get("vigencia_fin")
+        fecha = tarjeta_resultados.grid.convertir_Fecha(fecha_vencimiento)
+        row = e.sender.tbody.find("[data-uid='" + dataItems[j].uid + "']")
+        row.removeClass("k-alt");
+        if(fecha != null){
+            vencimiento = fecha.getTime()
+            if (vencimiento <= fecha_hoy.getTime()) {
+                row.addClass("nova-fecha-vencida")
+            }
+            else if ((vencimiento > fecha_hoy.getTime()) && (vencimiento <= fecha_por_vencer)){
+                row.addClass("nova-fecha-por-vencer")
+            }
+        }
+    }
+}
+Grid.prototype.sumar_Dias = function (fecha, dias){
+
+  fecha.setDate(fecha.getDate() + dias);
+  return fecha;
+}
+Grid.prototype.convertir_Fecha = function (_fecha){
+    año = _fecha.split("/")[2]
+    mes = _fecha.split("/")[1]
+    dia = _fecha.split("/")[0]
+    fecha_formateada = año+"-"+mes+"-"+dia
+    fecha = new Date(fecha_formateada)
+    return fecha
 }
 Grid.prototype.leer_Datos = function() {
     

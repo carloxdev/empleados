@@ -22,6 +22,7 @@ from .views import EmpleadoExpedientes
 from .views import EmpleadoExpedientesGrado
 from .views import EmpleadoExpedientesDocPersonal
 from .views import EmpleadoExpedientesDocCapacitacion
+from .views import EmpleadoSolicitudes
 
 urlpatterns = [
     url(
@@ -53,6 +54,11 @@ urlpatterns = [
         r'^expedientes/general$',
         EmpleadoExpedientes.as_view(),
         name='empleado_expedientes_general'
+    ),
+    url(
+        r'^expedientes/solicitudes$',
+        EmpleadoSolicitudes.as_view(),
+        name='empleado_solicitud'
     ),
     url(
         r'^expedientes/grado$',

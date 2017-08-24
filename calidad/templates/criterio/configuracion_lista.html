@@ -34,7 +34,7 @@
    <div class="main-content container-fluid nova-main-content">
 
       <div class="row wizard-row">
-         
+
          <div class="col-md-12 fuelux">
 
             <div id="wizard1" class="wizard wizard-ux nova-panel-borde-header">
@@ -59,7 +59,7 @@
                   <button class="btn nova-btn btn-rounded btn-sm btn-space btn-success pull-right" id="id_boton_importar">
                      <i class="icon icon-left mdi mdi-download nova-white"></i> Importar
                   </button>
-                  <a href="#id_tarjeta_filtros" 
+                  <a href="#id_tarjeta_filtros"
                      class="btn nova-btn btn-rounded btn-sm btn-space btn-primary pull-right" data-toggle="modal" id="id_boton_filtro">
                      <i class="icon icon-left mdi mdi-search nova-white"></i> Filtros
                   </a>
@@ -73,11 +73,11 @@
                </div>
 
             </div> <!-- Panel -->
- 
+
          </div> <!-- col md 12 -->
 
       </div> <!-- row wizard row -->
-      
+
    </div> <!-- main content -->
 
 </div> <!-- be content -->
@@ -86,18 +86,18 @@
    <div id="id_tarjeta_criterio" data-primaryKey="" role="dialog" class="modal fade colored-header colored-header-primary">
       <div class="modal-dialog custom-width">
          <div class="modal-content">
-            
+
             <div class="modal-header nova-modal-header">
                <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
                <h3 id="id_popup_criterio_titulo" class="modal-title"></h3>
             </div>
             <form id="id_formulario_criterio" method="POST" class="modal-body form-horizontal"> {% csrf_token %}
-   
+
                {% tag_field_popup formularioCriterio.clasificacion 3 8 %}
 
                {% tag_field_popup formularioCriterio.criterio 3 8 %}
 
-            </form>   
+            </form>
             <div class="modal-footer nova-modal-footer">
                 <div class="row col-sm-12">
                   <button type="button" data-dismiss="modal" class="btn btn-default pull-left">
@@ -110,7 +110,7 @@
                   </button>
                </div>
             </div>
-            
+
          </div> <!-- Modal content-->
       </div> <!-- Modal dialog -->
    </div><!-- Modal -->
@@ -119,14 +119,14 @@
    <div id="id_tarjeta_filtros" role="dialog" class="modal fade colored-header colored-header-primary">
       <div class="modal-dialog custom-width">
          <div class="modal-content">
-            
+
             <div class="modal-header nova-modal-header">
                <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
                <h3 class="modal-title">Filtros</h3>
             </div>
-               
+
             <form id="id_formulario_filtro" class="modal-body form-horizontal">
-               
+
                {% tag_filter formularioFiltro.requisito %}
 
             </form><!-- Modal body-->
@@ -155,17 +155,18 @@
    <div id="id_tarjeta_requisito" data-primaryKey="" data-primarykeyParent="" role="dialog" class="modal fade colored-header colored-header-primary">
       <div class="modal-dialog custom-width">
          <div class="modal-content">
-            
+
             <div class="modal-header nova-modal-header">
                <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
                <h3 id="id_popup_requisito_titulo" class="modal-title"></h3>
             </div>
-               
+
             <form id="id_formulario_requisito" class="modal-body form-horizontal">
 
                {% tag_field_popup formularioRequisito.requisito 3 8 %}
 
             </form><!-- Modal body-->
+
             <div class="modal-footer nova-modal-footer">
                 <div class="row col-sm-12">
                   <button type="button" data-dismiss="modal" class="btn btn-default pull-left">
@@ -181,7 +182,7 @@
          </div> <!-- Modal content-->
       </div> <!-- Modal dialog -->
    </div><!-- Modal -->
-   
+
 
 {% endblock contenido %}
 
@@ -191,6 +192,6 @@
    <script src="{% static 'libs/bootstrap-treeview/1.2.0/js/bootstrap-treeview.js' %}" ></script>
 
    <!-- JS Template -->
-   <script src="{% static 'criterio/configuracion_lista.js' %}"></script>      
+   <script src="{% static 'criterio/configuracion_lista.js' %}"></script>
 
 {% endblock scripts %}

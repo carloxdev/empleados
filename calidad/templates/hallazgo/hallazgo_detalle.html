@@ -33,9 +33,9 @@
    </div>
 
    <div class="main-content container-fluid nova-main-content">
-      
+
       <div class="row wizard-row">
-         
+
          <div class="col-md-12 fuelux">
 
             <div id="wizard1" class="wizard wizard-ux nova-panel-borde-header">
@@ -50,13 +50,13 @@
                   <a href="{% url 'calidad:proceso_lista' 1 %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab nova-active-tab">Procesos</a>
                </div>
                <div class="nova-content-nav">
-                  <div class="nova-breadcrumb-nav"> 
+                  <div class="nova-breadcrumb-nav">
                      <ol class="breadcrumb">
                         <li>
                            <a href="{% url 'calidad:proceso_lista' 1 %}"><span class="badge">Lista de Procesos</span></a>
                         </li>
                         <li>
-                           <a href="{% url 'calidad:proceso_formulario' %}"><span class="badge">Proceso: Licitaciones </span></a>
+                           <a href="{% url 'calidad:proceso_formulario_update' %}"><span class="badge">Proceso: Licitaciones </span></a>
                         </li>
                         <li class="active">
                            <a><span class="badge">Hallazgo: Documento fuera de regla</a></span>
@@ -70,7 +70,7 @@
             <div class="nova-panel-slider">
 
                <div class="col-md-4 col-lg-3">
-                  
+
                   <div class="row nova-slider">
                      <div id="lista_acciones" class="nova-slider-menu">
 
@@ -95,23 +95,23 @@
                </div> <!-- col-md-4 col-lg-3 -->
 
                <div class="col-md-8 col-lg-9">
-                  
+
                   <section id="id_detalle_hallazgo" class="nova-slider-section">
-                     
+
                      <form id="formulario_detalle_hallazgo" class="form-horizontal">
                         <div class="nova-slider-panel">
-                           
+
                            <div class="nova-slider-panel-heading">
-                              
+
                               <div class="nova-slider-title">Detalle del Hallazgo
                               </div>
 
                            </div>
                            <div class="nova-slider-panel-content">
-                              
+
                               <!-- id_subproceso -->
                               <div class="form-group">
-                                 <label class="col-sm-3 control-label" 
+                                 <label class="col-sm-3 control-label"
                                     for="{{ form.auditores.id_for_label }}">
                                     {{ form.auditores.label }}
                                     Subproceso
@@ -125,14 +125,14 @@
                                        <option value="Contractual">Construccion</option>
                                        <option value="RSC">Desarrollo</option>
                                     </select>
-                                 </div> 
+                                 </div>
                                  {% for error in form.auditores.errors %}
                                     <span class="help-block">{{ error }}</span>
-                                 {% endfor %}                                        
+                                 {% endfor %}
                               </div>
 
                               <div class="form-group">
-                                 <label class="col-sm-3 control-label" 
+                                 <label class="col-sm-3 control-label"
                                     for="{{ form.auditores.id_for_label }}">
                                     {{ form.auditores.label }}
                                     Requisitos de referencia
@@ -148,15 +148,15 @@
                                        <option value="f">Requisito de referencia 7.7</option>
                                        <option value="g">Requisito de referencia 7.7</option>
                                     </select>
-                                 </div> 
+                                 </div>
                                  {% for error in form.auditores.errors %}
                                     <span class="help-block">{{ error }}</span>
-                                 {% endfor %}                                        
+                                 {% endfor %}
                               </div>
 
                               <!-- requisitos_adicionales -->
                               <div class="form-group">
-                                 <label class="col-sm-3 control-label" 
+                                 <label class="col-sm-3 control-label"
                                     for="{{ form.auditores.id_for_label }}">
                                     {{ form.auditores.label }}
                                     Requisitos adicionales
@@ -170,15 +170,15 @@
                                        <option value="Fernanda Fuentes Rocio">Requisito adicional 5.6</option>
                                        <option value="Fernanda Fuentes Rocio">Requisito adicional 12.7</option>
                                     </select>
-                                 </div> 
+                                 </div>
                                  {% for error in form.auditores.errors %}
                                     <span class="help-block">{{ error }}</span>
-                                 {% endfor %}                                        
+                                 {% endfor %}
                               </div>
 
                               <!-- tipo_hallazgo -->
                               <div class="form-group">
-                                 <label class="col-sm-3 control-label" 
+                                 <label class="col-sm-3 control-label"
                                     for="{{ form.tipo_hallazgo.id_for_label }}">
                                     Tipo de Hallazgo
                                  </label>
@@ -197,7 +197,7 @@
 
                               <!-- observaciones -->
                               <div class="form-group">
-                                 <label class="col-sm-3 control-label" 
+                                 <label class="col-sm-3 control-label"
                                     for="{{ form.observaciones.id_for_label }}">
                                     {{ form.observaciones.label }}
                                     Observaciones
@@ -206,7 +206,7 @@
                                     {{ form.observaciones }}
                                     <textarea class="form-control textarea" id="id_observacion_hallazgo">
                                     </textarea>
-                                 </div> 
+                                 </div>
                                  {% for error in form.observaciones.errors %}
                                     <span class="help-block">{{ error }}</span>
                                  {% endfor %}
@@ -214,32 +214,32 @@
 
                            </div> <!-- nova-slider-panel-content -->
                            <div class="nova-slider-panel-footer">
-                              
+
                               <button type="button" id="id_boton_guardar_detalle_hallazgo" class="btn nova-btn btn-primary btn-lg pull-right">
                                  <i class="icon icon-left mdi mdi-floppy nova-white"></i>
                                  Guardar
                               </button>
 
                            </div>
-                           
+
                         </div> <!--panel-->
                      </form><!-- Modal body-->
 
                   </section> <!-- section -->
 
                   <section id="id_analisis_causas" class="nova-slider-section">
-                     
+
                      <div class="nova-slider-panel-heading-table">
-                        
+
                         <div class="nova-slider-title pull-left">Análisis de causas
                         </div>
-                        
+
                         <a href="#id_tarjeta_analisis"
                            class="btn nova-btn btn-rounded btn-sm btn-default nova-btn-space pull-right" data-toggle="modal" id="id_boton_nuevo_analisis_causas">
                            <i class="icon icon-left mdi mdi-plus-circle nova-black"></i>Nuevo
                         </a>
                      </div>
-                        
+
                      <div class="nova-div-overflow">
                         <table id="id_grid_analisis_causa" class="table table-bordered table-hover">
                            <thead>
@@ -277,24 +277,24 @@
                               </tr>
                            </tbody>
                         </table>
-                        
+
                      </div>
 
                   </section> <!-- section -->
 
                   <section id="id_plan_accion" class="nova-slider-section">
-                           
+
                      <div class="nova-slider-panel-heading-table">
-                        
+
                         <div class="nova-slider-title pull-left">Plan de Acción
                         </div>
-                        
+
                         <a href="#id_tarjeta_nueva_actividad"
                            class="btn nova-btn btn-rounded btn-sm btn-default nova-btn-space pull-right" data-toggle="modal" id="boton_nuevo">
                            <i class="icon icon-left mdi mdi-plus-circle nova-black"></i>Nuevo
                         </a>
                      </div>
-                        
+
                      <div class="nova-div-overflow">
                         <table id="id_grid_plan_accion" class="table table-bordered table-hover">
                            <thead>
@@ -344,24 +344,24 @@
                               </tr>
                            </tbody>
                         </table>
-                        
+
                      </div>
-                           
+
                   </section> <!-- section -->
 
                   <section id="id_evidencias" class="nova-slider-section">
-                     
+
                      <div class="nova-slider-panel-heading-table">
-                        
+
                         <div class="nova-slider-title pull-left">Evidencias
                         </div>
-                        
+
                         <a href="#id_tarjeta_evidencia"
                            class="btn nova-btn btn-rounded btn-sm btn-default nova-btn-space pull-right" data-toggle="modal" id="id_boton_nueva_evidencia">
                            <i class="icon icon-left mdi mdi-plus-circle nova-black"></i>Nuevo
                         </a>
                      </div>
-                        
+
                      <div class="nova-div-overflow">
                         <table id="id_grid_evidencia" class="table table-bordered table-hover">
                            <thead>
@@ -396,7 +396,7 @@
                               </tr>
                            </tbody>
                         </table>
-                        
+
                      </div>
 
                   </section> <!-- section -->
@@ -415,12 +415,12 @@
    <div id="id_tarjeta_analisis" role="dialog" class="modal fade colored-header colored-header-primary">
       <div class="modal-dialog modal-lg">
          <div class="modal-content nova-modal-maxwidth">
-            
+
             <div class="modal-header nova-modal-header">
                <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
                <h3 class="modal-title">Analisis de Causas</h3>
             </div>
-             
+
                <form id="id_formulario_analisis_causas" class="modal-body form-horizontal">
 
                   <div class="form-group">
@@ -496,14 +496,14 @@
    <div id="id_tarjeta_nueva_actividad" role="dialog" class="modal fade colored-header colored-header-primary">
       <div class="modal-dialog custom-width">
          <div class="modal-content">
-            
+
             <div class="modal-header nova-modal-header">
                <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
                <h3 class="modal-title">Nueva Actividad</h3>
             </div>
-               
+
             <form id="id_formulario_actividad" class="modal-body form-horizontal">
-               
+
                <div class="form-group">
                   <label class="col-sm-3 nova-col-filter control-label">Actividad</label>
                   <div class="col-sm-8 xs-pt-5">
@@ -529,8 +529,8 @@
                   </label>
 
                   <div class="col-sm-8 xs-pt-5">
-                     <div class="input-group date" 
-                     data-min-view="2" 
+                     <div class="input-group date"
+                     data-min-view="2"
                      data-date-format="yyyy-mm-dd"
                      id="id_fecha_programada_input">
                         {{ form.fecha_partida }}
@@ -566,12 +566,12 @@
    <div id="id_tarjeta_evaluacion" role="dialog" class="modal fade colored-header colored-header-primary">
       <div class="modal-dialog custom-width">
          <div class="modal-content">
-            
+
             <div class="modal-header nova-modal-header">
                <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
                <h3 class="modal-title">Evaluación</h3>
             </div>
-               
+
             <form id="id_formulario_evaluacion" class="modal-body form-horizontal">
 
 
@@ -584,7 +584,7 @@
                      </select>
                  </div>
                </div>
-               
+
                <div class="form-group">
                   <label class="col-sm-3 nova-col-filter control-label">Resultado de la evaluación</label>
                   <div class="col-sm-8 xs-pt-5">
@@ -599,8 +599,8 @@
                   </label>
 
                   <div class="col-sm-8 xs-pt-5">
-                     <div class="input-group date" 
-                     data-min-view="2" 
+                     <div class="input-group date"
+                     data-min-view="2"
                      data-date-format="yyyy-mm-dd"
                      id="id_fecha_seguimiento_input">
                         {{ form.fecha_partida }}
@@ -620,8 +620,8 @@
                   <div class="col-sm-8 xs-pt-5">
                      <input type="text" class="form-control input-xs">
                   </div>
-               </div>               
-               
+               </div>
+
                <div class="form-group">
                   <label class="col-sm-3 nova-col-filter control-label">Recursos Necesarios</label>
                   <div class="col-sm-8 xs-pt-5">
@@ -651,12 +651,12 @@
    <div id="id_tarjeta_evidencia" role="dialog" class="modal fade colored-header colored-header-primary">
       <div class="modal-dialog modal-lg">
          <div class="modal-content nova-modal-maxwidth">
-            
+
             <div class="modal-header nova-modal-header">
                <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
                <h3 class="modal-title">Evidencia</h3>
             </div>
-               
+
             <form id="id_formulario_evidencia" class="modal-body form-horizontal">
 
                <div class="form-group">
@@ -701,12 +701,12 @@
    <div id="id_tarjeta_seguimiento_plan" tabindex="-1" role="dialog" class="modal fade colored-header colored-header-primary">
       <div class="modal-dialog modal-lg">
          <div class="modal-content nova-modal-maxwidth">
-            
+
             <div class="modal-header nova-modal-header">
                <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
                <h3 class="modal-title">Seguimiento al Plan de Acción</h3>
             </div>
-               
+
             <form id="id_formulario_seguimiento_plan" class="modal-body form-horizontal">
                <div class="nova-modal-content nova-overflow-hidden">
                   <div class="form-group">
@@ -716,15 +716,15 @@
                         </textarea>
                      </div>
                   </div>
-                  
+
                   <div class="form-group">
                      <label class="col-sm-3 control-label">
                         Fecha Seguimiento
                      </label>
 
                      <div class="col-sm-4 xs-pt-5">
-                        <div class="input-group date" 
-                        data-min-view="2" 
+                        <div class="input-group date"
+                        data-min-view="2"
                         data-date-format="yyyy-mm-dd"
                         id="id_fecha_seguimiento_plan_input">
                            {{ form.fecha_partida }}
@@ -738,7 +738,7 @@
                         <span class="help-block">{{ error }}</span>
                      {% endfor %}
                   </div>
-                  
+
                   <button type="button" id="id_boton_guardar_seguimiento_plan" class="btn nova-btn btn-primary btn-lg pull-right">
                      <i class="icon icon-left mdi mdi-floppy nova-white"></i>
                      Guardar
@@ -764,12 +764,12 @@
                            <input type="file" name="file-2" id="id_imagen_seguimiento_plan" data-multiple-caption="{count} Archivos seleccionados" multiple="" class="inputfile">
                         </div>
                      </div>
-                  
+
                   </div>
                </div>  <!-- Panel -->
 
             </form><!-- Modal body-->
-            
+
             <div class="modal-footer nova-modal-footer">
                <div class="row col-sm-12">
                   <button type="button" data-dismiss="modal" class="btn btn-default pull-left">
@@ -785,12 +785,12 @@
    <div id="id_tarjeta_editar_actividad" role="dialog" class="modal fade colored-header colored-header-primary">
       <div class="modal-dialog custom-width">
          <div class="modal-content">
-            
+
             <div class="modal-header nova-modal-header">
                <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
                <h3 class="modal-title">Editar Actividad</h3>
             </div>
-               
+
             <form id="id_formulario_editar_actividad" class="modal-body form-horizontal">
                <!-- evidencia -->
                <div class="form-group">
@@ -832,7 +832,7 @@
 {% endblock contenido %}
 
 {% block scripts %}
-   
+
    <!-- Beagle Theme -->
    <!--<script src="{% static 'theme/lib/daterangepicker/js/daterangepicker.js' %}"></script>-->
    <script src="{% static 'theme/lib/bootstrap-multiselect/js/bootstrap-multiselect.js' %}"></script>

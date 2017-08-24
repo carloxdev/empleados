@@ -16,6 +16,8 @@ from .view_rest import FallaByPageAPI
 from .view_rest import MetodologiaAPI
 from .view_rest import MetodologiaByPageAPI
 from .view_rest import FormatoAPI
+from .view_rest import RequisitoProcesoAPI
+from .view_rest import ProcesoAuditoriaAPI
 
 router_calidad = routers.DefaultRouter()
 
@@ -94,4 +96,14 @@ router_calidad.register(
     r'formato',
     FormatoAPI,
     'formato'
+)
+router_calidad.register(
+    r'procesoauditoria',
+    ProcesoAuditoriaAPI,
+    'procesoauditoria'
+)
+router_calidad.register(
+    r'requisitoproceso',
+    RequisitoProcesoAPI,
+    'requisitoproceso'
 )

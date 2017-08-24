@@ -18,7 +18,6 @@ from .models import DocumentoCapacitacion
 from .models import PerfilPuestosCargo
 
 
-
 class PerfilPuestoDocumentoFilter(filters.FilterSet):
 
     empleado_puesto_desc = CharFilter(
@@ -32,6 +31,7 @@ class PerfilPuestoDocumentoFilter(filters.FilterSet):
             'id',
             'empleado_puesto_desc',
         ]
+
 
 class PerfilpuestosCargoFilter(filters.FilterSet):
 
@@ -186,14 +186,9 @@ class ArchivoPersonalFilter(filters.FilterSet):
         name="relacion_personal__tipo_documento_organizacion",
         method="filter_organizacion")
 
-    relacion_personal__vigencia_inicio = CharFilter(
-        name='relacion_personal__vigencia_inicio',
-        method="filter_vigencia_inicio"
-    )
-
-    relacion_personal__vigencia_fin = CharFilter(
-        name='relacion_personal__vigencia_fin',
-        method="filter_vigencia_fin"
+    relacion_personal__tipo_documento_estatus = CharFilter(
+        name='relacion_personal__tipo_documento_estatus',
+        method="filter_estatus"
     )
 
     class Meta:
@@ -203,8 +198,7 @@ class ArchivoPersonalFilter(filters.FilterSet):
             'relacion_personal__tipo_documento',
             'relacion_personal__agrupador',
             'relacion_personal__tipo_documento_organizacion',
-            'relacion_personal__vigencia_inicio',
-            'relacion_personal__vigencia_fin',
+            'relacion_personal__tipo_documento_estatus',
         ]
 
     def filter_documento(self, queryset, name, value):
@@ -242,23 +236,31 @@ class ArchivoPersonalFilter(filters.FilterSet):
 
             return empleados.filter(relacion_personal__numero_empleado__in=incluir)
 
-    def filter_vigencia_inicio(self, queryset, name, value):
+    def filter_estatus(self, queryset, name, value):
 
         if not value:
-            return queryset
+            return ''
         else:
-            consulta = queryset.filter(
-                relacion_personal__vigencia_inicio__gte=value)
-            return consulta
+            empleados = queryset.all()
+            fecha_actual = date.today()
+            incluir = []
+            fecha_por_vencer = fecha_actual + timedelta(days=90)
 
-    def filter_vigencia_fin(self, queryset, name, value):
+            if value == 'ven':
+                for dato in empleados:
+                    if dato.content_object is not None:
+                        if dato.content_object.vigencia_fin is not None:
+                            if dato.content_object.vigencia_fin < fecha_actual:
+                                incluir.append(dato.id)
+            elif value == 'por':
+                for dato in empleados:
+                    if dato.content_object is not None:
+                        if dato.content_object.vigencia_fin is not None:
+                            if (dato.content_object.vigencia_fin > fecha_actual) and \
+                                    (dato.content_object.vigencia_fin <= fecha_por_vencer):
+                                incluir.append(dato.id)
 
-        if not value:
-            return queryset
-        else:
-            consulta = queryset.filter(
-                relacion_personal__vigencia_fin__lte=value)
-            return consulta
+            return empleados.filter(id__in=incluir)
 
 
 class ArchivoCapacitacionFilter(filters.FilterSet):
