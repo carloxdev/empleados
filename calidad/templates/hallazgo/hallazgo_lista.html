@@ -2,6 +2,8 @@
 
 {% load static from staticfiles %}
 
+{% load custom_tags %}
+
 {% block titulo %} Hallazgos {% endblock titulo %}
 
 {% block title-page %} Hallazgos  {% endblock title-page %}
@@ -71,8 +73,7 @@
                      class="btn nova-btn btn-rounded btn-sm btn-primary btn-space pull-right" data-toggle="modal" id="id_boton_filtros">
                      <i class="icon icon-left mdi mdi-search nova-white"></i> Filtros
                   </a>
-                  <a href="#id_tarjeta_nuevo_hallazgo"
-                     class="btn nova-btn btn-rounded btn-sm btn-default btn-space pull-right" data-toggle="modal" id="id_boton_nuevo">
+                  <a class="btn nova-btn btn-rounded btn-sm btn-default btn-space pull-right" data-toggle="modal" id="id_boton_nuevo">
                      <i class="icon icon-left mdi mdi-plus-circle nova-black"></i> Nuevo
                   </a>
                </div><!-- Panel Heading -->
@@ -86,12 +87,11 @@
                            <th>Subproceso</th>
                            <th>Estado</th>
                            <th>Tipo</th>
-
-                           <th>Observaciones del Hallazgo</th>
+                           <th>Observaciones</th>
                            <th>Cerrado</th>
                         </tr>
                      </thead>
-                     <tbody>
+                     <tbody id="id_tbody_hallazgo_proceso">
                        {% if hallazgos %}
                            {% for hallazgo in hallazgos %}
                                <tr class="clickable-row">
@@ -101,16 +101,15 @@
                                      </a>
                                   </td>
                                   <td>
-                                     <a href="{% url 'calidad:hallazgo_detalle' %}" class="btn btn-default nova-url" data-toggle="modal">Documento fuera de regla</a>
+                                     <a data-primaryKey="{{ requisito.pk }}" data-event="editarHallazgo" class="btn btn-default nova-url" data-toggle="modal">{{ hallazgo.titulo }}</a>
                                   </td>
                                   <td>
-                                     Licictaciones
+                                     {{ hallazgo.proceso.subproceso }}
                                   </td>
-                                  <td class="nova-aling-center">En Captura</td>
-                                  <td>Mayor A</td>
-
-                                  <td>Se encontro un documento de licitacion al cual le faltaba un sello.</td>
-                                  <td>No</td>
+                                  <td class="nova-aling-center">{{ hallazgo.estado }}</td>
+                                  <td>{{ hallazgo.tipo_hallazgo }}</td>
+                                  <td>{{ hallazgo.observacion }}</td>
+                                  <td>{{ hallazgo.cerrado }}</td>
                                </tr>
                            {% endfor %}
                        {% else %}
@@ -166,63 +165,25 @@
                <h3 class="modal-title">Filtros</h3>
             </div>
 
-            <form id="formulario_filtro" class="modal-body form-horizontal">
+            <form id="id_formulario_filtro" class="modal-body form-horizontal">
 
-               <div class="form-group">
-                 <label class="col-sm-3 nova-col-filter control-label">Proceso</label>
-                 <div class="col-sm-7 xs-pt-5">
-                     <select class="select2 select2-hidden-accessible" tabindex="-1" aria-hidden="true" id="id_proceso">
-                        <option value="" selected="selected">-------</option>
-                        <option value="JPJ">Capital humano</option>
-                        <option value="LALG">Tecnologías de información</option>
-                        <option value="LALG">Suministro, Logística y Control</option>
-                     </select>
-                 </div>
-               </div>
+              <!-- titulo -->
+              {% tag_filter form_filter.titulo %}
 
-               <div class="form-group">
-                 <label class="col-sm-3 nova-col-filter control-label">sitio</label>
-                 <div class="col-sm-7 xs-pt-5">
-                     <select class="select2 select2-hidden-accessible" tabindex="-1" aria-hidden="true" id="id_sitio">
-                        <option value="" selected="selected">-------</option>
-                        <option value="JPJ">Oficinas Veracruz</option>
-                        <option value="LALG">Oficinas Reynosa</option>
-                        <option value="LALG">Oficinas Villahermosa</option>
-                     </select>
-                 </div>
-               </div>
+              <!-- subproceso -->
+              {% tag_filter form_filter.subproceso %}
 
-               <div class="form-group">
-                  <label class="col-sm-3 nova-col-filter control-label">Hallazgo</label>
-                  <div class="col-sm-7 xs-pt-5">
-                     <input type="text" class="form-control input-xs" name="" id="id_hallazgo">
-                  </div>
-               </div>
+              <!-- sitio -->
+              {% tag_filter form_filter.sitio %}
 
-               <div class="form-group">
-                  <label class="col-sm-3 nova-col-filter control-label">Cerrado</label>
-                  <div class="col-sm-7 xs-pt-5">
-                     <select class="select2 select2-hidden-accessible" tabindex="-1" aria-hidden="true" id="id_estado">
-                        <option value="" selected="selected">-------</option>
-                        <option value="Vinculado">Si</option>
-                        <option value="Directo">No</option>
-                     </select>
-                  </div>
-               </div>
+              <!-- tipo_hallazgo -->
+              {% tag_filter form_filter.tipo_hallazgo %}
 
-               <div class="form-group">
-                 <label class="col-sm-3 nova-col-filter control-label">Tipo de hallazgo</label>
-                 <div class="col-sm-7 xs-pt-5">
-                     <select class="select2 select2-hidden-accessible" tabindex="-1" aria-hidden="true" id="id_tipo_hallazgo_filtro">
-                        <option value="" selected="selected">-------</option>
-                        <option value="TIPOA">Mayor A</option>
-                        <option value="TIPOB">Menor B</option>
-                        <option value="Observacion">Observacion</option>
-                     </select>
-                 </div>
-               </div>
+              <!-- cerrado -->
+              {% tag_filter_radio form_filter.cerrado %}
 
             </form><!-- Modal body-->
+
             <div class="modal-footer nova-modal-footer">
                <div class="row col-sm-12">
                   <button type="button" data-dismiss="modal" class="btn btn-default pull-left">
@@ -245,135 +206,55 @@
    </div><!-- Modal -->
 
    <!-- id_tarjeta_nuevo_hallazgo -->
-   <div id="id_tarjeta_nuevo_hallazgo" role="dialog" class="modal fade colored-header colored-header-primary">
+   <div id="id_tarjeta_hallazgo" data-primaryKey="" role="dialog" class="modal fade colored-header colored-header-primary">
       <div class="modal-dialog custom-width">
          <div class="modal-content">
 
             <div class="modal-header nova-modal-header">
                <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
-               <h3 class="modal-title">Nuevo Hallazgo</h3>
+               <h3 class="modal-title" id="id_popup_hallazgo_titulo"></h3>
             </div>
 
-            <form id="formulario_filtro" class="modal-body form-horizontal">
+            <form id="id_formulario_hallazgo">
 
-               <!-- id_subproceso -->
-               <div class="form-group">
-                  <label class="col-sm-3 control-label"
-                     for="{{ form.auditores.id_for_label }}">
-                     {{ form.auditores.label }}
-                     Subproceso
-                  </label>
-                  <div class="col-sm-7 xs-pt-5">
-                     {{ form.auditores }}
-                     <select class="select2 select2-hidden-accessible" tabindex="-1" aria-hidden="true" id="id_subproceso">
-                        <option value="" selected="selected">-------</option>
-                        <option value="Norma">Infraestructura</option>
-                        <option value="Legal">Licitaciones</option>
-                        <option value="Contractual">Construccion</option>
-                        <option value="RSC">Desarrollo</option>
-                     </select>
-                  </div>
-                  {% for error in form.auditores.errors %}
-                     <span class="help-block">{{ error }}</span>
-                  {% endfor %}
-               </div>
+               <div class="modal-body form-horizontal">
 
-               <!-- id_requisito_referencia -->
-               <div class="form-group">
-                  <label class="col-sm-3 control-label"
-                     for="{{ form.auditores.id_for_label }}">
-                     {{ form.auditores.label }}
-                     Requisitos de referencia
-                  </label>
-                  <div class="col-sm-7 xs-pt-5">
-                     {{ form.auditores }}
-                     <select id="id_requisito_referencia" multiple="multiple">
-                        <option value="a">Requisito de referencia 10.1</option>
-                        <option value="b">Requisito de referencia 10.2</option>
-                        <option value="c">Requisito de referencia 10.3</option>
-                        <option value="d">Requisito de referencia 7.7</option>
-                        <option value="e">Requisito de referencia 7.7</option>
-                        <option value="f">Requisito de referencia 7.7</option>
-                        <option value="g">Requisito de referencia 7.7</option>
-                     </select>
-                  </div>
-                  {% for error in form.auditores.errors %}
-                     <span class="help-block">{{ error }}</span>
-                  {% endfor %}
-               </div>
+                  <!-- titulo -->
+                  {% tag_field_popup form.titulo 3 8 %}
 
-               <!-- id_descripciones -->
-               <div class="form-group">
-                  <label class="col-sm-3 control-label"
-                     for="{{ form.auditores.id_for_label }}">
-                     {{ form.auditores.label }}
-                     Descripciones
-                  </label>
-                  <div class="col-sm-7 xs-pt-5">
-                     {{ form.auditores }}
-                     <select id="id_descripciones" multiple="multiple">
-                        <option value="a">Fuga de gas</option>
-                        <option value="b">Impacto en el suelo</option>
-                     </select>
-                  </div>
-                  {% for error in form.auditores.errors %}
-                     <span class="help-block">{{ error }}</span>
-                  {% endfor %}
-               </div>
+                  <!-- subproceso -->
+                  {% tag_field_popup form.subproceso 3 8 %}
 
-               <!-- tipo_hallazgo -->
-               <div class="form-group">
-                  <label class="col-sm-3 control-label"
-                     for="{{ form.tipo_hallazgo.id_for_label }}">
-                     Tipo de Hallazgo
-                  </label>
-                  <div class="col-sm-7 xs-pt-5">
-                     <select class="select2 select2-hidden-accessible" tabindex="-1" aria-hidden="true" id="id_tipo_hallazgo">
-                        <option value="" selected="selected">-------</option>
-                        <option value="TIPOA">Mayor</option>
-                        <option value="TIPOB">Menor</option>
-                        <option value="Observacion">Observacion</option>
-                     </select>
-                  </div>
-                  {% for error in form.tipo_hallazgo.errors %}
-                     <span class="help-block">{{ error }}</span>
-                  {% endfor %}
-               </div>
+                  <!-- requisito_referencia -->
+                  {% tag_field_popup form.requisito_referencia 3 8 %}
 
-               <!-- observaciones -->
-               <div class="form-group">
-                  <label class="col-sm-3 control-label"
-                     for="{{ form.observaciones.id_for_label }}">
-                     {{ form.observaciones.label }}
-                     Observaciones
-                  </label>
-                  <div class="col-sm-7 xs-pt-5">
-                     {{ form.observaciones }}
-                     <textarea class="form-control textarea" id="id_observacion">
-                     </textarea>
-                  </div>
-                  {% for error in form.observaciones.errors %}
-                     <span class="help-block">{{ error }}</span>
-                  {% endfor %}
-               </div>
+                  <!-- descripciones -->
+                  {% tag_field_popup form.descripciones 3 8 %}
 
-            </form><!-- Modal body-->
-            <div class="modal-footer nova-modal-footer">
-               <div class="row col-sm-12">
-                  <button type="button" data-dismiss="modal" class="btn btn-default pull-left">
-                        Cerrar
-                     </button>
+                  <!-- tipo_hallazgo -->
+                  {% tag_field_popup form.tipo_hallazgo 3 8 %}
 
-                     <button type="button" id="boton_modal_guardar" class="btn nova-btn btn-primary btn-lg pull-right">
-                        <i class="icon icon-left mdi mdi-floppy nova-white"></i>
-                        Guardar
-                     </button>
-               </div>
-            </div>
+                  <!-- observaciones -->
+                  {% tag_field_popup form.observaciones 3 8 %}
+
+                </div><!-- Modal body-->
+                <div class="modal-footer nova-modal-footer">
+                   <div class="row col-sm-12">
+                      <button type="button" data-dismiss="modal" class="btn btn-default pull-left">
+                         Cerrar
+                      </button>
+
+                      <button type="button" id="boton_modal_guardar" class="btn nova-btn btn-primary btn-lg pull-right">
+                         <i class="icon icon-left mdi mdi-floppy nova-white"></i>
+                         Guardar
+                      </button>
+                   </div>
+                </div>
+
+            </form>
          </div> <!-- Modal content-->
       </div> <!-- Modal dialog -->
    </div><!-- Modal -->
-
 </div> <!-- be-content -->
 
 {% endblock contenido %}

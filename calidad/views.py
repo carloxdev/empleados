@@ -40,6 +40,7 @@ from .models import ProcesoAuditoria
 from .models import Responsable
 from .models import RequisitoProceso
 from .models import Requisito
+from .models import HallazgoProceso
 
 # Formularios:
 from .forms import CriterioForm
@@ -59,6 +60,8 @@ from .forms import GeneralAuditoriaForm
 from .forms import AuditorForm
 from .forms import ProcesoAuditoriaForm
 from .forms import RequisitoProcesoForm
+from .forms import HallazgoProcesoForm
+from .forms import HallazgoProcesoFilterForm
 
 # Serializadore:
 from .serializers import RequisitoSerilizado
@@ -624,22 +627,57 @@ class HallazgoLista(View):
     def get(self, request, pk, pk_pro):
 
         auditoria = Auditoria.objects.get(pk = pk)
+        procesos = ProcesoAuditoria.objects.filter(auditoria = pk)
         proceso = ProcesoAuditoria.objects.get(pk = pk_pro)
-        requisitos = RequisitoProceso.objects.all()
+        requisitos = RequisitoProceso.objects.filter(proceso_auditoria = pk_pro)
+        hallazgos = HallazgoProceso.objects.filter(proceso = pk_pro)
 
-        # formulario = EmpleadoFilterForm()
+
+        subprocesos_initial = self.get_Subprocesos(procesos)
+        requisitos_initial = self.get_RequisitosProceso(requisitos)
+
+        formulario = HallazgoProcesoForm(subprocesos_initial, requisitos_initial)
+        formulario_filtro = HallazgoProcesoFilterForm(subprocesos_initial)
 
         contexto = {
-            # 'form': formulario
+            'form': formulario,
+            'form_filter': formulario_filtro,
             'pk': pk,
             'pk_pro': pk_pro,
             'proceso': proceso.proceso,
-            'requisitos': requisitos,
+            'hallazgos': hallazgos,
             'folio': auditoria.folio
         }
 
         return render(request, self.template_name, contexto)
 
+    def get_Subprocesos(self, proceso_auditoria):
+
+        valores = [('', '-------')]
+
+        for pro_aud in proceso_auditoria:
+
+            valores.append(
+                (
+                    pro_aud.pk,
+                    pro_aud.subproceso
+                )
+            )
+        return valores
+
+    def get_RequisitosProceso(self, requisito_proceso):
+
+        valores = []
+
+        for req_pro in requisito_proceso:
+
+            valores.append(
+                (
+                    req_pro.pk,
+                    req_pro.requisito
+                )
+            )
+        return valores
 
 class HallazgoDetalle(View):
 

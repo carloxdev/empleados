@@ -9,8 +9,6 @@
 var popup_hallazgo = null
 var popup_filtros = null
 var popup_acciones = null
-var toolbar = null
-var grid = null
 var tarjeta_resultados = null
 
 /*-----------------------------------------------*\
@@ -28,8 +26,8 @@ $(document).ready(function () {
 
 function TarjetaResultados() {
 
-   toolbar = new ToolBar()
-   grid = new Grid()
+   this.toolbar = new ToolBar()
+   this.grid = new Grid()
 }
 
 /*-----------------------------------------------*\
@@ -40,6 +38,16 @@ function ToolBar() {
 
    popup_hallazgo = new PopupHallazgo()
    popup_filtros = new PopupFiltros()
+   this.$id_boton_nuevo = $('#id_boton_nuevo')
+   this.init_Events()
+}
+ToolBar.prototype.init_Events = function () {
+
+   this.$id_boton_nuevo.on("click", this, this.click_BotonNuevo)
+}
+ToolBar.prototype.click_BotonNuevo = function (e) {
+
+    popup_hallazgo.mostrar(0, "nuevo")
 }
 
 /*-----------------------------------------------*\
@@ -67,20 +75,24 @@ Grid.prototype.click_FilaGrid = function (e) {
 
 function PopupHallazgo(){
 
+   this.$id = $('#id_tarjeta_hallazgo')
+   this.$id_titulo = $('#id_titulo')
    this.$id_subproceso = $('#id_subproceso')
-   this.$id_contrato = $('#id_contrato')
-   this.$id_observacion = $("#id_observacion")
    this.$id_requisito_referencia = $('#id_requisito_referencia')
    this.$id_descripciones = $('#id_descripciones')
    this.$id_tipo_hallazgo = $('#id_tipo_hallazgo')
+   this.$id_observaciones = $('#id_observaciones')
+   this.$id_titulo = $('#id_popup_hallazgo_titulo')
+   this.$accion
    this.init_Components()
 }
 PopupHallazgo.prototype.init_Components = function () {
 
    this.$id_subproceso.select2(appnova.get_ConfigSelect2())
-   this.$id_contrato.select2(appnova.get_ConfigSelect2())
    this.$id_requisito_referencia.multiselect(this.get_ConfMultiSelect())
+   this.$id_requisito_referencia.siblings("div.btn-group").find("ul.multiselect-container").addClass('nova-bootstrap-multiselect-width-ul')
    this.$id_descripciones.multiselect(this.get_ConfMultiSelect())
+   this.$id_descripciones.siblings("div.btn-group").find("ul.multiselect-container").addClass('nova-bootstrap-multiselect-width-ul')
    this.$id_tipo_hallazgo.select2(appnova.get_ConfigSelect2())
 }
 PopupHallazgo.prototype.get_ConfMultiSelect = function () {
@@ -95,6 +107,22 @@ PopupHallazgo.prototype.get_ConfMultiSelect = function () {
       allSelectedText: "Todo Seleccionado",
       nSelectedText: "Seleccionados",
       filterPlaceholder: "Buscar",
+      disableIfEmpty: true,
+   }
+}
+PopupHallazgo.prototype.mostrar = function (_pk, _accion) {
+
+   this.$id.modal("show").attr("data-primaryKey", _pk)
+   this.$accion = _accion
+
+   if (_accion == "nuevo") {
+
+      this.$id_titulo.text('Nuevo Hallazgo')
+   }
+   else if (_accion == "editar") {
+
+      this.$id_titulo.text('Editar Hallazgo')
+      this.set_Data(_pk)
    }
 }
 
@@ -104,12 +132,13 @@ PopupHallazgo.prototype.get_ConfMultiSelect = function () {
 
 function PopupFiltros(){
 
-   this.$id_proceso = $('#id_proceso')
-   this.$id_sitio = $('#id_sitio')
-   this.$id_contrato_filtro = $('#id_contrato_filtro')
-   this.$id_hallazgo = $('#id_hallazgo')
-   this.$id_estado = $('#id_estado')
-   this.$id_tipo_hallazgo_filtro = $('#id_tipo_hallazgo_filtro')
+   this.$id = $('#id_tarjeta_filtros')
+   this.$id_titulo_filter = $('#id_titulo_filter')
+   this.$id_subproceso_filter = $('#id_subproceso_filter')
+   this.$id_sitio_filter = $('#id_sitio_filter')
+   this.$id_cerrado_filter = $('#id_cerrado')
+   this.$id_tipo_hallazgo_filter = $('#id_tipo_hallazgo_filter')
+
    this.$id_boton_buscar = $('#id_boton_buscar')
    this.$id_boton_limpiar = $('#d_boton_limpiar')
    this.init_Components()
@@ -117,11 +146,10 @@ function PopupFiltros(){
 }
 PopupFiltros.prototype.init_Components = function () {
 
-   this.$id_proceso.select2(appnova.get_ConfigSelect2())
-   this.$id_sitio.select2(appnova.get_ConfigSelect2())
-   this.$id_contrato_filtro.select2(appnova.get_ConfigSelect2())
-   this.$id_estado.select2(appnova.get_ConfigSelect2())
-   this.$id_tipo_hallazgo_filtro.select2(appnova.get_ConfigSelect2())
+   this.$id_subproceso_filter.select2(appnova.get_ConfigSelect2())
+   this.$id_sitio_filter.select2(appnova.get_ConfigSelect2())
+   this.$id_cerrado_filter.select2(appnova.get_ConfigSelect2())
+   this.$id_tipo_hallazgo_filter.select2(appnova.get_ConfigSelect2())
 }
 PopupFiltros.prototype.init_Events = function () {
 
@@ -135,7 +163,7 @@ PopupFiltros.prototype.init_Events = function () {
 
 function PopupAcciones() {
 
-   this.$id_tarjeta_acciones = $('#id_tarjeta_acciones')
+   this.$id = $('#id_tarjeta_acciones')
    this.$id_boton_no_conformidad = $('#id_boton_no_conformidad')
    this.init_Events()
 }
@@ -146,5 +174,5 @@ PopupAcciones.prototype.init_Events = function () {
 PopupAcciones.prototype.click_BotonReporteNoConformidad = function (e) {
 
    e.preventDefault()
-   e.data.$id_tarjeta_acciones.modal('hide')
+   e.data.$id.modal('hide')
 }

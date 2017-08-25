@@ -192,3 +192,14 @@ def tag_mensaje(_type, _message):
         'message': _message
     }
     return contexto
+
+
+@register.inclusion_tag(
+    'tags/filter_radio.html',
+    takes_context=False)
+def tag_filter_radio(_field):
+
+    contexto = {
+        'campo': _field,
+    }
+    return contexto

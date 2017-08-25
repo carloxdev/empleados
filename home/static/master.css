@@ -625,12 +625,21 @@ div.nova-panel-arbol li.list-group-item {
 .nova-fecha-por-vencer{
    background-color: #FBFBEF;
 }
+
+/* bootstrap multiselect */
+.nova-bootstrap-multiselect-width-ul {
+   overflow-x: scroll !important;
+   max-width: 100% !important;
+}
+/* bootstrap multiselect */
+
 /* jquery multiselect */
 .nova-has-error {
    border: 1px solid #ea4335 !important;
    box-shadow: 0 0 7px #ff0000 !important;
 }
 /* jquery multiselect */
+
 .nova-col-popup {
    padding-right: 0px !important;
 }
