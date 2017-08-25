@@ -18,6 +18,10 @@
     margin-bottom: 10px;
 }
 
+.nova-panel {
+    margin-bottom: 10;
+}
+
 .nova-widget-head {
     /*padding: 10px 20px 10px !important;*/
     margin-bottom: 0;
@@ -624,6 +628,9 @@ div.nova-panel-arbol li.list-group-item {
 }
 .nova-fecha-por-vencer{
    background-color: #FBFBEF;
+}
+.nova-actualizado{
+  background-color: #E6F8E0;
 }
 
 /* bootstrap multiselect */

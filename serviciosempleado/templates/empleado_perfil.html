@@ -166,8 +166,9 @@
 		                  <a class="btn btn-xs btn-prev btn-default nova-a-tab nova-active-tab" id="personales" >Documentos personales</a>
 		                  <a class="btn btn-xs btn-next btn-default nova-a-tab" id="capacitaciones">Capacitacion</a>
 		                  <a class="btn btn-xs btn-next btn-default nova-a-tab nova-a-tab-border nova-tab" id="solicitudes">Buzón interno</a>
-		                  <a class="btn btn-xs btn-next btn-default nova-a-tab nova-a-tab-border nova-tab">Incidencias</a>
-		                  <a href="" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Desempeño</a>
+		                  <a class="btn btn-xs btn-next btn-default nova-a-tab nova-a-tab-border nova-tab" id="nomina">Nómina</a>
+		                  <!--<a class="btn btn-xs btn-next btn-default nova-a-tab nova-a-tab-border nova-tab">Incidencias</a>
+		                  <a href="" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Desempeño</a>-->
 	               	</div>
 	            </div>
 	            <div class="panel panel-default panel-table">
@@ -255,28 +256,28 @@
                         <div class="form-group nova-modal-espaciado">
                             <label class="col-sm-3 nova-col-filter control-label">Asunto:</label>
                             <div class="col-sm-8 xs-pt-5 nova-modal-informacion">
-                                <p id="id_asunto_informacion"></p>
+                                <input class="form-control input-xs" id="id_asunto_informacion" readonly="true"></input>
                             </div>
                         </div>
                         <!-- Descripcion -->
                         <div class="form-group nova-modal-espaciado">
                             <label class="col-sm-3 nova-col-filter control-label">Descripción:</label>
                             <div class="col-sm-8 xs-pt-5 nova-modal-informacion">
-                                <p id="id_descripcion_informacion"></p>
+                                <textarea class="form-control input-xs" id="id_descripcion_informacion" readonly="true" id="id_descripcion_informacion"></textarea>
                             </div>
                         </div>
                         <!-- Estatus -->
                         <div class="form-group nova-modal-espaciado">
                             <label class="col-sm-3 nova-col-filter control-label">Estatus:</label>
                             <div class="col-sm-8 xs-pt-5 nova-modal-informacion">
-                                <p id="id_status_informacion"></p>
+                                <input class="form-control input-xs" id="id_status_informacion" readonly="true"></input>
                             </div>
                         </div>
                         <!-- Observaciones -->
                         <div class="form-group nova-modal-espaciado">
                             <label class="col-sm-3 nova-col-filter control-label">Observaciones:</label>
                             <div class="col-sm-8 xs-pt-5 nova-modal-informacion">
-                                <p id="id_observaciones_informacion"></p>
+                                <textarea class="form-control input-xs"readonly="true" id="id_observaciones_informacion"></textarea>
                             </div>
                         </div>                
                     </div>

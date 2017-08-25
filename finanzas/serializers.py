@@ -95,6 +95,7 @@ class ViaticoLineaSerializer(serializers.ModelSerializer):
         fields = (
             'url',
             'pk',
+            'slug',
             'cabecera',
             'concepto',
             'observaciones',

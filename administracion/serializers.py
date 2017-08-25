@@ -46,6 +46,7 @@ class ArchivoSolicitudSerializer(serializers.HyperlinkedModelSerializer):
     observaciones = serializers.SerializerMethodField()
     created_by = serializers.SerializerMethodField()
     updated_by = serializers.SerializerMethodField()
+    updated_date = serializers.SerializerMethodField()
 
     class Meta:
         model = Archivo
@@ -128,7 +129,17 @@ class ArchivoSolicitudSerializer(serializers.HyperlinkedModelSerializer):
 
     def get_updated_by(self, obj):
         try:
-            return obj.content_object.updated_by.usuario.get_full_name()
+            if obj.content_object.updated_by is None:
+                return '--'
+            else:
+                return obj.content_object.updated_by.usuario.get_full_name()
+        except Exception as e:
+            print str(e)
+            return " "
+
+    def get_updated_date(self, obj):
+        try:
+            return obj.content_object.updated_date
         except Exception as e:
             print str(e)
             return " "
