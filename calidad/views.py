@@ -146,6 +146,7 @@ class GeneralFormularioCreate(View):
             auditoria.estado = 'En Captura'
             auditoria.autorizador = autorizador[0].nombre_completo
             auditoria.aprobador = aprobador[0].nombre_completo
+            auditoria.create_by = Profile.objects.get(pk = request.user.id)
             auditoria.save()
 
             for criterio in datos_formulario.get('criterios'):
@@ -246,6 +247,7 @@ class GeneralFormularioUpdate(View):
             auditoria.objetivo = datos_formulario.get('objetivo')
             auditoria.alcance = datos_formulario.get('alcance')
             auditoria.recurso_necesario = datos_formulario.get('recursos_necesarios')
+            auditoria.update_by = Profile.objects.get(pk = request.user.id)
             auditoria.save()
 
             aud_cri_list_db = []

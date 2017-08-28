@@ -709,3 +709,24 @@ div.nova-panel-arbol li.list-group-item {
         padding-right: 0;
     }
 }
+.nova-overflow-visible {
+   overflow: visible !important;
+}
+/* nova-wizard-header */
+.nova-wizard-header {
+   font-size: 14px;
+}
+.nova-wizard-header .nova-wizard-title {
+   padding: 14px;
+   float: left;
+   color: #4285f4;
+}
+.nova-wizard-header .nova-wizard-tools {
+   float: right;
+   padding: 14px 30px 14px 14px;
+}
+.nova-wizard-tools > ul {
+   left: -170px;
+   top: 33px;
+}
+/* nova-wizard-header */

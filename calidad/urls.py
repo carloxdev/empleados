@@ -56,7 +56,7 @@ urlpatterns = [
         name="general_formulario_create"
     ),
     url(
-        r'^auditorias/(?P<pk>\d+)/editar$',
+        r'^auditorias/(?P<pk>\d+)/editar/$',
         GeneralFormularioUpdate.as_view(),
         name="general_formulario_update"
     ),

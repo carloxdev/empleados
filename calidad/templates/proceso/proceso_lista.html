@@ -37,17 +37,30 @@
          <!-- Tarjeta resultados-->
          <div class="col-md-12 fuelux">
 
-            <div id="wizard1" class="wizard wizard-ux nova-panel-borde-header">
-               <ul class="steps">
+            <div id="wizard1" class="wizard wizard-ux nova-panel-borde-header nova-overflow-visible">
+                <div class="nova-wizard-header">
 
-                  <li class="active">Auditoría No: {{folio}}</li>
+                    <span class="nova-wizard-title">Auditoría No: <strong>{{folio}}</strong></span>
+                    <div class="nova-wizard-tools visible-xs-inline-block dropdown"><span data-toggle="dropdown" class="icon mdi mdi-more-vert dropdown-toggle" aria-expanded="false"></span>
+                        <ul role="menu" class="dropdown-menu">
+                          <li>
+                            <a href="{% url 'calidad:general_formulario_update' pk %}">Generales</a>
+                          </li>
+                          <li>
+                            <a href="{% url 'calidad:auditor_formulario_update' pk %}">Equipo Auditor</a>
+                          </li>
+                          <li class="active">
+                            <a>Procesos</a>
+                          </li>
+                        </ul>
+                    </div>
 
-               </ul>
-               <div class="actions">
-                  <a href="{% url 'calidad:general_formulario_update' pk %}" class="btn btn-xs btn-prev btn-default nova-a-tab">Generales</a>
-                  <a href="{% url 'calidad:auditor_formulario_update' pk %}" class="btn btn-xs btn-next btn-default nova-a-tab">Equipo Auditor</a>
-                  <a class="btn btn-xs btn-next btn-default nova-a-tab nova-a-tab-border nova-active-tab">Procesos</a>
-               </div>
+                 </div>
+                <div class="actions hidden-xs">
+                    <a href="{% url 'calidad:general_formulario_update' pk %}" class="btn btn-xs btn-prev btn-default nova-a-tab">Generales</a>
+                    <a href="{% url 'calidad:auditor_formulario_update' pk %}" class="btn btn-xs btn-next btn-default nova-a-tab">Equipo Auditor</a>
+                    <a class="btn btn-xs btn-next btn-default nova-a-tab nova-a-tab-border nova-active-tab">Procesos</a>
+                </div>
             </div>
 
             <div class="panel panel-default panel-table">
