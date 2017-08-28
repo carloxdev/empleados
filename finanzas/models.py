@@ -82,11 +82,11 @@ class ViaticoCabecera(models.Model):
 
 
 class ViaticoLinea(models.Model):
+    slug = models.SlugField(max_length=100, null=True, blank=True)
     cabecera = models.ForeignKey(ViaticoCabecera)
     concepto = models.CharField(max_length=60, blank=False, null=False)
     observaciones = models.CharField(max_length=140, blank=False, null=False)
     importe = models.DecimalField(max_digits=7, decimal_places=2, blank=False, null=False)
-
     created_by = models.ForeignKey(Profile, related_name='vialinea_created_by', null=True)
     created_date = models.DateTimeField(
         auto_now=False,
@@ -105,6 +105,17 @@ class ViaticoLinea(models.Model):
 
     class Meta:
         verbose_name_plural = "Viaticos Lineas"
+
+    def save(self, *args, **kwargs):
+
+        if self.pk is None:
+            if ViaticoLinea.objects.filter(cabecera=self.cabecera).count():
+                last_line = ViaticoLinea.objects.filter(cabecera=self.cabecera).order_by('-id')[0]
+                self.slug = int(last_line.slug) + 1
+            else:
+                self.slug = 1
+
+        super(ViaticoLinea, self).save(*args, **kwargs)
 
     def __str__(self):
         return "%s : %s" % (self.cabecera, self.concepto)

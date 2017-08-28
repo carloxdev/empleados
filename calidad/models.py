@@ -417,3 +417,43 @@ class RequisitoProceso(models.Model):
         null=True,
         blank=True
     )
+
+    class Meta:
+        unique_together = (("proceso_auditoria", "requisito"),)
+
+    def __str__(self):
+        return "%s - %s" % (self.requisito, self.proceso_auditoria)
+
+    def __unicode__(self):
+        return "%s - %s" % (self.requisito, self.proceso_auditoria)
+
+
+class HallazgoProceso(models.Model):
+    titulo = models.CharField(max_length=40)
+    proceso = models.ForeignKey(ProcesoAuditoria)
+    estado = models.CharField(max_length=13)
+    requisito_referencia = models.ManyToManyField(RequisitoProceso, blank=True)
+    falla = models.ManyToManyField(Falla, blank=True)
+    tipo_hallazgo = models.CharField(max_length=11)
+    observacion = models.CharField(max_length=400, blank=True)
+    cerrado = models.CharField(max_length=2)
+    create_by = models.ForeignKey(Profile, related_name='hal_pro_created_by', null=True)
+    create_date = models.DateTimeField(
+        auto_now=False,
+        auto_now_add=True,
+        null=True,
+        blank=True
+    )
+    update_by = models.ForeignKey(Profile, related_name='hal_pro_updated_by', null=True)
+    update_date = models.DateTimeField(
+        auto_now=True,
+        auto_now_add=False,
+        null=True,
+        blank=True
+    )
+
+    def __str__(self):
+        return "%s" % (self.titulo)
+
+    def __unicode__(self):
+        return "%s" % (self.titulo)

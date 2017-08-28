@@ -5,6 +5,8 @@
 // URLS:api-
 var url_requisitos = window.location.origin + "/api-calidad/requisito/"
 var url_requisitos_proceso = window.location.origin + "/api-calidad/requisitoproceso/"
+var url_profile = window.location.origin + "/api-seguridad/profile/"
+var url_proceso_auditoria =  window.location.origin + "/api-calidad/procesoauditoria/"
 
 // OBJS
 var popup_requisito = null
@@ -114,14 +116,17 @@ function PopupRequisito() {
    this.$id = $('#id_tarjeta_requisito')
    this.$id_criterio = $('#id_criterio')
    this.$id_requisito = $('#id_requisito')
-   this.$created_by = $('#id_created_by')
+   this.$id_actual_user = $('#id_actual_user')
    this.$id_boton_guardar = $('#id_boton_guardar')
    this.$id_titulo = $('#id_popup_requisito_titulo')
    this.$accion
    this.$pk_requisito
+   this.$pk_pro = $('#id_pk_pro')
+   this.$id_requisito_existe = $('#id_requisito_existe')
 
    this.init_Components()
    this.init_Events()
+   this.init_ErrorEvents()
 }
 PopupRequisito.prototype.init_Components = function () {
 
@@ -134,6 +139,12 @@ PopupRequisito.prototype.init_Events = function () {
    this.$id_boton_guardar.on("click", this, this.click_BotonGuardar)
    this.$id.on("shown.bs.modal", this, this.shown_Modal)
    this.$id.on("hide.bs.modal", this, this.hide_Modal)
+}
+PopupRequisito.prototype.init_ErrorEvents = function () {
+
+   if (this.$id_requisito_existe.val()) {
+      alertify.warning(this.$id_requisito_existe.val())
+   }
 }
 PopupRequisito.prototype.change_SelectCriterio = function (e) {
 
@@ -172,7 +183,10 @@ PopupRequisito.prototype.shown_Modal = function (e) {
 }
 PopupRequisito.prototype.hide_Modal = function (e) {
 
-   e.data.pk_requisito = undefined
+   e.data.$pk_requisito = undefined
+   e.data.$id_criterio.val("0").trigger("change")
+   e.data.$id_requisito.select2('destroy').empty().select2({data:[{}]})
+   e.data.$id_requisito.val("").trigger("change")
 }
 PopupRequisito.prototype.mostrar = function (_pk, _accion) {
 
@@ -226,18 +240,22 @@ PopupRequisito.prototype.editar = function (_pk) {
       context: this,
       headers: { "X-CSRFToken": appnova.galletita },
       data: {
-
-         "requisito": this.$id_requisito.val(),
-         "update_by": this.$created_by.val(),
+         "proceso_auditoria": url_proceso_auditoria + this.$pk_pro.val() + "/",
+         "requisito": url_requisitos + this.$id_requisito.val() + "/",
+         "update_by": url_profile + this.$id_actual_user.val() + "/",
       },
       success: function (_response) {
 
-         e.data.$id.modal('hide')
-         window.location.href = url_formato
+         this.$id.modal('hide')
+         window.location.href = window.location.href
       },
       error: function (_response) {
-
-         alertify.error("Ocurrio error al modificar formato")
+         if (_response.responseJSON.non_field_errors.length) {
+            alertify.warning("Este requisito ya existe para el proceso.")
+         }
+         else {
+            alertify.error("Ocurrio error al modificar Requisito")
+         }
       }
    })
 }

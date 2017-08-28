@@ -10,7 +10,16 @@
 
 {% block css %}
 
+    <!-- Theme -->
     <link rel="stylesheet" href="{% static 'theme/lib/datetimepicker/css/bootstrap-datetimepicker.min.css' %}" type="text/css"/>
+
+    <!-- Kendo -->
+    <link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.rtl.min.css' %}"/>
+    <link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.common-bootstrap.min.css' %}"/>
+    <link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.bootstrap.min.css' %}"/>
+
+    <!-- Nova -->
+    <link rel="stylesheet" href="{% static 'grid.css' %}"/>
 
 {% endblock css %}
 
@@ -31,26 +40,13 @@
     <div class="main-content container-fluid nova-main-content">
 
         <div class="row">
+
             <div class="col-md-8 nova-panel-main">
+
+                <!-- Cabecera -->
                 <form class="panel panel-border panel-contrast nova-toolbar" action="" method="POST"> {% csrf_token %}
                     <div class="panel-heading panel-heading-default nova-border-bottom">
-                        <div class="widget-head nova-widget-head">
-                            <div class="tools">
-                                <div class="dropdown"><span data-toggle="dropdown" class="icon mdi mdi-more-vert visible-xs-inline-block dropdown-toggle"></span>
-                                    <ul role="menu" class="dropdown-menu">
-                                        <li><a href="{% url 'finanzas:viatico_editar' form.instance.id %}">Cabecera</a></li>
-                                        <li><a href="{% url 'finanzas:viatico_lineas' form.instance.id %}">Linea</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="button-toolbar hidden-xs">
-                                <div class="btn-group">
-                                    <a href="{% url 'finanzas:viatico_editar' form.instance.id %}" type="button" class="btn btn-default active">Cabecera</a>
-                                    <a href="{% url 'finanzas:viatico_lineas' form.instance.id %}" type="button" class="btn btn-default">Lineas</a>
-                                </div>
-                            </div>
-                            <span class="title">Informacion de la solicitud: <strong>VIA-{{ form.instance.id }}</strong></span>
-                        </div>
+                        <span class="title">Informacion de la solicitud: <strong>VIA-<span id="clave">{{ form.instance.id }}</span></strong></span>
                     </div>
                     <div class="panel-body form-horizontal">
 
@@ -66,7 +62,7 @@
                             {% tag_mensaje 'exito' 'Solicitud Creada con exito' %}
                         {% endif %}
 
-                        {% tag_section_info 12 0 '¡Instrucciones!' 'Da click en el boton <strong>"Lineas"</strong> para agregar/modificar gastos a la solicitud' %}
+                        {% tag_section_info 12 0 '¡Instrucciones!' 'Ahora puedes agregar/modificar gastos en la seccion <strong>"Lineas"</strong>' %}
 
                         {% tag_field_registro form.empleado_clave 3 8 %}
 
@@ -92,7 +88,7 @@
                                 Regresar a Listado
                             </a>
 
-                            <button type="submit" id="btn_registrar" class="btn nova-btn btn-success btn-lg pull-right">
+                            <button type="submit" id="btn_registrar" class="btn nova-btn btn-primary btn-lg pull-right">
                                 <i class="icon mdi mdi-floppy"></i>
                                 Guardar
                             </button>
@@ -100,14 +96,45 @@
                     </div>
                 </form>
 
+                <!-- Lineas -->
+                <div class="panel panel-default panel-table">
+                    <div class="panel-heading panel-border nova-panel-heading">
+                        <div class="widget-head nova-widget-head">
+                            <div class="tools visible-xs-inline-block">
+                                <span class="icon mdi mdi-plus" id="boton_nuevo"></span>
+                                <span class="icon mdi mdi-download disabled" id="boton_excel"></span>
+                            </div>
+                            <div class="button-toolbar hidden-xs">
+
+                                <button class="btn nova-btn btn-rounded btn-space btn-default" id="boton_nuevo">
+                                    <i class="icon icon-left mdi mdi-plus-circle nova-black"></i>Nuevo
+                                </button>
+
+                                <button class="btn nova-btn btn-rounded btn-space btn-success disabled" id="boton_excel">
+                                    <i class="icon icon-left mdi mdi-download nova-white"></i>Exportar
+                                </button>
+
+                            </div>
+                            <span class="title">Lineas</span>
+                        </div>
+
+                    </div>
+
+                    <div id="grid_lineas">
+                    </div>
+                </div>
+
+
+                <!-- Botones -->
                 <div class="panel panel-border panel-contrast ">
                     <div class="panel-body text-center">
-                        <button type="button" class="btn btn-warning btn-lg">Finalizar y Enviar</button>
+                        <button type="button" class="btn btn-warning btn-lg" disabled>Finalizar y Enviar</button>
                     </div>
                 </div>
 
             </div>
 
+            <!-- Datos Autorizacion -->
             <div class="col-md-4">
                   <div class="panel panel-border panel-contrast user-info-list nova-toolbar">
                       <div class="panel-heading panel-heading-default nova-border-bottom">
@@ -137,6 +164,7 @@
                 </div>
             </div>
 
+            <!-- Datos Auditoria -->
             <div class="col-md-4">
                   <div class="panel panel-border panel-contrast user-info-list nova-toolbar">
                       <div class="panel-heading panel-heading-default nova-border-bottom">
@@ -171,6 +199,7 @@
                 </div>
             </div>
 
+            <!-- Datos para Facturacion -->
             <div class="col-md-4">
                   <div class="panel panel-border panel-contrast user-info-list nova-toolbar">
                       <div class="panel-heading panel-heading-default nova-border-bottom">
@@ -201,7 +230,6 @@
             </div>
         </div>
     </div>
-
 </div>
 
 {% endblock contenido %}
@@ -213,6 +241,13 @@
     <script src="{% static 'theme/lib/moment.js/min/moment.min.js' %}"></script>
     <script src="{% static 'theme/lib/datetimepicker/js/bootstrap-datetimepicker.min.js' %}"></script>
     <script src="{% static 'theme/lib/datetimepicker/js/locales/bootstrap-datetimepicker.es.js' %}"></script>
+
+    <!--JSZIP -->
+    <script src="{% static 'libs/kendo/2015.2.624/js/jszip.min.js' %}"></script>
+
+    <!-- Kendo Js -->
+    <script src="{% static 'libs/kendo/2015.2.624/js/cultures/kendo.culture.es-MX.min.js' %}"></script>
+    <script src="{% static 'libs/kendo/2015.2.624/js/kendo.web.min.js' %}"></script>
 
     <!-- Nova -->
     <script src="{% static 'tools.js' %}"></script>

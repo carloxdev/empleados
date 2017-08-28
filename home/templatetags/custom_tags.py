@@ -222,3 +222,13 @@ def has_group(user, group_name):
     else:
         groups = user.groups.all().values_list('name', flat=True)
         return True if group_name in groups else False
+
+@register.inclusion_tag(
+    'tags/filter_radio.html',
+    takes_context=False)
+def tag_filter_radio(_field):
+
+    contexto = {
+        'campo': _field,
+    }
+    return contexto
