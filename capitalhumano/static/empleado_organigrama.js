@@ -59,6 +59,7 @@ Organigrama.prototype.empleados_Organizacion = function(e){
     $('#content-data').empty()
 
     var url = url_datos_org + organizacion + "/"
+    organigrama.pruebas(url)
 
      $.ajax({
               url: url_organigrama,
@@ -70,6 +71,7 @@ Organigrama.prototype.empleados_Organizacion = function(e){
               contentType: "application/json; charset=utf-8",
               context: this,
               success: function (response) {
+                // console.log(JSON.stringify(response))
                 cont = 0
                 for (var i = 0; i < response.length; i++) {
                   cont+=1
@@ -86,14 +88,30 @@ Organigrama.prototype.empleados_Organizacion = function(e){
               },
               error: function (response) {
 
-                           alertify("Ocurrio error al consultar ")
-                    }
+                   alertify.error("Ocurrio error al consultar ")
+            }
       })
   }
   else{
     $('#content-data').empty()
     organigrama.mostrar_Mensaje(1)
   }
+}
+Organigrama.prototype.pruebas = function(_url){
+    $.ajax({
+              url: _url,
+              dataType: "json",
+              type: "GET",
+              contentType: "application/json; charset=utf-8",
+              context: this,
+              success: function (response) {
+                console.log(JSON.stringify(response))
+              },
+              error: function (response) {
+
+                alertify.error("Ocurrio error al consultar ")
+            }
+      })
 }
 Organigrama.prototype.empleados_Empresa = function(e){
   empresa = e.data.$empresas.val()
@@ -129,8 +147,8 @@ Organigrama.prototype.empleados_Empresa = function(e){
               },
               error: function (response) {
 
-                           alertify("Ocurrio error al consultar ")
-                    }
+                alertify.error("Ocurrio error al consultar ")
+            }
 
       })
   }  

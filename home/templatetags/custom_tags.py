@@ -192,3 +192,33 @@ def tag_mensaje(_type, _message):
         'message': _message
     }
     return contexto
+
+@register.inclusion_tag(
+    'tags/field_popup_apuntador.html',
+    takes_context=False)
+def tag_field_popup_apuntador(_field, _apuntador):
+
+    contexto = {
+        'campo': _field,
+        'apuntador': _apuntador,
+    }
+    return contexto
+
+@register.inclusion_tag(
+    'tags/filter_group.html',
+    takes_context=False)
+def tag_filter_group(_field, _apuntador):
+
+    contexto = {
+        'campo': _field,
+        'apuntador': _apuntador,
+    }
+    return contexto
+
+@register.filter('has_group')
+def has_group(user, group_name):
+    if user.is_superuser:
+        return True
+    else:
+        groups = user.groups.all().values_list('name', flat=True)
+        return True if group_name in groups else False
