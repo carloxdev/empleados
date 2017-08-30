@@ -19,23 +19,8 @@ from .forms import ViaticoFilterForm
 from .forms import AnticipoFilterForm
 
 
-class AnticipoLista(View):
-    def __init__(self):
-        self.template_name = 'anticipo/anticipo_lista.html'
-
-    def get(self, request):
-        formulario = AnticipoFilterForm()
-
-        contexto = {
-            'form': formulario
-        }
-
-        return render(request, self.template_name, contexto)
-
-
 class ViaticoLista(View):
-    def __init__(self):
-        self.template_name = 'viatico/viatico_lista.html'
+    template_name = 'viatico/viatico_lista.html'
 
     def get(self, request):
 
@@ -49,9 +34,7 @@ class ViaticoLista(View):
 
 
 class ViaticoCabeceraNuevo(View):
-
-    def __init__(self):
-        self.template_name = 'viatico/viatico_nuevo.html'
+    template_name = 'viatico/viatico_nuevo.html'
 
     def get(self, request):
 
@@ -127,16 +110,15 @@ class ViaticoCabeceraEditar(View):
         return render(request, self.template_name, contexto)
 
 
-class ViaticoLineas(View):
+class AnticipoLista(View):
     def __init__(self):
-        self.template_name = 'viatico/viatico_lineas.html'
+        self.template_name = 'anticipo/anticipo_lista.html'
 
-    def get(self, request, pk):
+    def get(self, request):
+        formulario = AnticipoFilterForm()
 
-        # formulario = ViaticoFilterForm()
+        contexto = {
+            'form': formulario
+        }
 
-        # contexto = {
-        #     'form': formulario
-        # }
-
-        return render(request, self.template_name, {})
+        return render(request, self.template_name, contexto)

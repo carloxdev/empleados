@@ -10,8 +10,8 @@
 
 {% block css %}
 
-    <!-- Theme -->
-    <link rel="stylesheet" href="{% static 'theme/lib/datetimepicker/css/bootstrap-datetimepicker.min.css' %}" type="text/css"/>
+<!-- DatePicker -->
+<link rel="stylesheet" href="{% static 'libs/bootstrap-datepicker/2.0/dist/css/bootstrap-datepicker.min.css' %}"/>
 
     <!-- Kendo -->
     <link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.rtl.min.css' %}"/>
@@ -101,17 +101,23 @@
                     <div class="panel-heading panel-border nova-panel-heading">
                         <div class="widget-head nova-widget-head">
                             <div class="tools visible-xs-inline-block">
-                                <span class="icon mdi mdi-plus" id="boton_nuevo"></span>
-                                <span class="icon mdi mdi-download disabled" id="boton_excel"></span>
+                                <button type="button" class="btn nova-btn btn-sm btn-rounded btn-space btn-default">
+                                    <i class="icon icon-left mdi mdi-plus-circle nova-black"></i> Nuevo
+                                </button>
+
+                                <button type="button" class="btn nova-btn btn-sm btn-rounded btn-space btn-success">
+                                    <i class="icon icon-left mdi mdi-download nova-white"></i> Exportar
+                                </button>
+
                             </div>
                             <div class="button-toolbar hidden-xs">
 
                                 <button class="btn nova-btn btn-rounded btn-space btn-default" id="boton_nuevo">
-                                    <i class="icon icon-left mdi mdi-plus-circle nova-black"></i>Nuevo
+                                    <i class="icon icon-left mdi mdi-plus-circle nova-black"></i> Nuevo
                                 </button>
 
-                                <button class="btn nova-btn btn-rounded btn-space btn-success disabled" id="boton_excel">
-                                    <i class="icon icon-left mdi mdi-download nova-white"></i>Exportar
+                                <button class="btn nova-btn btn-rounded btn-space btn-success" id="boton_excel" disabled>
+                                    <i class="icon icon-left mdi mdi-download nova-white"></i> Exportar
                                 </button>
 
                             </div>
@@ -146,17 +152,17 @@
                                   <tr>
                                       <td class="icon"><span class="mdi mdi-flag"></span></td>
                                       <td class="item">Estado:<span class="icon s7-flag"></span></td>
-                                      <td><strong>PENDIENTE</strong></td>
+                                      <td><strong>{{form.instance.status}}</strong></td>
                                   </tr>
                                   <tr>
                                       <td class="icon"><span class="mdi mdi-assignment-check"></span></td>
-                                      <td class="item">Autorizador:<span class="icon s7-assignment-check"></span></td>
-                                      <td><strong>Claudia Villegas</strong></td>
+                                      <td class="item">Aprovada por:<span class="icon s7-assignment-check"></span></td>
+                                      <td><strong>{{form.instance.approved_by}}</strong></td>
                                   </tr>
                                   <tr>
                                       <td class="icon"><span class="glyphicon glyphicon-calendar"></td>
-                                      <td class="item">Fecha Autorizacion:<span class="icon s7-glyphicon-calendar"></span></td>
-                                      <td><strong>16 September 1989</strong></td>
+                                      <td class="item">Autorizada el:<span class="icon s7-glyphicon-calendar"></span></td>
+                                      <td><strong>{{form.instance.approved_date}}</strong></td>
                                   </tr>
                               </tbody>
                           </table>
@@ -176,22 +182,22 @@
                                 <tr>
                                     <td class="icon"><span class="mdi mdi-face"></span></td>
                                     <td class="item">Creada por:<span class="icon s7-face"></span></td>
-                                    <td><strong>Paquito Gomez</strong></td>
+                                    <td><strong>{{form.instance.created_by}}</strong></td>
                                 </tr>
                                 <tr>
                                     <td class="icon"><span class="glyphicon glyphicon-calendar"></td>
-                                    <td class="item">Fecha Creacion:<span class="icon s7-glyphicon-calendar"></span></td>
-                                    <td><strong>16 September 1989</strong></td>
+                                    <td class="item">Creada el:<span class="icon s7-glyphicon-calendar"></span></td>
+                                    <td><strong>{{form.instance.created_date}}</strong></td>
                                 </tr>
                                 <tr>
                                     <td class="icon"><span class="mdi mdi-face"></span></td>
                                     <td class="item">Actualizada por:<span class="icon s7-face"></span></td>
-                                    <td><strong>Paquito Ortiz</strong></td>
+                                    <td><strong>{{form.instance.updated_by}}</strong></td>
                                 </tr>
                                 <tr>
                                     <td class="icon"><span class="glyphicon glyphicon-calendar"></td>
-                                    <td class="item">Fecha Actualizacion:<span class="icon s7-glyphicon-calendar"></span></td>
-                                    <td><strong>16 September 1989</strong></td>
+                                    <td class="item">Actualizacion el:<span class="icon s7-glyphicon-calendar"></span></td>
+                                    <td><strong>{{form.instance.updated_date}}</strong></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -211,17 +217,17 @@
                                   <tr>
                                       <td class="icon"><span class="mdi mdi-case"></span></td>
                                       <td class="item">Razon Social:<span class="icon s7-portfolio"></span></td>
-                                      <td><strong>SISTEMAS INTEGRALES DE COMPRESION</strong></td>
+                                      <td><strong>{{ form.instance.empresa }}</strong></td>
                                   </tr>
                                   <tr>
                                       <td class="icon"><span class="mdi mdi-globe-alt"></span></td>
                                       <td class="item">RFC:<span class="icon s7-globe-alt"></span></td>
-                                      <td><strong>SIC030626932</strong></td>
+                                      <td><strong>{{ form.instance.rfc }}</strong></td>
                                   </tr>
                                   <tr>
                                       <td class="icon"><span class="mdi mdi-pin"></span></td>
                                       <td class="item">Direccion:<span class="icon s7-pin"></span></td>
-                                      <td><strong>AV INSURGENTES SUR 1700 PISO 5 COLONIA FLORIDA 01030 CIUDAD DE MÉXICO</strong></td>
+                                      <td><strong>{{ form.instance.direccion }}</strong></td>
                                   </tr>
                               </tbody>
                           </table>
@@ -238,9 +244,6 @@
 
     <!-- Theme -->
     <script src="{% static 'theme/lib/jquery-ui/jquery-ui.min.js' %}"></script>
-    <script src="{% static 'theme/lib/moment.js/min/moment.min.js' %}"></script>
-    <script src="{% static 'theme/lib/datetimepicker/js/bootstrap-datetimepicker.min.js' %}"></script>
-    <script src="{% static 'theme/lib/datetimepicker/js/locales/bootstrap-datetimepicker.es.js' %}"></script>
 
     <!--JSZIP -->
     <script src="{% static 'libs/kendo/2015.2.624/js/jszip.min.js' %}"></script>
@@ -248,6 +251,9 @@
     <!-- Kendo Js -->
     <script src="{% static 'libs/kendo/2015.2.624/js/cultures/kendo.culture.es-MX.min.js' %}"></script>
     <script src="{% static 'libs/kendo/2015.2.624/js/kendo.web.min.js' %}"></script>
+
+    <!-- DatePicker -->
+    <script src="{% static 'libs/bootstrap-datepicker/2.0/dist/js/bootstrap-datepicker.min.js' %}"></script>
 
     <!-- Nova -->
     <script src="{% static 'tools.js' %}"></script>

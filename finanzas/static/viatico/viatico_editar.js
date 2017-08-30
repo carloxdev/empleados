@@ -1,6 +1,4 @@
-/*-----------------------------------------------*\
-            GLOBAL VARIABLES
-\*-----------------------------------------------*/
+/* -------------------- GLOBAL VARIABLES -------------------- */
 
 // URLS:
 var url_viaticocabecera = window.location.origin + "/api-finanzas/viaticolinea/"
@@ -9,20 +7,17 @@ var url_viaticocabecera = window.location.origin + "/api-finanzas/viaticolinea/"
 var cabecera = null
 var lineas = null
 
-/*-----------------------------------------------*\
-            LOAD
-\*-----------------------------------------------*/
+
+/* -------------------- LOAD -------------------- */
 
 $(document).ready(function () {
 
     cabecera = new Cabecera()
     lineas = new Lineas()
-    // mine = new Miner()
 })
 
-/*-----------------------------------------------*\
-            OBJETO: Cabecera
-\*-----------------------------------------------*/
+
+/* -------------------- OBJETO: Cabecera -------------------- */
 
 function Cabecera() {
 
@@ -39,16 +34,16 @@ function Cabecera() {
     this.$ciudad_destino = $('#id_ciudad_destino')
     this.$proposito_viaje = $('#id_proposito_viaje')
 
-    this.init_Components()
+    this.init()
     this.set_Events()
 }
-Cabecera.prototype.init_Components = function () {
+Cabecera.prototype.init = function () {
 
     this.$empleado_clave.select2()
     this.$unidad_negocio_clave.select2()
 
-    this.$fecha_partida_input.datetimepicker(this.get_DateTimePickerConfig())
-    this.$fecha_regreso_input.datetimepicker(this.get_DateTimePickerConfig())
+    this.$fecha_partida_input.datepicker({format: 'dd/mm/yyyy', autoclose: true})
+    this.$fecha_regreso_input.datepicker({format: 'dd/mm/yyyy', autoclose: true})
 }
 Cabecera.prototype.set_Events = function () {
 
@@ -82,10 +77,7 @@ Cabecera.prototype.seleccionar_ComboBoxUnidadNegocio = function(e) {
 }
 
 
-
-/*-----------------------------------------------*\
-            OBJETO: Lineas
-\*-----------------------------------------------*/
+/* -------------------- OBJETO: Lineas -------------------- */
 
 function Lineas() {
 
@@ -94,9 +86,7 @@ function Lineas() {
 }
 
 
-/*-----------------------------------------------*\
-            OBJETO: Toolbar
-\*-----------------------------------------------*/
+/* -------------------- OBJETO: Toolbar -------------------- */
 
 function Toolbar() {
 
@@ -104,33 +94,27 @@ function Toolbar() {
     this.$boton_exportar = $('#boton_exportar')
 }
 
-/*-----------------------------------------------*\
-            OBJETO: FuenteDatos
-\*-----------------------------------------------*/
+
+/* -------------------- OBJETO: FuenteDatos -------------------- */
 
 function FuenteDatos() {
-    this.kfuente = null
-    this.init_Components()
+    this.instancia = null
+    this.init()
 }
-FuenteDatos.prototype.init_Components = function() {
-    this.kfuente = new kendo.data.DataSource(this.get_Configuracion())
+FuenteDatos.prototype.init = function() {
+    this.instancia = new kendo.data.DataSource(this.get_Configuracion())
 }
 FuenteDatos.prototype.get_Configuracion = function () {
+
     return {
 
         serverPaging: true,
-        pageSize: 10,
         transport: {
             read: {
                 url: url_viaticocabecera,
                 type: "GET",
                 dataType: "json",
             },
-            // parameterMap: function (data, action) {
-            //     if (action === "read"){
-            //         return tarjeta_filtros.get_Values(data.page)
-            //     }
-            // }
         },
         schema: {
             model: {
@@ -152,39 +136,33 @@ FuenteDatos.prototype.get_Campos = function () {
         importe : { type: "decimal" },
     }
 }
-FuenteDatos.prototype.get = function () {
-
-    return this.kfuente
-}
 
 
-/*-----------------------------------------------*\
-            OBJETO: Grid
-\*-----------------------------------------------*/
+/* -------------------- OBJETO: Grid -------------------- */
 
 function Grid() {
 
     this.$id = $("#grid_lineas")
-    this.kfuente_datos = null
-    this.kgrid = null
-    this.init_Components()
+    this.fuente_datos = null
+    this.instancia = null
+    this.init()
 }
-Grid.prototype.init_Components = function () {
+Grid.prototype.init = function () {
 
     // Definicion del pais, formato modena, etc..
     kendo.culture("es-MX")
 
     // Se inicializa la fuente da datos (datasource)
-    fuente_datos = new FuenteDatos()
-    this.kfuente_datos = fuente_datos.get()
+    fdatos = new FuenteDatos()
+    this.fuente_datos = fdatos.instancia
 
     // Se inicializa y configura el grid:
-    this.kgrid = this.$id.kendoGrid(this.get_Configuracion())
+    this.instancia = this.$id.kendoGrid(this.get_Configuracion())
 }
 Grid.prototype.get_Configuracion = function () {
 
     return {
-        dataSource: this.kfuente_datos,
+        dataSource: this.fuente_datos,
         columnMenu: false,
         groupable: false,
         sortable: false,
@@ -195,13 +173,12 @@ Grid.prototype.get_Configuracion = function () {
         scrollable: true,
         pageable: false,
         noRecords: {
-            template: "<div class='nova-grid-empy'> No se encontraron registros </div>"
+            template: "<div class='nova-grid-empy'> Sin Lineas/Gastos </div>"
         },
         // dataBound: this.set_Icons,
     }
 }
 Grid.prototype.get_Columnas = function () {
-
     return [
         {
             field: "slug",
@@ -233,6 +210,5 @@ Grid.prototype.get_Columnas = function () {
 //   return url_viaticocabecera_editar.replace('/0/', '/' + _pk + '/')
 // }
 Grid.prototype.buscar = function() {
-
-    this.kfuente_datos.page(1)
+    this.fuente_datos.read()
 }

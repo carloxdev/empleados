@@ -18,12 +18,15 @@
     margin-bottom: 10px;
 }
 
+.nova-toolbar-mbutton {
+    margin-left: 12px !important;
+}
+
 .nova-panel {
     margin-bottom: 10;
 }
 
 .nova-widget-head {
-    /*padding: 10px 20px 10px !important;*/
     margin-bottom: 0;
 }
 
@@ -37,7 +40,7 @@
 
 .nova-panel-heading {
    margin: 0px;
-   padding: 15px 20px 15px !important;
+   padding: 15px 20px 0px !important;
    min-height: 55px;
 }
 
@@ -88,6 +91,14 @@
 
 .nova-black {
    color: #404040 !important;
+}
+
+.nova-blue {
+    color: #4285f4 !important;
+}
+
+.nova-green {
+    color: #37b358 !important;
 }
 
 .nova-badge {
