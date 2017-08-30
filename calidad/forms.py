@@ -10,6 +10,8 @@ from django.forms import Select
 from django.forms import Textarea
 from django.forms import NumberInput
 from django.forms import SelectMultiple
+from django.forms import RadioSelect
+from django.core.exceptions import NON_FIELD_ERRORS
 
 # Librerias/Clases propias
 
@@ -25,6 +27,7 @@ from .models import Proceso
 from .models import Subproceso
 from .models import Sitio
 from .models import Responsable
+from .models import Falla
 
 
 class CriterioForm(Form):
@@ -426,7 +429,7 @@ class AuditorForm(Form):
         return valores
 
 
-class AuditoriaProcesoForm(Form):
+class ProcesoAuditoriaForm(Form):
 
     proceso = ChoiceField(
         widget=Select(attrs={'class': 'select2'})
@@ -459,15 +462,15 @@ class AuditoriaProcesoForm(Form):
         widget=Select(attrs={'class': 'select2'})
     )
 
-    def __init__(self, auditores_designados_choices, proceso_required, *args, **kwargs):
-        super(AuditoriaProcesoForm, self).__init__(*args, **kwargs)
+    def __init__(self, _auditores_designados_choices, _proceso_required, *args, **kwargs):
+        super(ProcesoAuditoriaForm, self).__init__(*args, **kwargs)
         self.fields['proceso'].choices = self.get_Proceso()
-        self.fields['proceso'].required = proceso_required
-        if not proceso_required:
+        self.fields['proceso'].required = _proceso_required
+        if not _proceso_required:
             self.fields['proceso'].widget.attrs['disabled'] = 'disabled'
         self.fields['subproceso'].choices = self.get_Subproceso()
         self.fields['rep_subproceso'].choices = self.get_Representante()
-        self.fields['auditor'].choices = auditores_designados_choices
+        self.fields['auditor'].choices = _auditores_designados_choices
         self.fields['sitio'].choices = self.get_Sitio()
 
     def get_Proceso(self):
@@ -534,7 +537,7 @@ class AuditoriaProcesoForm(Form):
             )
         return valores
 
-class ProcesoRequisitoForm(Form):
+class RequisitoProcesoForm(Form):
 
     criterio = ChoiceField(
         widget=Select(attrs={'class': 'select2'}),
@@ -545,6 +548,121 @@ class ProcesoRequisitoForm(Form):
         required=False
     )
 
-    def __init__(self, criterios_auditoria, *args, **kwargs):
-        super(ProcesoRequisitoForm, self).__init__(*args, **kwargs)
-        self.fields['criterio'].choices = criterios_auditoria
+    def __init__(self, _criterios_auditoria, *args, **kwargs):
+        super(RequisitoProcesoForm, self).__init__(*args, **kwargs)
+        self.fields['criterio'].choices = _criterios_auditoria
+
+
+class HallazgoProcesoForm(Form):
+    TIPO_HALLAZGO = (
+        ('Mayor A', 'Mayor A'),
+        ('Menor B', 'Menor B'),
+        ('Observacion', 'Observacion')
+    )
+
+    titulo = CharField(
+        widget=TextInput(attrs={'class': 'form-control input-xs'}),
+    )
+
+    subproceso = ChoiceField(
+        widget=Select(attrs={'class': 'select2'}),
+    )
+
+    requisito_referencia = ChoiceField(
+        label='Requisitos de referencia',
+        widget=Select(attrs={'class': 'select2', 'multiple': 'multiple'}),
+    )
+
+    descripciones = ChoiceField(
+        widget=Select(attrs={'class': 'select2', 'multiple': 'multiple'}),
+    )
+
+    tipo_hallazgo = ChoiceField(
+        label="Tipo de hallazgo",
+        widget=Select(attrs={'class': 'select2'}),
+        choices=TIPO_HALLAZGO
+    )
+
+    observaciones = CharField(
+        widget=Textarea(attrs={'class': 'form-control input-xs', 'rows': '5'}),
+    )
+
+    def __init__(self, _subprocesos, _requisitos_proceso, *args, **kwargs):
+        super(HallazgoProcesoForm, self).__init__(*args, **kwargs)
+        self.fields['subproceso'].choices = _subprocesos
+        self.fields['requisito_referencia'].choices = _requisitos_proceso
+        self.fields['descripciones'].choices = self.get_Descripciones()
+
+    def get_Descripciones(self):
+
+        valores = []
+
+        fallas = Falla.objects.all()
+
+        for falla in fallas:
+
+            valores.append(
+                (
+                    falla.pk,
+                    falla.falla
+                )
+            )
+        return valores
+
+
+class HallazgoProcesoFilterForm(Form):
+
+    TIPO_HALLAZGO = (
+        ('Mayor A', 'Mayor A'),
+        ('Menor B', 'Menor B'),
+        ('Observacion', 'Observacion')
+    )
+
+    HALLAZGO_CERRADO = (
+        ('Si', 'Si'),
+        ('No', 'No')
+    )
+
+    titulo = CharField(
+        widget=TextInput(attrs={'class': 'form-control input-xs', 'id': 'id_titulo_filter'}),
+    )
+
+    subproceso = ChoiceField(
+        widget=Select(attrs={'class': 'select2', 'id': 'id_subproceso_filter'}),
+    )
+
+    sitio = ChoiceField(
+        widget=Select(attrs={'class': 'select2', 'id': 'id_sitio_filter'}),
+    )
+
+    cerrado = ChoiceField(
+        widget=RadioSelect,
+        choices=HALLAZGO_CERRADO
+    )
+
+    tipo_hallazgo = ChoiceField(
+        label="Tipo de hallazgo",
+        widget=Select(attrs={'class': 'select2', 'id': 'id_tipo_hallazgo_filter'}),
+        choices = TIPO_HALLAZGO
+    )
+
+    def __init__(self, _subprocesos, *args, **kwargs):
+        super(HallazgoProcesoFilterForm, self).__init__(*args, **kwargs)
+        self.fields['subproceso'].choices = _subprocesos
+        self.fields['sitio'].choices = self.get_Sitio()
+
+    def get_Sitio(self):
+
+        valores = [('', '-------')]
+
+        sitios = Sitio.objects.all()
+
+        for sitio in sitios:
+
+            valores.append(
+                (
+                    sitio.sitio,
+                    sitio.sitio
+                )
+            )
+        return valores

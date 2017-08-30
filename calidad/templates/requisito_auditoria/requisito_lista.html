@@ -36,7 +36,7 @@
             <div id="wizard1" class="wizard wizard-ux nova-panel-borde-header">
 
                <ul class="steps">
-                  <li class="active">Auditoría No: <strong>AUD-01-15</strong>
+                  <li class="active">Auditoría No: <strong>{{ folio }}</strong>
                   </li>
                </ul>
                <div class="actions">
@@ -56,7 +56,7 @@
                   <div role="group" class="btn-group btn-group-justified nova-nav-tab">
                      <a href="{% url 'calidad:proceso_formulario_update' pk pk_pro %}" class="btn btn-default">Información</a>
                      <a class="btn btn-primary">Requisitos</a>
-                     <a href="{% url 'calidad:hallazgo_lista' %}" class="btn btn-default">Hallazgos</a>
+                     <a href="{% url 'calidad:hallazgo_lista' pk pk_pro %}" class="btn btn-default">Hallazgos</a>
                   </div>
 
                </div>
@@ -70,13 +70,6 @@
                   <a class="btn nova-btn btn-rounded btn-sm btn-space btn-default pull-right" data-toggle="modal" id="id_boton_nuevo_requisito">
                      <i class="icon icon-left mdi mdi-plus-circle nova-black"></i>Nuevo
                   </a>
-                  {% if form.errors %}
-                     <ul>
-                       {% for error in form.errors %}
-                         <li>{{ error }}</li>
-                       {% endfor %}
-                     </ul>
-                   {% endif %}
                </div><!-- Panel Heading -->
 
                <div id="grid_resultados" class="nova-div-overflow">
@@ -120,7 +113,13 @@
             </div> <!-- Panel -->
          </div> <!-- col sm 12 fuelux-->
       </div> <!-- wizzard row -->
-      <input type="hide" class="hide" value="{{ request.user.profile.pk }}" id="id_created_by">
+      <input type="hide" class="hide" value="{{ request.user.profile.pk }}" id="id_actual_user">
+      <input type="hide" class="hide" value="{{ pk_pro }}" id="id_pk_pro">
+      {% if messages %}
+          {% for message in messages %}
+              <input type="hide" class="hide" value="{{ message }}" id="id_{{ message.extra_tags }}">
+          {% endfor %}
+      {% endif %}
    </div> <!-- main content -->
 
    <!-- Nuevo Requisito -->

@@ -643,12 +643,21 @@ div.nova-panel-arbol li.list-group-item {
 .nova-actualizado{
   background-color: #E6F8E0;
 }
+
+/* bootstrap multiselect */
+.nova-bootstrap-multiselect-width-ul {
+   overflow-x: scroll !important;
+   max-width: 100% !important;
+}
+/* bootstrap multiselect */
+
 /* jquery multiselect */
 .nova-has-error {
    border: 1px solid #ea4335 !important;
    box-shadow: 0 0 7px #ff0000 !important;
 }
 /* jquery multiselect */
+
 .nova-col-popup {
    padding-right: 0px !important;
 }
@@ -711,3 +720,24 @@ div.nova-panel-arbol li.list-group-item {
         padding-right: 0;
     }
 }
+.nova-overflow-visible {
+   overflow: visible !important;
+}
+/* nova-wizard-header */
+.nova-wizard-header {
+   font-size: 14px;
+}
+.nova-wizard-header .nova-wizard-title {
+   padding: 14px;
+   float: left;
+   color: #4285f4;
+}
+.nova-wizard-header .nova-wizard-tools {
+   float: right;
+   padding: 14px 30px 14px 14px;
+}
+.nova-wizard-tools > ul {
+   left: -170px;
+   top: 33px;
+}
+/* nova-wizard-header */

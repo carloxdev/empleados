@@ -37,13 +37,34 @@
             <form class="block-wizard panel panel-default nova-panel-borde-header" action="" method="POST" > {% csrf_token %}
 
                <div id="wizard1" class="wizard wizard-ux">
-                  <ul class="steps">
+                 <div class="nova-wizard-header">
 
-                     <li class="active">Auditoría No: {{folio}}
-                     </li>
+                     <span class="nova-wizard-title">Auditoría No: <strong>{{folio}}</strong></span>
+                     <div class="nova-wizard-tools visible-xs-inline-block dropdown"><span data-toggle="dropdown" class="icon mdi mdi-more-vert dropdown-toggle" aria-expanded="false"></span>
+                         <ul role="menu" class="dropdown-menu">
+                           <li class="active">
+                             <a>Generales</a>
+                           </li>
+                           <li>
+                             <a {% if operation == 'Editar' %}
+                                  href="{% url 'calidad:auditor_formulario_update' pk %}"
+                                {% endif %}
+                             >Equipo Auditor
+                             </a>
+                           </li>
+                           <li>
+                             <a {% if operation == 'Editar'%}
+                                  href="{% url 'calidad:proceso_lista' pk %}"
+                                {% endif %}
+                             >Procesos
+                             </a>
+                           </li>
+                         </ul>
+                     </div>
 
-                  </ul>
-                  <div class="actions">
+                 </div>
+
+                  <div class="actions hidden-xs">
                      <a class="btn btn-xs btn-prev btn-default nova-a-tab nova-active-tab">Generales</a>
                      <a {% if operation == 'Editar' %}
                           href="{% url 'calidad:auditor_formulario_update' pk %}"

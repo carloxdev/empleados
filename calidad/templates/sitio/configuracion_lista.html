@@ -32,20 +32,44 @@
          <li class="active">Sitios</li>
       </ol>
    </div>
-   
+
    <div class="main-content container-fluid nova-main-content">
 
       <div class="row wizard-row">
-         
+
          <div class="col-md-12 fuelux">
-            
-               <div id="wizard1" class="wizard wizard-ux nova-panel-borde-header">
-                  <ul class="steps">
 
-                     <li class="active">Catálogo Maestro</li>
+               <div id="wizard1" class="wizard wizard-ux nova-panel-borde-header nova-overflow-visible">
+                 <div class="nova-wizard-header">
 
-                  </ul>
-                  <div class="actions">
+                     <span class="nova-wizard-title">Catálogo Maestro</span>
+                     <div class="nova-wizard-tools visible-xs-inline-block dropdown"><span data-toggle="dropdown" class="icon mdi mdi-more-vert dropdown-toggle" aria-expanded="false"></span>
+                         <ul role="menu" class="dropdown-menu">
+                           <li>
+                             <a href="{% url 'calidad:configuracion_criterio_lista' %}">Criterios</a>
+                           </li>
+                           <li>
+                             <a href="{% url 'calidad:configuracion_proceso_lista' %}">Procesos</a>
+                           </li>
+                           <li>
+                             <a href="{% url 'calidad:configuracion_rol_lista' %}">Roles</a>
+                           </li>
+                           <li class="active">
+                             <a>Sitios</a>
+                           </li>
+                           <li>
+                             <a href="{% url 'calidad:configuracion_metodologia_lista' %}">Metodologías</a>
+                           </li>
+                           <li>
+                             <a href="{% url 'calidad:configuracion_tipo_falla_lista' %}">Descripciones</a>
+                           </li>
+                           <li>
+                             <a href="{% url 'calidad:configuracion_formato_lista' %}">Formatos</a>
+                           </li>
+                         </ul>
+                      </div>
+                  </div>
+                  <div class="actions hidden-xs">
                      <a href="{% url 'calidad:configuracion_criterio_lista' %}" class="btn btn-xs btn-prev btn-default nova-a-tab">Criterios</a>
                      <a href="{% url 'calidad:configuracion_proceso_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab">Procesos</a>
                      <a href="{% url 'calidad:configuracion_rol_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Roles</a>
@@ -64,30 +88,30 @@
                   </div><!-- Panel Heading -->
 
                   <div id="grid_resultados">
-                     
+
                   </div>
 
                </div> <!-- Panel -->
 
          </div> <!-- col md 12 -->
       </div> <!-- row wizard row -->
-      
+
    </div> <!-- main content -->
 
    <!-- Targeta sitio -->
    <div id="id_tarjeta_sitio" role="dialog" class="modal fade colored-header colored-header-primary" >
       <div class="modal-dialog custom-width">
          <div class="modal-content">
-            
+
             <div class="modal-header nova-modal-header">
                <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
                <h3 class="modal-title">Nuevo Sitio</h3>
             </div>
-               
+
             <form id="id_formulario_sitio" class="modal-body form-horizontal">
-               
+
                <!-- sitio -->
-               {% tag_field_popup form.sitio 3 8 %}  
+               {% tag_field_popup form.sitio 3 8 %}
 
             </form><!-- Modal body-->
             <div class="modal-footer nova-modal-footer">
@@ -116,6 +140,6 @@
    <script src="{% static 'libs/kendo/2015.2.624/js/kendo.web.min.js' %}"></script>
 
    <!-- JS Template -->
-   <script src="{% static 'sitio/configuracion_lista.js' %}"></script>      
+   <script src="{% static 'sitio/configuracion_lista.js' %}"></script>
 
 {% endblock scripts %}

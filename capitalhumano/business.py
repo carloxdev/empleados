@@ -18,7 +18,7 @@ class EmpleadoBusiness(object):
         empleados = VIEW_EMPLEADOS_FULL.objects.using('ebs_p').all()
 
         for empleado in empleados:
-            nombre = "%s-%s" % (empleado.pers_empleado_numero,
+            nombre = "%s : %s" % (empleado.pers_empleado_numero,
                                 empleado.pers_nombre_completo)
             valores.append(
                 (
