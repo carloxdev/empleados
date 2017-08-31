@@ -19,9 +19,7 @@ def tag_field_registro(_field, _size_label, _size_field):
     return contexto
 
 
-@register.inclusion_tag(
-    'tags/field_registro_dates.html',
-    takes_context=False)
+@register.inclusion_tag('tags/field_registro_dates.html', takes_context=False)
 def tag_field_registro_dates(_label, _field1, _field2, _size_label, _size_field1, _size_field2):
 
     contexto = {
@@ -172,6 +170,17 @@ def tag_field_date(_field, _size_label, _size_field, _set_label):
     return contexto
 
 
+@register.inclusion_tag('tags/filter_dates.html', takes_context=False)
+def tag_filter_dates(_label, _field1, _field2):
+
+    contexto = {
+        'etiqueta': _label,
+        'campo1': _field1,
+        'campo2': _field2
+    }
+    return contexto
+
+
 @register.inclusion_tag('tags/section_info.html', takes_context=False)
 def tag_section_info(_size, _offset, _type, _message):
 
@@ -190,5 +199,45 @@ def tag_mensaje(_type, _message):
     contexto = {
         'type': _type,
         'message': _message
+    }
+    return contexto
+
+@register.inclusion_tag(
+    'tags/field_popup_apuntador.html',
+    takes_context=False)
+def tag_field_popup_apuntador(_field, _apuntador):
+
+    contexto = {
+        'campo': _field,
+        'apuntador': _apuntador,
+    }
+    return contexto
+
+@register.inclusion_tag(
+    'tags/filter_group.html',
+    takes_context=False)
+def tag_filter_group(_field, _apuntador):
+
+    contexto = {
+        'campo': _field,
+        'apuntador': _apuntador,
+    }
+    return contexto
+
+@register.filter('has_group')
+def has_group(user, group_name):
+    if user.is_superuser:
+        return True
+    else:
+        groups = user.groups.all().values_list('name', flat=True)
+        return True if group_name in groups else False
+
+@register.inclusion_tag(
+    'tags/filter_radio.html',
+    takes_context=False)
+def tag_filter_radio(_field):
+
+    contexto = {
+        'campo': _field,
     }
     return contexto

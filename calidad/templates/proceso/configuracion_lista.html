@@ -12,7 +12,7 @@
 
    <!-- Beagle Theme -->
    <link rel="stylesheet" href="{% static 'theme/lib/multiselect/css/multi-select.css' %}"/>
-   
+
    <!-- bootstrap tree -->
    <link rel="stylesheet" href="{% static 'libs/bootstrap-treeview/1.2.0/css/bootstrap-treeview.css' %}"/>
 
@@ -37,16 +37,40 @@
    <div class="main-content container-fluid nova-main-content">
 
       <div class="row wizard-row">
-         
+
          <div class="col-md-12 fuelux">
-               
-            <div id="wizard1" class="wizard wizard-ux nova-panel-borde-header">
-               <ul class="steps">
 
-                  <li class="active">Catálogo Maestro</li>
+            <div id="wizard1" class="wizard wizard-ux nova-panel-borde-header nova-overflow-visible">
+              <div class="nova-wizard-header">
 
-               </ul>
-               <div class="actions">
+                  <span class="nova-wizard-title">Catálogo Maestro</span>
+                  <div class="nova-wizard-tools visible-xs-inline-block dropdown"><span data-toggle="dropdown" class="icon mdi mdi-more-vert dropdown-toggle" aria-expanded="false"></span>
+                      <ul role="menu" class="dropdown-menu">
+                        <li>
+                          <a href="{% url 'calidad:configuracion_criterio_lista' %}">Criterios</a>
+                        </li>
+                        <li class="active">
+                          <a>Procesos</a>
+                        </li>
+                        <li>
+                          <a href="{% url 'calidad:configuracion_rol_lista' %}">Roles</a>
+                        </li>
+                        <li>
+                          <a href="{% url 'calidad:configuracion_sitio_lista' %}">Sitios</a>
+                        </li>
+                        <li>
+                          <a href="{% url 'calidad:configuracion_metodologia_lista' %}">Metodologías</a>
+                        </li>
+                        <li>
+                          <a href="{% url 'calidad:configuracion_tipo_falla_lista' %}">Descripciones</a>
+                        </li>
+                        <li>
+                          <a href="{% url 'calidad:configuracion_formato_lista' %}">Formatos</a>
+                        </li>
+                      </ul>
+                   </div>
+               </div>
+               <div class="actions hidden-xs">
                   <a href="{% url 'calidad:configuracion_criterio_lista' %}" class="btn btn-xs btn-prev btn-default nova-a-tab">Criterios</a>
                   <a class="btn btn-xs btn-next btn-default nova-a-tab nova-active-tab">Procesos</a>
                   <a href="{% url 'calidad:configuracion_rol_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Roles</a>
@@ -55,7 +79,7 @@
                   <a href="{% url 'calidad:configuracion_tipo_falla_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Descripciones</a>
                   <a href="{% url 'calidad:configuracion_formato_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Formatos</a>
                </div>
-              </div> 
+              </div>
                <div class="panel panel-default">
 
                   <div class="panel-heading nova-panel-borde-contenido nova-panel-tools">
@@ -71,23 +95,23 @@
                   <div id="id_arbol" class="nova-panel-arbol">
                   </div>
 
-               </div> <!-- Panel --> 
+               </div> <!-- Panel -->
 
          </div> <!-- col md 12 -->
       </div> <!-- row wizard row -->
-      
+
    </div> <!-- main content -->
 
    <!-- Tarjeta proceso -->
    <div id="id_tarjeta_proceso" data-primaryKey="" role="dialog" class="modal fade colored-header colored-header-primary">
       <div class="modal-dialog custom-width">
          <div class="modal-content">
-   
+
             <div class="modal-header nova-modal-header">
                <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
                <h3 id="id_popup_proceso_titulo" class="modal-title"></h3>
             </div>
-               
+
             <form id="id_formulario_proceso" class="modal-body form-horizontal">
 
                {% tag_field_popup formularioProceso.proceso 2 9 %}
@@ -108,26 +132,26 @@
          </div> <!-- Modal content-->
       </div> <!-- Modal dialog -->
    </div><!-- Modal -->
-   
+
    <!-- Tarjeta responsable -->
    <div id="id_tarjeta_responsable" data-primaryKey="" role="dialog" class="modal fade colored-header colored-header-primary">
       <div class="modal-dialog modal-lg">
          <div class="modal-content nova-modal-maxwidth">
-   
+
             <div class="modal-header nova-modal-header">
                <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
                <h3 class="modal-title">Responsables</h3>
             </div>
-               
+
             <form id="id_formulario_responsable" class="modal-body form-horizontal">
 
                <div class="form-group">
-                  
+
                   <!-- responsable -->
                   <div class="col-sm-offset-1 col-sm-8">
 
-                     {{ formularioResponsable.responsable }} 
-                     
+                     {{ formularioResponsable.responsable }}
+
                   </div>
                   <div class="col-sm-2">
                      <button type="button" id="id_boton_agregar" class="btn nova-btn btn-success pull-right">
@@ -148,7 +172,7 @@
                            </tr>
                         </thead>
                         <tbody id="id_tbody_responsables">
-                           
+
                         </tbody>
                      </table>
                   </div>
@@ -171,12 +195,12 @@
    <div id="id_tarjeta_subproceso" data-primaryKey="" data-primarykeyParent="" role="dialog" class="modal fade colored-header colored-header-primary">
       <div class="modal-dialog custom-width">
          <div class="modal-content">
-            
+
             <div class="modal-header nova-modal-header">
                <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
                <h3 id="id_popup_subproceso_titulo" class="modal-title"></h3>
             </div>
-               
+
             <form id="id_formulario_subproceso" class="modal-body form-horizontal">
 
                {% tag_field_popup formularioSubproceso.subproceso 3 8 %}
@@ -211,6 +235,6 @@
    <script src="{% static 'libs/bootstrap-treeview/1.2.0/js/bootstrap-treeview.js' %}" ></script>
 
    <!-- JS Template -->
-   <script src="{% static 'proceso/configuracion_lista.js' %}"></script>      
+   <script src="{% static 'proceso/configuracion_lista.js' %}"></script>
 
 {% endblock scripts %}

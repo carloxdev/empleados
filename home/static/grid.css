@@ -3,6 +3,10 @@
 	border-radius: 0 !important;
 }
 
+.k-grid-header {
+	border-bottom-style: none !important;
+}
+
 .k-reset{
 	line-height: 2.0em !important;
 }
@@ -10,6 +14,11 @@
 .k-link > input {
     margin-right: 5px;
 }
+
+.panel-table tr td:first-child {
+	padding-left: 1em;
+}
+
 
 .nova-grid-empy {
 	font-size: 32px;

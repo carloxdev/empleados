@@ -11,8 +11,10 @@ from .models import ViaticoLinea
 from .serializers import ViaticoCabeceraSerializer
 from .serializers import ViaticoLineaSerializer
 
-from .pagination import GenericPagination
 from .filters import ViaticoCabeceraFilter
+from .filters import ViaticoLineaFilter
+
+from .pagination import GenericPagination
 
 
 class ViaticoCabeceraAPI(viewsets.ModelViewSet):
@@ -20,12 +22,6 @@ class ViaticoCabeceraAPI(viewsets.ModelViewSet):
     serializer_class = ViaticoCabeceraSerializer
     filter_backends = (DjangoFilterBackend,)
     filter_class = ViaticoCabeceraFilter
-    permission_classes = (IsAuthenticated,)
-
-
-class ViaticoLineaAPI(viewsets.ModelViewSet):
-    queryset = ViaticoLinea.objects.all()
-    serializer_class = ViaticoLineaSerializer
     permission_classes = (IsAuthenticated,)
 
 
@@ -38,10 +34,9 @@ class ViaticoCabeceraByPageAPI(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated,)
 
 
-class ViaticoLineaByPageAPI(viewsets.ModelViewSet):
+class ViaticoLineaAPI(viewsets.ModelViewSet):
     queryset = ViaticoLinea.objects.all()
     serializer_class = ViaticoLineaSerializer
-    pagination_class = GenericPagination
     filter_backends = (DjangoFilterBackend,)
-    filter_fields = ('cabecera',)
+    filter_class = ViaticoLineaFilter
     permission_classes = (IsAuthenticated,)

@@ -10,8 +10,8 @@
 
 {% block css %}
 
-    <!-- Theme -->
-    <link rel="stylesheet" href="{% static 'theme/lib/datetimepicker/css/bootstrap-datetimepicker.min.css' %}" type="text/css"/>
+<!-- DatePicker -->
+<link rel="stylesheet" href="{% static 'libs/bootstrap-datepicker/2.0/dist/css/bootstrap-datepicker.min.css' %}"/>
 
     <!-- Kendo -->
     <link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.rtl.min.css' %}"/>
@@ -44,8 +44,8 @@
             <div class="col-md-8 nova-panel-main">
 
                 <!-- Cabecera -->
-                <form class="panel panel-border panel-contrast nova-toolbar" action="" method="POST"> {% csrf_token %}
-                    <div class="panel-heading panel-heading-default nova-border-bottom">
+                <form class="panel panel-border panel-contrast nova-panel-default nova-panel-formulario" action="" method="POST"> {% csrf_token %}
+                    <div class="panel-heading panel-heading-default nova-panel-heading-formulario">
                         <span class="title">Informacion de la solicitud: <strong>VIA-<span id="clave">{{ form.instance.id }}</span></strong></span>
                     </div>
                     <div class="panel-body form-horizontal">
@@ -62,7 +62,7 @@
                             {% tag_mensaje 'exito' 'Solicitud Creada con exito' %}
                         {% endif %}
 
-                        {% tag_section_info 12 0 '¡Instrucciones!' 'Ahora puedes agregar/modificar gastos en la seccion <strong>"Lineas"</strong>' %}
+                        {% tag_section_info 12 0 '¡Instrucciones!' 'Ahora puedes agregar/modificar gastos en la targeta <strong>"Lineas"</strong>' %}
 
                         {% tag_field_registro form.empleado_clave 3 8 %}
 
@@ -97,21 +97,27 @@
                 </form>
 
                 <!-- Lineas -->
-                <div class="panel panel-default panel-table">
+                <div class="panel panel-default panel-table nova-panel-table">
                     <div class="panel-heading panel-border nova-panel-heading">
                         <div class="widget-head nova-widget-head">
                             <div class="tools visible-xs-inline-block">
-                                <span class="icon mdi mdi-plus" id="boton_nuevo"></span>
-                                <span class="icon mdi mdi-download disabled" id="boton_excel"></span>
+                                <button type="button" class="btn nova-btn btn-sm btn-rounded btn-space btn-default">
+                                    <i class="icon icon-left mdi mdi-plus-circle nova-black"></i> Nuevo
+                                </button>
+
+                                <button type="button" class="btn nova-btn btn-sm btn-rounded btn-space btn-success">
+                                    <i class="icon icon-left mdi mdi-download nova-white"></i> Exportar
+                                </button>
+
                             </div>
                             <div class="button-toolbar hidden-xs">
 
                                 <button class="btn nova-btn btn-rounded btn-space btn-default" id="boton_nuevo">
-                                    <i class="icon icon-left mdi mdi-plus-circle nova-black"></i>Nuevo
+                                    <i class="icon icon-left mdi mdi-plus-circle nova-black"></i> Nuevo
                                 </button>
 
-                                <button class="btn nova-btn btn-rounded btn-space btn-success disabled" id="boton_excel">
-                                    <i class="icon icon-left mdi mdi-download nova-white"></i>Exportar
+                                <button class="btn nova-btn btn-rounded btn-space btn-success" id="boton_excel" disabled>
+                                    <i class="icon icon-left mdi mdi-download nova-white"></i> Exportar
                                 </button>
 
                             </div>
@@ -124,9 +130,8 @@
                     </div>
                 </div>
 
-
                 <!-- Botones -->
-                <div class="panel panel-border panel-contrast ">
+                <div class="panel panel-border panel-contrast nova-panel-default">
                     <div class="panel-body text-center">
                         <button type="button" class="btn btn-warning btn-lg" disabled>Finalizar y Enviar</button>
                     </div>
@@ -136,27 +141,27 @@
 
             <!-- Datos Autorizacion -->
             <div class="col-md-4">
-                  <div class="panel panel-border panel-contrast user-info-list nova-toolbar">
-                      <div class="panel-heading panel-heading-default nova-border-bottom">
+                  <div class="panel panel-border panel-contrast user-info-list nova-panel-default">
+                      <div class="panel-heading panel-heading-default nova-panel-heading-formulario">
                           Datos de Autorización
                       </div>
                       <div class="panel-body">
                           <table class="no-border no-strip skills">
                               <tbody class="no-border-x no-border-y">
                                   <tr>
-                                      <td class="icon"><span class="mdi mdi-flag"></span></td>
-                                      <td class="item">Estado:<span class="icon s7-flag"></span></td>
-                                      <td><strong>PENDIENTE</strong></td>
+                                      <td class="icon nova-label"><span class="mdi mdi-flag"></span></td>
+                                      <td class="item nova-label">Estado:<span class="icon s7-flag"></span></td>
+                                      <td><strong>{{ form.instance.get_status_display }}</strong></td>
                                   </tr>
                                   <tr>
-                                      <td class="icon"><span class="mdi mdi-assignment-check"></span></td>
-                                      <td class="item">Autorizador:<span class="icon s7-assignment-check"></span></td>
-                                      <td><strong>Claudia Villegas</strong></td>
+                                      <td class="icon nova-label"><span class="mdi mdi-assignment-check"></span></td>
+                                      <td class="item nova-label">Aprovador:<span class="icon s7-assignment-check"></span></td>
+                                      <td><strong>{{ form.instance.approved_by|default:""|upper }}</strong></td>
                                   </tr>
                                   <tr>
-                                      <td class="icon"><span class="glyphicon glyphicon-calendar"></td>
-                                      <td class="item">Fecha Autorizacion:<span class="icon s7-glyphicon-calendar"></span></td>
-                                      <td><strong>16 September 1989</strong></td>
+                                      <td class="icon nova-label"><span class="glyphicon glyphicon-calendar"></td>
+                                      <td class="item nova-label">Autorizada el:<span class="icon s7-glyphicon-calendar"></span></td>
+                                      <td><strong>{{ form.instance.approved_date|date:"d M Y"|default:"" }}</strong></td>
                                   </tr>
                               </tbody>
                           </table>
@@ -166,32 +171,32 @@
 
             <!-- Datos Auditoria -->
             <div class="col-md-4">
-                  <div class="panel panel-border panel-contrast user-info-list nova-toolbar">
-                      <div class="panel-heading panel-heading-default nova-border-bottom">
+                  <div class="panel panel-border panel-contrast user-info-list nova-panel-default">
+                      <div class="panel-heading panel-heading-default nova-panel-heading-formulario">
                           Datos de Autitoria
                       </div>
                       <div class="panel-body">
                         <table class="no-border no-strip skills">
                             <tbody class="no-border-x no-border-y">
                                 <tr>
-                                    <td class="icon"><span class="mdi mdi-face"></span></td>
-                                    <td class="item">Creada por:<span class="icon s7-face"></span></td>
-                                    <td><strong>Paquito Gomez</strong></td>
+                                    <td class="icon nova-label"><span class="mdi mdi-face"></span></td>
+                                    <td class="item nova-label">Creada por:<span class="icon s7-face"></span></td>
+                                    <td><strong>{{ form.instance.created_by|default:""|upper }}</strong></td>
                                 </tr>
                                 <tr>
-                                    <td class="icon"><span class="glyphicon glyphicon-calendar"></td>
-                                    <td class="item">Fecha Creacion:<span class="icon s7-glyphicon-calendar"></span></td>
-                                    <td><strong>16 September 1989</strong></td>
+                                    <td class="icon nova-label"><span class="glyphicon glyphicon-calendar"></td>
+                                    <td class="item nova-label">Creada el:<span class="icon s7-glyphicon-calendar"></span></td>
+                                    <td><strong>{{ form.instance.created_date|default:""|date:"d F Y" }}</strong></td>
                                 </tr>
                                 <tr>
-                                    <td class="icon"><span class="mdi mdi-face"></span></td>
-                                    <td class="item">Actualizada por:<span class="icon s7-face"></span></td>
-                                    <td><strong>Paquito Ortiz</strong></td>
+                                    <td class="icon nova-label"><span class="mdi mdi-face"></span></td>
+                                    <td class="item nova-label">Actualizada por:<span class="icon s7-face"></span></td>
+                                    <td><strong>{{ form.instance.updated_by|default:""|upper }}</strong></td>
                                 </tr>
                                 <tr>
-                                    <td class="icon"><span class="glyphicon glyphicon-calendar"></td>
-                                    <td class="item">Fecha Actualizacion:<span class="icon s7-glyphicon-calendar"></span></td>
-                                    <td><strong>16 September 1989</strong></td>
+                                    <td class="icon nova-label"><span class="glyphicon glyphicon-calendar"></td>
+                                    <td class="item nova-label">Actualizacion el:<span class="icon s7-glyphicon-calendar"></span></td>
+                                    <td><strong>{{ form.instance.updated_date|default:""|date:"d F Y" }}</strong></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -201,27 +206,27 @@
 
             <!-- Datos para Facturacion -->
             <div class="col-md-4">
-                  <div class="panel panel-border panel-contrast user-info-list nova-toolbar">
-                      <div class="panel-heading panel-heading-default nova-border-bottom">
+                  <div class="panel panel-border panel-contrast user-info-list nova-panel-default">
+                      <div class="panel-heading panel-heading-default nova-panel-heading-formulario">
                           Datos para Facturacion
                       </div>
                       <div class="panel-body">
                           <table class="no-border no-strip skills">
                               <tbody class="no-border-x no-border-y">
                                   <tr>
-                                      <td class="icon"><span class="mdi mdi-case"></span></td>
-                                      <td class="item">Razon Social:<span class="icon s7-portfolio"></span></td>
-                                      <td><strong>SISTEMAS INTEGRALES DE COMPRESION</strong></td>
+                                      <td class="icon nova-label"><span class="mdi mdi-case"></span></td>
+                                      <td class="item nova-label">Razon Social:<span class="icon s7-portfolio"></span></td>
+                                      <td><strong>{{ form.instance.empresa|default:"" }}</strong></td>
                                   </tr>
                                   <tr>
-                                      <td class="icon"><span class="mdi mdi-globe-alt"></span></td>
-                                      <td class="item">RFC:<span class="icon s7-globe-alt"></span></td>
-                                      <td><strong>SIC030626932</strong></td>
+                                      <td class="icon nova-label"><span class="mdi mdi-globe-alt"></span></td>
+                                      <td class="item nova-label">RFC:<span class="icon s7-globe-alt"></span></td>
+                                      <td><strong>{{ form.instance.rfc|default:"" }}</strong></td>
                                   </tr>
                                   <tr>
-                                      <td class="icon"><span class="mdi mdi-pin"></span></td>
-                                      <td class="item">Direccion:<span class="icon s7-pin"></span></td>
-                                      <td><strong>AV INSURGENTES SUR 1700 PISO 5 COLONIA FLORIDA 01030 CIUDAD DE MÉXICO</strong></td>
+                                      <td class="icon nova-label"><span class="mdi mdi-pin"></span></td>
+                                      <td class="item nova-label">Direccion:<span class="icon s7-pin"></span></td>
+                                      <td><strong>{{ form.instance.direccion|default:"" }}</strong></td>
                                   </tr>
                               </tbody>
                           </table>
@@ -238,9 +243,6 @@
 
     <!-- Theme -->
     <script src="{% static 'theme/lib/jquery-ui/jquery-ui.min.js' %}"></script>
-    <script src="{% static 'theme/lib/moment.js/min/moment.min.js' %}"></script>
-    <script src="{% static 'theme/lib/datetimepicker/js/bootstrap-datetimepicker.min.js' %}"></script>
-    <script src="{% static 'theme/lib/datetimepicker/js/locales/bootstrap-datetimepicker.es.js' %}"></script>
 
     <!--JSZIP -->
     <script src="{% static 'libs/kendo/2015.2.624/js/jszip.min.js' %}"></script>
@@ -248,6 +250,9 @@
     <!-- Kendo Js -->
     <script src="{% static 'libs/kendo/2015.2.624/js/cultures/kendo.culture.es-MX.min.js' %}"></script>
     <script src="{% static 'libs/kendo/2015.2.624/js/kendo.web.min.js' %}"></script>
+
+    <!-- DatePicker -->
+    <script src="{% static 'libs/bootstrap-datepicker/2.0/dist/js/bootstrap-datepicker.min.js' %}"></script>
 
     <!-- Nova -->
     <script src="{% static 'tools.js' %}"></script>

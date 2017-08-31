@@ -73,7 +73,7 @@
                               <a href="{% url 'calidad:general_formulario_update' auditoria.pk%}" class="btn btn-default nova-url" data-toggle="modal">{{auditoria.folio}}</a>
                            </td>
                            <td>{{auditoria.objetivo}}</td>
-                           <td>{{auditoria.elaborador}}</td>
+                           <td>{{auditoria.create_by}}</td>
                            <td>{{auditoria.autorizador}}</td>
                            <td>{{auditoria.aprobador}}</td>
                            <td>{{auditoria.compania}}</td>
@@ -236,7 +236,7 @@
         <div class="modal-content">
           <div class="modal-header nova-modal-header">
             <button type="button" data-dismiss="modal" aria-hidden="true" class="close"><span class="mdi mdi-close"></span></button>
-            <h3 class="modal-title">Acciones de la Auditoria <strong>AUD-01-15</strong></h3>
+            <h3 class="modal-title">Acciones de la Auditoria <strong>{{ folio }}</strong></h3>
           </div>
           <div class="modal-body">
             <div class="text-center">

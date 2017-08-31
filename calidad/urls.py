@@ -56,7 +56,7 @@ urlpatterns = [
         name="general_formulario_create"
     ),
     url(
-        r'^auditorias/(?P<pk>\d+)/editar$',
+        r'^auditorias/(?P<pk>\d+)/editar/$',
         GeneralFormularioUpdate.as_view(),
         name="general_formulario_update"
     ),
@@ -81,7 +81,7 @@ urlpatterns = [
         name="requisito_lista"
     ),
     url(
-        r'^auditorias/nuevo/procesos/nuevo/hallazgos/$',
+        r'^auditorias/(?P<pk>\d+)/procesos/(?P<pk_pro>\d+)/hallazgos/$',
         HallazgoLista.as_view(),
         name="hallazgo_lista"
     ),

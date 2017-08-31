@@ -35,13 +35,37 @@
 
          <div class="col-md-12 fuelux">
 
-            <div id="wizard1" class="wizard wizard-ux nova-panel-borde-header">
-               <ul class="steps">
+            <div id="wizard1" class="wizard wizard-ux nova-panel-borde-header nova-overflow-visible">
+              <div class="nova-wizard-header">
 
-                  <li class="active">Catálogo Maestro</li>
-
-               </ul>
-               <div class="actions">
+                  <span class="nova-wizard-title">Catálogo Maestro</span>
+                  <div class="nova-wizard-tools visible-xs-inline-block dropdown"><span data-toggle="dropdown" class="icon mdi mdi-more-vert dropdown-toggle" aria-expanded="false"></span>
+                      <ul role="menu" class="dropdown-menu">
+                        <li>
+                          <a href="{% url 'calidad:configuracion_criterio_lista' %}">Criterios</a>
+                        </li>
+                        <li>
+                          <a href="{% url 'calidad:configuracion_proceso_lista' %}">Procesos</a>
+                        </li>
+                        <li>
+                          <a href="{% url 'calidad:configuracion_rol_lista' %}">Roles</a>
+                        </li>
+                        <li>
+                          <a href="{% url 'calidad:configuracion_sitio_lista' %}">Sitios</a>
+                        </li>
+                        <li>
+                          <a href="{% url 'calidad:configuracion_metodologia_lista' %}">Metodologías</a>
+                        </li>
+                        <li>
+                          <a href="{% url 'calidad:configuracion_tipo_falla_lista' %}">Descripciones</a>
+                        </li>
+                        <li class="active">
+                          <a>Formatos</a>
+                        </li>
+                      </ul>
+                   </div>
+               </div>
+               <div class="actions hidden-xs">
                   <a href="{% url 'calidad:configuracion_criterio_lista' %}" class="btn btn-xs btn-prev btn-default nova-a-tab">Criterios</a>
                   <a href="{% url 'calidad:configuracion_proceso_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab">Procesos</a>
                   <a href="{% url 'calidad:configuracion_rol_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Roles</a>

@@ -31,8 +31,8 @@ class ViaticoCabecera(models.Model):
     unidad_negocio_descripcion = models.CharField(max_length=144, null=True, blank=True)
     ciudad_destino = models.CharField(max_length=150, blank=False, null=False)
     proposito_viaje = models.TextField(max_length=250, blank=False, null=False)
-    empresa = models.ForeignKey(Empresa, blank=True, null=True)
 
+    empresa = models.ForeignKey(Empresa, blank=True, null=True)
     rfc = models.CharField(max_length=13, blank=True, null=True)
     direccion = models.CharField(max_length=60, blank=True, null=True)
     grupo = models.CharField(max_length=40, blank=True, null=True)
@@ -86,7 +86,7 @@ class ViaticoLinea(models.Model):
     cabecera = models.ForeignKey(ViaticoCabecera)
     concepto = models.CharField(max_length=60, blank=False, null=False)
     observaciones = models.CharField(max_length=140, blank=False, null=False)
-    importe = models.DecimalField(max_digits=7, decimal_places=2, blank=False, null=False)
+    importe = models.DecimalField(max_digits=7, decimal_places=2, blank=False, default=0.0)
     created_by = models.ForeignKey(Profile, related_name='vialinea_created_by', null=True)
     created_date = models.DateTimeField(
         auto_now=False,

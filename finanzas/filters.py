@@ -5,6 +5,7 @@ from django_filters import CharFilter
 
 # Modelos:
 from .models import ViaticoCabecera
+from .models import ViaticoLinea
 
 
 class ViaticoCabeceraFilter(filters.FilterSet):
@@ -13,27 +14,22 @@ class ViaticoCabeceraFilter(filters.FilterSet):
         name="proposito_viaje",
         lookup_expr="icontains"
     )
-
     empleado_clave = CharFilter(
         name="empleado_clave",
         lookup_expr="icontains"
     )
-
     unidad_negocio_clave = CharFilter(
         name="unidad_negocio_clave",
         lookup_expr="icontains"
     )
-
     ciudad_destino = CharFilter(
         name="ciudad_destino",
         lookup_expr="icontains"
     )
-
     autorizador_clave = CharFilter(
         name="autorizador_clave",
         lookup_expr="icontains"
     )
-
     creacion_fecha_mayorque = CharFilter(
         label="Fecha Creacion mayor a",
         name="creacion_fecha_mayorque",
@@ -44,7 +40,6 @@ class ViaticoCabeceraFilter(filters.FilterSet):
         name="creacion_fecha_menorque",
         method='filter_fecha_menorque'
     )
-
     status = CharFilter(
         label="Status",
         name="status",
@@ -81,3 +76,15 @@ class ViaticoCabeceraFilter(filters.FilterSet):
         else:
             consulta = queryset.filter(created_date__lte=valor)
             return consulta
+
+
+class ViaticoLineaFilter(filters.FilterSet):
+
+    concepto = CharFilter(name="concepto", lookup_expr="icontains")
+
+    class Meta:
+        model = ViaticoLinea
+        fields = [
+            'cabecera',
+            'concepto'
+        ]

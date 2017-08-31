@@ -10,7 +10,9 @@
 
 {% block css %}
 
-    <link rel="stylesheet" href="{% static 'theme/lib/datetimepicker/css/bootstrap-datetimepicker.min.css' %}" type="text/css"/>
+<!-- DatePicker -->
+<link rel="stylesheet" href="{% static 'libs/bootstrap-datepicker/2.0/dist/css/bootstrap-datepicker.min.css' %}"/>
+
 
 {% endblock css %}
 
@@ -81,10 +83,9 @@
 
     <!-- Theme -->
     <script src="{% static 'theme/lib/jquery-ui/jquery-ui.min.js' %}"></script>
-    <script src="{% static 'theme/lib/moment.js/min/moment.min.js' %}"></script>
-    <script src="{% static 'theme/lib/datetimepicker/js/bootstrap-datetimepicker.min.js' %}"></script>
-    <script src="{% static 'theme/lib/datetimepicker/js/locales/bootstrap-datetimepicker.es.js' %}"></script>
 
+    <!-- DatePicker -->
+    <script src="{% static 'libs/bootstrap-datepicker/2.0/dist/js/bootstrap-datepicker.min.js' %}"></script>
 
 	<!-- Nova -->
     <script src="{% static 'tools.js' %}"></script>
