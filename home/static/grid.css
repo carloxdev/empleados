@@ -31,3 +31,7 @@
     color: white !important;
     width: 5px !important;
 }
+
+.k-grid-norecords {
+	border-top: 1px solid #d4d4d4;
+}
