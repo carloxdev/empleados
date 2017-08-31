@@ -217,7 +217,6 @@ FuenteDatos.prototype.get_Configuracion = function() {
         pageSize: 10,
         transport: {
             read: {
-
                 url: url_viaticocabecera_bypage,
                 type: "GET",
                 dataType: "json",
@@ -335,11 +334,11 @@ Grid.prototype.get_Columnas = function () {
         // { field: "importe_total", title: "Importe total", width:"100px" },
     ]
 }
-Grid.prototype.click_BotonEditar = function (e) {
-
-    var fila = this.dataItem($(e.currentTarget).closest('tr'))
-    window.location.href = url_viaticocabecera_editar + fila.pk;
-}
+// Grid.prototype.click_BotonEditar = function (e) {
+//
+//     var fila = this.dataItem($(e.currentTarget).closest('tr'))
+//     window.location.href = url_viaticocabecera_editar + fila.pk;
+// }
 Grid.prototype.set_Icons = function (e) {
 
     e.sender.tbody.find(".k-button.fa.fa-pencil").each(function(idx, element){

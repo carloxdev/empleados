@@ -86,7 +86,7 @@ class ViaticoLinea(models.Model):
     cabecera = models.ForeignKey(ViaticoCabecera)
     concepto = models.CharField(max_length=60, blank=False, null=False)
     observaciones = models.CharField(max_length=140, blank=False, null=False)
-    importe = models.DecimalField(max_digits=7, decimal_places=2, blank=False, null=False)
+    importe = models.DecimalField(max_digits=7, decimal_places=2, blank=False, default=0.0)
     created_by = models.ForeignKey(Profile, related_name='vialinea_created_by', null=True)
     created_date = models.DateTimeField(
         auto_now=False,
