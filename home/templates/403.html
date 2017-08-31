@@ -1,0 +1,33 @@
+{% extends 'master.html' %}
+
+{% load static from staticfiles %}
+
+{% block titulo %} Error {% endblock titulo %}
+
+{% block title-page %} Error 404  {% endblock title-page %}
+
+{% block contenido %}
+<div class="be-content">
+    <div class="be-splash-screen">
+        <div class="be-wrapper be-error nova-be-error-403">
+            <div class="be-content">
+                <div class="main-content container-fluid">
+                    <div class="error-container">
+                        
+                        <!--<div class="error-number"><img class="nova-imagen-403" src="{% static 'images/decoradores/prohibido.png' %}"></img>403!</div>-->
+                        <div class="nova-error-number">403!</div>
+                        <div class="error-description">Acceso denegado. Usted no tiene permisos para esta sección.</div>
+                        <div class="error-goback-text">¿Te gustaria ir a inicio?</div>
+                        <div class="error-goback-button"><a href="{% url 'home:inicio' %}" class="btn btn-xl btn-danger">Ir a inicio</a></div>
+                        <div class="footer">© 2017 Nuvoil</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
+        <div class="be-scroll-top"></div>
+    </div>
+</div>
+
+{% endblock contenido %}

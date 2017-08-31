@@ -772,3 +772,54 @@ div.nova-panel-arbol li.list-group-item {
    top: 33px;
 }
 /* nova-wizard-header */
+
+/*------------------------------------------------------------------
+  [Pagina 403]
+*/
+.nova-imagen-403{
+  width: 150px;
+  height: 100%;
+}
+.be-error .nova-error-number {
+  display: block;
+  font-size: 150px;
+  font-weight: 700;
+  line-height: 240px;
+  margin-bottom: 30px;
+  max-height: 240px;
+  color: #C41B1B;
+}
+.be-error .nova-error-number:after {
+  padding-top: 0.25%;
+  display: block;
+  content: '';
+}
+@media (max-width: 767px) {
+  .be-error .nova-error-number {
+    padding: 20px 0;
+    font-size: 90px;
+    margin-bottom: 10px;
+    line-height: 100px;
+  }
+}
+/* .nova-be-error-403 .error-container .error-number {
+  background: url("images/decoradores/denegado.png") no-repeat center center;
+  background-size: contain;
+} */
+@media (max-width: 480px) {
+  .be-error-403 .error-container .nova-error-number {
+    padding: 0;
+    font-size: 70px;
+  }
+}
+@media (max-width: 340px) {
+  .be-error-403 .error-container .nova-error-number {
+    font-size: 50px;
+  }
+}
+@media (max-width: 295px) {
+  .be-error-403 .error-container .nova-error-number {
+    font-size: 40px;
+  }
+}
+/*------------------------------------------------------------------

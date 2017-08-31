@@ -287,17 +287,27 @@
   text-align: left;
   background-color: #fff;
   color: #333;
-  overflow: visible;
+  /* overflow: visible; */
+  overflow: hidden;
   text-overflow: ellipsis;
-  word-wrap: break-word;
+  /* word-wrap: break-word; */
 }
-.orgchart .node .content .col-sm-9{
-  background-color: #fff;
-  color: #333;
-}
-.orgchart .node .content .col-sm-3{
-  background-color: #fff;
-  color: #333;
+@media (max-width: 700px) {
+
+  .orgchart .node .content .col-sm-3{
+    float: left;
+    overflow: hidden;
+    display: inline-block;
+  }
+  .orgchart .node .content .col-sm-8{
+    float: left;
+    overflow: hidden;
+    display: inline-block;
+  }
+  .orgchart .node .content .col-sm-12{
+    margin-top: 0;
+    float: left
+  }
 }
 
 .orgchart.b2t .node .content {

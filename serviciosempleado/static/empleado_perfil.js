@@ -292,7 +292,10 @@ PopupInformacion.prototype.llenar_Informacion = function (_folio,_asunto,_descri
 function Personalizacion(){
     this.$personales = $('#personales')
     this.$capacitaciones = $('#capacitaciones')
+    this.$li_personales = $('#per')
+    this.$li_capacitaciones = $('#cap')
     this.$solicitudes = $('#solicitudes')
+    this.$li_solicitudes = $('#buzon')
     this.init_Events()
 }
 Personalizacion.prototype.init_Components = function(){
@@ -301,12 +304,17 @@ Personalizacion.prototype.init_Events = function(){
     
     this.$personales.on("click", this , this.mostrar_Personales)
     this.$capacitaciones.on("click", this , this.mostrar_Capacitaciones)
+    this.$li_personales.on("click", this , this.mostrar_Personales)
+    this.$li_capacitaciones.on("click", this , this.mostrar_Capacitaciones)
     this.$solicitudes.on("click", this , this.mostrar_Solicitudes)
+    this.$li_solicitudes.on("click", this , this.mostrar_Solicitudes)
 }
 Personalizacion.prototype.mostrar_Personales = function(e){
      
     e.data.$capacitaciones.removeClass('nova-active-tab')
     e.data.$personales.addClass('nova-active-tab')
+    e.data.$li_capacitaciones.removeClass('active')
+    e.data.$li_personales.addClass('active')
     e.data.$solicitudes.removeClass('nova-active-tab')
     $("#grid_resultados").empty()
     grid_personal.init()
@@ -315,21 +323,29 @@ Personalizacion.prototype.mostrar_Capacitaciones = function(e){
     
     e.data.$personales.removeClass('nova-active-tab')
     e.data.$capacitaciones.addClass('nova-active-tab')
+    e.data.$li_personales.removeClass('active')
+    e.data.$li_capacitaciones.addClass('active')
     e.data.$solicitudes.removeClass('nova-active-tab')
     $("#grid_resultados").empty()
     grid_capacitacion = new GridCapacitacion()
 }
 Personalizacion.prototype.mostrar_Solicitudes = function (e){
     e.data.$solicitudes.addClass('nova-active-tab')
+    e.data.$li_solicitudes.addClass('active')
     e.data.$personales.removeClass('nova-active-tab')
+    e.data.$li_personales.removeClass('active')
     e.data.$capacitaciones.removeClass('nova-active-tab')
+    e.data.$li_capacitaciones.removeClass('active')
     $("#grid_resultados").empty()
     grid_solicitudes = new GridSolicitudes()
 }
 Personalizacion.prototype.actualizar_Grid = function (){
     this.$solicitudes.addClass('nova-active-tab')
+    this.$li_solicitudes.addClass('active')
     this.$personales.removeClass('nova-active-tab')
     this.$capacitaciones.removeClass('nova-active-tab')
+    this.$li_personales.removeClass('active')
+    this.$li_capacitaciones.removeClass('active')
     $("#grid_resultados").empty()
     grid_solicitudes = new GridSolicitudes()
 }
@@ -422,9 +438,9 @@ GridPersonal.prototype.get_Columnas = function () {
 
     return [  
         { field: "tipo_documento", 
-          title: "Archivo", 
+          title: "Tipo documento", 
           width:"150px" ,
-          template: '<a href="#=archivo#" target="_blank">#=tipo_documento#</a>',
+          template: '<a class="btn btn-default nova-url" href="#=archivo#" target="_blank">#=tipo_documento#</a>',
         },
         { field: "agrupador", title: "Agrupador", width:"100px"},
         { field: "vigencia_inicio",title: "Vigencia inicio",width:"100px"},
@@ -534,7 +550,7 @@ GridCapacitacion.prototype.get_Columnas = function () {
         { field: "curso", 
           title: "Curso", 
           width:"150px" ,
-          template: '<a href="#=archivo#" target="_blank">#=curso#</a>',
+          template: '<a class="btn btn-default nova-url" href="#=archivo#" target="_blank">#=curso#</a>',
         },
         { field: "agrupador", title: "Agrupador", width:"100px"},
         { field: "area", title: "Area", width:"100px"},
@@ -696,14 +712,14 @@ GridSolicitudes.prototype.get_Columnas = function () {
         { field: "object_id",
           title: "Folio",
           width:"70px",
-          template: '<a href="\\#modal_informacion" data-toggle="modal" id="#=pk#" data-event="editar">#=object_id#</a>',
+          template: '<a class="btn btn-default nova-url" href="\\#modal_informacion" data-toggle="modal" id="#=pk#" data-event="editar">#=object_id#</a>',
         },  
-        { field: "status", title: "Estatus", width:"100px"},
         { field: "asunto", 
-          title: "Archivo", 
-          width:"150px" ,
-          template: '<a href="#=archivo#" target="_blank">#=asunto#</a>',
+          title: "Solicitud", 
+          width:"200px" ,
+          template: '<a class="btn btn-default nova-url" href="#=archivo#" target="_blank">#=asunto#</a>',
         },
+        { field: "status", title: "Estatus", width:"100px"},
         { field: "clave_departamento", title: "Se solicito a", width:"150px"},
         { field: "created_by", title: "Creado por", width:"150px" },
         { field: "created_date", title: "Fecha de creación", width:"150px", format: "{0:dd/MM/yyyy}" },

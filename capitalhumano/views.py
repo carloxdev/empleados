@@ -44,7 +44,7 @@ from ebs.models import VIEW_EMPLEADOS_FULL
 
 # -------------- EMPLEADOS -------------- #
 
-@method_decorator(group_required('home:inicio', False, 'CH_CONS_DATOS_PERSONAL'), name='dispatch') 
+@method_decorator(group_required('home:inicio', False, 'CH_CONS_DATOS_PERSONAL'), name='dispatch')
 class EmpleadoLista(View):
 
     def __init__(self):
@@ -197,6 +197,7 @@ class EmpleadoLista(View):
 
 # -------------- DASHBOARD -------------- #
 
+
 @method_decorator(group_required('home:inicio', False, 'CH_ADMIN', 'CH_OPERA'), name='dispatch')
 class EmpleadoDashboard(View):
 
@@ -232,6 +233,7 @@ class EmpleadoOrganigrama(View):
         }
         return render(request, self.template_name, contexto)
 
+
 @method_decorator(group_required('home:inicio', False, 'CH_ADMIN', 'CH_OPERA'), name='dispatch')
 class EmpleadoOrganigramaOrgAPI(View):
 
@@ -247,6 +249,7 @@ class EmpleadoOrganigramaOrgAPI(View):
             lista_json,
             content_type="application/json"
         )
+
 
 @method_decorator(group_required('home:inicio', False, 'CH_ADMIN', 'CH_OPERA'), name='dispatch')
 class EmpleadoOrganigramaEmpAPI(View):
@@ -283,6 +286,7 @@ class EmpleadoExpedientes(View):
 
         return render(request, self.template_name, contexto)
 
+
 @method_decorator(group_required('home:inicio', False, 'CH_ADMIN', 'CH_OPERA'), name='dispatch')
 class EmpleadoSolicitudes(View):
 
@@ -301,6 +305,7 @@ class EmpleadoSolicitudes(View):
 
         return render(request, self.template_name, contexto)
 
+
 @method_decorator(group_required('home:inicio', False, 'CH_ADMIN', 'CH_OPERA'), name='dispatch')
 class EmpleadoExpedientesGrado(View):
 
@@ -316,6 +321,7 @@ class EmpleadoExpedientesGrado(View):
         }
 
         return render(request, self.template_name, contexto)
+
 
 @method_decorator(group_required('home:inicio', False, 'CH_ADMIN', 'CH_OPERA'), name='dispatch')
 class EmpleadoExpedientesDocPersonal(View):
@@ -333,6 +339,7 @@ class EmpleadoExpedientesDocPersonal(View):
 
         return render(request, self.template_name, contexto)
 
+
 @method_decorator(group_required('home:inicio', False, 'CH_ADMIN', 'CH_OPERA'), name='dispatch')
 class EmpleadoExpedientesDocCapacitacion(View):
 
@@ -348,6 +355,7 @@ class EmpleadoExpedientesDocCapacitacion(View):
         }
 
         return render(request, self.template_name, contexto)
+
 
 @method_decorator(group_required('home:inicio', False, 'CH_ADMIN', 'CH_OPERA'), name='dispatch')
 class EmpleadoExpediente(View):

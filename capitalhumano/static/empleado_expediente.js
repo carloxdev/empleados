@@ -577,7 +577,9 @@ PopupCapacitacion.prototype.validar_Archivo = function (_archivo) {
 
 function Personalizacion(){
     this.$personales = $('#personales')
+    this.$li_personales = $('#per')
     this.$capacitaciones = $('#capacitaciones')
+    this.$li_capacitaciones = $('#cap')
     this.init_Events()
 }
 Personalizacion.prototype.init_Components = function(){
@@ -585,12 +587,16 @@ Personalizacion.prototype.init_Components = function(){
 Personalizacion.prototype.init_Events = function(){
         
     this.$personales.on("click", this , this.mostrar_Personales)
+    this.$li_personales.on("click", this , this.mostrar_Personales)
     this.$capacitaciones.on("click", this , this.mostrar_Capacitaciones)
+    this.$li_capacitaciones.on("click", this , this.mostrar_Capacitaciones)
 }
 Personalizacion.prototype.mostrar_Personales = function(e){
         
     e.data.$capacitaciones.removeClass('nova-active-tab')
+    e.data.$li_capacitaciones.removeClass('active')
     e.data.$personales.addClass('nova-active-tab')
+    e.data.$li_personales.addClass('active')
     tarjeta_resultados.popup_cap.$boton_nuevo.addClass('hidden')
     tarjeta_resultados.popup.$boton_nuevo.removeClass('hidden')
     $("#grid_resultados").empty()
@@ -599,7 +605,9 @@ Personalizacion.prototype.mostrar_Personales = function(e){
 Personalizacion.prototype.mostrar_Capacitaciones = function(e){
         
     e.data.$personales.removeClass('nova-active-tab')
+    e.data.$li_personales.removeClass('active')
     e.data.$capacitaciones.addClass('nova-active-tab')
+    e.data.$li_capacitaciones.addClass('active')
     tarjeta_resultados.popup.$boton_nuevo.addClass('hidden')
     tarjeta_resultados.popup_cap.$boton_nuevo.removeClass('hidden')
     $("#grid_resultados").empty()
@@ -707,9 +715,9 @@ GridPersonal.prototype.get_Columnas = function () {
                 template: '<a class="btn nova-btn btn-default nova-btn-delete" id="#=pk#" data-event="eliminar-personal"> <i class="icon icon-left icon mdi mdi-delete nova-white"></i></a>',
             },
             { field: "tipo_documento", 
-                title: "Archivo", 
+                title: "Tipo documento", 
                 width:"150px" ,
-                template: '<a href="#=archivo#" target="_blank" id="documento">#=tipo_documento#</a>',
+                template: '<a class="btn btn-default nova-url" href="#=archivo#" target="_blank" id="documento">#=tipo_documento#</a>',
             },
             { field: "agrupador", title: "Agrupador", width:"100px"},
             { field: "vigencia_inicio",title: "Vigencia inicio",width:"100px"},
@@ -923,8 +931,8 @@ GridCapacitacion.prototype.get_Columnas = function () {
             },
             { field: "curso", 
                 title: "Curso", 
-                width:"150px" ,
-                template: '<a href="#=archivo#" target="_blank" id="documento">#=curso#</a>',
+                width:"200px" ,
+                template: '<a class="btn btn-default nova-url" href="#=archivo#" target="_blank" id="documento">#=curso#</a>',
             },
             { field: "agrupador", title: "Agrupador", width:"100px"},
             { field: "area", title: "Area", width:"100px"},
