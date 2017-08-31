@@ -106,7 +106,6 @@ class ViaticoCabeceraForm(ModelForm):
         self.fields['unidad_negocio_clave'].choices = CentroCostoBusiness.get_Activos_ForSelect()
 
     def clean_fecha_regreso(self):
-        import ipdb; ipdb.set_trace()
         f_partida = self.cleaned_data['fecha_partida']
         f_regreso = self.cleaned_data['fecha_regreso']
 
