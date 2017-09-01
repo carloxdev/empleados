@@ -31,6 +31,7 @@ function TarjetaFiltros(){
 
    this.$organizaciones = $('#id_organizaciones')
    this.$empresas = $('#id_empresas')
+   this.$contenedor = $('#content-data')
 
    this.init_Components()
    this.init_Events()
@@ -56,43 +57,42 @@ Organigrama.prototype.empleados_Organizacion = function(e){
   organizacion = e.data.$organizaciones.val()
 
   if(organizacion != ''){
-    $('#content-data').empty()
+    tarjeta_filtros.$contenedor.empty()
 
     var url = url_datos_org + organizacion + "/"
 
-     $.ajax({
-              url: url_organigrama,
-              data: {
-                asig_organizacion_clave:organizacion
-              },
-              dataType: "json",
-              type: "GET",
-              contentType: "application/json; charset=utf-8",
-              context: this,
-              success: function (response) {
-                // console.log(JSON.stringify(response))
-                cont = 0
-                for (var i = 0; i < response.length; i++) {
-                  cont+=1
-                }
-
-                if (cont == 0){
-                  organigrama.mostrar_Mensaje(cont)
-                }
-                else{
-                  organigrama.mostrar_Mensaje(cont)
-                  organigrama.crear_Diagrama(url)
-                }
-                
-              },
-              error: function (response) {
-
-                   alertify.error("Ocurrio error al consultar ")
+    $.ajax({
+          url: url_organigrama,
+          data: {
+            asig_organizacion_clave:organizacion
+          },
+          dataType: "json",
+          type: "GET",
+          contentType: "application/json; charset=utf-8",
+          context: this,
+          success: function (response) {
+            // console.log(JSON.stringify(response))
+            cont = 0
+            for (var i = 0; i < response.length; i++) {
+              cont+=1
             }
-      })
+
+            if (cont == 0){
+              organigrama.mostrar_Mensaje(cont)
+            }
+            else{
+              organigrama.mostrar_Mensaje(cont)
+              organigrama.crear_Diagrama(url)
+            }
+          },
+          error: function (response) {
+
+               alertify.error("Ocurrio error al consultar ")
+        }
+    })
   }
   else{
-    $('#content-data').empty()
+    tarjeta_filtros.$contenedor.empty()
     organigrama.mostrar_Mensaje(1)
   }
 }
@@ -100,7 +100,7 @@ Organigrama.prototype.empleados_Empresa = function(e){
   empresa = e.data.$empresas.val()
   if(empresa != ''){
 
-    $('#content-data').empty()
+    tarjeta_filtros.$contenedor.empty()
     var url = url_datos_emp + empresa + "/"
 
      $.ajax({
@@ -136,7 +136,7 @@ Organigrama.prototype.empleados_Empresa = function(e){
       })
   }  
   else{
-    $('#content-data').empty()
+    tarjeta_filtros.$contenedor.empty()
     organigrama.mostrar_Mensaje(1)
   }
 }

@@ -44,7 +44,7 @@ from ebs.models import VIEW_EMPLEADOS_FULL
 
 # -------------- EMPLEADOS -------------- #
 
-@method_decorator(group_required('home:inicio', False, 'CH_CONS_DATOS_PERSONAL'), name='dispatch')
+@method_decorator(group_required('CH_CONS_DATOS_PERSONAL'), name='dispatch')
 class EmpleadoLista(View):
 
     def __init__(self):
@@ -198,7 +198,7 @@ class EmpleadoLista(View):
 # -------------- DASHBOARD -------------- #
 
 
-@method_decorator(group_required('home:inicio', False, 'CH_ADMIN', 'CH_OPERA'), name='dispatch')
+@method_decorator(group_required('CH_ADMIN', 'CH_OPERA'), name='dispatch')
 class EmpleadoDashboard(View):
 
     def __init__(self):
@@ -215,8 +215,7 @@ class EmpleadoDashboard(View):
 
 
 # -------------- ORGANIGRAMA EBS  -------------- #
-
-@method_decorator(group_required('home:inicio', False, 'CH_ADMIN', 'CH_OPERA'), name='dispatch')
+@method_decorator(group_required('CH_ADMIN', 'CH_OPERA'), name='dispatch')
 class EmpleadoOrganigrama(View):
 
     def __init__(self):
@@ -234,7 +233,7 @@ class EmpleadoOrganigrama(View):
         return render(request, self.template_name, contexto)
 
 
-@method_decorator(group_required('home:inicio', False, 'CH_ADMIN', 'CH_OPERA'), name='dispatch')
+@method_decorator(group_required('CH_ADMIN', 'CH_OPERA'), name='dispatch')
 class EmpleadoOrganigramaOrgAPI(View):
 
     def get(self, request, pk):
@@ -251,7 +250,7 @@ class EmpleadoOrganigramaOrgAPI(View):
         )
 
 
-@method_decorator(group_required('home:inicio', False, 'CH_ADMIN', 'CH_OPERA'), name='dispatch')
+@method_decorator(group_required('CH_ADMIN', 'CH_OPERA'), name='dispatch')
 class EmpleadoOrganigramaEmpAPI(View):
 
     def get(self, request, pk):
@@ -270,7 +269,7 @@ class EmpleadoOrganigramaEmpAPI(View):
 
 # --------------  EXPEDIENTES EMPLEADOS -------------- #
 
-@method_decorator(group_required('home:inicio', False, 'CH_ADMIN', 'CH_OPERA'), name='dispatch')
+@method_decorator(group_required('CH_ADMIN', 'CH_OPERA'), name='dispatch')
 class EmpleadoExpedientes(View):
 
     def __init__(self):
@@ -287,7 +286,7 @@ class EmpleadoExpedientes(View):
         return render(request, self.template_name, contexto)
 
 
-@method_decorator(group_required('home:inicio', False, 'CH_ADMIN', 'CH_OPERA'), name='dispatch')
+@method_decorator(group_required('CH_ADMIN', 'CH_OPERA'), name='dispatch')
 class EmpleadoSolicitudes(View):
 
     def __init__(self):
@@ -306,7 +305,7 @@ class EmpleadoSolicitudes(View):
         return render(request, self.template_name, contexto)
 
 
-@method_decorator(group_required('home:inicio', False, 'CH_ADMIN', 'CH_OPERA'), name='dispatch')
+@method_decorator(group_required('CH_ADMIN', 'CH_OPERA'), name='dispatch')
 class EmpleadoExpedientesGrado(View):
 
     def __init__(self):
@@ -323,7 +322,7 @@ class EmpleadoExpedientesGrado(View):
         return render(request, self.template_name, contexto)
 
 
-@method_decorator(group_required('home:inicio', False, 'CH_ADMIN', 'CH_OPERA'), name='dispatch')
+@method_decorator(group_required('CH_ADMIN', 'CH_OPERA'), name='dispatch')
 class EmpleadoExpedientesDocPersonal(View):
 
     def __init__(self):
@@ -340,7 +339,7 @@ class EmpleadoExpedientesDocPersonal(View):
         return render(request, self.template_name, contexto)
 
 
-@method_decorator(group_required('home:inicio', False, 'CH_ADMIN', 'CH_OPERA'), name='dispatch')
+@method_decorator(group_required('CH_ADMIN', 'CH_OPERA'), name='dispatch')
 class EmpleadoExpedientesDocCapacitacion(View):
 
     def __init__(self):
@@ -357,7 +356,7 @@ class EmpleadoExpedientesDocCapacitacion(View):
         return render(request, self.template_name, contexto)
 
 
-@method_decorator(group_required('home:inicio', False, 'CH_ADMIN', 'CH_OPERA'), name='dispatch')
+@method_decorator(group_required('CH_ADMIN', 'CH_OPERA'), name='dispatch')
 class EmpleadoExpediente(View):
 
     def __init__(self):
@@ -459,7 +458,7 @@ class PerfilPuestoNuevo2(View):
         return render(request, 'perfilpuesto/perfil_nuevo2.html')
 
 
-@method_decorator(group_required('home:inicio', False, 'CH_ADMIN'), name='dispatch')
+@method_decorator(group_required('CH_ADMIN'), name='dispatch')
 class PerfilPuestoConfiguraciones(View):
 
     def get(self, request):

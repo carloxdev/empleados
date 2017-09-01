@@ -60,6 +60,7 @@
                                             <span>Empleados</span>
                                         </a>
                                     </li>
+                                    {% endif %}
                                     <li id="capitalhumano_expedientes">
                                         <a href="{% url 'capitalhumano:empleado_expedientes_general' %}">
                                             <span>Expedientes</span>
@@ -71,7 +72,7 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="">
+                                        <a href="#">
                                             <span>Capacitacion</span>
                                         </a>
                                     </li>
@@ -86,7 +87,6 @@
                                             <span>Configuracion</span>
                                         </a>
                                     </li>
-                                    {% endif %}
                                     {% endif %}
                                 </ul>
                             </li>
@@ -155,6 +155,7 @@
                                 </li>
                             </ul>
                         </li>
+                        {%  if user|has_group:"SEGURIDAD_ADMIN,SEGURIDAD_SEGUIMIENTO" %}
                         <li class="parent"><a href="#"><i class="icon fa fa-shield"></i><span>Seguridad</span></a>
                             <ul class="sub-menu">
                                 <li>
@@ -169,6 +170,7 @@
                                 </li>
                             </ul>
                         </li>
+                        {% endif %}
                         <li class="parent"><a href="#"><i class="icon fa fa-tree"></i><span>Ambiental</span></a>
                             <ul class="sub-menu">
                                 <li>
