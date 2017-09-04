@@ -1,5 +1,6 @@
-{% extends 'empleado_expedientes_general.html' %}
+{% extends 'expedientes_general.html' %}
 {% load static from staticfiles %}
+{% load custom_tags %}
 {% block titulo %} Capital humano {% endblock titulo %}
 {% block title-page %} Expedientes  {% endblock title-page %}
 {% block tab_expedientes %}
@@ -57,33 +58,16 @@
             </div>
             <div class="modal-body form-horizontal">
                 <!-- Numero empleado -->
-                <div class="form-group">
-                        <label class="col-sm-3 nova-col-filter control-label">{{ form.pers_empleado_numero.label }}<br><small>(EBS)</small></label>
-                        <div class="col-sm-8 xs-pt-5">
-                                {{ form.pers_empleado_numero }}
-                        </div>
-                </div> 
+                {% tag_field_popup_apuntador form.pers_empleado_numero '(EBS)' %}
+
                 <!-- Grado academico -->
-                <div class="form-group">
-                    <label class="col-sm-3 nova-col-filter control-label">{{ form.qua_grado_academico.label }}<br><small>(EBS)</small></label>
-                    <div class="col-sm-8 xs-pt-5">
-                        {{ form.qua_grado_academico }}
-                    </div>
-                </div>
+                {% tag_field_popup_apuntador form.qua_grado_academico '(EBS)' %}
+
                 <!-- Especialidad/ Disciplina academica -->
-                <div class="form-group">
-                    <label class="col-sm-3 nova-col-filter control-label">{{ form.qua_especialidad.label }}<br><small>(EBS)</small></label>
-                    <div class="col-sm-8 xs-pt-5">
-                        {{ form.qua_especialidad }}
-                    </div>
-                </div>                
+                {% tag_field_popup_apuntador form.qua_especialidad '(EBS)' %}
+               
                 <!-- Organizacion -->
-                <div class="form-group">
-                        <label class="col-sm-3 nova-col-filter control-label">{{ form.asig_organizacion_id.label }}<br><small>(EBS)</small></label>
-                        <div class="col-sm-8 xs-pt-5">
-                                {{ form.asig_organizacion_id }}
-                        </div>
-                </div>
+                {% tag_field_popup_apuntador form.asig_organizacion_id '(EBS)' %}
             
             </div>
                                     
@@ -121,5 +105,5 @@
     <script src="{% static 'theme/lib/daterangepicker/js/daterangepicker.js' %}"></script>
 
   	<!-- NOVA-->
-   	<script src="{% static 'empleado_expedientes_grado.js' %}"></script>
+   	<script src="{% static 'expedientes_grado.js' %}"></script>
 {% endblock scripts %}

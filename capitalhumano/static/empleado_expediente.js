@@ -323,6 +323,7 @@ PopupCapacitacion.prototype.get_DateTimePickerConfig = function () {
         }
 }
 PopupCapacitacion.prototype.click_BotonCancelar = function(e){
+
     e.data.$proveedor.data('select2').val(0)
     e.data.$lugar.val("")
     e.data.$costo.val("")
@@ -337,7 +338,7 @@ PopupCapacitacion.prototype.click_BotonCancelar = function(e){
     e.data.$fecha_inicio.val("")
     e.data.$fecha_fin.val("")
     e.data.$archivo_cap.val("")
-    tarjeta_resultados.popup_cap.validar_Campos()     
+    tarjeta_resultados.popup_cap.clear_Estilos()   
 }
 PopupCapacitacion.prototype.click_BotonGuardar = function (e) {
     id_capacitacion = ''
@@ -454,7 +455,25 @@ PopupCapacitacion.prototype.limpiar_Formulario = function () {
     this.$fecha_inicio.val("")
     this.$fecha_fin.val("")
     this.$archivo_cap.val("")
-    tarjeta_resultados.popup_cap.validar_Campos()
+    tarjeta_resultados.popup_cap.clear_Estilos() 
+}
+PopupCapacitacion.prototype.clear_Estilos = function () {
+
+    this.$proveedor.data('select2').$selection.removeClass("nova-has-error")
+    this.$lugar.removeClass("nova-has-error")
+    this.$costo.removeClass("nova-has-error")
+    this.$duracion.removeClass("nova-has-error")
+    this.$observaciones.removeClass("nova-has-error")
+    this.$agrupadorcap.data('select2').$selection.removeClass("nova-has-error")
+    this.$area.data('select2').$selection.removeClass("nova-has-error")
+    this.$curso.data('select2').$selection.removeClass("nova-has-error")
+    this.$modalidad.data('select2').$selection.removeClass("nova-has-error")
+    this.$moneda.data('select2').$selection.removeClass("nova-has-error")
+    this.$departamento.data('select2').$selection.removeClass("nova-has-error")
+    this.$fecha_inicio.removeClass("nova-has-error")
+    this.$fecha_fin.removeClass("nova-has-error")
+    this.$archivo_cap.removeClass("nova-has-error")
+   $('#id_error').detach()
 }
 PopupCapacitacion.prototype.validar_Campos = function () {
     bandera = 'False'

@@ -1,5 +1,6 @@
-{% extends 'empleado_expedientes_general.html' %}
+{% extends 'expedientes_general.html' %}
 {% load static from staticfiles %}
+{% load custom_tags %}
 {% block titulo %} Capital humano {% endblock titulo %}
 {% block title-page %} Expedientes  {% endblock title-page %}
 {% block tab_expedientes %}
@@ -56,39 +57,19 @@
                         </div>
                         <div class="modal-body form-horizontal">
                             <!-- Numero empleado -->
-                            <div class="form-group">
-                                    <label class="col-sm-3 nova-col-filter control-label">{{ form.numero_empleado.label }}<br><small>(EBS)</small></label>
-                                    <div class="col-sm-8 xs-pt-5">
-                                            {{ form.numero_empleado }}
-                                    </div>
-                            </div> 
+                            {% tag_field_popup_apuntador form.numero_empleado '(EBS)' %}
+
                             <!-- Tipo documento -->
-                            <div class="form-group">
-                                <label class="col-sm-3 nova-col-filter control-label">{{ form.tipo_documento.label }}</label>
-                                <div class="col-sm-8 xs-pt-5">
-                                    {{ form.tipo_documento }}
-                                </div>
-                            </div>
+                            {% tag_field_popup_apuntador form.tipo_documento '' %}
+
                             <!-- Agrupador -->
-                            <div class="form-group">
-                                <label class="col-sm-3 nova-col-filter control-label">{{ form.agrupador.label }}</label>
-                                <div class="col-sm-8 xs-pt-5">
-                                    {{ form.agrupador }}
-                                </div>
-                            </div>                
+                            {% tag_field_popup_apuntador form.agrupador '' %}
+
                             <!-- Organizacion -->
-                            <div class="form-group">
-                                    <label class="col-sm-3 nova-col-filter control-label">{{ form.asig_organizacion_clave.label }}<br><small>(EBS)</small></label>
-                                    <div class="col-sm-8 xs-pt-5">
-                                            {{ form.asig_organizacion_clave }}
-                                    </div>
-                            </div>
-                            <div class="form-group">
-                                    <label class="col-sm-3 nova-col-filter control-label">{{form.estatus.label }}</label>
-                                    <div class="col-sm-8 xs-pt-5">
-                                            {{ form.estatus }}
-                                    </div>
-                            </div>
+                            {% tag_field_popup_apuntador form.asig_organizacion_clave '(EBS)' %}
+
+                            <!-- Estatus -->
+                            {% tag_field_popup_apuntador form.estatus '' %}
                           
                         </div>
                                                 
@@ -121,5 +102,5 @@
     <script src="{% static 'theme/lib/jquery-ui/jquery-ui.min.js' %}"></script>
 
     <!-- NOVA-->
-     <script src="{% static 'empleado_expedientes_docpersonal.js' %}"></script>
+     <script src="{% static 'documento_personal/expedientes_docpersonal.js' %}"></script>
 {% endblock scripts %}

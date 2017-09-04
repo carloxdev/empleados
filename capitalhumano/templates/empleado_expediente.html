@@ -1,5 +1,6 @@
 {% extends 'master.html' %}
 {% load static from staticfiles %}
+{% load custom_tags %}
 {% block titulo %} Capital humano {% endblock titulo %}
 {% block title-page %} Expediente  {% endblock title-page %}
 {% block css %}
@@ -211,20 +212,12 @@
             </div>
             	<form action="" method="POST" enctype="multipart/form-data" id="formulario_per"> {% csrf_token %}
 					<!-- Subtipo -->
+
 					<div class="modal-body form-horizontal">
-	                    <div class="form-group">
-	                        <label class="col-sm-3 nova-col-filter control-label">Tipo de documento</label>
-	                        <div class="col-sm-8 xs-pt-5">
-	                            {{ form.tipo_documento }}
-	                        </div>
-	                    </div>                
+						{% tag_field_popup form.tipo_documento 3 8 %}
+	                                 
 						<!-- Agrupador -->
-	                    <div class="form-group">
-	                        <label class="col-sm-3 nova-col-filter control-label">Agrupador</label>
-	                        <div class="col-sm-8 xs-pt-5">
-	                            {{ form.agrupador }}
-	                        </div>
-	                    </div>                  
+						{% tag_field_popup form.agrupador 3 8 %}                 
 
 	                    <!-- Vigencia -->
 	                    <div class="form-group">
@@ -258,12 +251,8 @@
 	                    </div>
 
 	                    <!-- Documento -->
-	                    <div class="form-group">
-	                      <label class="col-sm-3 nova-col-filter control-label">Documento</label>
-	                      <div class="col-sm-8 xs-pt-5">
-	                        {{ form.archivo }}
-	                      </div>
-	                    </div> 
+	                    {% tag_field_popup form.archivo 3 8 %}
+
 					</div>
 				</form>
                 
@@ -292,75 +281,35 @@
             <form action="" method="POST" enctype="multipart/form-data" id="form_capacitacion"> {% csrf_token %}
 				<div class="modal-body form-horizontal">
 					<!-- Agrupador -->
-                    <div class="form-group">
-                        <label class="col-sm-3 nova-col-filter control-label">Agrupador</label>
-                        <div class="col-sm-8 xs-pt-5">
-                            {{ form2.agrupadorcap }}
-                        </div>
-                    </div>  
+					{% tag_field_popup form2.agrupadorcap 3 8 %}
+ 
                   	<!-- Area -->
-                    <div class="form-group">
-                        <label class="col-sm-3 nova-col-filter control-label">Area</label>
-                        <div class="col-sm-8 xs-pt-5">
-                            {{ form2.area }}
-                        </div>
-                    </div>      
+                  	{% tag_field_popup form2.area 3 8 %}
+    
 					<!-- Curso -->
-                    <div class="form-group">
-                        <label class="col-sm-3 nova-col-filter control-label">Curso</label>
-                        <div class="col-sm-8 xs-pt-5">
-                            {{ form2.curso }}
-                        </div>
-                    </div>                
+					{% tag_field_popup form2.curso 3 8 %}
+              
 					<!-- Proveedor -->
-                    <div class="form-group">
-                        <label class="col-sm-3 nova-col-filter control-label">Proveedor</label>
-                        <div class="col-sm-8 xs-pt-5">
-                            {{ form2.proveedor }}
-                        </div>
-                    </div>    
+					{% tag_field_popup form2.proveedor 3 8 %}
+  
                     <!-- Modalidad -->
-                    <div class="form-group">
-                        <label class="col-sm-3 nova-col-filter control-label">Modalidad</label>
-                        <div class="col-sm-8 xs-pt-5">
-                            {{ form2.modalidad }}
-                        </div>
-                    </div>                  
+                    {% tag_field_popup form2.modalidad 3 8 %}
+                 
 					<!-- Lugar -->
-                    <div class="form-group">
-                        <label class="col-sm-3 nova-col-filter control-label">Lugar</label>
-                        <div class="col-sm-8 xs-pt-5">
-                            {{ form2.lugar }}
-                        </div>
-                    </div> 
+					{% tag_field_popup form2.lugar 3 8 %}
+ 
                     <!-- Costo -->
-                    <div class="form-group">
-                        <label class="col-sm-3 nova-col-filter control-label">Costo</label>
-                        <div class="col-sm-8 xs-pt-5">
-                            {{ form2.costo }}
-                        </div>
-                    </div>
+                    {% tag_field_popup form2.costo 3 8 %}
+  
                     <!-- Moneda -->
-                    <div class="form-group">
-                        <label class="col-sm-3 nova-col-filter control-label">Moneda</label>
-                        <div class="col-sm-8 xs-pt-5">
-                            {{ form2.moneda }}
-                        </div>
-                    </div> 
+                    {% tag_field_popup form2.moneda 3 8 %}
+
                     <!-- Departamento -->
-                    <div class="form-group">
-                        <label class="col-sm-3 nova-col-filter control-label">Departamento</label>
-                        <div class="col-sm-8 xs-pt-5">
-                            {{ form2.departamento }}
-                        </div>
-                    </div>  
+                    {% tag_field_popup form2.departamento 3 8 %}
+
                     <!-- Duracion -->
-                    <div class="form-group">
-                        <label class="col-sm-3 nova-col-filter control-label">Duracion(hrs)</label>
-                        <div class="col-sm-8 xs-pt-5">
-                            {{ form2.duracion }}
-                        </div>
-                    </div>
+                    {% tag_field_popup form2.duracion 3 8 %}
+
                     <!-- Fecha inicio/fin -->
                     <div class="form-group">
 
@@ -392,19 +341,11 @@
                         </div>
                     </div>
 					<!-- Observaciones -->
-                    <div class="form-group">
-                        <label class="col-sm-3 nova-col-filter control-label">Observaciones</label>
-                        <div class="col-sm-8 xs-pt-5">
-                            {{ form2.observaciones }}
-                        </div>
-                    </div>    
+					{% tag_field_popup form2.observaciones 3 8 %}
+   
                     <!-- Documento -->
-                    <div class="form-group">
-                      <label class="col-sm-3 nova-col-filter control-label">Documento</label>
-                      <div class="col-sm-8 xs-pt-5">
-                        {{ form2.archivocap }}
-                      </div>
-                    </div> 
+                    {% tag_field_popup form2.archivocap 3 8 %}
+
 				</div>
 			</form>
                 
@@ -421,37 +362,7 @@
     </div> <!-- Modal dialog -->
 </div><!-- Modal capacitacion-->
 
-<!-- Eliminar-->
-<div id="eliminar" role="dialog" class="modal fade colored-header colored-header-primary">
-    <div class="modal-dialog custom-width">
-        <div class="modal-content">
-            
-            <div class="modal-header nova-modal-header">
-                <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
-                <h3 class="modal-title">Confirmación</h3>
-            </div>
-            <form action="" method="POST" enctype="multipart/form-data"> {% csrf_token %}
-				<!-- Mensaje -->
-				<div class="modal-body form-horizontal">
-                    <div class="form-group">
-                        <h3>¿Desea eliminar el documento?
-                    </div>            
-                </div>
-                
-                <!-- Botones de acción -->
-                <div class="modal-footer nova-modal-footer">
-                     <div class="row col-sm-12">
-                        <button type="button" data-dismiss="modal" class="btn btn-default pull-left">
-                            Cancelar
-                        </button>
 
-                        <button type="submit" class="btn btn-primary" id="id_boton_guardar" >Eliminar</button>
-                    </div>
-                </div>
-            </form>
-        </div> <!-- Modal content-->
-    </div> <!-- Modal dialog -->
-</div><!-- Modal personal-->
 {% endfor %}
 {% endblock contenido %}
 {% block scripts %}

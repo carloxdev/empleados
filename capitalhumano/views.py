@@ -202,7 +202,7 @@ class EmpleadoLista(View):
 class EmpleadoDashboard(View):
 
     def __init__(self):
-        self.template_name = 'empleado_dashboard.html'
+        self.template_name = 'dashboard.html'
 
     def get(self, request):
 
@@ -219,7 +219,7 @@ class EmpleadoDashboard(View):
 class EmpleadoOrganigrama(View):
 
     def __init__(self):
-        self.template_name = 'empleado_organigrama.html'
+        self.template_name = 'organigrama.html'
 
     def get(self, request):
 
@@ -273,7 +273,7 @@ class EmpleadoOrganigramaEmpAPI(View):
 class EmpleadoExpedientes(View):
 
     def __init__(self):
-        self.template_name = 'empleado_expedientes_general.html'
+        self.template_name = 'expedientes_general.html'
 
     def get(self, request):
 
@@ -309,7 +309,7 @@ class EmpleadoSolicitudes(View):
 class EmpleadoExpedientesGrado(View):
 
     def __init__(self):
-        self.template_name = 'empleado_expedientes_grado.html'
+        self.template_name = 'expedientes_grado.html'
 
     def get(self, request):
 
@@ -326,7 +326,7 @@ class EmpleadoExpedientesGrado(View):
 class EmpleadoExpedientesDocPersonal(View):
 
     def __init__(self):
-        self.template_name = 'empleado_expedientes_docpersonal.html'
+        self.template_name = 'documento_personal/expedientes_docpersonal.html'
 
     def get(self, request):
 
@@ -343,7 +343,7 @@ class EmpleadoExpedientesDocPersonal(View):
 class EmpleadoExpedientesDocCapacitacion(View):
 
     def __init__(self):
-        self.template_name = 'empleado_expedientes_doccapacitacion.html'
+        self.template_name = 'documento_capacitacion/expedientes_doccapacitacion.html'
 
     def get(self, request):
 
