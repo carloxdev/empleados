@@ -356,11 +356,12 @@ GridPersonal.prototype.get_Configuracion = function () {
 GridPersonal.prototype.get_Columnas = function () {
 
     return [  
-        { field: "tipo_documento", 
-          title: "Tipo documento", 
-          width:"150px" ,
-          template: '<a class="btn btn-default nova-url" href="#=archivo#" target="_blank">#=tipo_documento#</a>',
+        { field: "archivo", 
+            title: "Archivo", 
+            width:"60px" ,
+            template: '<a class="btn btn-default nova-url" href="#=archivo#" target="_blank" id="documento"><i class="icon icon-left icon mdi mdi-file icon-black"></i></a>'
         },
+        { field: "tipo_documento", title: "Tipo documento",  width:"150px"},
         { field: "agrupador", title: "Agrupador", width:"100px"},
         { field: "vigencia_inicio",title: "Vigencia inicio",width:"100px"},
         { field: "vigencia_fin", title: "Vigencia fin", width:"100px" },
@@ -429,6 +430,7 @@ GridCapacitacion.prototype.get_DataSourceConfig = function () {
 GridCapacitacion.prototype.get_CamposCap = function () {
     return {
         curso : { type: "string" },
+        archivo : { type: "string" },
         agrupador: { type: "string" },
         area: { type: "string" },
         proveedor : { type: "string"},
@@ -466,11 +468,12 @@ GridCapacitacion.prototype.get_Configuracion = function () {
 GridCapacitacion.prototype.get_Columnas = function () {
 
     return [  
-        { field: "curso", 
-          title: "Curso", 
-          width:"150px" ,
-          template: '<a class="btn btn-default nova-url" href="#=archivo#" target="_blank">#=curso#</a>',
+        { field: "archivo", 
+            title: "Archivo", 
+            width:"60px" ,
+            template: '<a class="btn btn-default nova-url" href="#=archivo#" target="_blank" id="documento"><i class="icon icon-left icon mdi mdi-file"></i></a>',
         },
+        { field: "curso", title: "Curso", width:"150px"},
         { field: "agrupador", title: "Agrupador", width:"100px"},
         { field: "area", title: "Area", width:"100px"},
         { field: "proveedor", title: "Proveedor", width:"150px"},
