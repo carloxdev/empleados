@@ -1,9 +1,9 @@
 from django.contrib.auth.decorators import user_passes_test
 from django.core.exceptions import PermissionDenied
-from django.http.response import HttpResponseForbidden
-
 
 # Decorador para controlar el acceso por medio de GRUPOS
+
+
 def group_required(*group_name):
     def check_group(user):
         if user.groups.filter(name__in=group_name).exists() | user.is_superuser:

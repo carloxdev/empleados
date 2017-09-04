@@ -3,21 +3,16 @@
 \*-----------------------------------------------*/
 var url_expediente_personal_bypage = window.location.origin  + "/api-capitalhumano/archivopersonal_bypage/"
 var url_expediente_capacitacion_bypage = window.location.origin  + "/api-capitalhumano/archivocapacitacion_bypage/"
-var url_solicitud = window.location.origin + "/api-administracion/solicitud/"
-var url_solicitudes_bypage = window.location.origin + "/api-administracion/archivosolicitud_bypage/"
-var url_archivo_solicitud = window.location.origin + "/api-administracion/archivosolicitud/"
 var url_archivo =  window.location.origin + "/api-capitalhumano/archivo/"
 var url_profile =  window.location.origin + "/api-seguridad/profile/"
 
 // OBJS
 var grid_personal = null
 var grid_capacitacion = null
-var grid_solicitudes = null
 var filtros = null
 var tarjeta_resultados = null
 var personalizacion = null
 var popup = null
-var popup_informacion = null
 
 /*-----------------------------------------------*\
             LOAD
@@ -36,7 +31,6 @@ $(document).ready(function () {
 function TarjetaResultados(){
     this.personalizacion = new Personalizacion()
     this.popup = new Popup()
-    this.popup_informacion = new PopupInformacion()
     grid_personal = new GridPersonal()
 }
 
@@ -58,12 +52,6 @@ Filtros.prototype.get_ValuesCap = function (_page) {
     return {
         page: _page,
         relacion_capacitacion__numero_empleado: this.$numero_empleado.val(),
-   }
-}
-Filtros.prototype.get_ValuesSolicitudes = function (_page){
-    return {
-        page: _page,
-        relacion_solicitud__numero_empleado: this.$numero_empleado.val(),
    }
 }
 
@@ -162,7 +150,6 @@ Popup.prototype.guardar_Archivo = function (_id_solicitud){
 
                         alertify.success("Se ha guardado el archivo")
                         tarjeta_resultados.popup.hidden_Modal()
-                        tarjeta_resultados.personalizacion.actualizar_Grid()
                         
                  },
                  error: function (_response) {
@@ -241,49 +228,6 @@ Popup.prototype.validar_Archivo = function (_archivo) {
         return extension
 }
 
-/*-----------------------------------------------*\
-            OBJETO: Popup informacion
-\*-----------------------------------------------*/
-
-function PopupInformacion(){
-
-    this.$folio = $('#modal_titulo')
-    this.$asunto_informacion = $('#id_asunto_informacion')
-    this.$descripcion_informacion = $('#id_descripcion_informacion')
-    this.$estatus_informacion = $('#id_status_informacion')
-    this.$observaciones_informacion = $('#id_observaciones_informacion')
-
-    this.init_Components()
-    this.init_Events()
-}
-PopupInformacion.prototype.init_Components = function (){
-
-}
-PopupInformacion.prototype.init_Events = function (){
-
-}
-PopupInformacion.prototype.consultar_Registro = function (_id){
-    $.ajax({
-          url: url_archivo_solicitud + _id +"/",
-          type: "GET",
-          headers: { "X-CSRFToken": appnova.galletita },
-          contentType: "application/json; charset=utf-8",
-
-          success: function (_response) {
-            tarjeta_resultados.popup_informacion.llenar_Informacion(_response.object_id,_response.asunto,_response.descripcion, _response.status, _response.observaciones)
-          },
-          error: function (_response) {
-             alertify.error("Ocurrio un error al consultar")
-          }
-       })
-}
-PopupInformacion.prototype.llenar_Informacion = function (_folio,_asunto,_descripcion,_status,_observaciones){
-    this.$folio.text("Folio: #"+_folio)
-    this.$asunto_informacion.val(_asunto)
-    this.$descripcion_informacion.val(_descripcion)
-    this.$estatus_informacion.val(_status)
-    this.$observaciones_informacion.val(_observaciones)
-}
 
 /*-----------------------------------------------*\
             OBJETO: Personalizacion del tab
@@ -294,8 +238,6 @@ function Personalizacion(){
     this.$capacitaciones = $('#capacitaciones')
     this.$li_personales = $('#per')
     this.$li_capacitaciones = $('#cap')
-    this.$solicitudes = $('#solicitudes')
-    this.$li_solicitudes = $('#buzon')
     this.init_Events()
 }
 Personalizacion.prototype.init_Components = function(){
@@ -306,8 +248,6 @@ Personalizacion.prototype.init_Events = function(){
     this.$capacitaciones.on("click", this , this.mostrar_Capacitaciones)
     this.$li_personales.on("click", this , this.mostrar_Personales)
     this.$li_capacitaciones.on("click", this , this.mostrar_Capacitaciones)
-    this.$solicitudes.on("click", this , this.mostrar_Solicitudes)
-    this.$li_solicitudes.on("click", this , this.mostrar_Solicitudes)
 }
 Personalizacion.prototype.mostrar_Personales = function(e){
      
@@ -315,7 +255,6 @@ Personalizacion.prototype.mostrar_Personales = function(e){
     e.data.$personales.addClass('nova-active-tab')
     e.data.$li_capacitaciones.removeClass('active')
     e.data.$li_personales.addClass('active')
-    e.data.$solicitudes.removeClass('nova-active-tab')
     $("#grid_resultados").empty()
     grid_personal.init()
 }
@@ -325,30 +264,10 @@ Personalizacion.prototype.mostrar_Capacitaciones = function(e){
     e.data.$capacitaciones.addClass('nova-active-tab')
     e.data.$li_personales.removeClass('active')
     e.data.$li_capacitaciones.addClass('active')
-    e.data.$solicitudes.removeClass('nova-active-tab')
     $("#grid_resultados").empty()
     grid_capacitacion = new GridCapacitacion()
 }
-Personalizacion.prototype.mostrar_Solicitudes = function (e){
-    e.data.$solicitudes.addClass('nova-active-tab')
-    e.data.$li_solicitudes.addClass('active')
-    e.data.$personales.removeClass('nova-active-tab')
-    e.data.$li_personales.removeClass('active')
-    e.data.$capacitaciones.removeClass('nova-active-tab')
-    e.data.$li_capacitaciones.removeClass('active')
-    $("#grid_resultados").empty()
-    grid_solicitudes = new GridSolicitudes()
-}
-Personalizacion.prototype.actualizar_Grid = function (){
-    this.$solicitudes.addClass('nova-active-tab')
-    this.$li_solicitudes.addClass('active')
-    this.$personales.removeClass('nova-active-tab')
-    this.$capacitaciones.removeClass('nova-active-tab')
-    this.$li_personales.removeClass('active')
-    this.$li_capacitaciones.removeClass('active')
-    $("#grid_resultados").empty()
-    grid_solicitudes = new GridSolicitudes()
-}
+
 
 /*-----------------------------------------------*\
             OBJETO: Grid personal
@@ -587,148 +506,6 @@ GridCapacitacion.prototype.aplicar_Estilos = function (e) {
     }
 }
 GridCapacitacion.prototype.buscar = function() {
-
-    this.kfuente_datos.page(1)
-}
-
-/*-----------------------------------------------*\
-            OBJETO: Grid solicitudes
-\*-----------------------------------------------*/
-
-function GridSolicitudes() {
-
-    this.$id = $("#grid_resultados")
-    this.kfuente_datos = null
-
-    this.kgrid = null
-    this.init()
-}
-GridSolicitudes.prototype.init = function () {
-
-    // Definicion del pais, formato modena, etc..
-    kendo.culture("es-MX")
-
-    // Se inicializa la fuente da datos (datasource)
-    this.kfuente_datos = new kendo.data.DataSource(this.get_DataSourceConfig())
-    
-    // Se inicializa y configura el grid:
-    this.kgrid = this.$id.kendoGrid(this.get_Configuracion())
-}
-GridSolicitudes.prototype.get_DataSourceConfig = function () {
-    return {
-
-        serverPaging: true,
-        pageSize: 10,
-        transport: {
-            read: {
-                url: url_solicitudes_bypage,
-                type: "GET",
-                dataType: "json",
-            },
-            parameterMap: function (data, action) {
-                if (action === "read"){
-                    return  filtros.get_ValuesSolicitudes(data.page)
-                }
-            }
-        },
-        schema: {
-            data: "results",
-            total: "count",
-            model: {
-                fields: this.get_Campos()
-            }
-        },
-        error: function (e) {
-            alertify.error("Status: " + e.status + "; Error message: " + e.errorThrown)
-        },
-    }    
-}
-GridSolicitudes.prototype.get_Campos = function () {
-    
-    return {
-        pk: { type: "integer" },
-        object_id: { type: "integer" },
-        status : { type: "string" },
-        clave_departamento : { type: "string"},
-        asunto : { type: "string" },
-        descripcion : { type: "string" },
-        observaciones: {type: "string"},
-        archivo : { type: "string" },
-        created_by : { type: "string" },
-        created_date : { type: "date" },
-        updated_by : { type: "string"},
-        updated_date : { type: "date"},
-    }
-}
-GridSolicitudes.prototype.get_Configuracion = function () {
-
-    return {
-        dataSource: this.kfuente_datos,
-        columnMenu: true,
-        groupable: false,
-        sortable: false,
-        editable: false,
-        resizable: true,
-        selectable: true,
-        columns: this.get_Columnas(),
-        scrollable: true,
-        pageable: true,
-        noRecords: {
-            template: "<div class='nova-grid-empy'> No se encontraron registros </div>"
-        },
-        dataBound: this.onDataBound,
-    }
-}
-GridSolicitudes.prototype.onDataBound = function (e) {
-    // pk del elemento
-   e.sender.tbody.find("[data-event='editar']").each(function(idx, element){ 
-        $(this).on("click", function(){
-            tarjeta_resultados.popup_informacion.consultar_Registro(this.id)
-        })
-   })
-   //color de la fila
-    columns = e.sender.columns
-    dataItems = e.sender.dataSource.view()
-
-    for (var j = 0; j < dataItems.length; j++) {
-        estatus = dataItems[j].get("status")
-        row = e.sender.tbody.find("[data-uid='" + dataItems[j].uid + "']")
-        row.removeClass("k-alt");
-        if(estatus != null){
-            if (estatus == 'En captura') {
-            }
-            else if (estatus == 'Actualizado'){
-                row.addClass("nova-actualizado")
-            }
-            else if (estatus == 'Rechazado'){
-                row.addClass("nova-fecha-vencida")
-            }
-        }
-    }
-}
-GridSolicitudes.prototype.get_Columnas = function () {
-
-    return [
-        { field: "object_id",
-          title: "Folio",
-          width:"70px",
-          template: '<a class="btn btn-default nova-url" href="\\#modal_informacion" data-toggle="modal" id="#=pk#" data-event="editar">#=object_id#</a>',
-        },  
-        { field: "asunto", 
-          title: "Solicitud", 
-          width:"200px" ,
-          template: '<a class="btn btn-default nova-url" href="#=archivo#" target="_blank">#=asunto#</a>',
-        },
-        { field: "status", title: "Estatus", width:"100px"},
-        { field: "clave_departamento", title: "Se solicito a", width:"150px"},
-        { field: "created_by", title: "Creado por", width:"150px" },
-        { field: "created_date", title: "Fecha de creación", width:"150px", format: "{0:dd/MM/yyyy}" },
-        { field: "updated_by", title: "Actualizado por", width:"150px" },
-        { field: "updated_date", title: "Fecha de actualización", width:"150px", format: "{0:dd/MM/yyyy}" },
-
-    ]
-}
-GridSolicitudes.prototype.buscar = function() {
 
     this.kfuente_datos.page(1)
 }

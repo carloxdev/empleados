@@ -716,7 +716,7 @@ GridPersonal.prototype.get_Columnas = function () {
             },
             { field: "tipo_documento", 
                 title: "Tipo documento", 
-                width:"150px" ,
+                width:"200px" ,
                 template: '<a class="btn btn-default nova-url" href="#=archivo#" target="_blank" id="documento">#=tipo_documento#</a>',
             },
             { field: "agrupador", title: "Agrupador", width:"100px"},

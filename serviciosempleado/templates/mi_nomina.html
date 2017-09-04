@@ -1,0 +1,56 @@
+{% extends 'master.html' %}
+{% load static from staticfiles %}
+{% load custom_tags %}
+{% block titulo %} Capital humano {% endblock titulo %}
+{% block title-page %} Mi nómina  {% endblock title-page %}
+{% block css %}
+    <!-- Kendo -->
+    <link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.rtl.min.css' %}"/>
+    <link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.common-bootstrap.min.css' %}"/>
+    <link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.bootstrap.min.css' %}"/>
+
+    <!-- Nova -->
+    <link rel="stylesheet" href="{% static 'grid.css' %}"/>
+
+{% endblock css %}
+{% block contenido %}
+
+<div class="be-content">
+    <div class="page-head">
+        <h2 class="page-head-title">Mis Recibos de Nómina</h2>
+        <br>
+        <ol class="breadcrumb page-head-nav pull-right">
+         <li> <a href="{% url 'home:inicio'%}">Inicio</a></li>
+         <li id="menu" data-opcion="serviciosempleado_nomina">Mis Recibos de Nómina</li>
+        </ol>
+    </div>
+    <div class="main-content container-fluid">
+        <div class="fuelux">
+            <div class="panel panel-default panel-table">
+                    <div class="panel-heading nova-panel-borde-contenido nova-panel-tools">
+                                <button class="btn nova-btn btn-rounded btn-space btn-success pull-right" id="id_exportar">
+                                    <i class="icon icon-left mdi mdi-download nova-white"></i>Exportar
+                                </button>
+                                <a href="#modal_filtro" class="btn nova-btn btn-rounded btn-space btn-primary pull-right" data-toggle="modal" id="boton_filtros">
+                                        <i class="icon icon-left mdi mdi-search nova-white"></i>Filtros
+                                </a>
+                                <div class="title hidden-xs">Recibos de nómina</div> 
+                    </div>
+                    <div id="grid_resultados" class="nova-div-overflow">
+                    </div>
+            </div> <!-- Panel -->
+        </div> <!-- col sm 12-->
+    </div>
+
+    
+</div>  
+
+{% endblock contenido %}
+{% block scripts %}
+    <!-- Kendo Js -->
+    <script src="{% static 'libs/kendo/2015.2.624/js/cultures/kendo.culture.es-MX.min.js' %}"></script>
+    <script src="{% static 'libs/kendo/2015.2.624/js/kendo.web.min.js' %}"></script>
+
+    <!-- Theme -->
+    <script src="{% static 'theme/lib/jquery-ui/jquery-ui.min.js' %}"></script>
+{% endblock scripts %}

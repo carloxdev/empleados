@@ -94,8 +94,8 @@
                         <li class="parent"><a href="#"><i class="icon mdi mdi-account-circle"></i></i><span>Servicios al Empleado</span></a>
                             <ul class="sub-menu">
                                 <li id="serviciosempleado_miexpediente">
-                                    <a href="{% url 'serviciosempleado:empleado_perfil' %}">
-                                        <span>Mi expediente</span>
+                                    <a href="{% url 'serviciosempleado:mi_perfil' %}">
+                                        <span>Mi Expediente</span>
                                     </a>
                                 </li>
                                 <!--<li id="serviciosempleado_perfil">
@@ -104,13 +104,23 @@
                                     </a>
                                 </li>-->
                                 <li id="serviciosempleado_organigrama">
-                                     <a href="{% url 'serviciosempleado:empleado_organigrama' %}">
-                                        <span>Organigrama</span>
+                                     <a href="{% url 'serviciosempleado:mi_organigrama' %}">
+                                        <span>Mi Organigrama</span>
                                      </a>
                                 </li>
                                 <li id="serviciosempleado_perfil">
                                     <a href="{% url 'serviciosempleado:mi_viatico_lista' %}">
                                         <span>Mis Viaticos</span>
+                                    </a>
+                                </li>
+                                <li id="serviciosempleado_nomina">
+                                    <a href="{% url 'serviciosempleado:mi_nomina' %}">
+                                        <span>Mis Recibos de Nómina</span>
+                                    </a>
+                                </li>
+                                <li id="serviciosempleado_buzon">
+                                    <a href="{% url 'serviciosempleado:mi_buzon' %}">
+                                        <span>Mi Buzón</span>
                                     </a>
                                 </li>
                             </ul>
