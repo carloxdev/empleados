@@ -19,6 +19,7 @@ from ebs.business import EmpleadoBusiness
 # Modelos
 from administracion.models import Asunto
 
+
 class NuevaSolicitudForm(Form):
 
     asunto = ChoiceField(
@@ -93,3 +94,42 @@ class MiViaticoFilterForm(Form):
             'unidad_negocio'].choices = CentroCostoBusiness.get_Todos_ForSelectCustom()
         self.fields[
             'autorizador'].choices = EmpleadoBusiness.get_Todos_ForSelectCustom()
+
+
+class SolicitudesFilterForm(Form):
+    STATUS = (
+        ('', '------------'),
+        ('cap', 'En captura'),
+        ('act', 'Actualizado'),
+        ('rech', 'Rechazado'),
+    )
+    asuntofiltro = ChoiceField(
+        label="Asunto",
+        widget=Select(attrs={'class': 'select2 nova-select2'}))
+
+    folio = CharField(
+        label="Folio",
+        widget=TextInput(attrs={'class': 'form-control input-xs'}))
+
+    status = ChoiceField(
+        label="Estatus",
+        choices=STATUS,
+        widget=Select(attrs={'class': 'select2 nova-select2'}))
+
+    def __init__(self, *args, **kwargs):
+        super(SolicitudesFilterForm, self).__init__(*args, **kwargs)
+        self.fields['asuntofiltro'].choices = self.get_Asuntos()
+
+    def get_Asuntos(self):
+        valores = [('', '------------')]
+
+        asuntos = Asunto.objects.all()
+        for asunto in asuntos:
+
+            valores.append(
+                (
+                    asunto.pk,
+                    asunto.nombre
+                )
+            )
+        return valores

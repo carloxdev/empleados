@@ -1,0 +1,32 @@
+
+{% extends 'master.html' %}
+
+{% load static from staticfiles %}
+
+{% block titulo %} Error {% endblock titulo %}
+
+{% block title-page %} Error 404  {% endblock title-page %}
+
+{% block contenido %}
+<div class="be-content">
+    <div class="be-splash-screen">
+        <div class="be-wrapper be-error be-error-404">
+            <div class="be-content">
+                <div class="main-content container-fluid">
+                    <div class="error-container">
+                        <div class="error-number">404</div>
+                        <div class="error-description">Lo sentimos, No se encontro la página que estas buscando.</div>
+                        <div class="error-goback-text">¿Te gustaria ir a inicio?</div>
+                        <div class="error-goback-button"><a href="{% url 'home:inicio' %}" class="btn btn-xl btn-primary">Ir a inicio</a></div>
+                        <div class="footer">© Nuvoil 2017</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
+        <div class="be-scroll-top"></div>
+    </div>
+</div>
+
+{% endblock contenido %}

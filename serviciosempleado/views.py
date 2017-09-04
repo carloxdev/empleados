@@ -6,20 +6,23 @@ from django.shortcuts import render
 from django.views.generic.base import View
 from django.core.files.storage import default_storage
 
-# Own's Libraries
+# Modelos
 from ebs.models import VIEW_EMPLEADOS_FULL
 from ebs.models import VIEW_ORGANIGRAMA
 
+# Serializers
 from .serializers import VIEW_ORGANIGRAMA_ORG_SERIALIZADO
 
+# Fomularios
 from .forms import MiViaticoFilterForm
 from .forms import NuevaSolicitudForm
+from .forms import SolicitudesFilterForm
 
 
-class EmpleadoPerfil(View):
+class MiPerfil(View):
 
     def __init__(self):
-        self.template_name = 'empleado_perfil.html'
+        self.template_name = 'mi_perfil.html'
 
     def get(self, request):
         usuario_logeado = request.user.profile.clave_rh
@@ -54,10 +57,10 @@ class EmpleadoPerfil(View):
         return ruta
 
 
-class EmpleadoOrganigrama(View):
+class MiOrganigrama(View):
 
     def __init__(self):
-        self.template_name = 'empleado_perfil_organigrama.html'
+        self.template_name = 'mi_organigrama.html'
 
     def get(self, request):
         clave = request.user.profile.clave_rh
@@ -102,6 +105,36 @@ class MiViaticoLista(View):
 
         contexto = {
             'form': formulario
+        }
+
+        return render(request, self.template_name, contexto)
+
+
+class MiBuzon(View):
+
+    def __init__(self):
+        self.template_name = 'mi_buzon/mi_buzon.html'
+
+    def get(self, request):
+        form = SolicitudesFilterForm()
+        form_nuevo = NuevaSolicitudForm()
+
+        contexto = {
+            'form': form,
+            'form2': form_nuevo,
+        }
+
+        return render(request, self.template_name, contexto)
+
+
+class MiNomina(View):
+
+    def __init__(self):
+        self.template_name = 'mi_nomina.html'
+
+    def get(self, request):
+
+        contexto = {
         }
 
         return render(request, self.template_name, contexto)

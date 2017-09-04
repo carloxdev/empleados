@@ -1,5 +1,6 @@
 
 # Django's Libraries
+from django.utils.encoding import force_unicode
 from django import template
 
 
@@ -216,13 +217,12 @@ def tag_field_popup_apuntador(_field, _apuntador):
 
 
 @register.inclusion_tag(
-    'tags/filter_group.html',
+    'tags/filter_radio.html',
     takes_context=False)
-def tag_filter_group(_field, _apuntador):
+def tag_filter_radio(_field):
 
     contexto = {
         'campo': _field,
-        'apuntador': _apuntador,
     }
     return contexto
 
@@ -237,12 +237,12 @@ def has_group(user, group_name):
 
 
 @register.inclusion_tag(
-    'tags/filter_radio.html',
+    'tags/menu_master.html',
     takes_context=False)
-def tag_filter_radio(_field):
+def tag_menu_master(_user):
 
     contexto = {
-        'campo': _field,
+        'user': _user,
     }
     return contexto
 
@@ -257,3 +257,15 @@ def tag_field_descripcion(_label_text, _label_text_size, _label_value, _label_va
         'label_value_size': _label_value_size,
     }
     return contexto
+
+
+@register.filter('has_group')
+def has_group(user, groups_name):
+    if groups_name != "":
+        if user.is_superuser:
+            return True
+        else:
+            group_list = groups_name.split(',')
+            return bool(user.groups.filter(name__in=group_list).values('name'))
+    else:
+        return True
