@@ -85,6 +85,7 @@ class ViaticoLineaFilter(filters.FilterSet):
     class Meta:
         model = ViaticoLinea
         fields = [
+            'id',
             'cabecera',
             'concepto'
         ]

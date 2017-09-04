@@ -202,6 +202,7 @@ def tag_mensaje(_type, _message):
     }
     return contexto
 
+
 @register.inclusion_tag(
     'tags/field_popup_apuntador.html',
     takes_context=False)
@@ -212,6 +213,7 @@ def tag_field_popup_apuntador(_field, _apuntador):
         'apuntador': _apuntador,
     }
     return contexto
+
 
 @register.inclusion_tag(
     'tags/filter_group.html',
@@ -224,6 +226,7 @@ def tag_filter_group(_field, _apuntador):
     }
     return contexto
 
+
 @register.filter('has_group')
 def has_group(user, group_name):
     if user.is_superuser:
@@ -232,6 +235,7 @@ def has_group(user, group_name):
         groups = user.groups.all().values_list('name', flat=True)
         return True if group_name in groups else False
 
+
 @register.inclusion_tag(
     'tags/filter_radio.html',
     takes_context=False)
@@ -239,5 +243,17 @@ def tag_filter_radio(_field):
 
     contexto = {
         'campo': _field,
+    }
+    return contexto
+
+
+@register.inclusion_tag('tags/field_descripcion.html', takes_context=False)
+def tag_field_descripcion(_label_text, _label_text_size, _label_value, _label_value_size):
+
+    contexto = {
+        'label_text': _label_text,
+        'label_text_size': _label_text_size,
+        'label_value': _label_value,
+        'label_value_size': _label_value_size,
     }
     return contexto
