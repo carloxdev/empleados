@@ -1,8 +1,6 @@
 
 # Django's Libraries
 from django.conf.urls import url
-# from django.conf import settings
-# from django.conf.urls.static import static
 
 # Own's Libraries
 from .views import MiPerfil
@@ -15,12 +13,12 @@ from .views import MiViaticoLista
 urlpatterns = [
 
     url(
-        r'^perfil/miexpediente/$',
+        r'^mi/expediente/$',
         MiPerfil.as_view(),
         name="mi_perfil"
     ),
     url(
-        r'^perfil/organigrama/$',
+        r'^mi/organigrama/$',
         MiOrganigrama.as_view(),
         name="mi_organigrama"
     ),
@@ -35,12 +33,12 @@ urlpatterns = [
         name="mi_viatico_lista"
     ),
     url(
-        r'^perfil/mibuzon/$',
+        r'^mi/buzon/$',
         MiBuzon.as_view(),
         name="mi_buzon"
     ),
     url(
-        r'^perfil/minomina/$',
+        r'^mi/nomina/$',
         MiNomina.as_view(),
         name="mi_nomina"
     ),

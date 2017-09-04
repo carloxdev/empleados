@@ -199,7 +199,7 @@ class EmpleadoLista(View):
 
 
 @method_decorator(group_required('CH_ADMIN', 'CH_OPERA'), name='dispatch')
-class EmpleadoDashboard(View):
+class Dashboard(View):
 
     def __init__(self):
         self.template_name = 'dashboard.html'
@@ -216,7 +216,7 @@ class EmpleadoDashboard(View):
 
 # -------------- ORGANIGRAMA EBS  -------------- #
 @method_decorator(group_required('CH_ADMIN', 'CH_OPERA'), name='dispatch')
-class EmpleadoOrganigrama(View):
+class Organigrama(View):
 
     def __init__(self):
         self.template_name = 'organigrama.html'
@@ -234,7 +234,7 @@ class EmpleadoOrganigrama(View):
 
 
 @method_decorator(group_required('CH_ADMIN', 'CH_OPERA'), name='dispatch')
-class EmpleadoOrganigramaOrgAPI(View):
+class OrganigramaOrgAPI(View):
 
     def get(self, request, pk):
 
@@ -251,7 +251,7 @@ class EmpleadoOrganigramaOrgAPI(View):
 
 
 @method_decorator(group_required('CH_ADMIN', 'CH_OPERA'), name='dispatch')
-class EmpleadoOrganigramaEmpAPI(View):
+class OrganigramaEmpAPI(View):
 
     def get(self, request, pk):
         daddies = VIEW_ORGANIGRAMA.objects.using(
@@ -270,7 +270,7 @@ class EmpleadoOrganigramaEmpAPI(View):
 # --------------  EXPEDIENTES EMPLEADOS -------------- #
 
 @method_decorator(group_required('CH_ADMIN', 'CH_OPERA'), name='dispatch')
-class EmpleadoExpedientes(View):
+class ExpedientesGeneral(View):
 
     def __init__(self):
         self.template_name = 'expedientes_general.html'
@@ -287,7 +287,7 @@ class EmpleadoExpedientes(View):
 
 
 @method_decorator(group_required('CH_ADMIN', 'CH_OPERA'), name='dispatch')
-class EmpleadoSolicitudes(View):
+class Solicitudes(View):
 
     def __init__(self):
         self.template_name = 'solicitud/empleado_solicitud.html'
@@ -306,7 +306,7 @@ class EmpleadoSolicitudes(View):
 
 
 @method_decorator(group_required('CH_ADMIN', 'CH_OPERA'), name='dispatch')
-class EmpleadoExpedientesGrado(View):
+class ExpedientesGrado(View):
 
     def __init__(self):
         self.template_name = 'expedientes_grado.html'
@@ -323,7 +323,7 @@ class EmpleadoExpedientesGrado(View):
 
 
 @method_decorator(group_required('CH_ADMIN', 'CH_OPERA'), name='dispatch')
-class EmpleadoExpedientesDocPersonal(View):
+class ExpedientesDocPersonal(View):
 
     def __init__(self):
         self.template_name = 'documento_personal/expedientes_docpersonal.html'
@@ -340,7 +340,7 @@ class EmpleadoExpedientesDocPersonal(View):
 
 
 @method_decorator(group_required('CH_ADMIN', 'CH_OPERA'), name='dispatch')
-class EmpleadoExpedientesDocCapacitacion(View):
+class ExpedientesDocCapacitacion(View):
 
     def __init__(self):
         self.template_name = 'documento_capacitacion/expedientes_doccapacitacion.html'
