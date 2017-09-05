@@ -1,27 +1,26 @@
 
 # Django's Libraries
 from django.conf.urls import url
-from django.conf import settings
-from django.conf.urls.static import static
 
 # Own's Libraries
-from .views import EmpleadoPerfil
-from .views import EmpleadoOrganigrama
+from .views import MiPerfil
+from .views import MiOrganigrama
 from .views import EmpleadoOrganigramaAPI
-
+from .views import MiBuzon
+from .views import MiNomina
 from .views import MiViaticoLista
 
 urlpatterns = [
 
     url(
-        r'^perfil/miexpediente/$',
-        EmpleadoPerfil.as_view(),
-        name="empleado_perfil"
+        r'^mi/expediente/$',
+        MiPerfil.as_view(),
+        name="mi_perfil"
     ),
     url(
-        r'^perfil/organigrama/$',
-        EmpleadoOrganigrama.as_view(),
-        name="empleado_organigrama"
+        r'^mi/organigrama/$',
+        MiOrganigrama.as_view(),
+        name="mi_organigrama"
     ),
     url(
         r'^perfil/organigrama/json-org/(?P<pk>\d+)/(?P<clave_rh>\d+)/$',
@@ -32,5 +31,15 @@ urlpatterns = [
         r'^mi/viaticos/$',
         MiViaticoLista.as_view(),
         name="mi_viatico_lista"
-    )
+    ),
+    url(
+        r'^mi/buzon/$',
+        MiBuzon.as_view(),
+        name="mi_buzon"
+    ),
+    url(
+        r'^mi/nomina/$',
+        MiNomina.as_view(),
+        name="mi_nomina"
+    ),
 ]

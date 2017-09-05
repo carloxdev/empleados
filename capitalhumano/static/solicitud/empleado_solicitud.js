@@ -13,7 +13,7 @@ var tarjeta_filtro = null
 var grid = null
 var toolbar = null
 var tarjeta_resultados = null
-var popup = null
+var popup_filtros = null
 var popup_editar= null
 var id = ''
 var datos = ''
@@ -24,7 +24,7 @@ var datos = ''
 \*-----------------------------------------------*/
 
 $(document).ready(function(){
-     tarjeta_filtro = new TarjetaFiltros()
+    popup_filtros = new PopupFiltros()
      tarjeta_resultados = new TarjetaResultados()
 
      // Asigna eventos a teclas
@@ -32,18 +32,28 @@ $(document).ready(function(){
                 // Tecla Enter
                 if (e.which == 13) {
                     tarjeta_resultados.grid.buscar()
-                    tarjeta_resultados.popup.hidden_Modal()
+                    popup_filtros.hidden_Modal()
                 }
         })    
 })
 
 /*-----------------------------------------------*\
-            OBJETO: TARJETA FILTRO EMPLEADOS
+            OBJETO: Tarjeta resultados
 \*-----------------------------------------------*/
 
+function TarjetaResultados(){
+    this.grid = new Grid()
+    this.popup_editar = new PopupEditar()
+    this.toolbar = new Toolbar()
+}
 
-function TarjetaFiltros(){
+/*-----------------------------------------------*\
+            OBJETO: Popup filtro de solicitudes
+\*-----------------------------------------------*/
 
+function PopupFiltros(){
+
+    this.$modal = $('#modal_filtro')
     this.$numero_empleado = $('#id_numero_empleado')
     this.$asunto = $('#id_asunto')
     this.$status = $('#id_status')
@@ -55,25 +65,25 @@ function TarjetaFiltros(){
     this.init_Components()
     this.init_Events()
 }
-TarjetaFiltros.prototype.init_Components = function () {
+PopupFiltros.prototype.init_Components = function () {
 
     this.$numero_empleado.select2(appnova.get_ConfigSelect2())
     this.$asunto.select2(appnova.get_ConfigSelect2())
     this.$status.select2(appnova.get_ConfigSelect2())
 }
-TarjetaFiltros.prototype.init_Events = function () {
+PopupFiltros.prototype.init_Events = function () {
 
      this.$boton_buscar.on("click", this, this.click_BotonBuscar)
      this.$boton_limpiar.on("click", this, this.click_BotonLimpiar)
 }
-TarjetaFiltros.prototype.click_BotonBuscar = function (e) {
+PopupFiltros.prototype.click_BotonBuscar = function (e) {
 
         e.preventDefault()
 
         tarjeta_resultados.grid.buscar()
-        tarjeta_resultados.popup.hidden_Modal()
+        popup_filtros.hidden_Modal()
 }
-TarjetaFiltros.prototype.get_Values = function (_page) {
+PopupFiltros.prototype.get_Values = function (_page) {
     
         return {
                 page: _page,
@@ -83,7 +93,7 @@ TarjetaFiltros.prototype.get_Values = function (_page) {
                 relacion_solicitud__status: this.$status.val(),
      }
 }
-TarjetaFiltros.prototype.get_Values_Excel = function () {
+PopupFiltros.prototype.get_Values_Excel = function () {
     
         return {
                 relacion_solicitud__id: this.$folio.val(),
@@ -92,28 +102,21 @@ TarjetaFiltros.prototype.get_Values_Excel = function () {
                 relacion_solicitud__status: this.$status.val(),
      }
 }
-TarjetaFiltros.prototype.click_BotonLimpiar = function (e) {
+PopupFiltros.prototype.click_BotonLimpiar = function (e) {
         
         e.preventDefault()
         e.data.$folio.val("")
-        e.data.$numero_empleado.val("")
+        e.data.$numero_empleado.data('select2').val(0)
         e.data.$asunto.data('select2').val(0)  
         e.data.$status.data('select2').val(0)
 }
+PopupFiltros.prototype.hidden_Modal = function () {
 
-/*-----------------------------------------------*\
-            OBJETO: Tarjeta resultados
-\*-----------------------------------------------*/
-
-function TarjetaResultados(){
-    this.grid = new Grid()
-    this.popup = new Popup()
-    this.popup_editar = new PopupEditar()
-    this.toolbar = new Toolbar()
+   this.$modal.modal('hide')
 }
 
 /*-----------------------------------------------*\
-            OBJETO: Tarjeta resultados
+            OBJETO: Toolbar
 \*-----------------------------------------------*/
 
 function Toolbar(){
@@ -157,14 +160,14 @@ Toolbar.prototype.click_BotonExportar = function (e) {
                     sheets: [
                         {
                             columns: e.data.get_Columnas_Excel_Ancho(),
-                            title: "Solicitudes",
+                            title: "SolicitudesCH",
                             rows: e.data.kRows
                         }
                     ]
                 });
             kendo.saveAs({
                 dataURI: workbook.toDataURL(),
-                fileName: "Solicitudes.xlsx",
+                fileName: "SolicitudesCH.xlsx",
             });
         })
 }
@@ -216,18 +219,6 @@ Toolbar.prototype.get_Registros_Excel = function (data) {
 }
 
 /*-----------------------------------------------*\
-            OBJETO: Popup
-\*-----------------------------------------------*/
-
-function Popup(){
-    this.$modal = $('#modal_filtro')
-}
-Popup.prototype.hidden_Modal = function () {
-
-   this.$modal.modal('hide')
-}
-
-/*-----------------------------------------------*\
             OBJETO: Popup editar
 \*-----------------------------------------------*/
 
@@ -254,11 +245,8 @@ PopupEditar.prototype.init_Events = function () {
     this.$boton_editar.on("click", this, this.guardar_Cambios)
     this.$boton_cancelar.on("click", this, this.cancelar_Cambios)
 }
-PopupEditar.prototype.obtener_Id = function (_id) {
-    id = _id
-    this.consultar_Registro(id)
-}
 PopupEditar.prototype.consultar_Registro = function (_id){
+    id = _id
     dts = ''
     var promesa = $.ajax({
                       url: url_solicitud + _id +"/",
@@ -304,7 +292,7 @@ PopupEditar.prototype.llenar_Informacion = function (_status,_asunto,_descripcio
     this.$status.val(_status).trigger("change")
 }
 PopupEditar.prototype.guardar_Cambios = function (e) {
-    // fecha = new Date()
+
     informacion = {
         'status': e.data.$status.val(),
         'clave_departamento': datos.clave_departamento,
@@ -314,7 +302,6 @@ PopupEditar.prototype.guardar_Cambios = function (e) {
         'observaciones': e.data.$observaciones.val(),
         'created_by': datos.created_by,
         'updated_by': url_profile+e.data.$updated_by.val()+"/",
-        // 'updated_date': moment(fecha).format("YYYY-MM-DD hh:mm:ss.ms"),
     }
    $.ajax({
 
@@ -381,8 +368,8 @@ Grid.prototype.get_DataSourceConfig = function () {
                                 dataType: "json",
                         },
                         parameterMap: function (data, action) {
-                                if (action === "read"){
-                                        return tarjeta_filtro.get_Values(data.page)
+                                if (action === "read"){ 
+                                    return popup_filtros.get_Values(data.page)
                                 }
                         }
                 },
@@ -439,7 +426,7 @@ Grid.prototype.onDataBound = function (e) {
     // pk del elemento
    e.sender.tbody.find("[data-event='editar']").each(function(idx, element){ 
       $(this).on("click", function(){
-        tarjeta_resultados.popup_editar.obtener_Id(this.id)
+        tarjeta_resultados.popup_editar.consultar_Registro(this.id)
       })
    })
    e.sender.tbody.find("[data-event='eliminar']").each(function(idx, element){ 
@@ -472,24 +459,21 @@ Grid.prototype.get_Columnas = function () {
         return [
             { field: "pk", 
                 title: " ", 
-                width:"70px" ,
+                width:"50px" ,
                 template: '<a class="btn nova-btn btn-default nova-btn-delete" id="#=pk#" data-event="eliminar"> <i class="icon icon-left icon mdi mdi-delete nova-white"></i></a>',
+            },
+            { field: "archivo", 
+                title: "Archivo", 
+                width:"60px" ,
+                template: '<a class="btn btn-default nova-url" href="#=archivo#" target="_blank" id="documento"><i class="icon icon-left icon mdi mdi-file icon-black"></i></a>'
             },
             { field: "object_id",
               title: "Folio",
               width:"70px",
-              template: '<a href="\\#modal_editar" data-toggle="modal" id="#=object_id#" data-event="editar">#=object_id#</a>',
+              template: '<a class="btn btn-default nova-url" href="\\#modal_editar" data-toggle="modal" id="#=object_id#" data-event="editar">#=object_id#</a>',
             }, 
-            { field: "status", 
-              title: "Estatus",
-              width:"100px",
-            },
-            { field: "asunto", 
-              title: "Archivo", 
-              width:"150px" ,
-              template: '<a href="#=archivo#" target="_blank">#=asunto#</a>',
-            },
-            // { field: "descripcion",title: "Descripcion",width:"200px"},
+            { field: "asunto", title: "Asunto", width:"200px"},
+            { field: "status", title: "Estatus",width:"100px"},
             { field: "observaciones",title: "Observaciones",width:"200px"},
             { field: "clave_departamento", title: "Se solicito a", width:"150px"},
             { field: "created_by", title: "Creado por", width:"150px" },
@@ -574,19 +558,34 @@ Grid.prototype.get_FuenteDatosExcel = function (e) {
             },
             parameterMap: function (data, action) {
                 if (action === "read") {
-
-                    return tarjeta_filtro.get_Values_Excel()
+                    return popup_filtros.get_Values_Excel()
                 }
             }
         },
 
         schema: {
             model: {
-                fields: this.get_Campos()
+                fields: this.get_CamposExcel()
             }
         },
         error: function (e) {
             alertify.error("Status: " + e.status + "; Error message: " + e.errorThrown)
         },
     }
+}
+Grid.prototype.get_CamposExcel = function () {
+
+        return {
+            object_id: { type: "string"},
+            status : { type: "string"},
+            clave_departamento : { type: "string"},
+            asunto : { type: "string"},
+            descripcion : { type: "string"},
+            observaciones : { type: "string"},
+            archivo : { type: "string"},
+            created_by : { type: "string"},
+            created_date : { type: "date"},
+            updated_by : { type: "string"},
+            updated_date : { type: "date"},
+        }
 }

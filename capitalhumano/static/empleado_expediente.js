@@ -323,6 +323,7 @@ PopupCapacitacion.prototype.get_DateTimePickerConfig = function () {
         }
 }
 PopupCapacitacion.prototype.click_BotonCancelar = function(e){
+
     e.data.$proveedor.data('select2').val(0)
     e.data.$lugar.val("")
     e.data.$costo.val("")
@@ -337,7 +338,7 @@ PopupCapacitacion.prototype.click_BotonCancelar = function(e){
     e.data.$fecha_inicio.val("")
     e.data.$fecha_fin.val("")
     e.data.$archivo_cap.val("")
-    tarjeta_resultados.popup_cap.validar_Campos()
+    tarjeta_resultados.popup_cap.clear_Estilos()   
 }
 PopupCapacitacion.prototype.click_BotonGuardar = function (e) {
     id_capacitacion = ''
@@ -454,7 +455,25 @@ PopupCapacitacion.prototype.limpiar_Formulario = function () {
     this.$fecha_inicio.val("")
     this.$fecha_fin.val("")
     this.$archivo_cap.val("")
-    tarjeta_resultados.popup_cap.validar_Campos()
+    tarjeta_resultados.popup_cap.clear_Estilos() 
+}
+PopupCapacitacion.prototype.clear_Estilos = function () {
+
+    this.$proveedor.data('select2').$selection.removeClass("nova-has-error")
+    this.$lugar.removeClass("nova-has-error")
+    this.$costo.removeClass("nova-has-error")
+    this.$duracion.removeClass("nova-has-error")
+    this.$observaciones.removeClass("nova-has-error")
+    this.$agrupadorcap.data('select2').$selection.removeClass("nova-has-error")
+    this.$area.data('select2').$selection.removeClass("nova-has-error")
+    this.$curso.data('select2').$selection.removeClass("nova-has-error")
+    this.$modalidad.data('select2').$selection.removeClass("nova-has-error")
+    this.$moneda.data('select2').$selection.removeClass("nova-has-error")
+    this.$departamento.data('select2').$selection.removeClass("nova-has-error")
+    this.$fecha_inicio.removeClass("nova-has-error")
+    this.$fecha_fin.removeClass("nova-has-error")
+    this.$archivo_cap.removeClass("nova-has-error")
+   $('#id_error').detach()
 }
 PopupCapacitacion.prototype.validar_Campos = function () {
     bandera = 'False'
@@ -577,7 +596,9 @@ PopupCapacitacion.prototype.validar_Archivo = function (_archivo) {
 
 function Personalizacion(){
     this.$personales = $('#personales')
+    this.$li_personales = $('#per')
     this.$capacitaciones = $('#capacitaciones')
+    this.$li_capacitaciones = $('#cap')
     this.init_Events()
 }
 Personalizacion.prototype.init_Components = function(){
@@ -585,12 +606,16 @@ Personalizacion.prototype.init_Components = function(){
 Personalizacion.prototype.init_Events = function(){
 
     this.$personales.on("click", this , this.mostrar_Personales)
+    this.$li_personales.on("click", this , this.mostrar_Personales)
     this.$capacitaciones.on("click", this , this.mostrar_Capacitaciones)
+    this.$li_capacitaciones.on("click", this , this.mostrar_Capacitaciones)
 }
 Personalizacion.prototype.mostrar_Personales = function(e){
 
     e.data.$capacitaciones.removeClass('nova-active-tab')
+    e.data.$li_capacitaciones.removeClass('active')
     e.data.$personales.addClass('nova-active-tab')
+    e.data.$li_personales.addClass('active')
     tarjeta_resultados.popup_cap.$boton_nuevo.addClass('hidden')
     tarjeta_resultados.popup.$boton_nuevo.removeClass('hidden')
     $("#grid_resultados").empty()
@@ -599,7 +624,9 @@ Personalizacion.prototype.mostrar_Personales = function(e){
 Personalizacion.prototype.mostrar_Capacitaciones = function(e){
 
     e.data.$personales.removeClass('nova-active-tab')
+    e.data.$li_personales.removeClass('active')
     e.data.$capacitaciones.addClass('nova-active-tab')
+    e.data.$li_capacitaciones.addClass('active')
     tarjeta_resultados.popup.$boton_nuevo.addClass('hidden')
     tarjeta_resultados.popup_cap.$boton_nuevo.removeClass('hidden')
     $("#grid_resultados").empty()
@@ -706,11 +733,12 @@ GridPersonal.prototype.get_Columnas = function () {
                 width: "50px",
                 template: '<a class="btn nova-btn btn-default nova-btn-delete" id="#=pk#" data-event="eliminar-personal"> <i class="icon icon-left icon mdi mdi-delete nova-white"></i></a>',
             },
-            { field: "tipo_documento",
-                title: "Archivo",
-                width: "150px",
-                template: '<a href="#=archivo#" target="_blank" id="documento">#=tipo_documento#</a>',
+            { field: "archivo", 
+                title: "Archivo", 
+                width:"60px" ,
+                template: '<a class="btn btn-default nova-url" href="#=archivo#" target="_blank" id="documento"><i class="icon icon-left icon mdi mdi-file icon-black"></i></a>',
             },
+            { field: "tipo_documento", title: "Tipo documento", width:"200px"},
             { field: "agrupador", title: "Agrupador", width:"100px"},
             { field: "vigencia_inicio",title: "Vigencia inicio", width:"100px"},
             { field: "vigencia_fin", title: "Vigencia fin", width:"100px" },
@@ -878,6 +906,7 @@ GridCapacitacion.prototype.get_DataSourceConfig = function () {
 GridCapacitacion.prototype.get_CamposCap = function () {
     return {
             pk: { type: "integer" },
+            archivo : { type: "string" },
             curso : { type: "string" },
             agrupador: { type: "string" },
             area: { type: "string" },
@@ -915,17 +944,18 @@ GridCapacitacion.prototype.get_Configuracion = function () {
 }
 GridCapacitacion.prototype.get_Columnas = function () {
 
-    return [
-            { field: "pk",
-                title: " ",
-                width:"70px" ,
-                template: '<a class="btn nova-btn btn-default nova-btn-delete" id="#=pk#" data-event="eliminar-capacitacion"> <i class="icon icon-left icon mdi mdi-delete nova-white"></i></a>',
+    return [  
+            { field: "pk", 
+                title: " ", 
+                width:"50px" ,
+                template: '<a class="btn nova-btn btn-default nova-btn-delete" id="#=pk#" data-event="eliminar-capacitacion"> <i class="icon icon-left icon mdi mdi-delete nova-white"></i></a>'
             },
-            { field: "curso",
-                title: "Curso",
-                width:"150px" ,
-                template: '<a href="#=archivo#" target="_blank" id="documento">#=curso#</a>',
+            { field: "archivo", 
+                title: "Archivo", 
+                width:"60px" ,
+                template: '<a class="btn btn-default nova-url" href="#=archivo#" target="_blank" id="documento"><i class="icon icon-left icon mdi mdi-file icon-black"></i></a>'
             },
+            { field: "curso", title: "Curso", width:"200px" },
             { field: "agrupador", title: "Agrupador", width:"100px"},
             { field: "area", title: "Area", width:"100px"},
             { field: "proveedor", title: "Proveedor", width:"150px"},

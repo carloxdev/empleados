@@ -9,33 +9,20 @@ from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.core.urlresolvers import reverse
 from django.views.generic.base import View
+from django.contrib import messages
 
 # Own's Libraries
 from .models import ViaticoCabecera
 
 from .forms import ViaticoCabeceraForm
 from .forms import ViaticoFilterForm
+from .forms import ViaticoLineaForm
 
 from .forms import AnticipoFilterForm
 
 
-class AnticipoLista(View):
-    def __init__(self):
-        self.template_name = 'anticipo/anticipo_lista.html'
-
-    def get(self, request):
-        formulario = AnticipoFilterForm()
-
-        contexto = {
-            'form': formulario
-        }
-
-        return render(request, self.template_name, contexto)
-
-
 class ViaticoLista(View):
-    def __init__(self):
-        self.template_name = 'viatico/viatico_lista.html'
+    template_name = 'viatico/viatico_lista.html'
 
     def get(self, request):
 
@@ -49,9 +36,7 @@ class ViaticoLista(View):
 
 
 class ViaticoCabeceraNuevo(View):
-
-    def __init__(self):
-        self.template_name = 'viatico/viatico_nuevo.html'
+    template_name = 'viatico/viatico_nuevo.html'
 
     def get(self, request):
 
@@ -105,9 +90,11 @@ class ViaticoCabeceraEditar(View):
             flag_new = False
 
         formulario = ViaticoCabeceraForm(instance=self.obtener_Viatico(pk))
+        formulario_linea = ViaticoLineaForm()
 
         contexto = {
             'form': formulario,
+            'form_linea': formulario_linea,
             'flag_new': flag_new
         }
         return render(request, self.template_name, contexto)
@@ -115,28 +102,30 @@ class ViaticoCabeceraEditar(View):
     def post(self, request, pk):
 
         formulario = ViaticoCabeceraForm(request.POST, instance=self.obtener_Viatico(pk))
+        formulario_linea = ViaticoLineaForm()
 
         if formulario.is_valid():
             viatico = formulario.save(commit=False)
             viatico.updated_by = request.user.profile
             viatico.save()
+            messages.success(request, "Se modifico la solicitud exitosamente")
 
         contexto = {
             'form': formulario,
+            'form_linea': formulario_linea
         }
         return render(request, self.template_name, contexto)
 
 
-class ViaticoLineas(View):
+class AnticipoLista(View):
     def __init__(self):
-        self.template_name = 'viatico/viatico_lineas.html'
+        self.template_name = 'anticipo/anticipo_lista.html'
 
-    def get(self, request, pk):
+    def get(self, request):
+        formulario = AnticipoFilterForm()
 
-        # formulario = ViaticoFilterForm()
+        contexto = {
+            'form': formulario
+        }
 
-        # contexto = {
-        #     'form': formulario
-        # }
-
-        return render(request, self.template_name, {})
+        return render(request, self.template_name, contexto)

@@ -1,15 +1,10 @@
-/*-----------------------------------------------*\
-            GLOBAL VARIABLES
-\*-----------------------------------------------*/
+/* -------------------- GLOBAL VARIABLES -------------------- */
 
 // OBJS
 var formulario = null
 
-//  $("#date").mask("99/99/9999",{placeholder:"mm/dd/yyyy"});
 
-/*-----------------------------------------------*\
-            LOAD
-\*-----------------------------------------------*/
+/* -------------------- LOAD -------------------- */
 
 $(document).ready(function () {
 
@@ -17,9 +12,8 @@ $(document).ready(function () {
     // mine = new Miner()
 })
 
-/*-----------------------------------------------*\
-            OBJETO: viatico_cabecera
-\*-----------------------------------------------*/
+
+/* -------------------- OBJETO: Cabecera -------------------- */
 
 function Formulario() {
 
@@ -27,9 +21,8 @@ function Formulario() {
     this.$empleado_descripcion = $('#id_empleado_descripcion')
     this.$unidad_negocio_clave = $('#id_unidad_negocio_clave')
     this.$unidad_negocio_descripcion = $('#id_unidad_negocio_descripcion')
-    this.$fecha_partida = $('#id_fecha_partida')
+
     this.$fecha_partida_input = $('#id_fecha_partida_input')
-    this.$fecha_regreso = $('#id_fecha_regreso')
     this.$fecha_regreso_input = $('#id_fecha_regreso_input')
 
     this.$ciudad_destino = $('#id_ciudad_destino')
@@ -43,22 +36,13 @@ Formulario.prototype.init_Components = function () {
     this.$empleado_clave.select2()
     this.$unidad_negocio_clave.select2()
 
-    this.$fecha_partida_input.datetimepicker(this.get_DateTimePickerConfig())
-    this.$fecha_regreso_input.datetimepicker(this.get_DateTimePickerConfig())
+    this.$fecha_partida_input.datepicker({format: 'dd/mm/yyyy', autoclose: true})
+    this.$fecha_regreso_input.datepicker({format: 'dd/mm/yyyy', autoclose: true})
 }
 Formulario.prototype.init_Events = function () {
 
     this.$empleado_clave.on("change", this, this.seleccionar_ComboBoxEmpleado)
     this.$unidad_negocio_clave.on("change", this, this.seleccionar_ComboBoxUnidadNegocio)
-
-}
-Formulario.prototype.get_DateTimePickerConfig = function () {
-    return {
-        autoclose: true,
-        orientation: "bottom left",
-        minView: 2,
-        format: "yyyy-mm-dd",
-    }
 }
 Formulario.prototype.seleccionar_ComboBoxEmpleado = function(e) {
 

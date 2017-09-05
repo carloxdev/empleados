@@ -1,5 +1,6 @@
 {% extends 'master.html' %}
 {% load static from staticfiles %}
+{% load custom_tags %}
 {% block titulo %} Capital humano {% endblock titulo %}
 {% block title-page %} Expedientes  {% endblock title-page %}
 {% block css %}
@@ -54,34 +55,14 @@
                                 <h3 class="modal-title">Filtros</h3>
                             </div>
                             <div class="modal-body form-horizontal">
-                                <!-- Folio -->
-                                <div class="form-group">
-                                        <label class="col-sm-3 nova-col-filter control-label">{{ form.folio.label }}</label>
-                                        <div class="col-sm-8 xs-pt-5">
-                                            {{ form.folio }}
-                                        </div>
-                                </div> 
+                                <!-- Folio-->
+                                {% tag_filter form.folio %}
                                 <!-- Numero empleado -->
-                                <div class="form-group">
-                                        <label class="col-sm-3 nova-col-filter control-label">{{ form.numero_empleado.label }}<br><small>(EBS)</small></label>
-                                        <div class="col-sm-8 xs-pt-5">
-                                                {{ form.numero_empleado }}
-                                        </div>
-                                </div> 
-                                <!-- Status -->
-                                <div class="form-group">
-                                    <label class="col-sm-3 nova-col-filter control-label">{{ form.status.label }}</label>
-                                    <div class="col-sm-8 xs-pt-5">
-                                        {{ form.status }}
-                                    </div>
-                                </div>
-                                <!-- Asunto -->
-                                <div class="form-group">
-                                    <label class="col-sm-3 nova-col-filter control-label">{{ form.asunto.label }}</label>
-                                    <div class="col-sm-8 xs-pt-5">
-                                        {{ form.asunto }}
-                                    </div>
-                                </div>                
+                                {% tag_field_popup_apuntador form.numero_empleado '(EBS)' %}
+                                <!-- Status-->
+                                {% tag_filter form.status %}
+                                <!-- Asunto-->
+                                {% tag_filter form.asunto %}        
                               
                             </div>
                                                     

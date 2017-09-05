@@ -1,6 +1,4 @@
-/*-----------------------------------------------*\
-            GLOBAL VARIABLES
-\*-----------------------------------------------*/
+/* -------------------- GLOBAL VARIABLES -------------------- */
 
 // URLS:
 var url_viaticocabecera_bypage = window.location.origin + "/api-finanzas/viaticocabecera_bypage/"
@@ -12,9 +10,8 @@ var tarjeta_resultados = null
 
 $.fn.modal.Constructor.prototype.enforceFocus = function () {}
 
-/*-----------------------------------------------*\
-            LOAD
-\*-----------------------------------------------*/
+
+/* -------------------- LOAD -------------------- */
 
 $(document).ready(function () {
 
@@ -37,14 +34,10 @@ $(document).ready(function () {
 
         }
     })
-
 })
 
 
-
-/*-----------------------------------------------*\
-            OBJETO: Popup filtro
-\*-----------------------------------------------*/
+/* -------------------- OBJETO: Popup Filtros -------------------- */
 
 function PopupFiltros() {
 
@@ -55,83 +48,56 @@ function PopupFiltros() {
     this.$unidad_negocio = $('#id_unidad_negocio')
     this.$ciudad_destino = $('#id_ciudad_destino')
     this.$autorizador = $('#id_autorizador')
-    this.$fecha_creacion = $('#fecha_creacion')
+
+    this.$created_date_mayorque = $('#id_created_date_mayorque_group')
+    this.$created_date_menorque = $('#id_created_date_menorque_group')
 
     this.$boton_buscar = $('#boton_buscar')
     this.$boton_limpiar = $('#boton_limpiar')
 
-    this.init_Components()
-    this.init_Events()
+    this.init()
+    this.set_Events()
 
 }
-PopupFiltros.prototype.init_Components = function () {
+PopupFiltros.prototype.init = function () {
 
-    this.$empleado.select2({ dropdownParent: this.$id })
-    this.$unidad_negocio.select2(appnova.get_ConfigSelect2())
-    this.$autorizador.select2(appnova.get_ConfigSelect2())
-    this.$fecha_creacion.daterangepicker(this.get_ConfDateRangePicker())
+    this.$empleado.select2()
+    this.$unidad_negocio.select2()
+    this.$autorizador.select2()
+    this.$created_date_mayorque.datepicker({format: 'dd/mm/yyyy', autoclose: true})
+    this.$created_date_menorque.datepicker({format: 'dd/mm/yyyy', autoclose: true})
 }
-PopupFiltros.prototype.init_Events = function () {
-
-    // this.$id.on("hidden.bs.modal", this, this.hide)
-    // this.$id.on("show.bs.modal", this, this.start_Show)
-    // this.$id.on("shown.bs.modal", this, this.end_Show)
+PopupFiltros.prototype.set_Events = function () {
+    this.$id.on("shown.bs.modal", this, this.end_Show)
 
     this.$boton_buscar.on("click", this, this.click_BotonBuscar)
     this.$boton_limpiar.on("click", this, this.click_BotonLimpiar)
 }
-// PopupFiltros.prototype.start_Show = function (e) {
-//
-//     e.data.$empleado.select2({
-//         dropdownParent: this.$id
-//     })
-//     e.data.$unidad_negocio.select2()
-//     e.data.$autorizador.select2()
-// }
-// PopupFiltros.prototype.end_Show = function (e) {
-//     e.data.$proposito_viaje.focus()
-// }
-// PopupFiltros.prototype.hide = function (e) {
-//     e.data.$fecha_creacion.data('daterangepicker').hide()
-// }
-PopupFiltros.prototype.get_ConfDateRangePicker = function () {
+PopupFiltros.prototype.end_Show = function (e) {
+    e.data.$proposito_viaje.focus()
+}
+PopupFiltros.prototype.get_FechaMayorQue = function (e) {
 
-    return {
-        locale: {
-            // format: 'YYYY-MM-DD',
-            format: 'DD-MM-YYYY',
-            applyLabel: "Aplicar",
-            cancelLabel: "Cancelar",
-            fromLabel: "Del",
-            separator: " al ",
-            toLabel: "Al",
-            weekLabel: "S",
-            daysOfWeek: [
-                "Do",
-                "Lu",
-                "Ma",
-                "Mi",
-                "Ju",
-                "Vi",
-                "Sa"
-            ],
-            monthNames: [
-                "Enero",
-                "Febrero",
-                "Marzo",
-                "Abril",
-                "Mayo",
-                "Junio",
-                "Julio",
-                "Agosto",
-                "Septiembre",
-                "Octubre",
-                "Noviembre",
-                "Diciembre"
-            ],
-        },
-        // startDate: '2017-01-01'
-        startDate: '01-01-2017'
+    fecha = this.$created_date_mayorque.datepicker("getDate")
+    fecha_conformato = moment(fecha).format('YYYY-MM-DD')
+
+    if (fecha_conformato == "Invalid date") {
+        return ""
+    }
+    else {
+        return fecha_conformato
+    }
+}
+PopupFiltros.prototype.get_FechaMenorQue = function (e) {
+
+    fecha = this.$created_date_menorque.datepicker("getDate")
+    fecha_conformato = moment(fecha).format('YYYY-MM-DD')
+
+    if (fecha_conformato == "Invalid date") {
+        return ""
+    }
+    else {
+        return fecha_conformato
     }
 }
 PopupFiltros.prototype.get_Values = function (_page) {
@@ -144,8 +110,8 @@ PopupFiltros.prototype.get_Values = function (_page) {
         unidad_negocio_clave: this.$unidad_negocio.val(),
         ciudad_destino: this.$ciudad_destino.val(),
         autorizador_clave: this.$autorizador.val(),
-        creacion_fecha_mayorque: this.$fecha_creacion.data('daterangepicker').startDate.format('YYYY-MM-DD'),
-        creacion_fecha_menorque: this.$fecha_creacion.data('daterangepicker').endDate.format('YYYY-MM-DD'),
+        created_date_mayorque: this.get_FechaMayorQue(),
+        created_date_menorque: this.get_FechaMenorQue(),
     }
 }
 PopupFiltros.prototype.get_NoFiltrosAplicados = function () {
@@ -167,8 +133,10 @@ PopupFiltros.prototype.get_NoFiltrosAplicados = function () {
     if (this.$autorizador.val()  != "" ) {
         cantidad += 1
     }
-    if (this.$fecha_creacion.data('daterangepicker').startDate.format('YYYY-MM-DD') != '2017-01-01' ||
-        this.$fecha_creacion.data('daterangepicker').endDate.format('YYYY-MM-DD') != moment().format('YYYY-MM-DD') ) {
+    if (this.get_FechaMayorQue() != "") {
+        cantidad += 1
+    }
+    if (this.get_FechaMenorQue() != "") {
         cantidad += 1
     }
 
@@ -203,19 +171,12 @@ PopupFiltros.prototype.click_BotonLimpiar = function (e) {
     e.data.$unidad_negocio.val("").trigger("change")
     e.data.$ciudad_destino.val("")
     e.data.$autorizador.val("").trigger("change")
-
-    e.data.$fecha_creacion.data('daterangepicker').setStartDate(
-        '01-01-2017'
-    )
-    e.data.$fecha_creacion.data('daterangepicker').setEndDate(
-        moment().format('DD-MM-YYYY')
-    )
+    e.data.$created_date_mayorque.datepicker("clearDates")
+    e.data.$created_date_menorque.datepicker("clearDates")
 }
 
 
-/*-----------------------------------------------*\
-            OBJETO: Tarjeta resultados
-\*-----------------------------------------------*/
+/* -------------------- OBJETO: Tarjeta Resultados -------------------- */
 
 function TarjetaResultados(){
 
@@ -223,17 +184,11 @@ function TarjetaResultados(){
     this.grid = new Grid()
 }
 
-/*-----------------------------------------------*\
-            OBJETO: ToolBar
-\*-----------------------------------------------*/
+
+/* -------------------- OBJETO: ToolBar -------------------- */
 
 function ToolBar() {
-
     this.$boton_filtros = $('#boton_filtros')
-
-}
-ToolBar.prototype.init_Events = function () {
-
 }
 ToolBar.prototype.change_BotonFiltros = function (_no_filtros) {
 
@@ -245,37 +200,23 @@ ToolBar.prototype.restart_BotonFiltros = function () {
     this.$boton_filtros.html("<i class='icon icon-left mdi mdi-search nova-white'></i>Filtros")
 }
 
-/*-----------------------------------------------*\
-            OBJETO: Grid
-\*-----------------------------------------------*/
 
-function Grid() {
+/* -------------------- OBJETO: FuenteDatos -------------------- */
 
-    this.$id = $("#grid_resultados")
-    this.kfuente_datos = null
-    this.kgrid = null
+function FuenteDatos() {
+    this.kinstancia = null
     this.init()
 }
-Grid.prototype.init = function () {
-
-    // Definicion del pais, formato modena, etc..
-    kendo.culture("es-MX")
-
-    // Se inicializa la fuente da datos (datasource)
-    this.kfuente_datos = new kendo.data.DataSource(this.get_DataSourceConfig())
-
-    // Se inicializa y configura el grid:
-    this.kgrid = this.$id.kendoGrid(this.get_Configuracion())
+FuenteDatos.prototype.init = function() {
+    this.kinstancia = new kendo.data.DataSource(this.get_Configuracion())
 }
-Grid.prototype.get_DataSourceConfig = function () {
-
+FuenteDatos.prototype.get_Configuracion = function() {
     return {
 
         serverPaging: true,
         pageSize: 10,
         transport: {
             read: {
-
                 url: url_viaticocabecera_bypage,
                 type: "GET",
                 dataType: "json",
@@ -298,8 +239,7 @@ Grid.prototype.get_DataSourceConfig = function () {
         },
     }
 }
-Grid.prototype.get_Campos = function () {
-
+FuenteDatos.prototype.get_Campos = function() {
     return {
         empleado_clave : { type: "number" },
         empleado_descripcion : { type: "string" },
@@ -325,20 +265,42 @@ Grid.prototype.get_Campos = function () {
         importe_total : { type: "decimal" },
     }
 }
+
+
+/* -------------------- OBJETO: Grid -------------------- */
+
+function Grid() {
+
+    this.$id = $("#grid_resultados")
+    this.fuente_datos = null
+    this.kinstancia = null
+    this.init()
+}
+Grid.prototype.init = function () {
+
+    // Definicion del pais, formato modena, etc..
+    kendo.culture("es-MX")
+
+    // Se inicializa la fuente da datos (datasource)
+    fdatos = new FuenteDatos()
+    this.fuente_datos = fdatos.kinstancia
+
+    // Se inicializa y configura el grid:
+    this.kinstancia = this.$id.kendoGrid(this.get_Configuracion())
+}
 Grid.prototype.get_Configuracion = function () {
 
     return {
-        dataSource: this.kfuente_datos,
-        columnMenu: true,
+        dataSource: this.fuente_datos,
+        columnMenu: false,
         groupable: false,
         sortable: false,
         editable: false,
         resizable: true,
         selectable: true,
-        scrollable: false,
-        columns: this.get_Columnas(),
         scrollable: true,
         pageable: true,
+        columns: this.get_Columnas(),
         noRecords: {
             template: "<div class='nova-grid-empy'> No se encontraron registros </div>"
         },
@@ -346,7 +308,6 @@ Grid.prototype.get_Configuracion = function () {
     }
 }
 Grid.prototype.get_Columnas = function () {
-
     return [
         {
             field: "pk",
@@ -373,11 +334,11 @@ Grid.prototype.get_Columnas = function () {
         // { field: "importe_total", title: "Importe total", width:"100px" },
     ]
 }
-Grid.prototype.click_BotonEditar = function (e) {
-
-    var fila = this.dataItem($(e.currentTarget).closest('tr'))
-    window.location.href = url_viaticocabecera_editar + fila.pk;
-}
+// Grid.prototype.click_BotonEditar = function (e) {
+//
+//     var fila = this.dataItem($(e.currentTarget).closest('tr'))
+//     window.location.href = url_viaticocabecera_editar + fila.pk;
+// }
 Grid.prototype.set_Icons = function (e) {
 
     e.sender.tbody.find(".k-button.fa.fa-pencil").each(function(idx, element){
@@ -388,6 +349,5 @@ Grid.prototype.get_EditUrl = function(_pk) {
   return url_viaticocabecera_editar.replace('/0/', '/' + _pk + '/')
 }
 Grid.prototype.buscar = function() {
-
-    this.kfuente_datos.page(1)
+    this.fuente_datos.page(1)
 }

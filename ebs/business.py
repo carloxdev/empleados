@@ -116,7 +116,7 @@ class EmpleadoBusiness(object):
     def get_StatusDescription(self, value):
 
         if value in [1124, 1123]:
-            return "(baja)"
+            return "(Expleado)"
 
         else:
             return ""

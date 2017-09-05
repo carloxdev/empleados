@@ -3,16 +3,19 @@
 # Django's Libraries
 from django.forms import ModelForm
 from django.forms import TextInput
+from django.forms import NumberInput
 from django.forms import Textarea
 from django.forms import Select
 from django.forms import Form
 from django.forms import CharField
 from django.forms import ChoiceField
 from django.forms import HiddenInput
+from django.forms import DateInput
 from django.forms import ValidationError
 
 # Own's Libraries
 from .models import ViaticoCabecera
+from .models import ViaticoLinea
 
 from jde.business import CentroCostoBusiness
 from ebs.business import EmpleadoBusiness
@@ -46,11 +49,11 @@ class ViaticoFilterForm(Form):
     )
 
     created_date_mayorque = CharField(
-        widget=TextInput(attrs={'class': 'form-control input-xs'})
+        widget=TextInput(attrs={'class': 'form-control input-xs', 'readonly': 'readonly'})
     )
 
     created_date_menorque = CharField(
-        widget=TextInput(attrs={'class': 'form-control input-xs'})
+        widget=TextInput(attrs={'class': 'form-control input-xs', 'readonly': 'readonly'})
     )
 
     def __init__(self, *args, **kwargs):
@@ -94,8 +97,8 @@ class ViaticoCabeceraForm(ModelForm):
             'empleado_descripcion': HiddenInput(),
             'unidad_negocio_descripcion': HiddenInput(),
             'proposito_viaje': Textarea(attrs={'class': 'form-control'}),
-            'fecha_partida': TextInput(attrs={'class': 'form-control input-xs', 'readonly': 'readonly'}),
-            'fecha_regreso': TextInput(attrs={'class': 'form-control input-xs', 'readonly': 'readonly'}),
+            'fecha_partida': DateInput(attrs={'class': 'form-control input-xs', 'readonly': 'readonly'}, format='%d/%m/%Y'),
+            'fecha_regreso': DateInput(attrs={'class': 'form-control input-xs', 'readonly': 'readonly'}, format='%d/%m/%Y'),
             'ciudad_destino': TextInput(attrs={'class': 'form-control input-xs'}),
         }
 
@@ -129,17 +132,22 @@ class ViaticoCabeceraForm(ModelForm):
             )
 
 
-class ViaticoLineaForm(Form):
+class ViaticoLineaForm(ModelForm):
 
-    concepto = CharField(
-        widget=TextInput(attrs={'class': 'form-control input-xs'})
-    )
-    observaciones = CharField(
-        widget=Textarea(attrs={'class': 'form-control input-xs'})
-    )
-    importe = CharField(
-        widget=TextInput(attrs={'class': 'form-control input-xs'})
-    )
+    class Meta:
+        model = ViaticoLinea
+
+        fields = [
+            'concepto',
+            'observaciones',
+            'importe'
+        ]
+
+        widgets = {
+            'concepto': TextInput(attrs={'class': 'form-control input-xs'}),
+            'observaciones': Textarea(attrs={'class': 'form-control input-xs'}),
+            'importe': NumberInput(attrs={'class': 'form-control input-xs'})
+        }
 
 
 class AnticipoFilterForm(Form):
