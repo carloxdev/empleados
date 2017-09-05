@@ -262,7 +262,7 @@ def tag_field_descripcion(_label_text, _label_text_size, _label_value, _label_va
 @register.filter('has_group')
 def has_group(user, groups_name):
     if groups_name != "":
-        if user.is_superuser:
+        if user.is_superuser | user.groups.filter(name="ADMINISTRADOR").exists():
             return True
         else:
             group_list = groups_name.split(',')

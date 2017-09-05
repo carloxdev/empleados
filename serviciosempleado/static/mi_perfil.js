@@ -470,8 +470,8 @@ GridCapacitacion.prototype.get_Columnas = function () {
     return [  
         { field: "archivo", 
             title: "Archivo", 
-            width:"60px" ,
-            template: '<a class="btn btn-default nova-url" href="#=archivo#" target="_blank" id="documento"><i class="icon icon-left icon mdi mdi-file"></i></a>',
+            width:"70px" ,
+            template: '<a class="btn btn-default nova-url" href="#=archivo#" target="_blank" id="documento"><i class="icon icon-left icon mdi mdi-file"></i></a>'
         },
         { field: "curso", title: "Curso", width:"150px"},
         { field: "agrupador", title: "Agrupador", width:"100px"},
