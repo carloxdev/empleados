@@ -36,14 +36,26 @@
       <div class="row wizard-row">
 
          <div class="col-md-12 fuelux">
-            <div id="wizard1" class="wizard wizard-ux nova-panel-borde-header">
-               <ul class="steps">
+            <div id="wizard1" class="wizard wizard-ux nova-panel-borde-header nova-overflow-visible">
+                <div class="nova-wizard-header">
 
-                  <li class="active">Auditoría No: <strong>{{ folio }}</strong>
-                  </li>
+                    <span class="nova-wizard-title">Auditoría No: <strong>{{folio}}</strong></span>
+                    <div class="nova-wizard-tools visible-xs-inline-block dropdown"><span data-toggle="dropdown" class="icon mdi mdi-more-vert dropdown-toggle" aria-expanded="false"></span>
+                        <ul role="menu" class="dropdown-menu">
+                          <li>
+                            <a href="{% url 'calidad:general_formulario_update' pk %}">Generales</a>
+                          </li>
+                          <li>
+                            <a href="{% url 'calidad:auditor_formulario_update' pk %}">Equipo Auditor</a>
+                          </li>
+                          <li class="active">
+                            <a href="{% url 'calidad:proceso_lista' pk %}">Procesos</a>
+                          </li>
+                        </ul>
+                    </div>
 
-               </ul>
-               <div class="actions">
+                </div>
+               <div class="actions hidden-xs">
                   <a href="{% url 'calidad:general_formulario_update' pk %}" class="btn btn-xs btn-prev btn-default nova-a-tab">Generales</a>
                   <a href="{% url 'calidad:auditor_formulario_update' pk %}" class="btn btn-xs btn-next btn-default nova-a-tab">Equipo Auditor</a>
                   <a href="{% url 'calidad:proceso_lista' pk %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab nova-active-tab">Procesos</a>
@@ -53,7 +65,8 @@
                   <div class="nova-breadcrumb-nav">
                      <ol class="breadcrumb">
                         <li id="menu" data-opcion="auditorias_lista"><a href="{% url 'calidad:proceso_lista' pk %}"><span class="badge">Lista de Procesos</span></a></li>
-                        <li class="active"><a><span class="badge">Proceso: {{ proceso }} </span></a></li>
+                        <li><a><span class="badge">Proceso: {{ proceso }} </span></a></li>
+                        <li class="active"><a><span class="badge">Subproceso: {{ subproceso }} </span></a></li>
                      </ol>
                   </div>
 
@@ -74,7 +87,7 @@
                      <i class="icon icon-left mdi mdi-search nova-white"></i> Filtros
                   </a>
                   <a class="btn nova-btn btn-rounded btn-sm btn-default btn-space pull-right" data-toggle="modal" id="id_boton_nuevo">
-                     <i class="icon icon-left mdi mdi-plus-circle nova-black"></i> Nuevo
+                     <i class="icon icon-left mdi mdi-plus-circle nova-black"></i> Hallazgo
                   </a>
                </div><!-- Panel Heading -->
 
@@ -84,7 +97,6 @@
                         <tr>
                            <th class="nova-columna-acciones"></th>
                            <th>Título</th>
-                           <th>Subproceso</th>
                            <th>Estado</th>
                            <th>Tipo</th>
                            <th>Observaciones</th>
@@ -96,25 +108,29 @@
                            {% for hallazgo in hallazgos %}
                                <tr class="clickable-row">
                                   <td>
-                                     <a href="#id_tarjeta_acciones" data-toggle="modal" class="btn nova-btn btn-default" id="boton_nuevo">
+                                     <a data-primaryKey="{{ hallazgo.pk }}" data-event="acciones" class="btn nova-btn btn-default">
                                         <i class="icon icon-left icon mdi mdi-settings nova-black"></i>
                                      </a>
                                   </td>
                                   <td>
-                                     <a data-primaryKey="{{ requisito.pk }}" data-event="editarHallazgo" class="btn btn-default nova-url" data-toggle="modal">{{ hallazgo.titulo }}</a>
+                                     <a href="{% url 'calidad:hallazgo_detalle' pk pk_pro hallazgo.pk %}" class="btn btn-default nova-url">{{ hallazgo.titulo }}</a>
                                   </td>
-                                  <td>
-                                     {{ hallazgo.proceso.subproceso }}
-                                  </td>
-                                  <td class="nova-aling-center">{{ hallazgo.estado }}</td>
+                                  <td class="nova-aling-center
+                                  {% if auditoria.estado == 'Aprobado' %}
+                                     nova-status-aprobado
+                                  {% endif %}"
+                                  >{{ hallazgo.estado }}</td>
                                   <td>{{ hallazgo.tipo_hallazgo }}</td>
                                   <td>{{ hallazgo.observacion }}</td>
-                                  <td>{{ hallazgo.cerrado }}</td>
+                                  <td>
+                                    <button class="btn btn-space btn-warning" {% if hallazgo.cerrado == "Si" %} disabled {% endif %}>{{ hallazgo.cerrado }}
+                                    </button>
+                                  </td>
                                </tr>
                            {% endfor %}
                        {% else %}
                            <tr class="clickable-row">
-                             <td colspan="7" class="nova-aling-center nova-sin-resultados">
+                             <td colspan="6" class="nova-aling-center nova-sin-resultados">
                                Sin Hallazgos para el Proceso.
                              </td>
                            </tr>
@@ -132,7 +148,7 @@
    </div> <!-- main content -->
 
    <!-- tarjeta_acciones-->
-   <div id="id_tarjeta_acciones" tabindex="-1" role="dialog" class="modal fade colored-header colored-header-primary">
+   <div id="id_tarjeta_acciones" data-primaryKey="" tabindex="-1" role="dialog" class="modal fade colored-header colored-header-primary">
       <div class="modal-dialog nova-modal-acciones">
         <div class="modal-content">
           <div class="modal-header nova-modal-header">
@@ -142,9 +158,9 @@
           <div class="modal-body">
             <div class="text-center">
                <div role="group" class="btn-group-vertical btn-space">
-                  <!--<a href="#" class="btn nova-btn btn-space btn-warning btn-lg" id="id_boton_cerrar_hallazgo">
-                     <i class="icon icon-left mdi mdi-alert-triangle nova-white"></i> Cerrar Hallazgo
-                  </a>-->
+                  <a class="btn nova-btn btn-space btn-danger btn-lg" id="id_boton_eliminar">
+                     <i class="icon icon-left mdi mdi-delete nova-white"></i> Eliminar
+                  </a>
                   <button class="btn nova-btn btn-space btn-success btn-lg" id="id_boton_no_conformidad">
                      <i class="icon icon-left mdi mdi-collection-pdf nova-white"></i> Reporte de No Conformidad
                   </button>
@@ -165,42 +181,40 @@
                <h3 class="modal-title">Filtros</h3>
             </div>
 
-            <form id="id_formulario_filtro" class="modal-body form-horizontal">
+            <form id="id_formulario_filtro" method="GET">
+              <div class="modal-body form-horizontal">
 
-              <!-- titulo -->
-              {% tag_filter form_filter.titulo %}
+                <!-- titulo -->
+                {% tag_filter form_filter.titulo %}
 
-              <!-- subproceso -->
-              {% tag_filter form_filter.subproceso %}
+                <!-- tipo_hallazgo -->
+                {% tag_filter form_filter.tipo_hallazgo %}
 
-              <!-- sitio -->
-              {% tag_filter form_filter.sitio %}
+                <!-- estado -->
+                {% tag_filter form_filter.estado %}
 
-              <!-- tipo_hallazgo -->
-              {% tag_filter form_filter.tipo_hallazgo %}
+                <!-- cerrado -->
+                {% tag_filter_radio form_filter.cerrado %}
 
-              <!-- cerrado -->
-              {% tag_filter_radio form_filter.cerrado %}
+              </div><!-- Modal body-->
+              <div class="modal-footer nova-modal-footer">
+                 <div class="row col-sm-12">
+                    <button type="button" data-dismiss="modal" class="btn btn-default pull-left">
+                       Cancelar
+                    </button>
 
-            </form><!-- Modal body-->
+                    <button type="button" id="id_boton_limpiar" class="btn btn-default nova-btn">
+                       <i class="fa fa-eraser"></i>
+                       Limpiar
+                    </button>
 
-            <div class="modal-footer nova-modal-footer">
-               <div class="row col-sm-12">
-                  <button type="button" data-dismiss="modal" class="btn btn-default pull-left">
-                     Cancelar
-                  </button>
-
-                  <button type="button" id="id_boton_limpiar" class="btn btn-default nova-btn">
-                     <i class="fa fa-eraser"></i>
-                     Limpiar
-                  </button>
-
-                  <button type="button" id="id_boton_buscar" class="btn nova-btn btn-primary btn-lg pull-right">
-                     <i class="icon icon-left mdi mdi-search nova-white"></i>
-                     Buscar
-                  </button>
-               </div>
-            </div>
+                    <button type="submit" id="id_boton_buscar" class="btn nova-btn btn-primary btn-lg pull-right">
+                       <i class="icon icon-left mdi mdi-search nova-white"></i>
+                       Buscar
+                    </button>
+                 </div>
+              </div>
+            </form>
          </div> <!-- Modal content-->
       </div> <!-- Modal dialog -->
    </div><!-- Modal -->
@@ -215,15 +229,12 @@
                <h3 class="modal-title" id="id_popup_hallazgo_titulo"></h3>
             </div>
 
-            <form id="id_formulario_hallazgo">
+            <form id="id_formulario_hallazgo" method="POST"> {% csrf_token %}
 
                <div class="modal-body form-horizontal">
 
                   <!-- titulo -->
                   {% tag_field_popup form.titulo 3 8 %}
-
-                  <!-- subproceso -->
-                  {% tag_field_popup form.subproceso 3 8 %}
 
                   <!-- requisito_referencia -->
                   {% tag_field_popup form.requisito_referencia 3 8 %}
@@ -244,7 +255,7 @@
                          Cerrar
                       </button>
 
-                      <button type="button" id="boton_modal_guardar" class="btn nova-btn btn-primary btn-lg pull-right">
+                      <button type="submit" id="boton_modal_guardar" class="btn nova-btn btn-primary btn-lg pull-right">
                          <i class="icon icon-left mdi mdi-floppy nova-white"></i>
                          Guardar
                       </button>

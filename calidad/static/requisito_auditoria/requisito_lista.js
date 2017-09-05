@@ -139,6 +139,12 @@ PopupRequisito.prototype.init_Events = function () {
    this.$id_boton_guardar.on("click", this, this.click_BotonGuardar)
    this.$id.on("shown.bs.modal", this, this.shown_Modal)
    this.$id.on("hide.bs.modal", this, this.hide_Modal)
+   this.$id_criterio.on('select2:close',function () {
+        $(this).focus();
+    });
+   this.$id_requisito.on('select2:close',function () {
+       $(this).focus();
+   });
 }
 PopupRequisito.prototype.init_ErrorEvents = function () {
 

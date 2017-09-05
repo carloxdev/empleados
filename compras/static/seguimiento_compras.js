@@ -21,8 +21,8 @@ var tarjeta_acciones = null
 \*-----------------------------------------------*/
 
 $(document).ready(function () {
-   
-   
+
+
    tarjeta_resultados = new TarjetaResultados()
    tarjeta_filtros = new TarjetaFiltros()
 
@@ -106,7 +106,7 @@ TarjetaFiltros.prototype.get_ConfDateRangePicker = function () {
          cancelLabel: "Cancelar",
          fromLabel: "Del",
          separator: " al ",
-         toLabel: "Al",            
+         toLabel: "Al",
          weekLabel: "S",
          daysOfWeek: [
             "Do",
@@ -130,14 +130,14 @@ TarjetaFiltros.prototype.get_ConfDateRangePicker = function () {
             "Octubre",
             "Noviembre",
             "Diciembre"
-         ],          
+         ],
       },
-      
+
       "dateLimit": {
 
          "months": 6
       },
-   }    
+   }
 }
 TarjetaFiltros.prototype.init_Events = function () {
 
@@ -176,7 +176,7 @@ TarjetaFiltros.prototype.click_LimpiarCampo = function (e) {
    $(this).siblings('input').val("")
 }
 TarjetaFiltros.prototype.get_Values = function (_page, _pageSize) {
-      
+
    return {
       page: _page,
       pageSize: _pageSize,
@@ -206,12 +206,12 @@ TarjetaFiltros.prototype.get_Values = function (_page, _pageSize) {
    }
 }
 TarjetaFiltros.prototype.click_BotonBuscar = function (e) {
-   
+
    e.data.apply_Filters()
    e.data.$id.modal('hide')
 }
 TarjetaFiltros.prototype.click_BotonLimpiar = function (e) {
-   
+
    e.preventDefault()
    e.data.$id_compania.data('select2').val(0)
    e.data.$id_sucursal.data('select2').val(0)
@@ -240,14 +240,14 @@ TarjetaFiltros.prototype.hide_Modal = function (e) {
    e.data.$fecha_req_desde_hasta.data('daterangepicker').hide()
 
    if (e.data.$campos_usados.length) {
-      
+
       e.data.limpiar_CampoNoAplicado()
    }
 }
 TarjetaFiltros.prototype.hidden_Modal = function (e) {
 
    if (!e.data.$colapsible_compania.hasClass('in')) {
-      
+
       e.data.$colapsible_compania.collapse('show')
       e.data.$colapsible_requisicion.collapse('hide')
       e.data.$colapsible_cotizacion.collapse('hide')
@@ -256,11 +256,11 @@ TarjetaFiltros.prototype.hidden_Modal = function (e) {
    }
 }
 TarjetaFiltros.prototype.shown_Modal = function (e) {
-   
+
    e.data.$id_compania.focus()
 }
 TarjetaFiltros.prototype.limpiar_CampoNoAplicado = function () {
-   
+
    var campos = [ 'id_compania', 'id_sucursal', 'id_comprador', 'id_requisicion', 'id_requisicion_tipo',
                   'id_requisicion_originador', 'id_requisicion_canceladas', 'id_cotizacion', 'id_cotizacion_tipo',
                   'id_cotizacion_originador', 'id_cotizacion_canceladas', 'id_oc', 'id_oc_tipo', 'id_oc_originador',
@@ -274,7 +274,7 @@ TarjetaFiltros.prototype.limpiar_CampoNoAplicado = function () {
       resultados = campos.filter(
 
          function(_elem) {
-            
+
             return _elem != _campo
          }
       )
@@ -470,7 +470,7 @@ TarjetaFiltros.prototype.apply_Filters = function () {
 
       tarjeta_resultados.toolbar.restart_BotonFiltros()
    }
-    
+
    this.$id.modal('hide')
 }
 
@@ -479,7 +479,7 @@ TarjetaFiltros.prototype.apply_Filters = function () {
 \*-----------------------------------------------*/
 
 function TarjetaResultados(){
-   
+
    this.toolbar = new ToolBar()
    this.grid = new Grid()
 }
@@ -499,39 +499,39 @@ ToolBar.prototype.init = function () {
    this.$boton_exportar.on("click", this, this.click_BotonExportar)
 }
 ToolBar.prototype.change_BotonFiltros = function (_no_filtros) {
-       
+
    html = "<i class='icon icon-left mdi mdi-search nova-white'></i> Filtros <span class='badge nova-border-bottom'>no_filtros</span>".replace("no_filtros", _no_filtros)
 
    this.$boton_filtros.html(html)
 }
 ToolBar.prototype.restart_BotonFiltros = function () {
-    
-   this.$boton_filtros.html("<i class='icon icon-left mdi mdi-search nova-white'></i> Filtros")   
+
+   this.$boton_filtros.html("<i class='icon icon-left mdi mdi-search nova-white'></i> Filtros")
 }
 ToolBar.prototype.click_BotonExportar = function (e) {
-   
+
    if (tarjeta_filtros.get_NoFiltrosAplicados() != 0) {
 
       if ((tarjeta_resultados.grid.$id.data("kendoGrid").dataSource.total() <= 65535) && (tarjeta_resultados.grid.$id.data("kendoGrid").dataSource.total() >= 1)) {
-         
+
          tarjeta_filtros.$formulario.submit()
       }
       else if(tarjeta_resultados.grid.$id.data("kendoGrid").dataSource.total() == 0) {
-         
+
          alertify.warning("No hay registros a exportar.")
       }
       else {
-         
-         alertify.warning("Demasiados datos, ingresa un rango de fecha de requisicion menor.")
+
+         alertify.warning("Demasiados datos, ingresa un rango en la fecha de requisición.")
       }
    }
    else {
 
       alertify.warning("Debe seleccionar filtros")
-   }  
+   }
 }
 ToolBar.prototype.get_Formato_Columnas = function () {
-   
+
    var columnas = tarjeta_resultados.grid.get_Columnas()
    var columnas_formateadas = []
 
@@ -545,7 +545,7 @@ ToolBar.prototype.get_Formato_Columnas = function () {
    return columnas_formateadas
 }
 ToolBar.prototype.get_Celdas = function () {
-   
+
    var celdas = []
    var columnas = this.get_Formato_Columnas()
 
@@ -613,7 +613,7 @@ Grid.prototype.get_DataSourceConfig = function (e) {
       error: function (e) {
          alertify.error("Status: " + e.status + " Error message: " + e.errorThrown)
       },
-   }    
+   }
 }
 Grid.prototype.get_Campos = function () {
 
@@ -637,13 +637,13 @@ Grid.prototype.get_Campos = function () {
       cot : { type: "number" },
       cot_tipo : { type: "string" },
       cot_fecha_creacion : { type: "date" },
-      cot_generador : { type: "string" }, 
+      cot_generador : { type: "string" },
       cot_linea : { type: "number" },
       cot_estado_last : { type: "string" },
       cot_estado_next : { type: "string" },
       ord : { type: "number" },
       ord_tipo : { type: "string" },
-      ord_fecha_creacion : { type: "date" }, 
+      ord_fecha_creacion : { type: "date" },
       ord_fecha_entrega : { type: "date" },
       ord_generador : { type: "string" },
       ord_linea : { type: "number" },
@@ -655,7 +655,10 @@ Grid.prototype.get_Campos = function () {
       ord_moneda : { type: "string" },
       ord_pu_mx : { type: "number" },
       ord_total_mx : { type: "number" },
+      ord_pu_ex : { type: "number" },
+      ord_total_ex : { type: "number" },
       ord_impuesto : { type: "string" },
+      ord_recepcion : { type: "string" }
    }
 }
 Grid.prototype.get_Configuracion = function () {
@@ -682,7 +685,7 @@ Grid.prototype.get_Configuracion = function () {
 Grid.prototype.get_Columnas = function () {
 
    return [
-      { command: [ 
+      { command: [
             {  text: " ",
                click: this.click_BotonAcciones,
                className: "btn nova-btn btn-default"
@@ -727,13 +730,17 @@ Grid.prototype.get_Columnas = function () {
       { field: "ord_moneda", title: "Moneda", width:"75px" , attributes: { "class": "nova-grid-column-blue", } },
       { field: "ord_pu_mx", title: "Costo Unitario MXP", format: "{0:c}", width:"150px", attributes: { "class": "nova-grid-column-blue", } },
       { field: "ord_total_mx", title: "Total de linea MXP", format: "{0:c}", width:"150px", attributes: { "class": "nova-grid-column-blue", } },
+      { field: "ord_pu_ex", title: "Costo Unitario USD", format: "{0:c}", width:"150px", attributes: { "class": "nova-grid-column-blue", } },
+      { field: "ord_total_ex", title: "Total de linea USD", format: "{0:c}", width:"150px", attributes: { "class": "nova-grid-column-blue", } },
       { field: "ord_impuesto", title: "Impuesto", width:"100px", attributes: { "class": "nova-grid-column-blue", } },
+      { field: "ord_recepcion", title: "Recepción",width:"120px", attributes: { "class": "nova-grid-column-blue", } }
    ]
 }
 Grid.prototype.click_BotonAcciones = function (e) {
 
    e.preventDefault()
-   var fila = this.dataItem($(e.currentTarget).closest('tr').addClass('k-state-selected').siblings().removeClass('k-state-selected'))
+   var fila = this.dataItem($(e.currentTarget).closest('tr'))
+   $(e.currentTarget).closest('tr').addClass('k-state-selected').siblings().removeClass('k-state-selected')
    tarjeta_resultados.grid.$id.select(fila)
    tarjeta_acciones.mostrar(fila)
 }
@@ -745,7 +752,7 @@ Grid.prototype.set_Icons = function (e) {
    })
 }
 Grid.prototype.buscar = function() {
-   
+
    this.kfuente_datos.page(1)
 }
 
@@ -754,7 +761,7 @@ Grid.prototype.buscar = function() {
 \*-----------------------------------------------*/
 
 function PopupDetalles() {
-   
+
    this.$id = $('#id_tarjeta_detalles')
    this.$id_titulo = $('#id_titulo_detalles')
    this.init_Events()
@@ -783,7 +790,7 @@ PopupDetalles.prototype.construir_Tabla = function (_id_contenedor, _data, _camp
          for ( columna = 0; columna < _campos.length; columna++ ) {
 
             if ([_campos[columna]] == 'pu_mx' || [_campos[columna]] == 'monto_recib_mx') {
-               
+
                cols += '<td>$ '+_data[fila][_campos[columna]]+'</td>'
             }
             else {
@@ -859,7 +866,7 @@ PopupAcciones.prototype.click_botonCotejo = function (e) {
    e.data.filtrar_Cotejo(fila)
 }
 PopupAcciones.prototype.filtrar_Autorizaciones = function (_fila) {
-   
+
    $.ajax({
       url: url_compraseguimeinto_autorizadores,
       method: "GET",
@@ -867,7 +874,7 @@ PopupAcciones.prototype.filtrar_Autorizaciones = function (_fila) {
       data: {
          oc:_fila.ord,
          oc_tipo:_fila.ord_tipo,
-         oc_compania:_fila.ord_compania
+         oc_compania:_fila.req_compania
       },
       success: function(_data) {
          tarjeta_detalles.construir_Tabla(
@@ -886,14 +893,14 @@ PopupAcciones.prototype.filtrar_Autorizaciones = function (_fila) {
          )
          tarjeta_acciones.hide()
       },
-      failure: function(_data) { 
+      failure: function(_data) {
          alert.error('Error al recuperar datos.')
       }
    })
-       
+
 }
 PopupAcciones.prototype.filtrar_Recepciones = function (_fila) {
-   
+
    $.ajax({
       url: url_compraseguimiento_recepciones,
       method: "GET",
@@ -901,7 +908,7 @@ PopupAcciones.prototype.filtrar_Recepciones = function (_fila) {
       data: {
          oc:_fila.ord,
          oc_tipo:_fila.ord_tipo,
-         oc_compania:_fila.ord_compania,
+         oc_compania:_fila.req_compania,
          oc_linea:_fila.ord_linea,
          tran_tipo:'1',
       },
@@ -909,12 +916,12 @@ PopupAcciones.prototype.filtrar_Recepciones = function (_fila) {
          tarjeta_detalles.construir_Tabla(
             '#tabla_detalles',
             _data.results,
-            [   'doc_tipo', 
+            [   'doc_tipo',
                'doc',
                'oc_tipo',
                'fecha_tran',
                'fecha_update',
-               'fecha_lm', 
+               'fecha_lm',
                'cantidad_recib',
                'pu_mx',
                'monto_recib_mx',
@@ -922,12 +929,12 @@ PopupAcciones.prototype.filtrar_Recepciones = function (_fila) {
                'batch_tipo',
                'fecha_creacion',
             ],
-            [   'Tipo recepción', 
+            [   'Tipo recepción',
                'Documento',
                'Tipo',
                'Fecha transacción',
                'Fecha recepción',
-               'Fecha LM', 
+               'Fecha LM',
                'Cantidad recibida',
                'Costo unitario',
                'Monto',
@@ -939,22 +946,22 @@ PopupAcciones.prototype.filtrar_Recepciones = function (_fila) {
          )
          tarjeta_acciones.hide()
       },
-      failure: function(_data) { 
+      failure: function(_data) {
          alertify.error('Error al recuperar datos.')
       }
    })
 }
 PopupAcciones.prototype.filtrar_Cotejo = function (_fila) {
-   
+
    $.ajax({
       url: url_compraseguimiento_recepciones,
       method: "GET",
       dataType: "json",
       data: {
-         oc:_fila.ord,
-         oc_tipo:_fila.ord_tipo,
-         oc_compania:_fila.ord_compania,
-         oc_linea:_fila.ord_linea,
+        oc:_fila.ord,
+        oc_tipo:_fila.ord_tipo,
+        oc_compania:_fila.req_compania,
+        oc_linea:_fila.ord_linea,
          tran_tipo:'2',
       },
       success: function(_data) {
@@ -995,7 +1002,7 @@ PopupAcciones.prototype.filtrar_Cotejo = function (_fila) {
          )
          tarjeta_acciones.hide()
       },
-      failure: function(_data) { 
+      failure: function(_data) {
          alert.error('Error al recuperar datos.')
       }
    })

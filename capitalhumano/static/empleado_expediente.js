@@ -160,11 +160,11 @@ PopupPersonal.prototype.guardar_Archivo = function (_id_personal){
                                 for(var i=0; i< $('#'+elemento.id).prop("files").length; i++){
                                     data.append('archivo', $('#'+elemento.id).prop("files")[i]);
                              }
-                            
+
                                 data.append('tipo_archivo', "per")
                                 data.append('content_object', url_documento_personal+_id_personal+"/")
                                 data.append('created_by', url_profile+tarjeta_resultados.popup.$created_by.val()+"/")
-                        }              
+                        }
                  }
          })
 
@@ -189,7 +189,7 @@ PopupPersonal.prototype.guardar_Archivo = function (_id_personal){
                              method: "DELETE",
                              headers: { "X-CSRFToken": appnova.galletita },
                              success: function (_response) {
-                                
+
                              },
                              error: function (_response) {
                                 alertify.error("No se ha podido eliminar el registro")
@@ -337,7 +337,7 @@ PopupCapacitacion.prototype.click_BotonCancelar = function(e){
     e.data.$fecha_inicio.val("")
     e.data.$fecha_fin.val("")
     e.data.$archivo_cap.val("")
-    tarjeta_resultados.popup_cap.validar_Campos()     
+    tarjeta_resultados.popup_cap.validar_Campos()
 }
 PopupCapacitacion.prototype.click_BotonGuardar = function (e) {
     id_capacitacion = ''
@@ -391,11 +391,11 @@ PopupCapacitacion.prototype.guardar_Archivo = function (_id_capacitacion){
                             for(var i=0; i< $('#'+elemento.id).prop("files").length; i++){
                                 data.append('archivo', $('#'+elemento.id).prop("files")[i]);
                          }
-                        
+
                             data.append('tipo_archivo', "cap")
                             data.append('content_object', url_documento_capacitacion+_id_capacitacion+"/")
                             data.append('created_by', url_profile+tarjeta_resultados.popup_cap.$created_by.val()+"/")
-                    }              
+                    }
              }
      })
 
@@ -420,7 +420,7 @@ PopupCapacitacion.prototype.guardar_Archivo = function (_id_capacitacion){
                              method: "DELETE",
                              headers: { "X-CSRFToken": appnova.galletita },
                              success: function (_response) {
-                                
+
                              },
                              error: function (_response) {
                                 alertify.error("No se ha podido eliminar el registro")
@@ -439,7 +439,7 @@ PopupCapacitacion.prototype.actualizar_Grid = function () {
     grid_capacitacion.init()
 }
 PopupCapacitacion.prototype.limpiar_Formulario = function () {
-        
+
     this.$proveedor.data('select2').val(0)
     this.$lugar.val("")
     this.$costo.val("")
@@ -583,12 +583,12 @@ function Personalizacion(){
 Personalizacion.prototype.init_Components = function(){
 }
 Personalizacion.prototype.init_Events = function(){
-        
+
     this.$personales.on("click", this , this.mostrar_Personales)
     this.$capacitaciones.on("click", this , this.mostrar_Capacitaciones)
 }
 Personalizacion.prototype.mostrar_Personales = function(e){
-        
+
     e.data.$capacitaciones.removeClass('nova-active-tab')
     e.data.$personales.addClass('nova-active-tab')
     tarjeta_resultados.popup_cap.$boton_nuevo.addClass('hidden')
@@ -597,7 +597,7 @@ Personalizacion.prototype.mostrar_Personales = function(e){
     tarjeta_resultados.grid_personal.init()
 }
 Personalizacion.prototype.mostrar_Capacitaciones = function(e){
-        
+
     e.data.$personales.removeClass('nova-active-tab')
     e.data.$capacitaciones.addClass('nova-active-tab')
     tarjeta_resultados.popup.$boton_nuevo.addClass('hidden')
@@ -626,7 +626,7 @@ GridPersonal.prototype.init = function () {
 
     // Se inicializa la fuente da datos (datasource)
     this.kfuente_datos = new kendo.data.DataSource(this.get_DataSourceConfig())
-    
+
     // Se inicializa y configura el grid:
     this.kgrid = this.$id.kendoGrid(this.get_Configuracion())
 }
@@ -661,10 +661,10 @@ GridPersonal.prototype.get_DataSourceConfig = function () {
             error: function (e) {
                     alertify.error("Status: " + e.status + "; Error message: " + e.errorThrown)
             },
-    }    
+    }
 }
 GridPersonal.prototype.get_Campos = function () {
-    
+
     return {
             pk: {type: "string"},
             agrupador : { type: "string" },
@@ -700,19 +700,19 @@ GridPersonal.prototype.get_Configuracion = function () {
 }
 GridPersonal.prototype.get_Columnas = function () {
 
-    return [  
-            { field: "pk", 
-                title: " ", 
-                width:"50px" ,
+    return [
+            { field: "pk",
+                title: " ",
+                width: "50px",
                 template: '<a class="btn nova-btn btn-default nova-btn-delete" id="#=pk#" data-event="eliminar-personal"> <i class="icon icon-left icon mdi mdi-delete nova-white"></i></a>',
             },
-            { field: "tipo_documento", 
-                title: "Archivo", 
-                width:"150px" ,
+            { field: "tipo_documento",
+                title: "Archivo",
+                width: "150px",
                 template: '<a href="#=archivo#" target="_blank" id="documento">#=tipo_documento#</a>',
             },
             { field: "agrupador", title: "Agrupador", width:"100px"},
-            { field: "vigencia_inicio",title: "Vigencia inicio",width:"100px"},
+            { field: "vigencia_inicio",title: "Vigencia inicio", width:"100px"},
             { field: "vigencia_fin", title: "Vigencia fin", width:"100px" },
             { field: "created_by", title: "Creado por", width:"150px" },
             { field: "created_date", title: "Fecha de creación", width:"150px", format: "{0:dd/MM/yyyy}" },
@@ -726,7 +726,7 @@ GridPersonal.prototype.buscar = function() {
 GridPersonal.prototype.aplicar_Estilos = function (e) {
 
     e.sender.tbody.find("[data-event='eliminar-personal']").each(function(idx, element){
-        
+
       $(this).on("click", function(){
 
          tarjeta_resultados.grid_personal.consultar_Registro(this.id)
@@ -818,9 +818,9 @@ GridPersonal.prototype.eliminar_Archivo = function (_id_archivo, _id_personal) {
                      }
                 })
             })
-          }, 
+          },
       null
-   ) 
+   )
 }
 
 /*-----------------------------------------------*\
@@ -842,7 +842,7 @@ GridCapacitacion.prototype.init = function () {
 
     // Se inicializa la fuente da datos (datasource)
     this.kfuente_datos = new kendo.data.DataSource(this.get_DataSourceConfig())
-    
+
     // Se inicializa y configura el grid:
     this.kgrid = this.$id.kendoGrid(this.get_Configuracion())
 }
@@ -873,7 +873,7 @@ GridCapacitacion.prototype.get_DataSourceConfig = function () {
             error: function (e) {
                     alertify.error("Status: " + e.status + "; Error message: " + e.errorThrown)
             },
-    }    
+    }
 }
 GridCapacitacion.prototype.get_CamposCap = function () {
     return {
@@ -915,14 +915,14 @@ GridCapacitacion.prototype.get_Configuracion = function () {
 }
 GridCapacitacion.prototype.get_Columnas = function () {
 
-    return [  
-            { field: "pk", 
-                title: " ", 
+    return [
+            { field: "pk",
+                title: " ",
                 width:"70px" ,
                 template: '<a class="btn nova-btn btn-default nova-btn-delete" id="#=pk#" data-event="eliminar-capacitacion"> <i class="icon icon-left icon mdi mdi-delete nova-white"></i></a>',
             },
-            { field: "curso", 
-                title: "Curso", 
+            { field: "curso",
+                title: "Curso",
                 width:"150px" ,
                 template: '<a href="#=archivo#" target="_blank" id="documento">#=curso#</a>',
             },
@@ -945,7 +945,7 @@ GridCapacitacion.prototype.get_Columnas = function () {
 GridCapacitacion.prototype.aplicar_Estilos = function (e) {
 
     e.sender.tbody.find("[data-event='eliminar-capacitacion']").each(function(idx, element){
-        
+
       $(this).on("click", function(){
 
          grid_capacitacion.consultar_Registro(this.id)
@@ -1021,8 +1021,7 @@ GridCapacitacion.prototype.eliminar_Archivo = function (_id_archivo, _id_capacit
                      }
                 })
             })
-        }, 
+        },
       null
-   ) 
+   )
 }
-
