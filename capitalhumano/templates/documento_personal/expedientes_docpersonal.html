@@ -1,15 +1,32 @@
-{% extends 'empleado_expedientes_general.html' %}
+{% extends 'expedientes_general.html' %}
 {% load static from staticfiles %}
+{% load custom_tags %}
 {% block titulo %} Capital humano {% endblock titulo %}
 {% block title-page %} Expedientes  {% endblock title-page %}
 {% block tab_expedientes %}
     <!-- Panel con tabs -->
     <div class="fuelux">
-        <div id="wizard1" class="wizard wizard-ux nova-panel-borde-header">
-             <ul class="steps">
-                    <li class="active">Documentos personales</li>
-             </ul>
-             <div class="actions">
+        <div id="wizard1" class="wizard wizard-ux nova-panel-borde-header nova-overflow-visible">
+            <div class="nova-wizard-header">
+                <span class="nova-wizard-title">Documentos personales</span>
+                <div class="nova-wizard-tools visible-xs-inline-block dropdown"><span data-toggle="dropdown" class="icon mdi mdi-more-vert dropdown-toggle" aria-expanded="false"></span>
+                    <ul role="menu" class="dropdown-menu">
+                       <li>
+                         <a id="general" href="{% url 'capitalhumano:empleado_expedientes_general' %}"> Empleados</a>
+                       </li>
+                       <li>
+                         <a id="general" href="{% url 'capitalhumano:empleado_expedientes_grado' %}"> Grados academicos</a>
+                       </li>
+                       <li class="active">
+                         <a id="personales" href="{% url 'capitalhumano:empleado_expedientes_docpersonal' %}">Documentos personales</a>
+                       </li>
+                       <li>
+                           <a id="capacitaciones" href="{% url 'capitalhumano:empleado_expedientes_doccapacitacion' %}">Capacitacion</a>
+                       </li>
+                    </ul>
+                </div>
+            </div>
+             <div class="actions hidden-xs">
                 <a class="btn btn-xs btn-prev btn-default nova-a-tab" id="general" href="{% url 'capitalhumano:empleado_expedientes_general' %}"> Empleados</a>
                 <a class="btn btn-xs btn-prev btn-default nova-a-tab" id="general" href="{% url 'capitalhumano:empleado_expedientes_grado' %}"> Grados academicos</a>
                 <a class="btn btn-xs btn-next btn-default nova-a-tab nova-a-tab-border nova-active-tab" id="personales"href="{% url 'capitalhumano:empleado_expedientes_docpersonal' %}">Documentos personales</a>
@@ -40,39 +57,19 @@
                         </div>
                         <div class="modal-body form-horizontal">
                             <!-- Numero empleado -->
-                            <div class="form-group">
-                                    <label class="col-sm-3 nova-col-filter control-label">{{ form.numero_empleado.label }}<br><small>(EBS)</small></label>
-                                    <div class="col-sm-8 xs-pt-5">
-                                            {{ form.numero_empleado }}
-                                    </div>
-                            </div> 
+                            {% tag_field_popup_apuntador form.numero_empleado '(EBS)' %}
+
                             <!-- Tipo documento -->
-                            <div class="form-group">
-                                <label class="col-sm-3 nova-col-filter control-label">{{ form.tipo_documento.label }}</label>
-                                <div class="col-sm-8 xs-pt-5">
-                                    {{ form.tipo_documento }}
-                                </div>
-                            </div>
+                            {% tag_field_popup_apuntador form.tipo_documento '' %}
+
                             <!-- Agrupador -->
-                            <div class="form-group">
-                                <label class="col-sm-3 nova-col-filter control-label">{{ form.agrupador.label }}</label>
-                                <div class="col-sm-8 xs-pt-5">
-                                    {{ form.agrupador }}
-                                </div>
-                            </div>                
+                            {% tag_field_popup_apuntador form.agrupador '' %}
+
                             <!-- Organizacion -->
-                            <div class="form-group">
-                                    <label class="col-sm-3 nova-col-filter control-label">{{ form.asig_organizacion_clave.label }}<br><small>(EBS)</small></label>
-                                    <div class="col-sm-8 xs-pt-5">
-                                            {{ form.asig_organizacion_clave }}
-                                    </div>
-                            </div>
-                            <div class="form-group">
-                                    <label class="col-sm-3 nova-col-filter control-label">{{form.estatus.label }}</label>
-                                    <div class="col-sm-8 xs-pt-5">
-                                            {{ form.estatus }}
-                                    </div>
-                            </div>
+                            {% tag_field_popup_apuntador form.asig_organizacion_clave '(EBS)' %}
+
+                            <!-- Estatus -->
+                            {% tag_field_popup_apuntador form.estatus '' %}
                           
                         </div>
                                                 
@@ -105,5 +102,5 @@
     <script src="{% static 'theme/lib/jquery-ui/jquery-ui.min.js' %}"></script>
 
     <!-- NOVA-->
-     <script src="{% static 'empleado_expedientes_docpersonal.js' %}"></script>
+     <script src="{% static 'documento_personal/expedientes_docpersonal.js' %}"></script>
 {% endblock scripts %}

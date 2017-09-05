@@ -234,7 +234,7 @@ class VIEW_ORGANIGRAMA(models.Model):
 class VIEW_ESPECIALIDADES(models.Model):
 
     qua_especialidad = models.CharField(primary_key=True, max_length=255)
-    
+
     class Meta:
         managed = False
-        db_table = u'"NUVAPP"."VIEW_ESPECIALIDADES"'        
+        db_table = u'"NUVAPP"."VIEW_ESPECIALIDADES"'

@@ -46,21 +46,21 @@
                 <!-- Cabecera -->
                 <form class="panel panel-border panel-contrast nova-panel-default nova-panel-formulario" action="" method="POST"> {% csrf_token %}
                     <div class="panel-heading panel-heading-default nova-panel-heading-formulario">
-                        <span class="title">Informacion de la solicitud: <strong>VIA-<span id="clave">{{ form.instance.id }}</span></strong></span>
+                        <span class="title">Informacion de la solicitud: <strong>VIA-<span id="cabecera_pk">{{ form.instance.id }}</span></strong></span>
                     </div>
                     <div class="panel-body form-horizontal">
 
                         {% if form.non_field_errors %}
-
                             {% for error in form.non_field_errors %}
                                 {% tag_mensaje 'error' error %}
                             {% endfor %}
-
                         {% endif %}
 
                         {% if flag_new %}
                             {% tag_mensaje 'exito' 'Solicitud Creada con exito' %}
                         {% endif %}
+
+                        {% include 'tags/message.html' %}
 
                         {% tag_section_info 12 0 '¡Instrucciones!' 'Ahora puedes agregar/modificar gastos en la targeta <strong>"Lineas"</strong>' %}
 
@@ -89,7 +89,6 @@
                             </a>
 
                             <button type="submit" id="btn_registrar" class="btn nova-btn btn-primary btn-lg pull-right">
-                                <i class="icon mdi mdi-floppy"></i>
                                 Guardar
                             </button>
                         </div>
@@ -101,7 +100,8 @@
                     <div class="panel-heading panel-border nova-panel-heading">
                         <div class="widget-head nova-widget-head">
                             <div class="tools visible-xs-inline-block">
-                                <button type="button" class="btn nova-btn btn-sm btn-rounded btn-space btn-default">
+
+                                <button type="button" class="btn nova-btn btn-sm btn-rounded btn-space btn-default" id="boton_nuevo_m">
                                     <i class="icon icon-left mdi mdi-plus-circle nova-black"></i> Nuevo
                                 </button>
 
@@ -112,7 +112,7 @@
                             </div>
                             <div class="button-toolbar hidden-xs">
 
-                                <button class="btn nova-btn btn-rounded btn-space btn-default" id="boton_nuevo">
+                                <button type="button" class="btn nova-btn btn-rounded btn-space btn-default" id="boton_nuevo">
                                     <i class="icon icon-left mdi mdi-plus-circle nova-black"></i> Nuevo
                                 </button>
 
@@ -235,6 +235,43 @@
             </div>
         </div>
     </div>
+
+    <!-- Popup Linea -->
+    <div id="popup_linea" role="dialog" class="modal fade colored-header colored-header-primary">
+        <div class="modal-dialog custom-width">
+            <form id="formulario_linea" data-parsley-validate="" class="modal-content">
+
+                <div class="modal-header nova-modal-header">
+                    <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close">
+                        <span class="mdi mdi-close nova-white"></span>
+                    </button>
+                    <h3 class="modal-title" id="linea_title"><span id="linea_slug"></span></h3>
+                </div>
+
+                <div class="modal-body form-horizontal">
+
+                    {% tag_field_registro form_linea.concepto 3 8 %}
+
+                    {% tag_field_registro form_linea.observaciones 3 8 %}
+
+                    {% tag_field_registro form_linea.importe 3 8 %}
+
+                </div>
+                <div class="modal-footer nova-modal-footer">
+                     <div class="row col-sm-12">
+                        <button type="button" data-dismiss="modal" class="btn btn-default pull-left">
+                            Cancelar
+                        </button>
+
+                        <button type="submit" id="boton_guardar" class="btn nova-btn btn-primary btn-lg pull-right" value="validate">
+                            <!-- <i class="icon icon-left mdi mdi-search nova-white"></i> -->
+                            Guardar
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 
 {% endblock contenido %}
@@ -243,6 +280,7 @@
 
     <!-- Theme -->
     <script src="{% static 'theme/lib/jquery-ui/jquery-ui.min.js' %}"></script>
+    <script src="{% static 'theme/lib/parsley/parsley.min.js' %}"></script>
 
     <!--JSZIP -->
     <script src="{% static 'libs/kendo/2015.2.624/js/jszip.min.js' %}"></script>

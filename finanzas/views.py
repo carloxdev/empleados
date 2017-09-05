@@ -9,12 +9,14 @@ from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.core.urlresolvers import reverse
 from django.views.generic.base import View
+from django.contrib import messages
 
 # Own's Libraries
 from .models import ViaticoCabecera
 
 from .forms import ViaticoCabeceraForm
 from .forms import ViaticoFilterForm
+from .forms import ViaticoLineaForm
 
 from .forms import AnticipoFilterForm
 
@@ -88,9 +90,11 @@ class ViaticoCabeceraEditar(View):
             flag_new = False
 
         formulario = ViaticoCabeceraForm(instance=self.obtener_Viatico(pk))
+        formulario_linea = ViaticoLineaForm()
 
         contexto = {
             'form': formulario,
+            'form_linea': formulario_linea,
             'flag_new': flag_new
         }
         return render(request, self.template_name, contexto)
@@ -98,14 +102,17 @@ class ViaticoCabeceraEditar(View):
     def post(self, request, pk):
 
         formulario = ViaticoCabeceraForm(request.POST, instance=self.obtener_Viatico(pk))
+        formulario_linea = ViaticoLineaForm()
 
         if formulario.is_valid():
             viatico = formulario.save(commit=False)
             viatico.updated_by = request.user.profile
             viatico.save()
+            messages.success(request, "Se modifico la solicitud exitosamente")
 
         contexto = {
             'form': formulario,
+            'form_linea': formulario_linea
         }
         return render(request, self.template_name, contexto)
 

@@ -1,0 +1,12 @@
+{% if label_value %}
+<div class="form-group">
+
+    <label class="col-sm-{{ label_text_size }} control-label">
+      {{ label_text }}
+    </label>
+
+    <div class="col-sm-{{ label_value_size }} xs-pt-5">
+        {{ label_value }}
+    </div>
+</div>
+{% endif %}

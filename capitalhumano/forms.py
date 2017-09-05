@@ -14,7 +14,7 @@ from django.forms import FileInput
 from django.forms import DateInput
 from django.forms import DateField
 from django.forms import FileField
-from django.forms import Textarea 
+from django.forms import Textarea
 
 # Modelos
 from jde.models import VIEW_UNIDADES
@@ -759,7 +759,7 @@ class NuevoDocumentoCapacitacionForm(Form):
                          attrs={'class': 'form-control input-xs'}))
 
     duracion = CharField(
-        label="Duración",
+        label="Duración(hrs)",
         widget=TextInput(attrs={'class': 'form-control input-xs'}))
 
     observaciones = CharField(
@@ -777,6 +777,7 @@ class NuevoDocumentoCapacitacionForm(Form):
             'departamento'].choices = EmpleadoBusiness.get_Organizaciones()
         self.fields['proveedor'].choices = EmpleadoBusiness.get_Proveedores()
         self.fields['curso'].choices = EmpleadoBusiness.get_Curso()
+
 
 class PerfilAgregarPuestoCargoForm(Form):
 
