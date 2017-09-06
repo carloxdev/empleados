@@ -13,6 +13,7 @@ from .models import PerfilCompetencias
 from .models import PerfilExperencia
 
 
+
 @admin.register(PerfilPuestoDocumento)
 class DocumentoPerfilPuestoAdmin(admin.ModelAdmin):
     list_display = (
@@ -61,6 +62,7 @@ class PerfilExperienciaAdmin(admin.ModelAdmin):
 class PerfilPuestosCompetenciasAdmin(admin.ModelAdmin):
     list_display = (
         'pk',
+        'id_puesto',
         'tipo_competencia',
         'descripcion',
         'porcentaje',

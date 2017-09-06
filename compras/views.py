@@ -40,13 +40,36 @@ class SeguimientoComprasLista(View):
         response = HttpResponse(content_type='application/vnd.ms-excel')
         response['Content-Disposition'] = 'attachment; filename="compras.xls"'
 
-        wb = xlwt.Workbook(encoding='utf-8')
+        wb = xlwt.Workbook(encoding='utf-8', style_compression=2)
         ws = wb.add_sheet('VIEW_SCOMPRAS')
 
         row_num = 0
 
-        font_style = xlwt.XFStyle()
-        font_style.font.bold = True
+        titulo_style = xlwt.XFStyle()
+        titulo_style.font.bold = True
+        titulo_style.alignment.horz = titulo_style.alignment.HORZ_CENTER
+        bordes_titulo = xlwt.Borders()
+        bordes_titulo.left = xlwt.Borders.THIN
+        bordes_titulo.right = xlwt.Borders.THIN
+        titulo_style.borders = bordes_titulo
+
+        resultados_style = xlwt.XFStyle()
+
+        xlwt.add_palette_colour("LightYellow", 0x21)
+        wb.set_colour_RGB(0x21, 255, 255, 224)
+
+        xlwt.add_palette_colour("GhostWhite", 0x22)
+        wb.set_colour_RGB(0x22, 248, 248, 255)
+
+        xlwt.add_palette_colour("Azure", 0x23)
+        wb.set_colour_RGB(0x23, 240, 255, 255)
+
+        bordes_resultados = xlwt.Borders()
+        bordes_resultados.bottom = xlwt.Borders.THIN
+        bordes_resultados.right = xlwt.Borders.THIN
+        bordes_resultados.left = xlwt.Borders.THIN
+        bordes_resultados.top = xlwt.Borders.THIN
+        resultados_style.borders = bordes_resultados
 
         columns = [
             'Compañia', 'Sucursal', 'Requisición', 'Tipo', 'Originador', 'Fecha creación', 'Fecha necesidad',
@@ -55,14 +78,13 @@ class SeguimientoComprasLista(View):
             'Fecha creación', 'Originador', 'Linea', 'Último estado', 'Siguiente estado',
             'OC', 'Tipo', 'Fecha creación', 'Fecha entrega', 'Originador', 'Linea',
             'Proveedor codigo', 'Proveedor descripcion', 'Último estado', 'Siguiente estado',
-            'Cantidad', 'Moneda', 'Costo Unitario MXP', 'Total de linea MXP', 'Impuesto',
+            'Cantidad', 'Moneda', 'Costo Unitario MXP', 'Total de linea MXP', 'Costo Unitario USD',
+            'Total de linea USD',  'Impuesto', 'Recepción',
         ]
 
         for col_num in range(len(columns)):
-            ws.write(row_num, col_num, columns[col_num], font_style)
-
-        date_format = xlwt.XFStyle()
-        date_format.num_format_str = 'dd/mm/yyyy'
+            ws.col(col_num).width = (256 * len(columns[col_num])) + (256 * 5)
+            ws.write(row_num, col_num, columns[col_num], titulo_style)
 
         argumentos = {}
         campos_formulario = []
@@ -143,14 +165,47 @@ class SeguimientoComprasLista(View):
             'cot_fecha_creacion', 'cot_generador', 'cot_linea', 'cot_estado_last', 'cot_estado_next',
             'ord', 'ord_tipo', 'ord_fecha_creacion', 'ord_fecha_entrega', 'ord_generador', 'ord_linea',
             'ord_proveedor', 'ord_proveedor_desc', 'ord_estado_last', 'ord_estado_next',
-            'ord_cantidad_solic', 'ord_moneda', 'ord_pu_mx', 'ord_total_mx', 'ord_impuesto',)
+            'ord_cantidad_solic', 'ord_moneda', 'ord_pu_mx', 'ord_total_mx', 'ord_pu_ex', 'ord_total_ex', 'ord_impuesto', 'ord_recepcion')
+
+        date_format = xlwt.XFStyle()
+        date_format.num_format_str = 'dd/mm/yyyy'
+
         for row in rows:
             row_num += 1
             for col_num in range(len(row)):
+                pattern = xlwt.Pattern()
+                pattern.pattern = xlwt.Pattern.SOLID_PATTERN
+
+                if col_num >= 0 and col_num <= 15:
+                    pattern.pattern_fore_colour = xlwt.Style.colour_map['LightYellow']
+
+
+                elif col_num >= 16 and col_num <= 22:
+                    pattern.pattern_fore_colour = xlwt.Style.colour_map['GhostWhite']
+
+
+                elif col_num >= 23 and col_num <= 41:
+                    pattern.pattern_fore_colour = xlwt.Style.colour_map['Azure']
+
+                resultados_style.pattern = pattern
+
                 if isinstance(row[col_num], datetime.date):
-                    ws.write(row_num, col_num, row[col_num], date_format)
+
+                    anio = row[col_num].year
+                    if anio <= 1500:
+
+                        fecha = str(row[col_num].day) + "/" + str(row[col_num].month) + "/" + str(row[col_num].year)
+                        resultados_style.alignment.horz = resultados_style.alignment.HORZ_RIGHT
+                        ws.write(row_num, col_num, fecha, resultados_style)
+
+                    else:
+
+
+                        date_format.pattern = pattern
+                        date_format.borders = bordes_resultados
+                        ws.write(row_num, col_num, row[col_num], date_format)
                 else:
-                    ws.write(row_num, col_num, row[col_num])
+                    ws.write(row_num, col_num, row[col_num], resultados_style)
 
         wb.save(response)
         return response

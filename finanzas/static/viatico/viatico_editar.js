@@ -259,7 +259,7 @@ function PopupLinea() {
 
     this.$id = $('#popup_linea')
     this.$formulario = null
-    // this.$formulario = $('#formulario_linea')
+    this.$formulario = $('#formulario_linea')
     this.$concepto = $('#id_concepto')
     this.$observaciones = $('#id_observaciones')
     this.$importe = $('#id_importe')
@@ -277,12 +277,15 @@ PopupLinea.prototype.init = function () {
         show: false
     })
     this.$importe.val("")
-    this.$formulario =  $('#formulario_linea').parsley()
+    // this.$formulario =  $('#formulario_linea').parsley()
+    this.$formulario.parsley()
 }
 PopupLinea.prototype.set_Events = function () {
 
     this.$id.on("shown.bs.modal", this, this.render)
-    this.$boton_guardar.on("click", this, this.click_BotonGuardar)
+    // this.$boton_guardar.on("click", this, this.click_BotonGuardar)
+
+    this.$formulario.parsley().on('form:submit', this.click_BotonGuardar)
 }
 PopupLinea.prototype.get_Fields = function () {
 
@@ -309,6 +312,7 @@ PopupLinea.prototype.open_ForNew = function () {
 
     this.mode = "POST"
 
+    this.$formulario.parsley().reset()
     this.clear_Fields()
     this.$title.html("Nuevo Gasto")
     this.$id.modal('show')
@@ -318,6 +322,7 @@ PopupLinea.prototype.open_ForEdit = function (_pk, _slug) {
     this.mode = "PATCH"
     this.record_pk = _pk
 
+    this.$formulario.parsley().reset()
     this.clear_Fields()
     this.$record_slug.text(_slug)
     this.$title.html("Editar Gasto: " + this.$record_slug.html())
@@ -356,22 +361,26 @@ PopupLinea.prototype.render = function (e) {
 }
 PopupLinea.prototype.click_BotonGuardar = function (e) {
 
-    if (e.data.$formulario.isValid()) {
-        if (e.data.mode === "PATCH") {
+    event.preventDefault()
 
-            url = url_viaticolineas + e.data.record_pk + "/"
+    this_obj = popup_linea
+
+    if (this_obj.$formulario.parsley().isValid()) {
+        if (this_obj.mode === "PATCH") {
+
+            url = url_viaticolineas + this_obj.record_pk + "/"
         }
         else { // Post
 
             url = url_viaticolineas
         }
 
-        this_obj = e.data
+        this_obj = this_obj
         $.ajax({
 
             url: url,
             data: JSON.stringify(this_obj.get_Fields()),
-            method: e.data.mode,
+            method: this_obj.mode,
             headers: { "X-CSRFToken": appnova.galletita },
             contentType: "application/json; charset=utf-8",
 
@@ -380,11 +389,16 @@ PopupLinea.prototype.click_BotonGuardar = function (e) {
                 this_obj.$id.modal('hide')
                 alertify.success("Se guardo exitosamente")
                 lineas.grid.buscar()
+
+                return false
             },
             error: function (_response) {
 
                alertify.error("Ocurrio un error al guardar")
+               return false
             }
-        })        
+        })
     }
+
+    return false
 }

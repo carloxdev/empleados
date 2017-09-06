@@ -1,10 +1,28 @@
 
 # Django's Libraries
-from django.utils.encoding import force_unicode
+import os
 from django import template
 
 
 register = template.Library()
+
+
+@register.filter('tag_validate_has_group')
+def tag_validate_has_group(user, groups_name):
+    if groups_name != "":
+        if user.is_superuser | \
+                user.groups.filter(name="ADMINISTRADOR").exists():
+            return True
+        else:
+            group_list = groups_name.split(',')
+            return bool(user.groups.filter(name__in=group_list).values('name'))
+    else:
+        return True
+
+
+@register.filter('tag_get_filename')
+def tag_get_filename(value):
+    return os.path.basename(value.file.name)
 
 
 @register.inclusion_tag(
@@ -227,15 +245,6 @@ def tag_filter_radio(_field):
     return contexto
 
 
-@register.filter('has_group')
-def has_group(user, group_name):
-    if user.is_superuser:
-        return True
-    else:
-        groups = user.groups.all().values_list('name', flat=True)
-        return True if group_name in groups else False
-
-
 @register.inclusion_tag(
     'tags/menu_master.html',
     takes_context=False)
@@ -257,15 +266,3 @@ def tag_field_descripcion(_label_text, _label_text_size, _label_value, _label_va
         'label_value_size': _label_value_size,
     }
     return contexto
-
-
-@register.filter('has_group')
-def has_group(user, groups_name):
-    if groups_name != "":
-        if user.is_superuser | user.groups.filter(name="ADMINISTRADOR").exists():
-            return True
-        else:
-            group_list = groups_name.split(',')
-            return bool(user.groups.filter(name__in=group_list).values('name'))
-    else:
-        return True

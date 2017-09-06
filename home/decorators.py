@@ -6,8 +6,6 @@ from django.core.exceptions import PermissionDenied
 
 def group_required(*group_name):
     def check_group(user):
-        print user.groups.filter(name="ADMINISTRADOR")
-        print 'holi'
         if user.groups.filter(name__in=group_name).exists() | \
                 user.is_superuser | \
                 user.groups.filter(name="ADMINISTRADOR").exists():

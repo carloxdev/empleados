@@ -14,6 +14,7 @@ from .models import DocumentoPersonal
 from .models import DocumentoCapacitacion
 from .models import Archivo
 from .models import PerfilPuestosCargo
+from .models import PerfilCompetencias
 
 # Serializadores:
 from .serializers import PerfilPuestoDocumentoSerializer
@@ -23,6 +24,9 @@ from .serializers import ArchivoCapacitacionSerializer
 from .serializers import ArchivoSerializers
 from .serializers import DocumentoCapacitacionSerializers
 from .serializers import PerfilPuestosCargoSerializer
+from .serializers import PerfilCompetenciaSerializer
+from .serializers import PersonalSerializer
+from .serializers import CapacitacionSerializer
 
 # Paginadores:
 from .pagination import GenericPagination
@@ -34,6 +38,25 @@ from .filters import ArchivoCapacitacionFilter
 from .filters import ArchivoFilter
 from .filters import DocumentoPersonalFilter
 from .filters import PerfilpuestosCargoFilter
+from .filters import PerfilCompetenciaFilter
+
+
+class PersonalSerializerAPI(viewsets.ModelViewSet):
+    queryset = DocumentoPersonal.objects.all().order_by('-created_date')
+    serializer_class = PersonalSerializer
+    pagination_class = GenericPagination
+    filter_backends = (DjangoFilterBackend,)
+    filter_class = DocumentoPersonalFilter
+    permission_classes = (IsAuthenticated,)
+
+
+class CapacitacionSerializerAPI(viewsets.ModelViewSet):
+    queryset = DocumentoCapacitacion.objects.all().order_by('-created_date')
+    serializer_class = CapacitacionSerializer
+    pagination_class = GenericPagination
+    # filter_backends = (DjangoFilterBackend,)
+    # filter_class = DocumentoPersonalFilter
+    permission_classes = (IsAuthenticated,)
 
 
 class DocumentoPersonalAPI(viewsets.ModelViewSet):
@@ -121,5 +144,19 @@ class PerfilPuestosDocumentoByPageAPI(viewsets.ModelViewSet):
     serializer_class = PerfilPuestoDocumentoSerializer
     filter_backends = (DjangoFilterBackend,)
     filter_class = PerfilPuestoDocumentoFilter
+    pagination_class = GenericPagination
+    permission_classes = (IsAuthenticated,)
+
+
+class PerfilCompetenciasAPI(viewsets.ModelViewSet):
+    queryset = PerfilCompetencias.objects.all()
+    serializer_class = PerfilCompetenciaSerializer
+
+
+class PerfilCompetenciasByPageAPI(viewsets.ModelViewSet):
+    queryset = PerfilCompetencias.objects.all()
+    serializer_class = PerfilCompetenciaSerializer
+    filter_backends = (DjangoFilterBackend,)
+    filter_class = PerfilCompetenciaFilter
     pagination_class = GenericPagination
     permission_classes = (IsAuthenticated,)

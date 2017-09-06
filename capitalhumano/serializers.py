@@ -19,6 +19,7 @@ from ebs.models import VIEW_EMPLEADOS_FULL
 from jde.models import VIEW_PROVEEDORES
 from ebs.models import VIEW_ORGANIZACIONES
 from .models import PerfilPuestosCargo
+from .models import PerfilCompetencias
 from administracion.models import Solicitud
 
 
@@ -65,7 +66,6 @@ class PerfilPuestoDocumentoSerializer(serializers.HyperlinkedModelSerializer):
             'disponibilidad_viajar',
             'requerimentos',
             'areas_experiencia_id',
-            'competencias_id',
             'proposito',
             'puesto_acargo_id',
         )
@@ -74,7 +74,6 @@ class PerfilPuestoDocumentoSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class DocumentoPersonalSerializers(serializers.HyperlinkedModelSerializer):
-    # tipo_documento = serializers.SerializerMethodField()
     tipo_documento = serializers.PrimaryKeyRelatedField(
         queryset=TipoDocumento.objects.all())
 
@@ -150,6 +149,269 @@ class ArchivoSerializers(serializers.HyperlinkedModelSerializer):
             'created_by',
         )
 # ---------- FIN Serializers para insertar registros------------------
+
+
+class PersonalSerializer(serializers.HyperlinkedModelSerializer):
+    relacion = serializers.HyperlinkedRelatedField(
+        many=True,
+        read_only=True,
+        view_name='archivo-detail'
+    )
+    tipo_documento = serializers.SerializerMethodField()
+    agrupador = serializers.SerializerMethodField()
+    vigencia_inicio = serializers.SerializerMethodField()
+    vigencia_fin = serializers.SerializerMethodField()
+    created_by = serializers.SerializerMethodField()
+    organizacion = serializers.SerializerMethodField()
+    nombre_completo = serializers.SerializerMethodField()
+
+    class Meta:
+        model = DocumentoPersonal
+        fields = (
+            'pk',
+            'numero_empleado',
+            'tipo_documento',
+            'agrupador',
+            'vigencia_inicio',
+            'vigencia_fin',
+            'relacion',
+            'created_by',
+            'created_date',
+            'organizacion',
+            'nombre_completo',
+        )
+
+    def get_tipo_documento(self, obj):
+        try:
+            return obj.tipo_documento.tipo_documento
+        except Exception as e:
+            print str(e)
+            return " "
+
+    def get_agrupador(self, obj):
+        try:
+            agrupador = ''
+            if obj.agrupador == 'per':
+                agrupador = 'Personal'
+            elif obj.agrupador == 'qhse':
+                agrupador = 'QHSE'
+            elif obj.agrupador == 'amo':
+                agrupador = 'Amonestacion'
+            elif obj.agrupador == 'adm':
+                agrupador = 'Administracion'
+            elif obj.agrupador == 'ope':
+                agrupador = 'Operaciones'
+            elif obj.agrupador == 'rec':
+                agrupador = 'Reconocimiento'
+            return agrupador
+        except Exception as e:
+            print str(e)
+            return " "
+
+    def get_vigencia_inicio(self, obj):
+        try:
+            if obj.vigencia_inicio is None:
+                return '---'
+            else:
+                return obj.vigencia_inicio.strftime('%d/%m/%Y')
+        except Exception as e:
+            print str(e)
+            return " "
+
+    def get_vigencia_fin(self, obj):
+        try:
+            if obj.vigencia_fin is None:
+                return '---'
+            else:
+                return obj.vigencia_fin.strftime('%d/%m/%Y')
+        except Exception as e:
+            print str(e)
+            return " "
+
+    def get_created_by(self, obj):
+        try:
+            return obj.created_by.usuario.get_full_name()
+        except Exception as e:
+            print str(e)
+            return " "
+
+    def get_organizacion(self, obj):
+        try:
+            return obj.organizacion
+        except Exception as e:
+            print str(e)
+            return " "
+
+    def get_nombre_completo(self, obj):
+        try:
+            return obj.nombre_completo
+        except Exception as e:
+            print str(e)
+            return " "
+
+
+class CapacitacionSerializer(serializers.HyperlinkedModelSerializer):
+    relacion = serializers.HyperlinkedRelatedField(
+        many=True,
+        read_only=True,
+        view_name='archivo-detail'
+    )
+    agrupador = serializers.SerializerMethodField()
+    area = serializers.SerializerMethodField()
+    curso = serializers.SerializerMethodField()
+    proveedor = serializers.SerializerMethodField()
+    modalidad = serializers.SerializerMethodField()
+    moneda = serializers.SerializerMethodField()
+    fecha_inicio = serializers.SerializerMethodField()
+    fecha_fin = serializers.SerializerMethodField()
+    created_by = serializers.SerializerMethodField()
+
+    class Meta:
+        model = DocumentoCapacitacion
+        fields = (
+            'pk',
+            'numero_empleado',
+            'agrupador',
+            'area',
+            'curso',
+            'proveedor',
+            'modalidad',
+            'lugar',
+            'costo',
+            'moneda',
+            'departamento',
+            'fecha_inicio',
+            'fecha_fin',
+            'duracion',
+            'observaciones',
+            'relacion',
+            'created_by',
+            'created_date',
+            'fecha_vencimiento',
+            'organizacion',
+            'nombre_completo',
+        )
+
+    def get_agrupador(self, obj):
+        try:
+            agrupador = ''
+            if obj.agrupador == 'per':
+                agrupador = 'Personal'
+            elif obj.agrupador == 'qhse':
+                agrupador = 'QHSE'
+            elif obj.agrupador == 'amo':
+                agrupador = 'Amonestacion'
+            elif obj.agrupador == 'adm':
+                agrupador = 'Administracion'
+            elif obj.agrupador == 'ope':
+                agrupador = 'Operaciones'
+            elif obj.agrupador == 'rec':
+                agrupador = 'Reconocimiento'
+            return agrupador
+        except Exception as e:
+            print str(e)
+            return " "
+
+    def get_area(self, obj):
+        try:
+            area = ''
+            if obj.area == 'ADMINISTRATIVA':
+                area = 'Administrativa'
+            elif obj.area == 'OPERATIVA':
+                area = 'Operativa'
+            return area
+        except Exception as e:
+            print str(e)
+            return " "
+
+    def get_curso(self, obj):
+        try:
+            return obj.curso.nombre_curso
+        except Exception as e:
+            print str(e)
+            return " "
+
+    def get_proveedor(self, obj):
+        try:
+            proveedor = VIEW_PROVEEDORES.objects.using(
+                'jde_p').get(clave=obj.proveedor)
+            return proveedor.descripcion
+        except Exception as e:
+            print str(e)
+            return " "
+
+    def get_modalidad(self, obj):
+        try:
+            titulo = ''
+            if obj.modalidad == 'pre':
+                titulo = 'Presencial'
+            elif obj.modalidad == 'vir':
+                titulo = 'Virtual'
+            elif obj.modalidad == 'prev':
+                titulo = 'Previo'
+            return titulo
+        except Exception as e:
+            print str(e)
+            return " "
+
+    def get_moneda(self, obj):
+        try:
+            moneda = ''
+            if obj.moneda == 'mxn':
+                moneda = 'Moneda nacional'
+            elif obj.moneda == 'usd':
+                moneda = 'Dolares'
+            elif obj.moneda == 'eur':
+                moneda = 'Euros'
+            return moneda
+        except Exception as e:
+            print str(e)
+            return " "
+
+    def get_created_by(self, obj):
+        try:
+            return obj.created_by.usuario.get_full_name()
+        except Exception as e:
+            print str(e)
+            return " "
+
+    def get_fecha_inicio(self, obj):
+        try:
+            return obj.fecha_inicio.strftime('%d/%m/%Y')
+        except Exception as e:
+            print str(e)
+            return " "
+
+    def get_fecha_fin(self, obj):
+        try:
+            return obj.fecha_fin.strftime('%d/%m/%Y')
+        except Exception as e:
+            print str(e)
+            return " "
+
+    def get_fecha_vencimiento(self, obj):
+        try:
+            if obj.fecha_vencimiento == 'Indefinido':
+                return 'Indefinido'
+            else:
+                return obj.fecha_vencimiento
+        except Exception as e:
+            print str(e)
+            return " "
+
+    def get_organizacion(self, obj):
+        try:
+            return obj.organizacion
+        except Exception as e:
+            print str(e)
+            return " "
+
+    def get_nombre_completo(self, obj):
+        try:
+            return obj.nombre_completo
+        except Exception as e:
+            print str(e)
+            return " "
 
 
 class ArchivoPersonalSerializer(serializers.HyperlinkedModelSerializer):
@@ -717,3 +979,20 @@ class VIEW_ORGANIGRAMA_EMP_SERIALIZADO(object):
             cont += 1
 
         return padre
+
+
+class PerfilCompetenciaSerializer(serializers.HyperlinkedModelSerializer):
+
+    class Meta:
+        model = PerfilCompetencias
+        fields = (
+            'pk',
+            'tipo_competencia',
+            'id_puesto',
+            'descripcion',
+            'porcentaje',
+            'created_by',
+            'created_date',
+            'updated_by',
+            'updated_date',
+        )

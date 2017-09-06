@@ -5,8 +5,6 @@
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework.response import Response
-import collections
 
 # Librerias Propias
 
@@ -17,6 +15,7 @@ from .models import VIEW_EMPLEADOS_GRADO
 from .models import VIEW_ORGANIZACIONES
 from .models import VIEW_ORGANIGRAMA
 from .models import VIEW_ESPECIALIDADES
+from .models import VIEW_COMPETENCIAS
 
 # Serializadores:
 from .serializers import VIEW_EMPLEADOS_SIMPLE_Serializer
@@ -25,6 +24,7 @@ from .serializers import VIEW_EMPLEADOS_GRADO_Serializer
 from .serializers import VIEW_ORGANIZACIONES_Serializer
 from .serializers import VIEW_ORGANIGRAMA_Serializer
 from .serializers import VIEW_ESPECIALIDADES_Serializer
+from .serializers import VIEW_COMPETENCIAS_Serializer
 
 # Paginacion:
 from .pagination import GenericPagination
@@ -96,6 +96,12 @@ class VIEW_ORGANIGRAMA_API(viewsets.ModelViewSet):
     filter_backends = (DjangoFilterBackend,)
     filter_class = VIEW_ORGANIGRAMA_Filter
 
+
 class VIEW_ESPECIALIDADES_API(viewsets.ModelViewSet):
     queryset = VIEW_ESPECIALIDADES.objects.using('ebs_d').all()
     serializer_class = VIEW_ESPECIALIDADES_Serializer
+
+
+class VIEW_COMPETENCIAS_API(viewsets.ModelViewSet):
+    queryset = VIEW_COMPETENCIAS.objects.using('ebs_d').all()
+    serializer_class = VIEW_COMPETENCIAS_Serializer

@@ -301,6 +301,18 @@ class Formato(models.Model):
 
 
 class Auditoria(models.Model):
+    ESTADOS = (
+        ('En Captura','En Captura'),
+        ('Autorizado','Autorizado'),
+        ('En Aprobacion','En Aprobacion'),
+        ('Aprobado','Aprobado'),
+        ('Autorizado','Autorizado'),
+        ('Rechazado','Rechazado'),
+        ('Cancelado','Cancelado'),
+        ('Realizada','Realizada'),
+        ('Retroalimentacion','Retroalimentacion')
+    )
+
     folio = models.CharField(max_length=12)
     tipo_auditoria = models.CharField(max_length=17)
     compania = models.CharField(max_length=60)
@@ -312,7 +324,7 @@ class Auditoria(models.Model):
     recurso_necesario = models.CharField(max_length=300, blank=True)
     fecha_real_inicial = models.DateField(null=True, blank=True)
     fecha_real_final = models.DateField(null=True, blank=True)
-    estado = models.CharField(max_length=13)
+    estado = models.CharField(max_length=13, choices=ESTADOS, default="En Captura")
     auditor_lider = models.CharField(max_length=30, blank=True)
     auditores_designados = models.ManyToManyField(Rol, related_name="auditores_designados")
     auditores_colaboradores = models.ManyToManyField(Rol, related_name="auditores_colaboradores")
@@ -393,6 +405,9 @@ class ProcesoAuditoria(models.Model):
         blank=True
     )
 
+    class Meta:
+        unique_together = (("auditoria", "subproceso"),)
+
     def __str__(self):
         return "%s" % (self.proceso)
 
@@ -429,14 +444,19 @@ class RequisitoProceso(models.Model):
 
 
 class HallazgoProceso(models.Model):
+    ESTADOS = (
+        ('En Captura','En Captura'),
+        ('Aprobado','Aprobado')
+    )
+
     titulo = models.CharField(max_length=40)
     proceso = models.ForeignKey(ProcesoAuditoria)
-    estado = models.CharField(max_length=13)
-    requisito_referencia = models.ManyToManyField(RequisitoProceso, blank=True)
+    estado = models.CharField(max_length=13, choices=ESTADOS, default="En Captura")
+    requisito_referencia = models.ManyToManyField(Requisito, blank=True)
     falla = models.ManyToManyField(Falla, blank=True)
     tipo_hallazgo = models.CharField(max_length=11)
     observacion = models.CharField(max_length=400, blank=True)
-    cerrado = models.CharField(max_length=2)
+    cerrado = models.CharField(max_length=2, default="No")
     create_by = models.ForeignKey(Profile, related_name='hal_pro_created_by', null=True)
     create_date = models.DateTimeField(
         auto_now=False,
@@ -445,6 +465,124 @@ class HallazgoProceso(models.Model):
         blank=True
     )
     update_by = models.ForeignKey(Profile, related_name='hal_pro_updated_by', null=True)
+    update_date = models.DateTimeField(
+        auto_now=True,
+        auto_now_add=False,
+        null=True,
+        blank=True
+    )
+
+    def __str__(self):
+        return "%s" % (self.titulo)
+
+    def __unicode__(self):
+        return "%s" % (self.titulo)
+
+
+class AnalisisHallazgo(models.Model):
+    titulo = models.CharField(max_length=40)
+    metodologia = models.ForeignKey(Metodologia)
+    causa = models.CharField(max_length=400)
+    hallazgo = models.ForeignKey(HallazgoProceso)
+    # Campo de imagen muchos a muchos
+    create_by = models.ForeignKey(Profile, related_name='ana_hal_created_by', null=True)
+    create_date = models.DateTimeField(
+        auto_now=False,
+        auto_now_add=True,
+        null=True,
+        blank=True
+    )
+    update_by = models.ForeignKey(Profile, related_name='ana_hal_updated_by', null=True)
+    update_date = models.DateTimeField(
+        auto_now=True,
+        auto_now_add=False,
+        null=True,
+        blank=True
+    )
+
+    def __str__(self):
+        return "%s" % (self.titulo)
+
+    def __unicode__(self):
+        return "%s" % (self.titulo)
+
+
+class PlanAccionHallazgo(models.Model):
+    titulo = models.CharField(max_length=40)
+    actividad = models.CharField(max_length=400)
+    responsable = models.CharField(max_length=240)
+    fecha_programada = models.DateField()
+    evidencia = models.CharField(max_length=140)
+    hallazgo = models.ForeignKey(HallazgoProceso)
+    resultado = models.CharField(max_length=9)
+    resultado_evaluacion = models.CharField(max_length=400)
+    fecha_evaluacion = models.DateField()
+    criterio_decision = models.CharField(max_length=120)
+    tipo_accion = models.CharField(max_length=12) #CHECAR EL DEFAUL PARA ESTA ACCION PARECE QUE TODAS SERAN CORRECTIVAS
+    observacion = models.CharField(max_length=400)
+    # Campo de imagen muchos a muchos
+    create_by = models.ForeignKey(Profile, related_name='plan_hal_created_by', null=True)
+    create_date = models.DateTimeField(
+        auto_now=False,
+        auto_now_add=True,
+        null=True,
+        blank=True
+    )
+    update_by = models.ForeignKey(Profile, related_name='plan_hal_updated_by', null=True)
+    update_date = models.DateTimeField(
+        auto_now=True,
+        auto_now_add=False,
+        null=True,
+        blank=True
+    )
+
+    def __str__(self):
+        return "%s" % (self.titulo)
+
+    def __unicode__(self):
+        return "%s" % (self.titulo)
+
+
+class SeguimientoPlanAccion(models.Model):
+    resultado_seguimiento = models.CharField(max_length=400)
+    fecha_seguimiento = models.DateField()
+    plan_accion_hallazgo = models.ForeignKey(PlanAccionHallazgo)
+    # Campo de imagen muchos a muchos
+    create_by = models.ForeignKey(Profile, related_name='seg_plan_created_by', null=True) ## Evaluador
+    create_date = models.DateTimeField(         ##Fecha_Evaluacion
+        auto_now=False,
+        auto_now_add=True,
+        null=True,
+        blank=True
+    )
+    update_by = models.ForeignKey(Profile, related_name='seg_plan_updated_by', null=True)
+    update_date = models.DateTimeField(
+        auto_now=True,
+        auto_now_add=False,
+        null=True,
+        blank=True
+    )
+
+    def __str__(self):
+        return "%s" % (self.pk)
+
+    def __unicode__(self):
+        return "%s" % (self.pk)
+
+
+class EvidenciaHallazgo(models.Model):
+    titulo = models.CharField(max_length=40)
+    observacion = models.CharField(max_length=400)
+    hallazgo = models.ForeignKey(HallazgoProceso)
+    # Campo de imagen muchos a muchos
+    create_by = models.ForeignKey(Profile, related_name='evi_hal_created_by', null=True) ## Evaluador
+    create_date = models.DateTimeField(         ##Fecha_Evaluacion
+        auto_now=False,
+        auto_now_add=True,
+        null=True,
+        blank=True
+    )
+    update_by = models.ForeignKey(Profile, related_name='evi_hal_updated_by', null=True)
     update_date = models.DateTimeField(
         auto_now=True,
         auto_now_add=False,

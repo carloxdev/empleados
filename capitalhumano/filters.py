@@ -16,6 +16,7 @@ from .models import DocumentoPersonal
 from .models import DocumentoCapacitacion
 
 from .models import PerfilPuestosCargo
+from .models import PerfilCompetencias
 
 
 class PerfilPuestoDocumentoFilter(filters.FilterSet):
@@ -30,6 +31,7 @@ class PerfilPuestoDocumentoFilter(filters.FilterSet):
         fields = [
             'id',
             'empleado_puesto_desc',
+            'asig_puesto_clave',
         ]
 
 
@@ -47,6 +49,24 @@ class PerfilpuestosCargoFilter(filters.FilterSet):
         ]
 
 
+class PerfilCompetenciaFilter(filters.FilterSet):
+
+    # tipo_competentencia = CharFilter(
+    #     name="tipo_competencia",
+    #     lookup_expr="icontains"
+    # )
+
+    id_puesto = CharFilter(
+        name="id_puesto",
+        lookup_expr="contains")
+
+    class Meta:
+        model = PerfilCompetencias
+        fields = [
+            'id_puesto',
+        ]
+
+
 class DocumentoPersonalFilter(filters.FilterSet):
 
     numero_empleado = CharFilter(
@@ -57,20 +77,26 @@ class DocumentoPersonalFilter(filters.FilterSet):
         name="tipo_documento",
         method="filter_documento")
 
-    numero_empleado_organizacion = CharFilter(
-        name="numero_empleado_organizacion",
+    tipo_documento_organizacion = CharFilter(
+        name="tipo_documento_organizacion",
         method="filter_organizacion")
 
     agrupador = CharFilter(
         name="agrupador",
         lookup_expr="contains")
 
+    tipo_documento_estatus = CharFilter(
+        name='tipo_documento_estatus',
+        method="filter_estatus"
+    )
+
     class Meta:
         model = DocumentoPersonal
         fields = [
             'numero_empleado',
             'tipo_documento',
-            'numero_empleado_organizacion',
+            'tipo_documento_estatus',
+            'tipo_documento_organizacion',
             'agrupador',
         ]
 
@@ -92,18 +118,37 @@ class DocumentoPersonalFilter(filters.FilterSet):
                 'ebs_p').filter(asig_organizacion_clave=value)
             empleados = queryset.all()
             incluir = []
-
             for dato in empleados:
-                if organizacion.filter(pers_empleado_numero=dato.content_object.numero_empleado):
+                if organizacion.filter(pers_empleado_numero=dato.numero_empleado):
                     incluir.append(dato.id)
 
             return empleados.filter(id__in=incluir)
 
-            # for dato in organizacion:
-            #     if empleados.filter(numero_empleado=dato.pers_empleado_numero):
-            #         incluir.append(dato.pers_empleado_numero)
+    def filter_estatus(self, queryset, name, value):
 
-            # return empleados.filters(numero_empleado__in=incluir)
+        if not value:
+            return ''
+        else:
+            empleados = queryset.all()
+            fecha_actual = date.today()
+            incluir = []
+            fecha_por_vencer = fecha_actual + timedelta(days=90)
+
+            if value == 'ven':
+                for dato in empleados:
+                    if dato is not None:
+                        if dato.vigencia_fin is not None:
+                            if dato.vigencia_fin < fecha_actual:
+                                incluir.append(dato.id)
+            elif value == 'por':
+                for dato in empleados:
+                    if dato is not None:
+                        if dato.vigencia_fin is not None:
+                            if (dato.vigencia_fin > fecha_actual) and \
+                                    (dato.vigencia_fin <= fecha_por_vencer):
+                                incluir.append(dato.id)
+
+            return empleados.filter(id__in=incluir)
 
 
 class DocumentoCapacitacionFilter(filters.FilterSet):

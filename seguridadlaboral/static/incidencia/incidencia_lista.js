@@ -59,6 +59,7 @@ function TargetaFiltros () {
     this.$numero = $('#id_numero')
     this.$tipo = $('#id_tipo')
     this.$fecha_creacion = $('#fecha_creacion')
+    this.$id_fecha = $('#id_fecha')
     this.$es_registrable = $('#id_es_registrable')
     this.$empleado_zona = $('#id_empleado_zona')
 
@@ -69,13 +70,24 @@ function TargetaFiltros () {
     this.init_Events()
 
 }
-TargetaFiltros.prototype.init_Components = function () {
 
+TargetaFiltros.prototype.init_Components = function () {
     // Estilos, Liberias
     //this.$fecha_mayorque.datepicker()
     //this.$fecha_menorque.datepicker()
-   this.$fecha_creacion.daterangepicker(this.get_ConfDateRangePicker())   
+   //this.$fecha_creacion.daterangepicker(this.get_ConfDateRangePicker())  
+   
+       // this.$fecha.mask(
+       //      "9999-99-99",
+       //      {
+       //          placeholder:"aaaa/mm/dd"
+       //      }
+       // )
+
+       this.$id_fecha.datetimepicker(this.get_DateTimePickerConfig())
+
 }
+
 TargetaFiltros.prototype.init_Events = function () {
 
     this.$id.on("hidden.bs.modal", this, this.hide)
@@ -84,57 +96,74 @@ TargetaFiltros.prototype.init_Events = function () {
     this.$boton_limpiar.on("click", this, this.click_BotonLimpiar)
 }
 
+TargetaFiltros.prototype.get_DateTimePickerConfig = function () {
+    return {
+        autoclose: true,
+        orientation: "bottom left",
+        minViewMode: 2,
+        format: "yyyy-mm-dd",
+    }
+}
+
 TargetaFiltros.prototype.hide = function (e) {
     e.data.$fecha_creacion.data('daterangepicker').hide()
 }
 
-TargetaFiltros.prototype.get_ConfiguracionCalendario = function(){
+// TargetaFiltros.prototype.get_ConfiguracionCalendario = function(){
     
-    return{
-        language: 'es',
-        autoclose: true,
-        minView: 2,
-        format: 'yyyy-mm-dd'
-    }
-}
-TargetaFiltros.prototype.get_ConfDateRangePicker = function () {
+//     return{
+//         language: 'es',
+//         autoclose: true,
+//         minView: 2,
+//         format: 'yyyy-mm-dd'
+//     }
 
-    return {
-        locale: {
-            format: 'YYYY-MM-DD',
-            applyLabel: "Aplicar",
-            cancelLabel: "Cancelar",
-            fromLabel: "Del",
-            separator: " al ",
-            toLabel: "Al",            
-            weekLabel: "S",
-            daysOfWeek: [
-                "Do",
-                "Lu",
-                "Ma",
-                "Mi",
-                "Ju",
-                "Vi",
-                "Sa"
-            ],
-            monthNames: [
-                "Enero",
-                "Febrero",
-                "Marzo",
-                "Abril",
-                "Mayo",
-                "Junio",
-                "Julio",
-                "Agosto",
-                "Septiembre",
-                "Octubre",
-                "Noviembre",
-                "Diciembre"
-            ],          
-        },
-        startDate: '2017-01-01'
-    }    
-}
+//      return {
+//         autoclose: true,
+//         orientation: "bottom left",
+//         minViewMode: 2,
+//         format: "yyyy-mm-dd",
+//     }
+// }
+
+// TargetaFiltros.prototype.get_ConfDateRangePicker = function () {
+
+//     return {
+//         locale: {
+//             format: 'YYYY-MM-DD',
+//             applyLabel: "Aplicar",
+//             cancelLabel: "Cancelar",
+//             fromLabel: "Del",
+//             separator: " al ",
+//             toLabel: "Al",            
+//             weekLabel: "S",
+//             daysOfWeek: [
+//                 "Do",
+//                 "Lu",
+//                 "Ma",
+//                 "Mi",
+//                 "Ju",
+//                 "Vi",
+//                 "Sa"
+//             ],
+//             monthNames: [
+//                 "Enero",
+//                 "Febrero",
+//                 "Marzo",
+//                 "Abril",
+//                 "Mayo",
+//                 "Junio",
+//                 "Julio",
+//                 "Agosto",
+//                 "Septiembre",
+//                 "Octubre",
+//                 "Noviembre",
+//                 "Diciembre"
+//             ],          
+//         },
+//         startDate: '2017-01-01'
+//     }    
+// }
 
 TargetaFiltros.prototype.click_BotonBuscar = function (e) {
 
@@ -147,7 +176,7 @@ TargetaFiltros.prototype.click_BotonBuscar = function (e) {
 TargetaFiltros.prototype.click_BotonLimpiar = function (e) {
     
     e.preventDefault()
-    alert("entro");
+    //alert("entro");
     e.data.$numero.val("")
     e.data.$tipo.val("").trigger("change")
     e.data.$es_registrable.val("").trigger("change")
@@ -246,7 +275,6 @@ Grid.prototype.get_DataSourceConfig = function () {
         pageSize: 10,
         transport: {
             read: {
-
                 url: url_incidenciadocumento_bypage,
                 type: "GET",
                 dataType: "json",
