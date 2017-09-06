@@ -42,11 +42,25 @@
 
             <div id="wizard1" class="wizard wizard-ux nova-panel-borde-header">
 
-               <ul class="steps">
-                  <li class="active">Auditoría No: <strong>{{ folio }}</strong>
-                  </li>
-               </ul>
-               <div class="actions">
+               <div class="nova-wizard-header">
+
+                    <span class="nova-wizard-title">Auditoría No: <strong>{{folio}}</strong></span>
+                    <div class="nova-wizard-tools visible-xs-inline-block dropdown"><span data-toggle="dropdown" class="icon mdi mdi-more-vert dropdown-toggle" aria-expanded="false"></span>
+                        <ul role="menu" class="dropdown-menu">
+                          <li>
+                            <a href="{% url 'calidad:general_formulario_update' pk %}">Generales</a>
+                          </li>
+                          <li>
+                            <a href="{% url 'calidad:auditor_formulario_update' pk %}">Equipo Auditor</a>
+                          </li>
+                          <li class="active">
+                            <a href="{% url 'calidad:proceso_lista' pk %}">Procesos</a>
+                          </li>
+                        </ul>
+                    </div>
+
+               </div>
+               <div class="actions hidden-xs">
                   <a href="{% url 'calidad:general_formulario_update' pk %}" class="btn btn-xs btn-prev btn-default nova-a-tab">Generales</a>
                   <a href="{% url 'calidad:auditor_formulario_update' pk %}" class="btn btn-xs btn-next btn-default nova-a-tab">Equipo Auditor</a>
                   <a href="{% url 'calidad:proceso_lista' pk %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab nova-active-tab">Procesos</a>
@@ -349,8 +363,8 @@
                   <!-- causas -->
                   {% tag_field_popup formulario_analisis_causa.causas 3 8 %}
 
-                  <!-- imagen_analisis -->
-                  {% tag_field_popup formulario_analisis_causa.imagen_analisis 3 8 %}
+                  <!-- imagen -->
+                  {% tag_field_popup formulario_analisis_causa.imagen 3 8 %}
 
                </form><!-- Modal body-->
 
@@ -406,46 +420,22 @@
 
             <form id="id_formulario_actividad" class="modal-body form-horizontal">
 
+               <!-- titulo -->
+               {% tag_field_popup formulario_plan_accion_hallazgo.titulo 3 8 %}
+
+               <!-- actividad -->
+               {% tag_field_popup formulario_plan_accion_hallazgo.actividad 3 8 %}
+
+               <!-- responsable -->
+               {% tag_field_popup formulario_plan_accion_hallazgo.responsable 3 8 %}
+
+               <!-- fecha_programada -->
                <div class="form-group">
-                  <label class="col-sm-3 nova-col-filter control-label">Actividad</label>
-                  <div class="col-sm-8 xs-pt-5">
-                     <textarea class="form-control textarea" id="id_actividad">
-                     </textarea>
-                  </div>
+                  {% tag_field_popup_datepicker formulario_plan_accion_hallazgo.fecha_programada 3 8 True %}
                </div>
 
-               <div class="form-group">
-                 <label class="col-sm-3 nova-col-filter control-label">Responsable</label>
-                 <div class="col-sm-8 xs-pt-5">
-                     <select class="select2 select2-hidden-accessible" tabindex="-1" aria-hidden="true" id="id_responsable">
-                        <option value="JPJ">Julio Hendandez Perez</option>
-                        <option value="LALG">Armando Lopez Gomez</option>
-                        <option value="LALG">Adrian Perez Sanchez</option>
-                     </select>
-                 </div>
-               </div>
-
-               <div class="form-group">
-                  <label class="col-sm-3 nova-col-filter control-label">
-                     Fecha Programada
-                  </label>
-
-                  <div class="col-sm-8 xs-pt-5">
-                     <div class="input-group date"
-                     data-min-view="2"
-                     data-date-format="yyyy-mm-dd"
-                     id="id_fecha_programada_input">
-                        {{ form.fecha_partida }}
-                        <input type="text" name="fecha_planificada_desde" required="" class="form-control input-xs" id="id_fecha_programada">
-                        <span class="input-group-addon nova-addon-button">
-                           <span class="glyphicon glyphicon-calendar"></span>
-                        </span>
-                     </div>
-                  </div>
-                  {% for error in form.fecha_partida.errors %}
-                     <span class="help-block">{{ error }}</span>
-                  {% endfor %}
-               </div>
+               <!-- evidencia -->
+               {% tag_field_popup formulario_plan_accion_hallazgo.evidencia 3 8 %}
 
             </form><!-- Modal body-->
             <div class="modal-footer nova-modal-footer">
@@ -464,7 +454,73 @@
       </div> <!-- Modal dialog -->
    </div><!-- Modal -->
 
-   <!-- id_tarjeta_evaluacion -->
+   <!-- id_tarjeta_seguimiento_plan -->
+   <div id="id_tarjeta_seguimiento_plan" tabindex="-1" role="dialog" class="modal fade colored-header colored-header-primary">
+      <div class="modal-dialog modal-lg">
+         <div class="modal-content nova-modal-maxwidth">
+
+            <div class="modal-header nova-modal-header">
+               <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
+               <h3 class="modal-title">Seguimiento al Plan de Acción</h3>
+            </div>
+
+            <form id="id_formulario_seguimiento_plan" class="modal-body form-horizontal">
+               <div class="nova-modal-content nova-overflow-hidden">
+
+                  <!-- resultado_seguimiento -->
+                  {% tag_field_popup formulario_seguimiento_plan.resultado_seguimiento 3 8 %}
+
+                  <!-- fecha_seguimiento -->
+                  <div class="form-group">
+                     {% tag_field_popup_datepicker formulario_seguimiento_plan.fecha_seguimiento 3 8 True %}
+                  </div>
+
+                  <button type="button" id="id_boton_guardar_seguimiento_plan" class="btn nova-btn btn-primary btn-lg pull-right">
+                     <i class="icon icon-left mdi mdi-floppy nova-white"></i>
+                     Guardar
+                  </button>
+               </div>
+
+               <div class="panel panel-default panel-border-color panel-border-color-primary">
+                  <div class="panel-heading panel-heading-default nova-border-bottom nova-overflow-hidden">
+                     <div class="pull-left nova-modal-title-seguimientos">
+                        Evaluador: <strong>Julio Hendandez Perez</strong>. Fecha Seguimiento: <strong>2017-06-19</strong>. Fecha Evaluacion: <strong>2017-06-19</strong>. Criterio: <strong>Criterio 1</strong>
+                     </div>
+                     <button type="button" class="btn btn-space btn-social nova-btn-delete pull-right"><i class="icon mdi mdi-delete nova-white"></i></button>
+                     <button type="button" class="btn btn-space btn-social nova-btn-edit pull-right"><i class="icon mdi mdi-edit nova-white"></i></button>
+                  </div>
+                  <div class="panel-body">
+                     <div class="row">
+                        <div class="col-sm-12 nova-modal-informacion">
+                           <textarea class="form-control" readonly="">Resultados de seguimiento</textarea>
+                        </div>
+                     </div>
+                     <div class="row">
+                        <div class="col-sm-12 nova-modal-informacion">
+
+                           <!-- imagen -->
+                           {% tag_field_popup formulario_seguimiento_plan.imagen 0 12 %}
+
+                        </div>
+                     </div>
+
+                  </div>
+               </div>  <!-- Panel -->
+
+            </form><!-- Modal body-->
+
+            <div class="modal-footer nova-modal-footer">
+               <div class="row col-sm-12">
+                  <button type="button" data-dismiss="modal" class="btn btn-default pull-left">
+                     Cerrar
+                  </button>
+               </div>
+            </div>
+         </div> <!-- Modal content-->
+      </div> <!-- Modal dialog -->
+   </div><!-- Modal -->
+
+   <!-- id_tarjeta_evaluacion_plan_accion -->
    <div id="id_tarjeta_evaluacion" role="dialog" class="modal fade colored-header colored-header-primary">
       <div class="modal-dialog custom-width">
          <div class="modal-content">
@@ -476,61 +532,25 @@
 
             <form id="id_formulario_evaluacion" class="modal-body form-horizontal">
 
+              <!-- resultado -->
+              {% tag_filter_radio formulario_seguimiento_plan_evaluacion.resultado %}
 
-               <div class="form-group">
-                 <label class="col-sm-3 nova-col-filter control-label">Resultado</label>
-                 <div class="col-sm-8 xs-pt-5">
-                     <select class="select2 select2-hidden-accessible" tabindex="-1" aria-hidden="true" id="id_plan_resultado">
-                        <option value="JPJ">Cumple</option>
-                        <option value="LALG">No Cumple</option>
-                     </select>
-                 </div>
-               </div>
+              <!-- resultado_evaluacion -->
+              {% tag_field_popup formulario_seguimiento_plan_evaluacion.resultado_evaluacion 3 8 %}
 
-               <div class="form-group">
-                  <label class="col-sm-3 nova-col-filter control-label">Resultado de la evaluación</label>
-                  <div class="col-sm-8 xs-pt-5">
-                     <textarea class="form-control textarea" id="id_causas_evaluacion">
-                     </textarea>
-                  </div>
-               </div>
+              <!-- fecha_evaluacion -->
+              <div class="form-group">
+                 {% tag_field_popup_datepicker formulario_seguimiento_plan_evaluacion.fecha_evaluacion 3 8 True %}
+              </div>
 
-               <div class="form-group">
-                  <label class="col-sm-3 control-label">
-                     Fecha Evaluacion
-                  </label>
+              <!-- criterio_decision -->
+              {% tag_field_popup formulario_seguimiento_plan_evaluacion.criterio_decision 3 8 %}
 
-                  <div class="col-sm-8 xs-pt-5">
-                     <div class="input-group date"
-                     data-min-view="2"
-                     data-date-format="yyyy-mm-dd"
-                     id="id_fecha_seguimiento_input">
-                        {{ form.fecha_partida }}
-                        <input type="text" name="fecha_planificada_desde" required="" class="form-control input-xs" id="id_fecha_seguimiento">
-                        <span class="input-group-addon nova-addon-button">
-                           <span class="glyphicon glyphicon-calendar"></span>
-                        </span>
-                     </div>
-                  </div>
-                  {% for error in form.fecha_partida.errors %}
-                     <span class="help-block">{{ error }}</span>
-                  {% endfor %}
-               </div>
+              <!-- observaciones -->
+              {% tag_field_popup formulario_seguimiento_plan_evaluacion.observaciones 3 8 %}
 
-               <div class="form-group">
-                  <label class="col-sm-3 nova-col-filter control-label">Criterio de Desición</label>
-                  <div class="col-sm-8 xs-pt-5">
-                     <input type="text" class="form-control input-xs">
-                  </div>
-               </div>
-
-               <div class="form-group">
-                  <label class="col-sm-3 nova-col-filter control-label">Recursos Necesarios</label>
-                  <div class="col-sm-8 xs-pt-5">
-                     <input type="file" name="file-2" id="id_imagen" data-multiple-caption="{count} Archivos seleccionados" multiple="" class="inputfile">
-                     <label for="id_imagen" class="btn-primary"> <i class="mdi mdi-upload"></i><span>Seleccionar archivo(s)</span></label>
-                  </div>
-               </div>
+              <!-- imagen -->
+              {% tag_field_popup formulario_seguimiento_plan_evaluacion.imagen 3 8 %}
 
             </form><!-- Modal body-->
             <div class="modal-footer nova-modal-footer">
@@ -561,25 +581,14 @@
 
             <form id="id_formulario_evidencia" class="modal-body form-horizontal">
 
-               <div class="form-group">
-                  <label class="col-sm-3 nova-col-filter control-label">Título</label>
-                  <div class="col-sm-8 xs-pt-5">
-                     <input type="text" id="id_titulo_evidencia" class="form-control input-xs">
-                  </div>
-               </div>
-               <div class="form-group">
-                  <label class="col-sm-3 nova-col-filter control-label">Observación</label>
-                  <div class="col-sm-8 xs-pt-5">
-                     <textarea class="form-control textarea" id="id_observacion">
-                     </textarea>
-                  </div>
-               </div>
-               <div class="form-group">
-                  <label class="col-sm-3 nova-col-filter control-label">Recursos Necesarios</label>
-                  <div class="col-sm-8 xs-pt-5">
-                     <input type="file" name="file-2" id="id_imagen_evidencia" data-multiple-caption="{count} Archivos seleccionados" multiple="" class="inputfile">
-                  </div>
-               </div>
+               <!-- titulo -->
+               {% tag_field_popup formulario_evidencia_hallazgo.titulo 3 8 %}
+
+               <!-- observacion -->
+               {% tag_field_popup formulario_evidencia_hallazgo.observacion 3 8 %}
+
+               <!-- imagen_evidencia -->
+               {% tag_field_popup formulario_evidencia_hallazgo.imagen_evidencia 3 8 %}
 
             </form><!-- Modal body-->
 
@@ -599,91 +608,7 @@
       </div> <!-- Modal dialog -->
    </div><!-- Modal -->
 
-   <!-- id_tarjeta_seguimiento_plan -->
-   <div id="id_tarjeta_seguimiento_plan" tabindex="-1" role="dialog" class="modal fade colored-header colored-header-primary">
-      <div class="modal-dialog modal-lg">
-         <div class="modal-content nova-modal-maxwidth">
-
-            <div class="modal-header nova-modal-header">
-               <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
-               <h3 class="modal-title">Seguimiento al Plan de Acción</h3>
-            </div>
-
-            <form id="id_formulario_seguimiento_plan" class="modal-body form-horizontal">
-               <div class="nova-modal-content nova-overflow-hidden">
-                  <div class="form-group">
-                     <label class="col-sm-3 nova-col-filter control-label">Resultado Seguimiento</label>
-                     <div class="col-sm-8 xs-pt-5">
-                        <textarea class="form-control textarea" id="id_resultado_seguimiento">
-                        </textarea>
-                     </div>
-                  </div>
-
-                  <div class="form-group">
-                     <label class="col-sm-3 control-label">
-                        Fecha Seguimiento
-                     </label>
-
-                     <div class="col-sm-4 xs-pt-5">
-                        <div class="input-group date"
-                        data-min-view="2"
-                        data-date-format="yyyy-mm-dd"
-                        id="id_fecha_seguimiento_plan_input">
-                           {{ form.fecha_partida }}
-                           <input type="text" name="id_fecha_seguimiento_plan" required="" class="form-control input-xs" id="id_fecha_seguimiento_plan">
-                           <span class="input-group-addon nova-addon-button">
-                              <span class="glyphicon glyphicon-calendar"></span>
-                           </span>
-                        </div>
-                     </div>
-                     {% for error in form.fecha_partida.errors %}
-                        <span class="help-block">{{ error }}</span>
-                     {% endfor %}
-                  </div>
-
-                  <button type="button" id="id_boton_guardar_seguimiento_plan" class="btn nova-btn btn-primary btn-lg pull-right">
-                     <i class="icon icon-left mdi mdi-floppy nova-white"></i>
-                     Guardar
-                  </button>
-               </div>
-
-               <div class="panel panel-default panel-border-color panel-border-color-primary">
-                  <div class="panel-heading panel-heading-default nova-border-bottom nova-overflow-hidden">
-                     <div class="pull-left nova-modal-title-seguimientos">
-                        Evaluador: <strong>Julio Hendandez Perez</strong>. Fecha Seguimiento: <strong>2017-06-19</strong>. Fecha Evaluacion: <strong>2017-06-19</strong>. Criterio: <strong>Criterio 1</strong>
-                     </div>
-                     <button type="button" class="btn btn-space btn-social nova-btn-delete pull-right"><i class="icon mdi mdi-delete nova-white"></i></button>
-                     <button type="button" class="btn btn-space btn-social nova-btn-edit pull-right"><i class="icon mdi mdi-edit nova-white"></i></button>
-                  </div>
-                  <div class="panel-body">
-                     <div class="row">
-                        <div class="col-sm-12 nova-modal-informacion">
-                           <textarea class="form-control" readonly="">Resultados de seguimiento</textarea>
-                        </div>
-                     </div>
-                     <div class="row">
-                        <div class="col-sm-12 nova-modal-informacion">
-                           <input type="file" name="file-2" id="id_imagen_seguimiento_plan" data-multiple-caption="{count} Archivos seleccionados" multiple="" class="inputfile">
-                        </div>
-                     </div>
-
-                  </div>
-               </div>  <!-- Panel -->
-
-            </form><!-- Modal body-->
-
-            <div class="modal-footer nova-modal-footer">
-               <div class="row col-sm-12">
-                  <button type="button" data-dismiss="modal" class="btn btn-default pull-left">
-                     Cerrar
-                  </button>
-               </div>
-            </div>
-         </div> <!-- Modal content-->
-      </div> <!-- Modal dialog -->
-   </div><!-- Modal -->
-
-   <!-- id_tarjeta_editar_actividad -->
+   <!-- id_tarjeta_editar_actividad --> <!-- INVALIDO-Se movieron los campos a los popup de evaluacion y nuevo plan  -->
    <div id="id_tarjeta_editar_actividad" role="dialog" class="modal fade colored-header colored-header-primary">
       <div class="modal-dialog custom-width">
          <div class="modal-content">

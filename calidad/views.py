@@ -66,7 +66,11 @@ from .forms import HallazgoProcesoForm
 from .forms import HallazgoProcesoFilterForm
 from .forms import ProcesoAuditoriaEdicionForm
 from .forms import HallazgoProcesoDetalleForm
-from .forms import AnalisisCausaForm
+from .forms import AnalisisHallazgoForm
+from .forms import PlanAccionHallazgoForm
+from .forms import SeguimientoPlanAccionForm
+from .forms import SeguimeintoPlanAccionEvaluacionForm
+from .forms import EvidenciaHallazgoForm
 
 # Serializadore:
 from .serializers import RequisitoSerilizado
@@ -795,7 +799,11 @@ class HallazgoDetalle(View):
         }
 
         formulario_hallazgo = HallazgoProcesoDetalleForm(initial_data)
-        formulario_analisis_causa = AnalisisCausaForm()
+        formulario_analisis_causa = AnalisisHallazgoForm()
+        formulario_plan_accion_hallazgo = PlanAccionHallazgoForm()
+        formulario_seguimiento_plan = SeguimientoPlanAccionForm()
+        formulario_seguimiento_plan_evaluacion = SeguimeintoPlanAccionEvaluacionForm()
+        formulario_evidencia_hallazgo = EvidenciaHallazgoForm()
 
         contexto = {
             'pk': pk,
@@ -807,6 +815,10 @@ class HallazgoDetalle(View):
             'titulo': hallazgo.titulo,
             'form': formulario_hallazgo,
             'formulario_analisis_causa': formulario_analisis_causa,
+            'formulario_plan_accion_hallazgo': formulario_plan_accion_hallazgo,
+            'formulario_seguimiento_plan': formulario_seguimiento_plan,
+            'formulario_seguimiento_plan_evaluacion': formulario_seguimiento_plan_evaluacion,
+            'formulario_evidencia_hallazgo': formulario_evidencia_hallazgo,
         }
 
         return render(request, self.template_name, contexto)
@@ -818,7 +830,7 @@ class HallazgoDetalle(View):
         hallazgo = get_object_or_404(HallazgoProceso, pk = pk_hal)
 
         formulario_hallazgo = HallazgoProcesoDetalleForm(request.POST)
-        formulario_analisis_causa = AnalisisCausaForm()
+        formulario_analisis_causa = AnalisisHallazgoForm()
 
         if formulario_hallazgo.is_valid():
             datos_formulario = formulario_hallazgo.cleaned_data
@@ -866,6 +878,10 @@ class HallazgoDetalle(View):
         contexto = {
             'form': formulario_hallazgo,
             'formulario_analisis_causa': formulario_analisis_causa,
+            'formulario_plan_accion_hallazgo': formulario_plan_accion_hallazgo,
+            'formulario_seguimiento_plan': formulario_seguimiento_plan,
+            'formulario_seguimiento_plan_evaluacion': formulario_seguimiento_plan_evaluacion,
+            'formulario_evidencia_hallazgo': formulario_evidencia_hallazgo,
             'pk': pk,
             'pk_pro': pk_pro,
             'proceso': proceso.proceso,

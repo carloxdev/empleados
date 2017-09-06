@@ -34,6 +34,7 @@ from .models import Metodologia
 
 
 class CriterioForm(Form):
+
     CLASIFICACION = (
         ('', '------'),
         ('Norma', 'Norma'),
@@ -110,6 +111,7 @@ class SubprocesoForm(Form):
 
 
 class RolForm(Form):
+
     ROL = (
         ('', '------'),
         ('Aprobador', 'Aprobador'),
@@ -285,6 +287,7 @@ class FormatoForm(Form):
 
 
 class GeneralAuditoriaForm(Form):
+
     TIPO_AUDITORIA = (
         ('', '------'),
         ('AUI', 'Auditoria Interna'),
@@ -598,6 +601,7 @@ class RequisitoProcesoForm(Form):
 
 
 class HallazgoProcesoForm(Form):
+
     TIPO_HALLAZGO = (
         ('', '-------'),
         ('Mayor A', 'Mayor A'),
@@ -666,6 +670,7 @@ class HallazgoProcesoForm(Form):
             )
         return valores
 
+
 class HallazgoProcesoFilterForm(Form):
 
     TIPO_HALLAZGO = (
@@ -716,7 +721,9 @@ class HallazgoProcesoFilterForm(Form):
         required=False
     )
 
+
 class HallazgoProcesoDetalleForm(Form):
+
     TIPO_HALLAZGO = (
         ('', '-------'),
         ('Mayor A', 'Mayor A'),
@@ -785,7 +792,8 @@ class HallazgoProcesoDetalleForm(Form):
             )
         return valores
 
-class AnalisisCausaForm(Form):
+
+class AnalisisHallazgoForm(Form):
 
     titulo = CharField(
         widget=TextInput(attrs={'class': 'form-control input-xs', 'maxlength': '40'}),
@@ -800,13 +808,13 @@ class AnalisisCausaForm(Form):
         widget=Textarea(attrs={'class': 'form-control input-xs', 'rows': '4', 'maxlength': '400'}),
     )
 
-    imagen_analisis = ImageField(
+    imagen = ImageField(
         label='Recursos Necesarios',
-        widget=FileInput(attrs={'class': 'inputfile', 'name': 'file-2', 'data-multiple-caption': '{count} Archivos seleccionados', 'multiple': '' }),
+        widget=FileInput(attrs={'class': 'inputfile', 'name': 'file-2', 'data-multiple-caption': '{count} Archivos seleccionados', 'multiple': '', 'id': 'id_imagen_analisis'}),
     )
 
     def __init__(self, *args, **kwargs):
-        super(AnalisisCausaForm, self).__init__(*args, **kwargs)
+        super(AnalisisHallazgoForm, self).__init__(*args, **kwargs)
         self.fields['metodologia'].choices = self.get_Metodologia()
 
     def get_Metodologia(self):
@@ -824,3 +832,113 @@ class AnalisisCausaForm(Form):
                 )
             )
         return valores
+
+
+class PlanAccionHallazgoForm(Form):
+
+    titulo = CharField(
+        widget=TextInput(attrs={'class': 'form-control input-xs', 'maxlength': '40'}),
+    )
+
+    actividad = CharField(
+        widget=Textarea(attrs={'class': 'form-control input-xs', 'rows': '4', 'maxlength': '400'}),
+    )
+
+    responsable = ChoiceField(
+        widget=Select(attrs={'class': 'select2'})
+    )
+
+    fecha_programada = CharField(
+        widget=TextInput(attrs={'class': 'form-control input-xs', 'name': 'fecha_programada'}),
+    )
+
+    evidencia = CharField(
+        widget=Textarea(attrs={'class': 'form-control input-xs', 'rows': '3', 'maxlength': '140'}),
+    )
+
+    def __init__(self, *args, **kargs):
+        super(PlanAccionHallazgoForm, self).__init__(*args, **kargs)
+        self.fields['responsable'].choices = self.get_Empleados()
+
+    def get_Empleados(self):
+
+        valores = [('', '-------')]
+
+        empleados = VIEW_EMPLEADOS_SIMPLE.objects.using('ebs_p').all()
+
+        for empleado in empleados:
+
+            if not (empleado.pers_empleado_numero is u''):
+                valores.append(
+                    (
+                        empleado.pers_empleado_numero,
+                        empleado.pers_empleado_numero + ' : ' + empleado.pers_nombre_completo
+                    )
+                )
+        return valores
+
+
+class SeguimientoPlanAccionForm(Form):
+
+    resultado_seguimiento = CharField(
+        widget=Textarea(attrs={'class': 'form-control input-xs', 'rows': '4', 'maxlength': '400'}),
+    )
+
+    fecha_seguimiento = CharField(
+        widget=TextInput(attrs={'class': 'form-control input-xs', 'name': 'fecha_seguimiento'}),
+    )
+
+    imagen = ImageField(
+        label='',
+        widget=FileInput(attrs={'class': 'inputfile', 'name': 'file-2', 'data-multiple-caption': '{count} Archivos seleccionados', 'multiple': '', 'id': 'id_imagen_seguimiento_plan' }),
+    )
+
+
+class SeguimeintoPlanAccionEvaluacionForm(Form):
+
+    RESULTADO_EVALUACION = (
+        ('Cumple', 'Cumple'),
+        ('No cumple', 'No cumple'),
+    )
+
+    resultado = ChoiceField(
+        widget=RadioSelect,
+        choices=RESULTADO_EVALUACION
+    )
+
+    resultado_evaluacion = CharField(
+        widget=Textarea(attrs={'class': 'form-control input-xs', 'rows': '4', 'maxlength': '400', 'id': 'id_resultado_evaluacion_plan_eval'}),
+    )
+
+    fecha_evaluacion = CharField(
+        widget=TextInput(attrs={'class': 'form-control input-xs', 'name': 'fecha_evaluacion', 'id': 'id_fecha_evaluacion_plan_eval'}),
+    )
+
+    criterio_decision = CharField(
+        widget=TextInput(attrs={'class': 'form-control input-xs', 'maxlength': '120', 'id': 'id_criterio_decision_plan_eval'}),
+    )
+
+    observaciones = CharField(
+        widget=Textarea(attrs={'class': 'form-control input-xs', 'rows': '4', 'maxlength': '400', 'id': 'id_observaciones_plan_eval'}),
+    )
+
+    imagen = ImageField(
+        label='Recursos Necesarios',
+        widget=FileInput(attrs={'class': 'inputfile', 'name': 'file-2', 'data-multiple-caption': '{count} Archivos seleccionados', 'multiple': '', 'id': 'id_imagen_plan_eval' }),
+    )
+
+
+class EvidenciaHallazgoForm(Form):
+
+    titulo = CharField(
+        widget=TextInput(attrs={'class': 'form-control input-xs', 'maxlength': '40'}),
+    )
+
+    observacion = CharField(
+        widget=Textarea(attrs={'class': 'form-control input-xs', 'rows': '4', 'maxlength': '400'}),
+    )
+
+    imagen_evidencia = ImageField(
+        label='Recursos Necesarios',
+        widget=FileInput(attrs={'class': 'inputfile', 'name': 'file-2', 'data-multiple-caption': '{count} Archivos seleccionados', 'multiple': '' }),
+    )

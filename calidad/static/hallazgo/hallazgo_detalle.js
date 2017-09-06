@@ -22,7 +22,7 @@ var popup_actividad = null
 var popup_acciones = null
 var popup_evaluacion_plan = null
 var popup_seguimiento_plan = null
-var popup_editarA = null //popup_editarA
+// var popup_editarA = null //popup_editarA
 
 var tarjeta_evidencia = null
 // var toolbar_evidencia = null
@@ -172,12 +172,12 @@ function ToolBarAnalisisCausa() {
 
 function GridAnalisisCausa() {
 
-   this.$id_grid = $('#id_grid_analisis_causa')
+   this.$id = $('#id_grid_analisis_causa')
    this.init_Events()
 }
 GridAnalisisCausa.prototype.init_Events = function () {
 
-   this.$id_grid.on("click", '.clickable-row', this.click_FilaGrid)
+   this.$id.on("click", '.clickable-row', this.click_FilaGrid)
 }
 GridAnalisisCausa.prototype.click_FilaGrid = function () {
 
@@ -236,8 +236,8 @@ PopupAnalisis.prototype.get_ConfigFileInput = function () {
 
 function TarjetaPlanAccion() {
 
-   toolbar_plan_accion = new ToolBarPlanAccion()
-   grid_plan_accion = new GridPlanAccion()
+   this.toolbar_plan_accion = new ToolBarPlanAccion()
+   this.grid_plan_accion = new GridPlanAccion()
 }
 
 /*-----------------------------------------------*\
@@ -256,7 +256,7 @@ function ToolBarPlanAccion() {
 function GridPlanAccion() {
 
    popup_acciones = new PopupAcciones()
-   popup_editarA = new PopupEditarA()
+  //  popup_editarA = new PopupEditarA()
    this.$id_grid_plan_accion = $('#id_grid_plan_accion')
    this.init_Events()
 }
@@ -274,10 +274,11 @@ GridPlanAccion.prototype.click_FilaGrid = function () {
 \*-----------------------------------------------*/
 
 function PopupActividad() {
+
    this.$id_actividad = $('#id_actividad')
    this.$id_responsable = $('#id_responsable')
    this.$id_fecha_programada = $('#id_fecha_programada')
-   this.$id_fecha_programada_input = $('#id_fecha_programada_input')
+   this.$id_fecha_programada_group = $('#id_fecha_programada_group')
    this.init_Components()
 }
 PopupActividad.prototype.init_Components = function () {
@@ -289,7 +290,7 @@ PopupActividad.prototype.init_Components = function () {
          placeholder:"aaaa/mm/dd"
       }
    )
-   this.$id_fecha_programada_input.datetimepicker(this.get_DateTimePickerConfig())
+   this.$id_fecha_programada_group.datetimepicker(this.get_DateTimePickerConfig())
 }
 PopupActividad.prototype.get_DateTimePickerConfig = function () {
    return {
@@ -321,7 +322,7 @@ PopupAcciones.prototype.init_Events = function () {
 PopupAcciones.prototype.click_BotonSeguimientoPlan = function (e) {
 
    e.preventDefault()
-   popup_seguimiento_plan.$id_tarjeta_seguimiento_plan.on('shown.bs.modal', function(){
+   popup_seguimiento_plan.$id.on('shown.bs.modal', function(){
       $("body").addClass("modal-open")
       $("html").addClass("be-modal-open")
    })
@@ -330,7 +331,7 @@ PopupAcciones.prototype.click_BotonSeguimientoPlan = function (e) {
 PopupAcciones.prototype.click_BotonEvaluacion = function (e) {
 
    e.preventDefault()
-   popup_evaluacion_plan.$id_tarjeta_evaluacion.on('shown.bs.modal', function(){
+   popup_evaluacion_plan.$id.on('shown.bs.modal', function(){
       $("body").addClass("modal-open")
       $("html").addClass("be-modal-open")
    })
@@ -343,26 +344,27 @@ PopupAcciones.prototype.click_BotonEvaluacion = function (e) {
 
 function PopupSeguimientoPlan () {
 
-   this.$id_tarjeta_seguimiento_plan = $('#id_tarjeta_seguimiento_plan')
+   this.$id = $('#id_tarjeta_seguimiento_plan')
    this.$id_resultado_seguimiento = $('#id_resultado_seguimiento')
-   this.$id_fecha_seguimiento_plan_input = $('#id_fecha_seguimiento_plan_input')
-   this.$id_fecha_seguimiento_plan = $('#id_fecha_seguimiento_plan')
-   this.$id_imagen_seguimiento_plan = $('#id_imagen_seguimiento_plan')
+   this.$id_fecha_seguimiento_group = $('#id_fecha_seguimiento_group')
+   this.$id_fecha_seguimiento = $('#id_fecha_seguimiento')
+   this.$id_imagen = $('#id_imagen_seguimiento_plan')
    this.init_Components()
 }
 PopupSeguimientoPlan.prototype.init_Components = function () {
 
-   this.$id_fecha_seguimiento_plan.mask(
+   this.$id_fecha_seguimiento.mask(
       "9999-99-99",
       {
          placeholder:"aaaa/mm/dd"
       }
    )
-   this.$id_fecha_seguimiento_plan_input.datetimepicker(this.get_DateTimePickerConfig())
-   this.$id_imagen_seguimiento_plan.fileinput(this.get_ConfigFileInput())
+   this.$id_fecha_seguimiento_group.datetimepicker(this.get_DateTimePickerConfig())
+   this.$id_imagen.fileinput(this.get_ConfigFileInput())
 }
 PopupSeguimientoPlan.prototype.get_DateTimePickerConfig = function () {
-   return {
+
+  return {
       autoclose: true,
       orientation: "bottom left",
       minViewMode: 2,
@@ -397,45 +399,52 @@ PopupSeguimientoPlan.prototype.get_ConfigFileInput = function () {
 
 function PopupEvaluacionPlan () {
 
-   this.$id_tarjeta_evaluacion = $('#id_tarjeta_evaluacion')
-   this.$id_plan_resultado = $('#id_plan_resultado')
-   this.$id_causas_evaluacion = $('#id_causas_evaluacion')
-   this.$id_fecha_seguimiento = $('#id_fecha_seguimiento')
-   this.$id_fecha_seguimiento_input = $('#id_fecha_seguimiento_input')
-   this.$id_imagen = $('#id_imagen')
+   this.$id = $('#id_tarjeta_evaluacion')
+   this.$id_resultado = $('#id_resultado_plan_eval')
+   this.$id_resultado_evaluacion = $('#id_resultado_evaluacion_plan_eval')
+   this.$id_fecha_evaluacion = $('#id_fecha_evaluacion_plan_eval')
+   this.$id_fecha_evaluacion_group = $('#id_fecha_evaluacion_group')
+   this.$id_criterio_decision = $('#id_criterio_decision_plan_eval')
+   this.$id_imagen = $('#id_imagen_plan_eval')
    this.init_Components()
 }
 PopupEvaluacionPlan.prototype.init_Components = function () {
 
-   this.$id_plan_resultado.select2(appnova.get_ConfigSelect2())
-   this.$id_fecha_seguimiento.mask(
+   this.$id_fecha_evaluacion.mask(
       "9999-99-99",
       {
          placeholder:"aaaa/mm/dd"
       }
    )
-   this.$id_fecha_seguimiento_input.datetimepicker(this.get_DateTimePickerConfig())
-   this.$id_imagen.each(function(){
-      var $input   = $( this ),
-         $label   = $input.next( 'label' ),
-         labelVal = $label.html()
+   this.$id_fecha_evaluacion_group.datetimepicker(this.get_DateTimePickerConfig())
+   this.$id_imagen.fileinput(this.get_ConfigFileInput())
+}
+PopupEvaluacionPlan.prototype.get_ConfigFileInput = function () {
 
-      $input.on( 'change', function( e )
-      {
-         var fileName = ''
+   return {
 
-         if( this.files && this.files.length > 1 )
-           fileName = ( this.getAttribute( 'data-multiple-caption' ) || '' ).replace( '{count}', this.files.length )
-         else if( e.target.value )
-           fileName = e.target.value.split( '\\' ).pop()
-
-         if( fileName )
-           $label.find( 'span' ).html( fileName )
-         else
-           $label.html( labelVal )
-      })
-      }
-   )
+          uploadUrl: "una/url/donde/se/subira/",
+          uploadAsync: false,
+          minFileCount: 2,
+          maxFileCount: 5,
+          overwriteInitial: false,
+          language:"es",
+          initialPreview: [
+             "/static/images/referenciavisual/documento.jpg",
+             "/static/images/referenciavisual/1.jpg",
+             "/static/images/referenciavisual/2.jpg",
+             "/static/images/referenciavisual/3.jpg",
+          ],
+          initialPreviewAsData: true,
+          initialPreviewFileType: 'image',
+          initialPreviewConfig: [
+            {  caption: "Documento.jpg", size: 827000, url: "/file-upload-batch/2", key: 1  },
+            {  caption: "1.jpg", size: 827000, url: "/file-upload-batch/2", key: 2  },
+            {  caption: "2.jpg", size: 827000, url: "/file-upload-batch/2", key: 3  },
+            {  caption: "3.jpg", size: 827000, url: "/file-upload-batch/2", key: 4  },
+          ],
+          purifyHtml: true,
+     }
 }
 PopupEvaluacionPlan.prototype.get_DateTimePickerConfig = function () {
    return {
@@ -450,15 +459,15 @@ PopupEvaluacionPlan.prototype.get_DateTimePickerConfig = function () {
             OBJETO: popup editarA
 \*-----------------------------------------------*/
 
-function PopupEditarA() {
-
-    this.$id_evidencia = $('#id_evidencia')
-    this.$id_plan_observaciones = $('#id_plan_observaciones')
-    this.init_Components()
-}
-PopupEditarA.prototype.init_Components = function () {
-
-}
+// function PopupEditarA() {
+//
+//     this.$id_evidencia = $('#id_evidencia')
+//     this.$id_plan_observaciones = $('#id_plan_observaciones')
+//     this.init_Components()
+// }
+// PopupEditarA.prototype.init_Components = function () {
+//
+// }
 
 /*-----------------------------------------------*\
          OBJETO: Tarjeta Evidencia
@@ -466,8 +475,8 @@ PopupEditarA.prototype.init_Components = function () {
 
 function TarjetaEvidencia() {
 
-   toolbar_evidencia = new ToolBarEvidencia()
-   grid_evidencia = new GridEvidencia()
+   this.toolbar_evidencia = new ToolBarEvidencia()
+   this.grid_evidencia = new GridEvidencia()
 }
 
 /*-----------------------------------------------*\

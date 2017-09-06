@@ -478,7 +478,120 @@ class HallazgoProceso(models.Model):
     def __unicode__(self):
         return "%s" % (self.titulo)
 
+
 class AnalisisHallazgo(models.Model):
     titulo = models.CharField(max_length=40)
     metodologia = models.ForeignKey(Metodologia)
     causa = models.CharField(max_length=400)
+    hallazgo = models.ForeignKey(HallazgoProceso)
+    # Campo de imagen muchos a muchos
+    create_by = models.ForeignKey(Profile, related_name='ana_hal_created_by', null=True)
+    create_date = models.DateTimeField(
+        auto_now=False,
+        auto_now_add=True,
+        null=True,
+        blank=True
+    )
+    update_by = models.ForeignKey(Profile, related_name='ana_hal_updated_by', null=True)
+    update_date = models.DateTimeField(
+        auto_now=True,
+        auto_now_add=False,
+        null=True,
+        blank=True
+    )
+
+    def __str__(self):
+        return "%s" % (self.titulo)
+
+    def __unicode__(self):
+        return "%s" % (self.titulo)
+
+
+class PlanAccionHallazgo(models.Model):
+    titulo = models.CharField(max_length=40)
+    actividad = models.CharField(max_length=400)
+    responsable = models.CharField(max_length=240)
+    fecha_programada = models.DateField()
+    evidencia = models.CharField(max_length=140)
+    hallazgo = models.ForeignKey(HallazgoProceso)
+    resultado = models.CharField(max_length=9)
+    resultado_evaluacion = models.CharField(max_length=400)
+    fecha_evaluacion = models.DateField()
+    criterio_decision = models.CharField(max_length=120)
+    tipo_accion = models.CharField(max_length=12) #CHECAR EL DEFAUL PARA ESTA ACCION PARECE QUE TODAS SERAN CORRECTIVAS
+    observacion = models.CharField(max_length=400)
+    # Campo de imagen muchos a muchos
+    create_by = models.ForeignKey(Profile, related_name='plan_hal_created_by', null=True)
+    create_date = models.DateTimeField(
+        auto_now=False,
+        auto_now_add=True,
+        null=True,
+        blank=True
+    )
+    update_by = models.ForeignKey(Profile, related_name='plan_hal_updated_by', null=True)
+    update_date = models.DateTimeField(
+        auto_now=True,
+        auto_now_add=False,
+        null=True,
+        blank=True
+    )
+
+    def __str__(self):
+        return "%s" % (self.titulo)
+
+    def __unicode__(self):
+        return "%s" % (self.titulo)
+
+
+class SeguimientoPlanAccion(models.Model):
+    resultado_seguimiento = models.CharField(max_length=400)
+    fecha_seguimiento = models.DateField()
+    plan_accion_hallazgo = models.ForeignKey(PlanAccionHallazgo)
+    # Campo de imagen muchos a muchos
+    create_by = models.ForeignKey(Profile, related_name='seg_plan_created_by', null=True) ## Evaluador
+    create_date = models.DateTimeField(         ##Fecha_Evaluacion
+        auto_now=False,
+        auto_now_add=True,
+        null=True,
+        blank=True
+    )
+    update_by = models.ForeignKey(Profile, related_name='seg_plan_updated_by', null=True)
+    update_date = models.DateTimeField(
+        auto_now=True,
+        auto_now_add=False,
+        null=True,
+        blank=True
+    )
+
+    def __str__(self):
+        return "%s" % (self.pk)
+
+    def __unicode__(self):
+        return "%s" % (self.pk)
+
+
+class EvidenciaHallazgo(models.Model):
+    titulo = models.CharField(max_length=40)
+    observacion = models.CharField(max_length=400)
+    hallazgo = models.ForeignKey(HallazgoProceso)
+    # Campo de imagen muchos a muchos
+    create_by = models.ForeignKey(Profile, related_name='evi_hal_created_by', null=True) ## Evaluador
+    create_date = models.DateTimeField(         ##Fecha_Evaluacion
+        auto_now=False,
+        auto_now_add=True,
+        null=True,
+        blank=True
+    )
+    update_by = models.ForeignKey(Profile, related_name='evi_hal_updated_by', null=True)
+    update_date = models.DateTimeField(
+        auto_now=True,
+        auto_now_add=False,
+        null=True,
+        blank=True
+    )
+
+    def __str__(self):
+        return "%s" % (self.titulo)
+
+    def __unicode__(self):
+        return "%s" % (self.titulo)
