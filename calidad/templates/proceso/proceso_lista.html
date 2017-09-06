@@ -65,8 +65,8 @@
 
             <div class="panel panel-default panel-table">
                   <div class="panel-heading nova-panel-borde-contenido nova-panel-tools">
-                     <a href="#id_tarjeta_nuevo_proceso" class="btn nova-btn btn-rounded btn-sm btn-space btn-default pull-right" data-toggle="modal" id="boton_nuevo">
-                        <i class="icon icon-left mdi mdi-plus-circle nova-black"></i>Nuevo
+                     <a href="#id_tarjeta_proceso" class="btn nova-btn btn-rounded btn-sm btn-space btn-default pull-right" data-toggle="modal" id="boton_nuevo">
+                        <i class="icon icon-left mdi mdi-plus-circle nova-black"></i>Proceso
                      </a>
                   </div><!-- Panel Heading -->
                   <div id="grid_resultados" class="nova-div-overflow">
@@ -74,8 +74,8 @@
                         <thead>
                            <tr>
                               <th class="nova-columna-acciones"></th>
-                              <th>Proceso</th>
                               <th>Subproceso</th>
+                              <th>Proceso</th>
                               <!--<th>Jefe del departamento</th>-->
                               <th>Representante del área</th>
                               <th>Auditor</th>
@@ -91,9 +91,9 @@
                                     </a>
                                  </td>
                                  <td>
-                                    <a href="{% url 'calidad:proceso_formulario_update' pk proceso.pk %}" class="btn btn-default nova-url" data-toggle="modal">{{ proceso.proceso }}</a>
+                                    <a href="{% url 'calidad:proceso_formulario_update' pk proceso.pk %}" class="btn btn-default nova-url" data-toggle="modal">{{ proceso.subproceso }}</a>
                                  </td>
-                                 <td>{{ proceso.subproceso }}</td>
+                                 <td>{{ proceso.proceso }}</td>
                                  <td>{{ proceso.rep_subpro_nombre_completo }}</td>
                                  <td>{{ proceso.auditor_nombre_completo }}</td>
                                  <!--<td>auditoria.jefedepto</td>-->
@@ -112,10 +112,15 @@
             </div> <!-- Panel -->
          </div> <!-- col sm 12-->
       </div>
+      {% if messages %}
+          {% for message in messages %}
+              <input type="hide" class="hide" value="{{ message }}" id="id_{{ message.extra_tags }}">
+          {% endfor %}
+      {% endif %}
    </div> <!-- main content -->
 
    <!-- Targeta Nuevo -->
-   <div id="id_tarjeta_nuevo_proceso" role="dialog" class="modal fade colored-header colored-header-primary">
+   <div id="id_tarjeta_proceso" role="dialog" class="modal fade colored-header colored-header-primary">
       <div class="modal-dialog custom-width">
          <div class="modal-content">
 

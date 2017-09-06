@@ -23,6 +23,7 @@ from .models import Falla
 from .models import Formato
 from .models import ProcesoAuditoria
 from .models import RequisitoProceso
+from .models import HallazgoProceso
 
 
 # Serializadores:
@@ -39,6 +40,7 @@ from .serializers import FallaSerializer
 from .serializers import FormatoSerializer
 from .serializers import ProcesoAuditoriaSerializer
 from .serializers import RequisitoProcesoSerializer
+from .serializers import HallazgoProcesoSerializer
 
 # Paginadores:
 from .pagination import GenericPagination
@@ -49,6 +51,8 @@ from .filters import CompaniaAccionFilter
 from .filters import RolFilter
 from .filters import RequisitoFilter
 from .filters import RequisitoProcesoFilter
+from .filters import HallazgoProcesoFilter
+from .filters import SubprocesoFilter
 
 
 # -------------- Calidad - API REST -------------- #
@@ -78,6 +82,9 @@ class SubprocesoAPI(viewsets.ModelViewSet):
     queryset = Subproceso.objects.all()
     serializer_class = SubprocesoSerializer
     permission_classes = (IsAuthenticated,)
+    filter_backends = (filters.DjangoFilterBackend,)
+    filter_backends = (DjangoFilterBackend,)
+    filter_class = SubprocesoFilter
 
 
 class ResponsableAPI(viewsets.ModelViewSet):
@@ -157,6 +164,7 @@ class ProcesoAuditoriaAPI(viewsets.ModelViewSet):
     serializer_class = ProcesoAuditoriaSerializer
     permission_classes = (IsAuthenticated,)
 
+
 class RequisitoProcesoAPI(viewsets.ModelViewSet):
     queryset = RequisitoProceso.objects.all()
     serializer_class = RequisitoProcesoSerializer
@@ -164,3 +172,12 @@ class RequisitoProcesoAPI(viewsets.ModelViewSet):
     filter_backends = (filters.DjangoFilterBackend,)
     filter_backends = (DjangoFilterBackend,)
     filter_class = RequisitoProcesoFilter
+
+
+class HallazgoProcesoAPI(viewsets.ModelViewSet):
+    queryset = HallazgoProceso.objects.all()
+    serializer_class = HallazgoProcesoSerializer
+    permission_classes = (IsAuthenticated,)
+    filter_backends = (filters.DjangoFilterBackend,)
+    filter_backends = (DjangoFilterBackend,)
+    filter_class = HallazgoProcesoFilter

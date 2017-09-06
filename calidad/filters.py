@@ -11,6 +11,8 @@ from .models import Responsable
 from .models import CompaniaAccion
 from .models import Rol
 from .models import RequisitoProceso
+from .models import HallazgoProceso
+from .models import Subproceso
 
 class RequisitoFilter(filters.FilterSet):
 
@@ -126,4 +128,55 @@ class RequisitoProcesoFilter(filters.FilterSet):
         fields = [
             'requisito_id',
             'proceso_auditoria_id'
+        ]
+
+
+class HallazgoProcesoFilter(filters.FilterSet):
+
+    titulo = CharFilter(
+        name="titulo",
+        lookup_expr="icontains"
+    )
+
+    estado = CharFilter(
+        name="estado",
+        lookup_expr="exact"
+    )
+
+    tipo_hallazgo = CharFilter(
+        name="tipo_hallazgo",
+        lookup_expr="exact"
+    )
+
+    cerrado = CharFilter(
+        name="cerrado",
+        lookup_expr="exact"
+    )
+
+    class Meta:
+        model = HallazgoProceso
+        fields = [
+            'titulo',
+            'estado',
+            'tipo_hallazgo',
+            'cerrado',
+        ]
+
+class SubprocesoFilter(filters.FilterSet):
+
+    subproceso = CharFilter(
+        name="subproceso",
+        lookup_expr="exact"
+    )
+
+    proceso_id = NumberFilter(
+        name="proceso_id",
+        lookup_expr="exact"
+    )
+
+    class Meta:
+        model = Subproceso
+        fields = [
+            'subproceso',
+            'proceso_id',
         ]

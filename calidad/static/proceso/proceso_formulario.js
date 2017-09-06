@@ -3,7 +3,8 @@
 \*-----------------------------------------------*/
 
 // URLS:api-
-//var url_requisitos = window.location.origin + "/auditorias/nuevo/procesos/nuevo/requisitos/"
+var url_subproceso = window.location.origin + "/api-calidad/subproceso/"
+var url_responsable = window.location.origin + "/api-calidad/responsable/"
 
 // OBJS
 var formulario = null
@@ -72,4 +73,56 @@ Formulario.prototype.get_DateTimePickerConfig = function () {
 Formulario.prototype.init_Events = function () {
 
 
+}
+Formulario.prototype.set_Subproceso = function () {
+
+   $.ajax({
+
+       url: url_subproceso,
+       method: "GET",
+       context: this,
+       data: {
+
+         "proceso_id" : this.$id_proceso.val()
+       },
+       success: function (_response) {
+
+          var data = []
+          for (var i = 0; i < _response.length; i++) {
+            data.push({id:_response[i].pk, text:_response[i].subproceso })
+          }
+
+          this.$id_subproceso.select2('destroy').empty().select2({data:data})
+       },
+       error: function (_response) {
+
+          alertify.error("Ocurrio error al cargar datos")
+       }
+    })
+}
+Formulario.prototype.set_RepresentanteSubproceso = function (e) {
+
+   $.ajax({
+
+       url: url_responsable,
+       method: "GET",
+       context: this,
+       data: {
+
+         "proceso_id" : this.$id_proceso.val()
+       },
+       success: function (_response) {
+
+          var data = []
+          for (var i = 0; i < _response.length; i++) {
+            data.push({id:_response[i].pk, text:_response[i].numero_empleado + " : " + _response[i].nombre_completo })
+          }
+
+          this.$id_rep_subproceso.select2('destroy').empty().select2({data:data})
+       },
+       error: function (_response) {
+
+          alertify.error("Ocurrio error al cargar datos")
+       }
+    })
 }

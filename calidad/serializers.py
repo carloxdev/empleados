@@ -21,6 +21,7 @@ from .models import Falla
 from .models import Formato
 from .models import ProcesoAuditoria
 from .models import RequisitoProceso
+from .models import HallazgoProceso
 
 class CriterioSerializer(serializers.HyperlinkedModelSerializer):
 
@@ -120,18 +121,26 @@ class ProcesoSerializer(serializers.HyperlinkedModelSerializer):
 
 class SubprocesoSerializer(serializers.HyperlinkedModelSerializer):
 
+    proceso_id = serializers.SerializerMethodField()
+
     class Meta:
         model = Subproceso
         fields = (
             'pk',
             'subproceso',
             'proceso',
+            'proceso_id',
             'create_by',
             'create_date',
             'update_by',
             'update_date',
         )
 
+    def get_proceso_id(self, obj):
+        try:
+            return obj.proceso.id
+        except:
+            return ""
 
 class SubprocesoSerilizado(object):
     def __init__(self):
@@ -224,13 +233,6 @@ class RolSerializer(serializers.HyperlinkedModelSerializer):
             'update_by',
             'update_date',
         )
-
-        # validators = [
-        #     UniqueValidator(
-        #         queryset=personal_rol.objects.filter(rol="dos"),
-        #         message="Este empleado"
-        #     )
-        # ]
 
 
 class CompaniaAccionSerializer(serializers.HyperlinkedModelSerializer):
@@ -388,5 +390,27 @@ class RequisitoProcesoSerializer(serializers.HyperlinkedModelSerializer):
     def get_criterio_id(self, obj):
         try:
             return obj.requisito.criterio_id
+        except:
+            return ""
+
+
+class HallazgoProcesoSerializer(serializers.HyperlinkedModelSerializer):
+
+    proceso_sitio = serializers.SerializerMethodField()
+
+    class Meta:
+        model = HallazgoProceso
+        fields = (
+            'pk',
+            'titulo',
+            'proceso_sitio',
+            'estado',
+            'tipo_hallazgo',
+            'cerrado',
+        )
+
+    def get_proceso_sitio(self, obj):
+        try:
+            return obj.proceso.sitio
         except:
             return ""

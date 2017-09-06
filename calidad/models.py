@@ -301,6 +301,18 @@ class Formato(models.Model):
 
 
 class Auditoria(models.Model):
+    ESTADOS = (
+        ('En Captura','En Captura'),
+        ('Autorizado','Autorizado'),
+        ('En Aprobacion','En Aprobacion'),
+        ('Aprobado','Aprobado'),
+        ('Autorizado','Autorizado'),
+        ('Rechazado','Rechazado'),
+        ('Cancelado','Cancelado'),
+        ('Realizada','Realizada'),
+        ('Retroalimentacion','Retroalimentacion')
+    )
+
     folio = models.CharField(max_length=12)
     tipo_auditoria = models.CharField(max_length=17)
     compania = models.CharField(max_length=60)
@@ -312,7 +324,7 @@ class Auditoria(models.Model):
     recurso_necesario = models.CharField(max_length=300, blank=True)
     fecha_real_inicial = models.DateField(null=True, blank=True)
     fecha_real_final = models.DateField(null=True, blank=True)
-    estado = models.CharField(max_length=13)
+    estado = models.CharField(max_length=13, choices=ESTADOS, default="En Captura")
     auditor_lider = models.CharField(max_length=30, blank=True)
     auditores_designados = models.ManyToManyField(Rol, related_name="auditores_designados")
     auditores_colaboradores = models.ManyToManyField(Rol, related_name="auditores_colaboradores")
@@ -393,6 +405,9 @@ class ProcesoAuditoria(models.Model):
         blank=True
     )
 
+    class Meta:
+        unique_together = (("auditoria", "subproceso"),)
+
     def __str__(self):
         return "%s" % (self.proceso)
 
@@ -429,14 +444,19 @@ class RequisitoProceso(models.Model):
 
 
 class HallazgoProceso(models.Model):
+    ESTADOS = (
+        ('En Captura','En Captura'),
+        ('Aprobado','Aprobado')
+    )
+
     titulo = models.CharField(max_length=40)
     proceso = models.ForeignKey(ProcesoAuditoria)
-    estado = models.CharField(max_length=13)
-    requisito_referencia = models.ManyToManyField(RequisitoProceso, blank=True)
+    estado = models.CharField(max_length=13, choices=ESTADOS, default="En Captura")
+    requisito_referencia = models.ManyToManyField(Requisito, blank=True)
     falla = models.ManyToManyField(Falla, blank=True)
     tipo_hallazgo = models.CharField(max_length=11)
     observacion = models.CharField(max_length=400, blank=True)
-    cerrado = models.CharField(max_length=2)
+    cerrado = models.CharField(max_length=2, default="No")
     create_by = models.ForeignKey(Profile, related_name='hal_pro_created_by', null=True)
     create_date = models.DateTimeField(
         auto_now=False,
@@ -457,3 +477,8 @@ class HallazgoProceso(models.Model):
 
     def __unicode__(self):
         return "%s" % (self.titulo)
+
+class AnalisisHallazgo(models.Model):
+    titulo = models.CharField(max_length=40)
+    metodologia = models.ForeignKey(Metodologia)
+    causa = models.CharField(max_length=400)

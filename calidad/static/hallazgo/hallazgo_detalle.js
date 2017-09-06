@@ -11,13 +11,13 @@ var menu = null
 var tarjeta_detalle_hallazgo = null
 
 var tarjeta_analisis_causa = null
-var toolbar_analisis_causa = null
-var grid_analisis_causa = null
+// var toolbar_analisis_causa = null
+// var grid_analisis_causa = null
 var popup_analisis = null
 
 var tarjeta_plan_accion = null
-var toolbar_plan_accion = null
-var grid_plan_accion = null
+// var toolbar_plan_accion = null
+// var grid_plan_accion = null
 var popup_actividad = null
 var popup_acciones = null
 var popup_evaluacion_plan = null
@@ -25,8 +25,8 @@ var popup_seguimiento_plan = null
 var popup_editarA = null //popup_editarA
 
 var tarjeta_evidencia = null
-var toolbar_evidencia = null
-var grid_evidencia = null
+// var toolbar_evidencia = null
+// var grid_evidencia = null
 var popup_evidencia = null
 
 /*-----------------------------------------------*\
@@ -66,13 +66,13 @@ Menu.prototype.click_ElementoLista = function () {
    $(this).addClass('active').siblings().removeClass('active')
 
    if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
-         
+
       var $target = $(this.hash)
-      
+
       $target = $target.length && $target || $('[name=' + this.hash.slice(1) +']')
 
-      if ($target.length) {                              
-         var targetOffset = $target.offset().top 
+      if ($target.length) {
+         var targetOffset = $target.offset().top
          $('html,body').animate({scrollTop: targetOffset-60}, 1000)
          return false
       }
@@ -86,7 +86,7 @@ Menu.prototype.scroll_Ventana = function (e) {
    if (window.matchMedia('(min-width: 992px)').matches) {
       if ((e.data.$ventana.scrollTop() > e.data.$topPosition) ) {
          e.data.$menu_flotante.addClass('sticky')
-      } 
+      }
       else {
          e.data.$menu_flotante.removeClass('sticky')
       }
@@ -98,8 +98,8 @@ Menu.prototype.scroll_Ventana = function (e) {
 Menu.prototype.resize_Ventana = function (e) {
 
    var menu_flotante_ancho = $('.nova-slider').outerWidth()
-   e.data.$lista_acciones.css("width", menu_flotante_ancho)   
-     
+   e.data.$lista_acciones.css("width", menu_flotante_ancho)
+
    if (window.matchMedia('(max-width: 992px)').matches) {
       e.data.$menu_flotante.addClass('nova-slider-menu-fixed')
    }
@@ -114,27 +114,27 @@ Menu.prototype.resize_Ventana = function (e) {
 
 function TarjetaDetalleHallazgo(){
 
-   this.$id_subproceso = $('#id_subproceso')
-   this.$id_contrato = $('#id_contrato')
-   this.$id_observacion_hallazgo = $("#id_observacion_hallazgo")
+   this.$id_titulo = $('#id_titulo')
    this.$id_requisito_referencia = $('#id_requisito_referencia')
-   this.$id_requisito_adicional = $('#id_requisito_adicional')
+   this.$id_descripciones = $('#id_descripciones')
    this.$id_tipo_hallazgo = $('#id_tipo_hallazgo')
-   this.$id_boton_guardar_detalle_hallazgo = $('#id_boton_guardar_detalle_hallazgo')
+   this.$id_observaciones = $('#id_observaciones')
+
+  //  this.$id_boton_guardar_detalle_hallazgo = $('#id_boton_guardar_detalle_hallazgo')
    this.init_Components()
 }
 TarjetaDetalleHallazgo.prototype.init_Components = function () {
 
-   this.$id_subproceso.select2(appnova.get_ConfigSelect2())
-   this.$id_contrato.select2(appnova.get_ConfigSelect2())
-   this.$id_observacion_hallazgo.wysihtml5(appnova.get_ConfWysi())
    this.$id_requisito_referencia.multiselect(this.get_ConfMultiSelect())
-   this.$id_requisito_adicional.select2(appnova.get_ConfigSelect2())
+   this.$id_requisito_referencia.siblings("div.btn-group").find("ul.multiselect-container").addClass('nova-bootstrap-multiselect-width-ul')
+   this.$id_descripciones.multiselect(this.get_ConfMultiSelect())
+   this.$id_descripciones.siblings("div.btn-group").find("ul.multiselect-container").addClass('nova-bootstrap-multiselect-width-ul')
    this.$id_tipo_hallazgo.select2(appnova.get_ConfigSelect2())
 }
 TarjetaDetalleHallazgo.prototype.get_ConfMultiSelect = function () {
 
-   return{
+   return {
+
       enableFiltering: true,
       buttonWidth: '100%',
       numberDisplayed: 2,
@@ -143,6 +143,7 @@ TarjetaDetalleHallazgo.prototype.get_ConfMultiSelect = function () {
       allSelectedText: "Todo Seleccionado",
       nSelectedText: "Seleccionados",
       filterPlaceholder: "Buscar",
+      disableIfEmpty: true,
    }
 }
 
@@ -152,8 +153,8 @@ TarjetaDetalleHallazgo.prototype.get_ConfMultiSelect = function () {
 
 function TarjetaAnalisisCausa() {
 
-   toolbar_analisis_causa = new ToolBarAnalisisCausa()
-   grid_analisis_causa = new GridAnalisisCausa()
+   this.toolbar_analisis_causa = new ToolBarAnalisisCausa()
+   this.grid_analisis_causa = new GridAnalisisCausa()
 }
 
 /*-----------------------------------------------*\
@@ -171,12 +172,12 @@ function ToolBarAnalisisCausa() {
 
 function GridAnalisisCausa() {
 
-   this.$id_grid_analisis_causa = $('#id_grid_analisis_causa')
+   this.$id_grid = $('#id_grid_analisis_causa')
    this.init_Events()
 }
 GridAnalisisCausa.prototype.init_Events = function () {
 
-   this.$id_grid_analisis_causa.on("click", '.clickable-row', this.click_FilaGrid)
+   this.$id_grid.on("click", '.clickable-row', this.click_FilaGrid)
 }
 GridAnalisisCausa.prototype.click_FilaGrid = function () {
 
@@ -184,24 +185,27 @@ GridAnalisisCausa.prototype.click_FilaGrid = function () {
 }
 
 /*-----------------------------------------------*\
-         OBJETO: Popup Analisis
+         OBJETO: Popup Analisis Causa
 \*-----------------------------------------------*/
 
 function PopupAnalisis() {
 
+   this.$id_titulo = $('#id_titulo')
    this.$id_metodologia = $('#id_metodologia')
    this.$id_causas = $('#id_causas')
-   this.$id_imagen_analisis = $('#id_imagen_analisis')
+   this.$id_imagen = $('#id_imagen_analisis')
+   this.$id_boton = $('#id_boton_analisis_causas')
    this.init_Components()
 }
 PopupAnalisis.prototype.init_Components = function () {
 
    this.$id_metodologia.select2(appnova.get_ConfigSelect2())
-   this.$id_causas.wysihtml5(appnova.get_ConfWysi())
-   this.$id_imagen_analisis.fileinput(this.get_ConfigFileInput())
+   this.$id_imagen.fileinput(this.get_ConfigFileInput())
 }
 PopupAnalisis.prototype.get_ConfigFileInput = function () {
+
    return {
+
           uploadUrl: "una/url/donde/se/subira/",
           uploadAsync: false,
           minFileCount: 2,
@@ -278,7 +282,6 @@ function PopupActividad() {
 }
 PopupActividad.prototype.init_Components = function () {
 
-   this.$id_actividad.wysihtml5(appnova.get_ConfWysi())
    this.$id_responsable.select2(appnova.get_ConfigSelect2())
    this.$id_fecha_programada.mask(
       "9999-99-99",
@@ -302,7 +305,7 @@ PopupActividad.prototype.get_DateTimePickerConfig = function () {
 \*-----------------------------------------------*/
 
 function PopupAcciones () {
-   
+
    popup_seguimiento_plan = new PopupSeguimientoPlan()
    popup_evaluacion_plan = new PopupEvaluacionPlan()
    this.$id_tarjeta_acciones = $('#id_tarjeta_acciones')
@@ -344,12 +347,11 @@ function PopupSeguimientoPlan () {
    this.$id_resultado_seguimiento = $('#id_resultado_seguimiento')
    this.$id_fecha_seguimiento_plan_input = $('#id_fecha_seguimiento_plan_input')
    this.$id_fecha_seguimiento_plan = $('#id_fecha_seguimiento_plan')
-   this.$id_imagen_seguimiento_plan = $('#id_imagen_seguimiento_plan') 
+   this.$id_imagen_seguimiento_plan = $('#id_imagen_seguimiento_plan')
    this.init_Components()
 }
 PopupSeguimientoPlan.prototype.init_Components = function () {
 
-   this.$id_resultado_seguimiento.wysihtml5(appnova.get_ConfWysi())
    this.$id_fecha_seguimiento_plan.mask(
       "9999-99-99",
       {
@@ -406,7 +408,6 @@ function PopupEvaluacionPlan () {
 PopupEvaluacionPlan.prototype.init_Components = function () {
 
    this.$id_plan_resultado.select2(appnova.get_ConfigSelect2())
-   this.$id_causas_evaluacion.wysihtml5(appnova.get_ConfWysi())
    this.$id_fecha_seguimiento.mask(
       "9999-99-99",
       {
@@ -457,8 +458,6 @@ function PopupEditarA() {
 }
 PopupEditarA.prototype.init_Components = function () {
 
-    this.$id_evidencia.wysihtml5(appnova.get_ConfWysi())
-    this.$id_plan_observaciones.wysihtml5(appnova.get_ConfWysi())
 }
 
 /*-----------------------------------------------*\
@@ -476,7 +475,7 @@ function TarjetaEvidencia() {
 \*-----------------------------------------------*/
 
 function ToolBarEvidencia() {
-   
+
    popup_evidencia = new PopupEvidencia()
 }
 
@@ -511,7 +510,6 @@ function PopupEvidencia () {
 }
 PopupEvidencia.prototype.init_Components = function () {
 
-   this.$id_observacion.wysihtml5(appnova.get_ConfWysi())
    this.$id_imagen_evidencia.fileinput(this.get_ConfigFileInput())
 }
 PopupEvidencia.prototype.get_ConfigFileInput = function () {

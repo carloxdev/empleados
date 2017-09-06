@@ -194,7 +194,7 @@ PopupPersonal.prototype.guardar_Archivo = function (_id_personal, _data){
                              method: "DELETE",
                              headers: { "X-CSRFToken": appnova.galletita },
                              success: function (_response) {
-                                
+
                              },
                              error: function (_response) {
                                 alertify.error("No se ha podido eliminar el registro")
@@ -493,7 +493,7 @@ PopupCapacitacion.prototype.guardar_Archivo = function (_id_capacitacion, _data)
                              method: "DELETE",
                              headers: { "X-CSRFToken": appnova.galletita },
                              success: function (_response) {
-                                
+
                              },
                              error: function (_response) {
                                 alertify.error("No se ha podido eliminar el registro")
@@ -512,7 +512,7 @@ PopupCapacitacion.prototype.actualizar_Grid = function () {
     grid_capacitacion.init()
 }
 PopupCapacitacion.prototype.limpiar_Formulario = function () {
-        
+
     this.$proveedor.data('select2').val(0)
     this.$lugar.val("")
     this.$costo.val("")
@@ -676,14 +676,14 @@ function Personalizacion(){
 Personalizacion.prototype.init_Components = function(){
 }
 Personalizacion.prototype.init_Events = function(){
-        
+
     this.$personales.on("click", this , this.mostrar_Personales)
     this.$li_personales.on("click", this , this.mostrar_Personales)
     this.$capacitaciones.on("click", this , this.mostrar_Capacitaciones)
     this.$li_capacitaciones.on("click", this , this.mostrar_Capacitaciones)
 }
 Personalizacion.prototype.mostrar_Personales = function(e){
-        
+
     e.data.$capacitaciones.removeClass('nova-active-tab')
     e.data.$li_capacitaciones.removeClass('active')
     e.data.$personales.addClass('nova-active-tab')
@@ -694,7 +694,7 @@ Personalizacion.prototype.mostrar_Personales = function(e){
     tarjeta_resultados.grid_personal.init()
 }
 Personalizacion.prototype.mostrar_Capacitaciones = function(e){
-        
+
     e.data.$personales.removeClass('nova-active-tab')
     e.data.$li_personales.removeClass('active')
     e.data.$capacitaciones.addClass('nova-active-tab')
@@ -725,7 +725,7 @@ GridPersonal.prototype.init = function () {
 
     // Se inicializa la fuente da datos (datasource)
     this.kfuente_datos = new kendo.data.DataSource(this.get_DataSourceConfig())
-    
+
     // Se inicializa y configura el grid:
     this.kgrid = this.$id.kendoGrid(this.get_Configuracion())
 }
@@ -760,10 +760,10 @@ GridPersonal.prototype.get_DataSourceConfig = function () {
             error: function (e) {
                     alertify.error("Status: " + e.status + "; Error message: " + e.errorThrown)
             },
-    }    
+    }
 }
 GridPersonal.prototype.get_Campos = function () {
-    
+
     return {
             pk: {type: "string"},
             numero_empleado: { type: "string" },
@@ -801,10 +801,10 @@ GridPersonal.prototype.get_Configuracion = function () {
 }
 GridPersonal.prototype.get_Columnas = function () {
 
-    return [  
-            { field: "pk", 
-                title: " ", 
-                width:"50px" ,
+    return [
+            { field: "pk",
+                title: " ",
+                width: "50px",
                 template: '<a class="btn nova-btn btn-default nova-btn-delete" id="#=pk#" data-event="eliminar-personal"> <i class="icon icon-left icon mdi mdi-delete nova-white"></i></a>',
             },
             { field: "relacion", 
@@ -814,7 +814,7 @@ GridPersonal.prototype.get_Columnas = function () {
             },
             { field: "tipo_documento", title: "Tipo documento", width:"200px"},
             { field: "agrupador", title: "Agrupador", width:"100px"},
-            { field: "vigencia_inicio",title: "Vigencia inicio",width:"100px"},
+            { field: "vigencia_inicio",title: "Vigencia inicio", width:"100px"},
             { field: "vigencia_fin", title: "Vigencia fin", width:"100px" },
             { field: "created_by", title: "Creado por", width:"150px" },
             { field: "created_date", title: "Fecha de creación", width:"150px", format: "{0:dd/MM/yyyy}" },
@@ -827,7 +827,8 @@ GridPersonal.prototype.buscar = function() {
 }
 GridPersonal.prototype.aplicar_Estilos = function (e) {
 
-    e.sender.tbody.find("[data-event='eliminar-personal']").each(function(idx, element){ 
+    e.sender.tbody.find("[data-event='eliminar-personal']").each(function(idx, element){
+
       $(this).on("click", function(){
          tarjeta_resultados.grid_personal.consultar_Registro(this.id)
       })
@@ -926,9 +927,9 @@ GridPersonal.prototype.eliminar_Archivo = function (_id_archivo, _id_personal) {
                      }
                 })
             })
-          }, 
+          },
       null
-   ) 
+   )
 }
 
 /*-----------------------------------------------*\
@@ -950,7 +951,7 @@ GridCapacitacion.prototype.init = function () {
 
     // Se inicializa la fuente da datos (datasource)
     this.kfuente_datos = new kendo.data.DataSource(this.get_DataSourceConfig())
-    
+
     // Se inicializa y configura el grid:
     this.kgrid = this.$id.kendoGrid(this.get_Configuracion())
 }
@@ -981,7 +982,7 @@ GridCapacitacion.prototype.get_DataSourceConfig = function () {
             error: function (e) {
                     alertify.error("Status: " + e.status + "; Error message: " + e.errorThrown)
             },
-    }    
+    }
 }
 GridCapacitacion.prototype.get_CamposCap = function () {
     return {
@@ -1055,7 +1056,7 @@ GridCapacitacion.prototype.get_Columnas = function () {
 GridCapacitacion.prototype.aplicar_Estilos = function (e) {
 
     e.sender.tbody.find("[data-event='eliminar-capacitacion']").each(function(idx, element){
-        
+
       $(this).on("click", function(){
 
          grid_capacitacion.consultar_Registro(this.id)
@@ -1131,8 +1132,7 @@ GridCapacitacion.prototype.eliminar_Archivo = function (_id_archivo, _id_capacit
                      }
                 })
             })
-        }, 
+        },
       null
-   ) 
+   )
 }
-

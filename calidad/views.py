@@ -41,6 +41,8 @@ from .models import Responsable
 from .models import RequisitoProceso
 from .models import Requisito
 from .models import HallazgoProceso
+from .models import Falla
+from .models import Subproceso
 
 # Formularios:
 from .forms import CriterioForm
@@ -62,6 +64,9 @@ from .forms import ProcesoAuditoriaForm
 from .forms import RequisitoProcesoForm
 from .forms import HallazgoProcesoForm
 from .forms import HallazgoProcesoFilterForm
+from .forms import ProcesoAuditoriaEdicionForm
+from .forms import HallazgoProcesoDetalleForm
+from .forms import AnalisisCausaForm
 
 # Serializadore:
 from .serializers import RequisitoSerilizado
@@ -395,9 +400,9 @@ class ProcesoLista(View):
 
         auditoria = get_object_or_404(Auditoria, pk = pk)
         auditores_designados = self.get_AuditoresDesignados( auditoria )
-        procesos = ProcesoAuditoria.objects.all()
+        procesos = ProcesoAuditoria.objects.filter(auditoria = pk)
 
-        formulario = ProcesoAuditoriaForm( auditores_designados, True )
+        formulario = ProcesoAuditoriaForm( auditores_designados )
 
         contexto = {
             'pk': pk,
@@ -413,29 +418,37 @@ class ProcesoLista(View):
         auditoria = get_object_or_404(Auditoria, pk = pk)
         auditores_designados = self.get_AuditoresDesignados( auditoria )
 
-        formulario = ProcesoAuditoriaForm( auditores_designados, True, request.POST )
+        formulario = ProcesoAuditoriaForm( auditores_designados, request.POST )
 
         if formulario.is_valid():
-            datos_formulario = formulario.cleaned_data
-            responsable = Responsable.objects.get( pk = datos_formulario.get('rep_subproceso') )
-            aud_des = auditoria.auditores_designados.get( pk = datos_formulario.get('auditor') )
-            proceso = ProcesoAuditoria()
+            try:
 
-            proceso.auditoria = Auditoria.objects.get(pk = pk)
-            proceso.proceso = datos_formulario.get('proceso')
-            proceso.subproceso = datos_formulario.get('subproceso')
-            proceso.rep_subpro_nombre_completo = responsable.nombre_completo
-            proceso.rep_subpro_numero_empleado = responsable.numero_empleado
-            proceso.fecha_programada_inicial = datos_formulario.get('fecha_programada_ini')
-            proceso.fecha_programada_final = datos_formulario.get('fecha_programada_fin')
-            proceso.auditor_nombre_completo = aud_des.nombre_completo
-            proceso.auditor_numero_empleado = aud_des.numero_empleado
-            proceso.sitio = datos_formulario.get('sitio')
-            proceso.save()
+                datos_formulario = formulario.cleaned_data
+                responsable = Responsable.objects.get( pk = datos_formulario.get('rep_subproceso') )
+                aud_des = auditoria.auditores_designados.get( pk = datos_formulario.get('auditor') )
+                subproceso = Subproceso.objects.get( pk = datos_formulario.get('subproceso') )
+                proceso = ProcesoAuditoria()
+
+                proceso.auditoria = Auditoria.objects.get(pk = pk)
+                proceso.proceso = subproceso.proceso
+                proceso.subproceso = subproceso.subproceso
+                proceso.rep_subpro_nombre_completo = responsable.nombre_completo
+                proceso.rep_subpro_numero_empleado = responsable.numero_empleado
+                proceso.fecha_programada_inicial = datos_formulario.get('fecha_programada_ini')
+                proceso.fecha_programada_final = datos_formulario.get('fecha_programada_fin')
+                proceso.auditor_nombre_completo = aud_des.nombre_completo
+                proceso.auditor_numero_empleado = aud_des.numero_empleado
+                proceso.sitio = datos_formulario.get('sitio')
+                proceso.save()
+
+            except IntegrityError as e:
+
+                messages.add_message(request, messages.WARNING, "Este subproceso ya está registrado.", extra_tags='subproceso_existe')
+                return redirect(reverse('calidad:proceso_lista', kwargs={ 'pk': pk }))
 
             return redirect(reverse('calidad:proceso_formulario_update', kwargs={ 'pk': pk, 'pk_pro': proceso.pk }))
 
-        procesos = ProcesoAuditoria.objects.all()
+        procesos = ProcesoAuditoria.objects.filter(auditoria = pk)
 
         contexto = {
             'pk': pk,
@@ -471,21 +484,26 @@ class ProcesoFormularioUpdate(View):
 
         auditoria = get_object_or_404(Auditoria, pk = pk)
         auditores_designados = self.get_AuditoresDesignados( auditoria )
-        proceso_aud = get_object_or_404(ProcesoAuditoria, pk = pk_pro)
+        proceso_aud = get_object_or_404(ProcesoAuditoria, pk = pk_pro, auditoria = pk)
+
         proceso = Proceso.objects.get(proceso = proceso_aud.proceso)
+        subproceso = Subproceso.objects.get(subproceso = proceso_aud.subproceso)
         responsable = Responsable.objects.get( numero_empleado=proceso_aud.rep_subpro_numero_empleado, proceso=proceso.pk )
+
         auditor_des = auditoria.auditores_designados.get( numero_empleado = proceso_aud.auditor_numero_empleado )
+        subprocesos = self.get_Subprocesos(proceso.pk)
+        rep_subprocesos = self.get_RepSubprocesos(proceso.pk)
 
         initial_data = {
-            'proceso' : proceso_aud.proceso,
-            'subproceso' : proceso_aud.subproceso,
+            'proceso' : proceso.pk,
+            'subproceso' : subproceso.pk ,
             'rep_subproceso' : responsable.pk,
             'fecha_programada_ini' : proceso_aud.fecha_programada_inicial,
             'fecha_programada_fin' : proceso_aud.fecha_programada_final,
             'auditor' : auditor_des.pk,
             'sitio' : proceso_aud.sitio,
         }
-        formulario = ProcesoAuditoriaForm( auditores_designados, False, initial_data )
+        formulario = ProcesoAuditoriaEdicionForm( auditores_designados, subprocesos, rep_subprocesos, initial_data )
 
         contexto = {
             'pk': pk,
@@ -502,8 +520,10 @@ class ProcesoFormularioUpdate(View):
         proceso = get_object_or_404(ProcesoAuditoria, pk = pk_pro)
         auditoria = get_object_or_404(Auditoria, pk = pk)
         auditores_designados = self.get_AuditoresDesignados( auditoria )
+        subprocesos = self.get_Subprocesos(proceso.pk)
+        rep_subprocesos = self.get_RepSubprocesos(proceso.pk)
 
-        formulario = ProcesoAuditoriaForm( auditores_designados, False, request.POST )
+        formulario = ProcesoAuditoriaEdicionForm( auditores_designados, subprocesos, rep_subprocesos, request.POST )
 
         if formulario.is_valid():
             datos_formulario = formulario.cleaned_data
@@ -532,16 +552,44 @@ class ProcesoFormularioUpdate(View):
         return render(request, self.template_name, contexto)
 
 
-    def get_AuditoresDesignados(self, auditoria):
+    def get_AuditoresDesignados(self, _auditoria):
 
         valores = [('', '-------')]
 
-        for aud_des in auditoria.auditores_designados.all():
+        for aud_des in _auditoria.auditores_designados.all():
 
             valores.append(
                 (
                     aud_des.pk,
                     aud_des.numero_empleado + ' : ' + aud_des.nombre_completo
+                )
+            )
+        return valores
+
+    def get_Subprocesos(self, _proceso):
+
+        valores = [('', '-------')]
+
+        for subproceso in Subproceso.objects.filter(proceso_id = _proceso):
+
+            valores.append(
+                (
+                    subproceso.pk,
+                    subproceso.subproceso
+                )
+            )
+        return valores
+
+    def get_RepSubprocesos(self, _proceso):
+
+        valores = [('', '-------')]
+
+        for responsable in Responsable.objects.filter(proceso_id = _proceso):
+
+            valores.append(
+                (
+                    responsable.pk,
+                    responsable.numero_empleado + ' : ' + responsable.nombre_completo
                 )
             )
         return valores
@@ -555,10 +603,10 @@ class RequisitoLista(View):
     def get(self, request, pk, pk_pro):
 
         auditoria = Auditoria.objects.get(pk = pk)
-        proceso = ProcesoAuditoria.objects.get(pk = pk_pro)
+        proceso = get_object_or_404(ProcesoAuditoria, pk = pk_pro, auditoria = pk)
         criterios_auditoria = self.get_criterio(auditoria)
         formulario = RequisitoProcesoForm(criterios_auditoria)
-        requisitos = RequisitoProceso.objects.all()
+        requisitos = RequisitoProceso.objects.filter(proceso_auditoria = pk_pro)
 
         contexto = {
             'form': formulario,
@@ -630,16 +678,35 @@ class HallazgoLista(View):
 
         auditoria = Auditoria.objects.get(pk = pk)
         procesos = ProcesoAuditoria.objects.filter(auditoria = pk)
-        proceso = ProcesoAuditoria.objects.get(pk = pk_pro)
-        requisitos = RequisitoProceso.objects.filter(proceso_auditoria = pk_pro)
-        hallazgos = HallazgoProceso.objects.filter(proceso = pk_pro)
+        proceso = get_object_or_404(ProcesoAuditoria, pk = pk_pro, auditoria = pk)
+        requisitos = Requisito.objects.all()
+        formulario = HallazgoProcesoForm()
+        formulario_filtro = HallazgoProcesoFilterForm( request.GET )
 
+        argumentos = {}
 
-        subprocesos_initial = self.get_Subprocesos(procesos)
-        requisitos_initial = self.get_RequisitosProceso(requisitos)
+        if request.GET:
+            campos_formulario = []
 
-        formulario = HallazgoProcesoForm(subprocesos_initial, requisitos_initial)
-        formulario_filtro = HallazgoProcesoFilterForm(subprocesos_initial)
+            for campos in HallazgoProcesoFilterForm():
+                campos_formulario.append(campos.name)
+
+            for campoGet in request.GET:
+                if campoGet in campos_formulario:
+                    if request.GET[campoGet] != '':
+                        if campoGet == 'titulo':
+                            argumentos['titulo__icontains'] = request.GET[campoGet]
+
+                        if campoGet == 'estado':
+                            argumentos['estado__exact'] = request.GET[campoGet]
+
+                        if campoGet == 'tipo_hallazgo':
+                            argumentos['tipo_hallazgo__exact'] = request.GET[campoGet]
+
+                        if campoGet == 'cerrado':
+                            argumentos['cerrado__exact'] = request.GET[campoGet]
+
+        hallazgos = HallazgoProceso.objects.filter(proceso = pk_pro, proceso__auditoria = pk, **argumentos)
 
         contexto = {
             'form': formulario,
@@ -647,54 +714,165 @@ class HallazgoLista(View):
             'pk': pk,
             'pk_pro': pk_pro,
             'proceso': proceso.proceso,
+            'subproceso': proceso.subproceso,
             'hallazgos': hallazgos,
             'folio': auditoria.folio
         }
 
         return render(request, self.template_name, contexto)
 
-    def get_Subprocesos(self, proceso_auditoria):
+    def post(self, request, pk, pk_pro):
 
-        valores = [('', '-------')]
+        auditoria = Auditoria.objects.get(pk = pk)
+        procesos = ProcesoAuditoria.objects.filter(auditoria = pk)
+        proceso = ProcesoAuditoria.objects.get(pk = pk_pro)
+        requisitos = Requisito.objects.all()
+        hallazgos = HallazgoProceso.objects.filter(proceso = pk_pro)
 
-        for pro_aud in proceso_auditoria:
+        formulario = HallazgoProcesoForm(request.POST)
+        formulario_filtro = HallazgoProcesoFilterForm()
 
-            valores.append(
-                (
-                    pro_aud.pk,
-                    pro_aud.subproceso
-                )
-            )
-        return valores
+        if formulario.is_valid():
+            datos_formulario = formulario.cleaned_data
+            hallazgo = HallazgoProceso()
 
-    def get_RequisitosProceso(self, requisito_proceso):
+            hallazgo.titulo = datos_formulario.get('titulo')
+            hallazgo.proceso = proceso
+            hallazgo.tipo_hallazgo = datos_formulario.get('tipo_hallazgo')
+            hallazgo.observacion = datos_formulario.get('observaciones')
+            hallazgo.cerrado = "No"
+            hallazgo.create_by = Profile.objects.get(pk = request.user.id)
+            hallazgo.save()
 
-        valores = []
+            for requisito_choice in datos_formulario.get('requisito_referencia'):
+                requisito = Requisito.objects.get(pk=requisito_choice)
+                hallazgo.requisito_referencia.add(requisito)
 
-        for req_pro in requisito_proceso:
+            for descripcion_choice in datos_formulario.get('descripciones'):
+                descripcion = Falla.objects.get(pk=descripcion_choice)
+                hallazgo.falla.add(descripcion)
 
-            valores.append(
-                (
-                    req_pro.pk,
-                    req_pro.requisito
-                )
-            )
-        return valores
+            return redirect(reverse('calidad:hallazgo_lista', kwargs={ 'pk': pk, 'pk_pro': proceso.pk }))
+
+        contexto = {
+            'form': formulario,
+            'form_filter': formulario_filtro,
+            'pk': pk,
+            'pk_pro': pk_pro,
+            'proceso': proceso.proceso,
+            'subproceso': proceso.subproceso,
+            'hallazgos': hallazgos,
+            'folio': auditoria.folio
+        }
+        return render(request, self.template_name, contexto)
+
 
 class HallazgoDetalle(View):
 
     def __init__(self):
         self.template_name = 'hallazgo/hallazgo_detalle.html'
 
-    def get(self, request):
+    def get(self, request, pk, pk_pro, pk_hal):
+        auditoria = get_object_or_404(Auditoria, pk = pk)
+        proceso = get_object_or_404(ProcesoAuditoria, pk = pk_pro)
+        hallazgo = get_object_or_404(HallazgoProceso, pk = pk_hal)
 
-        # formulario = EmpleadoFilterForm()
+        requisitos = []
+        descripciones = []
 
-        # contexto = {
-        #     'form': formulario
-        # }
+        for requisito in hallazgo.requisito_referencia.all():
+            requisitos.append(requisito.pk)
 
-        return render(request, self.template_name, {})
+        for descripcion in hallazgo.falla.all():
+            descripciones.append(descripcion.pk)
+
+        initial_data = {
+            'titulo' : hallazgo.titulo,
+            'requisito_referencia' : requisitos,
+            'descripciones' : descripciones,
+            'tipo_hallazgo' : hallazgo.tipo_hallazgo,
+            'observaciones' : hallazgo.observacion,
+        }
+
+        formulario_hallazgo = HallazgoProcesoDetalleForm(initial_data)
+        formulario_analisis_causa = AnalisisCausaForm()
+
+        contexto = {
+            'pk': pk,
+            'pk_pro': pk_pro,
+            'pk_hal': pk_hal,
+            'folio': auditoria.folio,
+            'proceso': proceso.proceso,
+            'subproceso': proceso.subproceso,
+            'titulo': hallazgo.titulo,
+            'form': formulario_hallazgo,
+            'formulario_analisis_causa': formulario_analisis_causa,
+        }
+
+        return render(request, self.template_name, contexto)
+
+    def post(self, request, pk, pk_pro, pk_hal):
+
+        auditoria = get_object_or_404(Auditoria, pk = pk)
+        proceso = get_object_or_404(ProcesoAuditoria, pk = pk_pro)
+        hallazgo = get_object_or_404(HallazgoProceso, pk = pk_hal)
+
+        formulario_hallazgo = HallazgoProcesoDetalleForm(request.POST)
+        formulario_analisis_causa = AnalisisCausaForm()
+
+        if formulario_hallazgo.is_valid():
+            datos_formulario = formulario_hallazgo.cleaned_data
+
+            hallazgo.titulo = datos_formulario.get('titulo')
+            hallazgo.tipo_hallazgo = datos_formulario.get('tipo_hallazgo')
+            hallazgo.observacion = datos_formulario.get('observaciones')
+            hallazgo.update_by = Profile.objects.get(pk = request.user.id)
+            hallazgo.save()
+
+            requisito_hallazgo_list_db = []
+            descripcion_hallazgo_list_db = []
+
+            for requistio in hallazgo.requisito_referencia.all():
+                requisito_hallazgo_list_db.append(requistio.id)
+
+            for requisito_choice in datos_formulario.get('requisito_referencia'):
+                requisito = Requisito.objects.get(pk=requisito_choice)
+
+                if requisito.pk in requisito_hallazgo_list_db:
+                    requisito_hallazgo_list_db.remove(requisito.pk)
+                else:
+                    hallazgo.requisito_referencia.add(requisito)
+
+            for list_requisito_db in requisito_hallazgo_list_db:
+                hallazgo.requisito_referencia.remove(Requisito.objects.get(pk=list_requisito_db))
+
+
+            for descripcion in hallazgo.falla.all():
+                descripcion_hallazgo_list_db.append(descripcion.id)
+
+            for descripcion_choice in datos_formulario.get('descripciones'):
+                descripcion = Falla.objects.get(pk=descripcion_choice)
+
+                if descripcion.pk in descripcion_hallazgo_list_db:
+                    descripcion_hallazgo_list_db.remove(descripcion.pk)
+                else:
+                    hallazgo.requisito_referencia.add(requisito)
+
+            for list_descripcion_db in descripcion_hallazgo_list_db:
+                hallazgo.falla.remove(Falla.objects.get(pk=list_descripcion_db))
+
+            return redirect(reverse('calidad:hallazgo_detalle', kwargs={ 'pk': pk, 'pk_pro': pk_pro, 'pk_hal': pk_hal }))
+
+        contexto = {
+            'form': formulario_hallazgo,
+            'formulario_analisis_causa': formulario_analisis_causa,
+            'pk': pk,
+            'pk_pro': pk_pro,
+            'proceso': proceso.proceso,
+            'subproceso': proceso.subproceso,
+            'folio': auditoria.folio,
+        }
+        return render(request, self.template_name, contexto)
 
 
 # class EvidenciaFormulario(View):
