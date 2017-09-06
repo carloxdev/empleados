@@ -11,8 +11,10 @@ var appnova = null
 \*-----------------------------------------------*/
 
 $(document).ready(function () {
-    
+
     appnova = new NovaSitio()
+
+    FastClick.attach(document.body);
 })
 
 /*-----------------------------------------------*\
@@ -41,7 +43,7 @@ NovaSitio.prototype.activar_Opcion = function (_option) {
 NovaSitio.prototype.set_AlertifyConfig = function () {
 
     alertify.set('notifier', 'position', 'top-right')
-    alertify.set('notifier', 'delay', 10)   
+    alertify.set('notifier', 'delay', 10)
 
     alertify.defaults.theme.ok = "btn btn-primary";
     alertify.defaults.theme.cancel = "btn btn-danger";
@@ -63,7 +65,7 @@ NovaSitio.prototype.get_ConfDateRangePicker = function () {
             cancelLabel: "Cancelar",
             fromLabel: "Del",
             separator: " al ",
-            toLabel: "Al",            
+            toLabel: "Al",
             weekLabel: "S",
             daysOfWeek: [
                 "Do",
@@ -87,13 +89,13 @@ NovaSitio.prototype.get_ConfDateRangePicker = function () {
                 "Octubre",
                 "Noviembre",
                 "Diciembre"
-            ],          
+            ],
         },
         // startDate: '2017-01-01'
         startDate: '01-01-2017'
     }
 }
-NovaSitio.prototype.validar_EspaciosSaltos = function (_string) 
-{ 
-    return _string.replace(/^\s+|\s+$/g,''); 
+NovaSitio.prototype.validar_EspaciosSaltos = function (_string)
+{
+    return _string.replace(/^\s+|\s+$/g,'');
 }
