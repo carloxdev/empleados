@@ -125,7 +125,6 @@ class PerfilPuestosDocumentoByPageAPI(viewsets.ModelViewSet):
     filter_backends = (DjangoFilterBackend,)
     filter_class = PerfilPuestoDocumentoFilter
     pagination_class = GenericPagination
-<<<<<<< HEAD
     permission_classes = (IsAuthenticated,)        
 
 class PerfilCompetenciasAPI(viewsets.ModelViewSet):
@@ -139,6 +138,5 @@ class PerfilCompetenciasByPageAPI(viewsets.ModelViewSet):
     filter_class = PerfilCompetenciaFilter
     pagination_class = GenericPagination
     permission_classes = (IsAuthenticated,)      
-=======
-    permission_classes = (IsAuthenticated,)
->>>>>>> origin/master
+
+

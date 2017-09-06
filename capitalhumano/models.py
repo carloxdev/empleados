@@ -178,15 +178,8 @@ class PerfilPuestoDocumento(models.Model):
     )
     cambio_residencia = models.BooleanField(default=False)
     disponibilidad_viajar = models.BooleanField(default=False)
-<<<<<<< HEAD
     requerimentos = models.CharField(max_length=144,  blank=True, null=True)
     areas_experiencia = models.ForeignKey(PerfilExperencia, blank=True, null=True)
-=======
-    requerimentos = models.CharField(max_length=144)
-    areas_experiencia = models.ForeignKey(
-        PerfilExperencia, blank=True, null=True)
-    competencias = models.ForeignKey(PerfilCompetencias, blank=True, null=True)
->>>>>>> origin/master
     proposito = models.CharField(max_length=144, blank=True)
 
    

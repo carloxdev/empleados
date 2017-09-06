@@ -260,7 +260,7 @@ class PerfilPuestoDocumentoForm(Form):
     asig_puesto_clave = ChoiceField(widget=Select(
         attrs={'class': 'select2 nova-select2'}))
 
-<<<<<<< HEAD
+
     GENERO = (
         ('muj', 'Femenino'),
         ('hom', 'Masculino'),
@@ -268,8 +268,6 @@ class PerfilPuestoDocumentoForm(Form):
     )
 
 
-=======
->>>>>>> origin/master
     class Meta:
         model = PerfilPuestoDocumento
 
@@ -299,11 +297,7 @@ class PerfilPuestoDocumentoForm(Form):
         }
 
         widgets = {
-<<<<<<< HEAD
-          
-=======
-            # 'reporta': Select(attrs={'class': 'form-control input-sm'}),
->>>>>>> origin/master
+
             'proposito': TextInput(attrs={'class': 'form-control input-xs'}),
             'genero': TextInput(attrs={'class': 'form-control input-xs'}),
             #'cambio_residencia': CheckboxInput(),
@@ -354,7 +348,7 @@ class PerfilPuestoDocumentoForm(Form):
 
     reporta = ChoiceField(label='Reporta', widget=Select(
         attrs={'class': 'select2 nova-select2'}))
-<<<<<<< HEAD
+
 
 
     nivel_estudio = ChoiceField(widget=Select())
@@ -364,9 +358,7 @@ class PerfilPuestoDocumentoForm(Form):
     genero = ChoiceField(
         label='Género',
         widget=RadioSelect, choices=GENERO)
-    
-=======
->>>>>>> origin/master
+
 
     def __init__(self, *args, **kwargs):
         super(PerfilPuestoDocumentoForm, self).__init__(
@@ -957,7 +949,7 @@ class PerfilPuestoListaForm(Form):
                 )
             )
         return valores
-<<<<<<< HEAD
+
 
 class PerfilAgregarCompetenciaForm(Form):
 
@@ -1013,5 +1005,4 @@ class PerfilAgregarCompetenciaForm(Form):
                 )
             )
         return valores
-=======
->>>>>>> origin/master
+

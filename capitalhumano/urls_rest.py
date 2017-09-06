@@ -77,7 +77,7 @@ router_capitalhumano.register(
     PerfilPuestosDocumentoByPageAPI,
     'perfilpuestosdoc_bypage'
 )
-<<<<<<< HEAD
+
 
 router_capitalhumano.register(
     r'perfilcompetencias',
@@ -91,5 +91,4 @@ router_capitalhumano.register(
     'perfilcompetencias_bypage'
 )
 
-=======
->>>>>>> origin/master
+

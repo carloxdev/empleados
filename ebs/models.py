@@ -237,7 +237,6 @@ class VIEW_ESPECIALIDADES(models.Model):
 
     class Meta:
         managed = False
-<<<<<<< HEAD
         db_table = u'"NUVAPP"."VIEW_ESPECIALIDADES"' 
 
 
@@ -249,6 +248,4 @@ class VIEW_COMPETENCIAS(models.Model):
     class Meta:
         managed = False
         db_table = u'"NUVAPP"."VIEW_COMPETENCIAS"'               
-=======
-        db_table = u'"NUVAPP"."VIEW_ESPECIALIDADES"'
->>>>>>> origin/master
+

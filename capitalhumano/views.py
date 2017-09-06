@@ -29,12 +29,10 @@ from .forms import DocPersonalFilterForm
 from .forms import DocCapacitacionFilterForm
 from .forms import PerfilAgregarPuestoCargoForm
 from .forms import PerfilPuestoListaForm
-<<<<<<< HEAD
 from .forms import PerfilAgregarCompetenciaForm
-=======
 from .forms import SolicitudesFilterForm
 from .forms import SolicitudesEditarForm
->>>>>>> origin/master
+
 
 
 # Serializer crear organigrama
@@ -444,13 +442,8 @@ class PerfilPuestoNuevo(View):
 
         if formulario.is_valid():
             perfilpuesto = formulario.save(commit=False)
-<<<<<<< HEAD
             
             perfilpuesto.asig_puesto_clave = datos_formulario.get('desc_puesto')
-=======
-
-            perfilpuesto.asig_puesto_clave = '11893'
->>>>>>> origin/master
             perfilpuesto.created_by = request.user.profile
 
             
