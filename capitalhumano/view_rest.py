@@ -24,8 +24,9 @@ from .serializers import ArchivoCapacitacionSerializer
 from .serializers import ArchivoSerializers
 from .serializers import DocumentoCapacitacionSerializers
 from .serializers import PerfilPuestosCargoSerializer
-from .serializers import PersonalSerializer
 from .serializers import PerfilCompetenciaSerializer
+from .serializers import PersonalSerializer
+from .serializers import CapacitacionSerializer
 
 # Paginadores:
 from .pagination import GenericPagination
@@ -46,6 +47,15 @@ class PersonalSerializerAPI(viewsets.ModelViewSet):
     pagination_class = GenericPagination
     filter_backends = (DjangoFilterBackend,)
     filter_class = DocumentoPersonalFilter
+    permission_classes = (IsAuthenticated,)
+
+
+class CapacitacionSerializerAPI(viewsets.ModelViewSet):
+    queryset = DocumentoCapacitacion.objects.all().order_by('-created_date')
+    serializer_class = CapacitacionSerializer
+    pagination_class = GenericPagination
+    # filter_backends = (DjangoFilterBackend,)
+    # filter_class = DocumentoPersonalFilter
     permission_classes = (IsAuthenticated,)
 
 
@@ -135,17 +145,18 @@ class PerfilPuestosDocumentoByPageAPI(viewsets.ModelViewSet):
     filter_backends = (DjangoFilterBackend,)
     filter_class = PerfilPuestoDocumentoFilter
     pagination_class = GenericPagination
-    permission_classes = (IsAuthenticated,)        
+    permission_classes = (IsAuthenticated,)
+
 
 class PerfilCompetenciasAPI(viewsets.ModelViewSet):
     queryset = PerfilCompetencias.objects.all()
-    serializer_class =PerfilCompetenciaSerializer
+    serializer_class = PerfilCompetenciaSerializer
+
 
 class PerfilCompetenciasByPageAPI(viewsets.ModelViewSet):
     queryset = PerfilCompetencias.objects.all()
-    serializer_class =PerfilCompetenciaSerializer 
+    serializer_class = PerfilCompetenciaSerializer
     filter_backends = (DjangoFilterBackend,)
     filter_class = PerfilCompetenciaFilter
     pagination_class = GenericPagination
-    permission_classes = (IsAuthenticated,)      
-
+    permission_classes = (IsAuthenticated,)

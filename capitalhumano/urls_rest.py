@@ -2,6 +2,7 @@
 from rest_framework import routers
 
 from .view_rest import PersonalSerializerAPI
+from .view_rest import CapacitacionSerializerAPI
 from capitalhumano.view_rest import DocumentoPersonalAPI
 from capitalhumano.view_rest import DocumentoCapacitacionAPI
 from capitalhumano.view_rest import ArchivoPersonalByPageAPI
@@ -24,6 +25,11 @@ router_capitalhumano.register(
     r'personal',
     PersonalSerializerAPI,
     'personal'
+)
+router_capitalhumano.register(
+    r'capacitacion',
+    CapacitacionSerializerAPI,
+    'capacitacion'
 )
 router_capitalhumano.register(
     r'documentopersonal',

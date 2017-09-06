@@ -7,7 +7,7 @@ register = template.Library()
 
 
 @register.filter('has_group')
-def has_group(user, groups_name):
+def tag_validate_has_group(user, groups_name):
     if groups_name != "":
         if user.is_superuser | \
                 user.groups.filter(name="ADMINISTRADOR").exists():
@@ -237,15 +237,6 @@ def tag_filter_radio(_field):
         'campo': _field,
     }
     return contexto
-
-
-@register.filter('has_group')
-def has_group(user, group_name):
-    if user.is_superuser:
-        return True
-    else:
-        groups = user.groups.all().values_list('name', flat=True)
-        return True if group_name in groups else False
 
 
 @register.inclusion_tag(

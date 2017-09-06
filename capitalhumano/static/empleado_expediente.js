@@ -8,7 +8,7 @@ var url_expediente_personal_bypage = window.location.origin  + "/api-capitalhuma
 var url_expediente_capacitacion_bypage = window.location.origin  + "/api-capitalhumano/archivocapacitacion_bypage/"
 var url_eliminar = window.location.origin + "/expedientes/"
 var url_profile =  window.location.origin + "/api-seguridad/profile/"
-var url_pruebapersonal = window.location.origin + "/api-capitalhumano/personal/"
+var url_documento_personal_grid = window.location.origin + "/api-capitalhumano/personal/"
 
 
 // OBJS
@@ -36,11 +36,13 @@ $(document).ready(function () {
 \*-----------------------------------------------*/
 
 function TarjetaResultados(){
+
         this.popup = new PopupPersonal()
         this.popup_cap = new PopupCapacitacion()
         this.personalizacion = new Personalizacion
         this.grid_personal = new GridPersonal()
         this.popup_informacion_personal = new PopupInformacionPersonal()
+        this.popup_informacion_capacitacion = new PopupInformacionCapacitacion()
 }
 
 /*-----------------------------------------------*\
@@ -272,7 +274,7 @@ PopupPersonal.prototype.validar_Archivo = function (_archivo) {
 \*-----------------------------------------------*/
 
 function PopupInformacionPersonal(){
-    this.$modal_informacion_personal = $('#modal_ver_personal')
+    this.$modal_informacion = $('#modal_ver_personal')
     this.$boton_salir = $('#id_boton_salir')
     this.$contenido = $('#contenido')
 
@@ -290,7 +292,7 @@ PopupInformacionPersonal.prototype.init_Events = function (){
 PopupInformacionPersonal.prototype.consultar_Registro = function (_id){
 
     $.ajax({
-          url: url_pruebapersonal + _id +"/",
+          url: url_documento_personal_grid + _id +"/",
           type: "GET",
           headers: { "X-CSRFToken": appnova.galletita },
           contentType: "application/json; charset=utf-8",
@@ -329,7 +331,7 @@ PopupInformacionPersonal.prototype.cargar_Archivos = function (_numero,_url_arch
 }
 PopupInformacionPersonal.prototype.hidden_Modal = function (e) {
 
-     e.data.$modal_informacion_personal.modal('hide')
+     e.data.$modal_informacion.modal('hide')
 }
 /*-----------------------------------------------*\
                         OBJETO: POPUP CAPACITACION
@@ -662,6 +664,71 @@ PopupCapacitacion.prototype.validar_Archivo = function (_archivo) {
         return extension
 }
 
+
+/*-----------------------------------------------*\
+            OBJETO: Pop up informacion personal
+\*-----------------------------------------------*/
+
+function PopupInformacionCapacitacion(){
+    this.$modal_informacion = $('#modal_ver_personal')
+    this.$boton_salir = $('#id_boton_salir')
+    this.$contenido = $('#contenido')
+
+    this.init_Components()
+    this.init_Events()
+
+}
+PopupInformacionCapacitacion.prototype.init_Components = function (){
+
+}
+PopupInformacionCapacitacion.prototype.init_Events = function (){
+
+    this.$boton_salir.on('click', this, this.hidden_Modal)
+}
+PopupInformacionCapacitacion.prototype.consultar_Registro = function (_id){
+
+    $.ajax({
+          url: url_documento_personal_grid + _id +"/",
+          type: "GET",
+          headers: { "X-CSRFToken": appnova.galletita },
+          contentType: "application/json; charset=utf-8",
+          success: function (_response) {
+            nombre_documento = _response.tipo_documento
+            url = _response.relacion
+            for (var i = 0; i < url.length; i++) {
+                url_archivo_personal = url[i]
+                tarjeta_resultados.popup_informacion_capacitacion.consultar_Archivo(i,url_archivo_personal, nombre_documento)
+            }
+          },
+          error: function (_response) {
+             alertify.error("Ocurrio un error al consultar")
+          }
+       })
+}
+PopupInformacionCapacitacion.prototype.consultar_Archivo = function (_numero, _url_archivo_personal, _nombre_documento){
+    $.ajax({
+          url: _url_archivo_personal,
+          type: "GET",
+          headers: { "X-CSRFToken": appnova.galletita },
+          contentType: "application/json; charset=utf-8",
+          success: function (_response) {
+            
+            url = _response.archivo
+            tarjeta_resultados.popup_informacion_capacitacion.cargar_Archivos(_numero+1,url,_nombre_documento)
+          },
+          error: function (_response) {
+             alertify.error("Ocurrio un error al consultar")
+          }
+       })
+}
+PopupInformacionCapacitacion.prototype.cargar_Archivos = function (_numero,_url_archivo,_nombre_documento){
+    this.$contenido.append("<a href='"+ _url_archivo +"' target='_blank'> Archivo No."+_numero+" : "+_nombre_documento+" </a><br>")
+
+}
+PopupInformacionCapacitacion.prototype.hidden_Modal = function (e) {
+
+     e.data.$modal_informacion.modal('hide')
+}
 /*-----------------------------------------------*\
                         OBJETO: FILTRO ARCHIVOS
 \*-----------------------------------------------*/
@@ -740,7 +807,7 @@ GridPersonal.prototype.get_DataSourceConfig = function () {
             pageSize: 10,
             transport: {
                     read: {
-                            url:  url_pruebapersonal, //url_expediente_personal_bypage,
+                            url:  url_documento_personal_grid, //url_expediente_personal_bypage,
                             type: "GET",
                             dataType: "json",
                     },
