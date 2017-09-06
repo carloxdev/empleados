@@ -1,13 +1,14 @@
 
 # Django's Libraries
+import os
 from django import template
 
 
 register = template.Library()
 
 
-@register.filter('has_group')
-def has_group(user, groups_name):
+@register.filter('tag_validate_has_group')
+def tag_validate_has_group(user, groups_name):
     if groups_name != "":
         if user.is_superuser | \
                 user.groups.filter(name="ADMINISTRADOR").exists():
@@ -17,6 +18,11 @@ def has_group(user, groups_name):
             return bool(user.groups.filter(name__in=group_list).values('name'))
     else:
         return True
+
+
+@register.filter('tag_get_filename')
+def tag_get_filename(value):
+    return os.path.basename(value.file.name)
 
 
 @register.inclusion_tag(
@@ -237,15 +243,6 @@ def tag_filter_radio(_field):
         'campo': _field,
     }
     return contexto
-
-
-@register.filter('has_group')
-def has_group(user, group_name):
-    if user.is_superuser:
-        return True
-    else:
-        groups = user.groups.all().values_list('name', flat=True)
-        return True if group_name in groups else False
 
 
 @register.inclusion_tag(

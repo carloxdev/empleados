@@ -1,6 +1,6 @@
 {% extends 'master.html' %}
 
-{% load filename %}
+{% load custom_tags %}
 
 {% load static from staticfiles %}
 
@@ -142,7 +142,7 @@
 					            		 
 					              			<i class="fa fa-file-o"></i>
 					              			
-					              			{{ anexo.archivo|filename }}
+					              			{{ anexo.archivo|tag_get_filename }}
 					              			
 					              			<!-- /.box-header -->
 								            <div class="box-body">
