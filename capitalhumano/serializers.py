@@ -121,8 +121,6 @@ class DocumentoCapacitacionSerializers(serializers.HyperlinkedModelSerializer):
         )
 
 # /api-capitalhumano/documentopersonal/64/
-
-
 class ArchivoSerializers(serializers.HyperlinkedModelSerializer):
     content_object = GenericRelatedField({
         DocumentoPersonal: serializers.HyperlinkedRelatedField(

@@ -37,11 +37,12 @@ from .filters import ArchivoPersonalFilter
 from .filters import ArchivoCapacitacionFilter
 from .filters import ArchivoFilter
 from .filters import DocumentoPersonalFilter
+from .filters import DocumentoCapacitacionFilter
 from .filters import PerfilpuestosCargoFilter
 from .filters import PerfilCompetenciaFilter
 
 
-class PersonalSerializerAPI(viewsets.ModelViewSet):
+class PersonalByPageAPI(viewsets.ModelViewSet):
     queryset = DocumentoPersonal.objects.all().order_by('-created_date')
     serializer_class = PersonalSerializer
     pagination_class = GenericPagination
@@ -50,12 +51,12 @@ class PersonalSerializerAPI(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated,)
 
 
-class CapacitacionSerializerAPI(viewsets.ModelViewSet):
+class CapacitacionByPageAPI(viewsets.ModelViewSet):
     queryset = DocumentoCapacitacion.objects.all().order_by('-created_date')
     serializer_class = CapacitacionSerializer
     pagination_class = GenericPagination
-    # filter_backends = (DjangoFilterBackend,)
-    # filter_class = DocumentoPersonalFilter
+    filter_backends = (DjangoFilterBackend,)
+    filter_class = DocumentoCapacitacionFilter
     permission_classes = (IsAuthenticated,)
 
 
