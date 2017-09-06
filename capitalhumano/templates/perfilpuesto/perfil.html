@@ -574,4 +574,12 @@
    <script src="{% static 'perfilpuesto/perfil_nuevo.js' %}"></script>     
    <script src="{% static 'perfilpuesto/perfil_organigrama.js' %}"></script> 
 
+    <script type="text/javascript">
+      $(document).ready(function(){
+        //initialize the javascript
+        App.init();
+        App.wizard();
+      });
+    </script>
+
 {% endblock scripts %}
