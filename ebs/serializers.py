@@ -11,6 +11,7 @@ from models import VIEW_EMPLEADOS_GRADO
 from models import VIEW_ORGANIZACIONES
 from models import VIEW_ORGANIGRAMA
 from models import VIEW_ESPECIALIDADES
+from models import VIEW_COMPETENCIAS
 
 
 class VIEW_EMPLEADOS_SIMPLE_Serializer(serializers.HyperlinkedModelSerializer):
@@ -201,4 +202,11 @@ class VIEW_ESPECIALIDADES_Serializer(serializers.HyperlinkedModelSerializer):
             'qua_especialidad',
         )
 
+class VIEW_COMPETENCIAS_Serializer(serializers.HyperlinkedModelSerializer):
 
+    class Meta:
+        model = VIEW_COMPETENCIAS
+        fields = (
+            'competence_id',
+            'descripcion',
+        )

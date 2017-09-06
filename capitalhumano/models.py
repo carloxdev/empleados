@@ -103,6 +103,9 @@ class PerfilCompetencias(models.Model):
         max_length=3
     )
 
+    id_puesto = models.CharField(max_length=144)
+    id_descripcion = models.CharField(max_length=10)
+
     descripcion = models.CharField(max_length=144)
     porcentaje = models.IntegerField(default=0)
 
@@ -130,7 +133,7 @@ class PerfilCompetencias(models.Model):
         return cadena
 
     class Meta:
-        verbose_name_plural = "Areas de Experiencia"
+        verbose_name_plural = "Perfil Competencias"
 
 
 class PerfilPuestoDocumento(models.Model):
@@ -175,11 +178,11 @@ class PerfilPuestoDocumento(models.Model):
     )
     cambio_residencia = models.BooleanField(default=False)
     disponibilidad_viajar = models.BooleanField(default=False)
-    requerimentos = models.CharField(max_length=144)
-    areas_experiencia = models.ForeignKey(
-        PerfilExperencia, blank=True, null=True)
-    competencias = models.ForeignKey(PerfilCompetencias, blank=True, null=True)
+    requerimentos = models.CharField(max_length=144,  blank=True, null=True)
+    areas_experiencia = models.ForeignKey(PerfilExperencia, blank=True, null=True)
     proposito = models.CharField(max_length=144, blank=True)
+
+   
 
     def __unicode__(self):
         cadena = "%s" % (self.id)
@@ -191,6 +194,7 @@ class PerfilPuestoDocumento(models.Model):
 
     class Meta:
         verbose_name_plural = "Documentos de Perfiles de Puestos"
+
 
 
 class Curso(models.Model):

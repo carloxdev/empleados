@@ -19,6 +19,7 @@ from ebs.models import VIEW_EMPLEADOS_FULL
 from jde.models import VIEW_PROVEEDORES
 from ebs.models import VIEW_ORGANIZACIONES
 from .models import PerfilPuestosCargo
+from .models import PerfilCompetencias
 from administracion.models import Solicitud
 
 
@@ -65,7 +66,6 @@ class PerfilPuestoDocumentoSerializer(serializers.HyperlinkedModelSerializer):
             'disponibilidad_viajar',
             'requerimentos',
             'areas_experiencia_id',
-            'competencias_id',
             'proposito',
             'puesto_acargo_id',
         )
@@ -797,3 +797,19 @@ class VIEW_ORGANIGRAMA_EMP_SERIALIZADO(object):
             cont += 1
 
         return padre
+
+
+class PerfilCompetenciaSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = PerfilCompetencias
+        fields = (
+            'pk',
+            'tipo_competencia',
+            'id_puesto',
+            'descripcion',
+            'porcentaje',
+            'created_by',
+            'created_date',
+            'updated_by',
+            'updated_date',
+        )        

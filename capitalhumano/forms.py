@@ -22,6 +22,8 @@ from jde.models import VIEW_UNIDADES
 from ebs.models import VIEW_TIPO_PERSONAS
 from ebs.models import VIEW_PUESTOS
 from ebs.models import VIEW_ORGANIZACIONES
+from ebs.models import VIEW_GRADO_ACADEMICO
+from ebs.models import VIEW_COMPETENCIAS
 from administracion.models import Empresa
 from administracion.models import Asunto
 from capitalhumano.models import PerfilPuestoDocumento
@@ -29,6 +31,10 @@ from capitalhumano.models import PerfilPuestoDocumento
 
 # Business
 from .business import EmpleadoBusiness
+
+from django import forms
+from django.forms import Form
+
 
 
 class OrganizacionesFilterForm(Form):
@@ -255,6 +261,12 @@ class PerfilPuestoDocumentoForm(Form):
     asig_puesto_clave = ChoiceField(widget=Select(
         attrs={'class': 'select2 nova-select2'}))
 
+    GENERO = (
+        ('muj', 'Femenino'),
+        ('hom', 'Masculino'),
+        ('ind', 'Indistinto'),
+    )
+
     class Meta:
         model = PerfilPuestoDocumento
 
@@ -268,7 +280,6 @@ class PerfilPuestoDocumentoForm(Form):
             'nivel_estudio',
             'estado_civil',
             'genero',
-            'cambio_residencia',
             'disponibilidad_viajar',
             'requerimentos',
             'puesto_acargo',
@@ -280,33 +291,57 @@ class PerfilPuestoDocumentoForm(Form):
 
         labels = {
             'proposito': 'Proposito :',
-            'funciones': 'Funciones :',
-            'responsabilidades': 'Responsabilidades :',
             'reporte': 'Reporte :',
-            'edad_minima': 'Edad Minima:',
-            'edad_maxima': 'Edad Maxima:',
-            'nivel_estudio': 'Nivel Estudio:',
-            'estado_civil': 'Estado Civil:',
             'genero': 'Genero:',
-            'cambio_residencia': 'Cambio Residencia:',
-            'disponibilidad_viajar': 'disponibilidad viajar:',
-            'requerimentos': 'Requerimentos:',
         }
 
         widgets = {
+
             # 'reporta': Select(attrs={'class': 'form-control input-sm'}),
             'proposito': TextInput(attrs={'class': 'form-control input-xs'}),
-            'funciones': TextInput(attrs={'class': 'form-control input-xs'}),
-            'responsabilidades': Textarea(attrs={'class': 'form-control input-xs', 'rows': '5'}),
-            'edad_minima': TextInput(attrs={'class': 'form-control input-xs'}),
-            'edad_maxima': TextInput(attrs={'class': 'form-control input-xs'}),
-            'nivel_estudio': TextInput(attrs={'class': 'form-control input-xs'}),
-            'estado_civil': TextInput(attrs={'class': 'form-control input-xs'}),
             'genero': TextInput(attrs={'class': 'form-control input-xs'}),
-            'cambio_residencia': CheckboxInput(),
+            #'cambio_residencia': CheckboxInput(),
             'disponibilidad_viajar': TextInput(attrs={'class': 'form-control input-xs'}),
-            'requerimentos': TextInput(attrs={'class': 'form-control input-xs'}),
+            #'requerimentos': TextInput(attrs={'class': 'form-control input-xs'}),
         }
+
+    cambio_residencia = CharField(
+        label="Disponibilidad para cambiar de residencia",
+        widget=CheckboxInput()
+    )
+
+    disponibilidad_viajar = CharField(
+        label="Disponibilidad para viajar",
+        widget=CheckboxInput()
+    )
+
+    edad_minima = CharField(
+        label="Edad Minima",
+        widget=TextInput(
+            attrs={'class': 'form-control input-xs', 'placeholder': 'edad minima'}
+        )
+    ) 
+
+    edad_maxima = CharField(
+        label="Edad Maxima",
+        widget=TextInput(
+            attrs={'class': 'form-control input-xs', 'placeholder': 'edad maxima'}
+        )
+    ) 
+
+    requerimentos = CharField(
+        widget=Textarea(attrs={'class': 'form-control input-xs', 'rows': '5'}))
+ 
+
+    objetivo = CharField(
+        label="Proposito",
+        widget=Textarea(attrs={'class': 'form-control input-xs', 'rows': '5'}))
+
+    funciones = CharField(
+        widget=Textarea(attrs={'class': 'form-control input-xs', 'rows': '5'}))
+
+    responsabilidades = CharField(
+        widget=Textarea(attrs={'class': 'form-control input-xs', 'rows': '5'}))
 
     desc_puesto = ChoiceField(label='Puesto', widget=Select(
         attrs={'class': 'select2 nova-select2'}))
@@ -314,11 +349,23 @@ class PerfilPuestoDocumentoForm(Form):
     reporta = ChoiceField(label='Reporta', widget=Select(
         attrs={'class': 'select2 nova-select2'}))
 
+
+    nivel_estudio = ChoiceField(widget=Select())
+
+    estado_civil = ChoiceField(widget=Select())
+
+    genero = ChoiceField(
+        label='Género',
+        widget=RadioSelect, choices=GENERO)
+
+
     def __init__(self, *args, **kwargs):
         super(PerfilPuestoDocumentoForm, self).__init__(
             *args, **kwargs)
         self.fields['reporta'].choices = self.get_Puestos()
         self.fields['desc_puesto'].choices = self.get_Puestos()
+        self.fields['nivel_estudio'].choices = self.get_Nivel()
+        self.fields['estado_civil'].choices = self.get_EstadoCivil()
         # self.fields['zona'].choices = self.get_Zonas()
 
     def get_Puestos(self):
@@ -336,6 +383,30 @@ class PerfilPuestoDocumentoForm(Form):
                 )
             )
         return valores
+
+    def get_Nivel(self):
+
+
+        valores = [('', '-------')]
+
+        niveles = VIEW_GRADO_ACADEMICO.objects.using('ebs_p').all()
+
+        for nivel in niveles:
+
+            valores.append(
+                (
+                    nivel.clave_grado,
+                    str(int(nivel.clave_grado)) + ' - ' + nivel.desc_grado,
+                )
+            )
+        return valores 
+
+    def get_EstadoCivil(self):
+
+
+        valores = [('ind', 'Indistinto'), ('sol', 'Soltero'),('cas', 'Casado'),('uni', 'Union Libre'), ('viu', 'Viudo'), ('div', 'Divorciado')]
+
+        return valores        
 
 
 class ExpedientesFilterForm(Form):
@@ -877,3 +948,60 @@ class PerfilPuestoListaForm(Form):
                 )
             )
         return valores
+
+
+class PerfilAgregarCompetenciaForm(Form):
+
+
+    OPCIONES = (
+        ('adm', 'Administrativas'),
+        ('tec', 'Tecnicas'),
+    )
+
+    tipo_competencia = ChoiceField(
+        label="Tipo de Competencia",
+        choices=OPCIONES,
+        widget=Select(
+            attrs={'class': 'select2 nova-select2'}
+        )
+    )
+
+    id_perfil_id = CharField(
+        label="Id de Perfil",
+        widget=TextInput(
+            attrs={'class': 'form-control input-xs'}
+        )
+    )
+
+    porcentaje = CharField(
+        label="Numero de porcentaje",
+        widget=TextInput(
+            attrs={'class': 'form-control input-xs'}
+        )
+    )
+    
+     
+    descripcion = ChoiceField(label='idcompetencia', widget=Select(
+        attrs={'class': 'select2 nova-select2'}))
+
+    def __init__(self, *args, **kwargs):
+        super(PerfilAgregarCompetenciaForm, self).__init__(
+            *args, **kwargs)
+        self.fields['descripcion'].choices = self.get_Competencias()
+
+    def get_Competencias(self):
+
+        valores = [('', '-------')]
+
+        competencias = VIEW_COMPETENCIAS.objects.using('ebs_d').all()
+
+        for competencia in competencias:
+
+            valores.append(
+                (
+                    str(int(competencia.competence_id)) + ' - ' + competencia.descripcion,
+                    str(int(competencia.competence_id)) + ' - ' + competencia.descripcion,
+                )
+            )
+        return valores
+

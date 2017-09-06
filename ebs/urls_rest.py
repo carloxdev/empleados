@@ -10,6 +10,7 @@ from ebs.views_rest import VIEW_EMPLEADOS_GRADO_API
 from ebs.views_rest import VIEW_EMPLEADOS_GRADO_ByPageAPI
 from ebs.views_rest import VIEW_ORGANIGRAMA_API
 from ebs.views_rest import VIEW_ESPECIALIDADES_API
+from ebs.views_rest import VIEW_COMPETENCIAS_API
 
 
 router_ebs = routers.DefaultRouter()
@@ -59,6 +60,12 @@ router_ebs.register(
     r'viewespecialidades',
     VIEW_ESPECIALIDADES_API,
     'viewespecialidades'
+)
+
+router_ebs.register(
+    r'viewcompetencias',
+    VIEW_COMPETENCIAS_API,
+    'viewcompetencias'
 )
 
 
