@@ -1,12 +1,13 @@
 
 # Django's Libraries
+import os
 from django import template
 
 
 register = template.Library()
 
 
-@register.filter('has_group')
+@register.filter('tag_validate_has_group')
 def tag_validate_has_group(user, groups_name):
     if groups_name != "":
         if user.is_superuser | \
@@ -17,6 +18,11 @@ def tag_validate_has_group(user, groups_name):
             return bool(user.groups.filter(name__in=group_list).values('name'))
     else:
         return True
+
+
+@register.filter('tag_get_filename')
+def tag_get_filename(value):
+    return os.path.basename(value.file.name)
 
 
 @register.inclusion_tag(

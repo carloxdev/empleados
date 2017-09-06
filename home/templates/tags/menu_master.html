@@ -13,7 +13,7 @@
                                 <span>Inicio</span>
                             </a>
                         </li>
-                        {%  if user|has_group:"FINANZAS_ADMIN" %}
+                        {%  if user|tag_validate_has_group:"FINANZAS_ADMIN" %}
                             <li class="parent"><a href="#"><i class="icon mdi mdi-money"></i><span>Finanzas</span></a>
                                 <ul class="sub-menu">
                                         <li id="viaticos_lista">
@@ -29,7 +29,7 @@
                                 </ul>
                             </li>
                         {% endif %}
-                        {%  if user|has_group:"COMPRAS_CONSULTA" %}
+                        {%  if user|tag_validate_has_group:"COMPRAS_CONSULTA" %}
                             <li class="parent"><a href="#"><i class="icon mdi mdi-shopping-cart"></i></i><span>Compras</span></a>
                                 <ul class="sub-menu">
                                     <li id="compras_seguimiento">
@@ -40,7 +40,7 @@
                                 </ul>
                             </li>
                         {% endif%}
-                        {%  if user|has_group:"CH_ADMIN,CH_OPERA" %}
+                        {%  if user|tag_validate_has_group:"CH_ADMIN,CH_OPERA" %}
                             <li class="parent"><a href="#"><i class="icon mdi mdi-accounts"></i></i><span>Capital Humano</span></a>
                                 <ul class="sub-menu">
                                     <li id="capitalhumano_dashboard">
@@ -54,7 +54,7 @@
                                             <span>Organigrama</span>
                                         </a>
                                     </li>
-                                    {%  if user|has_group:"CH_CONS_DATOS_PERSONAL" %}
+                                    {%  if user|tag_validate_has_group:"CH_CONS_DATOS_PERSONAL" %}
                                     <li id="capitalhumano_empeados">
                                         <a href="{% url 'capitalhumano:empleado_lista' %}">
                                             <span>Empleados</span>
@@ -81,7 +81,7 @@
                                             <span>Buzón interno</span>
                                         </a>
                                     </li>
-                                    {%  if user|has_group:"CH_ADMIN" %}
+                                    {%  if user|tag_validate_has_group:"CH_ADMIN" %}
                                     <li>
                                         <a href="{% url 'capitalhumano:perfil_configuracion' %}">
                                             <span>Configuracion</span>
@@ -125,7 +125,7 @@
                                 </li>
                             </ul>
                         </li>
-                        {%  if user|has_group:"CALIDAD_ADMIN,CALIDAD_LIDER,CALIDAD_AUDITOR" %}
+                        {%  if user|tag_validate_has_group:"CALIDAD_ADMIN,CALIDAD_LIDER,CALIDAD_AUDITOR" %}
                             <li class="parent"><a href="#"><i class="icon fa fa-check"></i><span>Calidad</span></a>
                                 <ul class="sub-menu">
                                     <li id="auditorias_lista">
@@ -140,7 +140,7 @@
                                             <span> Programa</span>
                                         </a>
                                     </li>
-                                    {%  if user|has_group:"CALIDAD_ADMIN" %}
+                                    {%  if user|tag_validate_has_group:"CALIDAD_ADMIN" %}
                                         <li id="calidad_configuracion">
                                             <a href="{% url 'calidad:configuracion_criterio_lista' %}">
                                                 <!--<i class="icon lrg mdi-search-in-file"></i>-->
@@ -165,7 +165,7 @@
                                 </li>
                             </ul>
                         </li>
-                        {%  if user|has_group:"SEGURIDAD_ADMIN,SEGURIDAD_SEGUIMIENTO" %}
+                        {%  if user|tag_validate_has_group:"SEGURIDAD_ADMIN,SEGURIDAD_SEGUIMIENTO" %}
                         <li class="parent"><a href="#"><i class="icon fa fa-shield"></i><span>Seguridad</span></a>
                             <ul class="sub-menu">
                                 <li>
