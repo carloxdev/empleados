@@ -51,11 +51,6 @@ class PerfilpuestosCargoFilter(filters.FilterSet):
 
 class PerfilCompetenciaFilter(filters.FilterSet):
 
-    # tipo_competentencia = CharFilter(
-    #     name="tipo_competencia",
-    #     lookup_expr="icontains"
-    # )
-
     id_puesto = CharFilter(
         name="id_puesto",
         lookup_expr="contains")

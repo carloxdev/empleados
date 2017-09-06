@@ -8,7 +8,8 @@ var url_expediente_personal_bypage = window.location.origin  + "/api-capitalhuma
 var url_expediente_capacitacion_bypage = window.location.origin  + "/api-capitalhumano/archivocapacitacion_bypage/"
 var url_eliminar = window.location.origin + "/expedientes/"
 var url_profile =  window.location.origin + "/api-seguridad/profile/"
-var url_documento_personal_grid = window.location.origin + "/api-capitalhumano/personal/"
+var url_documento_personal_grid = window.location.origin + "/api-capitalhumano/personal_bypage/"
+var url_documento_capacitacion_grid = window.location.origin +"/api-capitalhumano/capacitacion_bypage/"
 
 
 // OBJS
@@ -670,16 +671,15 @@ PopupCapacitacion.prototype.validar_Archivo = function (_archivo) {
 \*-----------------------------------------------*/
 
 function PopupInformacionCapacitacion(){
-    this.$modal_informacion = $('#modal_ver_personal')
+
+    this.$modal_informacion = $('#modal_ver_informacion')
     this.$boton_salir = $('#id_boton_salir')
     this.$contenido = $('#contenido')
 
     this.init_Components()
     this.init_Events()
-
 }
 PopupInformacionCapacitacion.prototype.init_Components = function (){
-
 }
 PopupInformacionCapacitacion.prototype.init_Events = function (){
 
@@ -688,16 +688,16 @@ PopupInformacionCapacitacion.prototype.init_Events = function (){
 PopupInformacionCapacitacion.prototype.consultar_Registro = function (_id){
 
     $.ajax({
-          url: url_documento_personal_grid + _id +"/",
+          url: url_documento_capacitacion_grid + _id +"/",
           type: "GET",
           headers: { "X-CSRFToken": appnova.galletita },
           contentType: "application/json; charset=utf-8",
           success: function (_response) {
-            nombre_documento = _response.tipo_documento
+            nombre_documento = _response.curso
             url = _response.relacion
             for (var i = 0; i < url.length; i++) {
-                url_archivo_personal = url[i]
-                tarjeta_resultados.popup_informacion_capacitacion.consultar_Archivo(i,url_archivo_personal, nombre_documento)
+                url_archivo_capacitacion = url[i]
+                tarjeta_resultados.popup_informacion_capacitacion.consultar_Archivo(i, url_archivo_capacitacion, nombre_documento)
             }
           },
           error: function (_response) {
@@ -705,9 +705,9 @@ PopupInformacionCapacitacion.prototype.consultar_Registro = function (_id){
           }
        })
 }
-PopupInformacionCapacitacion.prototype.consultar_Archivo = function (_numero, _url_archivo_personal, _nombre_documento){
+PopupInformacionCapacitacion.prototype.consultar_Archivo = function (_numero, _url_archivo_capacitacion, _nombre_documento){
     $.ajax({
-          url: _url_archivo_personal,
+          url: _url_archivo_capacitacion,
           type: "GET",
           headers: { "X-CSRFToken": appnova.galletita },
           contentType: "application/json; charset=utf-8",
@@ -722,8 +722,8 @@ PopupInformacionCapacitacion.prototype.consultar_Archivo = function (_numero, _u
        })
 }
 PopupInformacionCapacitacion.prototype.cargar_Archivos = function (_numero,_url_archivo,_nombre_documento){
-    this.$contenido.append("<a href='"+ _url_archivo +"' target='_blank'> Archivo No."+_numero+" : "+_nombre_documento+" </a><br>")
 
+    this.$contenido.append("<a href='"+ _url_archivo +"' target='_blank'> Archivo No."+_numero+" : "+_nombre_documento+" </a><br>")
 }
 PopupInformacionCapacitacion.prototype.hidden_Modal = function (e) {
 
@@ -877,7 +877,7 @@ GridPersonal.prototype.get_Columnas = function () {
             { field: "relacion", 
                 title: "Archivo", 
                 width:"60px" ,
-                template: '<a class="btn btn-default nova-url" href="\\#modal_ver_personal" data-toggle="modal" data-event="ver-personal" id="#=pk#"><i class="icon icon-left icon mdi mdi-file icon-black"></i></a>',
+                template: '<a class="btn btn-default nova-url" href="\\#modal_ver_informacion" data-toggle="modal" data-event="ver-personal" id="#=pk#"><i class="icon icon-left icon mdi mdi-file icon-black"></i></a>',
             },
             { field: "tipo_documento", title: "Tipo documento", width:"200px"},
             { field: "agrupador", title: "Agrupador", width:"100px"},
@@ -945,15 +945,13 @@ GridPersonal.prototype.convertir_Fecha = function (_fecha){
 GridPersonal.prototype.consultar_Registro = function (_id_documento) {
 
     $.ajax({
-             url: url_pruebapersonal +_id_documento+"/",
+             url: url_documento_personal_grid +_id_documento+"/",
              method: "GET",
              headers: { "X-CSRFToken": appnova.galletita },
              success: function (_response) {
                     url = _response.relacion
                     for (var i = 0; i < url.length; i++) {
-                        console.log(url[i])
                         id_archivo = url[i].split("/")[5]
-                        console.log(id_archivo)
                         tarjeta_resultados.grid_personal.eliminar_Archivo(id_archivo,_id_documento)
                     }
              },
@@ -1029,7 +1027,7 @@ GridCapacitacion.prototype.get_DataSourceConfig = function () {
             pageSize: 10,
             transport: {
                     read: {
-                            url: url_expediente_capacitacion_bypage,
+                            url: url_documento_capacitacion_grid,
                             type: "GET",
                             dataType: "json",
                     },
@@ -1054,7 +1052,8 @@ GridCapacitacion.prototype.get_DataSourceConfig = function () {
 GridCapacitacion.prototype.get_CamposCap = function () {
     return {
             pk: { type: "integer" },
-            archivo : { type: "string" },
+            relacion : { type: "string"},
+            // archivo : { type: "string" },
             curso : { type: "string" },
             agrupador: { type: "string" },
             area: { type: "string" },
@@ -1098,10 +1097,10 @@ GridCapacitacion.prototype.get_Columnas = function () {
                 width:"50px" ,
                 template: '<a class="btn nova-btn btn-default nova-btn-delete" id="#=pk#" data-event="eliminar-capacitacion"> <i class="icon icon-left icon mdi mdi-delete nova-white"></i></a>'
             },
-            { field: "archivo", 
+            { field: "relacion", 
                 title: "Archivo", 
                 width:"60px" ,
-                template: '<a class="btn btn-default nova-url" href="#=archivo#" target="_blank" id="documento"><i class="icon icon-left icon mdi mdi-file icon-black"></i></a>'
+                template: '<a class="btn btn-default nova-url" href="\\#modal_ver_informacion" data-toggle="modal" data-event="ver-capacitacion" id="#=pk#"><i class="icon icon-left icon mdi mdi-file icon-black"></i></a>',
             },
             { field: "curso", title: "Curso", width:"200px" },
             { field: "agrupador", title: "Agrupador", width:"100px"},
@@ -1123,11 +1122,16 @@ GridCapacitacion.prototype.get_Columnas = function () {
 GridCapacitacion.prototype.aplicar_Estilos = function (e) {
 
     e.sender.tbody.find("[data-event='eliminar-capacitacion']").each(function(idx, element){
+        $(this).on("click", function(){
+            grid_capacitacion.consultar_Registro(this.id)
+        })
+    })
 
-      $(this).on("click", function(){
-
-         grid_capacitacion.consultar_Registro(this.id)
-      })
+    e.sender.tbody.find("[data-event='ver-capacitacion']").each(function(idx, element){
+        $(this).on("click", function(){
+            tarjeta_resultados.popup_informacion_capacitacion.$contenido.empty()
+            tarjeta_resultados.popup_informacion_capacitacion.consultar_Registro(this.id)
+        })
     })
 
     columns = e.sender.columns
@@ -1150,16 +1154,18 @@ GridCapacitacion.prototype.buscar = function() {
 
     this.kfuente_datos.page(1)
 }
-GridCapacitacion.prototype.consultar_Registro = function (_id_archivo) {
+GridCapacitacion.prototype.consultar_Registro = function (_id_documento) {
 
     $.ajax({
-        url: url_archivo +_id_archivo+"/",
+        url: url_documento_capacitacion_grid +_id_documento+"/",
         method: "GET",
         headers: { "X-CSRFToken": appnova.galletita },
         success: function (_response) {
-                url = _response.content_object
-                id_capacitacion = url.split("/")[5]
-                grid_capacitacion.eliminar_Archivo(_id_archivo,id_capacitacion)
+                url = _response.relacion
+                for (var i = 0; i < url.length; i++) {
+                    id_archivo = url[i].split("/")[5]
+                    grid_capacitacion.eliminar_Archivo(id_archivo,_id_documento)
+                }
         },
         error: function (_response) {
                 alertify.error("No se ha podido realizar la consulta")

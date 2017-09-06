@@ -1,8 +1,8 @@
 # Librerias APi Rest:
 from rest_framework import routers
 
-from .view_rest import PersonalSerializerAPI
-from .view_rest import CapacitacionSerializerAPI
+from .view_rest import PersonalByPageAPI
+from .view_rest import CapacitacionByPageAPI
 from capitalhumano.view_rest import DocumentoPersonalAPI
 from capitalhumano.view_rest import DocumentoCapacitacionAPI
 from capitalhumano.view_rest import ArchivoPersonalByPageAPI
@@ -22,14 +22,14 @@ router_capitalhumano = routers.DefaultRouter()
 
 # --------------------DOCUMENTOS--------------------
 router_capitalhumano.register(
-    r'personal',
-    PersonalSerializerAPI,
-    'personal'
+    r'personal_bypage',
+    PersonalByPageAPI,
+    'personal_bypage'
 )
 router_capitalhumano.register(
-    r'capacitacion',
-    CapacitacionSerializerAPI,
-    'capacitacion'
+    r'capacitacion_bypage',
+    CapacitacionByPageAPI,
+    'capacitacion_bypage'
 )
 router_capitalhumano.register(
     r'documentopersonal',
