@@ -297,7 +297,6 @@ class PerfilPuestoDocumentoForm(Form):
 
         widgets = {
 
-            # 'reporta': Select(attrs={'class': 'form-control input-sm'}),
             'proposito': TextInput(attrs={'class': 'form-control input-xs'}),
             'genero': TextInput(attrs={'class': 'form-control input-xs'}),
             #'cambio_residencia': CheckboxInput(),
@@ -348,7 +347,6 @@ class PerfilPuestoDocumentoForm(Form):
 
     reporta = ChoiceField(label='Reporta', widget=Select(
         attrs={'class': 'select2 nova-select2'}))
-
 
     nivel_estudio = ChoiceField(widget=Select())
 

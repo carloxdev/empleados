@@ -148,3 +148,4 @@ class PerfilCompetenciasByPageAPI(viewsets.ModelViewSet):
     filter_class = PerfilCompetenciaFilter
     pagination_class = GenericPagination
     permission_classes = (IsAuthenticated,)      
+
