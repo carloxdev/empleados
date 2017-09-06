@@ -62,6 +62,7 @@ class PerfilExperienciaAdmin(admin.ModelAdmin):
 class PerfilPuestosCompetenciasAdmin(admin.ModelAdmin):
     list_display = (
         'pk',
+        'id_puesto',
         'tipo_competencia',
         'descripcion',
         'porcentaje',

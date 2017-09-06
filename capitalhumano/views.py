@@ -410,13 +410,15 @@ class PerfilPuestoNuevo(View):
     def post(self, request):
 
         formulario = PerfilPuestoDocumentoForm(request.POST)
+        datos_formulario = formulario.cleaned_data
 
         if formulario.is_valid():
             perfilpuesto = formulario.save(commit=False)
             
-            perfilpuesto.asig_puesto_clave = '11893'
+            perfilpuesto.asig_puesto_clave = datos_formulario.get('desc_puesto')
             perfilpuesto.created_by = request.user.profile
 
+            
             perfilpuesto.save()
 
             return redirect(reverse('capitalhumano:perfil_nuevo'))

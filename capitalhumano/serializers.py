@@ -63,7 +63,6 @@ class PerfilPuestoDocumentoSerializer(serializers.HyperlinkedModelSerializer):
             'disponibilidad_viajar',
             'requerimentos',
             'areas_experiencia_id',
-            'competencias_id',
             'proposito',
             'puesto_acargo_id',
         )
@@ -717,9 +716,10 @@ class PerfilCompetenciaSerializer(serializers.HyperlinkedModelSerializer):
         model = PerfilCompetencias
         fields = (
             'pk',
+            'tipo_competencia',
+            'id_puesto',
             'descripcion',
             'porcentaje',
-            'tipo_competencia',
             'created_by',
             'created_date',
             'updated_by',

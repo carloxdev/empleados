@@ -16,6 +16,7 @@ from .models import DocumentoPersonal
 from .models import DocumentoCapacitacion
 
 from .models import PerfilPuestosCargo
+from .models import PerfilCompetencias
 
 
 
@@ -46,6 +47,25 @@ class PerfilpuestosCargoFilter(filters.FilterSet):
         fields = [
             'id_puesto',
         ]
+
+class PerfilCompetenciaFilter(filters.FilterSet):
+
+    # tipo_competentencia = CharFilter(
+    #     name="tipo_competencia",
+    #     lookup_expr="icontains"
+    # )
+
+    id_puesto = CharFilter(
+        name="id_puesto",
+        lookup_expr="contains")
+
+    class Meta:
+        model = PerfilCompetencias
+        fields = [
+            'id_puesto',
+        ]        
+
+        
 
 
 class DocumentoPersonalFilter(filters.FilterSet):

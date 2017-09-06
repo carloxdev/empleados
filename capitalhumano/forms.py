@@ -281,7 +281,6 @@ class PerfilPuestoDocumentoForm(Form):
             'disponibilidad_viajar',
             'requerimentos',
             'puesto_acargo',
-            'objetivo',
         ]
         # 'created_by',
         # 'created_date',
@@ -292,9 +291,6 @@ class PerfilPuestoDocumentoForm(Form):
             'proposito': 'Proposito :',
             'reporte': 'Reporte :',
             'genero': 'Genero:',
-            'disponibilidad_viajar': 'disponibilidad viajar:',
-            'requerimentos': 'Requerimentos:',
-            'objetivo': 'Objetivos:',
         }
 
         widgets = {
@@ -303,7 +299,7 @@ class PerfilPuestoDocumentoForm(Form):
             'genero': TextInput(attrs={'class': 'form-control input-xs'}),
             #'cambio_residencia': CheckboxInput(),
             'disponibilidad_viajar': TextInput(attrs={'class': 'form-control input-xs'}),
-            'requerimentos': TextInput(attrs={'class': 'form-control input-xs'}),
+            #'requerimentos': TextInput(attrs={'class': 'form-control input-xs'}),
         }
 
     cambio_residencia = CharField(
@@ -331,14 +327,11 @@ class PerfilPuestoDocumentoForm(Form):
     ) 
 
     requerimentos = CharField(
-        label="Requerimentos",
-        widget=TextInput(
-            attrs={'class': 'form-control input-xs', 'placeholder': 'Requerimentos'}
-        )
-    )  
+        widget=Textarea(attrs={'class': 'form-control input-xs', 'rows': '5'}))
  
 
     objetivo = CharField(
+        label="Proposito",
         widget=Textarea(attrs={'class': 'form-control input-xs', 'rows': '5'}))
 
     funciones = CharField(
@@ -917,7 +910,35 @@ class PerfilPuestoListaForm(Form):
 
 class PerfilAgregarCompetenciaForm(Form):
 
- 
+
+    OPCIONES = (
+        ('adm', 'Administrativas'),
+        ('tec', 'Tecnicas'),
+    )
+
+    tipo_competencia = ChoiceField(
+        label="Tipo de Competencia",
+        choices=OPCIONES,
+        widget=Select(
+            attrs={'class': 'select2 nova-select2'}
+        )
+    )
+
+    id_perfil_id = CharField(
+        label="Id de Perfil",
+        widget=TextInput(
+            attrs={'class': 'form-control input-xs'}
+        )
+    )
+
+    porcentaje = CharField(
+        label="Numero de porcentaje",
+        widget=TextInput(
+            attrs={'class': 'form-control input-xs'}
+        )
+    )
+    
+     
     descripcion = ChoiceField(label='idcompetencia', widget=Select(
         attrs={'class': 'select2 nova-select2'}))
 
@@ -936,7 +957,7 @@ class PerfilAgregarCompetenciaForm(Form):
 
             valores.append(
                 (
-                    str(int(competencia.competence_id)),
+                    str(int(competencia.competence_id)) + ' - ' + competencia.descripcion,
                     str(int(competencia.competence_id)) + ' - ' + competencia.descripcion,
                 )
             )

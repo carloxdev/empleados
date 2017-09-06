@@ -55,6 +55,8 @@
                   <input type="hide" class="hide" value="{{ request.user.profile.pk }}" id="created_by">
                   <input type="hide" class="hide"  id="numero_puesto">
 
+                  <input type="text" class="hide"  id="id_doc_perfil">
+
                   <div class="actions">
                     <button type="button" class="btn btn-xs btn-prev btn-default"><i class="icon mdi mdi-chevron-left"></i>Prev</button>
                     <button type="button" data-last="Finish" class="btn btn-xs btn-next btn-default">Next<i class="icon mdi mdi-chevron-right"></i></button>
@@ -383,10 +385,15 @@
                         <p>
                         <div class="form-group">
                           <div class="col-sm-7">
-                            <label class="control-label">Otros Requerimientos</label>                        
-                            <textarea class="form-control"></textarea>
+                            <label class="control-label">Otros Requerimientos</label>    
+                            {{ form.requerimentos }}  
+                            {% for error in form.requerimientos.errors %}
+                                 <span class="help-block">{{ error }}</span>
+                              {% endfor %}                    
+                            <!--<textarea class="form-control"></textarea>-->
                           </div>
                         </div>
+                        <br>
                         </p>
 
 
@@ -410,12 +417,11 @@
 
                         <div class="form-group">
                           <!--<label class="col-sm-3 control-label"> Competencias Administrativas</label>-->
-                           
-                            <div class="main-content container-fluid">
+                           <div class="main-content container-fluid">
                                       <div class="row">
-                                        <div class="col-sm-6">
+                                        <div class="col-sm-9">
                                           <div class="panel panel-default panel-table">
-                                            <div class="panel-heading">Administrativas
+                                            <div class="panel-heading">Administrativas - Tecnicas
                                               <div class="tools"><span class="icon mdi mdi-download"></span><span class="icon mdi mdi-more-vert"></span></div>
                                             </div>
                                             <div class="panel-body">
@@ -430,16 +436,16 @@
                                             </div>
                                           </div>
                                         </div>
-                                        <div class="row">
+                                        <!--<div class="row">
                                            <div class="col-sm-3 xs-pt-15">
                                              <button class="btn btn-primary btn-space wizard-next">Agregar</button>
                                            </div>
-                                        </div>
+                                        </div>-->
                                       </div>
                             </div> 
                         </div>
 
-                             <div class="form-group">
+                            <!-- <div class="form-group">
                                 <label class="col-sm-3 control-label"> Competencias Tecnicas </label>
                                    <div class="main-content container-fluid">
                                           <div class="row">
@@ -449,7 +455,7 @@
                                                   <div class="tools"><span class="icon mdi mdi-download"></span><span class="icon mdi mdi-more-vert"></span></div>
                                                 </div>
                                                 <div class="panel-body">
-                                                <div id="grid_resultados_competencias" class="nova-div-overflow"> </div>
+                                                <div id="grid_resultados_competencias_tec" class="nova-div-overflow"> </div>
                                                 </div>
                                               </div>
                                             </div>
@@ -461,7 +467,7 @@
                                           </div>
 
                                     </div>
-                            </div>
+                            </div>-->
 
 
 <!-- Modal puestos competencia-->
@@ -485,6 +491,30 @@
                     </div> 
                 </div>
 
+                <!-- descripcion -->
+                <div class="modal-body form-horizontal">
+                    <div class="form-group">
+                        <label class="col-sm-3 nova-col-filter control-label">Tipo de Competencia</label>
+                        <div class="col-sm-8 xs-pt-5">
+                            {{ formc.tipo_competencia }}
+                        </div>
+
+                    </div> 
+                </div>
+
+                <!-- porcentaje -->
+                <div class="modal-body form-horizontal">
+                    <div class="form-group">
+                        <label class="col-sm-3 nova-col-filter control-label">Porcentaje</label>
+                        <div class="col-sm-8 xs-pt-5">
+                            {{ formc.porcentaje }}
+                        </div>
+
+                    </div> 
+                </div>
+
+                
+
                {% for error in formc.descripcion.errors %}
                  <span class="help-block">{{ error }}</span>
                {% endfor %}  
@@ -502,12 +532,10 @@
         </div> <!-- Modal content-->
     </div> <!-- Modal dialog -->
 </div><!-- Modal puestos a cargo-->
-
-
                               <div class="form-group">
                                  <div class="col-sm-12">
                                    <button data-wizard="#wizard1" class="btn btn-default btn-space wizard-previous">Previous</button>
-                                   <button data-wizard="#wizard1" class="btn btn-success btn-space wizard-next">Terminar</button>
+                                   <button  type="button" data-wizard="#wizard1" class="btn btn-success btn-space wizard-next" id="id_btguardar_perfil_detalle">Terminar</button>
                                  </div>
                               </div>
 

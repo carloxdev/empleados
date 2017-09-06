@@ -39,6 +39,7 @@ from .filters import ArchivoFilter
 from .filters import DocumentoPersonalFilter
 
 from .filters import PerfilpuestosCargoFilter
+from .filters import PerfilCompetenciaFilter
 
 
 
@@ -132,3 +133,11 @@ class PerfilPuestosDocumentoByPageAPI(viewsets.ModelViewSet):
 class PerfilCompetenciasAPI(viewsets.ModelViewSet):
     queryset = PerfilCompetencias.objects.all()
     serializer_class =PerfilCompetenciaSerializer
+
+class PerfilCompetenciasByPageAPI(viewsets.ModelViewSet):
+    queryset = PerfilCompetencias.objects.all()
+    serializer_class =PerfilCompetenciaSerializer 
+    filter_backends = (DjangoFilterBackend,)
+    filter_class = PerfilCompetenciaFilter
+    pagination_class = GenericPagination
+    permission_classes = (IsAuthenticated,)      
