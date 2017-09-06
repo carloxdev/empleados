@@ -34,16 +34,38 @@
             <form class="block-wizard panel panel-default nova-panel-borde-header" action="" method="POST" > {% csrf_token %}
 
                <div id="wizard1" class="wizard wizard-ux">
-                  <ul class="steps">
+                 <div class="nova-wizard-header">
 
-                     <li class="active">Auditoría No: {{folio}}</li>
+                     <span class="nova-wizard-title">Auditoría No: <strong>{{folio}}</strong></span>
+                     <div class="nova-wizard-tools visible-xs-inline-block dropdown"><span data-toggle="dropdown" class="icon mdi mdi-more-vert dropdown-toggle" aria-expanded="false"></span>
+                         <ul role="menu" class="dropdown-menu">
+                           <li>
+                             <a href="{% url 'calidad:general_formulario_update' pk %}">Generales</a>
+                           </li>
+                           <li class="active">
+                             <a>Equipo Auditor</a>
+                           </li>
+                           <li>
+                             <a {% if operation == 'Editar' %}
+                                  href="{% url 'calidad:proceso_lista' pk %}"
+                                {% endif %}
+                                >Procesos
+                             </a>
+                           </li>
+                         </ul>
+                     </div>
 
-                  </ul>
-                  <div class="actions">
-                     <a href="{% url 'calidad:general_formulario' %}" class="btn btn-xs btn-prev btn-default nova-a-tab">Generales</a>
+                 </div>
+                  <div class="actions hidden-xs">
+                     <a href="{% url 'calidad:general_formulario_update' pk %}" class="btn btn-xs btn-prev btn-default nova-a-tab">Generales</a>
                      <a class="btn btn-xs btn-next btn-default nova-a-tab nova-active-tab">Equipo Auditor</a>
-                     <a href="{% url 'calidad:proceso_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Procesos</a>
+                     <a {% if operation == 'Editar' %}
+                          href="{% url 'calidad:proceso_lista' pk %}"
+                        {% endif %}
+                        class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Procesos
+                     </a>
                   </div>
+
                   <div class="step-content nova-panel-border-top">
                      <div class="step-pane active">
 

@@ -2,12 +2,13 @@
 
 {% load static from staticfiles %}
 
+{% load custom_tags %}
+
 {% block titulo %} Requisitos del Proceso {% endblock titulo %}
 
 {% block title-page %} Requisitos del Proceso  {% endblock title-page %}
 
 {% block css %}
-
 
 {% endblock css %}
 
@@ -20,42 +21,56 @@
       <ol class="breadcrumb page-head-nav pull-right">
          <li><a href="{% url 'home:inicio' %}">Inicio</a></li>
          <li id="menu" data-opcion="auditorias_lista"><a href="{% url 'calidad:auditoria_lista' %}">Procesos de Auditoría</a></li>
-         <li><a href="{% url 'calidad:proceso_lista' %}">Procesos</a></li>
+         <li><a href="{% url 'calidad:proceso_lista' pk %}">Procesos</a></li>
          <li class="active">Requisitos</li>
       </ol>
    </div>
 
    <div class="main-content container-fluid nova-main-content">
-      
+
       <div class="row wizard-row">
 
          <div class="col-md-12 fuelux">
-            
+
             <!-- wizzard tab -->
             <div id="wizard1" class="wizard wizard-ux nova-panel-borde-header">
-               
-               <ul class="steps">
-                  <li class="active">Auditoría No: <strong>AUD-01-15</strong>
-                  </li>
-               </ul>
-               <div class="actions">
-                  <a href="{% url 'calidad:general_formulario' %}" class="btn btn-xs btn-prev btn-default nova-a-tab">Generales</a>
-                  <a href="{% url 'calidad:auditor_formulario' %}" class="btn btn-xs btn-next btn-default nova-a-tab">Equipo Auditor</a>
-                  <a href="{% url 'calidad:proceso_lista' %}" class="btn btn-xs btn-next btn-default nova-a-tab nova-a-tab-border nova-active-tab">Procesos</a>
+
+               <div class="nova-wizard-header">
+
+                   <span class="nova-wizard-title">Auditoría No: <strong>{{folio}}</strong></span>
+                   <div class="nova-wizard-tools visible-xs-inline-block dropdown"><span data-toggle="dropdown" class="icon mdi mdi-more-vert dropdown-toggle" aria-expanded="false"></span>
+                       <ul role="menu" class="dropdown-menu">
+                         <li>
+                           <a href="{% url 'calidad:general_formulario_update' pk %}">Generales</a>
+                         </li>
+                         <li>
+                           <a href="{% url 'calidad:auditor_formulario_update' pk %}" >Equipo Auditor</a>
+                         </li>
+                         <li class="active">
+                           <a href="{% url 'calidad:proceso_lista' pk %}">Procesos</a>
+                         </li>
+                       </ul>
+                   </div>
+
+               </div>
+               <div class="actions hidden-xs">
+                  <a href="{% url 'calidad:general_formulario_update' pk %}" class="btn btn-xs btn-prev btn-default nova-a-tab">Generales</a>
+                  <a href="{% url 'calidad:auditor_formulario_update' pk %}" class="btn btn-xs btn-next btn-default nova-a-tab">Equipo Auditor</a>
+                  <a href="{% url 'calidad:proceso_lista' pk %}" class="btn btn-xs btn-next btn-default nova-a-tab nova-a-tab-border nova-active-tab">Procesos</a>
                </div>
                <div class="nova-content-nav">
-                     
-                  <div class="nova-breadcrumb-nav"> 
+
+                  <div class="nova-breadcrumb-nav">
                      <ol class="breadcrumb">
-                        <li id="menu" data-opcion="auditorias_lista"><a href="{% url 'calidad:proceso_lista' %}"><span class="badge">Lista de Procesos</span></a></li>
-                        <li class="active"><a><span class="badge">Proceso: Licitaciones</span></a></li>
+                        <li id="menu" data-opcion="auditorias_lista"><a href="{% url 'calidad:proceso_lista' pk %}"><span class="badge">Lista de Procesos</span></a></li>
+                        <li class="active"><a><span class="badge">Proceso: {{ proceso }}</span></a></li>
                      </ol>
                   </div>
 
                   <div role="group" class="btn-group btn-group-justified nova-nav-tab">
-                     <a href="{% url 'calidad:proceso_formulario' %}" class="btn btn-default">Información</a>
+                     <a href="{% url 'calidad:proceso_formulario_update' pk pk_pro %}" class="btn btn-default">Información</a>
                      <a class="btn btn-primary">Requisitos</a>
-                     <a href="{% url 'calidad:hallazgo_lista' %}" class="btn btn-default">Hallazgos</a>
+                     <a href="{% url 'calidad:hallazgo_lista' pk pk_pro %}" class="btn btn-default">Hallazgos</a>
                   </div>
 
                </div>
@@ -65,9 +80,8 @@
             <!-- Tarjeta resultados-->
             <div class="panel panel-default panel-table">
 
-               <div class="panel-heading nova-panel-borde-contenido nova-panel-tools">   
-                  <a href="#id_tarjeta_nuevo_requisito"
-                     class="btn nova-btn btn-rounded btn-sm btn-space btn-default pull-right" data-toggle="modal" id="id_boton_nuevo">
+               <div class="panel-heading nova-panel-borde-contenido nova-panel-tools">
+                  <a class="btn nova-btn btn-rounded btn-sm btn-space btn-default pull-right" data-toggle="modal" id="id_boton_nuevo_requisito">
                      <i class="icon icon-left mdi mdi-plus-circle nova-black"></i>Nuevo
                   </a>
                </div><!-- Panel Heading -->
@@ -78,132 +92,82 @@
                         <tr>
                            <th class="nova-columna-acciones"></th>
                            <th>Requisito</th>
-                           <th>Clasificación</th>
                            <th>Criterio</th>
+                           <th>Clasificación</th>
                         </tr>
                      </thead>
-                     <tbody>
-                        <tr class="clickable-row">
-                           <td>
-                              <a href="#id_tarjeta_acciones" data-toggle="modal" class="btn nova-btn nova-btn-delete" id="id_boton_eliminar">
-                                 <i class="icon icon-left icon mdi mdi-delete nova-white"></i>
-                              </a>
+                     <tbody id="id_tbody_requisito_proceso">
+                       {% if requisitos %}
+
+                          {% for requisito in requisitos %}
+                              <tr class="clickable-row">
+                                 <td>
+                                    <a data-primaryKey="{{ requisito.pk }}" data-event="eliminarRequisito" data-toggle="modal" class="btn nova-btn nova-btn-delete" id="id_boton_eliminar">
+                                       <i class="icon icon-left icon mdi mdi-delete nova-white"></i>
+                                    </a>
+                                 </td>
+                                 <td>
+                                    <a data-primaryKey="{{ requisito.pk }}" data-event="editarRequisito" class="btn btn-default nova-url" data-toggle="modal">{{ requisito.requisito }}</a>
+                                 </td>
+                                 <td>{{ requisito.requisito.criterio }}</td>
+                                 <td>{{ requisito.requisito.criterio.clasificacion }}</td>
+                              </tr>
+                          {% endfor %}
+
+                       {% else %}
+                         <tr class="clickable-row">
+                           <td colspan="4" class="nova-aling-center nova-sin-resultados">
+                             Sin Requisitos para el Proceso.
                            </td>
-                           <td>
-                              <a href="#id_tarjeta_nuevo_requisito" class="btn btn-default nova-url" data-toggle="modal">Requisito 12.1</a>
-                           </td>
-                           <td>Norma</td>
-                           <td>ISO 9001:2008</td>
-                        </tr>
-                        <tr class="clickable-row">
-                           <td>
-                              <a href="#id_tarjeta_acciones" data-toggle="modal" class="btn nova-btn nova-btn-delete" id="id_boton_eliminar">
-                                 <i class="icon icon-left icon mdi mdi-delete nova-white"></i>
-                              </a>
-                           </td>
-                           <td>
-                              <a href="#id_tarjeta_nuevo_requisito" class="btn btn-default nova-url" data-toggle="modal">Requisito 12.3</a>
-                           </td>
-                           <td>Norma</td>
-                           <td>ISO 14001:2004</td>
-                        </tr>
-                        <tr class="clickable-row">
-                           <td>
-                              <a href="#id_tarjeta_acciones" data-toggle="modal" class="btn nova-btn nova-btn-delete" id="id_boton_eliminar">
-                                 <i class="icon icon-left icon mdi mdi-delete nova-white"></i>
-                              </a>
-                           </td>
-                           <td>
-                              <a href="#id_tarjeta_nuevo_requisito" class="btn btn-default nova-url" data-toggle="modal">Requisito 1.2</a>
-                           </td>
-                           <td>Norma</td>
-                           <td>ISO 14001:2004</td>
-                        </tr>
-                        <tr class="clickable-row">
-                           <td>
-                              <a href="#id_tarjeta_acciones" data-toggle="modal" class="btn nova-btn nova-btn-delete" id="id_boton_eliminar">
-                                 <i class="icon icon-left icon mdi mdi-delete nova-white"></i>
-                              </a>
-                           </td>
-                           <td>
-                              <a href="#id_tarjeta_nuevo_requisito" class="btn btn-default nova-url" data-toggle="modal">Requisito 1.1</a>
-                           </td>
-                           <td>Norma</td>
-                           <td>OHSAS 18001:2007</td>
-                        </tr>
+                         </tr>
+                       {% endif %}
                      </tbody>
                   </table>
                </div>
             </div> <!-- Panel -->
          </div> <!-- col sm 12 fuelux-->
       </div> <!-- wizzard row -->
+      <input type="hide" class="hide" value="{{ request.user.profile.pk }}" id="id_actual_user">
+      <input type="hide" class="hide" value="{{ pk_pro }}" id="id_pk_pro">
+      {% if messages %}
+          {% for message in messages %}
+              <input type="hide" class="hide" value="{{ message }}" id="id_{{ message.extra_tags }}">
+          {% endfor %}
+      {% endif %}
    </div> <!-- main content -->
 
-   <!-- Tarjeta Nuevo-->
-   <div id="id_tarjeta_nuevo_requisito" role="dialog" class="modal fade colored-header colored-header-primary">
+   <!-- Nuevo Requisito -->
+   <div id="id_tarjeta_requisito" data-primaryKey="" role="dialog" class="modal fade colored-header colored-header-primary">
       <div class="modal-dialog custom-width">
          <div class="modal-content">
-            
+
             <div class="modal-header nova-modal-header">
                <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
-               <h3 class="modal-title">Nuevo requisito</h3>
+               <h3 class="modal-title" id="id_popup_requisito_titulo"></h3>
             </div>
-               
-            <form id="formulario_proceso" class="modal-body form-horizontal">
+            <form id="formulario_proceso"  method="POST"> {% csrf_token %}
 
-               <div class="form-group">
-                  <label class="col-sm-3 nova-col-filter control-label">Clasificación</label>
-                  <div class="col-sm-7 xs-pt-5">
-                     <select class="select2 select2-hidden-accessible" tabindex="-1" aria-hidden="true" id="id_clasificacion_requisito">
-                        <option value="" selected="selected">-------</option>
-                        <option value="Norma">Norma</option>
-                        <option value="Legal">Legal</option>
-                        <option value="Contractual">Contractual</option>
-                        <option value="RSC">RSC</option>
-                     </select>
-                  </div>
-               </div>
+                <div class="modal-body form-horizontal">
 
-               <div class="form-group">
-                  <label class="col-sm-3 nova-col-filter control-label">Criterio</label>
-                  <div class="col-sm-7 xs-pt-5">
-                     <select class="select2 select2-hidden-accessible" tabindex="-1" aria-hidden="true" id="id_norma">
-                        <option value="" selected="selected">-------</option>
-                        <option value="ISO 9001:2008">ISO 9001:2008</option>
-                        <option value="ISO 14001:2004">ISO 14001:2004</option>
-                        <option value="OHSAS 18001:2007">OHSAS 18001:2007</option>
-                     </select>
-                  </div>
-               </div>
+                      {% tag_field_popup form.criterio 3 8 %}
 
-               <div class="form-group">
-                  <label class="col-sm-3 nova-col-filter control-label">Requisito</label>
-                  <div class="col-sm-7 xs-pt-5">
-                     <select class="select2 select2-hidden-accessible" tabindex="-1" aria-hidden="true" id="id_requisito">
-                        <option value="" selected="selected">-------</option>
-                        <option value="ISO9001-14-1">Requisito 14.1 Demostrar que los documentos</option>
-                        <option value="ISO9001-14-1">Requisito 12.2 Demostrar que los documentos</option>
-                        <option value="ISO9001-14-1">Requisito 16.5 Demostrar que los documentos</option>
-                        <option value="ISO9001-14-1">Requisito 1.6 Demostrar que los documentos</option>
-                        <option value="ISO9001-14-1">Requisito 9.1 Demostrar que los documentos</option>
-                        <option value="ISO9001-14-1">Requisito 2.1 Demostrar que los documentos</option>
-                     </select>
-                  </div>
-               </div>
+                      {% tag_field_popup form.requisito 3 8 %}
 
-            </form><!-- Modal body-->
-            <div class="modal-footer nova-modal-footer">
-                <div class="row col-sm-12">
-                     <button type="button" data-dismiss="modal" class="btn btn-default pull-left">
-                        Cerrar
-                     </button>
+                </div><!-- Modal body-->
+                <div class="modal-footer nova-modal-footer">
+                    <div class="row col-sm-12">
+                       <button type="button" data-dismiss="modal" class="btn btn-default pull-left">
+                          Cerrar
+                       </button>
 
-                     <button type="button" id="id_boton_guardar" class="btn nova-btn btn-primary btn-lg pull-right">
-                        <i class="icon icon-left mdi mdi-floppy nova-white"></i>
-                        Guardar
-                     </button>
-               </div>
-            </div>
+                       <button type="submit" id="id_boton_guardar" class="btn nova-btn btn-primary btn-lg pull-right">
+                          <i class="icon icon-left mdi mdi-floppy nova-white"></i>
+                          Guardar
+                       </button>
+                   </div>
+                </div>
+
+            </form>
          </div> <!-- Modal content-->
       </div> <!-- Modal dialog -->
    </div><!-- Modal -->
@@ -213,7 +177,7 @@
 {% endblock contenido %}
 
 {% block scripts %}
-   
+
    <!-- Beagle Theme -->
    <script src="{% static 'theme/lib/daterangepicker/js/daterangepicker.js' %}"></script>
 

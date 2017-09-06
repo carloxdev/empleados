@@ -17,8 +17,13 @@ from .models import DocumentoCapacitacion
 from .models import Curso
 from ebs.models import VIEW_EMPLEADOS_FULL
 from jde.models import VIEW_PROVEEDORES
+from ebs.models import VIEW_ORGANIZACIONES
 from .models import PerfilPuestosCargo
+<<<<<<< HEAD
 from .models import PerfilCompetencias
+=======
+from administracion.models import Solicitud
+>>>>>>> origin/master
 
 
 # GenerisForeignKey
@@ -26,6 +31,7 @@ from generic_relations.relations import GenericRelatedField
 
 
 class PerfilPuestosCargoSerializer(serializers.HyperlinkedModelSerializer):
+
     class Meta:
         model = PerfilPuestosCargo
         fields = (
@@ -66,7 +72,6 @@ class PerfilPuestoDocumentoSerializer(serializers.HyperlinkedModelSerializer):
             'proposito',
             'puesto_acargo_id',
         )
-
 
 # ----------Serializers para insertar registros------------------
 
@@ -119,8 +124,9 @@ class DocumentoCapacitacionSerializers(serializers.HyperlinkedModelSerializer):
             'nombre_completo',
         )
 
-
 # /api-capitalhumano/documentopersonal/64/
+
+
 class ArchivoSerializers(serializers.HyperlinkedModelSerializer):
     content_object = GenericRelatedField({
         DocumentoPersonal: serializers.HyperlinkedRelatedField(
@@ -130,7 +136,11 @@ class ArchivoSerializers(serializers.HyperlinkedModelSerializer):
         DocumentoCapacitacion: serializers.HyperlinkedRelatedField(
             queryset=DocumentoCapacitacion.objects.all(),
             view_name='documentocapacitacion-detail',
-        )
+        ),
+        Solicitud: serializers.HyperlinkedRelatedField(
+            queryset=Solicitud.objects.all(),
+            view_name='solicitud-detail',
+        ),
     })
 
     class Meta:
@@ -501,12 +511,12 @@ class VIEW_ORGANIGRAMA_ORG_SERIALIZADO(object):
                 if persona.jefe_nombre_completo == hijo.pers_nombre_completo:
                     hijos.append(persona)
 
-                self.get_Estructura(nodo, hijo)
-
             if len(hijos):
+                self.get_Estructura(nodo, hijo)
                 self.get_ColorNivel(nodo, hijo)
                 nodo["children"] = self.get_Descendencia(_daddies, hijos, nodo)
             else:
+                self.get_Estructura(nodo, hijo)
                 if hijo.tipo == 'STAFF':
                     nodo["staff"] = 'STAFF'
                     nodo["className"] = 'staff-level'
@@ -557,11 +567,11 @@ class VIEW_ORGANIGRAMA_ORG_SERIALIZADO(object):
         self.buscar_Foto(_nodo, _datos)
 
     def buscar_Foto(self, _nodo, _datos):
-        empleado = VIEW_EMPLEADOS_FULL.objects.using('ebs_p').filter(
+        persona = VIEW_EMPLEADOS_FULL.objects.using('ebs_p').get(
             pers_empleado_numero=_datos.pers_empleado_numero)
-        for dato in empleado:
-            foto = dato.nombre_foto.encode('utf-8')
-        ruta = os.path.join('capitalhumano', 'fotos', '%s' % (foto),)
+        # print persona.nombre_foto.encode('utf-8')
+        ruta = os.path.join('capitalhumano', 'fotos', "%s" %
+                            (persona.nombre_foto),)
         if default_storage.exists(ruta):
             _nodo["foto"] = '/media/' + ruta
         else:
@@ -624,16 +634,17 @@ class VIEW_ORGANIGRAMA_EMP_SERIALIZADO(object):
                 if persona.jefe_nombre_completo == hijo.pers_nombre_completo:
                     hijos.append(persona)
 
-                self.get_Estructura(nodo, hijo)
-                self.get_ColorNivel(nodo, hijo)
-
             if len(hijos):
+                self.get_Estructura(nodo, hijo)
                 self.get_ColorNivel(nodo, hijo)
                 nodo["children"] = self.get_Descendencia(_daddies, hijos, nodo)
             else:
+                self.get_Estructura(nodo, hijo)
                 if hijo.tipo == 'STAFF':
                     nodo["staff"] = 'STAFF'
                     nodo["className"] = 'staff-level'
+                else:
+                    self.get_ColorNivel(nodo, hijo)
 
             lista_descendencia.append(nodo)
 
@@ -650,7 +661,6 @@ class VIEW_ORGANIGRAMA_EMP_SERIALIZADO(object):
         for persona in _daddies:
             if persona.jefe_nombre_completo == padre.pers_nombre_completo:
                 hijos.append(persona)
-                # print 'jefe' + persona.pers_nombre_completo.encode('utf-8')
 
         if len(hijos):
             self.get_Estructura(nodo, padre)
@@ -661,7 +671,7 @@ class VIEW_ORGANIGRAMA_EMP_SERIALIZADO(object):
             self.get_ColorNivel(nodo, padre)
 
         lista_json = json.dumps(nodo)
-        print 'lista'
+
         return lista_json
 
     def get_Estructura(self, _nodo, _datos):
@@ -672,40 +682,41 @@ class VIEW_ORGANIGRAMA_EMP_SERIALIZADO(object):
         _nodo["puesto"] = "%s" % (_datos.asig_puesto_desc)
         _nodo["centro_costos"] = "%s" % (_datos.grup_fase_jde)
         _nodo["ubicacion"] = "%s" % (_datos.asig_ubicacion_desc)
-        _nodo["foto"] = '/static/images/decoradores/no-image-user.jpg '
-        # self.get_Foto(_nodo, _datos)
+        self.buscar_Foto(_nodo, _datos)
 
-    def get_Foto(self, _nodo, _datos):
-        empleado = VIEW_EMPLEADOS_FULL.objects.using('ebs_p').get(pers_empleado_numero=_datos.pers_empleado_numero)
-        ruta = os.path.join('capitalhumano', 'fotos', '%s' % (empleado.nombre_foto))
+    def buscar_Foto(self, _nodo, _datos):
+        persona = VIEW_EMPLEADOS_FULL.objects.using('ebs_p').get(
+            pers_empleado_numero=_datos.pers_empleado_numero)
+        # print persona.nombre_foto.encode('utf-8')
+        ruta = os.path.join('capitalhumano', 'fotos', "%s" %
+                            (persona.nombre_foto),)
         if default_storage.exists(ruta):
-            _nodo["foto"]='/media/' + ruta
+            _nodo["foto"] = '/media/' + ruta
         else:
-            _nodo["foto"]='/static/images/decoradores/no-image-user.jpg '
-
+            _nodo["foto"] = '/static/images/decoradores/no-image-user.jpg '
 
     def get_ColorNivel(self, _nodo, _dato):
         if _dato.nivel_estructura == 1:
-            _nodo["className"]='nivel-1'
+            _nodo["className"] = 'nivel-1'
         elif ((_dato.nivel_estructura == 2) or
                 (_dato.nivel_estructura == 3) or
                 (_dato.nivel_estructura == 4) or
                 (_dato.nivel_estructura == 5) or
                 (_dato.nivel_estructura == 6)):
-            _nodo["className"]='niveles'
+            _nodo["className"] = 'niveles'
 
     def get_NivelPadre(self, _daddies):
-        nivel=6
-        padre=_daddies[0]
-        cont=0
+        nivel = 6
+        padre = _daddies[0]
+        cont = 0
 
         for persona in _daddies:
             if persona.nivel_estructura < nivel:
-                nivel=persona.nivel_estructura
+                nivel = persona.nivel_estructura
 
         for posicion in _daddies:
             if posicion.nivel_estructura == nivel:
-                padre=_daddies[cont]
+                padre = _daddies[cont]
             cont += 1
 
         return padre

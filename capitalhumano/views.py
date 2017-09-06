@@ -7,12 +7,14 @@ from django.http import HttpResponse
 # Librerias de Django
 from django.views.generic.base import View
 from django.core.files.storage import default_storage
+from django.utils.decorators import method_decorator
 
 # Otras librerias
 import xlwt
 import datetime
 
 # Librerias de Propias
+from home.decorators import group_required
 
 # Formularios
 from .forms import EmpleadoFilterForm
@@ -21,15 +23,18 @@ from .forms import EmpresasFilterForm
 from .forms import PerfilPuestoDocumentoForm
 from .forms import NuevoDocumentoPersonalForm
 from .forms import NuevoDocumentoCapacitacionForm
-
 from .forms import GradoAcademicoFilterForm
 from .forms import ExpedientesFilterForm
 from .forms import DocPersonalFilterForm
 from .forms import DocCapacitacionFilterForm
-
 from .forms import PerfilAgregarPuestoCargoForm
 from .forms import PerfilPuestoListaForm
+<<<<<<< HEAD
 from .forms import PerfilAgregarCompetenciaForm
+=======
+from .forms import SolicitudesFilterForm
+from .forms import SolicitudesEditarForm
+>>>>>>> origin/master
 
 
 # Serializer crear organigrama
@@ -44,13 +49,13 @@ from ebs.models import VIEW_COMPETENCIAS
 
 # -------------- EMPLEADOS -------------- #
 
+@method_decorator(group_required('CH_CONS_DATOS_PERSONAL'), name='dispatch')
 class EmpleadoLista(View):
 
     def __init__(self):
         self.template_name = 'empleado_lista.html'
 
     def get(self, request):
-
         formulario = EmpleadoFilterForm(use_required_attribute=False)
 
         contexto = {
@@ -179,7 +184,8 @@ class EmpleadoLista(View):
                     if (col_num == 2) or (col_num == 13):
                         if (row[col_num] != '-'):
 
-                            fecha = datetime.datetime.strptime(row[col_num], '%Y-%m-%d %H:%M:%S').date()
+                            fecha = datetime.datetime.strptime(
+                                row[col_num], '%Y-%m-%d %H:%M:%S').date()
                             ws.write(row_num, col_num, fecha, date_format)
                         else:
 
@@ -197,10 +203,11 @@ class EmpleadoLista(View):
 # -------------- DASHBOARD -------------- #
 
 
-class EmpleadoDashboard(View):
+@method_decorator(group_required('CH_ADMIN', 'CH_OPERA'), name='dispatch')
+class Dashboard(View):
 
     def __init__(self):
-        self.template_name = 'empleado_dashboard.html'
+        self.template_name = 'dashboard.html'
 
     def get(self, request):
 
@@ -213,12 +220,11 @@ class EmpleadoDashboard(View):
 
 
 # -------------- ORGANIGRAMA EBS  -------------- #
-
-
-class EmpleadoOrganigrama(View):
+@method_decorator(group_required('CH_ADMIN', 'CH_OPERA'), name='dispatch')
+class Organigrama(View):
 
     def __init__(self):
-        self.template_name = 'empleado_organigrama.html'
+        self.template_name = 'organigrama.html'
 
     def get(self, request):
 
@@ -232,7 +238,8 @@ class EmpleadoOrganigrama(View):
         return render(request, self.template_name, contexto)
 
 
-class EmpleadoOrganigramaOrgAPI(View):
+@method_decorator(group_required('CH_ADMIN', 'CH_OPERA'), name='dispatch')
+class OrganigramaOrgAPI(View):
 
     def get(self, request, pk):
 
@@ -248,7 +255,8 @@ class EmpleadoOrganigramaOrgAPI(View):
         )
 
 
-class EmpleadoOrganigramaEmpAPI(View):
+@method_decorator(group_required('CH_ADMIN', 'CH_OPERA'), name='dispatch')
+class OrganigramaEmpAPI(View):
 
     def get(self, request, pk):
         daddies = VIEW_ORGANIGRAMA.objects.using(
@@ -266,11 +274,11 @@ class EmpleadoOrganigramaEmpAPI(View):
 
 # --------------  EXPEDIENTES EMPLEADOS -------------- #
 
-
-class EmpleadoExpedientes(View):
+@method_decorator(group_required('CH_ADMIN', 'CH_OPERA'), name='dispatch')
+class ExpedientesGeneral(View):
 
     def __init__(self):
-        self.template_name = 'empleado_expedientes_general.html'
+        self.template_name = 'expedientes_general.html'
 
     def get(self, request):
 
@@ -283,10 +291,30 @@ class EmpleadoExpedientes(View):
         return render(request, self.template_name, contexto)
 
 
-class EmpleadoExpedientesGrado(View):
+@method_decorator(group_required('CH_ADMIN', 'CH_OPERA'), name='dispatch')
+class Solicitudes(View):
 
     def __init__(self):
-        self.template_name = 'empleado_expedientes_grado.html'
+        self.template_name = 'solicitud/empleado_solicitud.html'
+
+    def get(self, request):
+
+        form = SolicitudesFilterForm()
+        form2 = SolicitudesEditarForm()
+
+        contexto = {
+            'form': form,
+            'form2': form2,
+        }
+
+        return render(request, self.template_name, contexto)
+
+
+@method_decorator(group_required('CH_ADMIN', 'CH_OPERA'), name='dispatch')
+class ExpedientesGrado(View):
+
+    def __init__(self):
+        self.template_name = 'expedientes_grado.html'
 
     def get(self, request):
 
@@ -299,10 +327,11 @@ class EmpleadoExpedientesGrado(View):
         return render(request, self.template_name, contexto)
 
 
-class EmpleadoExpedientesDocPersonal(View):
+@method_decorator(group_required('CH_ADMIN', 'CH_OPERA'), name='dispatch')
+class ExpedientesDocPersonal(View):
 
     def __init__(self):
-        self.template_name = 'empleado_expedientes_docpersonal.html'
+        self.template_name = 'documento_personal/expedientes_docpersonal.html'
 
     def get(self, request):
 
@@ -315,10 +344,11 @@ class EmpleadoExpedientesDocPersonal(View):
         return render(request, self.template_name, contexto)
 
 
-class EmpleadoExpedientesDocCapacitacion(View):
+@method_decorator(group_required('CH_ADMIN', 'CH_OPERA'), name='dispatch')
+class ExpedientesDocCapacitacion(View):
 
     def __init__(self):
-        self.template_name = 'empleado_expedientes_doccapacitacion.html'
+        self.template_name = 'documento_capacitacion/expedientes_doccapacitacion.html'
 
     def get(self, request):
 
@@ -331,6 +361,7 @@ class EmpleadoExpedientesDocCapacitacion(View):
         return render(request, self.template_name, contexto)
 
 
+@method_decorator(group_required('CH_ADMIN', 'CH_OPERA'), name='dispatch')
 class EmpleadoExpediente(View):
 
     def __init__(self):
@@ -377,7 +408,7 @@ class PerfilPuesto(View):
     def get(self, request):
 
         formulario = PerfilPuestoListaForm()
-        
+
         contexto = {
             'form': formulario
         }
@@ -392,7 +423,6 @@ class PerfilPuestoNuevo(View):
         #self.template_name = 'perfilpuesto/perfil_nuevo.html'
         self.template_name = 'perfilpuesto/perfil.html'
 
-
     def get(self, request):
 
         formulario = PerfilPuestoDocumentoForm()
@@ -406,7 +436,7 @@ class PerfilPuestoNuevo(View):
         }
 
         return render(request, self.template_name, contexto)
-    
+
     def post(self, request):
 
         formulario = PerfilPuestoDocumentoForm(request.POST)
@@ -414,20 +444,25 @@ class PerfilPuestoNuevo(View):
 
         if formulario.is_valid():
             perfilpuesto = formulario.save(commit=False)
+<<<<<<< HEAD
             
             perfilpuesto.asig_puesto_clave = datos_formulario.get('desc_puesto')
+=======
+
+            perfilpuesto.asig_puesto_clave = '11893'
+>>>>>>> origin/master
             perfilpuesto.created_by = request.user.profile
 
             
             perfilpuesto.save()
 
             return redirect(reverse('capitalhumano:perfil_nuevo'))
-            
+
         contexto = {
             'form': formulario
         }
 
-        return render(request, self.template_name, contexto)     
+        return render(request, self.template_name, contexto)
 
 
 class PerfilPuestoNuevo2(View):
@@ -437,6 +472,7 @@ class PerfilPuestoNuevo2(View):
         return render(request, 'perfilpuesto/perfil_nuevo2.html')
 
 
+@method_decorator(group_required('CH_ADMIN'), name='dispatch')
 class PerfilPuestoConfiguraciones(View):
 
     def get(self, request):

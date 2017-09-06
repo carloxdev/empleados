@@ -43,7 +43,7 @@ class VIEW_EMPLEADOS_SIMPLE_API(viewsets.ModelViewSet):
     serializer_class = VIEW_EMPLEADOS_SIMPLE_Serializer
     filter_backends = (DjangoFilterBackend,)
     filter_class = VIEW_EMPLEADOS_SIMPLE_Filter
-    permission_classes = (IsAuthenticated,)
+    # permission_classes = (IsAuthenticated,)
 
 
 class VIEW_EMPLEADOS_SIMPLE_ByPageAPI(viewsets.ModelViewSet):
@@ -100,8 +100,12 @@ class VIEW_ORGANIGRAMA_API(viewsets.ModelViewSet):
 
 class VIEW_ESPECIALIDADES_API(viewsets.ModelViewSet):
     queryset = VIEW_ESPECIALIDADES.objects.using('ebs_d').all()
+<<<<<<< HEAD
     serializer_class = VIEW_ESPECIALIDADES_Serializer 
 
 class VIEW_COMPETENCIAS_API(viewsets.ModelViewSet):
     queryset = VIEW_COMPETENCIAS.objects.using('ebs_d').all()
     serializer_class = VIEW_COMPETENCIAS_Serializer        
+=======
+    serializer_class = VIEW_ESPECIALIDADES_Serializer
+>>>>>>> origin/master

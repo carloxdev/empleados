@@ -1,0 +1,50 @@
+<div class="form-group {% if campo1.errors or campo2.errors %} has-error {% endif %}">
+
+    <label class="col-sm-{{size_label}} control-label">
+      {{etiqueta}}
+
+      {% if campo.field.required is False %}
+      <span>(Opcional):</span>
+      {% endif %}
+    </label>
+
+    <div class="col-sm-{{size_field1}} xs-pt-5">
+        <div class="input-group date"
+        id="{{ campo1.id_for_label }}_input">
+            {{ campo1 }}
+            <span class="input-group-addon nova-addon-button">
+                <span class="glyphicon glyphicon-calendar"></span>
+            </span>
+        </div>
+
+        {% if campo1.errors %}
+        <ul class="parsley-errors-list filled">
+            {% for error in campo1.errors %}
+            <li class="parsley-required">
+                {{ error }}
+            </li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+    </div>
+
+    <div class="col-sm-{{size_field2}} xs-pt-5">
+        <div class="input-group date"
+        id="{{ campo2.id_for_label }}_input">
+            {{ campo2 }}
+            <span class="input-group-addon nova-addon-button">
+                <span class="glyphicon glyphicon-calendar"></span>
+            </span>
+        </div>
+
+        {% if campo2.errors %}
+        <ul class="parsley-errors-list filled">
+            {% for error in campo2.errors %}
+            <li class="parsley-required">
+                {{ error }}
+            </li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+    </div>
+</div>

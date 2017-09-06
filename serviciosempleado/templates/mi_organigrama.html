@@ -1,0 +1,50 @@
+{% extends 'master.html' %}
+
+{% load static from staticfiles %}
+
+{% block titulo %} Servicios del empleado {% endblock titulo %}
+
+{% block title-page %}Mi Organigrama  {% endblock title-page %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'libs/OrgChart/css/jquery.orgchart.css' %}"/>
+{% endblock css %}
+
+{% block contenido %}
+
+<div class="be-content">
+        <div class="page-head">
+                <h2 class="page-head-title">Mi Organigrama</h2>
+                <ol class="breadcrumb page-head-nav pull-right">
+                    <li> <a href="{% url 'home:inicio'%}">Inicio</a></li>
+                    <li class="active" id="menu" data-opcion="serviciosempleado_organigrama" >Mi Organigrama </li>
+                </ol>
+        </div>
+        <div class="main-content container-fluid">
+            {% if request.user.profile.clave_rh != None%}
+                <input type="hidden" id="id_organizacion" value="{{ organizacion }}" readonly="True"></input>
+                <input type="hidden" id="id_empleado" value="{{ request.user.profile.clave_rh }}" readonly="True"></input>
+                <div class="col-sm-12">
+                     <div class="nova-contenedor-organigrama" id="content-data"></div>
+                </div>  <!-- End col-sm-12 -->
+            {% else %}
+                <div class="col-sm-12 widget">
+                    <h3> Su usuario no tiene asignado un empleado.</h3>
+                </div>
+            {% endif%}
+         </div><!-- End Main COntent -->
+</div>
+
+{% endblock contenido %}
+
+{% block scripts %}
+        <!-- OrgChart-->
+     <script src="{% static 'libs/OrgChart/js/jquery-ui-1.9.2.custom.min.js' %}"></script>
+     <script src="{% static 'libs/OrgChart/js/orgchart-nuevo.js' %}"></script>
+
+     <!-- NOVA-->
+     <script src="{% static 'mi_organigrama.js' %}"></script>
+
+{% endblock scripts %}
+
+

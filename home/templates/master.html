@@ -1,4 +1,5 @@
 {% load static from staticfiles %}
+{% load custom_tags %}
 
 <!DOCTYPE html>
 <html lang="es">
@@ -170,190 +171,8 @@
                 </div>
             </div>
         </nav>
-        <div class="be-left-sidebar nova-be-left-sidebar">
-            <div class="left-sidebar-wrapper"><a href="#" class="left-sidebar-toggle">{% block title-page %}  {% endblock title-page %}</a>
-                <div class="left-sidebar-spacer">
-                    <div class="left-sidebar-scroll">
-                        <div class="left-sidebar-content">
-                            <ul class="sidebar-elements nova-sidebar-elements">
-                                <li class="divider">Menu</li>
-                                <li id="inicio">
-                                    <a href="{% url 'home:inicio' %}">
-                                        <i class="icon mdi mdi-home"></i>
-                                        <span>Inicio</span>
-                                    </a>
-                                </li>
-                                <li class="parent"><a href="#"><i class="icon mdi mdi-money"></i><span>Finanzas</span></a>
-                                    <ul class="sub-menu">
-                                        <li id="viaticos_lista">
-                                            <a href="{% url 'finanzas:viatico_lista' %}">
-                                                <span>Viaticos</span>
-                                            </a>
-                                        </li>
-                                        <li id="configuracion">
-                                            <a href="#">
-                                                <span>Configuración</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class="parent"><a href="#"><i class="icon mdi mdi-shopping-cart"></i></i><span>Compras</span></a>
-                                    <ul class="sub-menu">
-                                        <li id="compras_seguimiento">
-                                            <a href="{% url 'compras:seguimiento_compras_lista' %}">
-                                                <span>Seguimiento</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class="parent"><a href="#"><i class="icon mdi mdi-accounts"></i></i><span>Capital Humano</span></a>
-                                    <ul class="sub-menu">
-                                        <li id="capitalhumano_dashboard">
-                                            <a href="{% url 'capitalhumano:empleado_dashboard' %}">
-                                                <span>Dashboard</span>
-                                            </a>
-                                        </li>
-                                        <li id="capitalhumano_organigrama">
-                                            <a href="{% url 'capitalhumano:empleado_organigrama' %}">
-                                                <span>Organigrama</span>
-                                            </a>
-                                        </li>
-                                        <li id="capitalhumano_empeados">
-                                            <a href="{% url 'capitalhumano:empleado_lista' %}">
-                                                <span>Empleados</span>
-                                            </a>
-                                        </li>
-                                        <li id="capitalhumano_expedientes">
-                                            <a href="{% url 'capitalhumano:empleado_expedientes_general' %}">
-                                                <span>Expedientes</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="{% url 'capitalhumano:perfil_lista' %}">
-                                                <span>Perfil Puestos</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="">
-                                                <span>Capacitacion</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="{% url 'capitalhumano:perfil_configuracion' %}">
-                                                <span>Configuracion</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class="parent"><a href="#"><i class="icon mdi mdi-account-circle"></i></i><span>Servicios al Empleado</span></a>
-                                    <ul class="sub-menu">
-                                        <li id="serviciosempleado_miexpediente">
-                                            <a href="{% url 'serviciosempleado:empleado_perfil' %}">
-                                                <span>Mi expediente</span>
-                                            </a>
-                                        </li>
-                                        <!--<li id="serviciosempleado_perfil">
-                                            <a href="#">
-                                                <span>Vacaciones</span>
-                                            </a>
-                                        </li>-->
-                                        <li id="serviciosempleado_organigrama">
-                                             <a href="{% url 'serviciosempleado:empleado_organigrama' %}">
-                                                <span>Organigrama</span>
-                                             </a>
-                                        </li>
-                                        <li id="serviciosempleado_perfil">
-                                            <a href="{% url 'serviciosempleado:mi_viatico_lista' %}">
-                                                <span>Mis Viaticos</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </li>
-
-                                <li class="parent"><a href="#"><i class="icon fa fa-check"></i><span>Calidad</span></a>
-                                    <ul class="sub-menu">
-                                        <li id="auditorias_lista">
-                                            <a href="{% url 'calidad:auditoria_lista' %}">
-                                                <!--<i class="icon lrg mdi-search-in-file"></i>-->
-                                                <span> Auditorias</span>
-                                            </a>
-                                        </li>
-                                        <li id="programa_lista">
-                                            <a href="{% url 'calidad:programa_lista' %}">
-                                                <!--<i class="icon lrg mdi-search-in-file"></i>-->
-                                                <span> Programa</span>
-                                            </a>
-                                        </li>
-                                        <li id="calidad_configuracion">
-                                            <a href="{% url 'calidad:configuracion_criterio_lista' %}">
-                                                <!--<i class="icon lrg mdi-search-in-file"></i>-->
-                                                <span> Configuración</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class="parent"><a href="#"><i class="icon fa fa-heartbeat"></i><span>Salud</span></a>
-                                    <ul class="sub-menu">
-                                        <li>
-                                            <a href="#">
-                                                <span>Expediente</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                <span>Incapacidades</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class="parent"><a href="#"><i class="icon fa fa-shield"></i><span>Seguridad</span></a>
-                                    <ul class="sub-menu">
-                                        <li>
-                                            <a href="{% url 'seguridadlaboral:incidencia_lista' %}">
-                                                <span>Incidencias</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="{% url 'seguridadlaboral:incidencia_grafica' %}">
-                                                <span>Graficas</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class="parent"><a href="#"><i class="icon fa fa-tree"></i><span>Ambiental</span></a>
-                                    <ul class="sub-menu">
-                                        <li>
-                                            <a href="#">
-                                                <span>Residuos Peligroso</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class="parent"><a href="#"><i class="icon mdi mdi-globe"></i><span>Responsabilidad Social</span></a>
-                                    <ul class="sub-menu">
-                                        <li>
-                                            <a href="#">
-                                                <span>Dashboard</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                <span>Acciones</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                <span>Inscribir</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        
+        {% tag_menu_master request.user%}
 
         {% block contenido %}
         {% endblock contenido %}
@@ -381,7 +200,7 @@
     <script src="{% static 'libs/momentjs/2.18.1/moment.js' %}"></script>
 
     <!-- Select 2 -->
-    <script src="{% static 'theme/lib/select2/js/select2.min.js' %}"></script>
+    <script src="{% static 'libs/select2/4.0.3/dist/js/select2.min.js' %}"></script>
 
     <!-- Main Theme js -->
     <script src="{% static 'theme/js/main.js' %}"></script>

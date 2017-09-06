@@ -16,19 +16,10 @@ from capitalhumano.view_rest import PerfilPuestosDocumentoByPageAPI
 from capitalhumano.view_rest import PerfilCompetenciasAPI
 from capitalhumano.view_rest import PerfilCompetenciasByPageAPI
 
+
 router_capitalhumano = routers.DefaultRouter()
 
-
-router_capitalhumano.register(
-    r'perfilpuestoacargo_bypage',
-    PerfilPuestosCargoByPageAPI,
-    'perfilpuestoacargo_bypage'
-)
-router_capitalhumano.register(
-    r'perfilpuestoacargo',
-    PerfilPuestosCargoAPI,
-    'perfilpuestosacargo'
-)
+# --------------------DOCUMENTOS--------------------
 router_capitalhumano.register(
     r'documentopersonal',
     DocumentoPersonalAPI,
@@ -64,6 +55,18 @@ router_capitalhumano.register(
     ArchivoCapacitacionByPageAPI,
     'archivocapacitacion_bypage'
 )
+
+# --------------------PERFILES--------------------
+router_capitalhumano.register(
+    r'perfilpuestoacargo_bypage',
+    PerfilPuestosCargoByPageAPI,
+    'perfilpuestoacargo_bypage'
+)
+router_capitalhumano.register(
+    r'perfilpuestoacargo',
+    PerfilPuestosCargoAPI,
+    'perfilpuestosacargo'
+)
 router_capitalhumano.register(
     r'perfilpuestosdocumento',
     PerfilPuestosDocumentoAPI,
@@ -74,6 +77,7 @@ router_capitalhumano.register(
     PerfilPuestosDocumentoByPageAPI,
     'perfilpuestosdoc_bypage'
 )
+<<<<<<< HEAD
 
 router_capitalhumano.register(
     r'perfilcompetencias',
@@ -87,3 +91,5 @@ router_capitalhumano.register(
     'perfilcompetencias_bypage'
 )
 
+=======
+>>>>>>> origin/master

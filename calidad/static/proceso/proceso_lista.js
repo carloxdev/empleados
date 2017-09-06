@@ -3,14 +3,13 @@
 \*-----------------------------------------------*/
 
 // URLS:api-
-//var url_requisitos = window.location.origin + "/auditorias/nuevo/procesos/nuevo/requisitos/"
+var url_subproceso = window.location.origin + "/api-calidad/subproceso/"
+var url_responsable = window.location.origin + "/api-calidad/responsable/"
 
 // OBJS
-var popup_nuevo = null
+var popup_proceso = null
 var popup_acciones = null
 var tarjeta_resultados = null
-var toolbar = null
-var grid = null
 
 
 /*-----------------------------------------------*\
@@ -18,7 +17,7 @@ var grid = null
 \*-----------------------------------------------*/
 
 $(document).ready(function () {
-   
+
    tarjeta_resultados = new TarjetaResultados()
 })
 
@@ -27,8 +26,8 @@ $(document).ready(function () {
 \*-----------------------------------------------*/
 
 function TarjetaResultados(){
-   
-   
+
+
    this.toolbar = new ToolBar()
    this.grid = new Grid()
 }
@@ -38,8 +37,8 @@ function TarjetaResultados(){
 \*-----------------------------------------------*/
 
 function ToolBar() {
-   
-   popup_nuevo = new PopupNuevo()
+
+   popup_proceso = new PopupProceso()
 }
 
 /*-----------------------------------------------*\
@@ -62,51 +61,54 @@ Grid.prototype.click_FilaGrid = function (e) {
 }
 
 /*-----------------------------------------------*\
-         OBJETO: Popup nuevo
+         OBJETO: Popup proceso
 \*-----------------------------------------------*/
 
-function PopupNuevo() {
+function PopupProceso() {
 
+   this.$id = $('#id_tarjeta_proceso')
    this.$id_proceso = $('#id_proceso')
    this.$id_subproceso = $('#id_subproceso')
-   this.$id_representante_subproceso = $('#id_representante_subproceso')
-   this.$id_fecha_planificada_desde = $('#id_fecha_planificada_desde')
-   this.$id_fecha_planificada_desde_input = $('#id_fecha_planificada_desde_input')
-   this.$id_fecha_planificada_hasta = $('#id_fecha_planificada_hasta')
-   this.$id_fecha_planificada_hasta_input = $('#id_fecha_planificada_hasta_input')
+   this.$id_rep_subproceso = $('#id_rep_subproceso')
+   this.$id_fecha_programada_ini = $('#id_fecha_programada_ini')
+   this.$id_fecha_programada_ini_group = $('#id_fecha_programada_ini_group')
+   this.$id_fecha_programada_fin = $('#id_fecha_programada_fin')
+   this.$id_fecha_programada_fin_group = $('#id_fecha_programada_fin_group')
    this.$id_auditor = $('#id_auditor')
    this.$id_sitio = $('#id_sitio')
-   this.$id_boton_guardar = $('#id_boton_guardar')
+   this.$id_subproceso_existe = $('#id_subproceso_existe')
+   this.$bandera = true
 
    this.init_Components()
    this.init_Events()
+   this.init_ErrorEvents()
 }
-PopupNuevo.prototype.init_Components = function () {
+PopupProceso.prototype.init_Components = function () {
 
    this.$id_proceso.select2(appnova.get_ConfigSelect2())
    this.$id_subproceso.select2(appnova.get_ConfigSelect2())
-   this.$id_representante_subproceso.select2(appnova.get_ConfigSelect2())
-   this.$id_fecha_planificada_desde.mask(
+   this.$id_rep_subproceso.select2(appnova.get_ConfigSelect2())
+   this.$id_fecha_programada_ini.mask(
       "9999-99-99",
       {
          placeholder:"aaaa/mm/dd"
       }
    )
-   this.$id_fecha_planificada_desde_input.datetimepicker(this.get_DateTimePickerConfig())
+   this.$id_fecha_programada_ini_group.datetimepicker(this.get_DateTimePickerConfig())
 
-   this.$id_fecha_planificada_hasta.mask(
+   this.$id_fecha_programada_fin.mask(
       "9999-99-99",
       {
          placeholder:"aaaa/mm/dd"
       }
    )
-   this.$id_fecha_planificada_hasta_input.datetimepicker(this.get_DateTimePickerConfig())
+   this.$id_fecha_programada_fin_group.datetimepicker(this.get_DateTimePickerConfig())
    this.$id_auditor.select2(appnova.get_ConfigSelect2())
    this.$id_sitio.select2(appnova.get_ConfigSelect2())
-   
+
 }
-PopupNuevo.prototype.get_DateTimePickerConfig = function () {
-   
+PopupProceso.prototype.get_DateTimePickerConfig = function () {
+
    return {
       autoclose: true,
       orientation: "bottom left",
@@ -114,13 +116,92 @@ PopupNuevo.prototype.get_DateTimePickerConfig = function () {
       format: "yyyy-mm-dd",
    }
 }
-PopupNuevo.prototype.init_Events = function () {
-   
-   this.$id_boton_guardar.on("click", this, this.click_BotonGuardar)
-}
-PopupNuevo.prototype.click_BotonGuardar = function (e) {
+PopupProceso.prototype.init_Events = function () {
 
-   this.preventDeafult()
+   this.$id_proceso.on("change", this, this.change_SelectProceso)
+   this.$id.on("hidden.bs.modal", this, this.hidden_Modal)
+   this.$id.on("show.bs.modal", this, this.show_Modal)
+}
+PopupProceso.prototype.init_ErrorEvents = function () {
+
+   if (this.$id_subproceso_existe.val()) {
+      alertify.warning(this.$id_subproceso_existe.val())
+   }
+}
+PopupProceso.prototype.change_SelectProceso = function (e) {
+
+   if (e.data.$bandera) {
+
+      e.data.set_Subproceso(e)
+      e.data.set_RepresentanteSubproceso(e)
+   }
+}
+PopupProceso.prototype.set_Subproceso = function (e) {
+
+   $.ajax({
+
+       url: url_subproceso,
+       method: "GET",
+       context: this,
+       data: {
+
+         "proceso_id" : e.data.$id_proceso.val()
+       },
+       success: function (_response) {
+
+          var data = []
+          for (var i = 0; i < _response.length; i++) {
+            data.push({id:_response[i].pk, text:_response[i].subproceso })
+          }
+
+          this.$id_subproceso.select2('destroy').empty().select2({data:data})
+       },
+       error: function (_response) {
+
+          alertify.error("Ocurrio error al cargar datos")
+       }
+    })
+}
+PopupProceso.prototype.set_RepresentanteSubproceso = function (e) {
+
+   $.ajax({
+
+       url: url_responsable,
+       method: "GET",
+       context: this,
+       data: {
+
+         "proceso_id" : e.data.$id_proceso.val()
+       },
+       success: function (_response) {
+
+          var data = []
+          for (var i = 0; i < _response.length; i++) {
+            data.push({id:_response[i].pk, text:_response[i].numero_empleado + " : " + _response[i].nombre_completo })
+          }
+
+          this.$id_rep_subproceso.select2('destroy').empty().select2({data:data})
+       },
+       error: function (_response) {
+
+          alertify.error("Ocurrio error al cargar datos")
+       }
+    })
+}
+PopupProceso.prototype.hidden_Modal = function (e) {
+
+   e.data.$bandera = false
+   e.data.$id_proceso.data('select2').val(0)
+   e.data.$id_subproceso.data('select2').val(0)
+   e.data.$id_rep_subproceso.data('select2').val(0)
+   e.data.$id_fecha_programada_ini.val("")
+   e.data.$id_fecha_programada_fin.val("")
+   e.data.$id_auditor.data('select2').val(0)
+   e.data.$id_sitio.data('select2').val(0)
+}
+PopupProceso.prototype.show_Modal = function (e) {
+
+   e.data.$bandera = true;
 }
 
 /*-----------------------------------------------*\
@@ -128,7 +209,7 @@ PopupNuevo.prototype.click_BotonGuardar = function (e) {
 \*-----------------------------------------------*/
 
 function PopupAcciones () {
-   
+
    this.$id_tarjeta_acciones = $('#id_tarjeta_acciones')
    this.$id_boton_check_list = $('#id_boton_check_list')
    this.$id_boton_reporta_auditoria = $('#id_boton_reporta_auditoria')
@@ -136,7 +217,7 @@ function PopupAcciones () {
    this.init_Events()
 }
 PopupAcciones.prototype.init_Events = function () {
-   
+
    this.$id_boton_check_list.on("click", this, this.click_BotonCheckList)
    this.$id_boton_reporta_auditoria.on("click", this, this.click_BotonReporteAuditoria)
 }

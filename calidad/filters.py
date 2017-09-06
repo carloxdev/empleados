@@ -10,19 +10,28 @@ from .models import Requisito
 from .models import Responsable
 from .models import CompaniaAccion
 from .models import Rol
+from .models import RequisitoProceso
+from .models import HallazgoProceso
+from .models import Subproceso
 
-# class RequisitoFilter(filters.FilterSet):
+class RequisitoFilter(filters.FilterSet):
 
-#     requisito = CharFilter(
-#         name="empleado_puesto_desc",
-#         lookup_expr="icontains"
-#     )
+    requisito = CharFilter(
+        name="requisito",
+        lookup_expr="icontains"
+    )
 
-#     class Meta:
-#         model = Requisito
-#         fields = [
-#             'requisito',
-#         ]
+    criterio_id = NumberFilter(
+        name="criterio_id",
+        lookup_expr="exact"
+    )
+
+    class Meta:
+        model = Requisito
+        fields = [
+            'requisito',
+            'criterio_id'
+        ]
 
 
 class ResponsablesFilter(filters.FilterSet):
@@ -100,4 +109,74 @@ class RolFilter(filters.FilterSet):
             'nombre_completo',
             'numero_empleado',
             'rol',
+        ]
+
+
+class RequisitoProcesoFilter(filters.FilterSet):
+
+    requisito_id = NumberFilter(
+        name="requisito_id",
+        lookup_expr="exact"
+    )
+    proceso_auditoria_id = NumberFilter(
+        name="proceso_auditoria_id",
+        lookup_expr="exact"
+    )
+
+    class Meta:
+        model = RequisitoProceso
+        fields = [
+            'requisito_id',
+            'proceso_auditoria_id'
+        ]
+
+
+class HallazgoProcesoFilter(filters.FilterSet):
+
+    titulo = CharFilter(
+        name="titulo",
+        lookup_expr="icontains"
+    )
+
+    estado = CharFilter(
+        name="estado",
+        lookup_expr="exact"
+    )
+
+    tipo_hallazgo = CharFilter(
+        name="tipo_hallazgo",
+        lookup_expr="exact"
+    )
+
+    cerrado = CharFilter(
+        name="cerrado",
+        lookup_expr="exact"
+    )
+
+    class Meta:
+        model = HallazgoProceso
+        fields = [
+            'titulo',
+            'estado',
+            'tipo_hallazgo',
+            'cerrado',
+        ]
+
+class SubprocesoFilter(filters.FilterSet):
+
+    subproceso = CharFilter(
+        name="subproceso",
+        lookup_expr="exact"
+    )
+
+    proceso_id = NumberFilter(
+        name="proceso_id",
+        lookup_expr="exact"
+    )
+
+    class Meta:
+        model = Subproceso
+        fields = [
+            'subproceso',
+            'proceso_id',
         ]

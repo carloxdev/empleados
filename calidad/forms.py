@@ -10,24 +10,36 @@ from django.forms import Select
 from django.forms import Textarea
 from django.forms import NumberInput
 from django.forms import SelectMultiple
+from django.forms import RadioSelect
+from django.forms import ImageField
+from django.forms import FileInput
+from django.core.exceptions import NON_FIELD_ERRORS
 
 # Librerias/Clases propias
-
 
 # modelos
 from ebs.models import VIEW_EMPLEADOS_SIMPLE
 from jde.models import VIEW_COMPANIAS
+from jde.models import VIEW_CONTRATO
 from administracion.models import Contrato
 from .models import Criterio
+from .models import Rol
+from .models import Proceso
+from .models import Subproceso
+from .models import Sitio
+from .models import Responsable
+from .models import Falla
+from .models import Requisito
+from .models import Metodologia
 
 
 class CriterioForm(Form):
     CLASIFICACION = (
         ('', '------'),
-        ('norma', 'Norma'),
-        ('legal', 'Legal'),
-        ('contractual', 'Contractual'),
-        ('rsc', 'RSC'),
+        ('Norma', 'Norma'),
+        ('Legal', 'Legal'),
+        ('Contractual', 'Contractual'),
+        ('RSC', 'RSC'),
     )
 
     clasificacion = ChoiceField(
@@ -352,15 +364,14 @@ class GeneralAuditoriaForm(Form):
 
         valores = []
 
-        # contratos = VIEW_COMPANIAS.objects.using('jde_p').all()
-        contratos = Contrato.objects.all()
+        contratos = VIEW_CONTRATO.objects.using('jde_p').all()
 
         for contrato in contratos:
 
             valores.append(
                 (
-                    contrato.con_clave,
-                    str(int(contrato.con_clave)) + ' - ' + contrato.con_nombre,
+                    contrato.proyecto,
+                    str(int(contrato.proyecto)) + ' - ' + contrato.proyecto_desc,
                 )
             )
         return valores
@@ -385,7 +396,7 @@ class GeneralAuditoriaForm(Form):
 class AuditorForm(Form):
 
     auditor_lider = CharField(
-        widget=TextInput(attrs={'class': 'form-control input-xs', 'disabled': 'true'})
+        widget=TextInput(attrs={'class': 'form-control input-xs', 'readonly': 'true'})
     )
 
     auditores_designados = MultipleChoiceField(
@@ -400,22 +411,416 @@ class AuditorForm(Form):
 
     def __init__(self, *args, **kargs):
         super(AuditorForm, self).__init__(*args, **kargs)
-        self.fields['auditores_designados'].choices = self.get_Empleados()
-        self.fields['auditores_colaboradores'].choices = self.get_Empleados()
+        self.fields['auditores_designados'].choices = self.get_Auditores()
+        self.fields['auditores_colaboradores'].choices = self.get_Auditores()
 
-    def get_Empleados(self):
+    def get_Auditores(self):
 
         valores = []
 
-        empleados = VIEW_EMPLEADOS_SIMPLE.objects.using('ebs_p')
+        auditores = Rol.objects.filter(rol="Auditor Interno")
 
-        for empleado in empleados:
+        for auditor in auditores:
 
-            if not (empleado.pers_empleado_numero is u''):
+            if not (auditor.numero_empleado is u''):
                 valores.append(
                     (
-                        empleado.pers_empleado_numero,
-                        empleado.pers_empleado_numero + ' : ' + empleado.pers_nombre_completo
+                        auditor.pk,
+                        auditor.numero_empleado + ' : ' + auditor.nombre_completo
                     )
                 )
+        return valores
+
+
+class ProcesoAuditoriaForm(Form):
+
+    proceso = ChoiceField(
+        widget=Select(attrs={'class': 'select2'})
+    )
+
+    subproceso =  CharField(
+        widget=Select(attrs={'class': 'select2', 'required': 'required'}),
+    )
+
+    rep_subproceso = CharField(
+        label='Representate del Subproceso',
+        widget=Select(attrs={'class': 'select2', 'required': 'required'}),
+    )
+
+    fecha_programada_ini = CharField(
+        label='Fecha Programada desde / hasta',
+        widget=TextInput(attrs={'class': 'form-control input-xs', 'name': 'fecha_programada_ini'}),
+    )
+
+    fecha_programada_fin = CharField(
+        label='',
+        widget=TextInput(attrs={'class': 'form-control input-xs', 'name': 'fecha_programada_fin'}),
+    )
+
+    auditor = ChoiceField(
+        widget=Select(attrs={'class': 'select2'})
+    )
+
+    sitio = ChoiceField(
+        widget=Select(attrs={'class': 'select2'})
+    )
+
+    def __init__(self, _auditores_designados_choices, *args, **kwargs):
+        super(ProcesoAuditoriaForm, self).__init__(*args, **kwargs)
+        self.fields['proceso'].choices = self.get_Proceso()
+        self.fields['auditor'].choices = _auditores_designados_choices
+        self.fields['sitio'].choices = self.get_Sitio()
+
+    def get_Proceso(self):
+
+        valores = [('', '-------')]
+
+        procesos = Proceso.objects.all()
+
+        for proceso in procesos:
+
+            valores.append(
+                (
+                    proceso.pk,
+                    proceso.proceso
+                )
+            )
+        return valores
+
+
+    def get_Sitio(self):
+
+        valores = [('', '-------')]
+
+        sitios = Sitio.objects.all()
+
+        for sitio in sitios:
+
+            valores.append(
+                (
+                    sitio.sitio,
+                    sitio.sitio
+                )
+            )
+        return valores
+
+
+class ProcesoAuditoriaEdicionForm(Form):
+
+    proceso = ChoiceField(
+        widget=Select(attrs={'class': 'select2', 'disabled':'disabled'}),
+        required=False
+    )
+
+    subproceso =  ChoiceField(
+        widget=Select(attrs={'class': 'select2', 'required': 'required'}),
+    )
+
+    rep_subproceso = ChoiceField(
+        label='Representate del Subproceso',
+        widget=Select(attrs={'class': 'select2', 'required': 'required'}),
+    )
+
+    fecha_programada_ini = CharField(
+        label='Fecha Programada desde / hasta',
+        widget=TextInput(attrs={'class': 'form-control input-xs', 'name': 'fecha_programada_ini'}),
+    )
+
+    fecha_programada_fin = CharField(
+        label='',
+        widget=TextInput(attrs={'class': 'form-control input-xs', 'name': 'fecha_programada_fin'}),
+    )
+
+    auditor = ChoiceField(
+        widget=Select(attrs={'class': 'select2'})
+    )
+
+    sitio = ChoiceField(
+        widget=Select(attrs={'class': 'select2'})
+    )
+
+    def __init__(self, _auditores_designados_choices, _subprocesos_choices, _rep_subprocesos_choices, *args, **kwargs):
+        super(ProcesoAuditoriaEdicionForm, self).__init__(*args, **kwargs)
+        self.fields['proceso'].choices = self.get_Proceso()
+        self.fields['subproceso'].choices = _subprocesos_choices
+        self.fields['rep_subproceso'].choices = _rep_subprocesos_choices
+        self.fields['auditor'].choices = _auditores_designados_choices
+        self.fields['sitio'].choices = self.get_Sitio()
+
+    def get_Proceso(self):
+
+        valores = [('', '-------')]
+
+        procesos = Proceso.objects.all()
+
+        for proceso in procesos:
+
+            valores.append(
+                (
+                    proceso.pk,
+                    proceso.proceso
+                )
+            )
+        return valores
+
+
+    def get_Sitio(self):
+
+        valores = [('', '-------')]
+
+        sitios = Sitio.objects.all()
+
+        for sitio in sitios:
+
+            valores.append(
+                (
+                    sitio.sitio,
+                    sitio.sitio
+                )
+            )
+        return valores
+
+
+class RequisitoProcesoForm(Form):
+
+    criterio = ChoiceField(
+        widget=Select(attrs={'class': 'select2'}),
+    )
+
+    requisito = CharField(
+        widget=Select(attrs={'class': 'select2'}),
+        required=False
+    )
+
+    def __init__(self, _criterios_auditoria, *args, **kwargs):
+        super(RequisitoProcesoForm, self).__init__(*args, **kwargs)
+        self.fields['criterio'].choices = _criterios_auditoria
+
+
+class HallazgoProcesoForm(Form):
+    TIPO_HALLAZGO = (
+        ('', '-------'),
+        ('Mayor A', 'Mayor A'),
+        ('Menor B', 'Menor B'),
+        ('Observacion', 'Observacion')
+    )
+
+    titulo = CharField(
+        widget=TextInput(attrs={'class': 'form-control input-xs'}),
+    )
+
+    requisito_referencia = MultipleChoiceField(
+        label='Requisitos de referencia',
+        widget=SelectMultiple(attrs={'class': 'select2', 'multiple': 'multiple'}),
+    )
+
+    descripciones = MultipleChoiceField(
+        widget=SelectMultiple(attrs={'class': 'select2', 'multiple': 'multiple'}),
+        required=False
+    )
+
+    tipo_hallazgo = ChoiceField(
+        label="Tipo de hallazgo",
+        widget=Select(attrs={'class': 'select2'}),
+        choices=TIPO_HALLAZGO
+    )
+
+    observaciones = CharField(
+        widget=Textarea(attrs={'class': 'form-control input-xs', 'rows': '5'}),
+    )
+
+    def __init__(self, *args, **kwargs):
+        super(HallazgoProcesoForm, self).__init__(*args, **kwargs)
+        self.fields['requisito_referencia'].choices = self.get_Requisitos()
+        self.fields['descripciones'].choices = self.get_Descripciones()
+
+    def get_Descripciones(self):
+
+        valores = []
+
+        fallas = Falla.objects.all()
+
+        for falla in fallas:
+
+            valores.append(
+                (
+                    falla.pk,
+                    falla.falla
+                )
+            )
+        return valores
+
+    def get_Requisitos(self):
+
+        valores = []
+
+        requisitos = Requisito.objects.all()
+
+        for requisito in requisitos:
+
+            valores.append(
+                (
+                    requisito.pk,
+                    requisito.requisito
+                )
+            )
+        return valores
+
+class HallazgoProcesoFilterForm(Form):
+
+    TIPO_HALLAZGO = (
+        ('','-------'),
+        ('Mayor A', 'Mayor A'),
+        ('Menor B', 'Menor B'),
+        ('Observacion', 'Observacion')
+    )
+
+    HALLAZGO_CERRADO = (
+        ('Si', 'Si'),
+        ('No', 'No')
+    )
+
+    ESTADOS = (
+        ('','-------'),
+        ('En Captura','En Captura'),
+        ('Autorizado','Autorizado'),
+        ('En Aprobacion','En Aprobacion'),
+        ('Aprobado','Aprobado'),
+        ('Autorizado','Autorizado'),
+        ('Rechazado','Rechazado'),
+        ('Cancelado','Cancelado'),
+        ('Realizada','Realizada')
+    )
+
+    titulo = CharField(
+        widget=TextInput(attrs={'class': 'form-control input-xs', 'id': 'id_titulo_filter'}),
+        required=False
+    )
+
+    estado = ChoiceField(
+        widget=Select(attrs={'class': 'select2', 'id': 'id_estado_filter'}),
+        choices=ESTADOS,
+        required=False
+    )
+
+    tipo_hallazgo = ChoiceField(
+        label="Tipo de hallazgo",
+        widget=Select(attrs={'class': 'select2', 'id': 'id_tipo_hallazgo_filter'}),
+        choices=TIPO_HALLAZGO,
+        required=False
+    )
+
+    cerrado = ChoiceField(
+        widget=RadioSelect,
+        choices=HALLAZGO_CERRADO,
+        required=False
+    )
+
+class HallazgoProcesoDetalleForm(Form):
+    TIPO_HALLAZGO = (
+        ('', '-------'),
+        ('Mayor A', 'Mayor A'),
+        ('Menor B', 'Menor B'),
+        ('Observacion', 'Observacion')
+    )
+
+    titulo = CharField(
+        widget=TextInput(attrs={'class': 'form-control input-xs', 'maxlength': '40'}),
+    )
+
+    requisito_referencia = MultipleChoiceField(
+        label='Requisitos de referencia',
+        widget=SelectMultiple(attrs={'class': 'select2', 'multiple': 'multiple'}),
+    )
+
+    descripciones = MultipleChoiceField(
+        widget=SelectMultiple(attrs={'class': 'select2', 'multiple': 'multiple'}),
+        required=False
+    )
+
+    tipo_hallazgo = ChoiceField(
+        label="Tipo de hallazgo",
+        widget=Select(attrs={'class': 'select2'}),
+        choices=TIPO_HALLAZGO
+    )
+
+    observaciones = CharField(
+        widget=Textarea(attrs={'class': 'form-control input-xs', 'rows': '5', 'maxlength': '400'}),
+    )
+
+    def __init__(self, *args, **kwargs):
+        super(HallazgoProcesoDetalleForm, self).__init__(*args, **kwargs)
+        self.fields['requisito_referencia'].choices = self.get_Requisitos()
+        self.fields['descripciones'].choices = self.get_Descripciones()
+
+    def get_Descripciones(self):
+
+        valores = []
+
+        fallas = Falla.objects.all()
+
+        for falla in fallas:
+
+            valores.append(
+                (
+                    falla.pk,
+                    falla.falla
+                )
+            )
+        return valores
+
+    def get_Requisitos(self):
+
+        valores = []
+
+        requisitos = Requisito.objects.all()
+
+        for requisito in requisitos:
+
+            valores.append(
+                (
+                    requisito.pk,
+                    requisito.requisito
+                )
+            )
+        return valores
+
+class AnalisisCausaForm(Form):
+
+    titulo = CharField(
+        widget=TextInput(attrs={'class': 'form-control input-xs', 'maxlength': '40'}),
+    )
+
+    metodologia = ChoiceField(
+        widget=Select(attrs={'class': 'select2'}),
+    )
+
+    causas = CharField(
+        label='Causas Probables de la No Conformidad',
+        widget=Textarea(attrs={'class': 'form-control input-xs', 'rows': '4', 'maxlength': '400'}),
+    )
+
+    imagen_analisis = ImageField(
+        label='Recursos Necesarios',
+        widget=FileInput(attrs={'class': 'inputfile', 'name': 'file-2', 'data-multiple-caption': '{count} Archivos seleccionados', 'multiple': '' }),
+    )
+
+    def __init__(self, *args, **kwargs):
+        super(AnalisisCausaForm, self).__init__(*args, **kwargs)
+        self.fields['metodologia'].choices = self.get_Metodologia()
+
+    def get_Metodologia(self):
+
+        valores = [('', '-------')]
+
+        metodologias = Metodologia.objects.all()
+
+        for metodologia in metodologias:
+
+            valores.append(
+                (
+                    metodologia.pk,
+                    metodologia.metodologia
+                )
+            )
         return valores

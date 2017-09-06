@@ -2,12 +2,32 @@
 # Own's Libraries
 from ebs.models import VIEW_ORGANIZACIONES
 from ebs.models import VIEW_EMPLEADOS_GRADO
+from ebs.models import VIEW_EMPLEADOS_FULL
 from jde.models import VIEW_PROVEEDORES
 from .models import TipoDocumento
 from .models import Curso
 
 
 class EmpleadoBusiness(object):
+
+    @classmethod
+    def get_Empleados(self):
+
+        valores = [('', '------------')]
+
+        empleados = VIEW_EMPLEADOS_FULL.objects.using('ebs_p').all()
+
+        for empleado in empleados:
+            nombre = "%s : %s" % (empleado.pers_empleado_numero,
+                                empleado.pers_nombre_completo)
+            valores.append(
+                (
+                    empleado.pers_empleado_numero,
+                    nombre
+                )
+            )
+
+        return valores
 
     @classmethod
     def get_Organizaciones(self):

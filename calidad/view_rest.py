@@ -21,6 +21,9 @@ from .models import Sitio
 from .models import Metodologia
 from .models import Falla
 from .models import Formato
+from .models import ProcesoAuditoria
+from .models import RequisitoProceso
+from .models import HallazgoProceso
 
 
 # Serializadores:
@@ -35,6 +38,9 @@ from .serializers import SitioSerializer
 from .serializers import MetodologiaSerializer
 from .serializers import FallaSerializer
 from .serializers import FormatoSerializer
+from .serializers import ProcesoAuditoriaSerializer
+from .serializers import RequisitoProcesoSerializer
+from .serializers import HallazgoProcesoSerializer
 
 # Paginadores:
 from .pagination import GenericPagination
@@ -43,6 +49,10 @@ from .pagination import GenericPagination
 from .filters import ResponsablesFilter
 from .filters import CompaniaAccionFilter
 from .filters import RolFilter
+from .filters import RequisitoFilter
+from .filters import RequisitoProcesoFilter
+from .filters import HallazgoProcesoFilter
+from .filters import SubprocesoFilter
 
 
 # -------------- Calidad - API REST -------------- #
@@ -57,6 +67,9 @@ class RequisitoAPI(viewsets.ModelViewSet):
     queryset = Requisito.objects.all()
     serializer_class = RequisitoSerializer
     permission_classes = (IsAuthenticated,)
+    filter_backends = (filters.DjangoFilterBackend,)
+    filter_backends = (DjangoFilterBackend,)
+    filter_class = RequisitoFilter
 
 
 class ProcesoAPI(viewsets.ModelViewSet):
@@ -69,6 +82,9 @@ class SubprocesoAPI(viewsets.ModelViewSet):
     queryset = Subproceso.objects.all()
     serializer_class = SubprocesoSerializer
     permission_classes = (IsAuthenticated,)
+    filter_backends = (filters.DjangoFilterBackend,)
+    filter_backends = (DjangoFilterBackend,)
+    filter_class = SubprocesoFilter
 
 
 class ResponsableAPI(viewsets.ModelViewSet):
@@ -141,3 +157,27 @@ class FormatoAPI(viewsets.ModelViewSet):
     queryset = Formato.objects.all()
     serializer_class = FormatoSerializer
     permission_classes = (IsAuthenticated,)
+
+
+class ProcesoAuditoriaAPI(viewsets.ModelViewSet):
+    queryset = ProcesoAuditoria.objects.all()
+    serializer_class = ProcesoAuditoriaSerializer
+    permission_classes = (IsAuthenticated,)
+
+
+class RequisitoProcesoAPI(viewsets.ModelViewSet):
+    queryset = RequisitoProceso.objects.all()
+    serializer_class = RequisitoProcesoSerializer
+    permission_classes = (IsAuthenticated,)
+    filter_backends = (filters.DjangoFilterBackend,)
+    filter_backends = (DjangoFilterBackend,)
+    filter_class = RequisitoProcesoFilter
+
+
+class HallazgoProcesoAPI(viewsets.ModelViewSet):
+    queryset = HallazgoProceso.objects.all()
+    serializer_class = HallazgoProcesoSerializer
+    permission_classes = (IsAuthenticated,)
+    filter_backends = (filters.DjangoFilterBackend,)
+    filter_backends = (DjangoFilterBackend,)
+    filter_class = HallazgoProcesoFilter

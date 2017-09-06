@@ -27,16 +27,17 @@ from utilities import get_FilePath_Expedientes
 
 class PerfilPuestosCargo(models.Model):
 
-    id_puesto= models.CharField(max_length=144)
+    id_puesto = models.CharField(max_length=144)
     id_puesto_cargo = models.CharField(max_length=144)
     descripcion = models.CharField(max_length=144)
-    
+
     created_by = models.ForeignKey(Profile, related_name='pp_created_by')
     created_date = models.DateTimeField(
         auto_now=False,
         auto_now_add=True
     )
-    updated_by = models.ForeignKey(Profile, related_name='pp_updated_by', null=True, blank=True)
+    updated_by = models.ForeignKey(
+        Profile, related_name='pp_updated_by', null=True, blank=True)
     updated_date = models.DateTimeField(
         auto_now=True,
         auto_now_add=False,
@@ -67,7 +68,8 @@ class PerfilExperencia(models.Model):
         auto_now=False,
         auto_now_add=True
     )
-    updated_by = models.ForeignKey(Profile, related_name='pexp_updated_by', null=True, blank=True)
+    updated_by = models.ForeignKey(
+        Profile, related_name='pexp_updated_by', null=True, blank=True)
     updated_date = models.DateTimeField(
         auto_now=True,
         auto_now_add=False,
@@ -98,7 +100,7 @@ class PerfilCompetencias(models.Model):
     tipo_competencia = models.CharField(
         choices=OPCIONES,
         default="adm",
-        max_length=3       
+        max_length=3
     )
 
     id_puesto = models.CharField(max_length=144)
@@ -112,7 +114,8 @@ class PerfilCompetencias(models.Model):
         auto_now=False,
         auto_now_add=True,
     )
-    updated_by = models.ForeignKey(Profile, related_name='pper_updated_by', null=True, blank=True)
+    updated_by = models.ForeignKey(
+        Profile, related_name='pper_updated_by', null=True, blank=True)
     updated_date = models.DateTimeField(
         auto_now=True,
         auto_now_add=False,
@@ -158,7 +161,8 @@ class PerfilPuestoDocumento(models.Model):
     responsabilidades = models.CharField(max_length=144, null=True, blank=True)
     reporte = models.CharField(max_length=144, null=True, blank=True)
     posicion = models.CharField(max_length=144)
-    puesto_acargo =  models.ForeignKey(PerfilPuestosCargo, blank=True, null=True)
+    puesto_acargo = models.ForeignKey(
+        PerfilPuestosCargo, blank=True, null=True)
     edad_minima = models.CharField(max_length=10, blank=True)
     edad_maxima = models.CharField(max_length=10, blank=True)
     nivel_estudio = models.CharField(max_length=144, blank=True)
@@ -174,8 +178,15 @@ class PerfilPuestoDocumento(models.Model):
     )
     cambio_residencia = models.BooleanField(default=False)
     disponibilidad_viajar = models.BooleanField(default=False)
+<<<<<<< HEAD
     requerimentos = models.CharField(max_length=144,  blank=True, null=True)
     areas_experiencia = models.ForeignKey(PerfilExperencia, blank=True, null=True)
+=======
+    requerimentos = models.CharField(max_length=144)
+    areas_experiencia = models.ForeignKey(
+        PerfilExperencia, blank=True, null=True)
+    competencias = models.ForeignKey(PerfilCompetencias, blank=True, null=True)
+>>>>>>> origin/master
     proposito = models.CharField(max_length=144, blank=True)
 
    
@@ -258,6 +269,7 @@ class Archivo(models.Model):
     TIPO = (
         ('per', 'Personal'),
         ('cap', 'Capacitacion'),
+        ('sol', 'Solicitud'),
     )
 
     tipo_archivo = models.CharField(

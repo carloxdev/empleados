@@ -5,11 +5,12 @@ from .views import CalidadDashboard
 
 # CALIDAD - AUDITORIAS
 from .views import AuditoriaLista
-from .views import GeneralFormulario
-from .views import AuditorFormulario
+from .views import GeneralFormularioCreate
+from .views import GeneralFormularioUpdate
+from .views import AuditorFormularioUpdate
 from .views import ProcesoLista
 from .views import RequisitoLista
-from .views import ProcesoFormulario
+from .views import ProcesoFormularioUpdate
 from .views import HallazgoLista
 from .views import HallazgoDetalle
 # from .views import EvidenciaFormulario
@@ -51,36 +52,41 @@ urlpatterns = [
     ),
     url(
         r'^auditorias/nuevo/$',
-        GeneralFormulario.as_view(),
-        name="general_formulario"
+        GeneralFormularioCreate.as_view(),
+        name="general_formulario_create"
+    ),
+    url(
+        r'^auditorias/(?P<pk>\d+)/editar/$',
+        GeneralFormularioUpdate.as_view(),
+        name="general_formulario_update"
     ),
     url(
         r'^auditorias/(?P<pk>\d+)/auditores/$',
-        AuditorFormulario.as_view(),
-        name="auditor_formulario"
+        AuditorFormularioUpdate.as_view(),
+        name="auditor_formulario_update"
     ),
     url(
-        r'^auditorias/nuevo/procesos/$',
+        r'^auditorias/(?P<pk>\d+)/procesos/$',
         ProcesoLista.as_view(),
         name="proceso_lista"
     ),
     url(
-        r'^auditorias/nuevo/procesos/#/editar/$',
-        ProcesoFormulario.as_view(),
-        name="proceso_formulario"
+        r'^auditorias/(?P<pk>\d+)/procesos/(?P<pk_pro>\d+)/editar/$',
+        ProcesoFormularioUpdate.as_view(),
+        name="proceso_formulario_update"
     ),
     url(
-        r'^auditorias/nuevo/procesos/nuevo/requisitos/$',
+        r'^auditorias/(?P<pk>\d+)/procesos/(?P<pk_pro>\d+)/requisitos/$',
         RequisitoLista.as_view(),
         name="requisito_lista"
     ),
     url(
-        r'^auditorias/nuevo/procesos/nuevo/hallazgos/$',
+        r'^auditorias/(?P<pk>\d+)/procesos/(?P<pk_pro>\d+)/hallazgos/$',
         HallazgoLista.as_view(),
         name="hallazgo_lista"
     ),
     url(
-        r'^auditorias/nuevo/procesos/nuevo/hallazgo/detalle/$',
+        r'^auditorias/(?P<pk>\d+)/procesos/(?P<pk_pro>\d+)/(?P<pk_hal>\d+)/detalle/$',
         HallazgoDetalle.as_view(),
         name="hallazgo_detalle"
     ),

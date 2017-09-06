@@ -1,15 +1,15 @@
 from django.conf.urls import url
 
-# STATIC
+# Static
 from django.conf import settings
 from django.conf.urls.static import static
 
-# VISTAS
+# Views
 from .views import EmpleadoLista
-from .views import EmpleadoDashboard
-from .views import EmpleadoOrganigrama
-from .views import EmpleadoOrganigramaOrgAPI
-from .views import EmpleadoOrganigramaEmpAPI
+from .views import Dashboard
+from .views import Organigrama
+from .views import OrganigramaOrgAPI
+from .views import OrganigramaEmpAPI
 from .views import PerfilPuesto
 from .views import PerfilPuestoNuevo
 from .views import PerfilPuestoNuevo2
@@ -18,20 +18,21 @@ from .views import PerfilPuestoCompetencias
 from .views import PerfilPuestoCargos
 from .views import PerfilOrganigrama
 from .views import EmpleadoExpediente
-from .views import EmpleadoExpedientes
-from .views import EmpleadoExpedientesGrado
-from .views import EmpleadoExpedientesDocPersonal
-from .views import EmpleadoExpedientesDocCapacitacion
+from .views import ExpedientesGeneral
+from .views import ExpedientesGrado
+from .views import ExpedientesDocPersonal
+from .views import ExpedientesDocCapacitacion
+from .views import Solicitudes
 
 urlpatterns = [
     url(
         r'^dashboard/$',
-        EmpleadoDashboard.as_view(),
+        Dashboard.as_view(),
         name="empleado_dashboard"
     ),
     url(
         r'^organigrama/$',
-        EmpleadoOrganigrama.as_view(),
+        Organigrama.as_view(),
         name="empleado_organigrama"
     ),
     url(
@@ -41,32 +42,37 @@ urlpatterns = [
     ),
     url(
         r'^organigrama/json-org/(?P<pk>\d+)/$',
-        EmpleadoOrganigramaOrgAPI.as_view(),
+        OrganigramaOrgAPI.as_view(),
         name='organigrama_json_org'
     ),
     url(
         r'^organigrama/json-emp/(?P<pk>[\w\s*]+)/$',
-        EmpleadoOrganigramaEmpAPI.as_view(),
+        OrganigramaEmpAPI.as_view(),
         name='organigrama_json_emp'
     ),
     url(
         r'^expedientes/general$',
-        EmpleadoExpedientes.as_view(),
+        ExpedientesGeneral.as_view(),
         name='empleado_expedientes_general'
     ),
     url(
+        r'^expedientes/solicitudes$',
+        Solicitudes.as_view(),
+        name='empleado_solicitud'
+    ),
+    url(
         r'^expedientes/grado$',
-        EmpleadoExpedientesGrado.as_view(),
+        ExpedientesGrado.as_view(),
         name='empleado_expedientes_grado'
     ),
     url(
         r'^expedientes/docpersonal$',
-        EmpleadoExpedientesDocPersonal.as_view(),
+        ExpedientesDocPersonal.as_view(),
         name='empleado_expedientes_docpersonal'
     ),
     url(
         r'^expedientes/doccapacitacion$',
-        EmpleadoExpedientesDocCapacitacion.as_view(),
+        ExpedientesDocCapacitacion.as_view(),
         name='empleado_expedientes_doccapacitacion'
     ),
     url(
