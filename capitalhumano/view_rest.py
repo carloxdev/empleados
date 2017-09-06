@@ -23,6 +23,7 @@ from .serializers import ArchivoCapacitacionSerializer
 from .serializers import ArchivoSerializers
 from .serializers import DocumentoCapacitacionSerializers
 from .serializers import PerfilPuestosCargoSerializer
+from .serializers import PersonalSerializer
 
 # Paginadores:
 from .pagination import GenericPagination
@@ -34,6 +35,15 @@ from .filters import ArchivoCapacitacionFilter
 from .filters import ArchivoFilter
 from .filters import DocumentoPersonalFilter
 from .filters import PerfilpuestosCargoFilter
+
+
+class PersonalSerializerAPI(viewsets.ModelViewSet):
+    queryset = DocumentoPersonal.objects.all().order_by('-created_date')
+    serializer_class = PersonalSerializer
+    pagination_class = GenericPagination
+    filter_backends = (DjangoFilterBackend,)
+    filter_class = DocumentoPersonalFilter
+    permission_classes = (IsAuthenticated,)
 
 
 class DocumentoPersonalAPI(viewsets.ModelViewSet):

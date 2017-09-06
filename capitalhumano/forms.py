@@ -11,6 +11,7 @@ from django.forms import ChoiceField
 from django.forms import RadioSelect
 from django.forms import CheckboxInput
 from django.forms import FileInput
+from django.forms import ClearableFileInput
 from django.forms import DateInput
 from django.forms import DateField
 from django.forms import FileField
@@ -672,7 +673,7 @@ class NuevoDocumentoPersonalForm(Form):
 
     archivo = FileField(
         label="Archivo",
-        widget=FileInput(attrs={'class': 'dropzone dz-clickable dz-started', 'type': 'file'}))
+        widget=ClearableFileInput(attrs={'class': 'dropzone dz-clickable dz-started', 'type': 'file', 'multiple': True}))
 
     def __init__(self, *args, **kwargs):
         super(NuevoDocumentoPersonalForm, self).__init__(*args, **kwargs)
@@ -768,7 +769,7 @@ class NuevoDocumentoCapacitacionForm(Form):
 
     archivocap = FileField(
         label="Archivo",
-        widget=FileInput(attrs={'class': 'dropzone dz-clickable dz-started'}))
+        widget=ClearableFileInput(attrs={'class': 'dropzone dz-clickable dz-started', 'type': 'file', 'multiple':True }))
 
     def __init__(self, *args, **kwargs):
         super(NuevoDocumentoCapacitacionForm, self).__init__(*args, **kwargs)

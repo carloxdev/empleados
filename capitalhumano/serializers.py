@@ -74,7 +74,6 @@ class PerfilPuestoDocumentoSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class DocumentoPersonalSerializers(serializers.HyperlinkedModelSerializer):
-    # tipo_documento = serializers.SerializerMethodField()
     tipo_documento = serializers.PrimaryKeyRelatedField(
         queryset=TipoDocumento.objects.all())
 
@@ -150,6 +149,87 @@ class ArchivoSerializers(serializers.HyperlinkedModelSerializer):
             'created_by',
         )
 # ---------- FIN Serializers para insertar registros------------------
+
+
+class PersonalSerializer(serializers.HyperlinkedModelSerializer):
+    relacion = serializers.HyperlinkedRelatedField(
+        many=True,
+        read_only=True,
+        view_name='archivo-detail'
+    )
+    tipo_documento = serializers.SerializerMethodField()
+    agrupador = serializers.SerializerMethodField()
+    vigencia_inicio = serializers.SerializerMethodField()
+    vigencia_fin = serializers.SerializerMethodField()
+    created_by = serializers.SerializerMethodField()
+
+    class Meta:
+        model = DocumentoPersonal
+        fields = (
+            'pk',
+            'numero_empleado',
+            'tipo_documento',
+            'agrupador',
+            'vigencia_inicio',
+            'vigencia_fin',
+            'relacion',
+            'created_by',
+            'created_date',
+        )
+
+    def get_tipo_documento(self, obj):
+        try:
+            return obj.tipo_documento.tipo_documento
+        except Exception as e:
+            print str(e)
+            return " "
+
+    def get_agrupador(self, obj):
+        try:
+            agrupador = ''
+            if obj.agrupador == 'per':
+                agrupador = 'Personal'
+            elif obj.agrupador == 'qhse':
+                agrupador = 'QHSE'
+            elif obj.agrupador == 'amo':
+                agrupador = 'Amonestacion'
+            elif obj.agrupador == 'adm':
+                agrupador = 'Administracion'
+            elif obj.agrupador == 'ope':
+                agrupador = 'Operaciones'
+            elif obj.agrupador == 'rec':
+                agrupador = 'Reconocimiento'
+            return agrupador
+        except Exception as e:
+            print str(e)
+            return " "
+
+    def get_vigencia_inicio(self, obj):
+        try:
+            if obj.vigencia_inicio is None:
+                return '---'
+            else:
+                return obj.vigencia_inicio.strftime('%d/%m/%Y')
+        except Exception as e:
+            print str(e)
+            return " "
+
+    def get_vigencia_fin(self, obj):
+        try:
+            if obj.vigencia_fin is None:
+                return '---'
+            else:
+                return obj.vigencia_fin.strftime('%d/%m/%Y')
+        except Exception as e:
+            print str(e)
+            return " "
+
+    def get_created_by(self, obj):
+        try:
+            return obj.created_by.usuario.get_full_name()
+        except Exception as e:
+            print str(e)
+            return " "
 
 
 class ArchivoPersonalSerializer(serializers.HyperlinkedModelSerializer):

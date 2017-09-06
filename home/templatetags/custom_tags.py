@@ -1,10 +1,22 @@
 
 # Django's Libraries
-from django.utils.encoding import force_unicode
 from django import template
 
 
 register = template.Library()
+
+
+@register.filter('has_group')
+def has_group(user, groups_name):
+    if groups_name != "":
+        if user.is_superuser | \
+                user.groups.filter(name="ADMINISTRADOR").exists():
+            return True
+        else:
+            group_list = groups_name.split(',')
+            return bool(user.groups.filter(name__in=group_list).values('name'))
+    else:
+        return True
 
 
 @register.inclusion_tag(
@@ -257,15 +269,3 @@ def tag_field_descripcion(_label_text, _label_text_size, _label_value, _label_va
         'label_value_size': _label_value_size,
     }
     return contexto
-
-
-@register.filter('has_group')
-def has_group(user, groups_name):
-    if groups_name != "":
-        if user.is_superuser | user.groups.filter(name="ADMINISTRADOR").exists():
-            return True
-        else:
-            group_list = groups_name.split(',')
-            return bool(user.groups.filter(name__in=group_list).values('name'))
-    else:
-        return True
