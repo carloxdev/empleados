@@ -9,7 +9,7 @@ from django.forms import Select
 from django.forms import CharField
 from django.forms import ChoiceField
 from django.forms import FileField
-from django.forms import FileInput
+from django.forms import ClearableFileInput
 
 from home.forms_fields import SelectCustom
 
@@ -32,7 +32,7 @@ class NuevaSolicitudForm(Form):
 
     archivo = FileField(
         label="Archivo",
-        widget=FileInput(attrs={'class': 'dropzone dz-clickable dz-started'}))
+        widget=ClearableFileInput(attrs={'class': 'dropzone dz-clickable dz-started', 'type': 'file', 'multiple': True}))
 
     def __init__(self, *args, **kwargs):
         super(NuevaSolicitudForm, self).__init__(*args, **kwargs)

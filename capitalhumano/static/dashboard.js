@@ -196,7 +196,6 @@ Indicadores.prototype.buscar_EmpleadosFiltro = function (_organizacion) {
 Indicadores.prototype.indicador_Total = function (_response, _organizacion) {
 
    dato_total = indicador_total.get_Total(_response, _organizacion)
-   document.getElementById('resultado-total-ac').innerHTML=dato_total
 
    return dato_total
 }
@@ -283,7 +282,16 @@ IndicadorTotal.prototype.get_Total= function (_response, _organizacion) {
          }
       }
    }
+   this.animacion_Resultado(total)
    return total
+}
+IndicadorTotal.prototype.animacion_Resultado = function (_total){
+   var numAnim = new CountUp('resultado-total-ac', 0, _total, 0, 3)
+   if (!numAnim.error) {
+       numAnim.start();
+   } else {
+       console.error(numAnim.error);
+   }
 }
 
 

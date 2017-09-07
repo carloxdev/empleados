@@ -10,7 +10,6 @@ from django.forms import NumberInput
 from django.forms import ChoiceField
 from django.forms import RadioSelect
 from django.forms import CheckboxInput
-from django.forms import FileInput
 from django.forms import ClearableFileInput
 from django.forms import DateInput
 from django.forms import DateField
@@ -31,10 +30,6 @@ from capitalhumano.models import PerfilPuestoDocumento
 
 # Business
 from .business import EmpleadoBusiness
-
-from django import forms
-from django.forms import Form
-
 
 
 class OrganizacionesFilterForm(Form):
@@ -317,20 +312,21 @@ class PerfilPuestoDocumentoForm(Form):
     edad_minima = CharField(
         label="Edad Minima",
         widget=TextInput(
-            attrs={'class': 'form-control input-xs', 'placeholder': 'edad minima'}
+            attrs={'class': 'form-control input-xs',
+                   'placeholder': 'edad minima'}
         )
-    ) 
+    )
 
     edad_maxima = CharField(
         label="Edad Maxima",
         widget=TextInput(
-            attrs={'class': 'form-control input-xs', 'placeholder': 'edad maxima'}
+            attrs={'class': 'form-control input-xs',
+                   'placeholder': 'edad maxima'}
         )
-    ) 
+    )
 
     requerimentos = CharField(
         widget=Textarea(attrs={'class': 'form-control input-xs', 'rows': '5'}))
- 
 
     objetivo = CharField(
         label="Proposito",
@@ -355,7 +351,6 @@ class PerfilPuestoDocumentoForm(Form):
     genero = ChoiceField(
         label='Género',
         widget=RadioSelect, choices=GENERO)
-
 
     def __init__(self, *args, **kwargs):
         super(PerfilPuestoDocumentoForm, self).__init__(
@@ -384,7 +379,6 @@ class PerfilPuestoDocumentoForm(Form):
 
     def get_Nivel(self):
 
-
         valores = [('', '-------')]
 
         niveles = VIEW_GRADO_ACADEMICO.objects.using('ebs_p').all()
@@ -397,14 +391,14 @@ class PerfilPuestoDocumentoForm(Form):
                     str(int(nivel.clave_grado)) + ' - ' + nivel.desc_grado,
                 )
             )
-        return valores 
+        return valores
 
     def get_EstadoCivil(self):
 
+        valores = [('ind', 'Indistinto'), ('sol', 'Soltero'), ('cas', 'Casado'),
+                   ('uni', 'Union Libre'), ('viu', 'Viudo'), ('div', 'Divorciado')]
 
-        valores = [('ind', 'Indistinto'), ('sol', 'Soltero'),('cas', 'Casado'),('uni', 'Union Libre'), ('viu', 'Viudo'), ('div', 'Divorciado')]
-
-        return valores        
+        return valores
 
 
 class ExpedientesFilterForm(Form):
@@ -838,7 +832,7 @@ class NuevoDocumentoCapacitacionForm(Form):
 
     archivocap = FileField(
         label="Archivo",
-        widget=ClearableFileInput(attrs={'class': 'dropzone dz-clickable dz-started', 'type': 'file', 'multiple':True }))
+        widget=ClearableFileInput(attrs={'class': 'dropzone dz-clickable dz-started', 'type': 'file', 'multiple': True}))
 
     def __init__(self, *args, **kwargs):
         super(NuevoDocumentoCapacitacionForm, self).__init__(*args, **kwargs)
@@ -950,7 +944,6 @@ class PerfilPuestoListaForm(Form):
 
 class PerfilAgregarCompetenciaForm(Form):
 
-
     OPCIONES = (
         ('adm', 'Administrativas'),
         ('tec', 'Tecnicas'),
@@ -977,8 +970,7 @@ class PerfilAgregarCompetenciaForm(Form):
             attrs={'class': 'form-control input-xs'}
         )
     )
-    
-     
+
     descripcion = ChoiceField(label='idcompetencia', widget=Select(
         attrs={'class': 'select2 nova-select2'}))
 
@@ -997,9 +989,10 @@ class PerfilAgregarCompetenciaForm(Form):
 
             valores.append(
                 (
-                    str(int(competencia.competence_id)) + ' - ' + competencia.descripcion,
-                    str(int(competencia.competence_id)) + ' - ' + competencia.descripcion,
+                    str(int(competencia.competence_id)) +
+                    ' - ' + competencia.descripcion,
+                    str(int(competencia.competence_id)) +
+                    ' - ' + competencia.descripcion,
                 )
             )
         return valores
-

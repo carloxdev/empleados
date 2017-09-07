@@ -5,6 +5,7 @@ var url_expediente_personal_bypage = window.location.origin + "/api-capitalhuman
 var url_expediente_capacitacion_bypage = window.location.origin +"/api-capitalhumano/capacitacion_bypage/"
 var url_archivo =  window.location.origin + "/api-capitalhumano/archivo/"
 var url_profile =  window.location.origin + "/api-seguridad/profile/"
+var url_solicitud = window.location.origin + "/api-administracion/solicitud/"
 
 // OBJS
 var grid_personal = null
@@ -116,7 +117,7 @@ Popup.prototype.enviar_Solicitud = function (e){
                      }
                 })
             promesa.then(function(){
-                tarjeta_resultados.popup.guardar_Archivo(id_solicitud)
+                tarjeta_resultados.popup.formar_Data(id_solicitud)
             })
         }else if(extension==""){
             e.data.$formulario.append('<div class="alert alert-danger nova-margin" id="id_error"><span class="icon mdi mdi-close-circle-o"></span><strong>Debe adjuntar el archivo correspondiente.</strong></div>')
@@ -126,23 +127,24 @@ Popup.prototype.enviar_Solicitud = function (e){
         }
     }
 }
-Popup.prototype.guardar_Archivo = function (_id_solicitud){
-
-        var data = new FormData()
-        tarjeta_resultados.popup.$formulario.find(':input').each(function() {
-                var elemento= this;
-                if(elemento.type === 'file'){
-                     if(elemento.value !== ''){
-                                for(var i=0; i< $('#'+elemento.id).prop("files").length; i++){
-                                    data.append('archivo', $('#'+elemento.id).prop("files")[i]);
-                             }
-                            
+Popup.prototype.formar_Data = function (_id_solicitud){
+    var data = new FormData()
+    tarjeta_resultados.popup.$formulario.find(':input').each(function() {
+            var elemento= this;
+            if(elemento.type === 'file'){
+                 if(elemento.value !== ''){
+                            for(var i=0; i< $('#'+elemento.id).prop("files").length; i++){
+                                data.append('archivo', $('#'+elemento.id).prop("files")[i])
                                 data.append('tipo_archivo', "sol")
                                 data.append('content_object', url_solicitud+_id_solicitud+"/")
                                 data.append('created_by', url_profile+tarjeta_resultados.popup.$created_by.val()+"/")
-                        }              
-                 }
-         })
+                                tarjeta_resultados.popup.guardar_Archivo(_id_solicitud, data)
+                         }
+                    }              
+             }
+    })
+}
+Popup.prototype.guardar_Archivo = function (_id_solicitud, _data){
 
          $.ajax({
                  url: url_archivo,
@@ -150,7 +152,7 @@ Popup.prototype.guardar_Archivo = function (_id_solicitud){
                  headers: { "X-CSRFToken": appnova.galletita },
                  contentType: false,
                  processData: false,
-                 data: data,
+                 data: _data,
                  success: function (_response) {
 
                         alertify.success("Se ha guardado el archivo")
@@ -289,7 +291,7 @@ PopupInformacionPersonal.prototype.consultar_Archivo = function (_numero, _url_a
 }
 PopupInformacionPersonal.prototype.cargar_Archivos = function (_numero,_url_archivo,_nombre_documento){
 
-    this.$contenido.append("<a href='"+ _url_archivo +"' target='_blank'> Archivo No."+_numero+" : "+_nombre_documento+" </a><br>")
+    this.$contenido.append("<a href='"+ _url_archivo +"' target='_blank'><img src='/static/images/decoradores/PDF.jpg' width='30px' height='30px'></img> Archivo No."+_numero+" : "+_nombre_documento+" </a><br>")
 
 }
 PopupInformacionPersonal.prototype.hidden_Modal = function (e) {
