@@ -97,46 +97,9 @@ class ArchivoAPI(viewsets.ModelViewSet):
     filter_class = ArchivoFilter
     permission_classes = (IsAuthenticated,)
 
-
-# class ArchivoPersonalAPI(viewsets.ModelViewSet):
-#     queryset = Archivo.objects.filter(
-#         tipo_archivo='per').order_by('-created_date')
-#     serializer_class = ArchivoPersonalSerializer
-#     filter_backends = (DjangoFilterBackend,)
-#     filter_class = ArchivoPersonalFilter
-#     permission_classes = (IsAuthenticated,)
-
-
-# class ArchivoPersonalByPageAPI(viewsets.ModelViewSet):
-#     queryset = Archivo.objects.filter(
-#         tipo_archivo='per').order_by('-created_date')
-#     serializer_class = ArchivoPersonalSerializer
-#     pagination_class = GenericPagination
-#     filter_backends = (DjangoFilterBackend,)
-#     filter_class = ArchivoPersonalFilter
-#     permission_classes = (IsAuthenticated,)
-
-
-# class ArchivoCapacitacionAPI(viewsets.ModelViewSet):
-#     queryset = Archivo.objects.filter(
-#         tipo_archivo='cap').order_by('-created_date')
-#     serializer_class = ArchivoCapacitacionSerializer
-#     filter_backends = (DjangoFilterBackend,)
-#     filter_class = ArchivoCapacitacionFilter
-#     permission_classes = (IsAuthenticated,)
-
-
-# class ArchivoCapacitacionByPageAPI(viewsets.ModelViewSet):
-#     queryset = Archivo.objects.filter(
-#         tipo_archivo='cap').order_by('-created_date')
-#     serializer_class = ArchivoCapacitacionSerializer
-#     pagination_class = GenericPagination
-#     filter_backends = (DjangoFilterBackend,)
-#     filter_class = ArchivoCapacitacionFilter
-#     permission_classes = (IsAuthenticated,)
-
-
 # -------------- DOCUMENTO PERFIL PUESTOS - API REST -------------- #
+
+
 class PerfilPuestosCargoAPI(viewsets.ModelViewSet):
     queryset = PerfilPuestosCargo.objects.all()
     serializer_class = PerfilPuestosCargoSerializer

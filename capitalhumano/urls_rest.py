@@ -7,10 +7,6 @@ from .view_rest import CapacitacionAPI
 from .view_rest import CapacitacionByPageAPI
 from capitalhumano.view_rest import DocumentoPersonalAPI
 from capitalhumano.view_rest import DocumentoCapacitacionAPI
-# from capitalhumano.view_rest import ArchivoPersonalByPageAPI
-# from capitalhumano.view_rest import ArchivoCapacitacionByPageAPI
-# from capitalhumano.view_rest import ArchivoPersonalAPI
-# from capitalhumano.view_rest import ArchivoCapacitacionAPI
 from capitalhumano.view_rest import ArchivoAPI
 from capitalhumano.view_rest import PerfilPuestosCargoAPI
 from capitalhumano.view_rest import PerfilPuestosCargoByPageAPI
@@ -58,27 +54,6 @@ router_capitalhumano.register(
     ArchivoAPI,
     'archivo'
 )
-# router_capitalhumano.register(
-#     r'archivopersonal',
-#     ArchivoPersonalAPI,
-#     'archivopersonal'
-# )
-# router_capitalhumano.register(
-#     r'archivopersonal_bypage',
-#     ArchivoPersonalByPageAPI,
-#     'archivopersonal_bypage'
-# )
-# router_capitalhumano.register(
-#     r'archivocapacitacion',
-#     ArchivoCapacitacionAPI,
-#     'archivocapacitacion'
-# )
-# router_capitalhumano.register(
-#     r'archivocapacitacion_bypage',
-#     ArchivoCapacitacionByPageAPI,
-#     'archivocapacitacion_bypage'
-# )
-
 # --------------------PERFILES--------------------
 router_capitalhumano.register(
     r'perfilpuestoacargo_bypage',
@@ -112,4 +87,3 @@ router_capitalhumano.register(
     PerfilCompetenciasByPageAPI,
     'perfilcompetencias_bypage'
 )
-

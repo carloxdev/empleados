@@ -406,8 +406,7 @@ Grid.prototype.get_Configuracion = function () {
 Grid.prototype.get_Columnas = function () {
 
         return [ 
-                {   field: "relacion", 
-                    title: " ", 
+                {   title: " ", 
                     width:"50px" ,
                     template: '<a class="btn btn-default nova-url" href="\\#modal_ver_informacion" data-toggle="modal" data-event="ver-personal" id="#=pk#"><i class="icon icon-left icon mdi mdi-file icon-black"></i></a>',
                 }, 

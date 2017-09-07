@@ -84,25 +84,25 @@ TarjetaFiltros.prototype.get_Values = function (_page) {
     
         return {
                 page: _page,
-                relacion_capacitacion__numero_empleado: this.$numero_empleado.val(),
-                relacion_capacitacion__curso: this.$curso.val(),
-                relacion_capacitacion__curso_organizacion: this.$asig_organizacion_clave.val(),
-                relacion_capacitacion__agrupador: this.$agrupador.val(),
-                relacion_capacitacion__area: this.$area.val(),
-                relacion_capacitacion__proveedor: this.$proveedor.val(),
-                relacion_capacitacion__curso_estatus: this.$estatus.val(),
+                numero_empleado: this.$numero_empleado.val(),
+                curso: this.$curso.val(),
+                curso_organizacion: this.$asig_organizacion_clave.val(),
+                agrupador: this.$agrupador.val(),
+                area: this.$area.val(),
+                proveedor: this.$proveedor.val(),
+                curso_estatus: this.$estatus.val(),
      }
 }
 TarjetaFiltros.prototype.get_Values_Excel = function () {
     
         return {
-                relacion_capacitacion__numero_empleado: this.$numero_empleado.val(),
-                relacion_capacitacion__curso: this.$curso.val(),
-                relacion_capacitacion__curso_organizacion: this.$asig_organizacion_clave.val(),
-                relacion_capacitacion__agrupador: this.$agrupador.val(),
-                relacion_capacitacion__area: this.$area.val(),
-                relacion_capacitacion__proveedor: this.$proveedor.val(),
-                relacion_capacitacion__curso_estatus: this.$estatus.val(),
+                numero_empleado: this.$numero_empleado.val(),
+                curso: this.$curso.val(),
+                curso_organizacion: this.$asig_organizacion_clave.val(),
+                agrupador: this.$agrupador.val(),
+                area: this.$area.val(),
+                proveedor: this.$proveedor.val(),
+                curso_estatus: this.$estatus.val(),
      }
 }
 TarjetaFiltros.prototype.validar_Campos = function (){
@@ -228,7 +228,7 @@ Toolbar.prototype.Inicializar_CeldasExcel = function (e) {
     if (tarjeta_resultados.grid.get_Columnas != null)
     {
         if (tarjeta_resultados.grid.get_Columnas.length != 1) {
-            tarjeta_resultados.grid.get_Columnas.length = 0;
+            tarjeta_resultados.grid.get_Columnas.length = 0
         }
     }
 
@@ -403,7 +403,7 @@ Grid.prototype.get_Campos = function () {
 Grid.prototype.get_Configuracion = function () {
 
         return {
-                autoBind: true,
+                autoBind: false,
                 dataSource: this.kfuente_datos,
                 columnMenu: true,
                 groupable: false,
@@ -423,8 +423,7 @@ Grid.prototype.get_Configuracion = function () {
 Grid.prototype.get_Columnas = function () {
 
         return [  
-                {   field: "relacion", 
-                    title: " ", 
+                {   title: " ", 
                     width:"50px" ,
                     template: '<a class="btn btn-default nova-url" href="\\#modal_ver_informacion" data-toggle="modal" data-event="ver-capacitacion" id="#=pk#"><i class="icon icon-left icon mdi mdi-file icon-black"></i></a>',
                 }, 
@@ -437,10 +436,10 @@ Grid.prototype.get_Columnas = function () {
                 { field: "curso", title: "Archivo", width:"200px"},
                 { field: "agrupador", title: "Agrupador", width:"100px" },
                 { field: "area", title: "Area", width:"100px" },
+                { field: "organizacion", title: "Organizacion", width:"200px" },
                 { field: "fecha_inicio",title: "Fecha inicio",width:"100px"},
                 { field: "fecha_fin", title: "Fecha fin", width:"100px" },
                 { field: "fecha_vencimiento", title: "Fecha vencimiento", width:"150px", format: "{0:dd/MM/yyyy}" },
-                { field: "organizacion", title: "Organizacion", width:"200px" },
                 { field: "created_by", title: "Creado por", width:"150px" },
                 { field: "created_date", title: "Fecha de creación", width:"150px", format: "{0:dd/MM/yyyy}" },
         ]

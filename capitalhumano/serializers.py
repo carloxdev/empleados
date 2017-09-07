@@ -17,7 +17,6 @@ from .models import DocumentoCapacitacion
 from .models import Curso
 from ebs.models import VIEW_EMPLEADOS_FULL
 from jde.models import VIEW_PROVEEDORES
-from ebs.models import VIEW_ORGANIZACIONES
 from .models import PerfilPuestosCargo
 from .models import PerfilCompetencias
 from administracion.models import Solicitud
