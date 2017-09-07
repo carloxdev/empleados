@@ -4,8 +4,6 @@
 var url_documento_personal = window.location.origin  + "/api-capitalhumano/documentopersonal/"
 var url_documento_capacitacion = window.location.origin  + "/api-capitalhumano/documentocapacitacion/"
 var url_archivo =  window.location.origin + "/api-capitalhumano/archivo/"
-var url_expediente_personal_bypage = window.location.origin  + "/api-capitalhumano/archivopersonal_bypage/"
-var url_expediente_capacitacion_bypage = window.location.origin  + "/api-capitalhumano/archivocapacitacion_bypage/"
 var url_eliminar = window.location.origin + "/expedientes/"
 var url_profile =  window.location.origin + "/api-seguridad/profile/"
 var url_documento_personal_grid = window.location.origin + "/api-capitalhumano/personal_bypage/"
@@ -729,6 +727,7 @@ PopupInformacionCapacitacion.prototype.hidden_Modal = function (e) {
 
      e.data.$modal_informacion.modal('hide')
 }
+
 /*-----------------------------------------------*\
                         OBJETO: FILTRO ARCHIVOS
 \*-----------------------------------------------*/

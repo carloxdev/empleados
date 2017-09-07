@@ -68,6 +68,10 @@ class DocumentoPersonalFilter(filters.FilterSet):
         name="numero_empleado",
         lookup_expr="contains")
 
+    agrupador = CharFilter(
+        name="agrupador",
+        lookup_expr="contains")
+
     tipo_documento = CharFilter(
         name="tipo_documento",
         method="filter_documento")
@@ -75,10 +79,6 @@ class DocumentoPersonalFilter(filters.FilterSet):
     tipo_documento_organizacion = CharFilter(
         name="tipo_documento_organizacion",
         method="filter_organizacion")
-
-    agrupador = CharFilter(
-        name="agrupador",
-        lookup_expr="contains")
 
     tipo_documento_estatus = CharFilter(
         name='tipo_documento_estatus',
@@ -89,10 +89,10 @@ class DocumentoPersonalFilter(filters.FilterSet):
         model = DocumentoPersonal
         fields = [
             'numero_empleado',
-            'tipo_documento',
-            'tipo_documento_estatus',
-            'tipo_documento_organizacion',
             'agrupador',
+            'tipo_documento',
+            'tipo_documento_organizacion',
+            'tipo_documento_estatus',
         ]
 
     def filter_documento(self, queryset, name, value):
@@ -152,44 +152,49 @@ class DocumentoCapacitacionFilter(filters.FilterSet):
         name="numero_empleado",
         lookup_expr="contains")
 
-    tipo_documento = CharFilter(
-        name="tipo_documento",
-        method="filter_documento")
+    curso = CharFilter(
+        name="curso",
+        method="filter_curso")
 
-    numero_empleado_organizacion = CharFilter(
-        name="numero_empleado_organizacion",
-        method="filter_organizacion")
+    agrupador = CharFilter(
+        name="agrupador",
+        lookup_expr="contains")
+
+    area = CharFilter(
+        name="area",
+        lookup_expr="contains")
 
     proveedor = CharFilter(
         name="proveedor",
         method="filter_proveedor")
 
+    curso_organizacion = CharFilter(
+        name="curso_organizacion",
+        method="filter_organizacion")
+
+    curso_estatus = CharFilter(
+        name="curso_estatus",
+        method="filter_estatus")
+
     class Meta:
         model = DocumentoCapacitacion
         fields = [
             'numero_empleado',
-            'tipo_documento',
-            'numero_empleado_organizacion',
+            'curso',
+            'agrupador',
+            'area',
             'proveedor',
+            'curso_organizacion',
+            'curso_estatus',
         ]
 
-    def filter_documento(self, queryset, name, value):
+    def filter_curso(self, queryset, name, value):
 
         if not value:
             return ' '
         else:
-            documento = queryset.filter(
-                tipo_documento=value)
-            return documento
-
-    def filter_proveedor(self, queryset, name, value):
-
-        if not value:
-            return ' '
-        else:
-            proveedor = queryset.filter(
-                proveedor=value)
-            return proveedor
+            curso = queryset.filter(curso=value)
+            return curso
 
     def filter_organizacion(self, queryset, name, value):
 
@@ -201,11 +206,43 @@ class DocumentoCapacitacionFilter(filters.FilterSet):
             empleados = queryset.all()
             incluir = []
 
-            for dato in empleados:
-                if organizacion.filter(pers_empleado_numero=dato.content_object.numero_empleado):
-                    incluir.append(dato.id)
+            for dato in organizacion:
+                if empleados.filter(numero_empleado=dato.pers_empleado_numero):
+                    incluir.append(dato.pers_empleado_numero)
+
+            return empleados.filter(numero_empleado__in=incluir)
+
+    def filter_estatus(self, queryset, name, value):
+
+        if not value:
+            return ''
+        else:
+            empleados = queryset.all()
+            fecha_actual = date.today()
+            incluir = []
+            fecha_por_vencer = fecha_actual + timedelta(days=90)
+
+            if value == 'ven':
+                for dato in empleados:
+                    if dato.fecha_vencimiento != "Indefinido":
+                        if dato.fecha_vencimiento < fecha_actual:
+                            incluir.append(dato.id)
+            elif value == 'por':
+                for dato in empleados:
+                    if dato.fecha_vencimiento != "Indefinido":
+                        if (dato.fecha_vencimiento > fecha_actual) and \
+                                (dato.fecha_vencimiento <= fecha_por_vencer):
+                            incluir.append(dato.id)
 
             return empleados.filter(id__in=incluir)
+
+    def filter_proveedor(self, queryset, name, value):
+
+        if not value:
+            return ' '
+        else:
+            proveedor = queryset.filter(proveedor=value)
+            return proveedor
 
 
 class ArchivoPersonalFilter(filters.FilterSet):
