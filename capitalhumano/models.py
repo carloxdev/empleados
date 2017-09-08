@@ -309,11 +309,13 @@ class DocumentoPersonal(models.Model):
 
     AGRUPADOR = (
         ('per', 'Personal'),
-        ('qhse', 'QHSE'),
-        ('amo', 'Amonestación'),
-        ('adm', 'Administración'),
-        ('ope', 'Operaciones'),
-        ('rec', 'Reconocimiento'),
+        ('med', 'Medico'),
+        ('amo', 'Faltas al reglamento'),
+        ('adm', 'Documentos Administrativos'),
+        ('gra', 'Grados Academicos'),
+        ('com', 'Comprobantes laborales'),
+        ('cre', 'Credenciales'),
+        ('equ', 'Equipo Asignado'),
     )
 
     numero_empleado = models.CharField(max_length=6)

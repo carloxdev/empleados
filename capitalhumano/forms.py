@@ -568,11 +568,13 @@ class DocPersonalFilterForm(Form):
     AGRUPADOR_CHOICES = (
         ('', '------------'),
         ('per', 'Personal'),
-        ('qhse', 'QHSE'),
-        ('amo', 'Amonestación'),
-        ('adm', 'Administración'),
-        ('ope', 'Operaciones'),
-        ('rec', 'Reconocimiento'),
+        ('med', 'Medico'),
+        ('amo', 'Faltas al reglamento'),
+        ('adm', 'Documentos Administrativos'),
+        ('gra', 'Grados Academicos'),
+        ('com', 'Comprobantes laborales'),
+        ('cre', 'Credenciales'),
+        ('equ', 'Equipo Asignado'),
     )
     ESTATUS = (
         ('', '------------'),
@@ -707,11 +709,13 @@ class NuevoDocumentoPersonalForm(Form):
     AGRUPADOR = (
         ('', '------------'),
         ('per', 'Personal'),
-        ('qhse', 'QHSE'),
-        ('amo', 'Amonestación'),
-        ('adm', 'Administración'),
-        ('ope', 'Operaciones'),
-        ('rec', 'Reconocimiento'),
+        ('med', 'Medico'),
+        ('amo', 'Faltas al reglamento'),
+        ('adm', 'Documentos Administrativos'),
+        ('gra', 'Grados Academicos'),
+        ('com', 'Comprobantes laborales'),
+        ('cre', 'Credenciales'),
+        ('equ', 'Equipo Asignado'),
     )
 
     tipo_documento = ChoiceField(
