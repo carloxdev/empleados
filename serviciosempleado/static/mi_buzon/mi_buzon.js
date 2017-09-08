@@ -519,6 +519,9 @@ Grid.prototype.onDataBound = function (e) {
             else if (estatus == 'Rechazado'){
                 row.addClass("nova-fecha-vencida")
             }
+            else if (estatus == 'Eliminado'){
+                row.addClass("nova-eliminado")
+            }
         }
     }
 }

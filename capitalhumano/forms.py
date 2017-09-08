@@ -448,10 +448,11 @@ class ExpedientesFilterForm(Form):
 
 class SolicitudesFilterForm(Form):
     STATUS = (
-        ('', '------------'),
+        ('cap', '------------'),
         ('cap', 'En captura'),
         ('act', 'Actualizado'),
         ('rech', 'Rechazado'),
+        ('eli', 'Eliminado'),
     )
     asunto = ChoiceField(
         label="Asunto",

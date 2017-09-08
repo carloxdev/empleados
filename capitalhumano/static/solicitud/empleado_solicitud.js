@@ -109,8 +109,8 @@ PopupFiltros.prototype.click_BotonLimpiar = function (e) {
         e.preventDefault()
         e.data.$folio.val("")
         e.data.$numero_empleado.data('select2').val(0)
-        e.data.$asunto.data('select2').val(0)  
-        e.data.$status.data('select2').val(0)
+        e.data.$asunto.data('select2').val(0)
+        e.data.$status.val("cap").trigger('change')  
 }
 PopupFiltros.prototype.hidden_Modal = function () {
 
@@ -403,11 +403,12 @@ PopupEditar.prototype.hidden_Modal = function () {
 
 function Grid() {
 
-        this.$id = $("#grid_resultados")
-        this.kfuente_datos = null
+    this.$id = $("#grid_resultados")
+    this.kfuente_datos = null
+    this.$updated_by = $('#id_updated_by')
 
-        this.kgrid = null
-        this.init()
+    this.kgrid = null
+    this.init()
 }
 Grid.prototype.init = function () {
 
@@ -523,6 +524,10 @@ Grid.prototype.onDataBound = function (e) {
             else if (estatus == 'Rechazado'){
                 row.addClass("nova-fecha-vencida")
             }
+            else if (estatus == 'Eliminado'){
+                row.addClass("nova-eliminado")
+                row.find('.nova-btn-accion').addClass("disabled");
+            }
         }
     }
 }
@@ -532,7 +537,7 @@ Grid.prototype.get_Columnas = function () {
             {   field: "pk", 
                 title: " ", 
                 width:"50px" ,
-                template: '<a class="btn nova-btn btn-default nova-btn-delete" id="#=pk#" data-event="eliminar"> <i class="icon icon-left icon mdi mdi-delete nova-white"></i></a>',
+                template: '<a class="btn nova-btn btn-default nova-btn-delete nova-btn-accion" id="#=pk#" data-event="eliminar"> <i class="icon icon-left icon mdi mdi-delete nova-white"></i></a>',
             },
             {   title: " ", 
                 width:"50px" ,
@@ -540,10 +545,11 @@ Grid.prototype.get_Columnas = function () {
             }, 
             {   title: "Folio",
                 width:"70px",
-                template: '<a class="btn btn-default nova-url" href="\\#modal_editar" data-toggle="modal" id="#=pk#" data-event="editar">#=pk#</a>',
+                template: '<a class="btn btn-default nova-url nova-btn-accion" href="\\#modal_editar" data-toggle="modal" id="#=pk#" data-event="editar">#=pk#</a>',
             }, 
             { field: "asunto", title: "Asunto", width:"200px"},
             { field: "status", title: "Estatus",width:"100px"},
+            { field: "descripcion",title: "Descripción",width:"200px"},
             { field: "observaciones",title: "Observaciones",width:"200px"},
             { field: "clave_departamento", title: "Se solicito a", width:"150px"},
             { field: "created_by", title: "Creado por", width:"150px" },
@@ -555,54 +561,55 @@ Grid.prototype.get_Columnas = function () {
 Grid.prototype.consultar_Registro = function (_id_dsolicitud) {
 
     $.ajax({
-             url: url_solicitudes_bypage +_id_dsolicitud+"/",
+             url: url_solicitud +_id_dsolicitud+"/",
              method: "GET",
              headers: { "X-CSRFToken": appnova.galletita },
              success: function (_response) {
-                    url = _response.archivo
-                    for (var i = 0; i < url.length; i++) {
-                        id_archivo = url[i].split("/")[5]
-                        tarjeta_resultados.grid.eliminar_Archivo(id_archivo,_id_dsolicitud)
-                    }
+                    response_solicitud = _response
+                    
+                    tarjeta_resultados.grid.eliminar_Archivo(response_solicitud,_id_dsolicitud)
              },
              error: function (_response) {
                     alertify.error("No se ha podido realizar la consulta")
              }
     })
 }
-Grid.prototype.eliminar_Archivo = function (_id_archivo, _id_solicitud) {
+Grid.prototype.eliminar_Archivo = function (_response_solicitud, _id_solicitud) {
+
+    informacion = {
+        'pk': _response_solicitud.pk,
+        'status': "eli",
+        'clave_departamento': _response_solicitud.clave_departamento,
+        'asunto': _response_solicitud.asunto,
+        'descripcion': _response_solicitud.descripcion,
+        'numero_empleado': _response_solicitud.numero_empleado,
+        'observaciones': _response_solicitud.observaciones,
+        'created_by': _response_solicitud.created_by,
+        'updated_by': url_profile+this.$updated_by.val()+"/",
+    }
     alertify.confirm(
       'Eliminar Registro',
       '¿Desea Eliminar este registro?.',
       function () {
-            var promesa = $.ajax({
-                                     url: url_archivo +_id_archivo+"/",
-                                     method: "DELETE",
-                                     headers: { "X-CSRFToken": appnova.galletita },
-                                     success: function (_response) {
+          
+            $.ajax({
+                 url: url_solicitud +_id_solicitud+"/",
+                 data : JSON.stringify(informacion),
+                 type: "PUT",
+                 headers: { "X-CSRFToken": appnova.galletita },
+                 contentType: "application/json; charset=utf-8",
+                 success: function (_response) {
+                        alertify.success('Se elimino solicitud')
+                        $("#grid_resultados").empty()
+                        tarjeta_resultados.grid.init()
 
-                                     },
-                                     error: function (_response) {
-                                            alertify.error("No se ha podido eliminar el registro")
-                                     }
-                                })
-            promesa.then(function(){
-                    $.ajax({
-                     url: url_solicitud +_id_solicitud+"/",
-                     method: "DELETE",
-                     headers: { "X-CSRFToken": appnova.galletita },
-                     success: function (_response) {
-                            alertify.success('Se elimino documento personal')
-                            $("#grid_resultados").empty()
-                            tarjeta_resultados.grid.init()
-
-                     },
-                     error: function (_response) {
-                            alertify.error("No se ha podido eliminar el registro")
-                     }
-                })
+                 },
+                 error: function (_response) {
+                        alertify.error("No se ha podido eliminar el registro")
+                 }
             })
-          }, 
+
+        }, 
       null
    ) 
 }

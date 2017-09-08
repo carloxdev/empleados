@@ -75,6 +75,8 @@ class ArchivoSolicitudSerializer(serializers.HyperlinkedModelSerializer):
                 status = 'Actualizado'
             elif obj.status == 'rech':
                 status = 'Rechazado'
+            elif obj.status == 'eli':
+                status = 'Eliminado'
             return status
         except Exception as e:
             print str(e)
