@@ -19,8 +19,6 @@ from .models import PerfilCompetencias
 # Serializadores:
 from .serializers import PerfilPuestoDocumentoSerializer
 from .serializers import DocumentoPersonalSerializers
-# from .serializers import ArchivoPersonalSerializer
-# from .serializers import ArchivoCapacitacionSerializer
 from .serializers import ArchivoSerializers
 from .serializers import DocumentoCapacitacionSerializers
 from .serializers import PerfilPuestosCargoSerializer
@@ -33,8 +31,6 @@ from .pagination import GenericPagination
 
 # Filtros:
 from .filters import PerfilPuestoDocumentoFilter
-# from .filters import ArchivoPersonalFilter
-# from .filters import ArchivoCapacitacionFilter
 from .filters import ArchivoFilter
 from .filters import DocumentoPersonalFilter
 from .filters import DocumentoCapacitacionFilter
