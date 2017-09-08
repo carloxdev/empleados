@@ -229,8 +229,22 @@ class Curso(models.Model):
 
 
 class TipoDocumento(models.Model):
+    AGRUPADOR = (
+        ('per', 'Personal'),
+        ('med', 'Medico'),
+        ('amo', 'Faltas al reglamento'),
+        ('adm', 'Documentos Administrativos'),
+        ('gra', 'Grados Academicos'),
+        ('com', 'Comprobantes laborales'),
+        ('cre', 'Credenciales'),
+        ('equ', 'Equipo Asignado'),
+    )
     tipo_documento = models.CharField(max_length=255)
-
+    agrupador = models.CharField(
+        choices=AGRUPADOR,
+        default="per",
+        max_length=10
+    )
     created_by = models.ForeignKey(
         Profile, related_name='tipodocper_created_by')
     created_date = models.DateTimeField(
@@ -307,24 +321,8 @@ class Archivo(models.Model):
 
 class DocumentoPersonal(models.Model):
 
-    AGRUPADOR = (
-        ('per', 'Personal'),
-        ('med', 'Medico'),
-        ('amo', 'Faltas al reglamento'),
-        ('adm', 'Documentos Administrativos'),
-        ('gra', 'Grados Academicos'),
-        ('com', 'Comprobantes laborales'),
-        ('cre', 'Credenciales'),
-        ('equ', 'Equipo Asignado'),
-    )
-
     numero_empleado = models.CharField(max_length=6)
     tipo_documento = models.ForeignKey(TipoDocumento)
-    agrupador = models.CharField(
-        choices=AGRUPADOR,
-        default="per",
-        max_length=20
-    )
     vigencia_inicio = models.DateField(null=True, blank=True)
     vigencia_fin = models.DateField(null=True, blank=True)
     relacion = GenericRelation(Archivo, related_query_name='relacion_personal')

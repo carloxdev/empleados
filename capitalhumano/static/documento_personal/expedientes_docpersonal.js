@@ -5,8 +5,6 @@
 var url_expediente = window.location.origin  + "/expedientes/"
 var url_expediente_personal_bypage = window.location.origin + "/api-capitalhumano/personal_bypage/"
 var url_archivo_personal_excel = window.location.origin + "/api-capitalhumano/personal/"
-// var url_expediente_personal_bypage = window.location.origin  + "/api-capitalhumano/archivopersonal_bypage/"
-// var url_archivo_personal_excel = window.location.origin  + "/api-capitalhumano/archivopersonal/"
 
 //OBJS
 var tarjeta_filtro = null

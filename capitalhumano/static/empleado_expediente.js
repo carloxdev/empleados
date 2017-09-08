@@ -133,7 +133,7 @@ PopupPersonal.prototype.click_BotonGuardar = function (e) {
                                  data: {
                                         'numero_empleado' : e.data.$numero_empleado.val(),
                                         'tipo_documento' : e.data.$tipo_documento.val(),
-                                        'agrupador' : e.data.$agrupador.val(),
+                                        //'agrupador' : e.data.$agrupador.val(), //(BORRAR) Si se agrega actualizacion esto se borra
                                         'vigencia_inicio' : e.data.$vigencia_inicio.val(),
                                         'vigencia_fin' : e.data.$vigencia_fin.val(),
                                         'created_by' : url_profile+e.data.$created_by.val()+"/",
@@ -374,7 +374,6 @@ PopupCapacitacion.prototype.init_Components = function () {
         this.$curso.select2(appnova.get_ConfigSelect2())
         this.$modalidad.select2(appnova.get_ConfigSelect2())
         this.$moneda.select2(appnova.get_ConfigSelect2())
-        this.$departamento.select2(appnova.get_ConfigSelect2())
         this.$fecha_inicio.mask("9999-99-99",{  placeholder:"aaaa/mm/dd"  })
         this.$fecha_inicio_input.datetimepicker(this.get_DateTimePickerConfig())
         this.$fecha_fin.mask("9999-99-99",{  placeholder:"aaaa/mm/dd"  })
@@ -405,7 +404,6 @@ PopupCapacitacion.prototype.click_BotonCancelar = function(e){
     e.data.$curso.data('select2').val(0)
     e.data.$modalidad.data('select2').val(0)
     e.data.$moneda.data('select2').val(0)
-    e.data.$departamento.data('select2').val(0)
     e.data.$fecha_inicio.val("")
     e.data.$fecha_fin.val("")
     e.data.$archivo_cap.val("")
@@ -524,7 +522,6 @@ PopupCapacitacion.prototype.limpiar_Formulario = function () {
     this.$curso.data('select2').val(0)
     this.$modalidad.data('select2').val(0)
     this.$moneda.data('select2').val(0)
-    this.$departamento.data('select2').val(0)
     this.$fecha_inicio.val("")
     this.$fecha_fin.val("")
     this.$archivo_cap.val("")
@@ -542,7 +539,6 @@ PopupCapacitacion.prototype.clear_Estilos = function () {
     this.$curso.data('select2').$selection.removeClass("nova-has-error")
     this.$modalidad.data('select2').$selection.removeClass("nova-has-error")
     this.$moneda.data('select2').$selection.removeClass("nova-has-error")
-    this.$departamento.data('select2').$selection.removeClass("nova-has-error")
     this.$fecha_inicio.removeClass("nova-has-error")
     this.$fecha_fin.removeClass("nova-has-error")
     this.$archivo_cap.removeClass("nova-has-error")
@@ -593,13 +589,6 @@ PopupCapacitacion.prototype.validar_Campos = function () {
     }
     else{
         this.$moneda.data('select2').$selection.removeClass("nova-has-error");
-    }
-    if(this.$departamento.data('select2').val() == ""){
-        this.$departamento.data('select2').$selection.addClass("nova-has-error");
-        bandera = 'True'
-    }
-    else{
-        this.$departamento.data('select2').$selection.removeClass("nova-has-error");
     }
     if(this.$lugar.val() == ""){
         this.$lugar.addClass("nova-has-error");
@@ -806,7 +795,7 @@ GridPersonal.prototype.get_DataSourceConfig = function () {
             pageSize: 10,
             transport: {
                     read: {
-                            url:  url_documento_personal_grid, //url_expediente_personal_bypage,
+                            url:  url_documento_personal_grid, 
                             type: "GET",
                             dataType: "json",
                     },
@@ -839,10 +828,8 @@ GridPersonal.prototype.get_Campos = function () {
             vigencia_fin : { type: "string" },
             fecha : { type: "date"},
             relacion : { type: "string"},
-            // archivo : { type: "string" },
             created_by : { type: "string" },
             created_date : { type: "date" },
-            // object_id: { type: "integer" },
             
     }
 }

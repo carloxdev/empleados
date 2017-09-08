@@ -725,7 +725,6 @@ class NuevoDocumentoPersonalForm(Form):
             attrs={'class': 'select2 nova-select2'}
         )
     )
-
     agrupador = ChoiceField(
         label="Agrupador",
         choices=AGRUPADOR,
@@ -804,19 +803,15 @@ class NuevoDocumentoCapacitacionForm(Form):
 
     lugar = CharField(
         label="Lugar",
-        widget=TextInput(attrs={'class': 'form-control input-xs'}))
+        widget=TextInput(attrs={'class': 'form-control input-xs', 'placeholder': 'Veracruz, Ver.'}))
 
     costo = CharField(
         label="Costo",
-        widget=TextInput(attrs={'class': 'form-control input-xs'}))
+        widget=TextInput(attrs={'class': 'form-control input-xs', 'placeholder': '10000'}))
 
     moneda = ChoiceField(
         label="Moneda",
         choices=MONEDA,
-        widget=Select(attrs={'class': 'select2 nova-select2'}))
-
-    departamento = ChoiceField(
-        label="Departamento",
         widget=Select(attrs={'class': 'select2 nova-select2'}))
 
     fecha_inicio = DateField(
@@ -829,11 +824,11 @@ class NuevoDocumentoCapacitacionForm(Form):
 
     duracion = CharField(
         label="Duración(hrs)",
-        widget=TextInput(attrs={'class': 'form-control input-xs'}))
+        widget=TextInput(attrs={'class': 'form-control input-xs', 'placeholder': '10'}))
 
     observaciones = CharField(
         label="Observaciones",
-        widget=TextInput(attrs={'class': 'form-control input-xs'}))
+        widget=TextInput(attrs={'class': 'form-control input-xs', 'placeholder': 'Ninguna'}))
 
     archivocap = FileField(
         label="Archivo",
@@ -842,8 +837,6 @@ class NuevoDocumentoCapacitacionForm(Form):
     def __init__(self, *args, **kwargs):
         super(NuevoDocumentoCapacitacionForm, self).__init__(*args, **kwargs)
 
-        self.fields[
-            'departamento'].choices = EmpleadoBusiness.get_Organizaciones()
         self.fields['proveedor'].choices = EmpleadoBusiness.get_Proveedores()
         self.fields['curso'].choices = EmpleadoBusiness.get_Curso()
 

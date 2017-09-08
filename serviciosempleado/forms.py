@@ -28,7 +28,7 @@ class NuevaSolicitudForm(Form):
 
     descripcion = CharField(
         label="Descripcion",
-        widget=Textarea(attrs={'class': 'form-control input-xs', 'rows': '5'}))
+        widget=Textarea(attrs={'class': 'form-control input-xs','placeholder': 'Ejemplo: Se detectaron incosistencias en la informacion...', 'rows': '5'}))
 
     archivo = FileField(
         label="Archivo",
@@ -102,6 +102,7 @@ class SolicitudesFilterForm(Form):
         ('cap', 'En captura'),
         ('act', 'Actualizado'),
         ('rech', 'Rechazado'),
+        ('eli', 'Eliminado'),
     )
     asuntofiltro = ChoiceField(
         label="Asunto",

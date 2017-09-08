@@ -5,8 +5,6 @@
 var url_expediente = window.location.origin  + "/expedientes/"
 var url_expediente_capacitacion_bypage = window.location.origin + "/api-capitalhumano/capacitacion_bypage/"
 var url_archivo_capacitacion_excel = window.location.origin + "/api-capitalhumano/capacitacion/"
-// var url_expediente_capacitacion_bypage = window.location.origin  + "/api-capitalhumano/archivocapacitacion_bypage/"
-// var url_archivo_capacitacion_excel = window.location.origin  + "/api-capitalhumano/archivocapacitacion/"
 
 //OBJS
 var tarjeta_filtro = null

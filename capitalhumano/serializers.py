@@ -82,7 +82,6 @@ class DocumentoPersonalSerializers(serializers.HyperlinkedModelSerializer):
             'pk',
             'numero_empleado',
             'tipo_documento',
-            'agrupador',
             'vigencia_inicio',
             'vigencia_fin',
             'created_by',
@@ -188,21 +187,21 @@ class PersonalSerializer(serializers.HyperlinkedModelSerializer):
     def get_agrupador(self, obj):
         try:
             agrupador = ''
-            if obj.agrupador == 'per':
+            if obj.tipo_documento.agrupador == 'per':
                 agrupador = 'Personal'
-            elif obj.agrupador == 'med':
+            elif obj.tipo_documento.agrupador == 'med':
                 agrupador = 'Medico'
-            elif obj.agrupador == 'amo':
+            elif obj.tipo_documento.agrupador == 'amo':
                 agrupador = 'Faltas al reglamento'
-            elif obj.agrupador == 'adm':
+            elif obj.tipo_documento.agrupador == 'adm':
                 agrupador = 'Documentos administrativos'
-            elif obj.agrupador == 'gra':
+            elif obj.tipo_documento.agrupador == 'gra':
                 agrupador = 'Grados academicos'
-            elif obj.agrupador == 'com':
+            elif obj.tipo_documento.agrupador == 'com':
                 agrupador = 'Comprobantes laborales'
-            elif obj.agrupador == 'cre':
+            elif obj.tipo_documento.agrupador == 'cre':
                 agrupador = 'Credenciales'
-            elif obj.agrupador == 'equ':
+            elif obj.tipo_documento.agrupador == 'equ':
                 agrupador = 'Equipo asignado'
             return agrupador
         except Exception as e:
