@@ -1,18 +1,22 @@
 # -*- coding: utf-8 -*-
 
-# Librerias Python
+# Python's Libraries
 import re
 
-# Librerias Django
-
+# Django's Libraries
 from django.views.generic.base import View
 
 from django.shortcuts import render
 from django.shortcuts import redirect
 from django.shortcuts import get_object_or_404
+
 from django.core.urlresolvers import reverse
+from django.core.mail import EmailMultiAlternatives
+
 from django.contrib import messages
 from django.urls import reverse_lazy
+from django.template.loader import render_to_string
+from django.template import Context
 
 from django.contrib.auth import login
 from django.contrib.auth import authenticate
@@ -20,16 +24,12 @@ from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.auth.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin
-
 from django.contrib.auth.views import PasswordResetConfirmView
 from django.contrib.auth.views import PasswordResetCompleteView
 
-# Librerias Propias
-
-# Modelos:
+# Own's Libraries
 from .models import Profile
 
-# Formularios:
 from .forms import UserFilterForm
 from .forms import UserNuevoForm
 from .forms import UserRegistroForm
@@ -119,10 +119,24 @@ class Registro(View):
 
             usuario.profile.clave_rh = datos_formulario.get('clave_rh')
             usuario.profile.clave_jde = datos_formulario.get('clave_jde')
-            usuario.profile.fecha_nacimiento = datos_formulario.get(
-                'fecha_nacimiento')
+            usuario.profile.fecha_nacimiento = datos_formulario.get('fecha_nacimiento')
             usuario.profile.foto = datos_formulario.get('foto')
             usuario.profile.save()
+
+            contexto = {
+                'first_name': usuario.first_name,
+                'no_empleado': usuario.username
+            }
+
+            html_content = render_to_string("registro_email.html", contexto)
+            text_content = render_to_string("registro_email.txt", contexto)
+
+            subject = "Registro exitoso Nova - Nuvil"
+            from_email = "ti.nuvoil@gmail.com"
+            to = usuario.email
+            msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+            msg.attach_alternative(html_content, "text/html")
+            msg.send()
 
             return redirect(reverse('seguridad:usuario_registro_exito', kwargs={'_pk': usuario.pk}))
 
