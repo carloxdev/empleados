@@ -68,7 +68,8 @@ class IncidenciaArchivoAPI(viewsets.ModelViewSet):
     queryset = IncidenciaArchivo.objects.all()
     serializer_class = IncidenciaArchivoSerializer
     filter_backends = (DjangoFilterBackend,)
-    filter_fields = ('id',)
+    filter_class = IncidenciaArchivoFilter
+    #filter_fields = ('id',)
     permission_classes = (IsAuthenticated,)
 
 

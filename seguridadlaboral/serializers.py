@@ -9,12 +9,16 @@ from .models import IncidenciaArchivo
 from .models import IncidenciaResolucion
 from .models import EmpleadosZona
 from .models import VIEW_INCIDENCIAS_ZONA
+from jde.models import VIEW_CENTROSCOSTO
 
 
 class IncidenciaDocumentoSerializer(serializers.HyperlinkedModelSerializer):
 
     tipo = serializers.SerializerMethodField()
     centro_atencion = serializers.SerializerMethodField()
+    zona = serializers.SerializerMethodField()
+    empleado_organizacion = serializers.SerializerMethodField()
+    status = serializers.SerializerMethodField()
 
     class Meta:
         model = IncidenciaDocumento
@@ -25,14 +29,14 @@ class IncidenciaDocumentoSerializer(serializers.HyperlinkedModelSerializer):
             'fecha',
             'empleado_id',
             'empleado_nombre',
-            #'zona',
+            'zona',
             # 'empleado_zona',
             'empleado_proyecto',
             'empleado_proyecto_desc',
             'empleado_puesto',
             'empleado_puesto_desc',
             'empleado_un',
-            # 'empleado_organizacion',
+            'empleado_organizacion',
             'area_id',
             'area_descripcion',
             'lugar',
@@ -45,6 +49,35 @@ class IncidenciaDocumentoSerializer(serializers.HyperlinkedModelSerializer):
             'updated_by',
             'updated_date',
         )
+
+    def get_status(self, obj):
+        try:
+            status = ''
+            if obj.status == 'abi':
+                status = 'Abierto'
+            elif obj.status == 'cer':
+                status = 'Cerrado'
+            elif obj.status == 'pro':
+                status = 'Proceso'
+            elif obj.status == 'can':
+                status = 'Cancelado'
+            return status
+        except Exception as e:
+            print str(e)
+            return " "    
+
+    def get_empleado_organizacion(self, obj):
+        try:
+            empleado_organizacion = VIEW_CENTROSCOSTO.objects.using(
+                'jde_p').get(clave=obj.empleado_un)
+            return empleado_organizacion.descripcion
+        except Exception as e:
+            print str(e)
+            return " "    
+
+    def get_zona(self, obj):
+
+        return obj.zona.descripcion
 
     def get_tipo(self, obj):
 

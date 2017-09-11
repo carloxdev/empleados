@@ -232,22 +232,24 @@
             
             <div class="modal-header nova-modal-header">
                 <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
-                <h3 class="modal-title">Agregar archivo</h3>
+                <h3 class="modal-title">Nuevo documento personal</h3>
             </div>
             	<form action="" method="POST" enctype="multipart/form-data" id="formulario_per"> {% csrf_token %}
-					<!-- Subtipo -->
 
 					<div class="modal-body form-horizontal">
-						{% tag_field_popup form.tipo_documento 3 8 %}
-	                                 
 						<!-- Agrupador -->
 						{% tag_field_popup form.agrupador 3 8 %}                 
 
+						<!-- Tipo -->
+						{% tag_field_popup form.tipo_documento 3 8 %}
+	                                 
 	                    <!-- Vigencia -->
 	                    <div class="form-group">
 
 	                        <label class="col-sm-3 nova-col-filter control-label">
 	                            Vigencia inicio/fin
+	                            <br>
+	                            <small>(OPCIONAL)</small>
 	                        </label>
 
 	                        <div class="col-sm-4 xs-pt-5">
@@ -286,7 +288,7 @@
                         <button type="button" data-dismiss="modal" class="btn btn-default pull-left" id="id_boton_cancelar_per">
                             Cancelar
                         </button>
-						<button type="button" class="btn btn-primary pull-right" id="id_boton_guardar_personal" >Guardar</button>
+						<button type="button" class="btn btn-primary pull-right" id="id_boton_guardar_personal" ><i class="icon icon-left mdi mdi-save nova-white"></i> Guardar</button>
                     </div>
                 </div>
         </div> <!-- Modal content-->
@@ -300,10 +302,13 @@
             
             <div class="modal-header nova-modal-header">
                 <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
-                <h3 class="modal-title">Agregar archivos</h3>
+                <h3 class="modal-title">Nueva capacitación</h3>
             </div>
             <form action="" method="POST" enctype="multipart/form-data" id="form_capacitacion"> {% csrf_token %}
 				<div class="modal-body form-horizontal">
+					 <!-- Departamento -->
+					 <input class="form-control input-xs hide" id="id_departamento" readonly="True" value="{{ dato.asig_organizacion_clave }}"></input>
+                 
 					<!-- Agrupador -->
 					{% tag_field_popup form2.agrupadorcap 3 8 %}
  
@@ -327,9 +332,6 @@
   
                     <!-- Moneda -->
                     {% tag_field_popup form2.moneda 3 8 %}
-
-                    <!-- Departamento -->
-                    {% tag_field_popup form2.departamento 3 8 %}
 
                     <!-- Duracion -->
                     {% tag_field_popup form2.duracion 3 8 %}
@@ -379,7 +381,7 @@
                     <button type="button" data-dismiss="modal" class="btn btn-default pull-left" id="id_boton_cancelar_cap">
                         Cancelar
                     </button>
-                    <button type="button" class="btn btn-primary pull-right" id="id_boton_guardar_capacitacion"> Guardar</button>
+                    <button type="button" class="btn btn-primary pull-right" id="id_boton_guardar_capacitacion"><i class="icon icon-left mdi mdi-save nova-white"></i> Guardar</button>
                 </div>
             </div>
         </div> <!-- Modal content-->
