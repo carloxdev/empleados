@@ -3,8 +3,8 @@
 \*-----------------------------------------------*/
 
 var url_expediente = window.location.origin  + "/expedientes/"
-var url_expediente_capacitacion_bypage = window.location.origin  + "/api-capitalhumano/archivocapacitacion_bypage/"
-var url_archivo_capacitacion_excel = window.location.origin  + "/api-capitalhumano/archivocapacitacion/"
+var url_expediente_capacitacion_bypage = window.location.origin + "/api-capitalhumano/capacitacion_bypage/"
+var url_archivo_capacitacion_excel = window.location.origin + "/api-capitalhumano/capacitacion/"
 
 //OBJS
 var tarjeta_filtro = null
@@ -12,6 +12,7 @@ var grid = null
 var toolbar = null
 var tarjeta_resultados = null
 var popup = null
+var popup_informacion_capacitacion = null
 
 
 /*------------------------------------------------*\  
@@ -63,45 +64,6 @@ TarjetaFiltros.prototype.init_Components = function () {
     this.$estatus.select2(appnova.get_ConfigSelect2())
     this.$proveedor.select2(appnova.get_ConfigSelect2())
 }
-TarjetaFiltros.prototype.get_ConfDateRangePicker = function () {
-
-    return {
-        autoUpdateInput: false,
-        locale: {
-            format: 'YYYY-MM-DD',
-            applyLabel: "Aplicar",
-            cancelLabel: "Cancelar",
-            fromLabel: "Del",
-            separator: " al ",
-            toLabel: "Al",            
-            weekLabel: "S",
-            daysOfWeek: [
-                "Do",
-                "Lu",
-                "Ma",
-                "Mi",
-                "Ju",
-                "Vi",
-                "Sa"
-            ],
-            monthNames: [
-                "Enero",
-                "Febrero",
-                "Marzo",
-                "Abril",
-                "Mayo",
-                "Junio",
-                "Julio",
-                "Agosto",
-                "Septiembre",
-                "Octubre",
-                "Noviembre",
-                "Diciembre"
-            ],          
-        },
-        startDate: '2017-01-01'
-    }    
-}
 TarjetaFiltros.prototype.init_Events = function () {
 
      this.$boton_buscar.on("click", this, this.click_BotonBuscar)
@@ -120,25 +82,25 @@ TarjetaFiltros.prototype.get_Values = function (_page) {
     
         return {
                 page: _page,
-                relacion_capacitacion__numero_empleado: this.$numero_empleado.val(),
-                relacion_capacitacion__curso: this.$curso.val(),
-                relacion_capacitacion__curso_organizacion: this.$asig_organizacion_clave.val(),
-                relacion_capacitacion__agrupador: this.$agrupador.val(),
-                relacion_capacitacion__area: this.$area.val(),
-                relacion_capacitacion__proveedor: this.$proveedor.val(),
-                relacion_capacitacion__curso_estatus: this.$estatus.val(),
+                numero_empleado: this.$numero_empleado.val(),
+                curso: this.$curso.val(),
+                curso_organizacion: this.$asig_organizacion_clave.val(),
+                agrupador: this.$agrupador.val(),
+                area: this.$area.val(),
+                proveedor: this.$proveedor.val(),
+                curso_estatus: this.$estatus.val(),
      }
 }
 TarjetaFiltros.prototype.get_Values_Excel = function () {
     
         return {
-                relacion_capacitacion__numero_empleado: this.$numero_empleado.val(),
-                relacion_capacitacion__curso: this.$curso.val(),
-                relacion_capacitacion__curso_organizacion: this.$asig_organizacion_clave.val(),
-                relacion_capacitacion__agrupador: this.$agrupador.val(),
-                relacion_capacitacion__area: this.$area.val(),
-                relacion_capacitacion__proveedor: this.$proveedor.val(),
-                relacion_capacitacion__curso_estatus: this.$estatus.val(),
+                numero_empleado: this.$numero_empleado.val(),
+                curso: this.$curso.val(),
+                curso_organizacion: this.$asig_organizacion_clave.val(),
+                agrupador: this.$agrupador.val(),
+                area: this.$area.val(),
+                proveedor: this.$proveedor.val(),
+                curso_estatus: this.$estatus.val(),
      }
 }
 TarjetaFiltros.prototype.validar_Campos = function (){
@@ -177,10 +139,76 @@ function TarjetaResultados(){
     this.grid = new Grid()
     this.popup = new Popup()
     this.toolbar = new Toolbar()
+    this.popup_informacion_capacitacion = new PopupInformacionCapacitacion()
+}
+
+
+/*-----------------------------------------------*\
+        OBJETO: Pop up informacion personal
+\*-----------------------------------------------*/
+
+function PopupInformacionCapacitacion(){
+    this.$modal_informacion = $('#modal_ver_informacion')
+    this.$boton_salir = $('#id_boton_salir')
+    this.$contenido = $('#contenido')
+
+    this.init_Components()
+    this.init_Events()
+}
+PopupInformacionCapacitacion.prototype.init_Components = function (){
+}
+PopupInformacionCapacitacion.prototype.init_Events = function (){
+
+    this.$boton_salir.on('click', this, this.hidden_Modal)
+}
+PopupInformacionCapacitacion.prototype.consultar_Registro = function (_id){
+
+    $.ajax({
+          url: url_expediente_capacitacion_bypage + _id +"/",
+          type: "GET",
+          headers: { "X-CSRFToken": appnova.galletita },
+          contentType: "application/json; charset=utf-8",
+          success: function (_response) {
+            nombre_documento = _response.curso
+            url = _response.relacion
+            for (var i = 0; i < url.length; i++) {
+                url_archivo_personal = url[i]
+                tarjeta_resultados.popup_informacion_capacitacion.consultar_Archivo(i,url_archivo_personal, nombre_documento)
+            }
+          },
+          error: function (_response) {
+             alertify.error("Ocurrio un error al consultar")
+          }
+       })
+}
+PopupInformacionCapacitacion.prototype.consultar_Archivo = function (_numero, _url_archivo_capacitacion, _nombre_documento){
+    $.ajax({
+          url: _url_archivo_capacitacion,
+          type: "GET",
+          headers: { "X-CSRFToken": appnova.galletita },
+          contentType: "application/json; charset=utf-8",
+          success: function (_response) {
+            
+            url = _response.archivo
+            tarjeta_resultados.popup_informacion_capacitacion.cargar_Archivos(_numero+1,url,_nombre_documento)
+          },
+          error: function (_response) {
+             alertify.error("Ocurrio un error al consultar")
+          }
+       })
+}
+PopupInformacionCapacitacion.prototype.cargar_Archivos = function (_numero,_url_archivo,_nombre_documento){
+
+    this.$contenido.append("<a href='"+ _url_archivo +"' target='_blank'><img src='/static/images/decoradores/PDF.jpg' width='30px' height='30px'></img> Archivo No."+_numero+" : "+_nombre_documento+" </a><br>")
+
+}
+PopupInformacionCapacitacion.prototype.hidden_Modal = function (e) {
+
+     e.data.$modal_informacion.modal('hide')
 }
 
 /*-----------------------------------------------*\
-            OBJETO: Tarjeta resultados
+            OBJETO: Toolbar
 \*-----------------------------------------------*/
 
 function Toolbar(){
@@ -198,7 +226,7 @@ Toolbar.prototype.Inicializar_CeldasExcel = function (e) {
     if (tarjeta_resultados.grid.get_Columnas != null)
     {
         if (tarjeta_resultados.grid.get_Columnas.length != 1) {
-            tarjeta_resultados.grid.get_Columnas.length = 0;
+            tarjeta_resultados.grid.get_Columnas.length = 0
         }
     }
 
@@ -362,7 +390,7 @@ Grid.prototype.get_Campos = function () {
                 curso : { type: "string" },
                 agrupador : { type: "string"},
                 numero_empleado : { type: "string" },
-                archivo : { type: "string" },
+                relacion : { type: "string" },
                 fecha_inicio : { type: "string" },
                 fecha_fin : { type: "string" },
                 created_by : { type: "string" },
@@ -393,28 +421,34 @@ Grid.prototype.get_Configuracion = function () {
 Grid.prototype.get_Columnas = function () {
 
         return [  
+                {   title: " ", 
+                    width:"50px" ,
+                    template: '<a class="btn btn-default nova-url" href="\\#modal_ver_informacion" data-toggle="modal" data-event="ver-capacitacion" id="#=pk#"><i class="icon icon-left icon mdi mdi-file icon-black"></i></a>',
+                }, 
                 { field: "numero_empleado", 
                     title: "No. de empleado", 
                     width:"150px" ,
-                    template: '<a href="#=url_expediente + numero_empleado #/expediente/">#=numero_empleado#</a>',
+                    template: '<a class="btn btn-default nova-url"  href="#=url_expediente + numero_empleado #/expediente/">#=numero_empleado#</a>',
                 },
                 { field: "nombre_completo", title: "Nombre", width:"200px" },
-                { field: "curso", 
-                  title: "Archivo", 
-                  width:"150px" ,
-                  template: '<a href="#=archivo#" target="_blank" id="documento">#=curso#</a>',
-                },
+                { field: "curso", title: "Archivo", width:"200px"},
                 { field: "agrupador", title: "Agrupador", width:"100px" },
                 { field: "area", title: "Area", width:"100px" },
+                { field: "organizacion", title: "Organizacion", width:"200px" },
                 { field: "fecha_inicio",title: "Fecha inicio",width:"100px"},
                 { field: "fecha_fin", title: "Fecha fin", width:"100px" },
                 { field: "fecha_vencimiento", title: "Fecha vencimiento", width:"150px", format: "{0:dd/MM/yyyy}" },
-                { field: "organizacion", title: "Organizacion", width:"200px" },
                 { field: "created_by", title: "Creado por", width:"150px" },
                 { field: "created_date", title: "Fecha de creación", width:"150px", format: "{0:dd/MM/yyyy}" },
         ]
 }
 Grid.prototype.aplicar_Estilos = function (e) {
+    e.sender.tbody.find("[data-event='ver-capacitacion']").each(function(idx, element){
+      $(this).on("click", function(){
+        tarjeta_resultados.popup_informacion_capacitacion.$contenido.empty()
+        tarjeta_resultados.popup_informacion_capacitacion.consultar_Registro(this.id)
+      })
+    })
 
     columns = e.sender.columns
     dataItems = e.sender.dataSource.view()

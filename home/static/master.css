@@ -674,6 +674,9 @@ div.nova-panel-arbol li.list-group-item {
 .nova-actualizado{
   background-color: #E6F8E0;
 }
+.nova-eliminado{
+  background-color: #FBEFEF;
+}
 
 /* bootstrap multiselect */
 .nova-bootstrap-multiselect-width-ul {

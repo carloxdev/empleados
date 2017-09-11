@@ -336,7 +336,7 @@ Grid.prototype.get_Columnas = function () {
                 { field: "pers_empleado_numero", 
                     title: "No. de empleado", 
                     width:"150px" ,
-                    template: '<a href="#=url_expediente + pers_empleado_numero #/expediente/">#=pers_empleado_numero#</a>',
+                    template: '<a class="btn btn-default nova-url" href="#=url_expediente + pers_empleado_numero #/expediente/">#=pers_empleado_numero#</a>',
                 },
                 { field: "pers_primer_nombre", title: "Primer nombre", width:"170px"},
                 { field: "pers_segundo_nombre", title: "Segundo Nombre", width:"150px" },

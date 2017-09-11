@@ -4,7 +4,6 @@ from rest_framework.permissions import IsAuthenticated
 from django_filters.rest_framework import DjangoFilterBackend
 
 # Modelos:
-from capitalhumano.models import Archivo
 from .models import Solicitud
 from .models import Asunto
 
@@ -33,8 +32,7 @@ class SolicitudAPI(viewsets.ModelViewSet):
 
 
 class ArchivoSolicitudAPI(viewsets.ModelViewSet):
-    queryset = Archivo.objects.filter(
-        tipo_archivo='sol').order_by('-created_date')
+    queryset = Solicitud.objects.all().order_by('-created_date')
     serializer_class = ArchivoSolicitudSerializer
     filter_backends = (DjangoFilterBackend,)
     filter_class = ArchivoSolicitudFilter
@@ -42,8 +40,7 @@ class ArchivoSolicitudAPI(viewsets.ModelViewSet):
 
 
 class ArchivoSolicitudByPageAPI(viewsets.ModelViewSet):
-    queryset = Archivo.objects.filter(
-        tipo_archivo='sol').order_by('-created_date')
+    queryset = Solicitud.objects.all().order_by('-created_date')
     serializer_class = ArchivoSolicitudSerializer
     pagination_class = GenericPagination
     filter_backends = (DjangoFilterBackend,)

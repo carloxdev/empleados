@@ -34,7 +34,7 @@ def get_FilePath_Incidencia(instance, filename):
 
     if (instance.incidencia_id):
         upload_dir = os.path.join(
-            'incidencias')
+            'incidencias', str(instance.incidencia_id))
 
     return os.path.join(upload_dir, filename)
 

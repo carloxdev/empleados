@@ -56,7 +56,7 @@
                      <div class="desc"><h4>Rotación total</h4></div>
                      <div class="value">
                         <span class="indicator indicator-equal mdi mdi-chevron-right"></span>
-                        <span data-toggle="counter" data-end="113" class="number" id="resultado-rotacion"></span>
+                        <span data-toggle="counter" data-end="113" class="number" id="resultado-rotacion">0</span>
                      </div>
                   </div>
                </div>
@@ -111,6 +111,11 @@
    <script src="{% static 'libs/highcharts/5.0.11/js/highcharts.js' %}"></script>
    <script src="{% static 'libs/highcharts/5.0.11/js/highcharts-3d.js' %}"></script>
    <script src="{% static 'libs/highcharts/5.0.11/js/highcharts-more.js' %}"></script>
+
+    <!-- CountUp -->
+   <script src="{% static 'libs/countUp/countUp-jquery.js' %}"></script>
+   <script src="{% static 'libs/countUp/countUp.js' %}"></script>
+
    <!-- NOVA-->
    <script src="{% static 'dashboard.js' %}"></script>
 {% endblock scripts %}

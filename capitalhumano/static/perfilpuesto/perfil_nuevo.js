@@ -321,8 +321,8 @@ Formulario.prototype.escoger_puestosacargo = function (e) {
               
             },
             error: function (response) {
-
-                         alert("Ocurrio error al consultar ")
+                         alertify.error("Ocurrio error al consultar")
+                         //alert("Ocurrio error al consultar ")
                   }
     })
 
@@ -353,7 +353,7 @@ Formulario.prototype.escoger_puestosacargo = function (e) {
             },
             error: function (response) {
                          alertify.error("Ocurrio error al consultar competencias")
-                         alert("Ocurrio error al consultar competencias")
+                        // alert("Ocurrio error al consultar competencias")
                   }
     })
 }
