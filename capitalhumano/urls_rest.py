@@ -8,7 +8,6 @@ from capitalhumano.view_rest import ArchivoPersonalByPageAPI
 from capitalhumano.view_rest import ArchivoCapacitacionByPageAPI
 from capitalhumano.view_rest import ArchivoPersonalAPI
 from capitalhumano.view_rest import ArchivoCapacitacionAPI
-from capitalhumano.view_rest import ArchivoAPI
 from capitalhumano.view_rest import PerfilPuestosCargoAPI
 from capitalhumano.view_rest import PerfilPuestosCargoByPageAPI
 from capitalhumano.view_rest import PerfilPuestosDocumentoAPI
@@ -34,11 +33,6 @@ router_capitalhumano.register(
     r'documentocapacitacion',
     DocumentoCapacitacionAPI,
     'documentocapacitacion'
-)
-router_capitalhumano.register(
-    r'archivo',
-    ArchivoAPI,
-    'archivo'
 )
 router_capitalhumano.register(
     r'archivopersonal',
@@ -94,4 +88,3 @@ router_capitalhumano.register(
     PerfilCompetenciasByPageAPI,
     'perfilcompetencias_bypage'
 )
-

@@ -9,7 +9,9 @@ from django_filters import CharFilter
 
 # Modelos:
 from .models import PerfilPuestoDocumento
-from .models import Archivo
+
+# Otros Modelos
+from home.models import Archivo
 
 from ebs.models import VIEW_EMPLEADOS_FULL
 from .models import DocumentoPersonal
@@ -63,9 +65,9 @@ class PerfilCompetenciaFilter(filters.FilterSet):
         model = PerfilCompetencias
         fields = [
             'id_puesto',
-        ]        
+        ]
 
-        
+
 
 
 class DocumentoPersonalFilter(filters.FilterSet):
@@ -399,16 +401,3 @@ class ArchivoCapacitacionFilter(filters.FilterSet):
             proveedor = queryset.filter(
                 relacion_capacitacion__proveedor=value)
             return proveedor
-
-
-class ArchivoFilter(filters.FilterSet):
-
-    pk = CharFilter(
-        name="pk",
-        lookup_expr="icontains")
-
-    class Meta:
-        model = Archivo
-        fields = [
-            'pk',
-        ]

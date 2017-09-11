@@ -19,6 +19,10 @@ from .view_rest import FormatoAPI
 from .view_rest import RequisitoProcesoAPI
 from .view_rest import ProcesoAuditoriaAPI
 from .view_rest import HallazgoProcesoAPI
+from .view_rest import AnalisisHallazgoAPI
+
+# Otras VIEW REST
+from home.view_rest import ArchivoAPI
 
 router_calidad = routers.DefaultRouter()
 
@@ -112,4 +116,14 @@ router_calidad.register(
     r'hallazgoproceso',
     HallazgoProcesoAPI,
     'hallazgoproceso'
+)
+router_calidad.register(
+    r'analisishallazgo',
+    AnalisisHallazgoAPI,
+    'analisishallazgo'
+)
+router_calidad.register(
+    r'archivo',
+    ArchivoAPI,
+    'archivo'
 )
