@@ -27,5 +27,9 @@ def get_FilePath_Expedientes(instance, filename):
         fecha = '%s-%s-%s' % (fecha_hoy.day, fecha_hoy.month, fecha_hoy.year)
         filename = "%s_%s_%s.pdf" % (fecha,nombre, numero_empleado)
         return os.path.join('capitalhumano','solicitudes',filename)
+    elif instance.tipo_archivo == 'res':
+        fecha = '%s-%s-%s' % (fecha_hoy.day, fecha_hoy.month, fecha_hoy.year)
+        filename = "R-%s_%s_%s.pdf" % (fecha,nombre, numero_empleado)
+        return os.path.join('capitalhumano','solicitudes',filename)
     return os.path.join(upload_dir, filename)
  

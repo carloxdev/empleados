@@ -5,7 +5,6 @@ import json
 # Librerias Django
 from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator
-from rest_framework.validators import UniqueValidator
 
 # Modelos
 from .models import Criterio
@@ -22,6 +21,7 @@ from .models import Formato
 from .models import ProcesoAuditoria
 from .models import RequisitoProceso
 from .models import HallazgoProceso
+
 
 class CriterioSerializer(serializers.HyperlinkedModelSerializer):
 
@@ -63,6 +63,7 @@ class RequisitoSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class RequisitoSerilizado(object):
+
     def __init__(self):
         self.lista = []
 
@@ -142,7 +143,9 @@ class SubprocesoSerializer(serializers.HyperlinkedModelSerializer):
         except:
             return ""
 
+
 class SubprocesoSerilizado(object):
+
     def __init__(self):
         self.lista = []
 

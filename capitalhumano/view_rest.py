@@ -10,6 +10,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 
 # Modelos:
 from .models import PerfilPuestoDocumento
+from .models import TipoDocumento
 from .models import DocumentoPersonal
 from .models import DocumentoCapacitacion
 from .models import Archivo
@@ -25,6 +26,7 @@ from .serializers import PerfilPuestosCargoSerializer
 from .serializers import PerfilCompetenciaSerializer
 from .serializers import PersonalSerializer
 from .serializers import CapacitacionSerializer
+from .serializers import TipoDocumentoSerializer
 
 # Paginadores:
 from .pagination import GenericPagination
@@ -36,6 +38,15 @@ from .filters import DocumentoPersonalFilter
 from .filters import DocumentoCapacitacionFilter
 from .filters import PerfilpuestosCargoFilter
 from .filters import PerfilCompetenciaFilter
+from .filters import TipoDocumentoFilter
+
+
+class TipoDocumentoAPI(viewsets.ModelViewSet):
+    queryset = TipoDocumento.objects.all().order_by('-created_date')
+    serializer_class = TipoDocumentoSerializer
+    filter_backends = (DjangoFilterBackend,)
+    filter_class = TipoDocumentoFilter
+    permission_classes = (IsAuthenticated,)
 
 
 class PersonalAPI(viewsets.ModelViewSet):

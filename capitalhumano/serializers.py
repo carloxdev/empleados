@@ -119,6 +119,8 @@ class DocumentoCapacitacionSerializers(serializers.HyperlinkedModelSerializer):
         )
 
 # /api-capitalhumano/documentopersonal/64/
+
+
 class ArchivoSerializers(serializers.HyperlinkedModelSerializer):
     content_object = GenericRelatedField({
         DocumentoPersonal: serializers.HyperlinkedRelatedField(
@@ -143,8 +145,22 @@ class ArchivoSerializers(serializers.HyperlinkedModelSerializer):
             'archivo',
             'content_object',
             'created_by',
+            'created_date',
         )
 # ---------- FIN Serializers para insertar registros------------------
+
+
+class TipoDocumentoSerializer(serializers.HyperlinkedModelSerializer):
+
+    class Meta:
+        model = TipoDocumento
+        fields = (
+            'pk',
+            'tipo_documento',
+            'agrupador',
+            'created_by',
+            'created_date',
+        )
 
 
 class PersonalSerializer(serializers.HyperlinkedModelSerializer):

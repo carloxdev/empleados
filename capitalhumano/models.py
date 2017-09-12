@@ -277,6 +277,7 @@ class Archivo(models.Model):
         ('per', 'Personal'),
         ('cap', 'Capacitacion'),
         ('sol', 'Solicitud'),
+        ('res', 'Respuesta'),
     )
 
     tipo_archivo = models.CharField(

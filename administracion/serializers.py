@@ -15,7 +15,6 @@ class SolicitudSerializers(serializers.HyperlinkedModelSerializer):
         fields = (
             'pk',
             'status',
-            'clave_departamento',
             'asunto',
             'descripcion',
             'numero_empleado',
@@ -28,13 +27,24 @@ class SolicitudSerializers(serializers.HyperlinkedModelSerializer):
 
 
 class AsuntoSerializers(serializers.HyperlinkedModelSerializer):
+    clave_departamento = serializers.SerializerMethodField()
 
     class Meta:
         model = Asunto
         fields = (
             'pk',
             'nombre',
+            'clave_departamento',
         )
+
+    def get_clave_departamento(self, obj):
+        try:
+            departamento = VIEW_ORGANIZACIONES.objects.using('ebs_p').get(
+                clave_org=obj.clave_departamento)
+            return departamento.desc_org
+        except Exception as e:
+            print str(e)
+            return " "
 
 
 class ArchivoSolicitudSerializer(serializers.HyperlinkedModelSerializer):
@@ -44,7 +54,6 @@ class ArchivoSolicitudSerializer(serializers.HyperlinkedModelSerializer):
         view_name='archivo-detail'
     )
     status = serializers.SerializerMethodField()
-    clave_departamento = serializers.SerializerMethodField()
     asunto = serializers.SerializerMethodField()
     created_by = serializers.SerializerMethodField()
     updated_by = serializers.SerializerMethodField()
@@ -55,7 +64,6 @@ class ArchivoSolicitudSerializer(serializers.HyperlinkedModelSerializer):
             'pk',
             'numero_empleado',
             'status',
-            'clave_departamento',
             'asunto',
             'descripcion',
             'observaciones',
@@ -78,15 +86,6 @@ class ArchivoSolicitudSerializer(serializers.HyperlinkedModelSerializer):
             elif obj.status == 'eli':
                 status = 'Eliminado'
             return status
-        except Exception as e:
-            print str(e)
-            return " "
-
-    def get_clave_departamento(self, obj):
-        try:
-            departamento = VIEW_ORGANIZACIONES.objects.using('ebs_p').get(
-                clave_org=obj.clave_departamento)
-            return departamento.desc_org
         except Exception as e:
             print str(e)
             return " "

@@ -141,6 +141,22 @@ class Contrato(models.Model):
 
 class Asunto(models.Model):
     nombre = models.CharField(max_length=30)
+    clave_departamento = models.CharField(max_length=5)
+
+    created_by = models.ForeignKey(
+        Profile, related_name='asunto_created_by')
+    created_date = models.DateTimeField(
+        auto_now=False,
+        auto_now_add=True
+    )
+    updated_by = models.ForeignKey(
+        Profile, related_name='asunto_updated_by', null=True, blank=True)
+    updated_date = models.DateTimeField(
+        auto_now=True,
+        auto_now_add=False,
+        null=True,
+        blank=True
+    )
 
     def __str__(self):
         value = "%s" % (self.nombre)
@@ -163,7 +179,6 @@ class Solicitud(models.Model):
         default="cap",
         max_length=4
     )
-    clave_departamento = models.CharField(max_length=3)
     asunto = models.ForeignKey(Asunto)
     descripcion = models.TextField(max_length=250)
     numero_empleado = models.CharField(max_length=6)
@@ -186,9 +201,9 @@ class Solicitud(models.Model):
     )
 
     def __str__(self):
-        value = "%s - %s" % (self.numero_empleado, self.asunto.nombre)
+        value = "%s - %s" % (self.numero_empleado, self.id)
         return value
 
     def __unicode__(self):
-        value = "%s - %s" % (self.numero_empleado, self.asunto.nombre)
+        value = "%s - %s" % (self.numero_empleado, self.id)
         return value

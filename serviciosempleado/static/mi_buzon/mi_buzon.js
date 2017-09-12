@@ -16,6 +16,7 @@ var tarjeta_resultados = null
 var popup = null
 var popup_nuevo = null
 var popup_informacion = null
+var bandera
 
 
 /*------------------------------------------------*\  
@@ -179,7 +180,6 @@ PopupNuevo.prototype.enviar_Solicitud = function (e){
                      headers: { "X-CSRFToken": appnova.galletita },
                      data: {
                             'numero_empleado' : e.data.$numero_empleado.val(),
-                            'clave_departamento' : 107,
                             'asunto' : e.data.$asunto.val(),
                             'descripcion' : e.data.$descripcion.val(),
                             'observaciones': '--',
@@ -221,7 +221,7 @@ PopupNuevo.prototype.formar_Data = function (_id_solicitud){
      })
 }
 PopupNuevo.prototype.guardar_Archivo = function (_id_solicitud, _data){
-
+        console.log(_data)
          $.ajax({
                  url: url_archivo,
                  method: "POST",
@@ -321,6 +321,7 @@ function PopupInformacion(){
     this.$modal_informacion = $('#modal_ver_informacion')
     this.$boton_salir = $('#id_boton_salir')
     this.$contenido = $('#contenido')
+    this.$contenido_respuesta = $('#contenido_respuesta')
 
     this.init_Components()
     this.init_Events()
@@ -331,7 +332,7 @@ PopupInformacion.prototype.init_Events = function (){
 
     this.$boton_salir.on('click', this, this.hidden_Modal)
 }
-PopupInformacion.prototype.consultar_Registro = function (_id){
+PopupInformacion.prototype.consultar_Registro = function (_bandera, _id){
 
     $.ajax({
           url: url_solicitudes_bypage + _id +"/",
@@ -343,7 +344,7 @@ PopupInformacion.prototype.consultar_Registro = function (_id){
             url = _response.archivo
             for (var i = 0; i < url.length; i++) {
                 url_archivo = url[i]
-                tarjeta_resultados.popup_informacion.consultar_Archivo(i,url_archivo, nombre_documento)
+                tarjeta_resultados.popup_informacion.consultar_Archivo(url_archivo, nombre_documento)
             }
           },
           error: function (_response) {
@@ -351,26 +352,33 @@ PopupInformacion.prototype.consultar_Registro = function (_id){
           }
        })
 }
-PopupInformacion.prototype.consultar_Archivo = function (_numero, _url_archivo, _nombre_documento){
+PopupInformacion.prototype.consultar_Archivo = function (_url_archivo, _nombre_documento){
     $.ajax({
           url: _url_archivo,
           type: "GET",
           headers: { "X-CSRFToken": appnova.galletita },
           contentType: "application/json; charset=utf-8",
           success: function (_response) {
-            
-            url = _response.archivo
-            tarjeta_resultados.popup_informacion.cargar_Archivos(_numero+1,url,_nombre_documento)
+            if(_response.tipo_archivo == "sol"){
+                url = _response.archivo
+                tarjeta_resultados.popup_informacion.cargar_Archivos(url,_nombre_documento)
+            }else if(_response.tipo_archivo == "res"){
+                url = _response.archivo
+                tarjeta_resultados.popup_informacion.cargar_ArchivosRespuesta(url,_nombre_documento)
+            }
           },
           error: function (_response) {
              alertify.error("Ocurrio un error al consultar")
           }
        })
 }
-PopupInformacion.prototype.cargar_Archivos = function (_numero,_url_archivo,_nombre_documento){
+PopupInformacion.prototype.cargar_Archivos = function (_url_archivo,_nombre_documento){
 
-    this.$contenido.append("<a href='"+ _url_archivo +"' target='_blank'><img src='/static/images/decoradores/PDF.jpg' width='30px' height='30px'></img> Archivo No."+_numero+" : "+_nombre_documento+" </a><br>")
+    this.$contenido.append("<a href='"+ _url_archivo +"' target='_blank'><img src='/static/images/decoradores/PDF.jpg' width='30px' height='30px'></img> Archivo : "+_nombre_documento+" </a><br>")
+}
+PopupInformacion.prototype.cargar_ArchivosRespuesta = function (_url_archivo,_nombre_documento){
 
+    this.$contenido_respuesta.append("<a href='"+ _url_archivo +"' target='_blank'><img src='/static/images/decoradores/PDF.jpg' width='30px' height='30px'></img> Archivo : Respuesta a "+_nombre_documento+" </a><br>")
 }
 PopupInformacion.prototype.hidden_Modal = function (e) {
 
@@ -436,11 +444,11 @@ Grid.prototype.get_Campos = function () {
     return {
         pk: { type: "integer" },
         status : { type: "string" },
-        clave_departamento : { type: "string"},
         asunto : { type: "string" },
         descripcion : { type: "string" },
         observaciones: {type: "string"},
         archivo : { type: "string" },
+        archivo_respuesta : { type: "string"},
         created_date : { type: "date" },
         updated_by : { type: "string"},
         updated_date : { type: "date"},
@@ -473,13 +481,15 @@ Grid.prototype.get_Columnas = function () {
             width:"50px" ,
             template: '<a class="btn btn-default nova-url" href="\\#modal_ver_informacion" data-toggle="modal" data-event="ver-archivo" id="#=pk#"><i class="icon icon-left icon mdi mdi-file icon-black"></i></a>',
         },
-        { title: "Folio",
+        { field: "pk",
+          title: "Folio",
           width:"70px",
-          template: '<a class="btn btn-default nova-url" href="\\#modal_informacion" data-toggle="modal" id="#=pk#" data-event="editar">#=pk#</a>',
+          // template: '<a class="btn btn-default nova-url" href="\\#modal_informacion" data-toggle="modal" id="#=pk#" data-event="editar">#=pk#</a>',
         },
-        { field: "asunto", title: "Solicitud", width:"200px"},
+        { field: "asunto", title: "Asunto", width:"200px"},
         { field: "status", title: "Estatus", width:"100px"},
-        { field: "clave_departamento", title: "Se solicito a", width:"150px"},
+        { field: "descripcion", title: "Descripcion", width:"250px"},
+        { field: "observaciones", title: "Observaciones", width:"250px"},
         { field: "created_date", title: "Fecha de creación", width:"150px", format: "{0:dd/MM/yyyy}" },
         { field: "updated_by", title: "Actualizado por", width:"150px" },
         { field: "updated_date", title: "Fecha de actualización", width:"150px", format: "{0:dd/MM/yyyy}" },
@@ -493,11 +503,12 @@ Grid.prototype.onDataBound = function (e) {
             tarjeta_resultados.popup.consultar_Registro(this.id)
         })
    })
-
    e.sender.tbody.find("[data-event='ver-archivo']").each(function(idx, element){
       $(this).on("click", function(){
+        bandera = false
+        tarjeta_resultados.popup_informacion.$contenido_respuesta.empty()
         tarjeta_resultados.popup_informacion.$contenido.empty()
-        tarjeta_resultados.popup_informacion.consultar_Registro(this.id)
+        tarjeta_resultados.popup_informacion.consultar_Registro(bandera,this.id)
       })
     })
    //color de la fila

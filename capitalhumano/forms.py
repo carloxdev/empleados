@@ -508,6 +508,10 @@ class SolicitudesEditarForm(Form):
         choices=STATUS,
         widget=Select(attrs={'class': 'select2 nova-select2'}))
 
+    archivo = FileField(
+        label="Archivo",
+        widget=ClearableFileInput(attrs={'class': 'dropzone dz-clickable dz-started', 'type': 'file', 'multiple': True}))
+
     def __init__(self, *args, **kwargs):
         super(SolicitudesEditarForm, self).__init__(*args, **kwargs)
         self.fields['observaciones'].required = False
@@ -747,7 +751,11 @@ class NuevoDocumentoPersonalForm(Form):
         self.fields['vigencia_inicio'].required = False
         self.fields['vigencia_fin'].required = False
         self.fields[
-            'tipo_documento'].choices = EmpleadoBusiness.get_TipoDocumento()
+            'tipo_documento'].choices = self.get_TipoDocumento()
+
+    def get_TipoDocumento(self):
+        valores = [('', '------------')]
+        return valores
 
 
 class NuevoDocumentoCapacitacionForm(Form):
