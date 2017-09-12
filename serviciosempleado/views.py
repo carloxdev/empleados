@@ -140,7 +140,10 @@ class MiNomina(View):
     def get(self, request):
         clave = request.user.profile.clave_rh
         if clave is not None:
+            empleado = VIEW_EMPLEADOS_FULL.objects.using(
+                'ebs_p').get(pers_empleado_numero=clave)
             contexto = {
+                'rfc': empleado.pers_rfc
             }
         else:
             contexto = {}

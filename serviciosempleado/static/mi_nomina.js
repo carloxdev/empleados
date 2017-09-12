@@ -1,17 +1,12 @@
 /*-----------------------------------------------*\
             GLOBAL VARIABLES
 \*-----------------------------------------------*/
-
-var url_recibos_bypage = null
-var url_archivo =  null
 var url_login = "http://www.smartcfdi.com/rest-auth/login/"
 var url_nominas = "http://www.smartcfdi.com/api-facturas/comprobanteempleadoex_bypage/"
 //OBJS
 var tarjeta_filtro = null
 var grid = null
-var toolbar = null
 var tarjeta_resultados = null
-// var autenticacion = null
 var token
 
 
@@ -30,7 +25,6 @@ $(document).ready(function(){
 \*-----------------------------------------------*/
 
 function TarjetaResultados(){
-
     this.grid = new Grid()
 }
 
@@ -41,12 +35,17 @@ function TarjetaResultados(){
 
 function TarjetaFiltro(){
 
-    this.$numero_empleado = $('#numero_empleado')
+    this.$rfc = $('#rfc')
 }
 TarjetaFiltro.prototype.get_Values = function (_page) {
+    texto = this.$rfc.val().split("-")
+    rfc_empleado = ''
+    for (var i = 0; i < texto.length; i++) {
+        rfc_empleado += texto[i]
+    }
     return {
         page: _page,
-        numEmpleado: this.$numero_empleado.val(),
+        receptor_rfc: rfc_empleado,
    }
 }
 
