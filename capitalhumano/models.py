@@ -27,9 +27,9 @@ from utilities import get_FilePath_Expedientes
 
 class PerfilPuestosCargo(models.Model):
 
-    id_puesto = models.CharField(max_length=144)
-    id_puesto_cargo = models.CharField(max_length=144)
-    descripcion = models.CharField(max_length=144)
+    id_puesto = models.CharField(max_length=144, null=True, blank=True)
+    id_puesto_cargo = models.CharField(max_length=144, null=True, blank=True)
+    descripcion = models.CharField(max_length=144, null=True, blank=True)
 
     created_by = models.ForeignKey(Profile, related_name='pp_created_by')
     created_date = models.DateTimeField(
@@ -60,8 +60,8 @@ class PerfilPuestosCargo(models.Model):
 
 class PerfilExperencia(models.Model):
 
-    descripcion = models.CharField(max_length=144)
-    anios = models.CharField(max_length=3)
+    descripcion = models.CharField(max_length=144, null=True, blank=True)
+    anios = models.CharField(max_length=3, null=True, blank=True)
 
     created_by = models.ForeignKey(Profile, related_name='pexp_created_by')
     created_date = models.DateTimeField(
@@ -104,9 +104,10 @@ class PerfilCompetencias(models.Model):
     )
 
     id_puesto = models.CharField(max_length=144)
-    id_descripcion = models.CharField(max_length=10)
+    cve_descripcion = models.CharField(max_length=10, null=True, blank=True)
+    #id_descripcion = models.CharField(max_length=10)
 
-    descripcion = models.CharField(max_length=144)
+    descripcion = models.CharField(max_length=144, null=True, blank=True)
     porcentaje = models.IntegerField(default=0)
 
     created_by = models.ForeignKey(Profile, related_name='pper_created_by')

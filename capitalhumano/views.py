@@ -457,11 +457,6 @@ class PerfilPuestoNuevo(View):
         return render(request, self.template_name, contexto)
 
 
-class PerfilPuestoNuevo2(View):
-
-    def get(self, request):
-
-        return render(request, 'perfilpuesto/perfil_nuevo2.html')
 
 
 @method_decorator(group_required('CH_ADMIN'), name='dispatch')
@@ -471,30 +466,3 @@ class PerfilPuestoConfiguraciones(View):
 
         return render(request, 'perfilpuesto/perfil_configuracion.html')
 
-
-class PerfilPuestoCompetencias(View):
-
-    def get(self, request):
-
-        return render(request, 'perfilpuesto/perfil_competencias.html')
-
-
-class PerfilPuestoCargos(View):
-
-    def get(self, request):
-
-        return render(request, 'perfilpuesto/perfil_puestoscargo.html')
-
-
-class PerfilOrganigrama(View):
-
-    def get(self, request):
-
-        return render(request, 'perfilpuesto/perfil_organigrama.html')
-
-
-class PerfilOrganigrama2(View):
-
-    def get(self, request):
-
-        return render(request, 'empleado_perfil_organigrama.html')
