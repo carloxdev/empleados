@@ -6,7 +6,7 @@ var url_archivo_solicitud = window.location.origin + "/api-administracion/archiv
 var url_solicitud = window.location.origin + "/api-administracion/solicitud/"
 var url_solicitudes_bypage = window.location.origin + "/api-administracion/archivosolicitud_bypage/"
 var url_profile =  window.location.origin + "/api-seguridad/profile/"
-var url_archivo =  window.location.origin + "/api-capitalhumano/archivo/"
+var url_archivo =  window.location.origin + "/api-home/archivo/"
 
 //OBJS
 var tarjeta_filtro = null
@@ -221,7 +221,7 @@ PopupNuevo.prototype.formar_Data = function (_id_solicitud){
      })
 }
 PopupNuevo.prototype.guardar_Archivo = function (_id_solicitud, _data){
-        console.log(_data)
+
          $.ajax({
                  url: url_archivo,
                  method: "POST",
@@ -343,8 +343,8 @@ PopupInformacion.prototype.consultar_Registro = function (_bandera, _id){
             nombre_documento = _response.asunto
             url = _response.archivo
             for (var i = 0; i < url.length; i++) {
-                url_archivo = url[i]
-                tarjeta_resultados.popup_informacion.consultar_Archivo(url_archivo, nombre_documento)
+                url_archivo_res = url[i]
+                tarjeta_resultados.popup_informacion.consultar_Archivo(url_archivo_res, nombre_documento)
             }
           },
           error: function (_response) {

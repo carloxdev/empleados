@@ -66,8 +66,8 @@ TarjetaFiltros.prototype.init_Components = function () {
 }
 TarjetaFiltros.prototype.init_Events = function () {
 
-     this.$boton_buscar.on("click", this, this.click_BotonBuscar)
-     this.$boton_limpiar.on("click", this, this.click_BotonLimpiar)
+    this.$boton_buscar.on("click", this, this.click_BotonBuscar)
+    this.$boton_limpiar.on("click", this, this.click_BotonLimpiar)
 }
 TarjetaFiltros.prototype.click_BotonBuscar = function (e) {
 

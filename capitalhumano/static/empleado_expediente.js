@@ -3,7 +3,7 @@
 \*-----------------------------------------------*/
 var url_documento_personal = window.location.origin  + "/api-capitalhumano/documentopersonal/"
 var url_documento_capacitacion = window.location.origin  + "/api-capitalhumano/documentocapacitacion/"
-var url_archivo =  window.location.origin + "/api-capitalhumano/archivo/"
+var url_archivo =  window.location.origin + "/api-home/archivo/"
 var url_eliminar = window.location.origin + "/expedientes/"
 var url_profile =  window.location.origin + "/api-seguridad/profile/"
 var url_documento_personal_grid = window.location.origin + "/api-capitalhumano/personal_bypage/"

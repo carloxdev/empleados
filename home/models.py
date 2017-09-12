@@ -17,6 +17,7 @@ from seguridad.models import Profile
 # Utilidades:
 from .utilities import get_FilePath_Archivo
 
+
 class Archivo(models.Model):
     TIPO = (
         ('per', 'Personal'),
@@ -65,9 +66,9 @@ class Archivo(models.Model):
     class Meta:
         verbose_name_plural = "Archivos"
 
+
 @receiver(pre_delete, sender=Archivo)
 def _directorios_delete(sender, instance, using, **kwargs):
     file_path = settings.BASE_DIR + "/media/" + "%s" % (instance.archivo)
-
     if os.path.isfile(file_path):
         os.remove(file_path)

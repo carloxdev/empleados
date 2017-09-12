@@ -19,10 +19,7 @@ from .models import PerfilPuestosCargo
 from .models import PerfilCompetencias
 
 # Otros Modelos
-from home.models import Archivo
-from administracion.models import Solicitud
 from ebs.models import VIEW_EMPLEADOS_FULL
-from ebs.models import VIEW_ORGANIZACIONES
 from jde.models import VIEW_PROVEEDORES
 
 
@@ -143,7 +140,6 @@ class PersonalSerializer(serializers.HyperlinkedModelSerializer):
         view_name='archivo-detail'
     )
     tipo_documento = serializers.SerializerMethodField()
-    agrupador = serializers.SerializerMethodField()
     vigencia_inicio = serializers.SerializerMethodField()
     vigencia_fin = serializers.SerializerMethodField()
     created_by = serializers.SerializerMethodField()
@@ -156,7 +152,6 @@ class PersonalSerializer(serializers.HyperlinkedModelSerializer):
             'pk',
             'numero_empleado',
             'tipo_documento',
-            'agrupador',
             'vigencia_inicio',
             'vigencia_fin',
             'relacion',
@@ -169,30 +164,6 @@ class PersonalSerializer(serializers.HyperlinkedModelSerializer):
     def get_tipo_documento(self, obj):
         try:
             return obj.tipo_documento.tipo_documento
-        except Exception as e:
-            print str(e)
-            return " "
-
-    def get_agrupador(self, obj):
-        try:
-            agrupador = ''
-            if obj.tipo_documento.agrupador == 'per':
-                agrupador = 'Personal'
-            elif obj.tipo_documento.agrupador == 'med':
-                agrupador = 'Medico'
-            elif obj.tipo_documento.agrupador == 'amo':
-                agrupador = 'Faltas al reglamento'
-            elif obj.tipo_documento.agrupador == 'adm':
-                agrupador = 'Documentos administrativos'
-            elif obj.tipo_documento.agrupador == 'gra':
-                agrupador = 'Grados academicos'
-            elif obj.tipo_documento.agrupador == 'com':
-                agrupador = 'Comprobantes laborales'
-            elif obj.tipo_documento.agrupador == 'cre':
-                agrupador = 'Credenciales'
-            elif obj.tipo_documento.agrupador == 'equ':
-                agrupador = 'Equipo asignado'
-            return agrupador
         except Exception as e:
             print str(e)
             return " "

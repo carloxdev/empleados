@@ -30,50 +30,10 @@ $(document).ready(function(){
 \*-----------------------------------------------*/
 
 function TarjetaResultados(){
-    // this.autenticacion = new Autenticacion()
+
     this.grid = new Grid()
 }
 
-function Autenticacion (){
-    this.autenticarse()
-}
-Autenticacion.prototype.autenticarse = function (){
-    var USERNAME = "Nominas"
-    var PASSWORD = "Payr0lll"
-
-    $.ajax({
-        type: "POST",
-        url: url_login,
-        data: {
-                'username' : USERNAME,
-                'password' : PASSWORD,
-         },
-        success: function (_response){
-            token = _response.key
-            grid = new Grid()
-            tarjeta_resultados.autenticacion.consultar_Nominas(token)
-        },
-        error: function (_response) {
-            alertify.error("Autenticacion invalida")
-        }
-    })
-}
-Autenticacion.prototype.consultar_Nominas = function (_token){
-    $.ajax({
-        type: "GET",
-        url: url_nominas,
-        dataType: 'json',
-        headers: {
-            "Authorization": "Token " + _token
-        },
-        success: function (_response){
-            console.log(JSON.stringify(_response))
-        },
-        error: function (_response) {
-            alertify.error("Ocurrio algun error")
-        }
-    })
-}
 /*-----------------------------------------------*\
             OBJETO: TARJETA FILTRO EMPLEADO
 \*-----------------------------------------------*/

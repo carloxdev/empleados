@@ -6,7 +6,7 @@ var url_asunto = window.location.origin + "/api-administracion/asunto/"
 var url_solicitudes_bypage = window.location.origin + "/api-administracion/archivosolicitud_bypage/"
 var url_archivo_solicitud = window.location.origin + "/api-administracion/archivosolicitud/"
 var url_profile =  window.location.origin + "/api-seguridad/profile/"
-var url_archivo =  window.location.origin + "/api-capitalhumano/archivo/"
+var url_archivo =  window.location.origin + "/api-home/archivo/"
 
 //OBJS
 var tarjeta_filtro = null
