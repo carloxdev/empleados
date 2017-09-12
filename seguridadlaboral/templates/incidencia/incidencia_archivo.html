@@ -1,6 +1,6 @@
 {% extends 'master.html' %}
 
-{% load filename %}
+{% load custom_tags %}
 
 {% load static from staticfiles %}
 
@@ -142,11 +142,11 @@
 					            		 
 					              			<i class="fa fa-file-o"></i>
 					              			
-					              			{{ anexo.archivo|filename }}
+					              			{{ anexo.archivo|tag_get_filename }}
 					              			
 					              			<!-- /.box-header -->
 								            <div class="box-body">
-								            	<a href="{{MEDIA_URL}}incidencias/{{ anexo.incidencia}}/{{ anexo.archivo|filename }}" download=""><p align="lefts"><strong align="center">{{ anexo.archivo|filename }}</strong></p></a>
+								            	<a href="{{MEDIA_URL}}incidencias/{{ anexo.incidencia}}/{{ anexo.archivo|tag_get_filename }}" download=""><p align="lefts"><strong align="center">{{ anexo.archivo|tag_get_filename }}</strong></p></a>
 								            </div>
 						            		<!-- /.box-body -->
 					            	</div>

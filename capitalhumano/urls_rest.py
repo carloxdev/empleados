@@ -1,13 +1,9 @@
 # Librerias APi Rest:
 from rest_framework import routers
 
-from .view_rest import PersonalSerializerAPI
-from capitalhumano.view_rest import DocumentoPersonalAPI
+from .view_rest import PersonalAPI
+from .view_rest import PersonalByPageAPI
 from capitalhumano.view_rest import DocumentoCapacitacionAPI
-from capitalhumano.view_rest import ArchivoPersonalByPageAPI
-from capitalhumano.view_rest import ArchivoCapacitacionByPageAPI
-from capitalhumano.view_rest import ArchivoPersonalAPI
-from capitalhumano.view_rest import ArchivoCapacitacionAPI
 from capitalhumano.view_rest import PerfilPuestosCargoAPI
 from capitalhumano.view_rest import PerfilPuestosCargoByPageAPI
 from capitalhumano.view_rest import PerfilPuestosDocumentoAPI
@@ -21,40 +17,19 @@ router_capitalhumano = routers.DefaultRouter()
 # --------------------DOCUMENTOS--------------------
 router_capitalhumano.register(
     r'personal',
-    PersonalSerializerAPI,
+    PersonalAPI,
     'personal'
 )
 router_capitalhumano.register(
-    r'documentopersonal',
-    DocumentoPersonalAPI,
-    'documentopersonal'
+    r'personal_bypage',
+    PersonalByPageAPI,
+    'personal_bypage'
 )
 router_capitalhumano.register(
     r'documentocapacitacion',
     DocumentoCapacitacionAPI,
     'documentocapacitacion'
 )
-router_capitalhumano.register(
-    r'archivopersonal',
-    ArchivoPersonalAPI,
-    'archivopersonal'
-)
-router_capitalhumano.register(
-    r'archivopersonal_bypage',
-    ArchivoPersonalByPageAPI,
-    'archivopersonal_bypage'
-)
-router_capitalhumano.register(
-    r'archivocapacitacion',
-    ArchivoCapacitacionAPI,
-    'archivocapacitacion'
-)
-router_capitalhumano.register(
-    r'archivocapacitacion_bypage',
-    ArchivoCapacitacionByPageAPI,
-    'archivocapacitacion_bypage'
-)
-
 # --------------------PERFILES--------------------
 router_capitalhumano.register(
     r'perfilpuestoacargo_bypage',

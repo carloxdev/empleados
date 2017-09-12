@@ -203,6 +203,8 @@ GridAnalisisCausa.prototype.click_EditarRol = function (e) {
 }
 GridAnalisisCausa.prototype.load_data = function () {
 
+   this.$id_tbody.text()
+
    $.ajax({
 
       url: url_analisis,
@@ -213,35 +215,34 @@ GridAnalisisCausa.prototype.load_data = function () {
          hallazgo_id: tarjeta_detalle_hallazgo.$id_pk_hal.val(),
       },
       success: function (_response) {
-
+         var datos = ''
          if (_response.length) {
             for (var i = 0; i < _response.length; i++) {
 
-                this.$id_tbody.append(
-
-                   '<tr class="clickable-row">' +
-                      '<td>' +
-                         '<a class="btn nova-btn btn-default nova-btn-delete" data-id="' + _response[i].pk + '" data-event="eliminarRol">' +
-                            '<i class="icon icon-left icon mdi mdi-delete nova-white"></i>' +
-                         '</a>' +
-                      '</td>' +
-                      '<td>' +
-                         '<a class="btn btn-default nova-url" data-event="editarRol" data-id="' + _response[i].pk + '">' + _response[i].titulo + '</a>' +
-                      '</td>' +
-                      '<td>' +
-                         _response[i].metodologia_nombre +
-                      '</td>' +
-                      '<td>' +
-                         _response[i].causa +
-                      '</td>' +
-                   '</tr>')
+                datos += '<tr class="clickable-row">' +
+                            '<td>' +
+                               '<a class="btn nova-btn btn-default nova-btn-delete" data-id="' + _response[i].pk + '" data-event="eliminarRol">' +
+                                  '<i class="icon icon-left icon mdi mdi-delete nova-white"></i>' +
+                               '</a>' +
+                            '</td>' +
+                            '<td>' +
+                               '<a class="btn btn-default nova-url" data-event="editarRol" data-id="' + _response[i].pk + '">' + _response[i].titulo + '</a>' +
+                            '</td>' +
+                            '<td>' +
+                               _response[i].metodologia_nombre +
+                            '</td>' +
+                            '<td>' +
+                               _response[i].causa +
+                            '</td>' +
+                         '</tr>'
             }
          }
          else {
-            this.$id_tbody.append(  '<tr class="clickable-row">' +
-                                        '<td colspan="4" class="nova-aling-center nova-sin-resultados">No se encontraron resultados.</td>' +
-                                     '</tr>')
+            datos +=  '<tr class="clickable-row">' +
+                         '<td colspan="4" class="nova-aling-center nova-sin-resultados">No se encontraron resultados.</td>' +
+                      '</tr>'
          }
+         this.$id_tbody.html(datos)
      },
      error: function (_response) {
 
@@ -287,6 +288,7 @@ PopupAnalisis.prototype.init_Events = function () {
    this.$id_archivo.on("filereset", this, this.reset_File)
    this.$id_archivo.on("focus", this, this.focus)
    this.$id.on("shown.bs.modal", this, this.shown_Modal)
+   this.$id.on("hidden.bs.modal", this, this.hidden_Modal)
 
 
 }
@@ -299,6 +301,20 @@ PopupAnalisis.prototype.init_Events = function () {
 PopupAnalisis.prototype.shown_Modal = function () {
 
    console.log("Modal despleagado");
+}
+PopupAnalisis.prototype.hidden_Modal = function (e) {
+
+   // e.data.clear_Estilos(e)
+   e.data.clear_Formulario(e)
+}
+PopupAnalisis.prototype.clear_Formulario = function (e) {
+
+   e.data.$archivos_analisis = []
+   e.data.$id_titulo.val("")
+   e.data.$id_metodologia.val("").trigger("change")
+   e.data.$id_causas.val("")
+   e.data.$id_archivo.fileinput('destroy')
+   e.data.$id_archivo.fileinput(this.get_ConfigFileInput())
 }
 PopupAnalisis.prototype.load_File = function (e, file) {
 
@@ -358,7 +374,12 @@ PopupAnalisis.prototype.get_ConfigFileInput = function () {
           },
           overwriteInitial: false,
           initialPreviewAsData: true,
-          initialPreview: popup_analisis.$archivos_analisis,
+          initialPreview: this.$archivos_analisis,
+         //  initialPreviewConfig: [
+         //    {caption: "Captura_de_pantalla_2017-08-23_a_las_15.31.31.png", size: 225139, width: "120px", url: "/site/file-delete", key: 1},
+         //    {caption: "descarga_NojnTCQ.jpeg", size: 13310, width: "120px", url: "/site/file-delete", key: 2},
+         //    {caption: "IMG_5350-1024x472_zvuBwb9.jpg", size: 164821, width: "120px", url: "/site/file-delete", key: 2},
+         //  ],
           language:"es",
      }
 }
@@ -414,10 +435,11 @@ PopupAnalisis.prototype.mostrar = function (_pk, _accion) {
    else if (_accion == "editar") {
 
       this.$id_popup_titulo.text('Editar Analisis de Causas')
+      this.$showUploadButton = true
       this.set_Data(_pk)
    }
 }
-PopupFormato.prototype.set_Data = function (_pk) {
+PopupAnalisis.prototype.set_Data = function (_pk) {
 
    $.ajax({
 
@@ -426,10 +448,11 @@ PopupFormato.prototype.set_Data = function (_pk) {
       context: this,
       success: function (_response) {
          this.$id_titulo.val(_response.titulo)
-         this.$id_metodologia.val(_response.metodologia).trigger("change")
+         this.$id_metodologia.val(parseInt(_response.metodologia.substring(_response.metodologia.length-2,_response.metodologia.length-1))).trigger("change")
          this.$id_causas.val(_response.causa)
          this.$archivos_analisis = _response.relacion_archivo
-         this.$id_imagen.fileinput('refresh')
+         this.$id_archivo.fileinput('destroy')
+         this.$id_archivo.fileinput(this.get_ConfigFileInput())
       },
       error: function (_response) {
 

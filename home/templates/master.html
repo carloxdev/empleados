@@ -35,6 +35,9 @@
     <!-- Main Theme CSS -->
     <link rel="stylesheet" href="{% static 'theme/css/style.css' %}" type="text/css"/>
 
+    <!-- Fastclick -->
+    <link rel="stylesheet" href="{% static 'theme/lib/fastclick/fastclick.min.js' %}" type="text/css" />
+
     <!-- Nova -->
     <link rel="stylesheet" href="{% static 'master.css' %}"/>
 
@@ -172,7 +175,20 @@
             </div>
         </nav>
         
-        {% tag_menu_master request.user%}
+        <!-- Menu -->
+        <div class="be-left-sidebar nova-be-left-sidebar">
+            <div class="left-sidebar-wrapper"><a href="#" class="left-sidebar-toggle">{% block title-page %}  {% endblock title-page %}</a>
+                <div class="left-sidebar-spacer">
+                    <div class="left-sidebar-scroll">
+                        <div class="left-sidebar-content">
+
+                            {% tag_menu_master request.user%}
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         {% block contenido %}
         {% endblock contenido %}

@@ -4,11 +4,10 @@
 var url_documento_personal = window.location.origin  + "/api-capitalhumano/documentopersonal/"
 var url_documento_capacitacion = window.location.origin  + "/api-capitalhumano/documentocapacitacion/"
 var url_archivo =  window.location.origin + "/api-capitalhumano/archivo/"
-var url_expediente_personal_bypage = window.location.origin  + "/api-capitalhumano/archivopersonal_bypage/"
-var url_expediente_capacitacion_bypage = window.location.origin  + "/api-capitalhumano/archivocapacitacion_bypage/"
 var url_eliminar = window.location.origin + "/expedientes/"
 var url_profile =  window.location.origin + "/api-seguridad/profile/"
-var url_pruebapersonal = window.location.origin + "/api-capitalhumano/personal/"
+var url_documento_personal_grid = window.location.origin + "/api-capitalhumano/personal_bypage/"
+var url_documento_capacitacion_grid = window.location.origin +"/api-capitalhumano/capacitacion_bypage/"
 
 
 // OBJS
@@ -36,11 +35,13 @@ $(document).ready(function () {
 \*-----------------------------------------------*/
 
 function TarjetaResultados(){
+
         this.popup = new PopupPersonal()
         this.popup_cap = new PopupCapacitacion()
         this.personalizacion = new Personalizacion
         this.grid_personal = new GridPersonal()
         this.popup_informacion_personal = new PopupInformacionPersonal()
+        this.popup_informacion_capacitacion = new PopupInformacionCapacitacion()
 }
 
 /*-----------------------------------------------*\
@@ -132,7 +133,7 @@ PopupPersonal.prototype.click_BotonGuardar = function (e) {
                                  data: {
                                         'numero_empleado' : e.data.$numero_empleado.val(),
                                         'tipo_documento' : e.data.$tipo_documento.val(),
-                                        'agrupador' : e.data.$agrupador.val(),
+                                        //'agrupador' : e.data.$agrupador.val(), //(BORRAR) Si se agrega actualizacion esto se borra
                                         'vigencia_inicio' : e.data.$vigencia_inicio.val(),
                                         'vigencia_fin' : e.data.$vigencia_fin.val(),
                                         'created_by' : url_profile+e.data.$created_by.val()+"/",
@@ -272,7 +273,7 @@ PopupPersonal.prototype.validar_Archivo = function (_archivo) {
 \*-----------------------------------------------*/
 
 function PopupInformacionPersonal(){
-    this.$modal_informacion_personal = $('#modal_ver_personal')
+    this.$modal_informacion = $('#modal_ver_personal')
     this.$boton_salir = $('#id_boton_salir')
     this.$contenido = $('#contenido')
 
@@ -290,7 +291,7 @@ PopupInformacionPersonal.prototype.init_Events = function (){
 PopupInformacionPersonal.prototype.consultar_Registro = function (_id){
 
     $.ajax({
-          url: url_pruebapersonal + _id +"/",
+          url: url_documento_personal_grid + _id +"/",
           type: "GET",
           headers: { "X-CSRFToken": appnova.galletita },
           contentType: "application/json; charset=utf-8",
@@ -324,12 +325,12 @@ PopupInformacionPersonal.prototype.consultar_Archivo = function (_numero, _url_a
        })
 }
 PopupInformacionPersonal.prototype.cargar_Archivos = function (_numero,_url_archivo,_nombre_documento){
-    this.$contenido.append("<a href='"+ _url_archivo +"' target='_blank'> Archivo No."+_numero+" : "+_nombre_documento+" </a><br>")
+    this.$contenido.append("<a href='"+ _url_archivo +"' target='_blank'><img src='/static/images/decoradores/PDF.jpg' width='30px' height='30px'></img> Archivo No."+_numero+" : "+_nombre_documento+" </a><br>")
 
 }
 PopupInformacionPersonal.prototype.hidden_Modal = function (e) {
 
-     e.data.$modal_informacion_personal.modal('hide')
+     e.data.$modal_informacion.modal('hide')
 }
 /*-----------------------------------------------*\
                         OBJETO: POPUP CAPACITACION
@@ -373,7 +374,6 @@ PopupCapacitacion.prototype.init_Components = function () {
         this.$curso.select2(appnova.get_ConfigSelect2())
         this.$modalidad.select2(appnova.get_ConfigSelect2())
         this.$moneda.select2(appnova.get_ConfigSelect2())
-        this.$departamento.select2(appnova.get_ConfigSelect2())
         this.$fecha_inicio.mask("9999-99-99",{  placeholder:"aaaa/mm/dd"  })
         this.$fecha_inicio_input.datetimepicker(this.get_DateTimePickerConfig())
         this.$fecha_fin.mask("9999-99-99",{  placeholder:"aaaa/mm/dd"  })
@@ -404,7 +404,6 @@ PopupCapacitacion.prototype.click_BotonCancelar = function(e){
     e.data.$curso.data('select2').val(0)
     e.data.$modalidad.data('select2').val(0)
     e.data.$moneda.data('select2').val(0)
-    e.data.$departamento.data('select2').val(0)
     e.data.$fecha_inicio.val("")
     e.data.$fecha_fin.val("")
     e.data.$archivo_cap.val("")
@@ -523,7 +522,6 @@ PopupCapacitacion.prototype.limpiar_Formulario = function () {
     this.$curso.data('select2').val(0)
     this.$modalidad.data('select2').val(0)
     this.$moneda.data('select2').val(0)
-    this.$departamento.data('select2').val(0)
     this.$fecha_inicio.val("")
     this.$fecha_fin.val("")
     this.$archivo_cap.val("")
@@ -541,7 +539,6 @@ PopupCapacitacion.prototype.clear_Estilos = function () {
     this.$curso.data('select2').$selection.removeClass("nova-has-error")
     this.$modalidad.data('select2').$selection.removeClass("nova-has-error")
     this.$moneda.data('select2').$selection.removeClass("nova-has-error")
-    this.$departamento.data('select2').$selection.removeClass("nova-has-error")
     this.$fecha_inicio.removeClass("nova-has-error")
     this.$fecha_fin.removeClass("nova-has-error")
     this.$archivo_cap.removeClass("nova-has-error")
@@ -592,13 +589,6 @@ PopupCapacitacion.prototype.validar_Campos = function () {
     }
     else{
         this.$moneda.data('select2').$selection.removeClass("nova-has-error");
-    }
-    if(this.$departamento.data('select2').val() == ""){
-        this.$departamento.data('select2').$selection.addClass("nova-has-error");
-        bandera = 'True'
-    }
-    else{
-        this.$departamento.data('select2').$selection.removeClass("nova-has-error");
     }
     if(this.$lugar.val() == ""){
         this.$lugar.addClass("nova-has-error");
@@ -660,6 +650,71 @@ PopupCapacitacion.prototype.validar_Campos = function () {
 PopupCapacitacion.prototype.validar_Archivo = function (_archivo) {
         extension = (_archivo.substring(_archivo.lastIndexOf("."))).toLowerCase();
         return extension
+}
+
+
+/*-----------------------------------------------*\
+            OBJETO: Pop up informacion personal
+\*-----------------------------------------------*/
+
+function PopupInformacionCapacitacion(){
+
+    this.$modal_informacion = $('#modal_ver_informacion')
+    this.$boton_salir = $('#id_boton_salir')
+    this.$contenido = $('#contenido')
+
+    this.init_Components()
+    this.init_Events()
+}
+PopupInformacionCapacitacion.prototype.init_Components = function (){
+}
+PopupInformacionCapacitacion.prototype.init_Events = function (){
+
+    this.$boton_salir.on('click', this, this.hidden_Modal)
+}
+PopupInformacionCapacitacion.prototype.consultar_Registro = function (_id){
+
+    $.ajax({
+          url: url_documento_capacitacion_grid + _id +"/",
+          type: "GET",
+          headers: { "X-CSRFToken": appnova.galletita },
+          contentType: "application/json; charset=utf-8",
+          success: function (_response) {
+            nombre_documento = _response.curso
+            url = _response.relacion
+            for (var i = 0; i < url.length; i++) {
+                url_archivo_capacitacion = url[i]
+                tarjeta_resultados.popup_informacion_capacitacion.consultar_Archivo(i, url_archivo_capacitacion, nombre_documento)
+            }
+          },
+          error: function (_response) {
+             alertify.error("Ocurrio un error al consultar")
+          }
+       })
+}
+PopupInformacionCapacitacion.prototype.consultar_Archivo = function (_numero, _url_archivo_capacitacion, _nombre_documento){
+    $.ajax({
+          url: _url_archivo_capacitacion,
+          type: "GET",
+          headers: { "X-CSRFToken": appnova.galletita },
+          contentType: "application/json; charset=utf-8",
+          success: function (_response) {
+            
+            url = _response.archivo
+            tarjeta_resultados.popup_informacion_capacitacion.cargar_Archivos(_numero+1,url,_nombre_documento)
+          },
+          error: function (_response) {
+             alertify.error("Ocurrio un error al consultar")
+          }
+       })
+}
+PopupInformacionCapacitacion.prototype.cargar_Archivos = function (_numero,_url_archivo,_nombre_documento){
+
+    this.$contenido.append("<a href='"+ _url_archivo +"' target='_blank'><img src='/static/images/decoradores/PDF.jpg' width='30px' height='30px'></img> Archivo No."+_numero+" : "+_nombre_documento+" </a><br>")
+}
+PopupInformacionCapacitacion.prototype.hidden_Modal = function (e) {
+
+     e.data.$modal_informacion.modal('hide')
 }
 
 /*-----------------------------------------------*\
@@ -740,7 +795,7 @@ GridPersonal.prototype.get_DataSourceConfig = function () {
             pageSize: 10,
             transport: {
                     read: {
-                            url:  url_pruebapersonal, //url_expediente_personal_bypage,
+                            url:  url_documento_personal_grid, 
                             type: "GET",
                             dataType: "json",
                     },
@@ -773,10 +828,8 @@ GridPersonal.prototype.get_Campos = function () {
             vigencia_fin : { type: "string" },
             fecha : { type: "date"},
             relacion : { type: "string"},
-            // archivo : { type: "string" },
             created_by : { type: "string" },
             created_date : { type: "date" },
-            // object_id: { type: "integer" },
             
     }
 }
@@ -810,7 +863,7 @@ GridPersonal.prototype.get_Columnas = function () {
             { field: "relacion", 
                 title: "Archivo", 
                 width:"60px" ,
-                template: '<a class="btn btn-default nova-url" href="\\#modal_ver_personal" data-toggle="modal" data-event="ver-personal" id="#=pk#"><i class="icon icon-left icon mdi mdi-file icon-black"></i></a>',
+                template: '<a class="btn btn-default nova-url" href="\\#modal_ver_informacion" data-toggle="modal" data-event="ver-personal" id="#=pk#"><i class="icon icon-left icon mdi mdi-file icon-black"></i></a>',
             },
             { field: "tipo_documento", title: "Tipo documento", width:"200px"},
             { field: "agrupador", title: "Agrupador", width:"100px"},
@@ -878,15 +931,13 @@ GridPersonal.prototype.convertir_Fecha = function (_fecha){
 GridPersonal.prototype.consultar_Registro = function (_id_documento) {
 
     $.ajax({
-             url: url_pruebapersonal +_id_documento+"/",
+             url: url_documento_personal_grid +_id_documento+"/",
              method: "GET",
              headers: { "X-CSRFToken": appnova.galletita },
              success: function (_response) {
                     url = _response.relacion
                     for (var i = 0; i < url.length; i++) {
-                        console.log(url[i])
                         id_archivo = url[i].split("/")[5]
-                        console.log(id_archivo)
                         tarjeta_resultados.grid_personal.eliminar_Archivo(id_archivo,_id_documento)
                     }
              },
@@ -962,7 +1013,7 @@ GridCapacitacion.prototype.get_DataSourceConfig = function () {
             pageSize: 10,
             transport: {
                     read: {
-                            url: url_expediente_capacitacion_bypage,
+                            url: url_documento_capacitacion_grid,
                             type: "GET",
                             dataType: "json",
                     },
@@ -987,7 +1038,8 @@ GridCapacitacion.prototype.get_DataSourceConfig = function () {
 GridCapacitacion.prototype.get_CamposCap = function () {
     return {
             pk: { type: "integer" },
-            archivo : { type: "string" },
+            relacion : { type: "string"},
+            // archivo : { type: "string" },
             curso : { type: "string" },
             agrupador: { type: "string" },
             area: { type: "string" },
@@ -1031,10 +1083,10 @@ GridCapacitacion.prototype.get_Columnas = function () {
                 width:"50px" ,
                 template: '<a class="btn nova-btn btn-default nova-btn-delete" id="#=pk#" data-event="eliminar-capacitacion"> <i class="icon icon-left icon mdi mdi-delete nova-white"></i></a>'
             },
-            { field: "archivo", 
+            { field: "relacion", 
                 title: "Archivo", 
                 width:"60px" ,
-                template: '<a class="btn btn-default nova-url" href="#=archivo#" target="_blank" id="documento"><i class="icon icon-left icon mdi mdi-file icon-black"></i></a>'
+                template: '<a class="btn btn-default nova-url" href="\\#modal_ver_informacion" data-toggle="modal" data-event="ver-capacitacion" id="#=pk#"><i class="icon icon-left icon mdi mdi-file icon-black"></i></a>',
             },
             { field: "curso", title: "Curso", width:"200px" },
             { field: "agrupador", title: "Agrupador", width:"100px"},
@@ -1056,11 +1108,16 @@ GridCapacitacion.prototype.get_Columnas = function () {
 GridCapacitacion.prototype.aplicar_Estilos = function (e) {
 
     e.sender.tbody.find("[data-event='eliminar-capacitacion']").each(function(idx, element){
+        $(this).on("click", function(){
+            grid_capacitacion.consultar_Registro(this.id)
+        })
+    })
 
-      $(this).on("click", function(){
-
-         grid_capacitacion.consultar_Registro(this.id)
-      })
+    e.sender.tbody.find("[data-event='ver-capacitacion']").each(function(idx, element){
+        $(this).on("click", function(){
+            tarjeta_resultados.popup_informacion_capacitacion.$contenido.empty()
+            tarjeta_resultados.popup_informacion_capacitacion.consultar_Registro(this.id)
+        })
     })
 
     columns = e.sender.columns
@@ -1083,16 +1140,18 @@ GridCapacitacion.prototype.buscar = function() {
 
     this.kfuente_datos.page(1)
 }
-GridCapacitacion.prototype.consultar_Registro = function (_id_archivo) {
+GridCapacitacion.prototype.consultar_Registro = function (_id_documento) {
 
     $.ajax({
-        url: url_archivo +_id_archivo+"/",
+        url: url_documento_capacitacion_grid +_id_documento+"/",
         method: "GET",
         headers: { "X-CSRFToken": appnova.galletita },
         success: function (_response) {
-                url = _response.content_object
-                id_capacitacion = url.split("/")[5]
-                grid_capacitacion.eliminar_Archivo(_id_archivo,id_capacitacion)
+                url = _response.relacion
+                for (var i = 0; i < url.length; i++) {
+                    id_archivo = url[i].split("/")[5]
+                    grid_capacitacion.eliminar_Archivo(id_archivo,_id_documento)
+                }
         },
         error: function (_response) {
                 alertify.error("No se ha podido realizar la consulta")

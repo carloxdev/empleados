@@ -71,63 +71,44 @@
                                         </div>
                                         <div class="form-group">
 
-                                            {% tag_section_info 8 2 '¡Instrucciones!' 'Selecciona un usario para poder registrarte' %}
+                                            {% tag_section_info 8 2 '¡Instrucciones!' 'Selecciona tu Numero de empleado, especifica tu Email y RFC' %}
+
+                                            <div class="col-sm-8 col-sm-offset-2">
+
+                                                <!-- Errores de formulario -->
+                                                {% if form.non_field_errors %}
+                                                    {% for error_message in form.non_field_errors %}
+                                                        {% tag_mensaje 'error' error_message %}
+                                                    {% endfor %}
+                                                {% endif %}
+
+                                            </div>
 
                                             <div class="col-sm-9">
 
-                                                <!-- Clave_rh-->
+                                                <!-- Clave_rh -->
                                                 {% tag_field_registro form.clave_rh 4 8 %}
 
-                                                <!-- First_name-->
-                                                {% tag_field_registro_nval form.first_name 4 8 %}
+                                                <!-- RFC -->
+                                                {% tag_field_registro form.rfc 4 8 %}
 
-                                                <!-- Last_name-->
-                                                {% tag_field_registro_nval form.last_name 4 8 %}
+                                                <!-- Email -->
+                                                {% tag_field_registro form.email 4 8 %}
 
-                                                <!-- Fecha_nacimiento-->
-                                                {% tag_field_registro_nval form.fecha_nacimiento 4 8 %}
+                                                <!-- Password -->
+                                                {% tag_field_registro form.password1 4 8 %}
 
-                                                <!-- Clave_jde -->
-                                                {% tag_field_registro form.clave_jde 4 8 %}
+                                                <!-- Confirmar Password -->
+                                                {% tag_field_registro form.password2 4 8 %}
+
+                                                <!-- Ocultos -->
+                                                <div>
+                                                    {{ form.clave_jde }}
+                                                </div>
                                             </div>
 
                                             <div class="col-sm-3">
                                                {% tag_image_registro form.foto %}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- SECCION 2 -->
-                        <div class="panel-body collapse in nova-panel-2ndseccion">
-                            <div class="step-content">
-                                <div data-step="1" class="step-pane">
-                                    <div action="#" data-parsley-namespace="data-parsley-" data-parsley-validate="" novalidate="" class="form-horizontal group-border-dashed">
-                                        <div class="form-group no-padding">
-                                            <div class="col-sm-7">
-                                                <h3 class="wizard-title">Informacion de la Cuenta</h3>
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group">
-
-                                            {% tag_section_info 8 2 '¡Instrucciones!' 'Puedes escribir el nombre de tu cuenta o dejar tu numero de empleado' %}
-
-                                            <div class="col-sm-12">
-
-                                                 <!-- Username-->
-                                                 {% tag_field_registro form.username 3 6 %}
-
-                                                 <!-- Email-->
-                                                 {% tag_field_registro form.email 3 6 %}
-
-                                                 <!-- Password-->
-                                                 {% tag_field_registro form.password1 3 6 %}
-
-                                                 <!-- Confirmar Password-->
-                                                 {% tag_field_registro form.password2 3 6 %}
                                             </div>
                                         </div>
                                     </div>

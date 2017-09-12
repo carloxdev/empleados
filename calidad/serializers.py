@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 # Librerias Python:
 import json
+from django.conf import settings
 
 # Librerias Django
 from rest_framework import serializers
@@ -26,6 +27,7 @@ from .models import AnalisisHallazgo
 
 # Otros Modelos
 from home.models import Archivo
+
 
 class CriterioSerializer(serializers.HyperlinkedModelSerializer):
 
@@ -420,15 +422,18 @@ class HallazgoProcesoSerializer(serializers.HyperlinkedModelSerializer):
             return ""
 
 
+# class Archivo(serializers.RelatedField):
+#     def to_representation(self, value):
+#         archivo =  settings.MEDIA_URL + str(value.archivo)
+#         return archivo
+
+
 class AnalisisHallazgoSerializer(serializers.HyperlinkedModelSerializer):
 
     hallazgo_id = serializers.SerializerMethodField()
     metodologia_nombre = serializers.SerializerMethodField()
-    relacion_archivo = serializers.HyperlinkedRelatedField(
-        many=True,
-        read_only=True,
-        view_name='archivo-detail'
-    )
+    # relacion_archivo = Archivo(many=True, read_only=True)
+    relacion_archivo = serializers.SerializerMethodField()
 
     class Meta:
         model = AnalisisHallazgo
@@ -456,5 +461,19 @@ class AnalisisHallazgoSerializer(serializers.HyperlinkedModelSerializer):
     def get_metodologia_nombre(self, obj):
         try:
             return obj.metodologia.metodologia
+        except:
+            return ""
+
+    def get_relacion_archivo(self, obj):
+
+        lista_archivos = []
+        request = self.context.get('request', None)
+        
+        try:
+            for archivo in obj.relacion_archivo.all():
+                lista_archivos.append(
+                    request.scheme + '://' + request.get_host() + settings.MEDIA_URL + str(archivo.archivo),
+                )
+            return lista_archivos
         except:
             return ""

@@ -156,6 +156,7 @@ class Solicitud(models.Model):
         ('cap', 'En captura'),
         ('act', 'Actualizado'),
         ('rech', 'Rechazado'),
+        ('eli', 'Eliminado'),
     )
     status = models.CharField(
         choices=STATUS,

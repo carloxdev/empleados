@@ -1,0 +1,9 @@
+Estimad@ {{ first_name }},
+
+Se ha creado correctamente tu cuenta en el portal Nova-Nuvoil. Desde ahora podrás hacer uso del portal y sus servicios.
+
+Recuerda que tu nombre de usuario para ingresar al portal es tu numero de empleado
+{{ no_empleado }}.
+
+Atentamente,
+Departamento de Desarrollo TI.

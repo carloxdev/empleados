@@ -15,6 +15,7 @@ var toolbar = null
 var tarjeta_resultados = null
 var popup = null
 var popup_nuevo = null
+var popup_informacion = null
 
 
 /*------------------------------------------------*\  
@@ -43,6 +44,7 @@ function TarjetaResultados(){
     this.grid = new Grid()
     this.popup = new Popup()
     this.popup_nuevo = new PopupNuevo()
+    this.popup_informacion = new PopupInformacion()
 }
 
 /*-----------------------------------------------*\
@@ -90,10 +92,10 @@ TarjetaFiltro.prototype.click_BotonLimpiar = function (e) {
 TarjetaFiltro.prototype.get_Values = function (_page) {
     return {
         page: _page,
-        relacion_solicitud__numero_empleado: this.$numero_empleado.val(),
-        relacion_solicitud__id: this.$folio.val(),
-        relacion_solicitud__asunto: this.$asunto.val(),
-        relacion_solicitud__status: this.$status.val(),
+        numero_empleado: this.$numero_empleado.val(),
+        pk: this.$folio.val(),
+        asunto: this.$asunto.val(),
+        status: this.$status.val(),
    }
 }
 TarjetaFiltro.prototype.hidden_Modal = function () {
@@ -121,7 +123,7 @@ Popup.prototype.consultar_Registro = function (_id){
           contentType: "application/json; charset=utf-8",
 
           success: function (_response) {
-            tarjeta_resultados.popup.llenar_Informacion(_response.object_id,_response.asunto,_response.descripcion, _response.status, _response.observaciones)
+            tarjeta_resultados.popup.llenar_Informacion(_response.pk,_response.asunto,_response.descripcion, _response.status, _response.observaciones)
           },
           error: function (_response) {
              alertify.error("Ocurrio un error al consultar")
@@ -191,7 +193,7 @@ PopupNuevo.prototype.enviar_Solicitud = function (e){
                      }
                 })
             promesa.then(function(){
-                tarjeta_resultados.popup_nuevo.guardar_Archivo(id_solicitud)
+                tarjeta_resultados.popup_nuevo.formar_Data(id_solicitud)
             })
         }else if(extension==""){
             e.data.$formulario.append('<div class="alert alert-danger nova-margin" id="id_error"><span class="icon mdi mdi-close-circle-o"></span><strong>Debe adjuntar el archivo correspondiente.</strong></div>')
@@ -201,23 +203,24 @@ PopupNuevo.prototype.enviar_Solicitud = function (e){
         }
     }
 }
-PopupNuevo.prototype.guardar_Archivo = function (_id_solicitud){
-
-        var data = new FormData()
-        tarjeta_resultados.popup_nuevo.$formulario.find(':input').each(function() {
-                var elemento= this;
-                if(elemento.type === 'file'){
-                     if(elemento.value !== ''){
-                                for(var i=0; i< $('#'+elemento.id).prop("files").length; i++){
-                                    data.append('archivo', $('#'+elemento.id).prop("files")[i]);
-                             }
-                            
+PopupNuevo.prototype.formar_Data = function (_id_solicitud){
+    var data = new FormData()
+    tarjeta_resultados.popup_nuevo.$formulario.find(':input').each(function() {
+            var elemento= this;
+            if(elemento.type === 'file'){
+                 if(elemento.value !== ''){
+                            for(var i=0; i< $('#'+elemento.id).prop("files").length; i++){
+                                data.append('archivo', $('#'+elemento.id).prop("files")[i])
                                 data.append('tipo_archivo', "sol")
                                 data.append('content_object', url_solicitud+_id_solicitud+"/")
                                 data.append('created_by', url_profile+tarjeta_resultados.popup_nuevo.$created_by.val()+"/")
-                        }              
-                 }
-         })
+                                tarjeta_resultados.popup_nuevo.guardar_Archivo(_id_solicitud, data)
+                         }
+                    }              
+             }
+     })
+}
+PopupNuevo.prototype.guardar_Archivo = function (_id_solicitud, _data){
 
          $.ajax({
                  url: url_archivo,
@@ -225,7 +228,7 @@ PopupNuevo.prototype.guardar_Archivo = function (_id_solicitud){
                  headers: { "X-CSRFToken": appnova.galletita },
                  contentType: false,
                  processData: false,
-                 data: data,
+                 data: _data,
                  success: function (_response) {
 
                         alertify.success("Se ha guardado el archivo")
@@ -241,7 +244,7 @@ PopupNuevo.prototype.guardar_Archivo = function (_id_solicitud){
                              method: "DELETE",
                              headers: { "X-CSRFToken": appnova.galletita },
                              success: function (_response) {
-                                
+                                alert('se elimino')
                              },
                              error: function (_response) {
                                 alertify.error("No se ha podido eliminar el registro")
@@ -309,6 +312,71 @@ PopupNuevo.prototype.validar_Archivo = function (_archivo) {
         return extension
 }
 
+
+/*-----------------------------------------------*\
+        OBJETO: Pop up informacion personal
+\*-----------------------------------------------*/
+
+function PopupInformacion(){
+    this.$modal_informacion = $('#modal_ver_informacion')
+    this.$boton_salir = $('#id_boton_salir')
+    this.$contenido = $('#contenido')
+
+    this.init_Components()
+    this.init_Events()
+}
+PopupInformacion.prototype.init_Components = function (){
+}
+PopupInformacion.prototype.init_Events = function (){
+
+    this.$boton_salir.on('click', this, this.hidden_Modal)
+}
+PopupInformacion.prototype.consultar_Registro = function (_id){
+
+    $.ajax({
+          url: url_solicitudes_bypage + _id +"/",
+          type: "GET",
+          headers: { "X-CSRFToken": appnova.galletita },
+          contentType: "application/json; charset=utf-8",
+          success: function (_response) {
+            nombre_documento = _response.asunto
+            url = _response.archivo
+            for (var i = 0; i < url.length; i++) {
+                url_archivo = url[i]
+                tarjeta_resultados.popup_informacion.consultar_Archivo(i,url_archivo, nombre_documento)
+            }
+          },
+          error: function (_response) {
+             alertify.error("Ocurrio un error al consultar")
+          }
+       })
+}
+PopupInformacion.prototype.consultar_Archivo = function (_numero, _url_archivo, _nombre_documento){
+    $.ajax({
+          url: _url_archivo,
+          type: "GET",
+          headers: { "X-CSRFToken": appnova.galletita },
+          contentType: "application/json; charset=utf-8",
+          success: function (_response) {
+            
+            url = _response.archivo
+            tarjeta_resultados.popup_informacion.cargar_Archivos(_numero+1,url,_nombre_documento)
+          },
+          error: function (_response) {
+             alertify.error("Ocurrio un error al consultar")
+          }
+       })
+}
+PopupInformacion.prototype.cargar_Archivos = function (_numero,_url_archivo,_nombre_documento){
+
+    this.$contenido.append("<a href='"+ _url_archivo +"' target='_blank'><img src='/static/images/decoradores/PDF.jpg' width='30px' height='30px'></img> Archivo No."+_numero+" : "+_nombre_documento+" </a><br>")
+
+}
+PopupInformacion.prototype.hidden_Modal = function (e) {
+
+     e.data.$modal_informacion.modal('hide')
+}
+
 /*-----------------------------------------------*\
             OBJETO: Grid
 \*-----------------------------------------------*/
@@ -367,14 +435,12 @@ Grid.prototype.get_Campos = function () {
 
     return {
         pk: { type: "integer" },
-        object_id: { type: "integer" },
         status : { type: "string" },
         clave_departamento : { type: "string"},
         asunto : { type: "string" },
         descripcion : { type: "string" },
         observaciones: {type: "string"},
         archivo : { type: "string" },
-        created_by : { type: "string" },
         created_date : { type: "date" },
         updated_by : { type: "string"},
         updated_date : { type: "date"},
@@ -403,20 +469,17 @@ Grid.prototype.get_Configuracion = function () {
 Grid.prototype.get_Columnas = function () {
 
     return [
-        { field: "object_id",
-          title: "Folio",
-          width:"70px",
-          template: '<a class="btn btn-default nova-url" href="\\#modal_informacion" data-toggle="modal" id="#=pk#" data-event="editar">#=object_id#</a>',
+        {   title: " ", 
+            width:"50px" ,
+            template: '<a class="btn btn-default nova-url" href="\\#modal_ver_informacion" data-toggle="modal" data-event="ver-archivo" id="#=pk#"><i class="icon icon-left icon mdi mdi-file icon-black"></i></a>',
         },
-        { field: "archivo", 
-            title: "Archivo", 
-            width:"65px" ,
-            template: '<a class="btn btn-default nova-url" href="#=archivo#" target="_blank" id="documento"><i class="icon icon-left icon mdi mdi-file icon-black"></i></a>'
+        { title: "Folio",
+          width:"70px",
+          template: '<a class="btn btn-default nova-url" href="\\#modal_informacion" data-toggle="modal" id="#=pk#" data-event="editar">#=pk#</a>',
         },
         { field: "asunto", title: "Solicitud", width:"200px"},
         { field: "status", title: "Estatus", width:"100px"},
         { field: "clave_departamento", title: "Se solicito a", width:"150px"},
-        { field: "created_by", title: "Creado por", width:"150px" },
         { field: "created_date", title: "Fecha de creación", width:"150px", format: "{0:dd/MM/yyyy}" },
         { field: "updated_by", title: "Actualizado por", width:"150px" },
         { field: "updated_date", title: "Fecha de actualización", width:"150px", format: "{0:dd/MM/yyyy}" },
@@ -430,6 +493,13 @@ Grid.prototype.onDataBound = function (e) {
             tarjeta_resultados.popup.consultar_Registro(this.id)
         })
    })
+
+   e.sender.tbody.find("[data-event='ver-archivo']").each(function(idx, element){
+      $(this).on("click", function(){
+        tarjeta_resultados.popup_informacion.$contenido.empty()
+        tarjeta_resultados.popup_informacion.consultar_Registro(this.id)
+      })
+    })
    //color de la fila
     columns = e.sender.columns
     dataItems = e.sender.dataSource.view()
@@ -446,6 +516,9 @@ Grid.prototype.onDataBound = function (e) {
             }
             else if (estatus == 'Rechazado'){
                 row.addClass("nova-fecha-vencida")
+            }
+            else if (estatus == 'Eliminado'){
+                row.addClass("nova-eliminado")
             }
         }
     }

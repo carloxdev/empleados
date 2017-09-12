@@ -130,10 +130,16 @@ class IncidenciaArchivoFilter(filters.FilterSet):
         lookup_expr="icontains"
     )
 
+    incidencia_id = CharFilter(
+        name="incidencia_ids",
+        lookup_expr="icontains"
+    )
+
     class Meta:
         model = IncidenciaArchivo
         fields = [
             'id',
+            'incidencia_id',
         ]               
 
 class IncidenciaResolucionFilter(filters.FilterSet):

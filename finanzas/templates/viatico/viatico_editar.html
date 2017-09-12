@@ -10,8 +10,8 @@
 
 {% block css %}
 
-<!-- DatePicker -->
-<link rel="stylesheet" href="{% static 'libs/bootstrap-datepicker/2.0/dist/css/bootstrap-datepicker.min.css' %}"/>
+    <!-- DatePicker -->
+    <link rel="stylesheet" href="{% static 'libs/bootstrap-datepicker/2.0/dist/css/bootstrap-datepicker.min.css' %}"/>
 
     <!-- Kendo -->
     <link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.rtl.min.css' %}"/>
@@ -51,8 +51,8 @@
                     <div class="panel-body form-horizontal">
 
                         {% if form.non_field_errors %}
-                            {% for error in form.non_field_errors %}
-                                {% tag_mensaje 'error' error %}
+                            {% for error_message in form.non_field_errors %}
+                                {% tag_mensaje 'error' error_message %}
                             {% endfor %}
                         {% endif %}
 
@@ -281,6 +281,7 @@
     <!-- Theme -->
     <script src="{% static 'theme/lib/jquery-ui/jquery-ui.min.js' %}"></script>
     <script src="{% static 'theme/lib/parsley/parsley.min.js' %}"></script>
+    <script src="{% static 'theme/lib/parsley/i18n/es.js' %}"></script>
 
     <!--JSZIP -->
     <script src="{% static 'libs/kendo/2015.2.624/js/jszip.min.js' %}"></script>

@@ -3,8 +3,8 @@
 \*-----------------------------------------------*/
 
 var url_expediente = window.location.origin  + "/expedientes/"
-var url_expediente_personal_bypage = window.location.origin  + "/api-capitalhumano/archivopersonal_bypage/"
-var url_archivo_personal_excel = window.location.origin  + "/api-capitalhumano/archivopersonal/"
+var url_expediente_personal_bypage = window.location.origin + "/api-capitalhumano/personal_bypage/"
+var url_archivo_personal_excel = window.location.origin + "/api-capitalhumano/personal/"
 
 //OBJS
 var tarjeta_filtro = null
@@ -12,6 +12,7 @@ var grid = null
 var toolbar = null
 var tarjeta_resultados = null
 var popup = null
+var popup_informacion_personal = null
 
 
 /*------------------------------------------------*\  
@@ -77,21 +78,21 @@ TarjetaFiltros.prototype.get_Values = function (_page) {
     
         return {
                 page: _page,
-                relacion_personal__tipo_documento_organizacion: this.$asig_organizacion_clave.val(),
-                relacion_personal__tipo_documento: this.$tipo_documento.val(),
-                relacion_personal__agrupador: this.$agrupador.val(),
-                relacion_personal__numero_empleado: this.$numero_empleado.val(),
-                relacion_personal__tipo_documento_estatus: this.$estatus.val(),
+                tipo_documento_organizacion: this.$asig_organizacion_clave.val(),
+                tipo_documento: this.$tipo_documento.val(),
+                agrupador: this.$agrupador.val(),
+                numero_empleado: this.$numero_empleado.val(),
+                tipo_documento_estatus: this.$estatus.val(),
      }
 }
 TarjetaFiltros.prototype.get_Values_Excel = function () {
     
         return {
-                relacion_personal__tipo_documento_organizacion: this.$asig_organizacion_clave.val(),
-                relacion_personal__tipo_documento: this.$tipo_documento.val(),
-                relacion_personal__agrupador: this.$agrupador.val(),
-                relacion_personal__numero_empleado: this.$numero_empleado.val(),
-                relacion_personal__tipo_documento_estatus: this.$estatus.val(),
+                tipo_documento_organizacion: this.$asig_organizacion_clave.val(),
+                tipo_documento: this.$tipo_documento.val(),
+                agrupador: this.$agrupador.val(),
+                numero_empleado: this.$numero_empleado.val(),
+                tipo_documento_estatus: this.$estatus.val(),
      }
 }
 TarjetaFiltros.prototype.validar_Campos = function (){
@@ -125,6 +126,7 @@ function TarjetaResultados(){
     this.grid = new Grid()
     this.popup = new Popup()
     this.toolbar = new Toolbar()
+    this.popup_informacion_personal = new PopupInformacionPersonal()
 }
 
 /*-----------------------------------------------*\
@@ -233,7 +235,7 @@ Toolbar.prototype.get_Registros_Excel = function (data) {
 }
 
 /*-----------------------------------------------*\
-            OBJETO: Tarjeta resultados
+            OBJETO: Popup
 \*-----------------------------------------------*/
 
 function Popup(){
@@ -242,6 +244,70 @@ function Popup(){
 Popup.prototype.hidden_Modal = function () {
 
    this.$modal.modal('hide')
+}
+
+/*-----------------------------------------------*\
+        OBJETO: Pop up informacion personal
+\*-----------------------------------------------*/
+
+function PopupInformacionPersonal(){
+    this.$modal_informacion = $('#modal_ver_informacion')
+    this.$boton_salir = $('#id_boton_salir')
+    this.$contenido = $('#contenido')
+
+    this.init_Components()
+    this.init_Events()
+}
+PopupInformacionPersonal.prototype.init_Components = function (){
+}
+PopupInformacionPersonal.prototype.init_Events = function (){
+
+    this.$boton_salir.on('click', this, this.hidden_Modal)
+}
+PopupInformacionPersonal.prototype.consultar_Registro = function (_id){
+
+    $.ajax({
+          url: url_expediente_personal_bypage + _id +"/",
+          type: "GET",
+          headers: { "X-CSRFToken": appnova.galletita },
+          contentType: "application/json; charset=utf-8",
+          success: function (_response) {
+            nombre_documento = _response.tipo_documento
+            url = _response.relacion
+            for (var i = 0; i < url.length; i++) {
+                url_archivo_personal = url[i]
+                tarjeta_resultados.popup_informacion_personal.consultar_Archivo(i,url_archivo_personal, nombre_documento)
+            }
+          },
+          error: function (_response) {
+             alertify.error("Ocurrio un error al consultar")
+          }
+       })
+}
+PopupInformacionPersonal.prototype.consultar_Archivo = function (_numero, _url_archivo_personal, _nombre_documento){
+    $.ajax({
+          url: _url_archivo_personal,
+          type: "GET",
+          headers: { "X-CSRFToken": appnova.galletita },
+          contentType: "application/json; charset=utf-8",
+          success: function (_response) {
+            
+            url = _response.archivo
+            tarjeta_resultados.popup_informacion_personal.cargar_Archivos(_numero+1,url,_nombre_documento)
+          },
+          error: function (_response) {
+             alertify.error("Ocurrio un error al consultar")
+          }
+       })
+}
+PopupInformacionPersonal.prototype.cargar_Archivos = function (_numero,_url_archivo,_nombre_documento){
+
+    this.$contenido.append("<a href='"+ _url_archivo +"' target='_blank'><img src='/static/images/decoradores/PDF.jpg' width='30px' height='30px'></img> Archivo No."+_numero+" : "+_nombre_documento+" </a><br>")
+
+}
+PopupInformacionPersonal.prototype.hidden_Modal = function (e) {
+
+     e.data.$modal_informacion.modal('hide')
 }
 
 /*-----------------------------------------------*\
@@ -308,7 +374,7 @@ Grid.prototype.get_Campos = function () {
                 tipo_documento : { type: "string" },
                 agrupador : { type: "string"},
                 numero_empleado : { type: "string" },
-                archivo : { type: "string" },
+                relacion : { type: "string" },
                 vigencia_inicio : { type: "string" },
                 vigencia_fin : { type: "string" },
                 created_by : { type: "string" },
@@ -337,18 +403,18 @@ Grid.prototype.get_Configuracion = function () {
 }
 Grid.prototype.get_Columnas = function () {
 
-        return [  
+        return [ 
+                {   title: " ", 
+                    width:"50px" ,
+                    template: '<a class="btn btn-default nova-url" href="\\#modal_ver_informacion" data-toggle="modal" data-event="ver-personal" id="#=pk#"><i class="icon icon-left icon mdi mdi-file icon-black"></i></a>',
+                }, 
                 { field: "numero_empleado", 
                     title: "No. de empleado", 
-                    width:"150px" ,
-                    template: '<a href="#=url_expediente + numero_empleado #/expediente/">#=numero_empleado#</a>',
+                    width:"120px" ,
+                    template: '<a class="btn btn-default nova-url" href="#=url_expediente + numero_empleado #/expediente/">#=numero_empleado#</a>',
                 },
                 { field: "nombre_completo", title: "Nombre", width:"200px" },
-                { field: "tipo_documento", 
-                  title: "Archivo", 
-                  width:"150px" ,
-                  template: '<a href="#=archivo#" target="_blank" id="documento">#=tipo_documento#</a>',
-                },
+                { field: "tipo_documento", title: "Tipo documento", width:"150px" },
                 { field: "agrupador", title: "Agrupador", width:"100px" },
                 { field: "vigencia_inicio",title: "Vigencia inicio",width:"100px"},
                 { field: "vigencia_fin", title: "Vigencia fin", width:"100px" },
@@ -363,6 +429,13 @@ Grid.prototype.buscar = function() {
         this.kfuente_datos.page(1)
 }
 Grid.prototype.aplicar_Estilos = function (e) {
+
+    e.sender.tbody.find("[data-event='ver-personal']").each(function(idx, element){
+      $(this).on("click", function(){
+        tarjeta_resultados.popup_informacion_personal.$contenido.empty()
+        tarjeta_resultados.popup_informacion_personal.consultar_Registro(this.id)
+      })
+    })
 
     columns = e.sender.columns
     dataItems = e.sender.dataSource.view()
