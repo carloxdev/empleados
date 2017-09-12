@@ -10,20 +10,20 @@ import json
 
 # Modelos
 from .models import PerfilPuestoDocumento
-from .models import Archivo
+
 from .models import TipoDocumento
 from .models import DocumentoPersonal
 from .models import DocumentoCapacitacion
 from .models import Curso
-from ebs.models import VIEW_EMPLEADOS_FULL
-from jde.models import VIEW_PROVEEDORES
 from .models import PerfilPuestosCargo
 from .models import PerfilCompetencias
+
+# Otros Modelos
+from home.models import Archivo
 from administracion.models import Solicitud
-
-
-# GenerisForeignKey
-from generic_relations.relations import GenericRelatedField
+from ebs.models import VIEW_EMPLEADOS_FULL
+from ebs.models import VIEW_ORGANIZACIONES
+from jde.models import VIEW_PROVEEDORES
 
 
 class PerfilPuestosCargoSerializer(serializers.HyperlinkedModelSerializer):
@@ -118,36 +118,9 @@ class DocumentoCapacitacionSerializers(serializers.HyperlinkedModelSerializer):
             'nombre_completo',
         )
 
-# /api-capitalhumano/documentopersonal/64/
-
-
-class ArchivoSerializers(serializers.HyperlinkedModelSerializer):
-    content_object = GenericRelatedField({
-        DocumentoPersonal: serializers.HyperlinkedRelatedField(
-            queryset=DocumentoPersonal.objects.all(),
-            view_name='documentopersonal-detail',
-        ),
-        DocumentoCapacitacion: serializers.HyperlinkedRelatedField(
-            queryset=DocumentoCapacitacion.objects.all(),
-            view_name='documentocapacitacion-detail',
-        ),
-        Solicitud: serializers.HyperlinkedRelatedField(
-            queryset=Solicitud.objects.all(),
-            view_name='solicitud-detail',
-        ),
-    })
-
-    class Meta:
-        model = Archivo
-        fields = (
-            'pk',
-            'tipo_archivo',
-            'archivo',
-            'content_object',
-            'created_by',
-            'created_date',
-        )
 # ---------- FIN Serializers para insertar registros------------------
+
+# ----------Serializers de consulta------------------
 
 
 class TipoDocumentoSerializer(serializers.HyperlinkedModelSerializer):

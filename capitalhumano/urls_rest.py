@@ -3,12 +3,9 @@ from rest_framework import routers
 
 from .view_rest import PersonalAPI
 from .view_rest import PersonalByPageAPI
-from .view_rest import CapacitacionAPI
-from .view_rest import CapacitacionByPageAPI
 from .view_rest import TipoDocumentoAPI
-from capitalhumano.view_rest import DocumentoPersonalAPI
-from capitalhumano.view_rest import DocumentoCapacitacionAPI
-from capitalhumano.view_rest import ArchivoAPI
+from .view_rest import DocumentoCapacitacionAPI
+
 from capitalhumano.view_rest import PerfilPuestosCargoAPI
 from capitalhumano.view_rest import PerfilPuestosCargoByPageAPI
 from capitalhumano.view_rest import PerfilPuestosDocumentoAPI
@@ -36,29 +33,9 @@ router_capitalhumano.register(
     'personal_bypage'
 )
 router_capitalhumano.register(
-    r'capacitacion',
-    CapacitacionAPI,
-    'capacitacion'
-)
-router_capitalhumano.register(
-    r'capacitacion_bypage',
-    CapacitacionByPageAPI,
-    'capacitacion_bypage'
-)
-router_capitalhumano.register(
-    r'documentopersonal',
-    DocumentoPersonalAPI,
-    'documentopersonal'
-)
-router_capitalhumano.register(
     r'documentocapacitacion',
     DocumentoCapacitacionAPI,
     'documentocapacitacion'
-)
-router_capitalhumano.register(
-    r'archivo',
-    ArchivoAPI,
-    'archivo'
 )
 # --------------------PERFILES--------------------
 router_capitalhumano.register(

@@ -19,6 +19,12 @@ class EmpleadoBusiness(object):
         return empleados
 
     @classmethod
+    def get_ByNumero(self, _numero):
+        empleado = VIEW_EMPLEADOS_SIMPLE.objects.using('ebs_p').get(pers_empleado_numero=_numero)
+
+        return empleado
+
+    @classmethod
     def get_Todos(self):
 
         empleados = VIEW_EMPLEADOS_SIMPLE.objects.using('ebs_p').exclude(

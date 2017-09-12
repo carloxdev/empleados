@@ -9,7 +9,9 @@ from django_filters import CharFilter
 
 # Modelos:
 from .models import PerfilPuestoDocumento
-from .models import Archivo
+
+# Otros Modelos
+from home.models import Archivo
 
 from ebs.models import VIEW_EMPLEADOS_FULL
 from .models import DocumentoPersonal
@@ -247,19 +249,6 @@ class DocumentoCapacitacionFilter(filters.FilterSet):
         else:
             proveedor = queryset.filter(proveedor=value)
             return proveedor
-
-
-class ArchivoFilter(filters.FilterSet):
-
-    pk = CharFilter(
-        name="pk",
-        lookup_expr="icontains")
-
-    class Meta:
-        model = Archivo
-        fields = [
-            'pk',
-        ]
 
 
 class TipoDocumentoFilter(filters.FilterSet):

@@ -15,7 +15,7 @@ var tarjeta_resultados = null
 \*-----------------------------------------------*/
 
 $(document).ready(function () {
-      
+
    tarjeta_resultados = new TarjetaResultados()
 })
 
@@ -24,7 +24,7 @@ $(document).ready(function () {
 \*-----------------------------------------------*/
 
 function TarjetaResultados() {
-   
+
    this.toolbar = new ToolBar()
    this.grid = new Grid()
 }
@@ -34,7 +34,7 @@ function TarjetaResultados() {
 \*-----------------------------------------------*/
 
 function ToolBar() {
-   
+
    popup_formato = new PopupFormato()
    this.$id_boton_nuevo_formato = $('#id_boton_nuevo_formato')
    this.init_Events()
@@ -97,7 +97,7 @@ Grid.prototype.eliminar_Seleccion = function (_url) {
                alertify.error("Ocurrió un error al eliminar")
             }
          })
-      }, 
+      },
       null
    )
 }
@@ -139,7 +139,7 @@ PopupFormato.prototype.init_Components = function () {
          )
 }
 PopupFormato.prototype.get_DateTimePickerConfig = function () {
-      
+
    return {
 
       autoclose: true,
@@ -178,9 +178,9 @@ PopupFormato.prototype.keydown_ValidarNegativos = function (e) {
       return false;
    }
 }
-PopupFormato.prototype.mostrar = function (_id, _accion) {
+PopupFormato.prototype.mostrar = function (_pk, _accion) {
 
-   this.$id.modal('show').attr("data-primaryKey", _id)
+   this.$id.modal('show').attr("data-primaryKey", _pk)
    this.$accion = _accion
 
    if (_accion == "nuevo") {
@@ -190,18 +190,18 @@ PopupFormato.prototype.mostrar = function (_id, _accion) {
    else if (_accion == "editar") {
 
       this.$id_popup_titulo.text('Editar Formato')
-      this.set_Data(_id)
+      this.set_Data(_pk)
    }
 }
 PopupFormato.prototype.set_Data = function (_pk) {
-   
+
       $.ajax({
 
          url: url_api_formato + _pk +"/",
          method: "GET",
          context: this,
          success: function (_response) {
-            
+
             this.$id_compania.val(_response.compania_codigo + ":" + _response.compania).trigger("change")
             this.$id_titulo.val(_response.titulo)
             this.$id_no_revision.val(_response.no_revision)
@@ -286,7 +286,7 @@ PopupFormato.prototype.clear_Formulario = function (e) {
    e.data.$id_descripcion.val("")
 }
 PopupFormato.prototype.crear = function (e) {
-   
+
    var texto = e.data.$id_compania.val().split(':')
    var compania_codigo = texto[0]
    var compania = texto[1]
@@ -318,7 +318,7 @@ PopupFormato.prototype.crear = function (e) {
    })
 }
 PopupFormato.prototype.editar = function (e, _pk) {
-   
+
    var texto = e.data.$id_compania.val().split(':')
    var compania_codigo = texto[0]
    var compania = texto[1]
@@ -329,7 +329,7 @@ PopupFormato.prototype.editar = function (e, _pk) {
       method: "PUT",
       headers: { "X-CSRFToken": appnova.galletita },
       data: {
-         
+
          "compania_codigo": compania_codigo,
          "compania" : compania,
          "titulo": e.data.$id_titulo.val(),

@@ -5,13 +5,12 @@ from django.contrib.contenttypes.admin import GenericTabularInline
 from .models import PerfilPuestoDocumento
 from .models import Curso
 from .models import TipoDocumento
-from .models import Archivo
+from home.models import Archivo
 from .models import DocumentoPersonal
 from .models import DocumentoCapacitacion
 from .models import PerfilPuestosCargo
 from .models import PerfilCompetencias
 from .models import PerfilExperencia
-
 
 
 @admin.register(PerfilPuestoDocumento)

@@ -504,6 +504,7 @@ class VIEW_RECEPCIONES_Serializer(serializers.ModelSerializer):
             'fecha_tran',
         )
 
+
 class VIEW_PROVEEDORES_Serializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:

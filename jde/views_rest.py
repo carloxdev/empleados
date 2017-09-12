@@ -186,8 +186,8 @@ class VIEW_RECEPSINCOTEJO_API(viewsets.ModelViewSet):
     filter_class = VIEW_RECEPSINCOTEJO_Filter
     permission_classes = (IsAuthenticated,)
 
-# ----------------- VIEW_USUARIOS ----------------- #
 
+# ----------------- VIEW_USUARIOS ----------------- #
 
 class VIEW_USUARIOS_API(viewsets.ModelViewSet):
     queryset = VIEW_USUARIOS.objects.using('jde_p').all()

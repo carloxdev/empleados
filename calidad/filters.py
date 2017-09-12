@@ -13,6 +13,7 @@ from .models import Rol
 from .models import RequisitoProceso
 from .models import HallazgoProceso
 from .models import Subproceso
+from .models import AnalisisHallazgo
 
 class RequisitoFilter(filters.FilterSet):
 
@@ -179,4 +180,23 @@ class SubprocesoFilter(filters.FilterSet):
         fields = [
             'subproceso',
             'proceso_id',
+        ]
+
+class AnalisisHallazgoFilter(filters.FilterSet):
+
+    titulo = CharFilter(
+        name="titulo",
+        lookup_expr="icontains"
+    )
+
+    hallazgo_id = NumberFilter(
+        name="hallazgo_id",
+        lookup_expr="exact"
+    )
+
+    class Meta:
+        model = AnalisisHallazgo
+        fields = [
+            'titulo',
+            'hallazgo_id'
         ]

@@ -14,7 +14,7 @@ var popup_metodologia = null
 \*-----------------------------------------------*/
 
 $(document).ready(function () {
-   
+
    tarjeta_resultados = new TarjetaResultados()
 })
 
@@ -23,7 +23,7 @@ $(document).ready(function () {
 \*-----------------------------------------------*/
 
 function TarjetaResultados(){
-   
+
    this.toolbar = new ToolBar()
    this.grid = new Grid()
 }
@@ -33,13 +33,13 @@ function TarjetaResultados(){
 \*-----------------------------------------------*/
 
 function ToolBar() {
-   
+
    popup_metodologia = new PopupMetodologia()
    this.$id_boton_nuevo = $('#id_boton_nuevo')
    this.init_Events()
 }
 ToolBar.prototype.init_Events = function () {
-   
+
    this.$id_boton_nuevo.on("click", this, this.click_BotonNuevo)
 }
 ToolBar.prototype.click_BotonNuevo = function (e) {
@@ -52,7 +52,7 @@ ToolBar.prototype.click_BotonNuevo = function (e) {
 \*-----------------------------------------------*/
 
 function PopupMetodologia() {
-   
+
    this.$id = $('#id_tarjeta_metodologia')
    this.$id_boton_guardar = $('#id_boton_guardar_metodologia')
    this.$id_metodologia = $('#id_metodologia')
@@ -118,7 +118,7 @@ PopupMetodologia.prototype.click_BotonGuardar = function (e) {
 PopupMetodologia.prototype.crear = function (e) {
 
    if (e.data.validar()) {
-         
+
       $.ajax({
          url: url_metodologia_bypage,
          method: "POST",
@@ -165,7 +165,7 @@ Grid.prototype.get_DataSourceConfig = function (e) {
       pageSize: 10,
       transport: {
          read: {
- 
+
             url: url_metodologia_bypage,
             type: "GET",
             dataType: "json",
@@ -175,10 +175,10 @@ Grid.prototype.get_DataSourceConfig = function (e) {
       change: function (e) {
 
          if (e.action == "itemchange" ) {
-            
+
             var pk = e.items[0].pk
             var metodologia = e.items[0].metodologia
-            
+
             if ( !(appnova.validar_EspaciosSaltos(metodologia) == "") ) {
                tarjeta_resultados.grid.update_Metodologia(pk, metodologia)
             }
@@ -197,12 +197,12 @@ Grid.prototype.get_DataSourceConfig = function (e) {
       error: function (e) {
          alertify.error("Status: " + e.status + "; Error message: " + e.errorThrown)
       },
-   }    
+   }
 }
 Grid.prototype.update_Metodologia = function (_pk, _metodologia) {
 
    data = {
-      'metodologia': _metodologia 
+      'metodologia': _metodologia
    }
 
    $.ajax({
@@ -234,7 +234,7 @@ Grid.prototype.get_Campos = function () {
 Grid.prototype.get_Configuracion = function () {
 
    return {
-      
+
       dataSource: this.kfuente_datos,
       columnMenu: true,
       groupable: false,
@@ -250,13 +250,13 @@ Grid.prototype.get_Configuracion = function () {
       noRecords: {
          template: "<div class='nova-grid-empy'> No se encontrarón registros </div>"
       },
-      
+
    }
 }
 Grid.prototype.onDataBound = function (e) {
 
    e.sender.tbody.find("[data-event='eliminar']").each(function(idx, element){
-        
+
       $(this).on("click", function(){
 
          tarjeta_resultados.grid.click_BotonEliminar(this.id)
@@ -279,7 +279,7 @@ Grid.prototype.click_BotonEliminar = function (_id) {
    tarjeta_resultados.grid.eliminar(url)
 }
 Grid.prototype.eliminar = function (_url) {
-   
+
    alertify.confirm(
       'Eliminar Registro',
       '¿Desea Eliminar este registro?.',
@@ -294,19 +294,19 @@ Grid.prototype.eliminar = function (_url) {
             success: function () {
 
                alertify.success("Se eliminó registro correctamente")
-                    
+
                tarjeta_resultados.grid.buscar()
             },
             error: function () {
-            
+
             alertify.error("Ocurrió un error al eliminar")
             }
          })
-      }, 
+      },
       null
-   )    
+   )
 }
 Grid.prototype.buscar = function() {
-   
+
    this.kfuente_datos.page(1)
 }

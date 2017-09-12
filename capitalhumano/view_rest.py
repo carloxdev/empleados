@@ -9,37 +9,36 @@ from django_filters.rest_framework import DjangoFilterBackend
 # Librerias Propias
 
 # Modelos:
-from .models import PerfilPuestoDocumento
 from .models import TipoDocumento
 from .models import DocumentoPersonal
 from .models import DocumentoCapacitacion
-from .models import Archivo
+from .models import PerfilPuestoDocumento
 from .models import PerfilPuestosCargo
 from .models import PerfilCompetencias
 
 # Serializadores:
-from .serializers import PerfilPuestoDocumentoSerializer
-from .serializers import DocumentoPersonalSerializers
-from .serializers import ArchivoSerializers
-from .serializers import DocumentoCapacitacionSerializers
-from .serializers import PerfilPuestosCargoSerializer
-from .serializers import PerfilCompetenciaSerializer
 from .serializers import PersonalSerializer
 from .serializers import CapacitacionSerializer
 from .serializers import TipoDocumentoSerializer
+from .serializers import DocumentoPersonalSerializers
+from .serializers import DocumentoCapacitacionSerializers
+from .serializers import PerfilPuestoDocumentoSerializer
+from .serializers import PerfilPuestosCargoSerializer
+from .serializers import PerfilCompetenciaSerializer
 
 # Paginadores:
 from .pagination import GenericPagination
 
 # Filtros:
-from .filters import PerfilPuestoDocumentoFilter
-from .filters import ArchivoFilter
 from .filters import DocumentoPersonalFilter
 from .filters import DocumentoCapacitacionFilter
+from .filters import TipoDocumentoFilter
+from .filters import PerfilPuestoDocumentoFilter
 from .filters import PerfilpuestosCargoFilter
 from .filters import PerfilCompetenciaFilter
-from .filters import TipoDocumentoFilter
 
+
+# -------------- DOCUMENTOS CAPITAL HUMANO -------------- #
 
 class TipoDocumentoAPI(viewsets.ModelViewSet):
     queryset = TipoDocumento.objects.all().order_by('-created_date')
@@ -94,14 +93,6 @@ class DocumentoPersonalAPI(viewsets.ModelViewSet):
 class DocumentoCapacitacionAPI(viewsets.ModelViewSet):
     queryset = DocumentoCapacitacion.objects.all()
     serializer_class = DocumentoCapacitacionSerializers
-    permission_classes = (IsAuthenticated,)
-
-
-class ArchivoAPI(viewsets.ModelViewSet):
-    queryset = Archivo.objects.all()
-    serializer_class = ArchivoSerializers
-    filter_backends = (DjangoFilterBackend,)
-    filter_class = ArchivoFilter
     permission_classes = (IsAuthenticated,)
 
 # -------------- DOCUMENTO PERFIL PUESTOS - API REST -------------- #
