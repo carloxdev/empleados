@@ -1,5 +1,6 @@
 {% extends 'master.html' %}
 {% load static from staticfiles %}
+{% load custom_tags %}
 {% block titulo %} Usuarios {% endblock titulo %}
 {% block title-page %} Nuevo usuario {% endblock title-page %}
 {% block css %}
@@ -16,230 +17,80 @@
 
 <div class="be-content">
 	{% if request.user.is_staff == True %}
-		<div class="page-head">
-			<h2 class="page-head-title">Nuevo usuario</h2>
-			<ol class="breadcrumb page-head-nav">
+		<div class="page-head nova-page-head">
+			<h2 class="page-head-title nova-title">Nuevo usuario</h2>
+			<ol class="breadcrumb page-head-nav pull-right">
 				<li><a href="{% url 'home:inicio' %}">Inicio</a></li>
 				<li><a href="{% url 'seguridad:usuario_lista' %}">Usuarios</a></li>
 				<li>Nuevo usuario</li>
 			</ol>
 		</div>
-		<div class="col-md-12">
-			<div class="main-content container-fluid">
-				<div class="col-md-12">
-					<div class="panel panel-default panel-table">
-						<div class="panel-heading panel-border nova-panel-heading">
-							<div class="title hidden-xs"> Nuevo usuario</div>
-						</div><!-- End Panel heading -->
-							<div class="panel panel-default panel-table">
-								<form action="" method="POST" enctype="multipart/form-data"> {% csrf_token %}
-									<div class="col-sm-12">
-										<h4><b>Información de usuario</b></h4>
-										<!-- Clave_rh-->
-										<div class="col-sm-7">
-											<div class="form-group {% if form.clave_rh.field.required %} has-warning {% endif %} {% if form.clave_rh.errors %} has-error {% endif %}">
-												<label class="control-label">
-													<i class="fa {% if form.clave_rh.field.required %} fa-asterisk {% endif %} {% if form.clave_rh.errors %} fa-asterisk {% endif %}"></i> 
-													{{form.clave_rh.label}}
-												</label>
-												<p>{{ form.clave_rh }}</p>
-												{% for error in form.clave_rh.errors %}
-													<span class="help-block">{{ error }}</span>
-												{% endfor %}
-											</div>
-										</div>
-										<!-- First_name-->
-										<div class="col-sm-6">
-											<div class="form-group {% if form.first_name.field.required %} has-warning {% endif %} {% if form.first_name.errors %} has-error {% endif %}">
-												<label class="control-label">
-													<i class="fa {% if form.first_name.field.required %} fa-asterisk {% endif %} {% if form.first_name.errors %} fa-asterisk {% endif %}"></i> 
-													{{form.first_name.label}}
-												</label>
-												<p>{{ form.first_name }}</p>
-												{% for error in form.first_name.errors %}
-													<span class="help-block">{{ error }}</span>
-												{% endfor %}
-											</div>
-										</div>
-										<!-- Last_name-->
-										<div class="col-sm-6">
-											<div class="form-group {% if form.last_name.field.required %} has-warning {% endif %} {% if form.last_name.errors %} has-error {% endif %}">
-												<label class="control-label">
-													<i class="fa {% if form.last_name.field.required %} fa-asterisk {% endif %} {% if form.last_name.errors %} fa-asterisk {% endif %}"></i> 
-													{{form.last_name.label}}
-												</label>
-												<p>{{ form.last_name }}</p>
-												{% for error in form.last_name.errors %}
-													<span class="help-block">{{ error }}</span>
-												{% endfor %}
-											</div>
-										</div>
-										<!-- Fecha_nacimiento-->
-										<div class="col-sm-6">
-											<div class="form-group {% if form.fecha_nacimiento.field.required %} has-warning {% endif %} {% if form.fecha_nacimiento.errors %} has-error {% endif %}">
-												<label class="control-label">
-													<i class="fa {% if form.fecha_nacimiento.field.required %} fa-asterisk {% endif %} {% if form.fecha_nacimiento.errors %} fa-asterisk {% endif %}"></i> 
-													{{ form.fecha_nacimiento.label}}
-												</label>
-												<p>{{ form.fecha_nacimiento}}</p>
-												{% for error in form.fecha_nacimiento.errors %}
-													<span class="help-block">{{ error }}</span>
-												{% endfor %}
-											</div>
-										</div>
-										<!-- Email-->
-										<div class="col-sm-6">
-											<div class="form-group {% if form.email.field.required %} has-warning {% endif %} {% if form.email.errors %} has-error {% endif %}">
-												<label class="control-label">
-													<i class="fa {% if form.email.field.required %} fa-asterisk {% endif %} {% if form.email.errors %} fa-asterisk {% endif %}"></i> 
-													{{form.email.label}}
-												</label>
-												<p>{{ form.email }}</p>
-												{% for error in form.email.errors %}
-													<span class="help-block">{{ error }}</span>
-												{% endfor %}
-											</div>
-										</div>
-										<!-- Clave_jde -->
-										<div class="hidden">
-											<p>{{ form.clave_jde }}</p>
-										</div>
-										<!-- Foto-->
-										<div class="col-sm-3">
-											<div class="form-group {% if form.foto.field.required %} has-warning {% endif %} {% if form.foto.errors %} has-error {% endif %}">
-												<label class="control-label">
-													<i class="fa {% if form.foto.field.required %} fa-asterisk {% endif %} {% if form.foto.errors %} fa-asterisk {% endif %}"></i> 
-													{{form.foto.label }}
-												</label>
-												<p>{{ form.foto }}</p>
-												{% for error in form.foto.errors %}
-													<span class="help-block">{{ error }}</span>
-												{% endfor %}
-											</div>
-										</div>
-									</div>
-									<div class="col-sm-12">
-										<br>
-										<h4><b>Información de cuenta</b></h4>
-										<br>
+		<div class="main-content container-fluid nova-main-content">
+	        <div class="row">
+	            <div class="col-md-12">
+	                <form class="panel panel-border panel-contrast" action="" method="POST"> {% csrf_token %}
+	                    <div class="panel-heading panel-heading-default nova-border-bottom">
+	                        Nuevo usuario
+	                    </div>
+	                    <div class="panel-body form-horizontal">
+							
+	                        {% if form.non_field_errors %}
 
-										<!-- Username-->
-										<div class="col-sm-3">
-											<div class="form-group {% if form.username.field.required %} has-warning {% endif %} {% if form.username.errors %} has-error {% endif %}">
-												<label class="control-label">
-													<i class="fa {% if form.username.field.required %} fa-asterisk {% endif %} {% if form.username.errors %} fa-asterisk {% endif %}"></i> 
-													{{ form.username.label }}
-												</label>
-												<p>{{ form.username}}</p>
-												{% for error in form.username.errors %}
-													<span class="help-block">{{ error }}</span>
-												{% endfor %}
-											</div>
-										</div>
-										
-										<!-- Password-->
-										<div class="col-sm-3">
-											<div class="form-group {% if form.password1.field.required %} has-warning {% endif %} {% if form.password1.errors %} has-error {% endif %}">
-												<label class="control-label">
-													<i class="fa {% if form.password1.field.required %} fa-asterisk {% endif %} {% if form.password1.errors %} fa-asterisk {% endif %}"></i> 
-													{{form.password1.label}}
-												</label>
-												<p>{{ form.password1 }}</p>
-												{% for error in form.password1.errors %}
-													<span class="help-block">{{ error }}</span>
-												{% endfor %}
-											</div>
-										</div>
+	                            {% for error in form.non_field_errors %}
+	                                {% tag_mensaje 'error' error %}
+	                            {% endfor %}
 
-										<!-- Confirmar Password-->
-										<div class="col-sm-3">
-											<div class="form-group {% if form.password2.field.required %} has-warning {% endif %} {% if form.password2.errors %} has-error {% endif %}">
-												<label class="control-label">
-													<i class="fa {% if form.password2.field.required %} fa-asterisk {% endif %} {% if form.password2.errors %} fa-asterisk {% endif %}"></i> 
-													{{form.password2.label}}
-												</label>
-												<p> {{form.password2}} </p>
-												{% for error in form.password2.errors %}
-													<span class="help-block">{{ error }}</span>
-												{% endfor %}
-											</div>
-										</div>
+	                        {% endif %}
+							
+							<div class="col-sm-9">
+	                        <!-- Clave_rh -->
+	                        {% tag_field_registro form.clave_rh 3 7 %}
 
-										<!-- Is_active-->
-										<div class="col-sm-4">
-										<div class="form-group {% if form.is_active.errors %} has-error {% endif %}">
-											<div class="checkbox">
-												<label>
-													{{ form.is_active }}
-													<span class="etiqueta-checkbox">
-														{{ form.is_active.label }}
-													</span>
-												</label>
-											</div>
-											{% for error in form.is_active.errors %}
-												<span class="help-block">{{ error }}</span>
-											{% endfor %}
-										</div>
+	                        <!-- Primer nombre -->
+	                        {% tag_field_registro form.first_name 3 7 %}
 
-										<!-- Is_staff-->
-										<div class="form-group {% if form.is_staff.errors %} has-error {% endif %}">
-											<div class="checkbox">
-												<label>
-													{{ form.is_staff }}
-													<span class="etiqueta-checkbox">
-														{{ form.is_staff.label }}
-													</span>
-												</label>
-											</div>
-											{% for error in form.is_staff.errors %}
-												<span class="help-block">{{ error }}</span>
-											{% endfor %}
-										</div>
+	                        <!-- Apellidos -->
+	                        {% tag_field_registro form.last_name 3 7 %}
 
-										<!-- Is_superuser-->
-										<div class="form-group {% if form.is_superuser.errors %} has-error {% endif %}">
-											<div class="checkbox">
-												<label>
-													{{ form.is_superuser }}
-													<span class="etiqueta-checkbox">
-														{{ form.is_superuser.label }}
-													</span>
-												</label>
-											</div>
-											{% for error in form.is_superuser.errors %}
-												<span class="help-block">{{ error }}</span>
-											{% endfor %}
-										</div>
-										</div>
-									</div>
-									<br>
-									
-									<!-- Botones de acción -->
-									<a class="button" href="{% url 'seguridad:usuario_lista' %}"> Regresar </a>
-									<button type="submit" class="btn btn-primary" id="id_boton_guardar" >Guardar usuario</button>
-								</form>
-							</div><!-- End Panel default -->
-							<!-- Mensajes de errores -->
-							<p>
-								{% if form.errors %}
-								    {% for field in form %}
-								        {% for error in field.errors %}
-								            <div class="alert alert-danger">
-								                <strong>{{ error|escape }}</strong>
-								            </div>
-								        {% endfor %}
-								    {% endfor %}
-								    {% for error in form.non_field_errors %}
-								        <div class="alert alert-danger">
-								            <strong>{{ error|escape }}</strong>
-								        </div>
-								    {% endfor %}
-								{% endif %}         				
-			          		</p>
-					</div><!-- End Panel default -->
-				</div><!-- End col-md-12 -->
-			</div><!-- End Main content -->
-		</div><!-- End col-md-12 -->
+	                         <!-- Fecha nacimiento -->
+	                        {% tag_field_registro form.fecha_nacimiento 3 7 %}
+
+	                         <!-- Email -->
+	                        {% tag_field_registro form.email 3 7 %}
+	                        
+	                        <!-- Nombre usuario -->
+	                        {% tag_field_registro form.username 3 7 %}
+
+	                        <!-- Password -->
+	                        {% tag_field_registro form.password1 3 7 %}
+
+	                        <!-- Confirmar Password -->
+	                        {% tag_field_registro form.password2 3 7 %}
+
+	                        <!-- Ocultos -->
+	                        <div class="hide">
+	                            {{ form.clave_jde }}
+	                        </div>
+							</div>
+	                        <div class="col-sm-3">
+	                           {% tag_image_registro form.foto %}
+	                        </div>
+
+	                    </div>
+	                    <div class="modal-footer nova-modal-footer">
+	                        <a href=" {% url 'seguridad:usuario_lista' %}" class="btn btn-default">
+	                            <i class="icon mdi mdi-close"></i>
+	                            Cancelar
+	                        </a>
+	                         <button type="submit" id="btn_registrar" class="btn nova-btn btn-primary btn-lg pull-right">
+	                            Guardar
+	                        </button>
+	                    </div>
+	                </form>
+	            </div>
+	        </div>
+	    </div>
+
 	{% else%}
 		<div class="col-md-12">
 			<h2> Usted no tiene acceso a esta sección </h2>
