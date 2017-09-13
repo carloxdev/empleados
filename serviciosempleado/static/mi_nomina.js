@@ -131,9 +131,10 @@ Grid.prototype.get_Campos = function () {
     return {
         folio: { type: "string" },
         archivo_pdf : { type: "string" },
+        archivo_xml : { type: "string" },
         fecha : { type: "date"},
-        emisor_nombre: { type: "string"},
-        numDiasPagados: { type: "string"},
+        receptor_rfc: { type: "string" },
+        receptor_nombre: { type: "string"},
     }
 }
 Grid.prototype.get_Configuracion = function () {
@@ -158,14 +159,17 @@ Grid.prototype.get_Configuracion = function () {
 Grid.prototype.get_Columnas = function () {
 
     return [
-        {   title: " ",
-            width:"20px" ,
-            template: '<a class="btn btn-default nova-url" href="#=archivo_pdf#" target="_blank"><i class="icon icon-left icon mdi mdi-archive icon-black"></i></a>'
+        {   title: "PDF",
+            width:"30px" ,
+            template: '<a class="btn btn-default nova-url" href="#=archivo_pdf#" download><i class="icon icon-left icon mdi mdi-archive icon-black"></i></a>'
         },
-        { field: "folio", title: "Folio", width:"50px"},
+        {   title: "XML",
+            width:"30px" ,
+            template: '<a class="btn btn-default nova-url" href="#=archivo_xml#" download="NominaXML/#=fecha#"><i class="icon icon-left icon mdi mdi-archive icon-black"></i></a>'
+        },
         { field: "fecha", title: "Fecha de pago", width:"70px", format: "{0:dd/MM/yyyy}" },
-        { field: "numDiasPagados", title: "Dias pagados", width:"50px"},
-        { field: "emisor_nombre", title: "Emisor", width:"150px"},
+        { field: "receptor_rfc", title: "RFC", width:"100px"},
+        { field: "receptor_nombre", title: "Receptor", width:"150px"},
 
     ]
 }
