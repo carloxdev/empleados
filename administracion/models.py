@@ -8,6 +8,7 @@ from django.db import models
 # Otros Modelos:
 from seguridad.models import Profile
 from capitalhumano.models import Archivo
+from ebs.models import VIEW_EMPLEADOS_FULL
 
 
 class Zona(models.Model):
@@ -199,6 +200,16 @@ class Solicitud(models.Model):
         null=True,
         blank=True
     )
+
+    def _get_oficina(self):
+        try:
+            empleado = VIEW_EMPLEADOS_FULL.objects.using('ebs_p').filter(
+                pers_empleado_numero=self.numero_empleado)
+            for dato in empleado:
+                return dato.asig_ubicacion_clave
+        except Exception:
+            return 0.0
+    oficina = property(_get_oficina)
 
     def __str__(self):
         value = "%s - %s" % (self.numero_empleado, self.id)

@@ -41,7 +41,6 @@ from serializers import VIEW_ORGANIGRAMA_EMP_SERIALIZADO
 # Modelos
 from ebs.models import VIEW_ORGANIGRAMA
 from ebs.models import VIEW_EMPLEADOS_FULL
-from ebs.models import VIEW_COMPETENCIAS
 
 
 # -------------- EMPLEADOS -------------- #
@@ -298,11 +297,21 @@ class Solicitudes(View):
 
         form = SolicitudesFilterForm()
         form2 = SolicitudesEditarForm()
+        clave = request.user.profile.clave_rh
 
-        contexto = {
-            'form': form,
-            'form2': form2,
-        }
+        if clave is not None:
+            oficina = VIEW_EMPLEADOS_FULL.objects.using('ebs_p').get(pers_empleado_numero= request.user.profile.clave_rh)
+
+            contexto = {
+                'form': form,
+                'form2': form2,
+                'oficina': oficina.asig_ubicacion_clave,
+            }
+        else:
+            contexto = {
+                'form': form,
+                'form2': form2,
+            }
 
         return render(request, self.template_name, contexto)
 

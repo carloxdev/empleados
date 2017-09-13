@@ -68,6 +68,7 @@ class ArchivoSolicitudSerializer(serializers.HyperlinkedModelSerializer):
             'descripcion',
             'observaciones',
             'archivo',
+            'oficina',
             'created_by',
             'created_date',
             'updated_by',

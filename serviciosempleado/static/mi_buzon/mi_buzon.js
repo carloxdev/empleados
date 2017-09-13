@@ -491,8 +491,8 @@ Grid.prototype.get_Columnas = function () {
         { field: "descripcion", title: "Descripcion", width:"250px"},
         { field: "observaciones", title: "Observaciones", width:"250px"},
         { field: "created_date", title: "Fecha de creación", width:"150px", format: "{0:dd/MM/yyyy}" },
-        { field: "updated_by", title: "Actualizado por", width:"150px" },
-        { field: "updated_date", title: "Fecha de actualización", width:"150px", format: "{0:dd/MM/yyyy}" },
+        { field: "updated_by", title: "Actualizado por", width:"200px" },
+        { field: "updated_date", title: "Fecha de actualización", width:"160px", format: "{0:dd/MM/yyyy}" },
 
     ]
 }

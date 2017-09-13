@@ -55,6 +55,7 @@ function PopupFiltros(){
 
     this.$modal = $('#modal_filtro')
     this.$numero_empleado = $('#id_numero_empleado')
+    this.$oficina = $('#id_oficina')
     this.$asunto = $('#id_asunto')
     this.$status = $('#id_status')
     this.$folio = $('#id_folio')
@@ -91,6 +92,7 @@ PopupFiltros.prototype.get_Values = function (_page) {
                 numero_empleado: this.$numero_empleado.val(),
                 asunto: this.$asunto.val(),
                 status: this.$status.val(),
+                numero_empleado_oficina:  this.$oficina.val(),
      }
 }
 PopupFiltros.prototype.get_Values_Excel = function () {
@@ -100,6 +102,7 @@ PopupFiltros.prototype.get_Values_Excel = function () {
                 numero_empleado: this.$numero_empleado.val(),
                 asunto: this.$asunto.val(),
                 status: this.$status.val(),
+                numero_empleado_oficina:  this.$oficina.val(),
      }
 }
 PopupFiltros.prototype.click_BotonLimpiar = function (e) {
@@ -606,9 +609,9 @@ Grid.prototype.get_Columnas = function () {
             { field: "status", title: "Estatus",width:"100px"},
             { field: "descripcion",title: "Descripción",width:"200px"},
             { field: "observaciones",title: "Observaciones",width:"200px"},
-            { field: "created_by", title: "Creado por", width:"150px" },
+            { field: "created_by", title: "Creado por", width:"200px" },
             { field: "created_date", title: "Fecha de creación", width:"150px", format: "{0:dd/MM/yyyy}" },
-            { field: "updated_by", title: "Actualizado por", width:"150px" },
+            { field: "updated_by", title: "Actualizado por", width:"200px" },
             { field: "updated_date", title: "Fecha de actualización", width:"150px", format: "{0:dd/MM/yyyy}" },
         ]
 }
