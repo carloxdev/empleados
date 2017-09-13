@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 # Librerias Python:
 import json
-from django.conf import settings
 
 # Librerias Django
 from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator
+from rest_framework.validators import UniqueValidator
 
 # Modelos
 from .models import Criterio
@@ -26,7 +26,6 @@ from .models import AnalisisHallazgo
 
 # Otros Modelos
 from home.models import Archivo
-
 
 
 class CriterioSerializer(serializers.HyperlinkedModelSerializer):
@@ -69,7 +68,6 @@ class RequisitoSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class RequisitoSerilizado(object):
-
     def __init__(self):
         self.lista = []
 
@@ -149,9 +147,7 @@ class SubprocesoSerializer(serializers.HyperlinkedModelSerializer):
         except:
             return ""
 
-
 class SubprocesoSerilizado(object):
-
     def __init__(self):
         self.lista = []
 
@@ -425,18 +421,25 @@ class HallazgoProcesoSerializer(serializers.HyperlinkedModelSerializer):
             return ""
 
 
-# class Archivo(serializers.RelatedField):
-#     def to_representation(self, value):
-#         archivo =  settings.MEDIA_URL + str(value.archivo)
-#         return archivo
+class Archivo(serializers.ModelSerializer):
+    pk = serializers.HyperlinkedRelatedField(
+        read_only=True,
+        view_name='archivo-detail'
+    )
+    class Meta:
+        model = Archivo
+        fields = (
+            'pk',
+            'archivo'
+        )
 
 
 class AnalisisHallazgoSerializer(serializers.HyperlinkedModelSerializer):
 
     hallazgo_id = serializers.SerializerMethodField()
     metodologia_nombre = serializers.SerializerMethodField()
-    # relacion_archivo = Archivo(many=True, read_only=True)
-    relacion_archivo = serializers.SerializerMethodField()
+    metodologia_id = serializers.SerializerMethodField()
+    relacion_archivo = Archivo(many=True, read_only=True)
 
     class Meta:
         model = AnalisisHallazgo
@@ -445,6 +448,7 @@ class AnalisisHallazgoSerializer(serializers.HyperlinkedModelSerializer):
             'titulo',
             'metodologia',
             'metodologia_nombre',
+            'metodologia_id',
             'causa',
             'hallazgo',
             'hallazgo_id',
@@ -467,16 +471,8 @@ class AnalisisHallazgoSerializer(serializers.HyperlinkedModelSerializer):
         except:
             return ""
 
-    def get_relacion_archivo(self, obj):
-
-        lista_archivos = []
-        request = self.context.get('request', None)
-        
+    def get_metodologia_id(self, obj):
         try:
-            for archivo in obj.relacion_archivo.all():
-                lista_archivos.append(
-                    request.scheme + '://' + request.get_host() + settings.MEDIA_URL + str(archivo.archivo),
-                )
-            return lista_archivos
+            return obj.metodologia.id
         except:
             return ""
