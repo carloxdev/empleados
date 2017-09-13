@@ -5,9 +5,10 @@ from .view_rest import PersonalAPI
 from .view_rest import PersonalByPageAPI
 from .view_rest import CapacitacionAPI
 from .view_rest import CapacitacionByPageAPI
-from capitalhumano.view_rest import DocumentoPersonalAPI
-from capitalhumano.view_rest import DocumentoCapacitacionAPI
-from capitalhumano.view_rest import ArchivoAPI
+from .view_rest import TipoDocumentoAPI
+from .view_rest import DocumentoPersonalAPI
+from .view_rest import DocumentoCapacitacionAPI
+
 from capitalhumano.view_rest import PerfilPuestosCargoAPI
 from capitalhumano.view_rest import PerfilPuestosCargoByPageAPI
 from capitalhumano.view_rest import PerfilPuestosDocumentoAPI
@@ -19,6 +20,11 @@ from capitalhumano.view_rest import PerfilCompetenciasByPageAPI
 router_capitalhumano = routers.DefaultRouter()
 
 # --------------------DOCUMENTOS--------------------
+router_capitalhumano.register(
+    r'tipo_documento',
+    TipoDocumentoAPI,
+    'tipo_documento'
+)
 router_capitalhumano.register(
     r'personal',
     PersonalAPI,
@@ -48,11 +54,6 @@ router_capitalhumano.register(
     r'documentocapacitacion',
     DocumentoCapacitacionAPI,
     'documentocapacitacion'
-)
-router_capitalhumano.register(
-    r'archivo',
-    ArchivoAPI,
-    'archivo'
 )
 # --------------------PERFILES--------------------
 router_capitalhumano.register(

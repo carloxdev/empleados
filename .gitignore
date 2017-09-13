@@ -40,3 +40,5 @@ seguridadlaboral/migrations/*
 serviciosempleado/migrations/*
 sgi/migrations/*
 rsc/migrations/*
+
+capitalhumano/utilities.py

@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 # Librerias Python:
 import json
+from django.conf import settings
 
 # Librerias Django
 from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator
-from rest_framework.validators import UniqueValidator
 
 # Modelos
 from .models import Criterio
@@ -22,6 +22,12 @@ from .models import Formato
 from .models import ProcesoAuditoria
 from .models import RequisitoProceso
 from .models import HallazgoProceso
+from .models import AnalisisHallazgo
+
+# Otros Modelos
+from home.models import Archivo
+
+
 
 class CriterioSerializer(serializers.HyperlinkedModelSerializer):
 
@@ -63,6 +69,7 @@ class RequisitoSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class RequisitoSerilizado(object):
+
     def __init__(self):
         self.lista = []
 
@@ -142,7 +149,9 @@ class SubprocesoSerializer(serializers.HyperlinkedModelSerializer):
         except:
             return ""
 
+
 class SubprocesoSerilizado(object):
+
     def __init__(self):
         self.lista = []
 
@@ -412,5 +421,62 @@ class HallazgoProcesoSerializer(serializers.HyperlinkedModelSerializer):
     def get_proceso_sitio(self, obj):
         try:
             return obj.proceso.sitio
+        except:
+            return ""
+
+
+# class Archivo(serializers.RelatedField):
+#     def to_representation(self, value):
+#         archivo =  settings.MEDIA_URL + str(value.archivo)
+#         return archivo
+
+
+class AnalisisHallazgoSerializer(serializers.HyperlinkedModelSerializer):
+
+    hallazgo_id = serializers.SerializerMethodField()
+    metodologia_nombre = serializers.SerializerMethodField()
+    # relacion_archivo = Archivo(many=True, read_only=True)
+    relacion_archivo = serializers.SerializerMethodField()
+
+    class Meta:
+        model = AnalisisHallazgo
+        fields = (
+            'pk',
+            'titulo',
+            'metodologia',
+            'metodologia_nombre',
+            'causa',
+            'hallazgo',
+            'hallazgo_id',
+            'relacion_archivo',
+            'create_by',
+            'create_date',
+            'update_by',
+            'update_date'
+        )
+
+    def get_hallazgo_id(self, obj):
+        try:
+            return obj.hallazgo.id
+        except:
+            return ""
+
+    def get_metodologia_nombre(self, obj):
+        try:
+            return obj.metodologia.metodologia
+        except:
+            return ""
+
+    def get_relacion_archivo(self, obj):
+
+        lista_archivos = []
+        request = self.context.get('request', None)
+        
+        try:
+            for archivo in obj.relacion_archivo.all():
+                lista_archivos.append(
+                    request.scheme + '://' + request.get_host() + settings.MEDIA_URL + str(archivo.archivo),
+                )
+            return lista_archivos
         except:
             return ""

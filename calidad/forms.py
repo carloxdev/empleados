@@ -796,7 +796,7 @@ class HallazgoProcesoDetalleForm(Form):
 class AnalisisHallazgoForm(Form):
 
     titulo = CharField(
-        widget=TextInput(attrs={'class': 'form-control input-xs', 'maxlength': '40'}),
+        widget=TextInput(attrs={'class': 'form-control input-xs', 'maxlength': '40', 'id': 'id_titulo_analisis'}),
     )
 
     metodologia = ChoiceField(
@@ -808,9 +808,9 @@ class AnalisisHallazgoForm(Form):
         widget=Textarea(attrs={'class': 'form-control input-xs', 'rows': '4', 'maxlength': '400'}),
     )
 
-    imagen = ImageField(
+    archivo = ImageField(
         label='Recursos Necesarios',
-        widget=FileInput(attrs={'class': 'inputfile', 'name': 'file-2', 'data-multiple-caption': '{count} Archivos seleccionados', 'multiple': '', 'id': 'id_imagen_analisis'}),
+        widget=FileInput(attrs={'class': 'inputfile', 'data-multiple-caption': '{count} Archivos seleccionados', 'multiple': '', 'id': 'id_archivo_analisis'}),
     )
 
     def __init__(self, *args, **kwargs):
@@ -888,9 +888,9 @@ class SeguimientoPlanAccionForm(Form):
         widget=TextInput(attrs={'class': 'form-control input-xs', 'name': 'fecha_seguimiento'}),
     )
 
-    imagen = ImageField(
+    archivo = ImageField(
         label='',
-        widget=FileInput(attrs={'class': 'inputfile', 'name': 'file-2', 'data-multiple-caption': '{count} Archivos seleccionados', 'multiple': '', 'id': 'id_imagen_seguimiento_plan' }),
+        widget=FileInput(attrs={'class': 'inputfile', 'name': 'file-2', 'data-multiple-caption': '{count} Archivos seleccionados', 'multiple': '', 'id': 'id_archivo_seguimiento_plan' }),
     )
 
 
@@ -922,9 +922,9 @@ class SeguimeintoPlanAccionEvaluacionForm(Form):
         widget=Textarea(attrs={'class': 'form-control input-xs', 'rows': '4', 'maxlength': '400', 'id': 'id_observaciones_plan_eval'}),
     )
 
-    imagen = ImageField(
+    archivo = ImageField(
         label='Recursos Necesarios',
-        widget=FileInput(attrs={'class': 'inputfile', 'name': 'file-2', 'data-multiple-caption': '{count} Archivos seleccionados', 'multiple': '', 'id': 'id_imagen_plan_eval' }),
+        widget=FileInput(attrs={'class': 'inputfile', 'name': 'file-2', 'data-multiple-caption': '{count} Archivos seleccionados', 'multiple': '', 'id': 'id_archivo_plan_eval' }),
     )
 
 
@@ -938,7 +938,7 @@ class EvidenciaHallazgoForm(Form):
         widget=Textarea(attrs={'class': 'form-control input-xs', 'rows': '4', 'maxlength': '400'}),
     )
 
-    imagen_evidencia = ImageField(
+    archivo = ImageField(
         label='Recursos Necesarios',
-        widget=FileInput(attrs={'class': 'inputfile', 'name': 'file-2', 'data-multiple-caption': '{count} Archivos seleccionados', 'multiple': '' }),
+        widget=FileInput(attrs={'class': 'inputfile', 'name': 'file-2', 'data-multiple-caption': '{count} Archivos seleccionados', 'multiple': '', 'id': 'id_archivo_evidencia' }),
     )

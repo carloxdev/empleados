@@ -41,7 +41,6 @@ from serializers import VIEW_ORGANIGRAMA_EMP_SERIALIZADO
 # Modelos
 from ebs.models import VIEW_ORGANIGRAMA
 from ebs.models import VIEW_EMPLEADOS_FULL
-from ebs.models import VIEW_COMPETENCIAS
 
 
 # -------------- EMPLEADOS -------------- #
@@ -298,11 +297,21 @@ class Solicitudes(View):
 
         form = SolicitudesFilterForm()
         form2 = SolicitudesEditarForm()
+        clave = request.user.profile.clave_rh
 
-        contexto = {
-            'form': form,
-            'form2': form2,
-        }
+        if clave is not None:
+            oficina = VIEW_EMPLEADOS_FULL.objects.using('ebs_p').get(pers_empleado_numero= request.user.profile.clave_rh)
+
+            contexto = {
+                'form': form,
+                'form2': form2,
+                'oficina': oficina.asig_ubicacion_clave,
+            }
+        else:
+            contexto = {
+                'form': form,
+                'form2': form2,
+            }
 
         return render(request, self.template_name, contexto)
 
@@ -457,11 +466,6 @@ class PerfilPuestoNuevo(View):
         return render(request, self.template_name, contexto)
 
 
-class PerfilPuestoNuevo2(View):
-
-    def get(self, request):
-
-        return render(request, 'perfilpuesto/perfil_nuevo2.html')
 
 
 @method_decorator(group_required('CH_ADMIN'), name='dispatch')
@@ -471,30 +475,3 @@ class PerfilPuestoConfiguraciones(View):
 
         return render(request, 'perfilpuesto/perfil_configuracion.html')
 
-
-class PerfilPuestoCompetencias(View):
-
-    def get(self, request):
-
-        return render(request, 'perfilpuesto/perfil_competencias.html')
-
-
-class PerfilPuestoCargos(View):
-
-    def get(self, request):
-
-        return render(request, 'perfilpuesto/perfil_puestoscargo.html')
-
-
-class PerfilOrganigrama(View):
-
-    def get(self, request):
-
-        return render(request, 'perfilpuesto/perfil_organigrama.html')
-
-
-class PerfilOrganigrama2(View):
-
-    def get(self, request):
-
-        return render(request, 'empleado_perfil_organigrama.html')

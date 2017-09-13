@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+# Librerias de Django
 from django.db import models
+from django.contrib.contenttypes.fields import GenericRelation
 
 # Librerias Terceros:
 # from simple_history.models import HistoricalRecords
@@ -10,6 +12,7 @@ from django.db import models
 from administracion.models import Empresa
 from jde.models import VIEW_CONTRATO
 from seguridad.models import Profile
+from home.models import Archivo
 
 
 class Criterio(models.Model):
@@ -484,7 +487,7 @@ class AnalisisHallazgo(models.Model):
     metodologia = models.ForeignKey(Metodologia)
     causa = models.CharField(max_length=400)
     hallazgo = models.ForeignKey(HallazgoProceso)
-    # Campo de imagen muchos a muchos
+    relacion_archivo = GenericRelation(Archivo, related_query_name='relacion_analisis_hallazgo')
     create_by = models.ForeignKey(Profile, related_name='ana_hal_created_by', null=True)
     create_date = models.DateTimeField(
         auto_now=False,
@@ -520,7 +523,7 @@ class PlanAccionHallazgo(models.Model):
     criterio_decision = models.CharField(max_length=120)
     tipo_accion = models.CharField(max_length=12) #CHECAR EL DEFAUL PARA ESTA ACCION PARECE QUE TODAS SERAN CORRECTIVAS
     observacion = models.CharField(max_length=400)
-    # Campo de imagen muchos a muchos
+    relacion_archivo = GenericRelation(Archivo, related_query_name='relacion_plan_accion')
     create_by = models.ForeignKey(Profile, related_name='plan_hal_created_by', null=True)
     create_date = models.DateTimeField(
         auto_now=False,
@@ -547,7 +550,7 @@ class SeguimientoPlanAccion(models.Model):
     resultado_seguimiento = models.CharField(max_length=400)
     fecha_seguimiento = models.DateField()
     plan_accion_hallazgo = models.ForeignKey(PlanAccionHallazgo)
-    # Campo de imagen muchos a muchos
+    relacion_archivo = GenericRelation(Archivo, related_query_name='relacion_seguimiento_plan')
     create_by = models.ForeignKey(Profile, related_name='seg_plan_created_by', null=True) ## Evaluador
     create_date = models.DateTimeField(         ##Fecha_Evaluacion
         auto_now=False,
@@ -574,7 +577,7 @@ class EvidenciaHallazgo(models.Model):
     titulo = models.CharField(max_length=40)
     observacion = models.CharField(max_length=400)
     hallazgo = models.ForeignKey(HallazgoProceso)
-    # Campo de imagen muchos a muchos
+    relacion_archivo = GenericRelation(Archivo, related_query_name='relacion_evidencia')
     create_by = models.ForeignKey(Profile, related_name='evi_hal_created_by', null=True) ## Evaluador
     create_date = models.DateTimeField(         ##Fecha_Evaluacion
         auto_now=False,

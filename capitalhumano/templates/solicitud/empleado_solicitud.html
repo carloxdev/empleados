@@ -48,6 +48,7 @@
 
     <!-- Modal solicitudes-->
     <div id="modal_filtro" role="dialog" class="modal fade colored-header colored-header-primary">
+            <input type="hide" class="hide" value="{{ oficina }}" id="id_oficina">
             <div class="modal-dialog custom-width">
                     <div class="modal-content">
                             <div class="modal-header nova-modal-header">
@@ -84,6 +85,7 @@
             </div> <!-- Modal dialog -->
     </div><!-- Modal -->
     <!-- Modal editar-->
+    
     <div id="modal_editar" role="dialog" class="modal fade colored-header colored-header-primary">
             <div class="modal-dialog custom-width">
                     <div class="modal-content">
@@ -121,8 +123,14 @@
                                     <div class="col-sm-8 xs-pt-5">
                                         {{ form2.observaciones }}
                                     </div>
-                                </div>                
-                              
+                                </div> 
+                                <!-- Archivos de respuesta -->
+                                <div class="form-group">
+                                    <label class="col-sm-3 nova-col-filter control-label">{{ form2.archivo.label }}</label>
+                                    <div class="col-sm-8 xs-pt-5">
+                                        {{ form2.archivo }}
+                                    </div>
+                                </div>              
                             </div>
                                                     
                             <!-- Botones de acción -->
@@ -142,6 +150,7 @@
                     </div> <!-- Modal content-->
             </div> <!-- Modal dialog -->
     </div><!-- Modal -->
+    
 </div>  
 
 <!-- Modal ver archivos-->
@@ -154,17 +163,26 @@
                 <h3 class="modal-title">Archivos adjuntos</h3>
             </div>
 
+            <div class="panel panel-default nova-modal-accordion-panel nova-accordion-border-bottom">
+                <div class="panel-heading">
+                   <h4 class="panel-title">Archivos de solicitud:</h4>
+                </div>
                 <div class="modal-body form-horizontal" id="contenido">
-
-
                 </div>
-                
-                <!-- Botones de acción -->
-                <div class="modal-footer nova-modal-footer">
-                     <div class="row col-sm-12">
-                        <button type="button" class="btn btn-primary pull-right" id="id_boton_salir" >Salir</button>
-                    </div>
+            </div>
+            <div class="panel panel-default nova-modal-accordion-panel">
+                <div class="panel-heading">
+                   <h4 class="panel-title">Archivos de respuesta:</h4>
                 </div>
+                <div class="modal-body form-horizontal" id="contenido_respuesta">
+                </div>
+            </div>
+            <!-- Botones de acción -->
+            <div class="modal-footer nova-modal-footer">
+                 <div class="row col-sm-12">
+                    <button type="button" class="btn btn-primary pull-right" id="id_boton_salir" >Salir</button>
+                </div>
+            </div>
         </div> <!-- Modal content-->
     </div> <!-- Modal dialog -->
 </div><!-- Modal -->

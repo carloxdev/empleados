@@ -115,6 +115,15 @@ class IncidenciaDocumentoNuevo(View):
             #"Mensaje...Probando linea 1 desde django", 
             #'"Notificaciones Nuvoil" <notificaciones@nuvoil.com>',
             #['janet.castro@nuvoil.com'])
+            # tipo_incidencia =''
+  
+            # if incidencia.tipo == 1 :
+            #    tipo_incidencia = 'Registrable'
+            # else:
+            #    tipo_incidencia = 'No Registrable'
+            # return tipo_incidencia
+
+            
 
             subject = 'ALTA DE INCIDENCIA'
             text_content = 'Mensaje...nLinea 2nLinea3'
@@ -143,7 +152,7 @@ class IncidenciaDocumentoNuevo(View):
                                      <tr>  
                                      <td style=background-color: #C0C0C0> <strong>INCIDENCIA</strong></td> 
                                      <td style=background-color: #C0C0C0> <strong>CATEGORIA</strong></td> 
-                                     <td style=background-color: #C0C0C0> <strong>DESCRIPCION</strong></td> 
+                                     <td style=background-color: #C0C0C0> <strong>REGISTRABLE</strong></td> 
                                      <td style=background-color: #C0C0C0> <strong>EMPLEADO</strong></td>  
                                      <td style=background-color: #C0C0C0> <strong>FECHA DE INCIDENCIA</strong></td>  
                                      <td style=background-color: #C0C0C0> 
