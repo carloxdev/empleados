@@ -123,7 +123,6 @@ class UserRegistroForm(UserCreationForm):
         try:
 
             datos = EmpleadoBusiness.get_ByNumero(clave_rh)
-
         except Exception as error:
             raise ValidationError(
                 str(error)

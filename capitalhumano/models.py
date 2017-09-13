@@ -182,7 +182,7 @@ class PerfilPuestoDocumento(models.Model):
     areas_experiencia = models.ForeignKey(PerfilExperencia, blank=True, null=True)
     proposito = models.CharField(max_length=144, blank=True)
 
-   
+
 
     def __unicode__(self):
         cadena = "%s" % (self.id)

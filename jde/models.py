@@ -945,8 +945,8 @@ class VIEW_GASTOS_AUTORIZADORES(models.Model):
     empleado_clave = models.IntegerField(primary_key=True)
     empleado_nombre = models.CharField(max_length=40)
     empleado_ncorto = models.CharField(max_length=40)
-    gerencia_clave = models.CharField(max_length=5)
-    gerencia_descripcion = models.CharField(max_length=30)
+    grupo_clave = models.CharField(max_length=5)
+    grupo_descripcion = models.CharField(max_length=30)
     autorizador_clave = models.IntegerField(primary_key=True)
     autorizador_nombre = models.CharField(max_length=40)
 
