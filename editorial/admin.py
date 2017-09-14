@@ -1,6 +1,19 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
 
+# Django's Libraries
 from django.contrib import admin
 
-# Register your models here.
+# Own's Libraries
+from .models import Post
+
+
+@admin.register(Post)
+class PostAdmin(admin.ModelAdmin):
+    list_display = (
+        'titulo',
+        'contenido',
+        'created_by',
+        'created_date',
+        'updated_date',
+        'updated_by',
+    )

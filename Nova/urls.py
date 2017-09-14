@@ -39,6 +39,7 @@ urlpatterns = [
     url(r'', include('seguridadlaboral.urls', namespace="seguridadlaboral")),
     url(r'', include('calidad.urls', namespace="calidad")),
     url(r'', include('finanzas.urls', namespace="finanzas")),
+    url(r'', include('editorial.urls', namespace="editorial")),
 ]
 
 

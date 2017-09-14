@@ -266,3 +266,22 @@ def tag_field_descripcion(_label_text, _label_text_size, _label_value, _label_va
         'label_value_size': _label_value_size,
     }
     return contexto
+
+
+@register.inclusion_tag('tags/tag_input.html', takes_context=False)
+def tag_input(_field):
+
+    contexto = {
+        'campo': _field
+    }
+    return contexto
+
+
+@register.inclusion_tag('tags/tag_image.html', takes_context=False)
+def tag_image(_field, _imagen):
+
+    contexto = {
+        'campo': _field,
+        'imagen': _imagen
+    }
+    return contexto

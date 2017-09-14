@@ -1,4 +1,6 @@
 import os
+from django.contrib.messages import constants as messages
+
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -21,7 +23,6 @@ LOGOUT_URL = 'seguridad:logout'
 
 
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -43,14 +44,14 @@ INSTALLED_APPS = [
     'seguridad.apps.SeguridadConfig',
     'seguridadlaboral.apps.SeguridadlaboralConfig',
     'serviciosempleado.apps.ServiciosempleadoConfig',
-    'sgi.apps.SgiConfig',
+    'editorial.apps.EditorialConfig',
 
     'rest_framework',
     'simple_history',
     'django_filters',
     'widget_tweaks',
     'generic_relations',
-    'import_export',
+    'crispy_forms'
 ]
 
 MIDDLEWARE = [
@@ -109,15 +110,15 @@ DATABASES = {
         'USER': 'system',
         'PASSWORD': 'Nuv01l2015',
     },
-    'ebs_d': {
-        'ENGINE': 'django.db.backends.oracle',
-        'NAME': '10.10.3.216/DEV',
-        'USER': 'APPS',
-        'PASSWORD': 'APPS',
-    },
     'ebs_p': {
         'ENGINE': 'django.db.backends.oracle',
         'NAME': '10.10.3.212:1521/PROD',
+        'USER': 'APPS',
+        'PASSWORD': 'APPS',
+    },
+    'ebs_d': {
+        'ENGINE': 'django.db.backends.oracle',
+        'NAME': '10.10.3.216/DEV',
         'USER': 'APPS',
         'PASSWORD': 'APPS',
     }
@@ -191,3 +192,12 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = 'ti.nuvoil@gmail.com'
 EMAIL_HOST_PASSWORD = 'Nuv01l2016'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+
+MESSAGE_TAGS = {
+    messages.DEBUG: 'alert-danger',
+    messages.INFO: 'alert-primary',
+    messages.SUCCESS: 'alert-success',
+    messages.WARNING: 'alert-warning',
+    messages.ERROR: 'alert-danger',
+}
