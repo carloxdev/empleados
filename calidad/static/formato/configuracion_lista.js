@@ -3,8 +3,8 @@
 \*-----------------------------------------------*/
 
 // URLS:api-
-var url_api_formato = window.location.origin + "/api-calidad/formato/"
-var url_formato = window.location.origin + "/configuracion/formatos/"
+var url_formato = window.location.origin + "/api-calidad/formato/"
+var url_pantalla_formato = window.location.origin + "/configuracion/formatos/"
 
 // OBJS
 var popup_formato = null
@@ -73,7 +73,7 @@ Grid.prototype.click_EliminarFormato = function (e) {
 
    e.preventDefault()
    pk = this.getAttribute("data-id")
-   url = url_api_formato + pk + "/"
+   url = url_formato + pk + "/"
    tarjeta_resultados.grid.eliminar_Seleccion(url)
 }
 Grid.prototype.eliminar_Seleccion = function (_url) {
@@ -89,7 +89,7 @@ Grid.prototype.eliminar_Seleccion = function (_url) {
             headers: { "X-CSRFToken": appnova.galletita },
             success: function () {
 
-               window.location.href = url_formato
+               window.location.href = url_pantalla_formato
                alertify.success("Se eliminó registro correctamente")
             },
             error: function () {
@@ -197,7 +197,7 @@ PopupFormato.prototype.set_Data = function (_pk) {
 
       $.ajax({
 
-         url: url_api_formato + _pk +"/",
+         url: url_formato + _pk +"/",
          method: "GET",
          context: this,
          success: function (_response) {
@@ -293,7 +293,7 @@ PopupFormato.prototype.crear = function (e) {
 
    $.ajax({
 
-      url: url_api_formato,
+      url: url_formato,
       method: "POST",
       headers: { "X-CSRFToken": appnova.galletita },
       data: {
@@ -309,7 +309,7 @@ PopupFormato.prototype.crear = function (e) {
       success: function (_response) {
 
          e.data.$id.modal('hide')
-         window.location.href = url_formato
+         window.location.href = url_pantalla_formato
       },
       error: function (_response) {
 
@@ -325,7 +325,7 @@ PopupFormato.prototype.editar = function (e, _pk) {
 
    $.ajax({
 
-      url: url_api_formato + _pk + "/",
+      url: url_formato + _pk + "/",
       method: "PUT",
       headers: { "X-CSRFToken": appnova.galletita },
       data: {
@@ -341,7 +341,7 @@ PopupFormato.prototype.editar = function (e, _pk) {
       success: function (_response) {
 
          e.data.$id.modal('hide')
-         window.location.href = url_formato
+         window.location.href = url_pantalla_formato
       },
       error: function (_response) {
 
