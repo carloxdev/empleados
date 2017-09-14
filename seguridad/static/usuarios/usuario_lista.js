@@ -24,17 +24,18 @@ $(document).ready(function () {
 
     // Asigna eventos a teclas
     $(document).keypress(function (e) {
-
-        // Tecla Enter
         if (e.which == 13) {
 
             if (filtros.$id.hasClass('in')) {
                 filtros.apply_Filters()
             }
-
         }
-        // Tecla ESC
-    })    
+    })  
+    $(document).keydown(function (e) {  
+        if (e.which == 27){
+            filtros.$id.modal('hide')
+        }
+    })
 
     //alertify.confirm('Confirm Message')
 })
@@ -53,7 +54,9 @@ function PopupFiltros () {
     this.$usuario__last_name = $('#id_usuario__last_name')
     this.$clave_rh = $('#id_clave_rh')
     this.$usuario__email = $('#id_usuario__email')
-    this.$fecha_creacion = $('#fecha_creacion')
+
+    this.$created_date_mayorque = $('#id_created_date_mayorque_group')
+    this.$created_date_menorque = $('#id_created_date_menorque_group')
 
     this.$boton_buscar = $('#boton_buscar')
     this.$boton_limpiar = $('#boton_limpiar')
@@ -64,58 +67,37 @@ function PopupFiltros () {
 }
 PopupFiltros.prototype.init_Components = function () {
     
-    this.$fecha_creacion.daterangepicker(this.get_ConfDateRangePicker()) 
+    this.$created_date_mayorque.datepicker({format: 'dd/mm/yyyy', autoclose: true})
+    this.$created_date_menorque.datepicker({format: 'dd/mm/yyyy', autoclose: true})
 }
 PopupFiltros.prototype.init_Events = function () {
-    
-    this.$id.on("hidden.bs.modal", this, this.hide)
 
     this.$boton_buscar.on("click", this, this.click_BotonBuscar)
     this.$boton_limpiar.on("click", this, this.click_BotonLimpiar)
 }
-PopupFiltros.prototype.hide = function (e) {
+PopupFiltros.prototype.get_FechaMayorQue = function (e) {
 
-     e.data.$fecha_creacion.data('daterangepicker').hide()
+    fecha = this.$created_date_mayorque.datepicker("getDate")
+    fecha_conformato = moment(fecha).format('YYYY-MM-DD')
+
+    if (fecha_conformato == "Invalid date") {
+        return ""
+    }
+    else {
+        return fecha_conformato
+    }
 }
-PopupFiltros.prototype.get_ConfDateRangePicker = function () {
+PopupFiltros.prototype.get_FechaMenorQue = function (e) {
 
-    return {
-        locale: {
-            // format: 'YYYY-MM-DD',
-            format: 'DD-MM-YYYY',
-            applyLabel: "Aplicar",
-            cancelLabel: "Cancelar",
-            fromLabel: "Del",
-            separator: " al ",
-            toLabel: "Al",            
-            weekLabel: "S",
-            daysOfWeek: [
-                "Do",
-                "Lu",
-                "Ma",
-                "Mi",
-                "Ju",
-                "Vi",
-                "Sa"
-            ],
-            monthNames: [
-                "Enero",
-                "Febrero",
-                "Marzo",
-                "Abril",
-                "Mayo",
-                "Junio",
-                "Julio",
-                "Agosto",
-                "Septiembre",
-                "Octubre",
-                "Noviembre",
-                "Diciembre"
-            ],          
-        },
-        // startDate: '2017-01-01'
-        startDate: '01-01-2017'
-    }    
+    fecha = this.$created_date_menorque.datepicker("getDate")
+    fecha_conformato = moment(fecha).format('YYYY-MM-DD')
+
+    if (fecha_conformato == "Invalid date") {
+        return ""
+    }
+    else {
+        return fecha_conformato
+    }
 }
 PopupFiltros.prototype.click_BotonBuscar = function (e) {
     e.preventDefault()
@@ -130,12 +112,8 @@ PopupFiltros.prototype.click_BotonLimpiar = function (e) {
     e.data.$usuario__last_name.val("")
     e.data.$clave_rh.val("")
     e.data.$usuario__email.val("")
-    e.data.$fecha_creacion.data('daterangepicker').setStartDate(
-        '01-01-2017'
-    )
-    e.data.$fecha_creacion.data('daterangepicker').setEndDate(
-        moment().format('DD-MM-YYYY')
-    )    
+    e.data.$created_date_mayorque.datepicker("clearDates")
+    e.data.$created_date_menorque.datepicker("clearDates") 
 }
 PopupFiltros.prototype.get_Values = function (_page) {
 
@@ -146,8 +124,8 @@ PopupFiltros.prototype.get_Values = function (_page) {
         usuario__last_name: this.$usuario__last_name.val(),
         clave_rh: this.$clave_rh.val(),
         usuario__email: this.$usuario__email.val(),
-        usuario__date_joined_mayorque: this.$fecha_creacion.data('daterangepicker').startDate.format('YYYY-MM-DD'),
-        usuario__date_joined_menorque: this.$fecha_creacion.data('daterangepicker').endDate.format('YYYY-MM-DD'),
+        usuario__date_joined_mayorque: this.get_FechaMayorQue(),
+        usuario__date_joined_menorque: this.get_FechaMenorQue(),
     }
 }
 PopupFiltros.prototype.get_NoFiltrosAplicados = function () {
@@ -169,8 +147,10 @@ PopupFiltros.prototype.get_NoFiltrosAplicados = function () {
     if (this.$usuario__email.val()  != "" ) {
         cantidad += 1
     }
-    if (this.$fecha_creacion.data('daterangepicker').startDate.format('YYYY-MM-DD') != '2017-01-01' || 
-        this.$fecha_creacion.data('daterangepicker').endDate.format('YYYY-MM-DD') != moment().format('YYYY-MM-DD') ) {
+    if (this.get_FechaMayorQue() != "") {
+        cantidad += 1
+    }
+    if (this.get_FechaMenorQue() != "") {
         cantidad += 1
     }
 
@@ -196,8 +176,8 @@ PopupFiltros.prototype.get_FiltrosExcel = function () {
         usuario__last_name: this.$usuario__last_name.val(),
         usuario__email: this.$usuario__email.val(),
         clave_rh: this.$clave_rh.val(),
-        usuario__date_joined_mayorque: this.$usuario__date_joined_mayorque.val(),
-        usuario__date_joined_menorque: this.$usuario__date_joined_menorque.val(),
+        usuario__date_joined_mayorque: this.get_FechaMayorQue(),
+        usuario__date_joined_menorque: this.get_FechaMenorQue(),
     }
 }
 
@@ -287,7 +267,7 @@ Grid.prototype.get_Configuracion = function () {
 
     return {
         dataSource: this.kfuente_datos,
-        columnMenu: true,
+        columnMenu: false,
         groupable: false,
         sortable: false,
         editable: false,
@@ -308,7 +288,7 @@ Grid.prototype.get_Columnas = function () {
     return [  
         { field: "pk", 
           title: "Cuenta", 
-          width:"150px" ,
+          width:"100px" ,
           template: '<a class="btn btn-default nova-url" href="#=url_profile_editar_bypage + pk #/editar/">#=cuenta#</a>',
         },
         { field: "first_name", title: "Nombre", width:"200px" },

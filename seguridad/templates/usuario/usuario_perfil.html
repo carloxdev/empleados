@@ -4,14 +4,6 @@
 {% block titulo %} Perfil {% endblock titulo %}
 {% block title-page %} Editar perfil {% endblock title-page %}
 {% block css %}
-<!-- Kendo -->
-<link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.rtl.min.css' %}"/>
-<link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.common-bootstrap.min.css' %}"/>
-<link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.bootstrap.min.css' %}"/>
-<!-- Theme -->
-<link rel="stylesheet" href="{% static 'theme/lib/datetimepicker/css/bootstrap-datetimepicker.min.css' %}"/>
-<!-- Nova -->
-<link rel="stylesheet" href="{% static 'grid.css' %}"/>
 {% endblock css %}
 {% block contenido %}
 
@@ -80,11 +72,7 @@
 
 	                    </div>
 	                    <div class="modal-footer nova-modal-footer">
-	                        <a href=" {% url 'seguridad:usuario_lista' %}" class="btn btn-default">
-	                            <i class="icon mdi mdi-close"></i>
-	                            Cancelar
-	                        </a>
-	                         <button type="submit" id="id_boton_guardar" class="btn nova-btn btn-primary btn-lg pull-right">
+	                         <button type="submit" id="id_boton_guardar" class="btn nova-btn btn-primary btn-lg">
 	                            Guardar cambios
 	                        </button>
 	                    </div>
@@ -95,14 +83,10 @@
 
 </div><!-- End Be content -->
 		
-	{% endblock contenido %}
-	{% block scripts %}
-		<!-- Kendo Js -->
-		<script src="{% static 'libs/kendo/2015.2.624/js/cultures/kendo.culture.es-MX.min.js' %}"></script>
-		<script src="{% static 'libs/kendo/2015.2.624/js/kendo.web.min.js' %}"></script>
-		<!-- Theme -->
-		<script src="{% static 'theme/lib/jquery-ui/jquery-ui.min.js' %}"></script>
-		<script src="{% static 'theme/lib/moment.js/min/moment.min.js' %}"></script>
-		<!-- NOVA -->
-		<script src="{% static 'usuarios/usuario_editar.js' %}"></script>
-	{% endblock scripts %}
+{% endblock contenido %}
+{% block scripts %}
+	<!-- Theme -->
+	<script src="{% static 'theme/lib/jquery-ui/jquery-ui.min.js' %}"></script>
+	<!-- NOVA -->
+	<script src="{% static 'usuarios/usuario_editar.js' %}"></script>
+{% endblock scripts %}
