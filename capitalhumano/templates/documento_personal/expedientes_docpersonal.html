@@ -46,7 +46,8 @@
                 </div>
         </div> <!-- Panel -->
 </div> <!-- col sm 12-->
-
+{% endblock tab_expedientes %}
+{% block modales %}
 <!-- Modal personal-->
 <div id="modal_filtro" role="dialog" class="modal fade colored-header colored-header-primary">
         <div class="modal-dialog custom-width">
@@ -116,7 +117,7 @@
     </div> <!-- Modal dialog -->
 </div><!-- Modal -->
 <!-- Modal ver archivos-->
-{% endblock tab_expedientes %}
+{% endblock modales %}
 {% block scripts %}
     <!--JSZIP -->
     <script src="{% static 'libs/kendo/2015.2.624/js/jszip.min.js' %}"></script>
