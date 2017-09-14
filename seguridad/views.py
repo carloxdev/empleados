@@ -16,7 +16,6 @@ from django.core.mail import EmailMultiAlternatives
 from django.contrib import messages
 from django.urls import reverse_lazy
 from django.template.loader import render_to_string
-from django.template import Context
 
 from django.contrib.auth import login
 from django.contrib.auth import authenticate
@@ -119,7 +118,8 @@ class Registro(View):
 
             usuario.profile.clave_rh = datos_formulario.get('clave_rh')
             usuario.profile.clave_jde = datos_formulario.get('clave_jde')
-            usuario.profile.fecha_nacimiento = datos_formulario.get('fecha_nacimiento')
+            usuario.profile.fecha_nacimiento = datos_formulario.get(
+                'fecha_nacimiento')
             usuario.profile.foto = datos_formulario.get('foto')
             usuario.profile.save()
 
@@ -134,7 +134,8 @@ class Registro(View):
             subject = "Registro exitoso Nova - Nuvil"
             from_email = "ti.nuvoil@gmail.com"
             to = usuario.email
-            msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+            msg = EmailMultiAlternatives(
+                subject, text_content, from_email, [to])
             msg.attach_alternative(html_content, "text/html")
             msg.send()
 
@@ -340,7 +341,6 @@ class UsuarioEditar(View):
         imagen = ''
         if _imagen:
             imagen = _imagen.url
-
         return imagen
 
     def get(self, request, _pk):
@@ -364,6 +364,7 @@ class UsuarioEditar(View):
         contexto = {
             'form': form_usuario,
             'foto': self.obtener_UrlImagen(usuario_id.profile.foto),
+            'usuario': usuario_id,
         }
         return render(request, self.template_name, contexto)
 
@@ -398,6 +399,7 @@ class UsuarioEditar(View):
         contexto = {
             'form': form_usuario,
             'foto': self.obtener_UrlImagen(usuario.profile.foto),
+            'usuario': usuario,
         }
         return render(request, self.template_name, contexto)
 
@@ -410,18 +412,17 @@ class UsuarioEditarContrasena(LoginRequiredMixin, View):
         usuario_id = get_object_or_404(User, pk=_pk)
         form_contrasena = UserContrasenaResetConfirmForm(usuario_id)
 
-        user = usuario_id
-
         contexto = {
             'form': form_contrasena,
-            'user': user,
+            'usuario': usuario_id,
         }
         return render(_request, self.template_name, contexto)
 
     def post(self, _request, _pk):
         usuario = get_object_or_404(User, pk=_pk)
 
-        form_contrasena = UserContrasenaResetConfirmForm(usuario, _request.POST)
+        form_contrasena = UserContrasenaResetConfirmForm(
+            usuario, _request.POST)
 
         if form_contrasena.is_valid():
             usuario = form_contrasena.save()
@@ -431,6 +432,7 @@ class UsuarioEditarContrasena(LoginRequiredMixin, View):
 
         contexto = {
             'form': form_contrasena,
+            'usuario': usuario,
         }
         return render(_request, self.template_name, contexto)
 
@@ -507,12 +509,9 @@ class UsuarioPerfilContrasena(LoginRequiredMixin, View):
         form_contrasena_actual = UserContrasenaActualForm()
         form_contrasena_nueva = UserContrasenaResetConfirmForm(usuario_id)
 
-        user = usuario_id
-
         contexto = {
             'form': form_contrasena_actual,
             'form2': form_contrasena_nueva,
-            'user': user,
         }
         return render(_request, self.template_name, contexto)
 
@@ -520,7 +519,8 @@ class UsuarioPerfilContrasena(LoginRequiredMixin, View):
         usuario = get_object_or_404(User, pk=_pk)
 
         form_contrasena_actual = UserContrasenaActualForm(_request.POST)
-        form_contrasena_nueva = UserContrasenaResetConfirmForm(usuario, _request.POST)
+        form_contrasena_nueva = UserContrasenaResetConfirmForm(
+            usuario, _request.POST)
 
         if form_contrasena_actual.is_valid() and form_contrasena_nueva.is_valid():
             dato_contrasena_actual = form_contrasena_actual.cleaned_data

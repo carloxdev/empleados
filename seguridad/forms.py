@@ -105,8 +105,8 @@ class UserRegistroForm(UserCreationForm):
         self.fields['first_name'].required = False
         self.fields['last_name'].required = False
         self.fields['email'].required = True
-
-        self.fields['clave_rh'].choices = EmpleadoBusiness.get_SinUsuario_ForSelect()
+        self.fields[
+            'clave_rh'].choices = EmpleadoBusiness.get_SinUsuario_ForSelect()
         self.fields['clave_jde'].required = False
         self.fields['foto'].required = False
 
@@ -134,11 +134,14 @@ class UserRegistroForm(UserCreationForm):
             rfc = rfc.replace("-", "").upper()
 
             if ebs_rfc != rfc:
-                raise ValidationError('No existe un usuario con el RFC proporcionado')
+                raise ValidationError(
+                    'No existe un usuario con el RFC proporcionado')
 
             username = datos.pers_empleado_numero
-            first_name = "%s %s" % (datos.pers_primer_nombre, datos.pers_segundo_nombre)
-            last_name = "%s %s" % (datos.pers_apellido_paterno, datos.pers_apellido_materno)
+            first_name = "%s %s" % (
+                datos.pers_primer_nombre, datos.pers_segundo_nombre)
+            last_name = "%s %s" % (
+                datos.pers_apellido_paterno, datos.pers_apellido_materno)
 
             self.cleaned_data["username"] = username
             self.cleaned_data["first_name"] = first_name
@@ -183,11 +186,15 @@ class UserFilterForm(forms.Form):
             attrs={'class': 'form-control input-xs'}
         )
     )
-    usuario__date_joined_mayorque = CharField(
-        label="Fecha de creación mayor a:"
+
+    created_date_mayorque = CharField(
+        widget=TextInput(
+            attrs={'class': 'form-control input-xs', 'readonly': 'readonly'})
     )
-    usuario__date_joined_menorque = CharField(
-        label="Fecha de creación menor a:"
+
+    created_date_menorque = CharField(
+        widget=TextInput(
+            attrs={'class': 'form-control input-xs', 'readonly': 'readonly'})
     )
 
 
@@ -219,7 +226,8 @@ class UserNuevoForm(UserCreationForm):
     fecha_nacimiento = CharField(
         label='Fecha de nacimiento',
         widget=DateInput(
-            attrs={'class': 'form-control input-xs', 'data-date-format': 'yyyy-mm-dd', 'readonly': 'True'}
+            attrs={'class': 'form-control input-xs',
+                   'data-date-format': 'yyyy-mm-dd', 'readonly': 'True'}
         ),
     )
     foto = CharField(
@@ -274,10 +282,13 @@ class UserNuevoForm(UserCreationForm):
     def __init__(self, *args, **kwargs):
         super(UserNuevoForm, self).__init__(*args, **kwargs)
         self.fields['username'].widget.attrs.pop("autofocus", None)
+        self.fields['first_name'].required = True
+        self.fields['last_name'].required = True
         self.fields['clave_jde'].required = False
-        self.fields['fecha_nacimiento'].required = False
+        self.fields['fecha_nacimiento'].required = True
         self.fields['foto'].required = False
-        self.fields['clave_rh'].choices = EmpleadoBusiness.get_Activos_ForSelect()
+        self.fields[
+            'clave_rh'].choices = EmpleadoBusiness.get_Activos_ForSelect()
 
 
 class UserEditarForm(ModelForm):
@@ -347,8 +358,10 @@ class UserEditarForm(ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(UserEditarForm, self).__init__(*args, **kwargs)
+        self.fields['first_name'].required = True
+        self.fields['last_name'].required = True
         self.fields['clave_jde'].required = False
-        self.fields['fecha_nacimiento'].required = False
+        self.fields['fecha_nacimiento'].required = True
         self.fields['foto'].required = False
 
 
@@ -368,7 +381,8 @@ class UserPerfilForm(ModelForm):
     fecha_nacimiento = CharField(
         label='Fecha de nacimiento',
         widget=DateInput(
-            attrs={'class': 'form-control input-xs', 'data-date-format': 'yyyy-mm-dd', 'readonly': 'True'}
+            attrs={'class': 'form-control input-xs',
+                   'data-date-format': 'yyyy-mm-dd', 'readonly': 'True'}
         ),
     )
     foto = FileField(

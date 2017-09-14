@@ -1,0 +1,15 @@
+
+	<div class="col-sm-{{ size_col }}">
+		<div class="be-checkbox inline {% if form.is_active.errors %} has-error {% endif %}">
+			{{ campo }}
+			<label for="id_{{ nombre }}">
+				<span class="etiqueta-checkbox">{{ campo.label }}</span>
+
+			</label>
+		</div>
+		{% for error in form.is_active.errors %}
+			<span class="help-block">{{ error }}</span>
+		{% endfor %}
+	</div>
+
+
