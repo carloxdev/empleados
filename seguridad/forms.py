@@ -105,7 +105,6 @@ class UserRegistroForm(UserCreationForm):
         self.fields['first_name'].required = False
         self.fields['last_name'].required = False
         self.fields['email'].required = True
-
         self.fields['clave_rh'].choices = EmpleadoBusiness.get_SinUsuario_ForSelect()
         self.fields['clave_jde'].required = False
         self.fields['foto'].required = False
@@ -274,8 +273,10 @@ class UserNuevoForm(UserCreationForm):
     def __init__(self, *args, **kwargs):
         super(UserNuevoForm, self).__init__(*args, **kwargs)
         self.fields['username'].widget.attrs.pop("autofocus", None)
+        self.fields['first_name'].required = True
+        self.fields['last_name'].required = True
         self.fields['clave_jde'].required = False
-        self.fields['fecha_nacimiento'].required = False
+        self.fields['fecha_nacimiento'].required = True
         self.fields['foto'].required = False
         self.fields['clave_rh'].choices = EmpleadoBusiness.get_Activos_ForSelect()
 
@@ -347,8 +348,10 @@ class UserEditarForm(ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(UserEditarForm, self).__init__(*args, **kwargs)
+        self.fields['first_name'].required = True
+        self.fields['last_name'].required = True
         self.fields['clave_jde'].required = False
-        self.fields['fecha_nacimiento'].required = False
+        self.fields['fecha_nacimiento'].required = True
         self.fields['foto'].required = False
 
 

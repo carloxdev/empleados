@@ -309,7 +309,7 @@ Grid.prototype.get_Columnas = function () {
         { field: "pk", 
           title: "Cuenta", 
           width:"150px" ,
-          template: '<a href="#=url_profile_editar_bypage + pk #/editar/">#=cuenta#</a>',
+          template: '<a class="btn btn-default nova-url" href="#=url_profile_editar_bypage + pk #/editar/">#=cuenta#</a>',
         },
         { field: "first_name", title: "Nombre", width:"200px" },
         { field: "last_name", title: "Apellidos", width:"200px" },

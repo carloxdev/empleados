@@ -66,6 +66,18 @@ def tag_field_registro_nval(_field, _size_label, _size_field):
 
 
 @register.inclusion_tag(
+    'tags/image_preview.html',
+    takes_context=False)
+def tag_image_preview(_field, _imagen):
+
+    contexto = {
+        'campo': _field,
+        'imagen': _imagen,
+    }
+    return contexto
+
+
+@register.inclusion_tag(
     'tags/image_registro.html',
     takes_context=False)
 def tag_image_registro(_field):
@@ -264,5 +276,32 @@ def tag_field_descripcion(_label_text, _label_text_size, _label_value, _label_va
         'label_text_size': _label_text_size,
         'label_value': _label_value,
         'label_value_size': _label_value_size,
+    }
+    return contexto
+
+
+@register.inclusion_tag(
+    'tags/field_checkbox.html',
+    takes_context=False)
+def tag_field_checkbox(_field, _name, _size_col):
+
+    contexto = {
+        'campo': _field,
+        'nombre': _name,
+        'size_col': _size_col,
+    }
+    return contexto
+
+
+@register.inclusion_tag(
+    'tags/field_message.html',
+    takes_context=False)
+def tag_field_message(_field, _size_label, _size_field, _message):
+
+    contexto = {
+        'campo': _field,
+        'size_label': _size_label,
+        'size_field': _size_field,
+        'messages': _message,
     }
     return contexto

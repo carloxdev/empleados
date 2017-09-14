@@ -6,19 +6,20 @@
 
     <div class="col-sm-12">
 
-        {% if imagen %}
+        {% if imagen != ''%}
           <img id="img_preview" class="user-image img-responsive img-thumbnail nova-img" src="{{ imagen }}" alt="IFBD">
           
         {% else %}
           <img id="img_preview" class="user-image img-responsive img-thumbnail nova-img" src="{% static 'images/decoradores/no-image-user.jpg' %}" alt="User Image">
         {% endif %}  
 
-        <div class="input">
-           {{form.foto|attr:"class:inputfile"}}
+        <div class="input nova-registro-img-btn">
+           {{campo|attr:"class:inputfile"}}
            <label for="id_foto">
               <span>Seleccionar archivo…</span>
            </label>
         </div>
+
     
         {% if campo.errors %}
            <ul class="parsley-errors-list filled">

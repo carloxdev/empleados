@@ -80,7 +80,7 @@
                                             {% else %}
 
                                                 {% if user.get_full_name %}
-                                                <h5>{{ user.get_full_name }}</h5>
+                                                <h5>{{ user.first_name }}</h5>
                                                 {% else %}
                                                 <h5> {{ user.username|upper }}</h5>
                                                 {% endif%}

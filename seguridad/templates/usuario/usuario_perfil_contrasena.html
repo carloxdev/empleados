@@ -1,104 +1,66 @@
 {% extends 'master.html' %}
 {% load static from staticfiles %}
+{% load custom_tags %}
 {% block titulo %} Perfil {% endblock titulo %}
 {% block title-page %} Perfil de usuario {% endblock title-page %}
 {% block css %}
-	<!-- Kendo -->
-	<link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.rtl.min.css' %}"/>
-	<link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.common-bootstrap.min.css' %}"/>
-	<link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.bootstrap.min.css' %}"/>
-	<!-- Theme -->
-	<link rel="stylesheet" href="{% static 'theme/lib/datetimepicker/css/bootstrap-datetimepicker.min.css' %}"/>
 
-	<!-- Nova -->
-	<link rel="stylesheet" href="{% static 'grid.css' %}"/>
 {% endblock css %}
 {% block contenido %}
 <div class="be-content">
-	<div class="page-head">
-		<h2 class="page-head-title">Cambiar contraseña</h2>
-		<ol class="breadcrumb page-head-nav">
+	<div class="page-head nova-page-head">
+		<h2 class="page-head-title nova-title">Cambiar contraseña</h2>
+		<ol class="breadcrumb page-head-nav pull-right">
 			<li><a href="{% url 'home:inicio' %}">Inicio</a></li>
 			<li><a href="{% url 'seguridad:usuario_perfil' request.user.id %}">Perfil de usuario</a></li>
 			<li>Cambiar contraseña</li>
 		</ol>
 	</div><!-- End Pahe head -->
-	<div class="col-md-12">
-		<div class="main-content container-fluid">
-			<div class="col-md-12">
-				<div class="panel panel-default panel-table">
-					<div class="panel-heading panel-border nova-panel-heading">
-						<div class="title hidden-xs">Usuario <b>{{request.user.username}}</b>
-						</div>
-					</div><!-- End Panel Heading -->
-					<div class="panel panel-default panel-table">
-						<form action="" method="POST" enctype="multipart/form-data"> {% csrf_token %}
-							<br>
-							<!--Actual Password-->
-							<div class="form-group {% if form.contrasena_actual.errors %} has-error {% endif %}">
-								<label class="control-label">
-									{{form.contrasena_actual.label}}
-								</label>
-								<p>{{ form.contrasena_actual }}</p>
-							</div>
+	<div class="main-content container-fluid nova-main-content">
+        <div class="row">
+            <div class="col-md-12">
+                <form class="panel panel-border panel-contrast" action="" method="POST"> {% csrf_token %}
+                    <div class="panel-heading panel-heading-default nova-border-bottom">
+                        Usuario <b>{{ user.username }}</b>
+                    </div>
+                    <div class="panel-body form-horizontal">
+						
+                        {% if form2.non_field_errors %}
+                            {% for error in form2.non_field_errors %}
+                                {% tag_mensaje 'error' error %}
+                            {% endfor %}
+                        {% endif %}
 
-							<!--Nuevo Password-->
-							<div class="form-group {% if form2.password1.errors %} has-error {% endif %}">
-								<label class="control-label">
-									{{form2.password1.label}}
-								</label>
-								<p>{{ form2.password1 }}</p>
-							</div>
-							<!-- Confirmar Password-->
-							<div class="form-group {% if form2.password2.errors %} has-error {% endif %}">
-								<label class="control-label">
-									{{form2.password2.label}}
-								</label>
-								<p> {{form2.password2}} </p>
-							</div>
-							<!-- Botones de accion -->
-							<a class="button" href="{% url 'seguridad:usuario_perfil' request.user.id %}"> Regresar </a>
-							<button type="submit" class="btn btn-primary" id="id_boton_guardar" >Guardar contraseña</button>
-						</form>
-					</div><!-- End Panel default -->
-						<!-- Mensajes de errores -->
-						<p>
-							{% if form2.errors %}
-								<div class="alert alert-danger">
-							    {% for field in form2 %}
-							        {% for error in field.errors %}
-							                <strong>{{ error|escape }}</strong>
-							                <br>
-							            
-							        {% endfor %}
-							    {% endfor %}
-							    {% for error in form2.non_field_errors %}
-							        <div class="alert alert-danger">
-							            <strong>{{ error|escape }}</strong>
-							        </div>
-							    {% endfor %}
-							    </div>
-							{% endif %}
+                        <!-- Actual Password -->
+                        {% tag_field_message form.contrasena_actual 3 5 messages %}
+						
+						<!--Nuevo Password-->
+						{% tag_field_registro form2.password1 3 5 %}
 
-							{% if messages %}
-							    {% for message in messages %}
-							    	<div class="alert alert-danger">
-							            <strong>{{message}}</strong>
-							        </div>
-							    {% endfor %}
-							{% endif %}
-						</p>
-				</div><!-- End Panel default -->
-			</div><!-- End col-md-12 -->
-		</div><!-- End Main content -->
-	</div><!-- End col-md-12 -->
+                        <!-- Confirmar Password -->
+                        {% tag_field_registro form2.password2 3 5 %}
+	
+                    </div>
+                    <div class="modal-footer nova-modal-footer">
+                        <a href="{% url 'seguridad:usuario_perfil' user.id %}" class="btn btn-default">
+                            <i class="icon mdi mdi-close"></i>
+                            Cancelar
+                        </a>
+                         <button type="submit" id="id_boton_guardar" class="btn nova-btn btn-primary btn-lg pull-right">
+                            Cambiar contraseña
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
 {% endblock contenido %}
 {% block scripts %}
-	<!-- Kendo Js -->
-	<script src="{% static 'libs/kendo/2015.2.624/js/cultures/kendo.culture.es-MX.min.js' %}"></script>
-	<script src="{% static 'libs/kendo/2015.2.624/js/kendo.web.min.js' %}"></script>
+	
 	<!-- Theme -->
 	<script src="{% static 'theme/lib/jquery-ui/jquery-ui.min.js' %}"></script>
 	<script src="{% static 'theme/lib/moment.js/min/moment.min.js' %}"></script>
 	<!-- NOVA -->
+	 <script src="{% static 'tools.js' %}"></script>
 {% endblock scripts %}
