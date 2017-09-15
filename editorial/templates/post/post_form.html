@@ -1,0 +1,83 @@
+{% extends 'master.html' %}
+
+{% load static from staticfiles %}
+
+{% load custom_tags %}
+
+{% block css %}
+
+    <!-- Bootstrap WYSIHTML5 -->
+    <link rel="stylesheet" href="{% static 'libs/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css' %}">
+
+    <!-- Legalink's Styles -->
+    <link rel="stylesheet" href="{% static 'post/post_form.css' %}" type="text/css"/>
+
+{% endblock css %}
+
+{% load crispy_forms_tags %}
+
+{% block contenido %}
+
+    <div class="be-content">
+
+        <div class="page-head nova-page-head">
+            {% if operacion == "Editar" %}
+            <h2 class="page-head-title nova-title">Edicion del Noticas: {{form.instance.pk}}</h2>
+            {% else %}
+            <h2 class="page-head-title nova-title">Crear Noticas </h2>
+            {% endif %}
+            <ol class="breadcrumb page-head-nav pull-right">
+                <li><a href="{% url 'home:inicio' %}">Inicio</a></li>
+                <li id="menu" data-opcion="viaticos_lista" class="active">Administracion de Noticias</li>
+            </ol>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12">
+                <article class="legal-article">
+
+                    <form
+                    action=""
+                    method="POST"
+                    enctype="multipart/form-data"> {% csrf_token %}
+
+                        <div class="legal-article-form">
+
+                            {% tag_input form.titulo %}
+
+                            {% tag_input form.imagen %}
+
+                            {% tag_input form.contenido %}
+
+                            {% tag_input form.status %}
+                        </div>
+
+                        <footer class="legal-article-botones">
+
+                            {% if operacion == "Editar" %}
+                            <input type="submit" class="btn btn-lg btn-warning" value="Actualizar">
+                            {% else %}
+                            <input type="submit" class="btn btn-lg btn-success" value="Guardar">
+                            {% endif %}
+
+                        </footer>
+
+                    </form>
+
+                </article>
+            </div>
+        </div>        
+
+    </div>
+
+{% endblock contenido %}
+
+{% block scripts %}
+
+    <!-- Bootstrap WYSIHTML5 -->
+    <script type="text/javascript" src="{% static 'libs/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js' %}"></script>
+
+    <!-- Legalink's Scripts -->
+    <script type="text/javascript" src="{% static 'post/post_form.js' %}"></script>
+
+{% endblock scripts %}

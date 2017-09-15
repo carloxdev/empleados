@@ -64,11 +64,14 @@
                     <ul class="nav navbar-nav navbar-right be-user-nav">
                         <li class="dropdown">
                             <a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="dropdown-toggle">
+                                <div class="crop-img">
                                 {% if user.profile.foto %}
-                                <img src="{{ user.profile.foto.url }}" alt="User Image" class="user-image">
+                                    <img class="imagen-avatar" src="{{ user.profile.foto.url }}" alt="User Image" class="user-image">
                                 {% else %}
-                                <img src="{% static 'theme/img/avatar.png' %}" alt="User Image">
+                                    <img class="imagen-avatar-default" src="{% static 'theme/img/avatar.png' %}" alt="User Image">
                                 {% endif %}
+                                </div>
+
                                 <span class="user-name">{{ user.username }}</span>
                             </a>
                             <ul role="menu" class="dropdown-menu">
@@ -79,8 +82,8 @@
                                             <h4>ADMINISTRADOR</h4>
                                             {% else %}
 
-                                                {% if user.get_full_name %}
-                                                <h5>{{ user.get_full_name }}</h5>
+                                                {% if user.first_name %}
+                                                <h5>{{ user.first_name }}</h5>
                                                 {% else %}
                                                 <h5> {{ user.username|upper }}</h5>
                                                 {% endif%}

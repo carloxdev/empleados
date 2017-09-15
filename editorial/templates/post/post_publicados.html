@@ -1,0 +1,170 @@
+{% extends 'master.html' %}
+
+{% load static from staticfiles %}
+
+{% block css %}
+
+    <!-- Legalink' Styles -->
+    <link rel="stylesheet" href="{% static 'post/post_publicados.css' %}" type="text/css"/>
+
+{% endblock css %}
+
+{% block contenido %}
+
+    <div class="be-content">
+
+        <div class="row">
+
+            <div class="col-xs-12 col-md-9">
+            {% if registros %}
+
+                {% for registro in registros %}
+                <article class="legal-article">
+
+                    <header>
+                        <a href="{% url 'editorial:post_consultar' registro.pk %}">
+                            <h3 class="legal-titulo">
+                                {{ registro.titulo }}
+                            </h3>
+                        </a>
+                        {% if user.is_superuser %}
+                        <a href="{% url 'editorial:post_editar' registro.pk %}" class="btn btn-warning pull-right legal-btn-editar">
+                            <i class="fa fa-pencil" aria-hiden="true"></i>
+                        </a>
+                        {% endif %}
+                    </header>
+
+                    <hr class="legal-article-line">
+
+                    <nav class="legal-article-meta">
+                        <ul>
+                           <li>
+                                <i class="fa fa-calendar" aria-hidden="true"></i>
+                                {{ registro.created_date|date:"M d, Y"}}
+                           </li>
+                           <li>
+                                <i class="fa fa-user" aria-hidden="true"></i>
+                                {{ registro.created_by  }}
+                           </li>
+                           <li class="hidden-xs">
+                                <i class="fa fa-comment-o" aria-hidden="true"></i>
+                                0 comentarios
+                           </li>
+                        </ul>
+
+                    </nav>
+
+                    <div class="row">
+
+                        <div class="col-xs-12 col-sm-3">
+                            <section class="legal-article-image ">
+                                {% if registro.imagen %}
+                                    <img class="img-responsive legal-post-leftimg" src="{{ MEDIA_URL }}{{ registro.imagen }}" alt="Post Imagen">
+                                {% endif %}
+                            </section>
+
+                        </div>
+
+                        <div class="col-xs-12 col-sm-9">
+                            <section class="legal-article-avance">
+                                {{registro.contenido |safe|truncatechars:320 }}
+                            </section>
+
+                        </div>
+
+                    </div>
+
+
+
+
+
+                    <footer class="legal-article-botones">
+                        <a href="{% url 'editorial:post_consultar' registro.pk %}" class="btn btn-primary btn-lg legal-btn-leer" role="button">Leer mas</a>
+
+                        {% if user.is_superuser %}
+                        <a href="{% url 'editorial:post_editar' registro.pk %}" class="btn btn-warning btn-lg visible-xs-inline">
+                            <i class="fa fa-pencil" aria-hiden="true"></i>
+                            Editar
+                        </a>
+                        {% endif %}
+                    </footer>
+
+                </article>
+
+                {% endfor %}
+
+                <div class="text-center">
+                    <ul class="pagination pagination-sm no-margin legal-article-paginador">
+                        {% if registros.has_previous %}
+                            <li><a href="?{{ page_request_var }}={{ registros.previous_page_number }}&q={{ request.GET.q }}">&laquo;</a></li>
+                        {% endif %}
+
+                        {% for i in registros.paginator.page_range %}
+                            <li {% if registros.number == i %} class="active" {% endif %}>
+                                <a href="?page={{i}}&q={{ request.GET.q }}">{{ i }}</a>
+                            </li>
+                        {% endfor %}
+
+                        {% if registros.has_next %}
+                            <li><a href="?page={{ registros.next_page_number }}&q={{ request.GET.q }}">&raquo;</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+
+            {% else %}
+                <article class="legal-article text-center">
+                    <h1> Sin articulos publicados </h1>
+                </article>
+            {% endif %}
+            </div>
+
+            <aside class="col-xs-12 col-md-3">
+
+                <aside class="legal-about">
+                    <header>
+                        <h4 class="legal-about-title">Acerca de mi </h4>
+                    </header>
+
+                    <!-- <hr class="legal-about-line"> -->
+
+                    <section class="legal-about-image">
+                        {% if propietario.imagen %}
+                        <img class="img-responsive" src="{{ MEDIA_URL }}{{ propietario.imagen }}" alt="Imagen Autor">
+                        {% else %}
+                        <img class="img-responsive" src="{% static "images/decoradores/no-image-user.jpg" %}" alt="Imagen Autor">
+                        {% endif %}
+
+                    </section>
+
+                    <section class="legal-about-info text-justify">
+
+                        {{ propietario.bio|safe }}
+                    </section>
+
+                    <footer class="legal-about-botones">
+                        <a href="{% url 'seguridad:owner_info_view' %}" class="btn btn-primary legal-about-btn-leer" role="button">Leer mas</a>
+                    </footer>
+
+                </aside>
+
+                <aside class="legal-social-media">
+                    <a href="{{ propietario.facebook_url }}" class="fa fa-facebook-official fa-2x legal-link-facebook" aria-hidden="true"></a>
+                    <a href="{{ propietario.pinteres_url }}" class="fa fa-pinterest fa-2x legal-link-facebook" aria-hidden="true"></a>
+                    <a href="{{ propietario.twitter_url }}" class="fa fa-twitter-square fa-2x legal-link-facebook" aria-hidden="true"></a>
+                    <a href="{{ propietario.telefono }}" class="fa fa-whatsapp fa-2x legal-link-facebook" aria-hidden="true"></a>
+
+                    <!-- <i ></i> -->
+                </aside>
+
+            </aside>
+
+        </div>
+
+    </div>
+
+{% endblock contenido %}
+
+{% block scripts %}
+
+
+{% endblock scripts %}
