@@ -587,12 +587,21 @@ div.nova-panel-arbol li.list-group-item {
 /* nova-menu-slider */
 
 /* modales */
+@media (max-width: 768px) {
+
+   .nova-modal-responsive {
+      min-width: calc(100% - 20px);
+   }
+   .nova-modal-content-responsive {
+      min-width: 100%;
+   }
+}
 .nova-modal-maxwidth {
    max-width: 930px !important;
 }
 
 .nova-modal-acciones {
-   width: 320px;
+   max-width: 320px;
 }
 
 .nova-modal-title-seguimientos {

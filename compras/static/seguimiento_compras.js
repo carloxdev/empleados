@@ -72,14 +72,24 @@ function TarjetaFiltros() {
    this.$fecha_ord_desde_hasta = $("#fecha_ord_desde_hasta")
    this.$boton_buscar = $('#boton_buscar')
    this.$boton_limpiar = $('#boton_limpiar')
+   this.$boton_cancelar = $('#boton_cancelar')
    this.$campos_usados = []
    this.$colapsible_compania = $('#id_collapse_compania')
    this.$colapsible_requisicion = $('#id_collapse_requisicion')
    this.$colapsible_cotizacion = $('#id_collapse_cotizacion')
    this.$colapsible_orden = $('#id_collapse_orden')
    this.$colapsible_almacen = $('#id_collapse_almacen')
+   this.init_Responsive()
    this.init_Components()
    this.init_Events()
+}
+TarjetaFiltros.prototype.init_Responsive = function () {
+
+   if (window.matchMedia('(max-width: 768px)').matches) {
+      this.$boton_cancelar.addClass('btn-xs')
+      this.$boton_limpiar.addClass('btn-xs')
+      this.$boton_buscar.removeClass('btn-lg')
+   }
 }
 TarjetaFiltros.prototype.init_Components = function () {
 
@@ -94,7 +104,6 @@ TarjetaFiltros.prototype.init_Components = function () {
    this.$id_oc_tipo.select2(appnova.get_ConfigSelect2())
    this.$id_oc_originador.select2(appnova.get_ConfigSelect2())
    this.$id_recepcion.select2(appnova.get_ConfigSelect2())
-
 }
 TarjetaFiltros.prototype.get_ConfDateRangePicker = function () {
 
@@ -145,7 +154,6 @@ TarjetaFiltros.prototype.init_Events = function () {
    this.$boton_limpiar.on('click', this, this.click_BotonLimpiar)
    this.$id.on("hide.bs.modal", this, this.hide_Modal)
    this.$id.on("hidden.bs.modal", this, this.hidden_Modal)
-   this.$id.on("shown.bs.modal", this, this.shown_Modal)
    this.$id_requisicion.on("keydown", this, this.keydown_ValidarNegativos)
    this.$id_cotizacion.on("keydown", this, this.keydown_ValidarNegativos)
    this.$id_oc.on("keydown", this, this.keydown_ValidarNegativos)
@@ -155,6 +163,10 @@ TarjetaFiltros.prototype.init_Events = function () {
    this.$fecha_ord_desde_hasta.on("apply.daterangepicker", this, this.aplicar_Rango)
    this.$fecha_ord_desde_hasta.siblings('[data-event=\'calendario\']').on("click", this, this.click_MostrarPicker)
    this.$fecha_ord_desde_hasta.siblings('[data-event=\'limpiar\']').on("click", this, this.click_LimpiarCampo)
+   this.$id_compania.on('select2:close', this, this.click_FocusComponent)
+   this.$id_compania.on('blur', this, this.foucusout)
+   this.$id_sucursal.on('select2:close', this, this.click_FocusComponent)
+
 }
 TarjetaFiltros.prototype.keydown_ValidarNegativos = function (e) {
 
@@ -175,6 +187,13 @@ TarjetaFiltros.prototype.click_LimpiarCampo = function (e) {
 
    $(this).siblings('input').val("")
 }
+TarjetaFiltros.prototype.click_FocusComponent = function (e) {
+
+   $(this).focus()
+}
+TarjetaFiltros.prototype.foucusout = function (e) {
+   console.log(2);
+};
 TarjetaFiltros.prototype.get_Values = function (_page, _pageSize) {
 
    return {
@@ -255,16 +274,13 @@ TarjetaFiltros.prototype.hidden_Modal = function (e) {
       e.data.$colapsible_almacen.collapse('hide')
    }
 }
-TarjetaFiltros.prototype.shown_Modal = function (e) {
-
-   e.data.$id_compania.focus()
-}
 TarjetaFiltros.prototype.limpiar_CampoNoAplicado = function () {
 
-   var campos = [ 'id_compania', 'id_sucursal', 'id_comprador', 'id_requisicion', 'id_requisicion_tipo',
-                  'id_requisicion_originador', 'id_requisicion_canceladas', 'id_cotizacion', 'id_cotizacion_tipo',
-                  'id_cotizacion_originador', 'id_cotizacion_canceladas', 'id_oc', 'id_oc_tipo', 'id_oc_originador',
-                  'id_oc_canceladas', 'id_proveedor', 'id_item', 'id_recepcion', 'fecha_req_desde_hasta', 'fecha_ord_desde_hasta',
+   var campos = [
+      'id_compania', 'id_sucursal', 'id_comprador', 'id_requisicion', 'id_requisicion_tipo',
+      'id_requisicion_originador', 'id_requisicion_canceladas', 'id_cotizacion', 'id_cotizacion_tipo',
+      'id_cotizacion_originador', 'id_cotizacion_canceladas', 'id_oc', 'id_oc_tipo', 'id_oc_originador',
+      'id_oc_canceladas', 'id_proveedor', 'id_item', 'id_recepcion', 'fecha_req_desde_hasta', 'fecha_ord_desde_hasta',
    ]
 
    var resultados
@@ -764,7 +780,16 @@ function PopupDetalles() {
 
    this.$id = $('#id_tarjeta_detalles')
    this.$id_titulo = $('#id_titulo_detalles')
+   this.$boton_ok =  $('#boton_ok_detalle')
+   this.init_Responsive()
    this.init_Events()
+}
+PopupDetalles.prototype.init_Responsive = function () {
+
+   if (window.matchMedia('(max-width: 768px)').matches) {
+
+      this.$boton_ok.removeClass('btn-lg')
+   }
 }
 PopupDetalles.prototype.init_Events = function () {
 
@@ -792,6 +817,10 @@ PopupDetalles.prototype.construir_Tabla = function (_id_contenedor, _data, _camp
             if ([_campos[columna]] == 'pu_mx' || [_campos[columna]] == 'monto_recib_mx') {
 
                cols += '<td>$ '+_data[fila][_campos[columna]]+'</td>'
+            }
+            else if ([_campos[columna]] == 'autorizacion_fecha' || [_campos[columna]] == 'fecha_tran' || [_campos[columna]] == 'fecha_update' || [_campos[columna]] == 'fecha_lm' || [_campos[columna]] == 'fecha_creacion') {
+               var fecha_data = _data[fila][_campos[columna]].split('-')
+               cols += '<td>'+ fecha_data[2] + '-' + fecha_data[1] + '-' + fecha_data[0] +'</td>'
             }
             else {
 
@@ -880,11 +909,11 @@ PopupAcciones.prototype.filtrar_Autorizaciones = function (_fila) {
          tarjeta_detalles.construir_Tabla(
             '#tabla_detalles',
             _data.results,
-            [   'ruta',
+            [  'ruta',
                'autorizador_desc',
                'autorizacion_fecha',
             ],
-            [   'Ruta de aprovación',
+            [  'Ruta de aprovación',
                'Responsable',
                'Fecha autorización',
             ],
@@ -916,7 +945,7 @@ PopupAcciones.prototype.filtrar_Recepciones = function (_fila) {
          tarjeta_detalles.construir_Tabla(
             '#tabla_detalles',
             _data.results,
-            [   'doc_tipo',
+            [  'doc_tipo',
                'doc',
                'oc_tipo',
                'fecha_tran',
@@ -929,11 +958,11 @@ PopupAcciones.prototype.filtrar_Recepciones = function (_fila) {
                'batch_tipo',
                'fecha_creacion',
             ],
-            [   'Tipo recepción',
+            [  'Tipo recepción',
                'Documento',
                'Tipo',
-               'Fecha transacción',
                'Fecha recepción',
+               'Fecha transacción',
                'Fecha LM',
                'Cantidad recibida',
                'Costo unitario',
@@ -958,17 +987,17 @@ PopupAcciones.prototype.filtrar_Cotejo = function (_fila) {
       method: "GET",
       dataType: "json",
       data: {
-        oc:_fila.ord,
-        oc_tipo:_fila.ord_tipo,
-        oc_compania:_fila.req_compania,
-        oc_linea:_fila.ord_linea,
+         oc:_fila.ord,
+         oc_tipo:_fila.ord_tipo,
+         oc_compania:_fila.req_compania,
+         oc_linea:_fila.ord_linea,
          tran_tipo:'2',
       },
       success: function(_data) {
          tarjeta_detalles.construir_Tabla(
             '#tabla_detalles',
             _data.results,
-            [   'tran_compania',
+            [  'tran_compania',
                'doc_tipo',
                'doc',
                'doc_linea',

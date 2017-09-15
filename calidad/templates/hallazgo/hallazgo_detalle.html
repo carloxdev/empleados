@@ -11,7 +11,6 @@
 {% block css %}
 
    <!-- Beagle Theme -->
-   <!--<link rel="stylesheet" href="{% static 'theme/lib/daterangepicker/css/daterangepicker.css' %}"/>-->
    <link rel="stylesheet" href="{% static 'theme/lib/bootstrap-multiselect/css/bootstrap-multiselect.css' %}"/>
    <link rel="stylesheet" href="{% static 'theme/lib/multiselect/css/multi-select.css' %}"/>
 
@@ -184,18 +183,6 @@
                               </tr>
                            </thead>
                            <tbody id="id_tbody_analisis">
-                              <!-- <tr class="clickable-row">
-                                 <td>
-                                    <a class="btn nova-btn nova-btn-delete">
-                                       <i class="icon icon-left icon mdi mdi-delete nova-white"></i>
-                                    </a>
-                                 </td>
-                                 <td>
-                                    <a href="#id_tarjeta_analisis" class="btn btn-default nova-url" data-toggle="modal">Analisis de causas 1</a>
-                                 </td>
-                                 <td>ACR</td>
-                                 <td>Se determino en conjunto con el equipo de</td>
-                              </tr> -->
                            </tbody>
                         </table>
 
@@ -237,7 +224,7 @@
                                     </a>
                                  </td>
                                  <td>
-                                    <a href="#id_tarjeta_nueva_actividad" class="btn btn-default nova-url" data-toggle="modal">Fijar cables</a>
+                                    <a href="#id_tarjeta_actividad" class="btn btn-default nova-url" data-toggle="modal">Fijar cables</a>
                                  </td>
                                  <td>Fijar los cables a las canaletas con cinchos</td>
                                  <td>Luis Enrique lopez Mendez</td>
@@ -253,7 +240,7 @@
                                     </a>
                                  </td>
                                  <td>
-                                    <a href="#id_tarjeta_nueva_actividad" class="btn btn-default nova-url" data-toggle="modal">Realizar inspeccion</a>
+                                    <a href="#id_tarjeta_actividad" class="btn btn-default nova-url" data-toggle="modal">Realizar inspeccion</a>
                                  </td>
                                  <td>Realizar la inspeccion de otros posibles cables que esten fuera de la canaleta</td>
                                  <td>Julio Mendez Reyez</td>
@@ -397,8 +384,8 @@
       </div>
     </div>
 
-   <!-- id_tarjeta_nueva_actividad -->
-   <div id="id_tarjeta_nueva_actividad" role="dialog" class="modal fade colored-header colored-header-primary">
+   <!-- id_tarjeta_actividad -->
+   <div id="id_tarjeta_actividad" role="dialog" class="modal fade colored-header colored-header-primary">
       <div class="modal-dialog custom-width">
          <div class="modal-content">
 
