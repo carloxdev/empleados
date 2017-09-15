@@ -31,12 +31,12 @@ class ViaticoFilterForm(Form):
     )
 
     empleado = ChoiceField(
-        widget=SelectCustom(attrs={'class': 'form-control input-xs'})
+        widget=Select(attrs={'class': 'form-control input-xs'})
     )
 
     unidad_negocio = ChoiceField(
         label="Unidad de Negocio",
-        widget=SelectCustom(attrs={'class': 'form-control input-xs'})
+        widget=Select(attrs={'class': 'form-control input-xs'})
     )
 
     ciudad_destino = CharField(
@@ -45,7 +45,7 @@ class ViaticoFilterForm(Form):
     )
 
     autorizador = ChoiceField(
-        widget=SelectCustom(attrs={'class': 'form-control input-xs'})
+        widget=Select(attrs={'class': 'form-control input-xs'})
     )
 
     created_date_mayorque = CharField(
@@ -62,9 +62,9 @@ class ViaticoFilterForm(Form):
         self.fields['unidad_negocio'].required = False
         self.fields['autorizador'].required = False
 
-        self.fields['empleado'].choices = EmpleadoBusiness.get_Todos_ForSelectCustom()
-        self.fields['unidad_negocio'].choices = CentroCostoBusiness.get_Todos_ForSelectCustom()
-        self.fields['autorizador'].choices = EmpleadoBusiness.get_Todos_ForSelectCustom()
+        self.fields['empleado'].choices = EmpleadoBusiness.get_Todos_ForSelect()
+        self.fields['unidad_negocio'].choices = CentroCostoBusiness.get_Todos_ForSelect()
+        self.fields['autorizador'].choices = EmpleadoBusiness.get_Todos_ForSelect()
 
 
 class ViaticoCabeceraForm(ModelForm):

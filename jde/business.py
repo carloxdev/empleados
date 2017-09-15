@@ -137,6 +137,29 @@ class CentroCostoBusiness(object):
         return valores
 
     @classmethod
+    def get_Todos_ForSelect(self):
+        valores = [('', '-------'), ]
+
+        centros = self.get_Todos()
+
+        for centro in centros:
+
+            option_value = centro.clave
+            option_label = "%s : %s" % (
+                centro.clave,
+                centro.descripcion
+            )
+
+            valores.append(
+                (
+                    option_value,
+                    option_label,
+                )
+            )
+
+        return valores
+
+    @classmethod
     def get_StatusDescription(self, _value):
 
         if _value == "N":

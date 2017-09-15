@@ -64,6 +64,29 @@ class EmpleadoBusiness(object):
         return valores
 
     @classmethod
+    def get_Todos_ForSelect(self):
+        valores = [('', '-------'), ]
+
+        empleados = self.get_Todos()
+
+        for empleado in empleados:
+
+            option_value = empleado.pers_empleado_numero
+            option_label = "%s : %s" % (
+                empleado.pers_empleado_numero,
+                empleado.pers_nombre_completo
+            )
+
+            valores.append(
+                (
+                    option_value,
+                    option_label,
+                )
+            )
+
+        return valores
+
+    @classmethod
     def get_Activos_ForSelectCustom(self):
 
         valores = [('', '-------', '', ''), ]
