@@ -149,19 +149,30 @@
                           <table class="no-border no-strip skills">
                               <tbody class="no-border-x no-border-y">
                                   <tr>
-                                      <td class="icon nova-label"><span class="mdi mdi-flag"></span></td>
-                                      <td class="item nova-label">Estado:<span class="icon s7-flag"></span></td>
-                                      <td><strong>{{ form.instance.get_status_display }}</strong></td>
+                                        <td class="icon nova-label"><span class="mdi mdi-flag"></span></td>
+                                        <td class="item nova-label">Estado:<span class="icon s7-flag"></span></td>
+                                        <td><strong>{{ form.instance.get_status_display }}</strong></td>
                                   </tr>
                                   <tr>
                                       <td class="icon nova-label"><span class="mdi mdi-assignment-check"></span></td>
                                       <td class="item nova-label">Aprovador:<span class="icon s7-assignment-check"></span></td>
-                                      <td><strong>{{ form.instance.approved_by|default:""|upper }}</strong></td>
+
+                                      {% if form.instance.status == "aut" %}
+                                          <td><strong>{{ form.instance.approved_by.user.get_full_name|default:""|upper }}</strong></td>
+                                      {% else %}
+                                          <td><strong>{{ form.instance.autorizador_descripcion|default:""|upper }}</strong></td>
+                                      {% endif %}
+
+                                  </tr>
+                                  <tr>
+                                        <td class="icon nova-label"><span class="mdi mdi-layers"></span></td>
+                                        <td class="item nova-label">Grupo:<span class="icon s7-layers"></span></td>
+                                        <td><strong>{{ form.instance.grupo|default:""|upper }}</strong></td>
                                   </tr>
                                   <tr>
                                       <td class="icon nova-label"><span class="glyphicon glyphicon-calendar"></td>
                                       <td class="item nova-label">Autorizada el:<span class="icon s7-glyphicon-calendar"></span></td>
-                                      <td><strong>{{ form.instance.approved_date|date:"d M Y"|default:"" }}</strong></td>
+                                      <td><strong>{{ form.instance.approved_date|date:"d M Y"|default:"Sin autorizar" }}</strong></td>
                                   </tr>
                               </tbody>
                           </table>

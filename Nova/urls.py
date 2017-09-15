@@ -13,6 +13,7 @@ from administracion.urls_rest import router_administracion
 from seguridadlaboral.urls_rest import router_seguridadlaboral
 from calidad.urls_rest import router_calidad
 from finanzas.urls_rest import router_viaticos
+from home.urls_rest import router_home
 
 from django.conf import settings
 from django.conf.urls.static import static
@@ -28,6 +29,7 @@ urlpatterns = [
     url(r'^api-administracion/', include(router_administracion.urls)),
     url(r'^api-seguridadlaboral/', include(router_seguridadlaboral.urls)),
     url(r'^api-calidad/', include(router_calidad.urls)),
+    url(r'^api-home/', include(router_home.urls)),
 
     url(r'', include('compras.urls', namespace="compras")),
     url(r'', include('home.urls', namespace="home")),
@@ -37,9 +39,9 @@ urlpatterns = [
     url(r'', include('seguridadlaboral.urls', namespace="seguridadlaboral")),
     url(r'', include('calidad.urls', namespace="calidad")),
     url(r'', include('finanzas.urls', namespace="finanzas")),
+    url(r'', include('editorial.urls', namespace="editorial")),
 ]
 
 
 if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL,
-                          document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

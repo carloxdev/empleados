@@ -24,6 +24,7 @@ from .models import Formato
 from .models import ProcesoAuditoria
 from .models import RequisitoProceso
 from .models import HallazgoProceso
+from .models import AnalisisHallazgo
 
 
 # Serializadores:
@@ -41,6 +42,7 @@ from .serializers import FormatoSerializer
 from .serializers import ProcesoAuditoriaSerializer
 from .serializers import RequisitoProcesoSerializer
 from .serializers import HallazgoProcesoSerializer
+from .serializers import AnalisisHallazgoSerializer
 
 # Paginadores:
 from .pagination import GenericPagination
@@ -53,6 +55,7 @@ from .filters import RequisitoFilter
 from .filters import RequisitoProcesoFilter
 from .filters import HallazgoProcesoFilter
 from .filters import SubprocesoFilter
+from .filters import AnalisisHallazgoFilter
 
 
 # -------------- Calidad - API REST -------------- #
@@ -181,3 +184,12 @@ class HallazgoProcesoAPI(viewsets.ModelViewSet):
     filter_backends = (filters.DjangoFilterBackend,)
     filter_backends = (DjangoFilterBackend,)
     filter_class = HallazgoProcesoFilter
+
+
+class AnalisisHallazgoAPI(viewsets.ModelViewSet):
+    queryset = AnalisisHallazgo.objects.all()
+    serializer_class = AnalisisHallazgoSerializer
+    permission_classes = (IsAuthenticated,)
+    filter_backends = (filters.DjangoFilterBackend,)
+    filter_backends = (DjangoFilterBackend,)
+    filter_class = AnalisisHallazgoFilter

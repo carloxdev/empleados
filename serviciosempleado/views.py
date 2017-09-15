@@ -116,13 +116,18 @@ class MiBuzon(View):
         self.template_name = 'mi_buzon/mi_buzon.html'
 
     def get(self, request):
-        form = SolicitudesFilterForm()
-        form_nuevo = NuevaSolicitudForm()
+        clave = request.user.profile.clave_rh
+        if clave is not None:
 
-        contexto = {
-            'form': form,
-            'form2': form_nuevo,
-        }
+            form = SolicitudesFilterForm()
+            form_nuevo = NuevaSolicitudForm()
+
+            contexto = {
+                'form': form,
+                'form2': form_nuevo,
+            }
+        else:
+            contexto = {}
 
         return render(request, self.template_name, contexto)
 
@@ -133,8 +138,14 @@ class MiNomina(View):
         self.template_name = 'mi_nomina.html'
 
     def get(self, request):
-
-        contexto = {
-        }
+        clave = request.user.profile.clave_rh
+        if clave is not None:
+            empleado = VIEW_EMPLEADOS_FULL.objects.using(
+                'ebs_p').get(pers_empleado_numero=clave)
+            contexto = {
+                'rfc': empleado.pers_rfc
+            }
+        else:
+            contexto = {}
 
         return render(request, self.template_name, contexto)

@@ -10,20 +10,17 @@ import json
 
 # Modelos
 from .models import PerfilPuestoDocumento
-from .models import Archivo
+
 from .models import TipoDocumento
 from .models import DocumentoPersonal
 from .models import DocumentoCapacitacion
 from .models import Curso
-from ebs.models import VIEW_EMPLEADOS_FULL
-from jde.models import VIEW_PROVEEDORES
 from .models import PerfilPuestosCargo
 from .models import PerfilCompetencias
-from administracion.models import Solicitud
 
-
-# GenerisForeignKey
-from generic_relations.relations import GenericRelatedField
+# Otros Modelos
+from ebs.models import VIEW_EMPLEADOS_FULL
+from jde.models import VIEW_PROVEEDORES
 
 
 class PerfilPuestosCargoSerializer(serializers.HyperlinkedModelSerializer):
@@ -118,33 +115,22 @@ class DocumentoCapacitacionSerializers(serializers.HyperlinkedModelSerializer):
             'nombre_completo',
         )
 
-# /api-capitalhumano/documentopersonal/64/
-class ArchivoSerializers(serializers.HyperlinkedModelSerializer):
-    content_object = GenericRelatedField({
-        DocumentoPersonal: serializers.HyperlinkedRelatedField(
-            queryset=DocumentoPersonal.objects.all(),
-            view_name='documentopersonal-detail',
-        ),
-        DocumentoCapacitacion: serializers.HyperlinkedRelatedField(
-            queryset=DocumentoCapacitacion.objects.all(),
-            view_name='documentocapacitacion-detail',
-        ),
-        Solicitud: serializers.HyperlinkedRelatedField(
-            queryset=Solicitud.objects.all(),
-            view_name='solicitud-detail',
-        ),
-    })
+# ---------- FIN Serializers para insertar registros------------------
+
+# ----------Serializers de consulta------------------
+
+
+class TipoDocumentoSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
-        model = Archivo
+        model = TipoDocumento
         fields = (
             'pk',
-            'tipo_archivo',
-            'archivo',
-            'content_object',
+            'tipo_documento',
+            'agrupador',
             'created_by',
+            'created_date',
         )
-# ---------- FIN Serializers para insertar registros------------------
 
 
 class PersonalSerializer(serializers.HyperlinkedModelSerializer):
@@ -154,7 +140,6 @@ class PersonalSerializer(serializers.HyperlinkedModelSerializer):
         view_name='archivo-detail'
     )
     tipo_documento = serializers.SerializerMethodField()
-    agrupador = serializers.SerializerMethodField()
     vigencia_inicio = serializers.SerializerMethodField()
     vigencia_fin = serializers.SerializerMethodField()
     created_by = serializers.SerializerMethodField()
@@ -167,7 +152,6 @@ class PersonalSerializer(serializers.HyperlinkedModelSerializer):
             'pk',
             'numero_empleado',
             'tipo_documento',
-            'agrupador',
             'vigencia_inicio',
             'vigencia_fin',
             'relacion',
@@ -180,30 +164,6 @@ class PersonalSerializer(serializers.HyperlinkedModelSerializer):
     def get_tipo_documento(self, obj):
         try:
             return obj.tipo_documento.tipo_documento
-        except Exception as e:
-            print str(e)
-            return " "
-
-    def get_agrupador(self, obj):
-        try:
-            agrupador = ''
-            if obj.tipo_documento.agrupador == 'per':
-                agrupador = 'Personal'
-            elif obj.tipo_documento.agrupador == 'med':
-                agrupador = 'Medico'
-            elif obj.tipo_documento.agrupador == 'amo':
-                agrupador = 'Faltas al reglamento'
-            elif obj.tipo_documento.agrupador == 'adm':
-                agrupador = 'Documentos administrativos'
-            elif obj.tipo_documento.agrupador == 'gra':
-                agrupador = 'Grados academicos'
-            elif obj.tipo_documento.agrupador == 'com':
-                agrupador = 'Comprobantes laborales'
-            elif obj.tipo_documento.agrupador == 'cre':
-                agrupador = 'Credenciales'
-            elif obj.tipo_documento.agrupador == 'equ':
-                agrupador = 'Equipo asignado'
-            return agrupador
         except Exception as e:
             print str(e)
             return " "

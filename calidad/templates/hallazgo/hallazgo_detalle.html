@@ -143,6 +143,9 @@
                              <!-- observaciones -->
                              {% tag_field form.observaciones 3 8 %}
 
+                             <input type="hide" class="hide" value="{{ request.user.profile.pk }}" id="id_actual_user">
+                             <input type="hide" class="hide" value="{{ pk_hal }}" id="id_pk_hal">
+
                            </div> <!-- nova-slider-panel-content -->
                            <div class="nova-slider-panel-footer">
 
@@ -165,8 +168,7 @@
                         <div class="nova-slider-title pull-left">Análisis de causas
                         </div>
 
-                        <a href="#id_tarjeta_analisis"
-                           class="btn nova-btn btn-rounded btn-sm btn-default nova-btn-space pull-right" data-toggle="modal" id="id_boton_nuevo_analisis_causas">
+                        <a class="btn nova-btn btn-rounded btn-sm btn-default nova-btn-space pull-right" id="id_boton_nuevo_analisis">
                            <i class="icon icon-left mdi mdi-plus-circle nova-black"></i>Nuevo
                         </a>
                      </div>
@@ -181,8 +183,8 @@
                                  <th>Causas probables</th>
                               </tr>
                            </thead>
-                           <tbody>
-                              <tr class="clickable-row">
+                           <tbody id="id_tbody_analisis">
+                              <!-- <tr class="clickable-row">
                                  <td>
                                     <a class="btn nova-btn nova-btn-delete">
                                        <i class="icon icon-left icon mdi mdi-delete nova-white"></i>
@@ -193,19 +195,7 @@
                                  </td>
                                  <td>ACR</td>
                                  <td>Se determino en conjunto con el equipo de</td>
-                              </tr>
-                              <tr class="clickable-row">
-                                 <td>
-                                    <a class="btn nova-btn nova-btn-delete">
-                                       <i class="icon icon-left icon mdi mdi-delete nova-white"></i>
-                                    </a>
-                                 </td>
-                                 <td>
-                                    <a href="#id_tarjeta_analisis" class="btn btn-default nova-url" data-toggle="modal">Analisis de causas 2</a>
-                                 </td>
-                                 <td>Lluvia de ideas</td>
-                                 <td>Se determino en conjunto con el equipo de</td>
-                              </tr>
+                              </tr> -->
                            </tbody>
                         </table>
 
@@ -220,8 +210,7 @@
                         <div class="nova-slider-title pull-left">Plan de Acción
                         </div>
 
-                        <a href="#id_tarjeta_nueva_actividad"
-                           class="btn nova-btn btn-rounded btn-sm btn-default nova-btn-space pull-right" data-toggle="modal" id="boton_nuevo">
+                        <a class="btn nova-btn btn-rounded btn-sm btn-default nova-btn-space pull-right" id="id_boton_nuevo_plan">
                            <i class="icon icon-left mdi mdi-plus-circle nova-black"></i>Nuevo
                         </a>
                      </div>
@@ -343,13 +332,13 @@
    </div> <!-- main content -->
 
    <!-- tarjeta_analisis -->
-   <div id="id_tarjeta_analisis" role="dialog" class="modal fade colored-header colored-header-primary">
+   <div id="id_tarjeta_analisis" role="dialog" data-primaryKey="" class="modal fade colored-header colored-header-primary">
       <div class="modal-dialog modal-lg">
          <div class="modal-content nova-modal-maxwidth">
 
             <div class="modal-header nova-modal-header">
                <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
-               <h3 class="modal-title">Analisis de Causas</h3>
+               <h3 class="modal-title" id="id_popup_titulo_analisis"></h3>
             </div>
 
                <form id="id_formulario_analisis_causas" class="modal-body form-horizontal">
@@ -363,15 +352,15 @@
                   <!-- causas -->
                   {% tag_field_popup formulario_analisis_causa.causas 3 8 %}
 
-                  <!-- imagen -->
-                  {% tag_field_popup formulario_analisis_causa.imagen 3 8 %}
+                  <!-- archivo -->
+                  {% tag_field_popup formulario_analisis_causa.archivo 3 8 %}
 
                </form><!-- Modal body-->
 
             <div class="modal-footer nova-modal-footer">
                <div class="row col-sm-12">
                   <button type="button" data-dismiss="modal" class="btn btn-default pull-left">
-                     Cancelar
+                     Cerrar
                   </button>
 
                   <button type="button" id="id_boton_analisis_causas" class="btn nova-btn btn-primary btn-lg pull-right">
@@ -441,7 +430,7 @@
             <div class="modal-footer nova-modal-footer">
                <div class="row col-sm-12">
                   <button type="button" data-dismiss="modal" class="btn btn-default pull-left">
-                     Cancelar
+                     Cerrar
                   </button>
 
                   <button type="button" id="id_boton_guardar_actividad" class="btn nova-btn btn-primary btn-lg pull-right">
@@ -498,8 +487,8 @@
                      <div class="row">
                         <div class="col-sm-12 nova-modal-informacion">
 
-                           <!-- imagen -->
-                           {% tag_field_popup formulario_seguimiento_plan.imagen 0 12 %}
+                           <!-- archivo -->
+                           {% tag_field_popup formulario_seguimiento_plan.archivo 0 12 %}
 
                         </div>
                      </div>
@@ -549,14 +538,14 @@
               <!-- observaciones -->
               {% tag_field_popup formulario_seguimiento_plan_evaluacion.observaciones 3 8 %}
 
-              <!-- imagen -->
-              {% tag_field_popup formulario_seguimiento_plan_evaluacion.imagen 3 8 %}
+              <!-- archivo -->
+              {% tag_field_popup formulario_seguimiento_plan_evaluacion.archivo 3 8 %}
 
             </form><!-- Modal body-->
             <div class="modal-footer nova-modal-footer">
                <div class="row col-sm-12">
                   <button type="button" data-dismiss="modal" class="btn btn-default pull-left">
-                     Cancelar
+                     Cerrar
                   </button>
 
                   <button type="button" id="id_boton_guardar_evaluacion" class="btn nova-btn btn-primary btn-lg pull-right">
@@ -587,15 +576,15 @@
                <!-- observacion -->
                {% tag_field_popup formulario_evidencia_hallazgo.observacion 3 8 %}
 
-               <!-- imagen_evidencia -->
-               {% tag_field_popup formulario_evidencia_hallazgo.imagen_evidencia 3 8 %}
+               <!-- archivo_evidencia -->
+               {% tag_field_popup formulario_evidencia_hallazgo.archivo_evidencia 3 8 %}
 
             </form><!-- Modal body-->
 
             <div class="modal-footer nova-modal-footer">
                <div class="row col-sm-12">
                   <button type="button" data-dismiss="modal" class="btn btn-default pull-left">
-                     Cancelar
+                     Cerrar
                   </button>
 
                   <button type="button" id="id_boton_guardar_evidencia" class="btn nova-btn btn-primary btn-lg pull-right">
@@ -641,7 +630,7 @@
             <div class="modal-footer nova-modal-footer">
                <div class="row col-sm-12">
                   <button type="button" data-dismiss="modal" class="btn btn-default pull-left">
-                     Cancelar
+                     Cerrar
                   </button>
 
                   <button type="button" id="id_boton_guardar_editar_actividad" class="btn nova-btn btn-primary btn-lg pull-right">

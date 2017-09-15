@@ -12,11 +12,7 @@ from .views import OrganigramaOrgAPI
 from .views import OrganigramaEmpAPI
 from .views import PerfilPuesto
 from .views import PerfilPuestoNuevo
-from .views import PerfilPuestoNuevo2
 from .views import PerfilPuestoConfiguraciones
-from .views import PerfilPuestoCompetencias
-from .views import PerfilPuestoCargos
-from .views import PerfilOrganigrama
 from .views import EmpleadoExpediente
 from .views import ExpedientesGeneral
 from .views import ExpedientesGrado
@@ -94,29 +90,9 @@ urlpatterns = [
         name="perfil_nuevo"
     ),
     url(
-        r'^perfilpuesto/nuevo2/$',
-        PerfilPuestoNuevo2.as_view(),
-        name="perfil_nuevo2"
-    ),
-    url(
         r'^perfilpuesto/configuraciones/$',
         PerfilPuestoConfiguraciones.as_view(),
         name="perfil_configuracion"
-    ),
-    url(
-        r'^perfilpuesto/competencia/$',
-        PerfilPuestoCompetencias.as_view(),
-        name="perfil_competencia"
-    ),
-    url(
-        r'^perfilpuesto/puestocargo/$',
-        PerfilPuestoCargos.as_view(),
-        name="perfil_cargo"
-    ),
-    url(
-        r'^perfilpuesto/organigrama/$',
-        PerfilOrganigrama.as_view(),
-        name="perfil_organigrama"
     ),
 ]
 

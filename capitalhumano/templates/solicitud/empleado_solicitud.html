@@ -45,105 +45,111 @@
             </div> <!-- Panel -->
         </div> <!-- col sm 12-->
     </div>
-
-    <!-- Modal solicitudes-->
-    <div id="modal_filtro" role="dialog" class="modal fade colored-header colored-header-primary">
-            <div class="modal-dialog custom-width">
-                    <div class="modal-content">
-                            <div class="modal-header nova-modal-header">
-                                <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
-                                <h3 class="modal-title">Filtros</h3>
-                            </div>
-                            <div class="modal-body form-horizontal">
-                                <!-- Folio-->
-                                {% tag_filter form.folio %}
-                                <!-- Numero empleado -->
-                                {% tag_field_popup_apuntador form.numero_empleado '(EBS)' %}
-                                <!-- Status-->
-                                {% tag_filter form.status %}
-                                <!-- Asunto-->
-                                {% tag_filter form.asunto %}        
-                              
-                            </div>
-                                                    
-                            <!-- Botones de acción -->
-                            <div class="modal-footer nova-modal-footer">
-                                    <div class="row col-sm-12">
-                                            <button type="button" id="boton_limpiar" class="btn btn-default pull-left">
-                                                    <i class="fa fa-eraser"></i>
-                                                    Limpiar
-                                            </button>
-
-                                            <button type="submit" id="boton_buscar" class="btn nova-btn btn-primary btn-lg pull-right" method='POST'>
-                                                    <i class="icon icon-left mdi mdi-search nova-white"></i>
-                                                    Buscar
-                                            </button>
-                                    </div>
-                            </div>
-                    </div> <!-- Modal content-->
-            </div> <!-- Modal dialog -->
-    </div><!-- Modal -->
-    <!-- Modal editar-->
-    <div id="modal_editar" role="dialog" class="modal fade colored-header colored-header-primary">
-            <div class="modal-dialog custom-width">
-                    <div class="modal-content">
-                            <div class="modal-header nova-modal-header">
-                                <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
-                                <h3 class="modal-title">Editar</h3>
-                            </div>
-                            <input type="hide" class="hide" value="{{ request.user.profile.id }}" id="id_updated_by">
-                            
-                            <div class="modal-body form-horizontal">
-                                <!-- Asunto -->
-                                <div class="form-group">
-                                    <label class="col-sm-3 nova-col-filter control-label">Asunto:</label>
-                                    <div class="col-sm-8 xs-pt-5 nova-modal-informacion">
-                                        <input class="form-control input-xs" id="id_asunto_informacion" readonly="true"></input>
-                                    </div>
-                                </div>
-                                <!-- Descripcion -->
-                                <div class="form-group">
-                                    <label class="col-sm-3 nova-col-filter control-label">Descripción:</label>
-                                    <div class="col-sm-8 xs-pt-5 nova-modal-informacion">
-                                        <textarea class="form-control input-xs" id="id_descripcion_informacion" readonly="true"></textarea>
-                                    </div>
-                                </div>
-                                <!-- Status -->
-                                <div class="form-group">
-                                    <label class="col-sm-3 nova-col-filter control-label">{{ form2.status_editar.label }}</label>
-                                    <div class="col-sm-8 xs-pt-5">
-                                        {{ form2.status_editar }}
-                                    </div>
-                                </div>
-                                <!-- Observaciones -->
-                                <div class="form-group">
-                                    <label class="col-sm-3 nova-col-filter control-label">{{ form2.observaciones.label }}</label>
-                                    <div class="col-sm-8 xs-pt-5">
-                                        {{ form2.observaciones }}
-                                    </div>
-                                </div>                
-                              
-                            </div>
-                                                    
-                            <!-- Botones de acción -->
-                            <div class="modal-footer nova-modal-footer">
-                                    <div class="row col-sm-12">
-                                            <button type="button" id="boton_cancelar" class="btn btn-default pull-left">
-                                                    <i class="fa fa-eraser"></i>
-                                                    Cancelar
-                                            </button>
-
-                                            <button type="submit" id="boton_editar" class="btn nova-btn btn-primary btn-lg pull-right" method='POST'>
-                                                    <i class="icon icon-left mdi mdi-search nova-white"></i>
-                                                    Guardar
-                                            </button>
-                                    </div>
-                            </div>
-                    </div> <!-- Modal content-->
-            </div> <!-- Modal dialog -->
-    </div><!-- Modal -->
 </div>  
 
+<!-- Modal solicitudes-->
+<div id="modal_filtro" role="dialog" class="modal fade colored-header colored-header-primary">
+        <input type="hide" class="hide" value="{{ oficina }}" id="id_oficina">
+        <div class="modal-dialog custom-width">
+                <div class="modal-content">
+                        <div class="modal-header nova-modal-header">
+                            <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
+                            <h3 class="modal-title">Filtros</h3>
+                        </div>
+                        <div class="modal-body form-horizontal">
+                            <!-- Folio-->
+                            {% tag_filter form.folio %}
+                            <!-- Numero empleado -->
+                            {% tag_field_popup_apuntador form.numero_empleado '(EBS)' %}
+                            <!-- Status-->
+                            {% tag_filter form.status %}
+                            <!-- Asunto-->
+                            {% tag_filter form.asunto %}        
+                          
+                        </div>
+                                                
+                        <!-- Botones de acción -->
+                        <div class="modal-footer nova-modal-footer">
+                                <div class="row col-sm-12">
+                                        <button type="button" id="boton_limpiar" class="btn btn-default pull-left">
+                                                <i class="fa fa-eraser"></i>
+                                                Limpiar
+                                        </button>
+
+                                        <button type="submit" id="boton_buscar" class="btn nova-btn btn-primary btn-lg pull-right" method='POST'>
+                                                <i class="icon icon-left mdi mdi-search nova-white"></i>
+                                                Buscar
+                                        </button>
+                                </div>
+                        </div>
+                </div> <!-- Modal content-->
+        </div> <!-- Modal dialog -->
+</div><!-- Modal -->
+<!-- Modal editar-->  
+<div id="modal_editar" role="dialog" class="modal fade colored-header colored-header-primary">
+        <div class="modal-dialog custom-width">
+                <div class="modal-content">
+                        <div class="modal-header nova-modal-header">
+                            <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
+                            <h3 class="modal-title">Editar</h3>
+                        </div>
+                        <input type="hide" class="hide" value="{{ request.user.profile.id }}" id="id_updated_by">
+                        
+                        <div class="modal-body form-horizontal">
+                            <!-- Asunto -->
+                            <div class="form-group">
+                                <label class="col-sm-3 nova-col-filter control-label">Asunto:</label>
+                                <div class="col-sm-8 xs-pt-5 nova-modal-informacion">
+                                    <input class="form-control input-xs" id="id_asunto_informacion" readonly="true"></input>
+                                </div>
+                            </div>
+                            <!-- Descripcion -->
+                            <div class="form-group">
+                                <label class="col-sm-3 nova-col-filter control-label">Descripción:</label>
+                                <div class="col-sm-8 xs-pt-5 nova-modal-informacion">
+                                    <textarea class="form-control input-xs" id="id_descripcion_informacion" readonly="true"></textarea>
+                                </div>
+                            </div>
+                            <!-- Status -->
+                            <div class="form-group">
+                                <label class="col-sm-3 nova-col-filter control-label">{{ form2.status_editar.label }}</label>
+                                <div class="col-sm-8 xs-pt-5">
+                                    {{ form2.status_editar }}
+                                </div>
+                            </div>
+                            <!-- Observaciones -->
+                            <div class="form-group">
+                                <label class="col-sm-3 nova-col-filter control-label">{{ form2.observaciones.label }}</label>
+                                <div class="col-sm-8 xs-pt-5">
+                                    {{ form2.observaciones }}
+                                </div>
+                            </div> 
+                            <!-- Archivos de respuesta -->
+                            <div class="form-group">
+                                <label class="col-sm-3 nova-col-filter control-label">{{ form2.archivo.label }}</label>
+                                <div class="col-sm-8 xs-pt-5">
+                                    {{ form2.archivo }}
+                                </div>
+                            </div>              
+                        </div>
+                                                
+                        <!-- Botones de acción -->
+                        <div class="modal-footer nova-modal-footer">
+                                <div class="row col-sm-12">
+                                        <button type="button" id="boton_cancelar" class="btn btn-default pull-left">
+                                                <i class="fa fa-eraser"></i>
+                                                Cancelar
+                                        </button>
+
+                                        <button type="submit" id="boton_editar" class="btn nova-btn btn-primary btn-lg pull-right" method='POST'>
+                                                <i class="icon icon-left mdi mdi-search nova-white"></i>
+                                                Guardar
+                                        </button>
+                                </div>
+                        </div>
+                </div> <!-- Modal content-->
+        </div> <!-- Modal dialog -->
+</div><!-- Modal -->
 <!-- Modal ver archivos-->
 <div id="modal_ver_informacion" role="dialog" class="modal fade colored-header colored-header-primary">
     <div class="modal-dialog custom-width">
@@ -154,17 +160,26 @@
                 <h3 class="modal-title">Archivos adjuntos</h3>
             </div>
 
+            <div class="panel panel-default nova-modal-accordion-panel nova-accordion-border-bottom">
+                <div class="panel-heading">
+                   <h4 class="panel-title">Archivos de solicitud:</h4>
+                </div>
                 <div class="modal-body form-horizontal" id="contenido">
-
-
                 </div>
-                
-                <!-- Botones de acción -->
-                <div class="modal-footer nova-modal-footer">
-                     <div class="row col-sm-12">
-                        <button type="button" class="btn btn-primary pull-right" id="id_boton_salir" >Salir</button>
-                    </div>
+            </div>
+            <div class="panel panel-default nova-modal-accordion-panel">
+                <div class="panel-heading">
+                   <h4 class="panel-title">Archivos de respuesta:</h4>
                 </div>
+                <div class="modal-body form-horizontal" id="contenido_respuesta">
+                </div>
+            </div>
+            <!-- Botones de acción -->
+            <div class="modal-footer nova-modal-footer">
+                 <div class="row col-sm-12">
+                    <button type="button" class="btn btn-primary pull-right" id="id_boton_salir" >Salir</button>
+                </div>
+            </div>
         </div> <!-- Modal content-->
     </div> <!-- Modal dialog -->
 </div><!-- Modal -->

@@ -48,6 +48,9 @@ function TarjetaUsuario() {
     this.$contrasena = $('#id_password')
     this.$confirmar = $('#id_confirmar')
 
+    this.$foto = $('#id_foto')
+    this.$foto_preview = $('#img_preview')
+
     this.init_Components()
     this.init_Events()
 }
@@ -62,6 +65,7 @@ TarjetaUsuario.prototype.get_ConfSelect2 = function () {
 }
 TarjetaUsuario.prototype.init_Events = function () {
     this.$clave_rh.on("change", this, this.buscar_EmpleadoProfile)
+    this.$foto.on("change",this, this.set_PreviewImagen)
 }
 TarjetaUsuario.prototype.buscar_EmpleadoProfile = function (e) {
 
@@ -146,6 +150,20 @@ TarjetaUsuario.prototype.buscar_EmpleadoJDE = function (_clave) {
         }
 
     })
+}
+TarjetaUsuario.prototype.set_PreviewImagen = function (e) {
+
+    if (this.files && this.files[0]) {
+
+        var reader = new FileReader()
+
+        reader.onload = function (e) {
+            tarjeta.$foto_preview.attr('src', e.target.result)
+        }
+
+        reader.readAsDataURL(this.files[0])
+
+    }
 }
 TarjetaUsuario.prototype.limpiar_Formulario = function () {
 

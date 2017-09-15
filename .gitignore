@@ -1,25 +1,20 @@
-# OS generated files
-# ---------------------------------------
+# ----------------- OS generated files ----------------- #
 .DS_Store
 .Trashes
 Thumbs.db
 
-# Python Files
-# ---------------------------------------
+# ----------------- Python Files ----------------- #
 *.pyc
 
-# Python Files
-# ---------------------------------------
+# ----------------- BD Files ----------------- #
 db.*
 
-# DIRECTORIES
-# ---------------------------------------
+# ----------------- Directories ----------------- #
 media/*
 static/*
 .vscode/*
 
-# Configuracion
-# ---------------------------------------
+# ----------------- Configuration ----------------- #
 Nova/settings.py
 
 # Migraciones
@@ -40,3 +35,6 @@ seguridadlaboral/migrations/*
 serviciosempleado/migrations/*
 sgi/migrations/*
 rsc/migrations/*
+editorial/migrations/*
+
+capitalhumano/utilities.py

@@ -9,11 +9,14 @@ from django_filters import CharFilter
 
 # Modelos:
 from .models import PerfilPuestoDocumento
-from .models import Archivo
+
+# Otros Modelos
+from home.models import Archivo
 
 from ebs.models import VIEW_EMPLEADOS_FULL
 from .models import DocumentoPersonal
 from .models import DocumentoCapacitacion
+from .models import TipoDocumento
 
 from .models import PerfilPuestosCargo
 from .models import PerfilCompetencias
@@ -248,14 +251,24 @@ class DocumentoCapacitacionFilter(filters.FilterSet):
             return proveedor
 
 
-class ArchivoFilter(filters.FilterSet):
+class TipoDocumentoFilter(filters.FilterSet):
 
     pk = CharFilter(
         name="pk",
         lookup_expr="icontains")
 
+    tipo_documento = CharFilter(
+        name="tipo_documento",
+        lookup_expr="icontains")
+
+    agrupador = CharFilter(
+        name="agrupador",
+        lookup_expr="icontains")
+
     class Meta:
-        model = Archivo
+        model = TipoDocumento
         fields = [
             'pk',
+            'tipo_documento',
+            'agrupador',
         ]

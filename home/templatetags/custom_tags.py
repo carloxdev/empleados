@@ -22,6 +22,7 @@ def tag_validate_has_group(user, groups_name):
 
 @register.filter('tag_get_filename')
 def tag_get_filename(value):
+
     return os.path.basename(value.file.name)
 
 
@@ -61,6 +62,18 @@ def tag_field_registro_nval(_field, _size_label, _size_field):
         'campo': _field,
         'size_label': _size_label,
         'size_field': _size_field,
+    }
+    return contexto
+
+
+@register.inclusion_tag(
+    'tags/image_preview.html',
+    takes_context=False)
+def tag_image_preview(_field, _imagen):
+
+    contexto = {
+        'campo': _field,
+        'imagen': _imagen,
     }
     return contexto
 
@@ -264,5 +277,48 @@ def tag_field_descripcion(_label_text, _label_text_size, _label_value, _label_va
         'label_text_size': _label_text_size,
         'label_value': _label_value,
         'label_value_size': _label_value_size,
+    }
+    return contexto
+
+
+@register.inclusion_tag('tags/tag_input.html', takes_context=False)
+def tag_input(_field):
+
+    contexto = {
+        'campo': _field
+    }
+    return contexto
+
+
+@register.inclusion_tag('tags/field_checkbox.html', takes_context=False)
+def tag_field_checkbox(_field, _name, _size_col):
+
+    contexto = {
+        'campo': _field,
+        'nombre': _name,
+        'size_col': _size_col,
+    }
+    return contexto
+
+
+@register.inclusion_tag('tags/tag_image.html', takes_context=False)
+def tag_image(_field, _imagen):
+
+    contexto = {
+        'campo': _field,
+        'imagen': _imagen
+    }
+    return contexto
+
+
+@register.inclusion_tag('tags/field_message.html', takes_context=False)
+def tag_field_message(_field, _size_label, _size_field, _message):
+
+    contexto = {
+        'campo': _field,
+        'size_label': _size_label,
+        'size_field': _size_field,
+        'messages': _message,
+
     }
     return contexto

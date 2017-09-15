@@ -20,6 +20,8 @@ from .forms import ViaticoLineaForm
 
 from .forms import AnticipoFilterForm
 
+from jde.business import AutorizadorGastosBusiness
+
 
 class ViaticoLista(View):
     template_name = 'viatico/viatico_lista.html'
@@ -56,17 +58,29 @@ class ViaticoCabeceraNuevo(View):
         formulario = ViaticoCabeceraForm(request.POST)
 
         if formulario.is_valid():
-            viatico = formulario.save(commit=False)
-            viatico.created_by = request.user.profile
-            viatico.updated_by = request.user.profile
-            viatico.save()
 
-            return redirect(
-                self.url_with_querystring(
-                    reverse('finanzas:viatico_editar', kwargs={'pk': viatico.pk}),
-                    new=True
+            viatico = formulario.save(commit=False)
+
+            try:
+
+                record = AutorizadorGastosBusiness.get_ByEmpleado(viatico.empleado_clave)
+
+                viatico.autorizador_clave = record.autorizador_clave
+                viatico.autorizador_descripcion = record.autorizador_nombre
+                viatico.grupo = record.grupo_descripcion
+                viatico.created_by = request.user.profile
+                viatico.updated_by = request.user.profile
+                viatico.save()
+
+                return redirect(
+                    self.url_with_querystring(
+                        reverse('finanzas:viatico_editar', kwargs={'pk': viatico.pk}),
+                        new=True
+                    )
                 )
-            )
+
+            except Exception as e:
+                messages.error(request, str(e))
 
         contexto = {
             'form': formulario

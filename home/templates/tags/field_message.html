@@ -1,0 +1,28 @@
+
+<div class="form-group {% if campo.errors %} has-error {% endif %}">
+
+    <label class="col-sm-{{size_label}} control-label">
+      {{ campo.label }}
+
+      {% if campo.field.required is False %}
+      <span>(Opcional):</span>
+      {% endif %}
+    </label>
+
+    <div class="col-sm-{{size_field}} xs-pt-5">
+        {{ campo }}
+        
+        {% if messages %}
+          <ul class="parsley-errors-list filled">
+            {% for message in messages %}
+              <li class="parsley-required">
+                  {{ message }}
+              </li>
+              {% endfor %}
+          </ul>
+        {% endif %}
+    </div>
+</div>
+
+
+

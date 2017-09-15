@@ -5,6 +5,7 @@
 var url_expediente = window.location.origin  + "/expedientes/"
 var url_expediente_personal_bypage = window.location.origin + "/api-capitalhumano/personal_bypage/"
 var url_archivo_personal_excel = window.location.origin + "/api-capitalhumano/personal/"
+var url_tipo_documento = window.location.origin + "/api-capitalhumano/tipo_documento/"
 
 //OBJS
 var tarjeta_filtro = null
@@ -62,8 +63,34 @@ TarjetaFiltros.prototype.init_Components = function () {
 }
 TarjetaFiltros.prototype.init_Events = function () {
 
-     this.$boton_buscar.on("click", this, this.click_BotonBuscar)
-     this.$boton_limpiar.on("click", this, this.click_BotonLimpiar)
+    this.$agrupador.on("change", this, this.change_Select)
+    this.$boton_buscar.on("click", this, this.click_BotonBuscar)
+    this.$boton_limpiar.on("click", this, this.click_BotonLimpiar)
+}
+TarjetaFiltros.prototype.change_Select = function (e) {
+
+        $.ajax({
+           url: url_tipo_documento,
+           method: "GET",
+           context: this,
+           data: {
+
+             "agrupador" : e.data.$agrupador.val()
+           },
+           success: function (_response) {
+              var data = []
+              data.push({id:" ", text:"--------------" })
+              for (var i = 0; i < _response.length; i++) {
+                data.push({id:_response[i].pk, text:_response[i].tipo_documento })
+              }
+
+              e.data.$tipo_documento.select2('destroy').empty().select2({data:data})
+           },
+           error: function (_response) {
+
+              alertify.error("Ocurrio error al cargar datos")
+           }
+        })
 }
 TarjetaFiltros.prototype.click_BotonBuscar = function (e) {
 
@@ -80,7 +107,6 @@ TarjetaFiltros.prototype.get_Values = function (_page) {
                 page: _page,
                 tipo_documento_organizacion: this.$asig_organizacion_clave.val(),
                 tipo_documento: this.$tipo_documento.val(),
-                agrupador: this.$agrupador.val(),
                 numero_empleado: this.$numero_empleado.val(),
                 tipo_documento_estatus: this.$estatus.val(),
      }
@@ -90,7 +116,6 @@ TarjetaFiltros.prototype.get_Values_Excel = function () {
         return {
                 tipo_documento_organizacion: this.$asig_organizacion_clave.val(),
                 tipo_documento: this.$tipo_documento.val(),
-                agrupador: this.$agrupador.val(),
                 numero_empleado: this.$numero_empleado.val(),
                 tipo_documento_estatus: this.$estatus.val(),
      }
@@ -100,7 +125,6 @@ TarjetaFiltros.prototype.validar_Campos = function (){
         bandera = 'False'
         if ((this.$asig_organizacion_clave.val() == '') &&
                 (this.$tipo_documento.val() == '') &&
-                (this.$agrupador.val() == '') &&
                 (this.$numero_empleado.val() == '') &&
                 (this.$estatus.val() == 0)
             ){

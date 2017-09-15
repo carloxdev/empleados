@@ -3,11 +3,12 @@
 \*-----------------------------------------------*/
 var url_documento_personal = window.location.origin  + "/api-capitalhumano/documentopersonal/"
 var url_documento_capacitacion = window.location.origin  + "/api-capitalhumano/documentocapacitacion/"
-var url_archivo =  window.location.origin + "/api-capitalhumano/archivo/"
+var url_archivo =  window.location.origin + "/api-home/archivo/"
 var url_eliminar = window.location.origin + "/expedientes/"
 var url_profile =  window.location.origin + "/api-seguridad/profile/"
 var url_documento_personal_grid = window.location.origin + "/api-capitalhumano/personal_bypage/"
 var url_documento_capacitacion_grid = window.location.origin +"/api-capitalhumano/capacitacion_bypage/"
+var url_tipo_documento = window.location.origin + "/api-capitalhumano/tipo_documento/"
 
 
 // OBJS
@@ -72,38 +73,39 @@ Filtro.prototype.get_ValuesCap = function (_page) {
 
 function PopupPersonal () {
 
-        this.$modal_per = $('#modal_nuevo')
-        this.$formulario_per = $('#formulario_per')
-        this.$boton_nuevo = $('#boton_nuevo_per')
-        this.$boton_guardar = $('#id_boton_guardar_personal')
-        this.$boton_cancelar = $('#id_boton_cancelar_per')
+    this.$modal_per = $('#modal_nuevo')
+    this.$formulario_per = $('#formulario_per')
+    this.$boton_nuevo = $('#boton_nuevo_per')
+    this.$boton_guardar = $('#id_boton_guardar_personal')
+    this.$boton_cancelar = $('#id_boton_cancelar_per')
 
-        this.$numero_empleado = $('#numero_empleado')
-        this.$tipo_documento = $('#id_tipo_documento')
-        this.$agrupador = $('#id_agrupador')
-        this.$vigencia_inicio = $('#id_vigencia_inicio')
-        this.$vigencia_fin = $('#id_vigencia_fin')
-        this.$vigencia_inicio_input = $('#id_vigencia_inicio_input')
-        this.$vigencia_fin_input = $('#id_vigencia_fin_input')
-        this.$created_by = $('#created_by')
-        this.$archivo = $('#id_archivo')
+    this.$numero_empleado = $('#numero_empleado')
+    this.$tipo_documento = $('#id_tipo_documento')
+    this.$agrupador = $('#id_agrupador')
+    this.$vigencia_inicio = $('#id_vigencia_inicio')
+    this.$vigencia_fin = $('#id_vigencia_fin')
+    this.$vigencia_inicio_input = $('#id_vigencia_inicio_input')
+    this.$vigencia_fin_input = $('#id_vigencia_fin_input')
+    this.$created_by = $('#created_by')
+    this.$archivo = $('#id_archivo')
 
-        this.init_Components()
-        this.init_Events()
+    this.init_Components()
+    this.init_Events()
 }
 PopupPersonal.prototype.init_Components = function () {
 
-        this.$tipo_documento.select2(appnova.get_ConfigSelect2())
-        this.$agrupador.select2(appnova.get_ConfigSelect2())
-        this.$vigencia_inicio.mask("9999-99-99",{  placeholder:"aaaa/mm/dd"  })
-        this.$vigencia_inicio_input.datetimepicker(this.get_DateTimePickerConfig())
-        this.$vigencia_fin.mask("9999-99-99",{  placeholder:"aaaa/mm/dd"  })
-        this.$vigencia_fin_input.datetimepicker(this.get_DateTimePickerConfig())
+    this.$tipo_documento.select2(appnova.get_ConfigSelect2())
+    this.$agrupador.select2(appnova.get_ConfigSelect2())
+    this.$vigencia_inicio.mask("9999-99-99",{  placeholder:"aaaa/mm/dd"  })
+    this.$vigencia_inicio_input.datetimepicker(this.get_DateTimePickerConfig())
+    this.$vigencia_fin.mask("9999-99-99",{  placeholder:"aaaa/mm/dd"  })
+    this.$vigencia_fin_input.datetimepicker(this.get_DateTimePickerConfig())
 }
 PopupPersonal.prototype.init_Events = function () {
 
-     this.$boton_guardar.on('click', this, this.click_BotonGuardar)
-     this.$boton_cancelar.on('click', this, this.click_BotonCancelar)
+    this.$agrupador.on("change", this, this.change_Select)
+    this.$boton_guardar.on('click', this, this.click_BotonGuardar)
+    this.$boton_cancelar.on('click', this, this.click_BotonCancelar)
 }
 PopupPersonal.prototype.get_DateTimePickerConfig = function () {
         return {
@@ -113,13 +115,39 @@ PopupPersonal.prototype.get_DateTimePickerConfig = function () {
                 format: "yyyy-mm-dd",
         }
 }
+PopupPersonal.prototype.change_Select = function (e) {
+
+        $.ajax({
+           url: url_tipo_documento,
+           method: "GET",
+           context: this,
+           data: {
+
+             "agrupador" : e.data.$agrupador.val()
+           },
+           success: function (_response) {
+              var data = []
+              data.push({id:"", text:"--------------" })
+              for (var i = 0; i < _response.length; i++) {
+                data.push({id:_response[i].pk, text:_response[i].tipo_documento })
+              }
+
+              e.data.$tipo_documento.select2('destroy').empty().select2({data:data})
+           },
+           error: function (_response) {
+
+              alertify.error("Ocurrio error al cargar datos")
+           }
+        })
+}
 PopupPersonal.prototype.click_BotonCancelar = function (e){
-        e.data.$tipo_documento.data('select2').val(0)
         e.data.$agrupador.data('select2').val(0)
+        e.data.$tipo_documento.val("").trigger('change')
         e.data.$vigencia_inicio.val("")
         e.data.$vigencia_fin.val("")
         e.data.$archivo.val("")
         tarjeta_resultados.popup.clear_Estilos()
+
 }
 PopupPersonal.prototype.click_BotonGuardar = function (e) {
         id_personal = ''

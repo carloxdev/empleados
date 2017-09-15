@@ -26,16 +26,20 @@
     </div>
     <div class="main-content container-fluid">
         <div class="fuelux">
+        {% if request.user.profile.clave_rh != None%}
             <div class="panel panel-default panel-table">
-                    <div class="panel-heading nova-panel-borde-contenido nova-panel-tools">
-                                <a href="#modal_filtro" class="btn nova-btn btn-rounded btn-space btn-primary pull-right" data-toggle="modal" id="boton_filtros">
-                                        <i class="icon icon-left mdi mdi-search nova-white"></i>Filtros
-                                </a>
-                                <div class="title hidden-xs">Recibos de nómina</div> 
+                    <div class="panel-heading nova-panel-borde-contenido nova-panel-tools">        
+                        <div class="title hidden-xs">Recibos de nómina</div> 
                     </div>
+                    <input type="hide" class="hide" value="{{ rfc }}" id="rfc" readonly="True">
                     <div id="grid_resultados" class="nova-div-overflow">
                     </div>
             </div> <!-- Panel -->
+        {% else %}
+            <div class="col-sm-12 widget">
+                <h3> Su usuario no tiene asignado un empleado.</h3>
+            </div>
+        {% endif%}
         </div> <!-- col sm 12-->
     </div>
 </div>  

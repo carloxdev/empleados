@@ -1,0 +1,24 @@
+{% load static from staticfiles %}
+
+<div class="form-group {% if campo.errors %} has-error {% endif %}">
+
+    <label for="{{campo.id_for_label}}">
+        {{ campo.label }}
+
+        {% if campo.field.required is False %}
+        <span>(Opcional):</span>
+        {% endif %}
+    </label>
+
+    <img id="img_preview"
+    class="img-responsive img-thumbnail legal-img"
+    {% if imagen %}
+    src="{{imagen}}"
+    {% else %}
+    src="{% static 'images/decoradores/no-image-user.jpg' %}"
+    {% endif %}
+    alt="User Image">
+
+    {{campo}}
+
+</div>

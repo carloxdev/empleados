@@ -3,6 +3,7 @@ from django.conf import settings
 
 # Own's Libraries
 from jde.models import VIEW_CENTROSCOSTO
+from jde.models import VIEW_GASTOS_AUTORIZADORES
 
 
 class CentroCostoBusiness(object):
@@ -142,3 +143,13 @@ class CentroCostoBusiness(object):
             return "(desactivado)"
         else:
             return ""
+
+
+class AutorizadorGastosBusiness(object):
+
+    @classmethod
+    def get_ByEmpleado(self, _empleado_clave):
+
+        record = VIEW_GASTOS_AUTORIZADORES.objects.using('jde_p').get(empleado_clave=_empleado_clave)
+
+        return record

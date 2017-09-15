@@ -19,6 +19,8 @@ class IncidenciaDocumentoSerializer(serializers.HyperlinkedModelSerializer):
     zona = serializers.SerializerMethodField()
     empleado_organizacion = serializers.SerializerMethodField()
     status = serializers.SerializerMethodField()
+    es_registrable = serializers.SerializerMethodField()
+    tiene_acr = serializers.SerializerMethodField()
 
     class Meta:
         model = IncidenciaDocumento
@@ -50,21 +52,44 @@ class IncidenciaDocumentoSerializer(serializers.HyperlinkedModelSerializer):
             'updated_date',
         )
 
+    def get_tiene_acr(self, obj):
+        try:
+            if obj.tiene_acr == 0:
+               tiene_acr = 'NO'
+            elif obj.tiene_acr == 1:
+                tiene_acr = 'SI'
+            return tiene_acr
+        except Exception as e:
+            print str(e)
+            return " "
+
+
+    def get_es_registrable(self, obj):
+        try:
+            if obj.es_registrable == 1:
+               es_registrable = 'REGISTRABLE'
+            elif obj.es_registrable == 0:
+                es_registrable = 'NO REGISTRABLE'
+            return es_registrable
+        except Exception as e:
+            print str(e)
+            return " " 
+
     def get_status(self, obj):
         try:
             status = ''
             if obj.status == 'abi':
-                status = 'Abierto'
+                status = 'ABIERTO'
             elif obj.status == 'cer':
-                status = 'Cerrado'
+                status = 'CERRADO'
             elif obj.status == 'pro':
-                status = 'Proceso'
+                status = 'PROCESO'
             elif obj.status == 'can':
-                status = 'Cancelado'
+                status = 'CANCELADO'
             return status
         except Exception as e:
             print str(e)
-            return " "    
+            return " "              
 
     def get_empleado_organizacion(self, obj):
         try:
