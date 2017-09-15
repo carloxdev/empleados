@@ -1,48 +1,36 @@
 {% extends 'master.html' %}
-
 {% load static from staticfiles %}
-
+{% load custom_tags %}
+{% block titulo %} Administración de Noticias {% endblock titulo %}
+{% block title-page %} Administración de Noticias {% endblock title-page %}
 {% block css %}
-
     <!-- Legalink' Styles -->
     <link rel="stylesheet" href="{% static 'post/post_administracion.css' %}" type="text/css"/>
-
 {% endblock css %}
 
+
 {% block contenido %}
+<div class="be-content">
 
-    <div class="be-content">
-
-        <div class="page-head nova-page-head">
-    		<h2 class="page-head-title nova-title">Administracion de Noticias</h2>
-    		<ol class="breadcrumb page-head-nav pull-right">
-    			<li><a href="{% url 'home:inicio' %}">Inicio</a></li>
-    			<li id="menu" data-opcion="viaticos_lista" class="active">Administracion de Noticias</li>
-    		</ol>
-    	</div>
-
+    <div class="page-head nova-page-head">
+        <h2 class="page-head-title nova-title">Administración de Noticias</h2>
+        <ol class="breadcrumb page-head-nav pull-right">
+            <li><a href="{% url 'home:inicio' %}">Inicio</a></li>
+            <li id="menu" data-opcion="comunicacion_admin" class="active">Administración de Noticias</li>
+        </ol>
+    </div>
+    <div class="main-content container-fluid nova-main-content">
         <div class="row">
-            <div class="col-xs-12">
-
-                <article class="legal-article">
-
-                    <nav class="legal-article-toolbar">
-
-                        <div class="row">
-
-                            <div class="col-xs-12 col-sm-6">
-                                <a href="{% url 'editorial:post_nuevo' %}" class="btn btn-primary visible-xs visible-sm-inline visible-md-inline visible-lg-inline">
-                                    <i class="fa fa-plus-circle" aria-hidden="true"></i>
-                                    Nuevo post
+            <div class="col-xs-12 nova-col">
+                <div class="panel panel-default panel-table nova-panel-table">
+                    <div class="panel-heading panel-border nova-panel-heading">
+                        <div class="widget-head nova-widget-head">
+                            <div class="button-toolbar">
+                                
+                                <a href="{% url 'editorial:post_nuevo' %}" class="btn nova-btn btn-rounded btn-space btn-default nova-block" id="boton_nuevo"><i class="icon icon-left mdi mdi-plus-circle nova-black"></i> Nuevo post
                                 </a>
-                            </div>
-
-                            <br class="visible-xs">
-                            <br class="visible-xs">
-
-                            <div class="col-xs-12 col-sm-6">
                                 <form action="" method="GET">
-                                    <div class="input-group">
+                                    <div class="input-group nova-block">
                                         <input type="text" class="form-control" name="q" placeholder="escribe texto a buscar" value="{{ request.GET.q }}">
 
                                         <span class="input-group-btn">
@@ -53,64 +41,62 @@
                                         </span>
                                     </div>
                                 </form>
+
                             </div>
+                            <span class="title hidden-xs">Registros</span>
                         </div>
-                    </nav>
-
-                    {% if registros %}
-
-                    <div class="legal-article-lista">
-                        <div class="list-group">
-                        {% for registro in registros %}
-                            <a href="{% url 'editorial:post_editar' registro.pk %}" class="list-group-item">
-                                {{ registro.titulo }}
-                                <span
-                                class="badge
-                                {% if registro.status == "PUB" %}
-                                    badge-publicado
-                                {% else %}
-                                    badge-captura
-                                {% endif %}">
-                                    {{ registro.get_status_display }}
-                                </span>
-                            </a>
-                        {% endfor %}
-                        </div>
-
-                        <div class="text-center">
-                            <ul class="pagination pagination-sm no-margin legal-paginador">
-                                {% if registros.has_previous %}
-                                    <li><a href="?{{ page_request_var }}={{ registros.previous_page_number }}&q={{ request.GET.q }}">&laquo;</a></li>
-                                {% endif %}
-
-                                {% for i in registros.paginator.page_range %}
-                                    <li {% if registros.number == i %} class="active" {% endif %}>
-                                        <a href="?page={{i}}&q={{ request.GET.q }}">{{ i }}</a>
-                                    </li>
+                
+                        {% if registros %}
+                            <div class="legal-article-lista">
+                                <div class="list-group">
+                                {% for registro in registros %}
+                                    <a href="{% url 'editorial:post_editar' registro.pk %}" class="list-group-item">
+                                        {{ registro.titulo }}
+                                        <span
+                                        class="badge
+                                        {% if registro.status == "PUB" %}
+                                            badge-publicado
+                                        {% else %}
+                                            badge-captura
+                                        {% endif %}">
+                                            {{ registro.get_status_display }}
+                                        </span>
+                                    </a>
                                 {% endfor %}
+                                </div>
 
-                                {% if registros.has_next %}
-                                    <li><a href="?page={{ registros.next_page_number }}&q={{ request.GET.q }}">&raquo;</a></li>
-                                {% endif %}
-                            </ul>
-                        </div>
-                    </div>
+                                <div class="text-center">
+                                    <ul class="pagination pagination-sm no-margin legal-paginador">
+                                        {% if registros.has_previous %}
+                                            <li><a href="?{{ page_request_var }}={{ registros.previous_page_number }}&q={{ request.GET.q }}">&laquo;</a></li>
+                                        {% endif %}
 
-                    {% else %}
+                                        {% for i in registros.paginator.page_range %}
+                                            <li {% if registros.number == i %} class="active" {% endif %}>
+                                                <a href="?page={{i}}&q={{ request.GET.q }}">{{ i }}</a>
+                                            </li>
+                                        {% endfor %}
 
-                    <div class="legal-article-avance text-center">
-                        <h1>Sin posts</h1>
-                    </div>
+                                        {% if registros.has_next %}
+                                            <li><a href="?page={{ registros.next_page_number }}&q={{ request.GET.q }}">&raquo;</a></li>
+                                        {% endif %}
+                                    </ul>
+                                </div>
+                            </div>
 
-                    {% endif %}
+                        {% else %}
 
-                </article>
+                            <div class="legal-article-avance text-center">
+                                <h1>Sin posts</h1>
+                            </div>
 
+                        {% endif %}
 
-            </div>
-        </div>
-
-    </div>
+                  </div> <!-- end panel-heading -->
+            </div> <!-- end panel panel-default -->
+        </div><!-- end row -->
+    </div> <!-- end main content -->
+</div> <!-- end be content -->
 
 {% endblock contenido %}
 
