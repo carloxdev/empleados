@@ -33,9 +33,11 @@ class Post(models.Model):
     contenido = models.TextField()
 
     status = models.CharField(max_length=3, choices=STATUS, default="REC")
-    created_by = models.ForeignKey(Profile, related_name='post_creador', null=True)
+    created_by = models.ForeignKey(
+        Profile, related_name='post_creador', null=True)
     created_date = models.DateTimeField(auto_now=False, auto_now_add=True)
-    updated_by = models.ForeignKey(Profile, related_name='post_actualizador', null=True)
+    updated_by = models.ForeignKey(
+        Profile, related_name='post_actualizador', null=True)
     updated_date = models.DateTimeField(auto_now=True, auto_now_add=False)
 
     def __unicode__(self):

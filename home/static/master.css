@@ -858,7 +858,7 @@ div.nova-panel-arbol li.list-group-item {
 /* -AVATAR DE PERFIL- */
 .be-user-nav > li.dropdown > a div.crop-img {
   height: 60px !important;
-  width: 80px !important;
+  width: 75px !important;
   overflow: hidden !important;
   line-height: 70px !important;
 }
@@ -877,6 +877,12 @@ div.nova-panel-arbol li.list-group-item {
   -webkit-clip-path: circle(23px at 50% 25px) !important;
 }
 @media (max-width: 767px) {
+  .be-user-nav > li.dropdown > a div.crop-img {
+    height: 60px !important;
+    width: 65px !important;
+    overflow: hidden !important;
+    line-height: 70px !important;
+  }
     .be-user-nav > li.dropdown > a .user-name {
     display: block !important;
     -webkit-box-flex: 1 !important;
