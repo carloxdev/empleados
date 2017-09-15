@@ -846,7 +846,7 @@ div.nova-panel-arbol li.list-group-item {
 .icon-black{
   color: #424242 !important;
 }
-/* -ICONO DE PERFIL- */
+/* -AVATAR DE PERFIL- */
 .be-user-nav > li.dropdown > a div.crop-img {
   height: 60px !important;
   width: 80px !important;
@@ -878,4 +878,4 @@ div.nova-panel-arbol li.list-group-item {
     text-overflow: ellipsis !important;
   }
 }
-/*-FIN ICONO DE PERFIL-*/
+/*-FIN AVATAR DE PERFIL-*/
