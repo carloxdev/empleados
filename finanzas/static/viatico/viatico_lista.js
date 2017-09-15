@@ -8,7 +8,7 @@ var url_viaticocabecera_editar = ""
 var tarjeta_filtros = null
 var tarjeta_resultados = null
 
-$.fn.modal.Constructor.prototype.enforceFocus = function () {}
+// $.fn.modal.Constructor.prototype.enforceFocus = function () {}
 
 
 /* -------------------- LOAD -------------------- */
@@ -68,14 +68,14 @@ PopupFiltros.prototype.init = function () {
     this.$created_date_menorque.datepicker({format: 'dd/mm/yyyy', autoclose: true})
 }
 PopupFiltros.prototype.set_Events = function () {
-    this.$id.on("shown.bs.modal", this, this.end_Show)
+    // this.$id.on("shown.bs.modal", this, this.end_Show)
 
     this.$boton_buscar.on("click", this, this.click_BotonBuscar)
     this.$boton_limpiar.on("click", this, this.click_BotonLimpiar)
 }
-PopupFiltros.prototype.end_Show = function (e) {
-    e.data.$proposito_viaje.focus()
-}
+// PopupFiltros.prototype.end_Show = function (e) {
+//     e.data.$proposito_viaje.focus()
+// }
 PopupFiltros.prototype.get_FechaMayorQue = function (e) {
 
     fecha = this.$created_date_mayorque.datepicker("getDate")
