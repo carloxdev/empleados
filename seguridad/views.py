@@ -390,6 +390,7 @@ class UsuarioEditar(View):
             usuario.profile.fecha_nacimiento = usuario.profile.fecha_nacimiento
 
             if datos_formulario.get('foto') is not None:
+                usuario.profile.foto.delete()
                 usuario.profile.foto = datos_formulario.get('foto')
 
             usuario.profile.save()
@@ -487,6 +488,7 @@ class UsuarioPerfil(View):
             usuario.profile.fecha_nacimiento = usuario.profile.fecha_nacimiento
 
             if datos_formulario.get('foto') is not None:
+                usuario.profile.foto.delete()
                 usuario.profile.foto = datos_formulario.get('foto')
 
             usuario.profile.save()
