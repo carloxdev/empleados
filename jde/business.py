@@ -42,7 +42,7 @@ class CentroCostoBusiness(object):
                 estructura="HST"
             ).order_by(
                 'clave'
-            )
+            )[:20]
         else:
             centros = VIEW_CENTROSCOSTO.objects.using('jde_p').exclude(
                 estructura="HST"

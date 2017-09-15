@@ -29,7 +29,7 @@ class EmpleadoBusiness(object):
 
         empleados = VIEW_EMPLEADOS_SIMPLE.objects.using('ebs_p').exclude(
             pers_empleado_numero__isnull=True
-        ).order_by('pers_nombre_completo')
+        ).order_by('pers_nombre_completo')[:20]
 
         return empleados
 
