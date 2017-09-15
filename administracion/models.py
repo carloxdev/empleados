@@ -142,13 +142,15 @@ class Contrato(models.Model):
 
 class Asunto(models.Model):
     nombre = models.CharField(max_length=30)
-    clave_departamento = models.CharField(max_length=5)
+    clave_departamento = models.CharField(max_length=5, null=True, blank=True)
 
     created_by = models.ForeignKey(
         Profile, related_name='asunto_created_by')
     created_date = models.DateTimeField(
         auto_now=False,
-        auto_now_add=True
+        auto_now_add=True,
+        null=True,
+        blank=True
     )
     updated_by = models.ForeignKey(
         Profile, related_name='asunto_updated_by', null=True, blank=True)

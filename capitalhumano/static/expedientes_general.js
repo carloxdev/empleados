@@ -64,7 +64,6 @@ TarjetaFiltros.prototype.init_Events = function () {
 TarjetaFiltros.prototype.click_BotonBuscar = function (e) {
 
         e.preventDefault()
-
         if(tarjeta_filtro.validar_Campos() != 'True'){
             tarjeta_resultados.grid.buscar()
             tarjeta_resultados.popup.hidden_Modal()
@@ -275,9 +274,9 @@ Grid.prototype.get_DataSourceConfig = function () {
                                 dataType: "json",
                         },
                         parameterMap: function (data, action) {
-                                if (action === "read"){
-                                        return tarjeta_filtro.get_Values(data.page)
-                                }
+                            if (action === "read"){
+                                return tarjeta_filtro.get_Values(data.page)
+                            }
                         }
                 },
                 schema: {
@@ -315,7 +314,7 @@ Grid.prototype.get_Configuracion = function () {
         return {
                 autoBind: false,
                 dataSource: this.kfuente_datos,
-                columnMenu: true,
+                columnMenu: false,
                 groupable: false,
                 sortable: false,
                 editable: false,
