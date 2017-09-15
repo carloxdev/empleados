@@ -16,15 +16,14 @@
 {% block contenido %}
 
 <div class="be-content">
-    <div class="page-head">
-        <h2 class="page-head-title">Mis Recibos de Nómina</h2>
-        <br>
+    <div class="page-head nova-page-head">
+        <h2 class="page-head-title nova-title">Mis Recibos de Nómina</h2>
         <ol class="breadcrumb page-head-nav pull-right">
          <li> <a href="{% url 'home:inicio'%}">Inicio</a></li>
          <li id="menu" data-opcion="serviciosempleado_nomina">Mis Recibos de Nómina</li>
         </ol>
     </div>
-    <div class="main-content container-fluid">
+    <div class="main-content container-fluid nova-main-content">
         <div class="fuelux">
         {% if request.user.profile.clave_rh != None%}
             <div class="panel panel-default panel-table">
