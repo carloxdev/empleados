@@ -861,7 +861,7 @@ div.nova-panel-arbol li.list-group-item {
   -webkit-clip-path: circle(23px at 40px 25px) !important;
 }
 .be-user-nav > li.dropdown > a div.crop-img img.imagen-avatar-default{
-
+  max-width: 200px !important;
   max-height: 60px !important;
   width: auto !important;
   clip-path: circle(23px at 40px 25px) !important;

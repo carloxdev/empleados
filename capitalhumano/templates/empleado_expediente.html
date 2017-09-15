@@ -18,17 +18,16 @@
 {% block contenido %}
 {% for dato in empleado %}
 <div class="be-content">
-	<div class="page-head">
-		<h2 class="page-head-title">Expediente</h2>
-		<br>
+	<div class="page-head nova-page-head">
+		<h2 class="page-head-title nova-title">Expediente</h2>
 		<ol class="breadcrumb page-head-nav pull-right">
-		 <li> <a href="{% url 'home:inicio'%}">Inicio</a></li>
-		 <li id="menu" data-opcion="capitalhumano_expedientes"><a href="{% url 'capitalhumano:empleado_expedientes_general'%}">Expedientes</a></li>
-		 <li class="active" >Expediente</li>
+			<li><a href="{% url 'home:inicio' %}">Inicio</a></li>
+			<li id="menu" data-opcion="capitalhumano_expedientes"><a href="{% url 'capitalhumano:empleado_expedientes_general'%}">Expedientes</a></li>
+			<li>Expediente</li>
 		</ol>
 	</div>
 
-	<div class="main-content container-fluid">
+	<div class="main-content container-fluid nova-main-content">
 		<div class="user-profile">
 			<div class="row">
 				<input type="hide" class="hide" value="{{ dato.pers_empleado_numero }}" id="numero_empleado">

@@ -143,7 +143,6 @@ class Contrato(models.Model):
 class Asunto(models.Model):
     nombre = models.CharField(max_length=30)
     clave_departamento = models.CharField(max_length=5, null=True)
-
     created_by = models.ForeignKey(
         Profile,
         related_name='asunto_created_by',

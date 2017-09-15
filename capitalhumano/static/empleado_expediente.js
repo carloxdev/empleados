@@ -865,7 +865,7 @@ GridPersonal.prototype.get_Configuracion = function () {
 
     return {
             dataSource: this.kfuente_datos,
-            columnMenu: true,
+            columnMenu: false,
             groupable: false,
             sortable: false,
             editable: false,
@@ -1088,7 +1088,7 @@ GridCapacitacion.prototype.get_Configuracion = function () {
 
     return {
             dataSource: this.kfuente_datos,
-            columnMenu: true,
+            columnMenu: false,
             groupable: false,
             sortable: false,
             editable: false,

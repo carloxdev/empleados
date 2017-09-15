@@ -68,10 +68,10 @@
                                 {% if user.profile.foto %}
                                     <img class="imagen-avatar" src="{{ user.profile.foto.url }}" alt="User Image" class="user-image">
                                 {% else %}
-                                <img class="imagen-avatar-default" src="{% static 'theme/img/avatar.png' %}" alt="User Image">
+                                    <img class="imagen-avatar-default" src="{% static 'theme/img/avatar.png' %}" alt="User Image">
                                 {% endif %}
                                 </div>
-                                
+
                                 <span class="user-name">{{ user.username }}</span>
                             </a>
                             <ul role="menu" class="dropdown-menu">
@@ -82,7 +82,7 @@
                                             <h4>ADMINISTRADOR</h4>
                                             {% else %}
 
-                                                {% if user.get_full_name %}
+                                                {% if user.first_name %}
                                                 <h5>{{ user.first_name }}</h5>
                                                 {% else %}
                                                 <h5> {{ user.username|upper }}</h5>
