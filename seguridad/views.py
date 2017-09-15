@@ -491,7 +491,7 @@ class UsuarioPerfil(View):
 
             usuario.profile.save()
 
-            return redirect(reverse('home:inicio'))
+            return redirect(reverse('seguridad:usuario_perfil', kwargs={'_pk': usuario.pk}))
 
         contexto = {
             'form': form_usuario,
