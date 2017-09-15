@@ -21,7 +21,7 @@ from .pagination import GenericPagination
 
 
 class ViaticoCabeceraAPI(viewsets.ModelViewSet):
-    queryset = ViaticoCabecera.objects.all()
+    queryset = ViaticoCabecera.objects.all().order_by('-id')
     serializer_class = ViaticoCabeceraSerializer
     filter_backends = (DjangoFilterBackend,)
     filter_class = ViaticoCabeceraFilter
@@ -29,7 +29,7 @@ class ViaticoCabeceraAPI(viewsets.ModelViewSet):
 
 
 class ViaticoCabeceraByPageAPI(viewsets.ModelViewSet):
-    queryset = ViaticoCabecera.objects.all()
+    queryset = ViaticoCabecera.objects.all().order_by('-id')
     serializer_class = ViaticoCabeceraSerializer
     filter_backends = (DjangoFilterBackend,)
     filter_class = ViaticoCabeceraFilter
@@ -38,7 +38,7 @@ class ViaticoCabeceraByPageAPI(viewsets.ModelViewSet):
 
 
 class ViaticoLineaAPI(viewsets.ModelViewSet):
-    queryset = ViaticoLinea.objects.all()
+    queryset = ViaticoLinea.objects.all().order_by('-slug')
     serializer_class = ViaticoLineaSerializer
     filter_backends = (DjangoFilterBackend,)
     filter_class = ViaticoLineaFilter

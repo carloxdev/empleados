@@ -66,6 +66,7 @@ PopupFiltros.prototype.init = function () {
     this.$autorizador.select2()
     this.$created_date_mayorque.datepicker({format: 'dd/mm/yyyy', autoclose: true})
     this.$created_date_menorque.datepicker({format: 'dd/mm/yyyy', autoclose: true})
+
 }
 PopupFiltros.prototype.set_Events = function () {
     // this.$id.on("shown.bs.modal", this, this.end_Show)
