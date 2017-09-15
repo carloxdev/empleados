@@ -849,23 +849,23 @@ div.nova-panel-arbol li.list-group-item {
 /* -ICONO DE PERFIL- */
 .be-user-nav > li.dropdown > a div.crop-img {
   height: 60px !important;
-  width: 65px !important;
+  width: 80px !important;
   overflow: hidden !important;
   line-height: 70px !important;
 }
 .be-user-nav > li.dropdown > a div.crop-img img.imagen-avatar{
-  max-width: 200px !important;
+  max-width: 100px !important;
   max-height: 60px !important;
   width: auto !important;
-  clip-path: circle(23px at 40px 25px) !important;
-  -webkit-clip-path: circle(23px at 40px 25px) !important;
+  clip-path: circle(23px at 50% 25px) !important;
+  -webkit-clip-path: circle(23px at 50% 25px) !important;
 }
 .be-user-nav > li.dropdown > a div.crop-img img.imagen-avatar-default{
   max-width: 200px !important;
   max-height: 60px !important;
   width: auto !important;
-  clip-path: circle(23px at 40px 25px) !important;
-  -webkit-clip-path: circle(23px at 30px 25px) !important;
+  clip-path: circle(23px at 50% 25px) !important;
+  -webkit-clip-path: circle(23px at 50% 25px) !important;
 }
 @media (max-width: 767px) {
     .be-user-nav > li.dropdown > a .user-name {
