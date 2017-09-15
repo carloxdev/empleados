@@ -459,7 +459,7 @@ Grid.prototype.get_Configuracion = function () {
         return {
                 autoBind: true,
                 dataSource: this.kfuente_datos,
-                columnMenu: true,
+                columnMenu: false,
                 groupable: false,
                 sortable: false,
                 editable: false,

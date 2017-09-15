@@ -9,10 +9,6 @@
     <link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.common-bootstrap.min.css' %}"/>
     <link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.bootstrap.min.css' %}"/>
 
-    <!-- Theme -->
-    <link rel="stylesheet" href="{% static 'theme/lib/datetimepicker/css/bootstrap-datetimepicker.min.css' %}"/>
-    <link rel="stylesheet" href="{% static 'theme/lib/daterangepicker/css/daterangepicker.css' %}"/>
-
     <!-- Nova -->
     <link rel="stylesheet" href="{% static 'grid.css' %}"/>
 
@@ -20,13 +16,11 @@
 {% block contenido %}
 
 <div class="be-content">
-    <div class="page-head">
-        <h2 class="page-head-title">Expedientes</h2>
-        <br>
+    <div class="page-head nova-page-head">
+        <h2 class="page-head-title nova-title">Expedientes</h2>
         <ol class="breadcrumb page-head-nav pull-right">
          <li> <a href="{% url 'home:inicio'%}">Inicio</a></li>
-         <li id="menu" data-opcion="capitalhumano_expedientes"><a href="
-         #">Expedientes</a></li>
+         <li id="menu" data-opcion="capitalhumano_expedientes">Expedientes</li>
         </ol>
     </div>
     <!-- Panel con tabs -->
@@ -63,10 +57,10 @@
             <div class="panel panel-default panel-table">
                     <div class="panel-heading nova-panel-borde-contenido nova-panel-tools">
                                 <button class="btn nova-btn btn-rounded btn-space btn-success pull-right" id="id_exportar">
-                                    <i class="icon icon-left mdi mdi-download nova-white"></i>Exportar
+                                    <i class="icon icon-left mdi mdi-download nova-white"></i> Exportar
                                 </button>
                                 <a href="#modal_filtro" class="btn nova-btn btn-rounded btn-space btn-primary pull-right" data-toggle="modal" id="boton_filtros">
-                                        <i class="icon icon-left mdi mdi-search nova-white"></i>Filtros
+                                        <i class="icon icon-left mdi mdi-search nova-white"></i> Filtros
                                 </a>
                     </div>
                     <div id="grid_resultados" class="nova-div-overflow">
