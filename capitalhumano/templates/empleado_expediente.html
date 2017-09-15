@@ -18,8 +18,9 @@
 {% block contenido %}
 {% for dato in empleado %}
 <div class="be-content">
-	<div class="page-head nova-page-head">
-		<h2 class="page-head-title nova-title">Expediente</h2>
+	<div class="page-head">
+		<h2 class="page-head-title">Expediente</h2>
+		<br>
 		<ol class="breadcrumb page-head-nav pull-right">
 			<li><a href="{% url 'home:inicio' %}">Inicio</a></li>
 			<li id="menu" data-opcion="capitalhumano_expedientes"><a href="{% url 'capitalhumano:empleado_expedientes_general'%}">Expedientes</a></li>
@@ -202,8 +203,8 @@
 </div>
 <!-- Modal ver archivos-->
 <div id="modal_ver_informacion" role="dialog" class="modal fade colored-header colored-header-primary">
-    <div class="modal-dialog custom-width">
-        <div class="modal-content">
+    <div class="modal-dialog custom-width nova-modal-responsive">
+        <div class="modal-content nova-modal-content-responsive">
             
             <div class="modal-header nova-modal-header">
                 <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
@@ -226,8 +227,8 @@
 </div><!-- Modal -->
 <!-- Modal ver archivos-->
 <div id="modal_nuevo" role="dialog" class="modal fade colored-header colored-header-primary">
-    <div class="modal-dialog custom-width">
-        <div class="modal-content">
+    <div class="modal-dialog custom-width nova-modal-responsive">
+        <div class="modal-content nova-modal-content-responsive">
             
             <div class="modal-header nova-modal-header">
                 <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
@@ -296,8 +297,8 @@
 
 <!-- Modal capacitacion-->
 <div id="modal_nuevo_cap" role="dialog" class="modal fade colored-header colored-header-primary">
-    <div class="modal-dialog custom-width">
-        <div class="modal-content">
+    <div class="modal-dialog custom-width nova-modal-responsive">
+        <div class="modal-content nova-modal-content-responsive">
             
             <div class="modal-header nova-modal-header">
                 <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>

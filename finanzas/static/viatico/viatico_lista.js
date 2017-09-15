@@ -8,7 +8,7 @@ var url_viaticocabecera_editar = ""
 var tarjeta_filtros = null
 var tarjeta_resultados = null
 
-$.fn.modal.Constructor.prototype.enforceFocus = function () {}
+// $.fn.modal.Constructor.prototype.enforceFocus = function () {}
 
 
 /* -------------------- LOAD -------------------- */
@@ -23,17 +23,17 @@ $(document).ready(function () {
     tarjeta_resultados = new TarjetaResultados()
 
     // Asigna eventos a teclas
-    $(document).keypress(function (e) {
+    // $(document).keypress(function (e) {
 
-        // Tecla Enter
-        if (e.which == 13) {
+    //     // Tecla Enter
+    //     if (e.which == 13) {
 
-            if (tarjeta_filtros.$id.hasClass('in')) {
-                tarjeta_filtros.apply_Filters()
-            }
+    //         if (tarjeta_filtros.$id.hasClass('in')) {
+    //             tarjeta_filtros.apply_Filters()
+    //         }
 
-        }
-    })
+    //     }
+    // })
 })
 
 
@@ -61,9 +61,9 @@ function PopupFiltros() {
 }
 PopupFiltros.prototype.init = function () {
 
-    this.$empleado.select2()
-    this.$unidad_negocio.select2()
-    this.$autorizador.select2()
+    this.$empleado.select2({ autofocusInputOnOpen: false, minimumResultsForSearch: 4 })
+    this.$unidad_negocio.select2({ autofocusInputOnOpen: false, minimumResultsForSearch: 4 })
+    this.$autorizador.select2({ autofocusInputOnOpen: false, minimumResultsForSearch: 4 })
     this.$created_date_mayorque.datepicker({format: 'dd/mm/yyyy', autoclose: true})
     this.$created_date_menorque.datepicker({format: 'dd/mm/yyyy', autoclose: true})
 

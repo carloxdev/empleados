@@ -261,6 +261,7 @@ GridAnalisis.prototype.refresh_Data = function (_response) {
 GridAnalisis.prototype.eliminar = function (_pk) {
 
    alertify.confirm(
+
       'Eliminar Registro',
       '¿Desea Eliminar este registro?',
       function (e) {
@@ -310,6 +311,7 @@ PopupAnalisis.prototype.init_Events = function () {
 
    this.$id.on("shown.bs.modal", this, this.shown_Modal)
    this.$id.on("hidden.bs.modal", this, this.hidden_Modal)
+   this.$id.on("click", this, this.click_Modal)
    this.$id_boton_guardar.on("click", this, this.click_BotonGuardar)
    this.$id_archivo.on("fileloaded", this, this.load_File)
    this.$id_archivo.on("fileuploaded", this, this.uploaded_File)
@@ -319,6 +321,7 @@ PopupAnalisis.prototype.init_Events = function () {
    this.$id_archivo.on("fileremoved", this, this.removed_File)
    this.$id_archivo.on("filecleared", this, this.cleared_File)
    this.$id_archivo.on("filereset", this, this.reset_File)
+   this.$id_archivo.on('filezoomhidden', this, this.hidden_FileZoom)
 }
 PopupAnalisis.prototype.get_ConfigFileInput = function (_show_upload_button, _initial_preview, _initial_preview_config ) {
 
@@ -333,6 +336,7 @@ PopupAnalisis.prototype.get_ConfigFileInput = function (_show_upload_button, _in
           maxFileCount: 15,
           showRemove: false,
           showClose: false,
+          maxFileSize: 2048,
           showUpload: _show_upload_button,
           showCaption: false,
           showBrowse: false,
@@ -367,6 +371,12 @@ PopupAnalisis.prototype.hidden_Modal = function (e) {
 
    // e.data.clear_Estilos(e)
    e.data.clear_Formulario(e)
+}
+PopupAnalisis.prototype.click_Modal = function (e) {
+
+   $(this).focus()
+   console.log("Click");
+   console.log(document.activeElement.classList);
 }
 PopupAnalisis.prototype.click_BotonGuardar = function (e) {
 
@@ -411,6 +421,10 @@ PopupAnalisis.prototype.cleared_File = function (e) {
 PopupAnalisis.prototype.reset_File = function (e) {
 
    console.log("File RESET") // Cuando el campo de archivo es puesto a su valor inicial
+}
+PopupAnalisis.prototype.hidden_FileZoom = function (e) {
+
+   $(document.body).addClass('modal-open')
 }
 PopupAnalisis.prototype.clear_Formulario = function (e) {
 
