@@ -824,7 +824,6 @@ div.nova-panel-arbol li.list-group-item {
 }
 .nova-crop-img {
   height: 60px !important;
-  /* width: 75px !important; */
   overflow: hidden !important;
   line-height: 70px !important;
 }
@@ -836,6 +835,9 @@ div.nova-panel-arbol li.list-group-item {
   -webkit-clip-path: circle(23px at 50% 25px) !important;
 }
 @media (max-width: 767px) {
+  .nova-crop-img {
+    width: 50% !important;
+  }
   .nova-be-right-navbar {
     padding-right: 0;
     display: -webkit-box;
@@ -859,14 +861,14 @@ div.nova-panel-arbol li.list-group-item {
   }
   .nova-user-name {
     color: white;
-    margin-left: 0;
+    margin-left: 0 !important;
     display: block !important;
     -webkit-box-flex: 1 !important;
     -webkit-flex: 1 !important;
     -ms-flex: 1 !important;
     flex: 1 important;
     overflow: hidden !important;
-    text-overflow: ellipsis !important;
+    text-overflow: clip !important;
   }
   .nova-left-sidebar-toggle {
     padding: 16px 15px !important;
