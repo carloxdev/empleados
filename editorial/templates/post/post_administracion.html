@@ -23,25 +23,22 @@
                     <div class="panel-heading panel-border nova-panel-heading">
                         <div class="widget-head nova-widget-head">
                             <div class="nova-button-toolbar">
-                                <div class="col-md-6">
-                                    <a href="{% url 'editorial:post_nuevo' %}" class="btn nova-btn btn-rounded btn-space btn-default nova-block" id="boton_nuevo"><i class="icon icon-left mdi mdi-plus-circle nova-black"></i> Nuevo post
-                                    </a>
-                                </div>
-                                <div class="col-md-6">
+
                                     <form action="" method="GET">
-                                        <div class="input-group nova-block">
+                                        <div class="col-md-5 input-group nova-block">
                                             <span class="input-group-btn">
                                               <button type="submit" id="boton_buscar" class="btn btn-info btn-flat">
                                                 <i class="fa fa-search"></i>
                                                 Buscar
                                               </button>
                                             </span>
-                                            <input type="text" class="form-control" name="q" placeholder="Buscar post..." value="{{ request.GET.q }}">
+                                            <input type="text" class="form-control input-xs" name="q" placeholder="Buscar post..." value="{{ request.GET.q }}">
                                         </div>
                                     </form>
+                                    <a href="{% url 'editorial:post_nuevo' %}" class="btn nova-btn btn-rounded btn-space btn-default nova-block" id="boton_nuevo"><i class="icon icon-left mdi mdi-plus-circle nova-black"></i> Nuevo post
+                                    </a>
+                                <!--<span class="title hidden-xs">Registros</span>-->
                             </div>
-                            <span class="title hidden-xs">Registros</span>
-                        </div>
                 
                         {% if registros %}
                             <div class="legal-article-lista">
