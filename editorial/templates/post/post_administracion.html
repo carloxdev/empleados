@@ -4,10 +4,7 @@
 {% block titulo %} Administración de Noticias {% endblock titulo %}
 {% block title-page %} Administración de Noticias {% endblock title-page %}
 {% block css %}
-    <!-- Legalink' Styles -->
-    <link rel="stylesheet" href="{% static 'post/post_administracion.css' %}" type="text/css"/>
 {% endblock css %}
-
 
 {% block contenido %}
 <div class="be-content">
@@ -25,23 +22,23 @@
                 <div class="panel panel-default panel-table nova-panel-table">
                     <div class="panel-heading panel-border nova-panel-heading">
                         <div class="widget-head nova-widget-head">
-                            <div class="button-toolbar">
-                                
-                                <a href="{% url 'editorial:post_nuevo' %}" class="btn nova-btn btn-rounded btn-space btn-default nova-block" id="boton_nuevo"><i class="icon icon-left mdi mdi-plus-circle nova-black"></i> Nuevo post
-                                </a>
-                                <form action="" method="GET">
-                                    <div class="input-group nova-block">
-                                        <input type="text" class="form-control" name="q" placeholder="escribe texto a buscar" value="{{ request.GET.q }}">
-
-                                        <span class="input-group-btn">
-                                          <button type="submit" id="boton_buscar" class="btn btn-info btn-flat">
-                                            <i class="fa fa-search"></i>
-                                            Buscar
-                                          </button>
-                                        </span>
-                                    </div>
-                                </form>
-
+                            <div class="nova-button-toolbar">
+                                <div class="col-md-6">
+                                    <a href="{% url 'editorial:post_nuevo' %}" class="btn nova-btn btn-rounded btn-space btn-default nova-block" id="boton_nuevo"><i class="icon icon-left mdi mdi-plus-circle nova-black"></i> Nuevo post
+                                    </a>
+                                </div>
+                                <div class="col-md-6">
+                                    <form action="" method="GET">
+                                        <div class="input-group nova-block">
+                                            <span class="input-group-btn">
+                                              <button type="submit" id="boton_buscar" class="btn btn-info btn-flat">
+                                                <i class="fa fa-search"></i>
+                                                Buscar
+                                              </button>
+                                            </span>
+                                            <input type="text" class="form-control" name="q" placeholder="Buscar post..." value="{{ request.GET.q }}">
+                                        </div>
+                                    </form>
                             </div>
                             <span class="title hidden-xs">Registros</span>
                         </div>
@@ -50,17 +47,7 @@
                             <div class="legal-article-lista">
                                 <div class="list-group">
                                 {% for registro in registros %}
-                                    <a href="{% url 'editorial:post_editar' registro.pk %}" class="list-group-item">
-                                        {{ registro.titulo }}
-                                        <span
-                                        class="badge
-                                        {% if registro.status == "PUB" %}
-                                            badge-publicado
-                                        {% else %}
-                                            badge-captura
-                                        {% endif %}">
-                                            {{ registro.get_status_display }}
-                                        </span>
+                                    <a href="{% url 'editorial:post_editar' registro.pk %}" class="list-group-item">{{ registro.titulo }}<span class="badge {% if registro.status == "PUB" %} badge-publicado {% else %} badge-captura {% endif %}"> {{ registro.get_status_display }} </span>
                                     </a>
                                 {% endfor %}
                                 </div>

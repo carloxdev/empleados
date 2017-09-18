@@ -20,7 +20,7 @@ class PostForm(ModelForm):
             'updated_by',
         ]
         widgets = {
-            'titulo': TextInput(attrs={'class': 'form-control'}),
-            'contenido': Textarea(attrs={'class': 'form-control'}),
+            'titulo': TextInput(attrs={'class': 'form-control input-xs'}),
+            'contenido': Textarea(attrs={'class': 'form-control input-xs', 'rows': '8'}),
             'status': Select(attrs={'class': 'form-control'}),
         }

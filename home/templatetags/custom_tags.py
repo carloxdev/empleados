@@ -282,10 +282,12 @@ def tag_field_descripcion(_label_text, _label_text_size, _label_value, _label_va
 
 
 @register.inclusion_tag('tags/tag_input.html', takes_context=False)
-def tag_input(_field):
+def tag_input(_field, _size_label, _size_field):
 
     contexto = {
-        'campo': _field
+        'campo': _field,
+        'size_label': _size_label,
+        'size_field': _size_field,
     }
     return contexto
 
