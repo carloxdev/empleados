@@ -100,9 +100,6 @@ class Registro(View):
 
             datos_formulario = form_usuario.cleaned_data
 
-            # valor = datos_formulario.get('clave_rh')
-            # clave = Profile.objects.filter(clave_rh=valor)
-
             usuario = User.objects.create_user(
                 username=datos_formulario.get('username'),
                 password=datos_formulario.get('password1')
@@ -116,12 +113,13 @@ class Registro(View):
             usuario.is_superuser = False
             usuario.save()
 
+            usuario.refresh_from_db()
             usuario.profile.clave_rh = datos_formulario.get('clave_rh')
             usuario.profile.clave_jde = datos_formulario.get('clave_jde')
             usuario.profile.fecha_nacimiento = datos_formulario.get(
                 'fecha_nacimiento')
             usuario.profile.foto = datos_formulario.get('foto')
-            usuario.profile.save()
+            usuario.save()
 
             contexto = {
                 'first_name': usuario.first_name,
@@ -483,6 +481,7 @@ class UsuarioPerfil(View):
             usuario.email = datos_formulario.get('email')
             usuario.save()
 
+            usuario.refresh_from_db()
             usuario.profile.clave_rh = datos_formulario.get('clave_rh')
             usuario.profile.clave_jde = datos_formulario.get('clave_jde')
             usuario.profile.fecha_nacimiento = usuario.profile.fecha_nacimiento
