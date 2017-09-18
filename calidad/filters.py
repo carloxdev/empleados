@@ -14,6 +14,9 @@ from .models import RequisitoProceso
 from .models import HallazgoProceso
 from .models import Subproceso
 from .models import AnalisisHallazgo
+from .models import PlanAccionHallazgo
+from .models import SeguimientoPlanAccion
+from .models import EvidenciaHallazgo
 
 class RequisitoFilter(filters.FilterSet):
 
@@ -200,3 +203,85 @@ class AnalisisHallazgoFilter(filters.FilterSet):
             'titulo',
             'hallazgo_id'
         ]
+
+
+class PlanAccionHallazgoFilter(filters.FilterSet):
+
+    titulo = CharFilter(
+        name="titulo",
+        lookup_expr="icontains"
+    )
+
+    hallazgo_id = NumberFilter(
+        name="hallazgo_id",
+        lookup_expr="exact"
+    )
+
+    class Meta:
+        model = PlanAccionHallazgo
+        fields = (
+            'titulo',
+            'actividad',
+            'responsable',
+            'fecha_programada',
+            'evidencia',
+            'hallazgo',
+            'hallazgo_id',
+            'resultado',
+            'resultado_evaluacion',
+            'fecha_evaluacion',
+            'criterio_decision',
+            'tipo_accion',
+            'observacion',
+            'create_by',
+            'create_date',
+            'update_by',
+            'update_date',
+        )
+
+
+class SeguimientoPlanAccionFilter(filters.FilterSet):
+
+    plan_accion_hallazgo_id = NumberFilter(
+        name="hallazgo_id",
+        lookup_expr="exact"
+    )
+
+    class Meta:
+        model = SeguimientoPlanAccion
+        fields = (
+            'resultado_seguimiento',
+            'fecha_seguimiento',
+            'plan_accion_hallazgo',
+            'plan_accion_hallazgo_id',
+            'create_by',
+            'create_date',
+            'update_by',
+            'update_date',
+        )
+
+
+class EvidenciaHallazgoFilter(filters.FilterSet):
+
+    titulo = CharFilter(
+        name="titulo",
+        lookup_expr="icontains"
+    )
+
+    hallazgo_id = NumberFilter(
+        name="hallazgo_id",
+        lookup_expr="exact"
+    )
+
+    class Meta:
+        model = EvidenciaHallazgo
+        fields = (
+            'titulo',
+            'observacion',
+            'hallazgo',
+            'hallazgo_id',
+            'create_by',
+            'create_date',
+            'update_by',
+            'update_date',
+        )

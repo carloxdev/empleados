@@ -7,8 +7,9 @@ var url_hallazgo_proceso = window.location.origin + "/api-calidad/hallazgoproces
 var url_analisis_hallazgo = window.location.origin + "/api-calidad/analisishallazgo/"
 var url_profile = window.location.origin + "/api-seguridad/profile/"
 var url_archivo = window.location.origin + "/api-home/archivo/"
-var url_analisis = window.location.origin + "/api-calidad/analisishallazgo/"
+// var url_analisis = window.location.origin + "/api-calidad/analisishallazgo/"
 var url_metodologia = window.location.origin + "/api-calidad/metodologia/"
+var url_evidencia_hallazgo = window.location.origin + "/api-calidad/evidenciahallazgo/"
 
 // OBJS
 var menu = null
@@ -147,8 +148,8 @@ TarjetaDetalleHallazgo.prototype.get_ConfMultiSelect = function () {
 
 function TarjetaAnalisis() {
 
-   this.toolbar_analisis = new ToolBarAnalisis()
-   this.grid_analisis = new GridAnalisis()
+   this.toolbar = new ToolBarAnalisis()
+   this.grid = new GridAnalisis()
 }
 
 /*-----------------------------------------------*\
@@ -158,7 +159,7 @@ function TarjetaAnalisis() {
 function ToolBarAnalisis() {
 
    popup_analisis = new PopupAnalisis()
-   this.$boton_nuevo = $('#id_boton_nuevo_analisis')
+   this.$boton_nuevo = $('#id_boton_analisis')
    this.init_Events()
 }
 ToolBarAnalisis.prototype.init_Events = function () {
@@ -201,13 +202,13 @@ GridAnalisis.prototype.click_EliminarAnalisis = function (e) {
 
    e.preventDefault()
    pk = this.getAttribute("data-id")
-   tarjeta_analisis.grid_analisis.eliminar(pk)
+   tarjeta_analisis.grid.eliminar(pk)
 }
 GridAnalisis.prototype.load_Data = function () {
 
    $.ajax({
 
-      url: url_analisis,
+      url: url_analisis_hallazgo,
       method: "GET",
       context: this,
       data: {
@@ -234,12 +235,12 @@ GridAnalisis.prototype.refresh_Data = function (_response) {
 
           datos += '<tr class="clickable-row">' +
                       '<td>' +
-                         '<a class="btn nova-btn btn-default nova-btn-delete" data-id="' + _response[i].pk + '" data-event="eliminarAnalisis">' +
+                         '<button class="btn nova-btn btn-default nova-btn-delete" data-id="' + _response[i].pk + '" data-event="eliminarAnalisis">' +
                             '<i class="icon icon-left icon mdi mdi-delete nova-white"></i>' +
-                         '</a>' +
+                         '</button>' +
                       '</td>' +
                       '<td>' +
-                         '<a class="btn btn-default nova-url" data-event="editarAnalisis" data-id="' + _response[i].pk + '">' + _response[i].titulo + '</a>' +
+                         '<button class="btn btn-default nova-url" data-event="editarAnalisis" data-id="' + _response[i].pk + '">' + _response[i].titulo + '</button>' +
                       '</td>' +
                       '<td>' +
                          _response[i].metodologia_nombre +
@@ -267,11 +268,11 @@ GridAnalisis.prototype.eliminar = function (_pk) {
       function (e) {
 
          $.ajax({
-            url: url_analisis + _pk + '/',
+            url: url_analisis_hallazgo + _pk + '/',
             method: "DELETE",
             headers: { "X-CSRFToken": appnova.galletita },
             success: function () {
-               tarjeta_analisis.grid_analisis.load_Data()
+               tarjeta_analisis.grid.load_Data()
                alertify.success("Se eliminó registro correctamente")
             },
             error: function () {
@@ -283,6 +284,7 @@ GridAnalisis.prototype.eliminar = function (_pk) {
       null
    )
 }
+
 /*-----------------------------------------------*\
          OBJETO: Popup Analisis
 \*-----------------------------------------------*/
@@ -290,12 +292,13 @@ GridAnalisis.prototype.eliminar = function (_pk) {
 function PopupAnalisis() {
 
    this.$id = $('#id_tarjeta_analisis')
+   this.$id_mensaje_error = $('#id_mensaje_error_analisis')
    this.$id_popup_titulo = $('#id_popup_titulo_analisis')
    this.$id_titulo = $('#id_titulo_analisis')
    this.$id_metodologia = $('#id_metodologia')
    this.$id_causas = $('#id_causas')
    this.$id_archivo = $('#id_archivo_analisis')
-   this.$id_boton_guardar = $('#id_boton_analisis_causas')
+   this.$id_boton_guardar = $('#id_boton_guardar_analisis')
    this.$accion
    this.$pk_analisis
    this.$ocultar = false
@@ -309,19 +312,10 @@ PopupAnalisis.prototype.init_Components = function () {
 }
 PopupAnalisis.prototype.init_Events = function () {
 
-   this.$id.on("shown.bs.modal", this, this.shown_Modal)
-   this.$id.on("hidden.bs.modal", this, this.hidden_Modal)
-   this.$id.on("click", this, this.click_Modal)
    this.$id_boton_guardar.on("click", this, this.click_BotonGuardar)
-   this.$id_archivo.on("fileloaded", this, this.load_File)
-   this.$id_archivo.on("fileuploaded", this, this.uploaded_File)
    this.$id_archivo.on("filebatchuploadcomplete", this, this.uploadcomplete_Filebatch)
-   this.$id_archivo.on("filebeforedelete", this, this.beforedelete_File)
-   this.$id_archivo.on("filepreupload", this, this.beforeupload_File)
-   this.$id_archivo.on("fileremoved", this, this.removed_File)
-   this.$id_archivo.on("filecleared", this, this.cleared_File)
-   this.$id_archivo.on("filereset", this, this.reset_File)
    this.$id_archivo.on('filezoomhidden', this, this.hidden_FileZoom)
+   this.$id.on("hidden.bs.modal", this, this.hidden_Modal)
 }
 PopupAnalisis.prototype.get_ConfigFileInput = function (_show_upload_button, _initial_preview, _initial_preview_config ) {
 
@@ -363,68 +357,48 @@ PopupAnalisis.prototype.get_ConfigFileInput = function (_show_upload_button, _in
           language:"es",
      }
 }
-PopupAnalisis.prototype.shown_Modal = function (e) {
-
-   console.log("Modal despleagado");
-}
-PopupAnalisis.prototype.hidden_Modal = function (e) {
-
-   // e.data.clear_Estilos(e)
-   e.data.clear_Formulario(e)
-}
-PopupAnalisis.prototype.click_Modal = function (e) {
-
-   $(this).focus()
-   console.log("Click");
-   console.log(document.activeElement.classList);
-}
 PopupAnalisis.prototype.click_BotonGuardar = function (e) {
 
    e.data.$ocultar = true
    e.data.guardar_Analisis(e)
 }
-PopupAnalisis.prototype.load_File = function (e, file) {
-
-   console.log('se cargaron los archivos');
-}
-PopupAnalisis.prototype.uploaded_File = function (e, data, previewId, index) {
-
-   console.log('Se subio el archivo indice: ' + index);
-}
 PopupAnalisis.prototype.uploadcomplete_Filebatch = function (e, files) {
 
-   console.log("Upload completo " + files);
    if(e.data.$ocultar) {
 
       e.data.$id.modal('hide')
-      tarjeta_analisis.grid_analisis.load_Data()
+      tarjeta_analisis.grid.load_Data()
       e.data.$ocultar = false
    }
-}
-PopupAnalisis.prototype.beforedelete_File = function (e, key, data) {
-
-   console.log("antes de eliminar el archivo " + "Key " + key + " data: " + data )
-}
-PopupAnalisis.prototype.beforeupload_File = function (e, index, data) {
-
-   console.log("antes de subir el archivo " + "Key " + index + " data: " + data )
-}
-PopupAnalisis.prototype.removed_File = function (e, index) {
-
-   console.log("Archivo desvinculado");
-}
-PopupAnalisis.prototype.cleared_File = function (e) {
-
-   console.log("File CLEARED") // Cuando los archivos en la vista previa son limpiados
-
-}
-PopupAnalisis.prototype.reset_File = function (e) {
-
-   console.log("File RESET") // Cuando el campo de archivo es puesto a su valor inicial
 }
 PopupAnalisis.prototype.hidden_FileZoom = function (e) {
 
    $(document.body).addClass('modal-open')
+}
+PopupAnalisis.prototype.hidden_Modal = function (e) {
+
+   e.data.clear_Estilos(e)
+   e.data.clear_Formulario(e)
+}
+PopupAnalisis.prototype.guardar_Analisis = function (e) {
+
+   if (e.data.$accion == "nuevo") {
+
+      e.data.clear_Estilos(e)
+      e.data.crear(e)
+   }
+   else if (e.data.$accion == "editar") {
+
+      pk = e.data.$id.attr("data-primaryKey")
+      e.data.editar(e, pk)
+   }
+}
+PopupAnalisis.prototype.clear_Estilos = function (e) {
+
+   e.data.$id_titulo.removeClass("nova-has-error")
+   e.data.$id_metodologia.data('select2').$selection.removeClass("nova-has-error")
+   e.data.$id_causas.removeClass("nova-has-error")
+   e.data.$id_mensaje_error.html('')
 }
 PopupAnalisis.prototype.clear_Formulario = function (e) {
 
@@ -434,54 +408,56 @@ PopupAnalisis.prototype.clear_Formulario = function (e) {
    e.data.$id_archivo.fileinput('destroy')
    e.data.$id_archivo.fileinput(this.get_ConfigFileInput(false, [], [] ))
 }
-PopupAnalisis.prototype.guardar_Analisis = function (e) {
+PopupAnalisis.prototype.mostrar = function (_pk, _accion) {
 
-   if (e.data.$accion == "nuevo") {
+   this.$id.modal('show').attr("data-primaryKey", _pk)
+   this.$accion = _accion
 
-      // e.data.clear_Estilos(e)
-      e.data.crear(e)
+   if (_accion == "nuevo") {
+
+      this.$id_popup_titulo.text('Nuevo Analisis de Causas')
    }
-   else if (e.data.$accion == "editar") {
+   else if (_accion == "editar") {
 
-      pk = e.data.$id.attr("data-primaryKey")
-      e.data.editar(e, pk)
+      this.$id_popup_titulo.text('Editar Analisis de Causas')
+      this.set_Data(_pk)
+      this.$pk_analisis = _pk
    }
+}
+PopupAnalisis.prototype.validar = function () {
+
+   var bandera = true
+
+   if ( appnova.validar_EspaciosSaltos(this.$id_titulo.val()) == "" ) {
+
+      this.$id_titulo.addClass("nova-has-error")
+      bandera = false
+   }
+   if ( this.$id_metodologia.val() == "" ) {
+
+      this.$id_metodologia.data('select2').$selection.addClass("nova-has-error")
+      bandera = false
+   }
+   if ( appnova.validar_EspaciosSaltos(this.$id_causas.val()) == "" ) {
+
+      this.$id_causas.addClass("nova-has-error")
+      bandera = false
+   }
+
+   if ( !bandera ){
+
+      this.$id_mensaje_error.html('Completa los campos marcados en rojo.')
+   }
+
+   return bandera
 }
 PopupAnalisis.prototype.crear = function (e) {
 
    if (e.data.validar()) {
 
       $.ajax({
-         url: url_analisis,
+         url: url_analisis_hallazgo,
          method: "POST",
-         headers: { "X-CSRFToken": appnova.galletita },
-         data: {
-
-            "titulo": e.data.$id_titulo.val(),
-            "metodologia": url_metodologia + e.data.$id_metodologia.val() + "/",
-            "causa": e.data.$id_causas.val(),
-            "hallazgo": url_hallazgo_proceso + tarjeta_detalle_hallazgo.$id_pk_hal.val() + "/",
-            "create_by": url_profile + tarjeta_detalle_hallazgo.$id_actual_user.val() + "/",
-         },
-         success: function (_response) {
-
-            e.data.$pk_analisis = _response.pk
-            e.data.$id_archivo.fileinput('upload')
-         },
-         error: function (_response) {
-
-            alertify.error("Ocurrio error al insertar analisis")
-         }
-      })
-   }
-}
-PopupAnalisis.prototype.editar = function (e, _pk) {
-
-   if (e.data.validar()) {
-
-      $.ajax({
-         url: url_analisis + _pk + "/",
-         method: "PUT",
          headers: { "X-CSRFToken": appnova.galletita },
          data: {
 
@@ -499,9 +475,8 @@ PopupAnalisis.prototype.editar = function (e, _pk) {
                e.data.$id_archivo.fileinput('upload')
             }
             else {
-
                e.data.$id.modal('hide')
-               tarjeta_analisis.grid_analisis.load_Data()
+               tarjeta_analisis.grid.load_Data()
                e.data.$ocultar = false
             }
          },
@@ -512,20 +487,41 @@ PopupAnalisis.prototype.editar = function (e, _pk) {
       })
    }
 }
-PopupAnalisis.prototype.mostrar = function (_pk, _accion) {
+PopupAnalisis.prototype.editar = function (e, _pk) {
 
-   this.$id.modal('show').attr("data-primaryKey", _pk)
-   this.$accion = _accion
+   if (e.data.validar()) {
 
-   if (_accion == "nuevo") {
+      $.ajax({
+         url: url_analisis_hallazgo + _pk + "/",
+         method: "PUT",
+         headers: { "X-CSRFToken": appnova.galletita },
+         data: {
 
-      this.$id_popup_titulo.text('Nuevo Analisis de Causas')
-   }
-   else if (_accion == "editar") {
+            "titulo": e.data.$id_titulo.val(),
+            "metodologia": url_metodologia + e.data.$id_metodologia.val() + "/",
+            "causa": e.data.$id_causas.val(),
+            "hallazgo": url_hallazgo_proceso + tarjeta_detalle_hallazgo.$id_pk_hal.val() + "/",
+            "update_by": url_profile + tarjeta_detalle_hallazgo.$id_actual_user.val() + "/",
+         },
+         success: function (_response) {
 
-      this.$id_popup_titulo.text('Editar Analisis de Causas')
-      this.set_Data(_pk)
-      this.$pk_analisis = _pk
+            if (e.data.$id_archivo.fileinput('getFileStack').length > 0) {
+
+               e.data.$pk_analisis = _response.pk
+               e.data.$id_archivo.fileinput('upload')
+            }
+            else {
+
+               e.data.$id.modal('hide')
+               tarjeta_analisis.grid.load_Data()
+               e.data.$ocultar = false
+            }
+         },
+         error: function (_response) {
+
+            alertify.error("Ocurrio error al insertar analisis")
+         }
+      })
    }
 }
 PopupAnalisis.prototype.set_Data = function (_pk) {
@@ -548,33 +544,6 @@ PopupAnalisis.prototype.set_Data = function (_pk) {
       }
    })
 }
-PopupAnalisis.prototype.validar = function () {
-
-   var bandera = true
-
-   if ( appnova.validar_EspaciosSaltos(this.$id_titulo.val()) == "" ) {
-
-      this.$id_titulo.addClass("nova-has-error")
-      bandera = false
-   }
-   if ( this.$id_metodologia.val() == "" ) {
-
-      this.$id_metodologia.addClass("nova-has-error")
-      bandera = false
-   }
-   if ( appnova.validar_EspaciosSaltos(this.$id_causas.val()) == "" ) {
-
-      this.$id_causas.addClass("nova-has-error")
-      bandera = false
-   }
-
-   if ( !bandera ){
-
-      this.$id_formulario.prepend('<span id="id_mensaje_error">Completa los campos marcados en rojo.</span>')
-   }
-
-   return bandera
-}
 PopupAnalisis.prototype.cargar_Archivos = function (_response) {
 
    var initial_preview = []
@@ -583,10 +552,10 @@ PopupAnalisis.prototype.cargar_Archivos = function (_response) {
    for (var i = 0; i < _response.relacion_archivo.length; i++) {
 
       initial_preview.push(_response.relacion_archivo[i]["archivo"])
-      url_archivo_response = _response.relacion_archivo[i]["archivo"].split('/')
-      nombre_archivo = url_archivo_response[url_archivo_response.length-1]
-      extension_archivo = nombre_archivo.split('.')
-      extension = extension_archivo[extension_archivo.length-1]
+      var url_archivo_response = _response.relacion_archivo[i]["archivo"].split('/')
+      var nombre_archivo = url_archivo_response[url_archivo_response.length-1]
+      var extension_archivo = nombre_archivo.split('.')
+      var extension = extension_archivo[extension_archivo.length-1]
 
       if (extension == "pdf") {
 
@@ -856,8 +825,8 @@ PopupEvaluacionPlan.prototype.get_DateTimePickerConfig = function () {
 
 function TarjetaEvidencia() {
 
-   this.toolbar_evidencia = new ToolBarEvidencia()
-   this.grid_evidencia = new GridEvidencia()
+   this.toolbar = new ToolBarEvidencia()
+   this.grid = new GridEvidencia()
 }
 
 /*-----------------------------------------------*\
@@ -867,6 +836,16 @@ function TarjetaEvidencia() {
 function ToolBarEvidencia() {
 
    popup_evidencia = new PopupEvidencia()
+   this.$boton_nuevo = $('#id_boton_evidencia')
+   this.init_Events()
+}
+ToolBarEvidencia.prototype.init_Events = function () {
+
+   this.$boton_nuevo.on("click", this, this.click_BotonNuevo)
+}
+ToolBarEvidencia.prototype.click_BotonNuevo = function (e) {
+
+   popup_evidencia.mostrar( 0, "nuevo" )
 }
 
 /*-----------------------------------------------*\
@@ -875,16 +854,107 @@ function ToolBarEvidencia() {
 
 function GridEvidencia() {
 
-   this.$id_grid_evidencia = $('#id_grid_evidencia')
+   this.$id = $('#id_grid_evidencia')
+   this.$id_tbody = $('#id_tbody_evidencia')
    this.init_Events()
+   this.load_Data()
 }
 GridEvidencia.prototype.init_Events = function () {
 
-   this.$id_grid_evidencia.on("click", '.clickable-row', this.click_FilaGrid)
+   this.$id.on("click", '.clickable-row', this.click_FilaGrid)
+   this.$id.on("click", '[data-event=\'editarEvidencia\']', this.click_EditarEvidencia)
+   this.$id.on("click", '[data-event=\'eliminarEvidencia\']', this.click_EliminarEvidencia)
 }
 GridEvidencia.prototype.click_FilaGrid = function () {
 
    $(this).addClass('nova-active-row').siblings().removeClass('nova-active-row')
+}
+GridEvidencia.prototype.click_EditarEvidencia = function (e) {
+
+   e.preventDefault()
+   pk = this.getAttribute("data-id")
+   popup_evidencia.mostrar( pk, "editar")
+}
+GridEvidencia.prototype.click_EliminarEvidencia = function (e) {
+
+   e.preventDefault()
+   pk = this.getAttribute("data-id")
+   tarjeta_evidencia.grid.eliminar(pk)
+}
+GridEvidencia.prototype.load_Data = function () {
+
+   $.ajax({
+
+      url: url_evidencia_hallazgo,
+      method: "GET",
+      context: this,
+      data: {
+
+         hallazgo_id: tarjeta_detalle_hallazgo.$id_pk_hal.val(),
+      },
+      success: function (_response) {
+
+         this.refresh_Data(_response)
+     },
+     error: function (_response) {
+
+        alertify.error("Ocurrio error al cargar datos")
+     }
+  })
+}
+GridEvidencia.prototype.refresh_Data = function (_response) {
+
+   this.$id_tbody.text()
+   var datos = ''
+   if (_response.length) {
+
+      for (var i = 0; i < _response.length; i++) {
+
+          datos += '<tr class="clickable-row">'+
+                      '<td>' +
+                         '<button class="btn nova-btn nova-btn-delete" data-id="' + _response[i].pk + '" data-event="eliminarEvidencia">' +
+                            '<i class="icon icon-left icon mdi mdi-delete nova-white"></i>' +
+                         '</button>' +
+                      '</td>' +
+                      '<td>' +
+                         '<a href="#id_tarjeta_evidencia" class="btn btn-default nova-url" data-event="editarEvidencia" data-id="'+ _response[i].pk +'">' + _response[i].titulo + '</a>' +
+                      '</td>' +
+                      '<td>' +  _response[i].observacion + '</td>' +
+                   '</tr>'
+      }
+   }
+   else {
+
+      datos +=  '<tr class="clickable-row">' +
+                   '<td colspan="3" class="nova-aling-center nova-sin-resultados">No se encontraron resultados.</td>' +
+                '</tr>'
+   }
+   this.$id_tbody.html(datos)
+}
+GridEvidencia.prototype.eliminar = function (_pk) {
+
+   alertify.confirm(
+
+      'Eliminar Registro',
+      '¿Desea Eliminar este registro?',
+      function (e) {
+
+         $.ajax({
+            url: url_evidencia_hallazgo + _pk + '/',
+            method: "DELETE",
+            headers: { "X-CSRFToken": appnova.galletita },
+            success: function () {
+               tarjeta_evidencia.grid.load_Data()
+               alertify.success("Se eliminó registro correctamente")
+            },
+            error: function () {
+
+               alertify.error("Ocurrió un error al eliminar")
+            }
+         })
+      },
+      null
+   )
 }
 
 /*-----------------------------------------------*\
@@ -893,37 +963,282 @@ GridEvidencia.prototype.click_FilaGrid = function () {
 
 function PopupEvidencia () {
 
-   this.$id_titulo_evidencia = $('#id_titulo_evidencia')
-   this.$id_observacion = $('#id_observacion')
-   this.$id_archivo_evidencia = $('#id_archivo_evidencia')
+   this.$id = $('#id_tarjeta_evidencia')
+   this.$id_mensaje_error = $('#id_mensaje_error_evidencia')
+   this.$id_popup_titulo = $('#id_popup_titulo_evidencia')
+
+   this.$id_titulo = $('#id_titulo_evidencia')
+   this.$id_observacion = $('#id_observacion_evidencia')
+   this.$id_archivo = $('#id_archivo_evidencia')
+
+   this.$id_boton_guardar = $('#id_boton_guardar_evidencia')
+   this.$accion
+   this.$pk_evidencia
+   this.$ocultar = false
    this.init_Components()
+   this.init_Events()
 }
 PopupEvidencia.prototype.init_Components = function () {
 
-   this.$id_archivo_evidencia.fileinput(this.get_ConfigFileInput())
+   this.$id_archivo.fileinput(this.get_ConfigFileInput(false, [], []))
 }
-PopupEvidencia.prototype.get_ConfigFileInput = function () {
+PopupEvidencia.prototype.init_Events = function () {
+
+   this.$id_boton_guardar.on("click", this, this.click_BotonGuardar)
+   this.$id_archivo.on("filebatchuploadcomplete", this, this.uploadcomplete_Filebatch)
+   this.$id_archivo.on('filezoomhidden', this, this.hidden_FileZoom)
+   this.$id.on("hidden.bs.modal", this, this.hidden_Modal)
+}
+PopupEvidencia.prototype.get_ConfigFileInput = function (_show_upload_button, _initial_preview, _initial_preview_config ) {
+
    return {
-          uploadUrl: "una/url/donde/se/subira/",
-          uploadAsync: false,
-          minFileCount: 2,
-          maxFileCount: 5,
+
+          uploadUrl: url_archivo,
+          ajaxSettings: {  headers: { "X-CSRFToken": appnova.galletita }  },
+          ajaxDeleteSettings: {  method: "DELETE", headers: { "X-CSRFToken": appnova.galletita }  },
+          allowedFileExtensions: ['jpg', 'jpeg', 'png', 'bmp', 'txt', 'pdf'],
+          allowedPreviewMimeTypes: ['jpg', 'jpeg', 'png', 'bmp', 'txt', 'pdf'],
+          uploadAsync: true,
+          maxFileCount: 15,
+          showRemove: false,
+          showClose: false,
+          maxFileSize: 2048,
+          showUpload: _show_upload_button,
+          showCaption: false,
+          showBrowse: false,
+          browseOnZoneClick: true,
+          fileActionSettings: {
+             showUpload: false,
+          },
+          uploadExtraData: function(previewId, index) {
+             if (popup_evidencia.$id_archivo.fileinput('getFileStack').length > 0) {
+
+                return {
+
+                   archivo: popup_evidencia.$id_archivo.fileinput('getFileStack')[index],
+                   tipo_archivo: "cal",
+                   content_object: url_evidencia_hallazgo + popup_evidencia.$pk_evidencia + "/",
+                   created_by: url_profile + tarjeta_detalle_hallazgo.$id_actual_user.val() + "/",
+                }
+             }
+          },
           overwriteInitial: false,
-          language:"es",
-          initialPreview: [
-             "/static/images/referenciavisual/documento.jpg",
-             "/static/images/referenciavisual/1.jpg",
-             "/static/images/referenciavisual/2.jpg",
-             "/static/images/referenciavisual/3.jpg",
-          ],
           initialPreviewAsData: true,
-          initialPreviewFileType: 'image',
-          initialPreviewConfig: [
-            {  caption: "Documento.jpg", size: 827000, url: "/file-upload-batch/2", key: 1  },
-            {  caption: "1.jpg", size: 827000, url: "/file-upload-batch/2", key: 2  },
-            {  caption: "2.jpg", size: 827000, url: "/file-upload-batch/2", key: 3  },
-            {  caption: "3.jpg", size: 827000, url: "/file-upload-batch/2", key: 4  },
-          ],
-          purifyHtml: true,
+          initialPreview: _initial_preview,
+          initialPreviewConfig: _initial_preview_config,
+          language:"es",
      }
+}
+PopupEvidencia.prototype.click_BotonGuardar = function (e) {
+
+   e.data.$ocultar = true
+   e.data.guardar_Evidencia(e)
+}
+PopupEvidencia.prototype.uploadcomplete_Filebatch = function (e, files) {
+
+   if(e.data.$ocultar) {
+
+      e.data.$id.modal('hide')
+      tarjeta_evidencia.grid.load_Data()
+      e.data.$ocultar = false
+   }
+}
+PopupEvidencia.prototype.hidden_FileZoom = function (e) {
+
+   $(document.body).addClass('modal-open')
+}
+PopupEvidencia.prototype.hidden_Modal = function (e) {
+
+   e.data.clear_Estilos(e)
+   e.data.clear_Formulario(e)
+}
+PopupEvidencia.prototype.guardar_Evidencia = function (e) {
+
+   if (e.data.$accion == "nuevo") {
+
+      e.data.clear_Estilos(e)
+      e.data.crear(e)
+   }
+   else if (e.data.$accion == "editar") {
+
+      pk = e.data.$id.attr("data-primaryKey")
+      e.data.editar(e, pk)
+   }
+}
+PopupEvidencia.prototype.clear_Estilos = function (e) {
+
+   e.data.$id_titulo.removeClass("nova-has-error")
+   e.data.$id_observacion.removeClass("nova-has-error")
+   e.data.$id_mensaje_error.html('')
+}
+PopupEvidencia.prototype.clear_Formulario = function (e) {
+
+   e.data.$id_titulo.val("")
+   e.data.$id_observacion.val("")
+   e.data.$id_archivo.fileinput('destroy')
+   e.data.$id_archivo.fileinput(this.get_ConfigFileInput(false, [], [] ))
+}
+PopupEvidencia.prototype.mostrar = function (_pk, _accion) {
+
+   this.$id.modal('show').attr("data-primaryKey", _pk)
+   this.$accion = _accion
+
+   if (_accion == "nuevo") {
+
+      this.$id_popup_titulo.text('Nueva Evidencia')
+   }
+   else if (_accion == "editar") {
+
+      this.$id_popup_titulo.text('Editar Evidencia')
+      this.set_Data(_pk)
+      this.$pk_evidencia = _pk
+   }
+}
+PopupEvidencia.prototype.validar = function () {
+
+   var bandera = true
+
+   if ( appnova.validar_EspaciosSaltos(this.$id_titulo.val()) == "" ) {
+
+      this.$id_titulo.addClass("nova-has-error")
+      bandera = false
+   }
+   if ( appnova.validar_EspaciosSaltos(this.$id_observacion.val()) == "" ) {
+
+      this.$id_observacion.addClass("nova-has-error")
+      bandera = false
+   }
+
+   if ( !bandera ){
+
+      this.$id_mensaje_error.html('Completa los campos marcados en rojo.')
+   }
+
+   return bandera
+}
+PopupEvidencia.prototype.crear = function (e) {
+
+   if (e.data.validar()) {
+
+      $.ajax({
+         url: url_evidencia_hallazgo,
+         method: "POST",
+         headers: { "X-CSRFToken": appnova.galletita },
+         data: {
+
+            "titulo": e.data.$id_titulo.val(),
+            "observacion": e.data.$id_observacion.val(),
+            "hallazgo": url_hallazgo_proceso + tarjeta_detalle_hallazgo.$id_pk_hal.val() + "/",
+            "create_by": url_profile + tarjeta_detalle_hallazgo.$id_actual_user.val() + "/",
+         },
+         success: function (_response) {
+
+            if (e.data.$id_archivo.fileinput('getFileStack').length > 0) {
+
+               e.data.$pk_evidencia = _response.pk
+               e.data.$id_archivo.fileinput('upload')
+            }
+            else {
+               e.data.$id.modal('hide')
+               tarjeta_evidencia.grid.load_Data()
+               e.data.$ocultar = false
+            }
+         },
+         error: function (_response) {
+
+            alertify.error("Ocurrio error al insertar evidencia")
+            console.log(_response.responseText);
+         }
+      })
+   }
+}
+PopupEvidencia.prototype.editar = function (e, _pk) {
+
+   if (e.data.validar()) {
+
+      $.ajax({
+         url: url_evidencia_hallazgo + _pk + "/",
+         method: "PUT",
+         headers: { "X-CSRFToken": appnova.galletita },
+         data: {
+
+            "titulo": e.data.$id_titulo.val(),
+            "observacion": e.data.$id_observacion.val(),
+            "hallazgo": url_hallazgo_proceso + tarjeta_detalle_hallazgo.$id_pk_hal.val() + "/",
+            "update_by": url_profile + tarjeta_detalle_hallazgo.$id_actual_user.val() + "/",
+         },
+         success: function (_response) {
+
+            if (e.data.$id_archivo.fileinput('getFileStack').length > 0) {
+
+               e.data.$pk_evidencia = _response.pk
+               e.data.$id_archivo.fileinput('upload')
+            }
+            else {
+
+               e.data.$id.modal('hide')
+               tarjeta_evidencia.grid.load_Data()
+               e.data.$ocultar = false
+            }
+         },
+         error: function (_response) {
+
+            alertify.error("Ocurrio error al insertar evidencia")
+         }
+      })
+   }
+}
+PopupEvidencia.prototype.set_Data = function (_pk) {
+
+   $.ajax({
+
+      url: url_evidencia_hallazgo + _pk +"/",
+      method: "GET",
+      context: this,
+      success: function (_response) {
+
+         this.$id_titulo.val(_response.titulo)
+         this.$id_observacion.val(_response.observacion)
+         this.cargar_Archivos(_response)
+      },
+      error: function (_response) {
+
+         alertify.error("Ocurrio error al cargar datos")
+      }
+   })
+}
+PopupEvidencia.prototype.cargar_Archivos = function (_response) {
+
+   var initial_preview = []
+   var initial_preview_config = []
+
+   for (var i = 0; i < _response.relacion_archivo.length; i++) {
+
+      initial_preview.push(_response.relacion_archivo[i]["archivo"])
+      var url_archivo_response = _response.relacion_archivo[i]["archivo"].split('/')
+      var nombre_archivo = url_archivo_response[url_archivo_response.length-1]
+      var extension_archivo = nombre_archivo.split('.')
+      var extension = extension_archivo[extension_archivo.length-1]
+
+      if (extension == "pdf") {
+
+         initial_preview_config.push(
+            {  type: extension, caption: nombre_archivo, url: _response.relacion_archivo[i]["pk"] }
+         )
+      }
+      else if (extension == "txt" || extension == "docx") {
+
+         initial_preview_config.push(
+            {  type: "text", caption: nombre_archivo, url: _response.relacion_archivo[i]["pk"] }
+         )
+      }
+      else if (extension == "jpg" || extension == "jpeg" || extension == "png" || extension == "bmp") {
+
+         initial_preview_config.push(
+            {  caption: nombre_archivo, url: _response.relacion_archivo[i]["pk"] }
+         )
+      }
+   }
+   this.$id_archivo.fileinput('destroy')
+   this.$id_archivo.fileinput(this.get_ConfigFileInput(true, initial_preview, initial_preview_config))
 }

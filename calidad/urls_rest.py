@@ -20,6 +20,9 @@ from .view_rest import RequisitoProcesoAPI
 from .view_rest import ProcesoAuditoriaAPI
 from .view_rest import HallazgoProcesoAPI
 from .view_rest import AnalisisHallazgoAPI
+from .view_rest import PlanAccionHallazgoAPI
+from .view_rest import SeguimientoPlanAccionAPI
+from .view_rest import EvidenciaHallazgoAPI
 
 # Otras VIEW REST
 from home.view_rest import ArchivoAPI
@@ -121,6 +124,21 @@ router_calidad.register(
     r'analisishallazgo',
     AnalisisHallazgoAPI,
     'analisishallazgo'
+)
+router_calidad.register(
+    r'planaccionhallazgo',
+    PlanAccionHallazgoAPI,
+    'planaccionhallazgo'
+)
+router_calidad.register(
+    r'seguimientoplanaccion',
+    SeguimientoPlanAccionAPI,
+    'seguimientoplanaccion'
+)
+router_calidad.register(
+    r'evidenciahallazgo',
+    EvidenciaHallazgoAPI,
+    'evidenciahallazgo'
 )
 router_calidad.register(
     r'archivo',

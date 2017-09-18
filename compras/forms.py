@@ -93,12 +93,12 @@ class SeguimientoComprasFilterForm(Form):
         label='¿Mostrar canceladas?',
         widget=RadioSelect, choices=CANCELADAS
     )
-    req_desde_hasta = CharField(
-        label='Fecha de creación',
-        widget=TextInput(
-            attrs={'name': 'req_desde_hasta', 'class': 'form-control input-xs',
-                   'readonly': '', 'id': 'fecha_req_desde_hasta'}
-        ),
+    requisicion_desde = CharField(
+        widget=TextInput(attrs={'class': 'form-control input-xs', 'readonly': 'readonly'})
+    )
+
+    requisicion_hasta = CharField(
+        widget=TextInput(attrs={'class': 'form-control input-xs', 'readonly': 'readonly'})
     )
 
     cotizacion = IntegerField(
@@ -138,12 +138,11 @@ class SeguimientoComprasFilterForm(Form):
         label='¿Mostrar canceladas?',
         widget=RadioSelect, choices=CANCELADAS
     )
-    oc_desde_hasta = CharField(
-        label='Fecha de creación',
-        widget=TextInput(
-            attrs={'name': 'oc_desde_hasta', 'class': 'form-control input-xs',
-                   'readonly': '', 'id': 'fecha_ord_desde_hasta'}
-        ),
+    oc_desde = CharField(
+        widget=TextInput(attrs={'class': 'form-control input-xs', 'readonly': 'readonly'})
+    )
+    oc_hasta = CharField(
+        widget=TextInput(attrs={'class': 'form-control input-xs', 'readonly': 'readonly'})
     )
 
     proveedor = CharField(

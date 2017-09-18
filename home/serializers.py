@@ -12,6 +12,9 @@ from capitalhumano.models import DocumentoPersonal
 from capitalhumano.models import DocumentoCapacitacion
 from administracion.models import Solicitud
 from calidad.models import AnalisisHallazgo
+from calidad.models import PlanAccionHallazgo
+from calidad.models import SeguimientoPlanAccion
+from calidad.models import EvidenciaHallazgo
 
 
 class ArchivoSerializers(serializers.HyperlinkedModelSerializer):
@@ -31,8 +34,19 @@ class ArchivoSerializers(serializers.HyperlinkedModelSerializer):
         AnalisisHallazgo: serializers.HyperlinkedRelatedField(
             queryset=AnalisisHallazgo.objects.all(),
             view_name='analisishallazgo-detail'
+        ),
+        PlanAccionHallazgo: serializers.HyperlinkedRelatedField(
+            queryset=PlanAccionHallazgo.objects.all(),
+            view_name='planaccionhallazgo-detail'
+        ),
+        SeguimientoPlanAccion: serializers.HyperlinkedRelatedField(
+            queryset=SeguimientoPlanAccion.objects.all(),
+            view_name='seguimientoplanaccion-detail'
+        ),
+        EvidenciaHallazgo: serializers.HyperlinkedRelatedField(
+            queryset=EvidenciaHallazgo.objects.all(),
+            view_name='evidenciahallazgo-detail'
         )
-
     })
 
     class Meta:

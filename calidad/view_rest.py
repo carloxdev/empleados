@@ -25,7 +25,9 @@ from .models import ProcesoAuditoria
 from .models import RequisitoProceso
 from .models import HallazgoProceso
 from .models import AnalisisHallazgo
-
+from .models import PlanAccionHallazgo
+from .models import SeguimientoPlanAccion
+from .models import EvidenciaHallazgo
 
 # Serializadores:
 from .serializers import CriterioSerializer
@@ -43,6 +45,9 @@ from .serializers import ProcesoAuditoriaSerializer
 from .serializers import RequisitoProcesoSerializer
 from .serializers import HallazgoProcesoSerializer
 from .serializers import AnalisisHallazgoSerializer
+from .serializers import PlanAccionHallazgoSerializer
+from .serializers import SeguimientoPlanAccionSerializer
+from .serializers import EvidenciaHallazgoSerializer
 
 # Paginadores:
 from .pagination import GenericPagination
@@ -56,6 +61,9 @@ from .filters import RequisitoProcesoFilter
 from .filters import HallazgoProcesoFilter
 from .filters import SubprocesoFilter
 from .filters import AnalisisHallazgoFilter
+from .filters import PlanAccionHallazgoFilter
+from .filters import SeguimientoPlanAccionFilter
+from .filters import EvidenciaHallazgoFilter
 
 
 # -------------- Calidad - API REST -------------- #
@@ -193,3 +201,30 @@ class AnalisisHallazgoAPI(viewsets.ModelViewSet):
     filter_backends = (filters.DjangoFilterBackend,)
     filter_backends = (DjangoFilterBackend,)
     filter_class = AnalisisHallazgoFilter
+
+
+class PlanAccionHallazgoAPI(viewsets.ModelViewSet):
+    queryset = PlanAccionHallazgo.objects.all()
+    serializer_class = PlanAccionHallazgoSerializer
+    permission_classes = (IsAuthenticated,)
+    filter_backends = (filters.DjangoFilterBackend,)
+    filter_backends = (DjangoFilterBackend,)
+    filter_class = PlanAccionHallazgoFilter
+
+
+class SeguimientoPlanAccionAPI(viewsets.ModelViewSet):
+    queryset = SeguimientoPlanAccion.objects.all()
+    serializer_class = SeguimientoPlanAccionSerializer
+    permission_classes = (IsAuthenticated,)
+    filter_backends = (filters.DjangoFilterBackend,)
+    filter_backends = (DjangoFilterBackend,)
+    filter_class = SeguimientoPlanAccionFilter
+
+
+class EvidenciaHallazgoAPI(viewsets.ModelViewSet):
+    queryset = EvidenciaHallazgo.objects.all()
+    serializer_class = EvidenciaHallazgoSerializer
+    permission_classes = (IsAuthenticated,)
+    filter_backends = (filters.DjangoFilterBackend,)
+    filter_backends = (DjangoFilterBackend,)
+    filter_class = EvidenciaHallazgoFilter

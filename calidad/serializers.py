@@ -23,6 +23,9 @@ from .models import ProcesoAuditoria
 from .models import RequisitoProceso
 from .models import HallazgoProceso
 from .models import AnalisisHallazgo
+from .models import PlanAccionHallazgo
+from .models import SeguimientoPlanAccion
+from .models import EvidenciaHallazgo
 
 # Otros Modelos
 from home.models import Archivo
@@ -474,5 +477,94 @@ class AnalisisHallazgoSerializer(serializers.HyperlinkedModelSerializer):
     def get_metodologia_id(self, obj):
         try:
             return obj.metodologia.id
+        except:
+            return ""
+
+class PlanAccionHallazgoSerializer(serializers.HyperlinkedModelSerializer):
+
+    hallazgo_id = serializers.SerializerMethodField()
+    relacion_archivo = Archivo(many=True, read_only=True)
+
+    class Meta:
+        model = PlanAccionHallazgo
+        fields = (
+            'pk',
+            'titulo',
+            'actividad',
+            'responsable',
+            'fecha_programada',
+            'evidencia',
+            'hallazgo',
+            'hallazgo_id',
+            'resultado',
+            'resultado_evaluacion',
+            'fecha_evaluacion',
+            'criterio_decision',
+            'tipo_accion',
+            'observacion',
+            'relacion_archivo',
+            'create_by',
+            'create_date',
+            'update_by',
+            'update_date',
+        )
+
+    def get_hallazgo_id(self, obj):
+        try:
+            return obj.hallazgo.id
+        except:
+            return ""
+
+
+class SeguimientoPlanAccionSerializer(serializers.HyperlinkedModelSerializer):
+
+    plan_accion_hallazgo_id = serializers.SerializerMethodField()
+    relacion_archivo = Archivo(many=True, read_only=True)
+
+    class Meta:
+        model = SeguimientoPlanAccion
+        fields = (
+            'pk',
+            'resultado_seguimiento',
+            'fecha_seguimiento',
+            'plan_accion_hallazgo',
+            'plan_accion_hallazgo_id',
+            'relacion_archivo',
+            'create_by',
+            'create_date',
+            'update_by',
+            'update_date',
+        )
+
+    def get_plan_accion_hallazgo_id(self, obj):
+        try:
+            return obj.plan_accion_hallazgo.id
+        except:
+            return ""
+
+
+class EvidenciaHallazgoSerializer(serializers.HyperlinkedModelSerializer):
+
+    hallazgo_id = serializers.SerializerMethodField()
+    relacion_archivo = Archivo(many=True, read_only=True)
+
+    class Meta:
+        model = EvidenciaHallazgo
+        fields = (
+            'pk',
+            'titulo',
+            'observacion',
+            'hallazgo',
+            'hallazgo_id',
+            'relacion_archivo',
+            'create_by',
+            'create_date',
+            'update_by',
+            'update_date',
+        )
+
+    def get_hallazgo_id(self, obj):
+        try:
+            return obj.hallazgo.id
         except:
             return ""

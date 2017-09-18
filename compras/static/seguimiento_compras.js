@@ -68,8 +68,10 @@ function TarjetaFiltros() {
    this.$id_proveedor = $("#id_proveedor")
    this.$id_item = $("#id_item")
    this.$id_recepcion = $("#id_recepcion")
-   this.$fecha_req_desde_hasta = $("#fecha_req_desde_hasta")
-   this.$fecha_ord_desde_hasta = $("#fecha_ord_desde_hasta")
+   this.$requisicion_desde = $('#id_requisicion_desde_group')
+   this.$requisicion_hasta = $('#id_requisicion_hasta_group')
+   this.$oc_desde = $('#id_oc_desde_group')
+   this.$oc_hasta = $('#id_oc_hasta_group')
    this.$boton_buscar = $('#boton_buscar')
    this.$boton_limpiar = $('#boton_limpiar')
    this.$boton_cancelar = $('#boton_cancelar')
@@ -93,60 +95,19 @@ TarjetaFiltros.prototype.init_Responsive = function () {
 }
 TarjetaFiltros.prototype.init_Components = function () {
 
-   this.$fecha_req_desde_hasta.daterangepicker(this.get_ConfDateRangePicker())
-   this.$fecha_ord_desde_hasta.daterangepicker(this.get_ConfDateRangePicker())
    this.$id_compania.select2(appnova.get_ConfigSelect2())
    this.$id_sucursal.select2(appnova.get_ConfigSelect2())
    this.$id_requisicion_tipo.select2(appnova.get_ConfigSelect2())
    this.$id_requisicion_originador.select2(appnova.get_ConfigSelect2())
+   this.$requisicion_desde.datepicker({format: 'dd/mm/yyyy', autoclose: true, language: 'es' })
+   this.$requisicion_hasta.datepicker({format: 'dd/mm/yyyy', autoclose: true, language: 'es' })
+   this.$oc_desde.datepicker({format: 'dd/mm/yyyy', autoclose: true, language: 'es' })
+   this.$oc_hasta.datepicker({format: 'dd/mm/yyyy', autoclose: true, language: 'es' })
    this.$id_cotizacion_tipo.select2(appnova.get_ConfigSelect2())
    this.$id_cotizacion_originador.select2(appnova.get_ConfigSelect2())
    this.$id_oc_tipo.select2(appnova.get_ConfigSelect2())
    this.$id_oc_originador.select2(appnova.get_ConfigSelect2())
    this.$id_recepcion.select2(appnova.get_ConfigSelect2())
-}
-TarjetaFiltros.prototype.get_ConfDateRangePicker = function () {
-
-   return {
-      autoUpdateInput: false,
-      locale: {
-         format: 'YYYY-MM-DD',
-         applyLabel: "Aplicar",
-         cancelLabel: "Cancelar",
-         fromLabel: "Del",
-         separator: " al ",
-         toLabel: "Al",
-         weekLabel: "S",
-         daysOfWeek: [
-            "Do",
-            "Lu",
-            "Ma",
-            "Mi",
-            "Ju",
-            "Vi",
-            "Sa"
-         ],
-         monthNames: [
-            "Enero",
-            "Febrero",
-            "Marzo",
-            "Abril",
-            "Mayo",
-            "Junio",
-            "Julio",
-            "Agosto",
-            "Septiembre",
-            "Octubre",
-            "Noviembre",
-            "Diciembre"
-         ],
-      },
-
-      "dateLimit": {
-
-         "months": 6
-      },
-   }
 }
 TarjetaFiltros.prototype.init_Events = function () {
 
@@ -157,14 +118,12 @@ TarjetaFiltros.prototype.init_Events = function () {
    this.$id_requisicion.on("keydown", this, this.keydown_ValidarNegativos)
    this.$id_cotizacion.on("keydown", this, this.keydown_ValidarNegativos)
    this.$id_oc.on("keydown", this, this.keydown_ValidarNegativos)
-   this.$fecha_req_desde_hasta.on("apply.daterangepicker", this, this.aplicar_Rango)
-   this.$fecha_req_desde_hasta.siblings('[data-event=\'calendario\']').on("click", this, this.click_MostrarPicker)
-   this.$fecha_req_desde_hasta.siblings('[data-event=\'limpiar\']').on("click", this, this.click_LimpiarCampo)
-   this.$fecha_ord_desde_hasta.on("apply.daterangepicker", this, this.aplicar_Rango)
-   this.$fecha_ord_desde_hasta.siblings('[data-event=\'calendario\']').on("click", this, this.click_MostrarPicker)
-   this.$fecha_ord_desde_hasta.siblings('[data-event=\'limpiar\']').on("click", this, this.click_LimpiarCampo)
+
+
    this.$id_compania.on('select2:close', this, this.click_FocusComponent)
-   this.$id_compania.on('blur', this, this.foucusout)
+   // this.$id_compania.on('select2:selecting', this, this.foucusout)
+   this.$id_compania.on('select2:open', this, this.foucusout)
+   // this.$id_compania.on('blur', this, this.foucusout)
    this.$id_sucursal.on('select2:close', this, this.click_FocusComponent)
 
 }
@@ -192,7 +151,7 @@ TarjetaFiltros.prototype.click_FocusComponent = function (e) {
    $(this).focus()
 }
 TarjetaFiltros.prototype.foucusout = function (e) {
-   console.log(2);
+   console.log("##########################################");
 };
 TarjetaFiltros.prototype.get_Values = function (_page, _pageSize) {
 
@@ -215,10 +174,10 @@ TarjetaFiltros.prototype.get_Values = function (_page, _pageSize) {
       ord_tipo: this.$id_oc_tipo.val(),
       ord_generador: this.$id_oc_originador.val(),
       ord_estado_last: $("input[name='oc_canceladas']:checked").val(),
-      req_fecha_creacion_desde: this.$fecha_req_desde_hasta.val().split(" al ")[0],
-      req_fecha_creacion_hasta: this.$fecha_req_desde_hasta.val().split(" al ")[1],
-      ord_fecha_creacion_desde: this.$fecha_ord_desde_hasta.val().split(" al ")[0],
-      ord_fecha_creacion_hasta: this.$fecha_ord_desde_hasta.val().split(" al ")[1],
+      req_fecha_creacion_desde: this.get_FechaMayorQue(),
+      req_fecha_creacion_hasta: this.get_FechaMenorQue(),
+      ord_fecha_creacion_desde: this.get_FechaMayorQue(),
+      ord_fecha_creacion_hasta: this.get_FechaMenorQue(),
       ord_proveedor_desc: this.$id_proveedor.val(),
       req_item_desc: this.$id_item.val(),
       ord_recepcion: this.$id_recepcion.val()
@@ -250,13 +209,19 @@ TarjetaFiltros.prototype.click_BotonLimpiar = function (e) {
    e.data.$id_proveedor.val("")
    e.data.$id_item.val("")
    e.data.$id_recepcion.data('select2').val(0)
-   e.data.$fecha_req_desde_hasta.val("")
-   e.data.$fecha_ord_desde_hasta.val("")
+   e.data.$requisicion_desde.datepicker("clearDates")
+   e.data.$requisicion_hasta.datepicker("clearDates")
+   e.data.$oc_desde.datepicker("clearDates")
+   e.data.$oc_hasta.datepicker("clearDates")
+
 }
 TarjetaFiltros.prototype.hide_Modal = function (e) {
 
-   e.data.$fecha_ord_desde_hasta.data('daterangepicker').hide()
-   e.data.$fecha_req_desde_hasta.data('daterangepicker').hide()
+   e.data.$requisicion_desde.data('datepicker').hide()//FALTA AQUI
+   e.data.$requisicion_hasta.data('datepicker').hide()//FALTA AQUI
+   e.data.$oc_desde.data('datepicker').hide()//FALTA AQUI
+   e.data.$oc_hasta.data('datepicker').hide()//FALTA AQUI
+
 
    if (e.data.$campos_usados.length) {
 
@@ -280,7 +245,8 @@ TarjetaFiltros.prototype.limpiar_CampoNoAplicado = function () {
       'id_compania', 'id_sucursal', 'id_comprador', 'id_requisicion', 'id_requisicion_tipo',
       'id_requisicion_originador', 'id_requisicion_canceladas', 'id_cotizacion', 'id_cotizacion_tipo',
       'id_cotizacion_originador', 'id_cotizacion_canceladas', 'id_oc', 'id_oc_tipo', 'id_oc_originador',
-      'id_oc_canceladas', 'id_proveedor', 'id_item', 'id_recepcion', 'fecha_req_desde_hasta', 'fecha_ord_desde_hasta',
+      'id_oc_canceladas', 'id_proveedor', 'id_item', 'id_recepcion', 'id_requisicion_desde', 'id_requisicion_hasta',//FALTA AQUI
+      'id_oc_desde_group', 'id_oc_hasta_group'//FALTA AQUI
    ]
 
    var resultados
@@ -371,16 +337,49 @@ TarjetaFiltros.prototype.limpiar_CampoNoAplicado = function () {
 
          tarjeta_filtros.$id_recepcion.data('select2').val(0)
       }
-      if (_campo == "fecha_req_desde_hasta") {
+      if (_campo == "requisicion_desde") {
 
-         tarjeta_filtros.$fecha_req_desde_hasta.val("")
+         tarjeta_filtros.$requisicion_desde.datepicker("clearDates")
       }
-      if (_campo == "fecha_ord_desde_hasta") {
+      if (_campo == "requisicion_hasta") {
 
-         tarjeta_filtros.$fecha_ord_desde_hasta.val("")
+         tarjeta_filtros.$requisicion_hasta.datepicker("clearDates")
+      }
+      if (_campo == "id_oc_desde_group") {//FALTA AQUI
+
+         tarjeta_filtros.$oc_desde.datepicker("clearDates")
+      }
+      if (_campo == "id_oc_hasta_group") {//FALTA AQUI
+
+         tarjeta_filtros.$oc_hasta.datepicker("clearDates")
       }
    })
 }
+TarjetaFiltros.prototype.get_FechaMayorQue = function (e) {//FALTA AQUI
+
+    fecha = this.$created_date_mayorque.datepicker("getDate")
+    fecha_conformato = moment(fecha).format('YYYY-MM-DD')
+
+    if (fecha_conformato == "Invalid date") {
+        return ""
+    }
+    else {
+        return fecha_conformato
+    }
+}
+TarjetaFiltros.prototype.get_FechaMenorQue = function (e) {//FALTA AQUI
+
+    fecha = this.$requisicion_hasta.datepicker("getDate")
+    fecha_conformato = moment(fecha).format('YYYY-MM-DD')
+
+    if (fecha_conformato == "Invalid date") {
+        return ""
+    }
+    else {
+        return fecha_conformato
+    }
+}
+
 TarjetaFiltros.prototype.get_NoFiltrosAplicados = function () {
 
    cantidad = 0
@@ -458,13 +457,21 @@ TarjetaFiltros.prototype.get_NoFiltrosAplicados = function () {
       cantidad += 1
       filtros.push('id_recepcion')
    }
-   if (this.$fecha_req_desde_hasta.val() != "") {
+   if (this.get_FechaMayorQue() != "") {
       cantidad += 1
-      filtros.push('fecha_req_desde_hasta')
+      filtros.push('requisicion_desde')
    }
-   if (this.$fecha_ord_desde_hasta.val() != "") {
+   if (this.get_FechaMenorQue() != "") {
       cantidad += 1
-      filtros.push('fecha_ord_desde_hasta')
+      filtros.push('requisicion_hasta')
+   }
+   if (this.get_FechaMayorQue() != "") {
+      cantidad += 1
+      filtros.push('id_oc_desde_group')
+   }
+   if (this.get_FechaMenorQue() != "") {
+      cantidad += 1
+      filtros.push('id_oc_hasta_group')
    }
 
    return [cantidad, filtros]
