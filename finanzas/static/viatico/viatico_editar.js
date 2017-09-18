@@ -40,8 +40,8 @@ function Cabecera() {
     this.$record_pk = $('#cabecera_pk')
     this.$empleado_clave = $('#id_empleado_clave')
     this.$empleado_descripcion = $('#id_empleado_descripcion')
-    this.$unidad_negocio_clave = $('#id_unidad_negocio_clave')
-    this.$unidad_negocio_descripcion = $('#id_unidad_negocio_descripcion')
+    this.$un_clave = $('#id_un_clave')
+    this.$un_descripcion = $('#id_un_descripcion')
     this.$fecha_partida = $('#id_fecha_partida')
     this.$fecha_partida_input = $('#id_fecha_partida_input')
     this.$fecha_regreso = $('#id_fecha_regreso')
@@ -56,7 +56,7 @@ function Cabecera() {
 Cabecera.prototype.init = function () {
 
     this.$empleado_clave.select2()
-    this.$unidad_negocio_clave.select2()
+    this.$un_clave.select2()
 
     this.$fecha_partida_input.datepicker({format: 'dd/mm/yyyy', autoclose: true})
     this.$fecha_regreso_input.datepicker({format: 'dd/mm/yyyy', autoclose: true})
@@ -64,7 +64,7 @@ Cabecera.prototype.init = function () {
 Cabecera.prototype.set_Events = function () {
 
     this.$empleado_clave.on("change", this, this.seleccionar_ComboBoxEmpleado)
-    this.$unidad_negocio_clave.on("change", this, this.seleccionar_ComboBoxUnidadNegocio)
+    this.$un_clave.on("change", this, this.seleccionar_ComboBoxUnidadNegocio)
 
 }
 Cabecera.prototype.seleccionar_ComboBoxEmpleado = function(e) {
@@ -77,9 +77,9 @@ Cabecera.prototype.seleccionar_ComboBoxEmpleado = function(e) {
 }
 Cabecera.prototype.seleccionar_ComboBoxUnidadNegocio = function(e) {
 
-    var value_select = e.data.$unidad_negocio_clave.find(":selected").text()
+    var value_select = e.data.$un_clave.find(":selected").text()
 
-    e.data.$unidad_negocio_descripcion.val(
+    e.data.$un_descripcion.val(
         Miner.get_TextFromSelectOption(value_select)
     )
 }

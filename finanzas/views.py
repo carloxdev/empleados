@@ -21,6 +21,7 @@ from .forms import ViaticoLineaForm
 from .forms import AnticipoFilterForm
 
 from jde.business import AutorizadorGastosBusiness
+from jde.business import CentroCostoBusiness
 
 
 class ViaticoLista(View):
@@ -63,11 +64,18 @@ class ViaticoCabeceraNuevo(View):
 
             try:
 
-                record = AutorizadorGastosBusiness.get_ByEmpleado(viatico.empleado_clave)
+                data_autorizador = AutorizadorGastosBusiness.get_ByEmpleado(viatico.empleado_clave)
 
-                viatico.autorizador_clave = record.autorizador_clave
-                viatico.autorizador_descripcion = record.autorizador_nombre
-                viatico.grupo = record.grupo_descripcion
+                data_compania = CentroCostoBusiness.get_ByClave(
+                    viatico.unidad_negocio_clave
+                )
+
+                viatico.empresa_descripcion = data_compania.compania_desc
+                viatico.empresa_rfc = data_compania.compania_rfc
+                viatico.empresa_direccion = data_compania.compania_direccion
+                viatico.autorizador_grupo = data_autorizador.grupo_descripcion
+                viatico.autorizador_clave = data_autorizador.autorizador_clave
+                viatico.autorizador_descripcion = data_autorizador.autorizador_nombre
                 viatico.created_by = request.user.profile
                 viatico.updated_by = request.user.profile
                 viatico.save()

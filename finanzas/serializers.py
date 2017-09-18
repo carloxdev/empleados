@@ -12,7 +12,6 @@ from .models import ViaticoLinea
 class ViaticoCabeceraSerializer(serializers.HyperlinkedModelSerializer):
 
     status = serializers.SerializerMethodField()
-    empresa = serializers.SerializerMethodField()
     created_by = serializers.SerializerMethodField()
     approved_by = serializers.SerializerMethodField()
     updated_by = serializers.SerializerMethodField()
@@ -26,14 +25,14 @@ class ViaticoCabeceraSerializer(serializers.HyperlinkedModelSerializer):
             'empleado_descripcion',
             'fecha_partida',
             'fecha_regreso',
-            'unidad_negocio_clave',
-            'unidad_negocio_descripcion',
+            'un_clave',
+            'un_descripcion',
             'ciudad_destino',
             'proposito_viaje',
-            'empresa',
-            'rfc',
-            'direccion',
-            'grupo',
+            'empresa_descripcion',
+            'empresa_rfc',
+            'empresa_direccion',
+            'autorizador_grupo',
             'autorizador_clave',
             'autorizador_descripcion',
             'status',
@@ -50,15 +49,6 @@ class ViaticoCabeceraSerializer(serializers.HyperlinkedModelSerializer):
 
         try:
             return obj.get_status_display()
-
-        except Exception as e:
-            print str(e)
-            return ""
-
-    def get_empresa(self, obj):
-
-        try:
-            return obj.empresa.clave
 
         except Exception as e:
             print str(e)

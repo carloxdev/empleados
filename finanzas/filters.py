@@ -18,8 +18,8 @@ class ViaticoCabeceraFilter(filters.FilterSet):
         name="empleado_clave",
         lookup_expr="icontains"
     )
-    unidad_negocio_clave = CharFilter(
-        name="unidad_negocio_clave",
+    un_clave = CharFilter(
+        name="un_clave",
         lookup_expr="icontains"
     )
     ciudad_destino = CharFilter(
@@ -51,7 +51,7 @@ class ViaticoCabeceraFilter(filters.FilterSet):
         fields = [
             'proposito_viaje',
             'empleado_clave',
-            'unidad_negocio_clave',
+            'un_clave',
             'ciudad_destino',
             'autorizador_clave',
             'status',

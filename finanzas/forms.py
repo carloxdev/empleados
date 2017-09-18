@@ -25,16 +25,16 @@ from home.forms_fields import SelectCustom
 
 class ViaticoFilterForm(Form):
 
-    empleado = ChoiceField(
+    empleado_clave = ChoiceField(
         widget=SelectCustom(attrs={'class': 'form-control input-xs'})
     )
 
-    unidad_negocio = ChoiceField(
+    un_clave = ChoiceField(
         label="Unidad de Negocio",
         widget=SelectCustom(attrs={'class': 'form-control input-xs'})
     )
 
-    autorizador = ChoiceField(
+    autorizador_clave = ChoiceField(
         widget=SelectCustom(attrs={'class': 'form-control input-xs'})
     )
 
@@ -58,13 +58,13 @@ class ViaticoFilterForm(Form):
 
     def __init__(self, *args, **kwargs):
         super(ViaticoFilterForm, self).__init__(*args, **kwargs)
-        self.fields['empleado'].required = False
-        self.fields['unidad_negocio'].required = False
-        self.fields['autorizador'].required = False
+        self.fields['empleado_clave'].required = False
+        self.fields['un_clave'].required = False
+        self.fields['autorizador_clave'].required = False
 
-        self.fields['empleado'].choices = EmpleadoBusiness.get_Todos_ForSelectCustom()
-        self.fields['unidad_negocio'].choices = CentroCostoBusiness.get_Todos_ForSelectCustom()
-        self.fields['autorizador'].choices = EmpleadoBusiness.get_Todos_ForSelectCustom()
+        self.fields['empleado_clave'].choices = EmpleadoBusiness.get_Todos_ForSelectCustom()
+        self.fields['un_clave'].choices = CentroCostoBusiness.get_Todos_ForSelectCustom()
+        self.fields['autorizador_clave'].choices = EmpleadoBusiness.get_Todos_ForSelectCustom()
 
 
 class ViaticoCabeceraForm(ModelForm):
@@ -76,7 +76,7 @@ class ViaticoCabeceraForm(ModelForm):
         )
     )
 
-    unidad_negocio_clave = ChoiceField(
+    un_clave = ChoiceField(
         label="Unidad Negocio",
         widget=Select(
             attrs={'class': 'form-control input-xs'}
@@ -89,8 +89,8 @@ class ViaticoCabeceraForm(ModelForm):
         fields = [
             'empleado_clave',
             'empleado_descripcion',
-            'unidad_negocio_clave',
-            'unidad_negocio_descripcion',
+            'un_clave',
+            'un_descripcion',
             'fecha_partida',
             'fecha_regreso',
             'proposito_viaje',
@@ -99,7 +99,7 @@ class ViaticoCabeceraForm(ModelForm):
 
         widgets = {
             'empleado_descripcion': HiddenInput(),
-            'unidad_negocio_descripcion': HiddenInput(),
+            'un_descripcion': HiddenInput(),
             'proposito_viaje': Textarea(attrs={'class': 'form-control'}),
             'fecha_partida': DateInput(attrs={'class': 'form-control input-xs', 'readonly': 'readonly'}, format='%d/%m/%Y'),
             'fecha_regreso': DateInput(attrs={'class': 'form-control input-xs', 'readonly': 'readonly'}, format='%d/%m/%Y'),
@@ -109,7 +109,7 @@ class ViaticoCabeceraForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super(ViaticoCabeceraForm, self).__init__(*args, **kwargs)
         self.fields['empleado_clave'].choices = EmpleadoBusiness.get_Activos_ForSelect()
-        self.fields['unidad_negocio_clave'].choices = CentroCostoBusiness.get_Activos_ForSelect()
+        self.fields['un_clave'].choices = CentroCostoBusiness.get_Activos_ForSelect()
 
     def clean_fecha_regreso(self):
         f_partida = self.cleaned_data['fecha_partida']
@@ -122,15 +122,15 @@ class ViaticoCabeceraForm(ModelForm):
 
     def clean(self):
         cleaned_data = super(ViaticoCabeceraForm, self).clean()
-        empleado_desc = cleaned_data.get("empleado_descripcion")
-        unidad_negocio_desc = cleaned_data.get("unidad_negocio_descripcion")
+        empleado_descripcion = cleaned_data.get("empleado_descripcion")
+        un_descripcion = cleaned_data.get("un_descripcion")
 
-        if empleado_desc is None:
+        if empleado_descripcion is None:
             raise ValidationError(
                 "No se pudo obtener la descripcion de empleado"
             )
 
-        if unidad_negocio_desc is None:
+        if un_descripcion is None:
             raise ValidationError(
                 "No se pudo obtener la descripcion de la UN"
             )

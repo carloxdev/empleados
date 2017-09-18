@@ -5,7 +5,7 @@ from __future__ import unicode_literals
 
 # Librerias Django:
 from django.db import models
-from django.conf import settings
+# from django.conf import settings
 
 
 class F0101(models.Model):
@@ -37,6 +37,11 @@ class VIEW_CENTROSCOSTO(models.Model):
     clave = models.CharField(max_length=12, primary_key=True)
     descripcion = models.CharField(max_length=60)
     compania = models.CharField(max_length=5)
+    compania_desc = models.CharField(max_length=30)
+    compania_ab_clave = models.IntegerField()
+    compania_ab_desc = models.CharField(max_length=80)
+    compania_rfc = models.CharField(max_length=20)
+    compania_direccion = models.CharField(max_length=161)
     tipo = models.CharField(max_length=2)
     tipo_desc = models.CharField(max_length=60)
     estado = models.CharField(max_length=1)
