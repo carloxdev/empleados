@@ -824,7 +824,7 @@ div.nova-panel-arbol li.list-group-item {
 }
 .nova-crop-img {
   height: 60px !important;
-  width: 75px !important;
+  /* width: 75px !important; */
   overflow: hidden !important;
   line-height: 70px !important;
 }
@@ -877,7 +877,7 @@ div.nova-panel-arbol li.list-group-item {
 /* COMUNICACIÓN INTERNA */
 
 .nova-button-toolbar{
-  
+
 }
 
 /* FIN COMUNICACIÓN INTERNA */

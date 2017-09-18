@@ -35,7 +35,7 @@
     <!-- Main Theme CSS -->
     <link rel="stylesheet" href="{% static 'theme/css/style.css' %}" type="text/css"/>
 
-    <!-- Fastclick 
+    <!-- Fastclick
     <link rel="stylesheet" href="{% static 'theme/lib/fastclick/fastclick.min.js' %}" type="text/css" />-->
 
     <!-- Nova -->
@@ -64,6 +64,7 @@
                     <ul class="nav navbar-nav navbar-right be-user-nav">
                         <li class="dropdown">
                             <a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="dropdown-toggle">
+                            
                                 <div class="nova-crop-img">
                                 {% if user.profile.foto %}
                                     <img class="nova-imagen-avatar" src="{{ user.profile.foto.url }}" alt="User Image" class="user-image">
