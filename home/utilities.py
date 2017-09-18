@@ -2,9 +2,10 @@
 # -*- coding: utf-8 -*-
 # Librerias Python
 import os
+import urllib
 from datetime import datetime
 
-# Models
+# Own's Libraries
 from ebs.models import VIEW_EMPLEADOS_FULL
 
 
@@ -27,12 +28,12 @@ def get_FilePath_Archivo(instance, filename):
             filename = "C-%s_%s_%s.pdf" % (instance.content_object.curso.id, nombre, numero_empleado)
         elif instance.tipo_archivo == 'sol':
             fecha = '%s-%s-%s' % (fecha_hoy.day, fecha_hoy.month, fecha_hoy.year)
-            filename = "%s_%s_%s.pdf" % (fecha,nombre, numero_empleado)
-            return os.path.join('capitalhumano','solicitudes',filename)
+            filename = "%s_%s_%s.pdf" % (fecha, nombre, numero_empleado)
+            return os.path.join('capitalhumano', 'solicitudes', filename)
         elif instance.tipo_archivo == 'res':
             fecha = '%s-%s-%s' % (fecha_hoy.day, fecha_hoy.month, fecha_hoy.year)
-            filename = "R-%s_%s_%s.pdf" % (fecha,nombre, numero_empleado)
-            return os.path.join('capitalhumano','solicitudes',filename)
+            filename = "R-%s_%s_%s.pdf" % (fecha, nombre, numero_empleado)
+            return os.path.join('capitalhumano', 'solicitudes', filename)
         return os.path.join(upload_dir, filename)
 
     elif instance.tipo_archivo == 'cal':
@@ -42,3 +43,7 @@ def get_FilePath_Archivo(instance, filename):
         upload_dir = os.path.join('calidad', 'hallazgodetalle', "%s" % (auditoria),)
 
         return os.path.join(upload_dir, filename)
+
+
+def get_Url_With_Querystring(path, **kwargs):
+    return path + '?' + urllib.urlencode(kwargs)

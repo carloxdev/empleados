@@ -1,8 +1,5 @@
 # -*- coding: utf-8 -*-
 
-# Python's Libraries
-import urllib
-
 # Django's Libraries
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
@@ -14,14 +11,15 @@ from django.contrib import messages
 # Own's Libraries
 from .models import ViaticoCabecera
 
+from .business import ViaticoBusiness
+
 from .forms import ViaticoCabeceraForm
 from .forms import ViaticoFilterForm
 from .forms import ViaticoLineaForm
 
 from .forms import AnticipoFilterForm
 
-from jde.business import AutorizadorGastosBusiness
-from jde.business import CentroCostoBusiness
+from home.utilities import get_Url_With_Querystring
 
 
 class ViaticoLista(View):
@@ -51,38 +49,26 @@ class ViaticoCabeceraNuevo(View):
 
         return render(request, self.template_name, contexto)
 
-    def url_with_querystring(self, path, **kwargs):
-        return path + '?' + urllib.urlencode(kwargs)
-
     def post(self, request):
 
         formulario = ViaticoCabeceraForm(request.POST)
 
         if formulario.is_valid():
 
-            viatico = formulario.save(commit=False)
+            viatico_cabecera = formulario.save(commit=False)
 
             try:
 
-                data_autorizador = AutorizadorGastosBusiness.get_ByEmpleado(viatico.empleado_clave)
+                ViaticoBusiness.set_Data_Autorizacion(viatico_cabecera)
+                ViaticoBusiness.set_Data_Compania(viatico_cabecera)
 
-                data_compania = CentroCostoBusiness.get_ByClave(
-                    viatico.unidad_negocio_clave
-                )
-
-                viatico.empresa_descripcion = data_compania.compania_desc
-                viatico.empresa_rfc = data_compania.compania_rfc
-                viatico.empresa_direccion = data_compania.compania_direccion
-                viatico.autorizador_grupo = data_autorizador.grupo_descripcion
-                viatico.autorizador_clave = data_autorizador.autorizador_clave
-                viatico.autorizador_descripcion = data_autorizador.autorizador_nombre
-                viatico.created_by = request.user.profile
-                viatico.updated_by = request.user.profile
-                viatico.save()
+                viatico_cabecera.created_by = request.user.profile
+                viatico_cabecera.updated_by = request.user.profile
+                viatico_cabecera.save()
 
                 return redirect(
-                    self.url_with_querystring(
-                        reverse('finanzas:viatico_editar', kwargs={'pk': viatico.pk}),
+                    get_Url_With_Querystring(
+                        reverse('finanzas:viatico_editar', kwargs={'pk': viatico_cabecera.pk}),
                         new=True
                     )
                 )
@@ -99,11 +85,6 @@ class ViaticoCabeceraNuevo(View):
 class ViaticoCabeceraEditar(View):
     template_name = 'viatico/viatico_editar.html'
 
-    def obtener_Viatico(self, pk):
-        viatico = get_object_or_404(ViaticoCabecera, pk=pk)
-
-        return viatico
-
     def get(self, request, pk):
 
         if len(request.GET):
@@ -111,11 +92,13 @@ class ViaticoCabeceraEditar(View):
         else:
             flag_new = False
 
-        formulario = ViaticoCabeceraForm(instance=self.obtener_Viatico(pk))
+        formulario_cabecera = ViaticoCabeceraForm(
+            instance=ViaticoBusiness.get_ViaticoCabevera(pk)
+        )
         formulario_linea = ViaticoLineaForm()
 
         contexto = {
-            'form': formulario,
+            'form_cabecera': formulario_cabecera,
             'form_linea': formulario_linea,
             'flag_new': flag_new
         }
@@ -123,17 +106,29 @@ class ViaticoCabeceraEditar(View):
 
     def post(self, request, pk):
 
-        formulario = ViaticoCabeceraForm(request.POST, instance=self.obtener_Viatico(pk))
+        formulario_cabecera = ViaticoCabeceraForm(
+            request.POST,
+            instance=ViaticoBusiness.get_ViaticoCabevera(pk)
+        )
         formulario_linea = ViaticoLineaForm()
 
-        if formulario.is_valid():
-            viatico = formulario.save(commit=False)
-            viatico.updated_by = request.user.profile
-            viatico.save()
-            messages.success(request, "Se modifico la solicitud exitosamente")
+        if formulario_cabecera.is_valid():
+
+            viatico_cabecera = formulario_cabecera.save(commit=False)
+
+            try:
+                ViaticoBusiness.set_Data_Autorizacion(viatico_cabecera)
+                ViaticoBusiness.set_Data_Compania(viatico_cabecera)
+
+                viatico_cabecera.updated_by = request.user.profile
+                viatico_cabecera.save()
+                messages.success(request, "Se modifico la solicitud exitosamente")
+
+            except Exception as e:
+                messages.error(request, str(e))
 
         contexto = {
-            'form': formulario,
+            'form_cabecera': formulario_cabecera,
             'form_linea': formulario_linea
         }
         return render(request, self.template_name, contexto)

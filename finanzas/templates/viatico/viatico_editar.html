@@ -46,12 +46,12 @@
                 <!-- Cabecera -->
                 <form class="panel panel-border panel-contrast nova-panel-default nova-panel-formulario" action="" method="POST"> {% csrf_token %}
                     <div class="panel-heading panel-heading-default nova-panel-heading-formulario">
-                        <span class="title">Informacion de la solicitud: <strong>VIA-<span id="cabecera_pk">{{ form.instance.id }}</span></strong></span>
+                        <span class="title">Informacion de la solicitud: <strong>VIA-<span id="cabecera_pk">{{ form_cabecera.instance.id }}</span></strong></span>
                     </div>
                     <div class="panel-body form-horizontal">
 
-                        {% if form.non_field_errors %}
-                            {% for error_message in form.non_field_errors %}
+                        {% if form_cabecera.non_field_errors %}
+                            {% for error_message in form_cabecera.non_field_errors %}
                                 {% tag_mensaje 'error' error_message %}
                             {% endfor %}
                         {% endif %}
@@ -64,20 +64,20 @@
 
                         {% tag_section_info 12 0 '¡Instrucciones!' 'Ahora puedes agregar/modificar gastos en la targeta <strong>"Lineas"</strong>' %}
 
-                        {% tag_field_registro form.empleado_clave 3 8 %}
+                        {% tag_field_registro form_cabecera.empleado_clave 3 8 %}
 
-                        {% tag_field_registro form.un_clave 3 8 %}
+                        {% tag_field_registro form_cabecera.un_clave 3 8 %}
 
-                        {% tag_field_registro_dates 'Fecha partida/regreso' form.fecha_partida form.fecha_regreso 3 4 4 %}
+                        {% tag_field_registro_dates 'Fecha partida/regreso' form_cabecera.fecha_partida form_cabecera.fecha_regreso 3 4 4 %}
 
-                        {% tag_field_registro form.ciudad_destino 3 8 %}
+                        {% tag_field_registro form_cabecera.ciudad_destino 3 8 %}
 
-                        {% tag_field_registro form.proposito_viaje 3 8 %}
+                        {% tag_field_registro form_cabecera.proposito_viaje 3 8 %}
 
                         <!-- Ocultos -->
                         <div>
-                            {{ form.empleado_descripcion }}
-                            {{ form.un_descripcion }}
+                            {{ form_cabecera.empleado_descripcion }}
+                            {{ form_cabecera.un_descripcion }}
                         </div>
 
                     </div>
@@ -151,28 +151,28 @@
                                   <tr>
                                         <td class="icon nova-label"><span class="mdi mdi-flag"></span></td>
                                         <td class="item nova-label">Estado:<span class="icon s7-flag"></span></td>
-                                        <td><strong>{{ form.instance.get_status_display }}</strong></td>
+                                        <td><strong>{{ form_cabecera.instance.get_status_display }}</strong></td>
                                   </tr>
                                   <tr>
                                       <td class="icon nova-label"><span class="mdi mdi-assignment-check"></span></td>
                                       <td class="item nova-label">Aprovador:<span class="icon s7-assignment-check"></span></td>
 
-                                      {% if form.instance.status == "aut" %}
-                                          <td><strong>{{ form.instance.approved_by.user.get_full_name|default:""|upper }}</strong></td>
+                                      {% if form_cabecera.instance.status == "aut" %}
+                                          <td><strong>{{ form_cabecera.instance.approved_by.user.get_full_name|default:""|upper }}</strong></td>
                                       {% else %}
-                                          <td><strong>{{ form.instance.autorizador_descripcion|default:""|upper }}</strong></td>
+                                          <td><strong>{{ form_cabecera.instance.autorizador_descripcion|default:""|upper }}</strong></td>
                                       {% endif %}
 
                                   </tr>
                                   <tr>
                                         <td class="icon nova-label"><span class="mdi mdi-layers"></span></td>
                                         <td class="item nova-label">Grupo:<span class="icon s7-layers"></span></td>
-                                        <td><strong>{{ form.instance.grupo|default:""|upper }}</strong></td>
+                                        <td><strong>{{ form_cabecera.instance.autorizador_grupo|default:""|upper }}</strong></td>
                                   </tr>
                                   <tr>
                                       <td class="icon nova-label"><span class="glyphicon glyphicon-calendar"></td>
                                       <td class="item nova-label">Autorizada el:<span class="icon s7-glyphicon-calendar"></span></td>
-                                      <td><strong>{{ form.instance.approved_date|date:"d M Y"|default:"Sin autorizar" }}</strong></td>
+                                      <td><strong>{{ form_cabecera.instance.approved_date|date:"d M Y"|default:"Sin autorizar" }}</strong></td>
                                   </tr>
                               </tbody>
                           </table>
@@ -192,22 +192,22 @@
                                 <tr>
                                     <td class="icon nova-label"><span class="mdi mdi-face"></span></td>
                                     <td class="item nova-label">Creada por:<span class="icon s7-face"></span></td>
-                                    <td><strong>{{ form.instance.created_by|default:""|upper }}</strong></td>
+                                    <td><strong>{{ form_cabecera.instance.created_by|default:""|upper }}</strong></td>
                                 </tr>
                                 <tr>
                                     <td class="icon nova-label"><span class="glyphicon glyphicon-calendar"></td>
                                     <td class="item nova-label">Creada el:<span class="icon s7-glyphicon-calendar"></span></td>
-                                    <td><strong>{{ form.instance.created_date|default:""|date:"d F Y" }}</strong></td>
+                                    <td><strong>{{ form_cabecera.instance.created_date|default:""|date:"d F Y" }}</strong></td>
                                 </tr>
                                 <tr>
                                     <td class="icon nova-label"><span class="mdi mdi-face"></span></td>
                                     <td class="item nova-label">Actualizada por:<span class="icon s7-face"></span></td>
-                                    <td><strong>{{ form.instance.updated_by|default:""|upper }}</strong></td>
+                                    <td><strong>{{ form_cabecera.instance.updated_by|default:""|upper }}</strong></td>
                                 </tr>
                                 <tr>
                                     <td class="icon nova-label"><span class="glyphicon glyphicon-calendar"></td>
                                     <td class="item nova-label">Actualizacion el:<span class="icon s7-glyphicon-calendar"></span></td>
-                                    <td><strong>{{ form.instance.updated_date|default:""|date:"d F Y" }}</strong></td>
+                                    <td><strong>{{ form_cabecera.instance.updated_date|default:""|date:"d F Y" }}</strong></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -227,17 +227,17 @@
                                   <tr>
                                       <td class="icon nova-label"><span class="mdi mdi-case"></span></td>
                                       <td class="item nova-label">Razon Social:<span class="icon s7-portfolio"></span></td>
-                                      <td><strong>{{ form.instance.empresa|default:"" }}</strong></td>
+                                      <td><strong>{{ form_cabecera.instance.empresa_descripcion|default:"" }}</strong></td>
                                   </tr>
                                   <tr>
                                       <td class="icon nova-label"><span class="mdi mdi-globe-alt"></span></td>
                                       <td class="item nova-label">RFC:<span class="icon s7-globe-alt"></span></td>
-                                      <td><strong>{{ form.instance.rfc|default:"" }}</strong></td>
+                                      <td><strong>{{ form_cabecera.instance.empresa_rfc|default:"" }}</strong></td>
                                   </tr>
                                   <tr>
                                       <td class="icon nova-label"><span class="mdi mdi-pin"></span></td>
                                       <td class="item nova-label">Direccion:<span class="icon s7-pin"></span></td>
-                                      <td><strong>{{ form.instance.direccion|default:"" }}</strong></td>
+                                      <td><strong>{{ form_cabecera.instance.empresa_direccion|default:"" }}</strong></td>
                                   </tr>
                               </tbody>
                           </table>
