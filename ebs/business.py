@@ -29,7 +29,7 @@ class EmpleadoBusiness(object):
 
         empleados = VIEW_EMPLEADOS_SIMPLE.objects.using('ebs_p').exclude(
             pers_empleado_numero__isnull=True
-        ).order_by('pers_nombre_completo')
+        ).order_by('pers_nombre_completo')[:20]
 
         return empleados
 
@@ -58,6 +58,29 @@ class EmpleadoBusiness(object):
                     option_label,
                     option_text,
                     option_status
+                )
+            )
+
+        return valores
+
+    @classmethod
+    def get_Todos_ForSelect(self):
+        valores = [('', '-------'), ]
+
+        empleados = self.get_Todos()
+
+        for empleado in empleados:
+
+            option_value = empleado.pers_empleado_numero
+            option_label = "%s : %s" % (
+                empleado.pers_empleado_numero,
+                empleado.pers_nombre_completo
+            )
+
+            valores.append(
+                (
+                    option_value,
+                    option_label,
                 )
             )
 

@@ -1,20 +1,16 @@
 {% extends 'master.html' %}
-
 {% load static from staticfiles %}
-
 {% load custom_tags %}
+{% load crispy_forms_tags %}
+{% block titulo %} Administración de Noticias {% endblock titulo %}
+{% block title-page %} Administración de Noticias {% endblock title-page %}
 
 {% block css %}
-
     <!-- Bootstrap WYSIHTML5 -->
     <link rel="stylesheet" href="{% static 'libs/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css' %}">
-
     <!-- Legalink's Styles -->
     <link rel="stylesheet" href="{% static 'post/post_form.css' %}" type="text/css"/>
-
 {% endblock css %}
-
-{% load crispy_forms_tags %}
 
 {% block contenido %}
 

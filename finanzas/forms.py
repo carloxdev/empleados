@@ -25,11 +25,6 @@ from home.forms_fields import SelectCustom
 
 class ViaticoFilterForm(Form):
 
-    proposito_viaje = CharField(
-        label="Proposito del viaje",
-        widget=TextInput(attrs={'class': 'form-control input-xs'})
-    )
-
     empleado = ChoiceField(
         widget=SelectCustom(attrs={'class': 'form-control input-xs'})
     )
@@ -39,13 +34,18 @@ class ViaticoFilterForm(Form):
         widget=SelectCustom(attrs={'class': 'form-control input-xs'})
     )
 
-    ciudad_destino = CharField(
-        label="Destino",
+    autorizador = ChoiceField(
+        widget=SelectCustom(attrs={'class': 'form-control input-xs'})
+    )
+
+    proposito_viaje = CharField(
+        label="Proposito del viaje",
         widget=TextInput(attrs={'class': 'form-control input-xs'})
     )
 
-    autorizador = ChoiceField(
-        widget=SelectCustom(attrs={'class': 'form-control input-xs'})
+    ciudad_destino = CharField(
+        label="Destino",
+        widget=TextInput(attrs={'class': 'form-control input-xs'})
     )
 
     created_date_mayorque = CharField(
@@ -58,6 +58,10 @@ class ViaticoFilterForm(Form):
 
     def __init__(self, *args, **kwargs):
         super(ViaticoFilterForm, self).__init__(*args, **kwargs)
+        self.fields['empleado'].required = False
+        self.fields['unidad_negocio'].required = False
+        self.fields['autorizador'].required = False
+
         self.fields['empleado'].choices = EmpleadoBusiness.get_Todos_ForSelectCustom()
         self.fields['unidad_negocio'].choices = CentroCostoBusiness.get_Todos_ForSelectCustom()
         self.fields['autorizador'].choices = EmpleadoBusiness.get_Todos_ForSelectCustom()

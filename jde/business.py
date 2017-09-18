@@ -42,7 +42,7 @@ class CentroCostoBusiness(object):
                 estructura="HST"
             ).order_by(
                 'clave'
-            )
+            )[:20]
         else:
             centros = VIEW_CENTROSCOSTO.objects.using('jde_p').exclude(
                 estructura="HST"
@@ -131,6 +131,29 @@ class CentroCostoBusiness(object):
                     option_label,
                     option_text,
                     option_status
+                )
+            )
+
+        return valores
+
+    @classmethod
+    def get_Todos_ForSelect(self):
+        valores = [('', '-------'), ]
+
+        centros = self.get_Todos()
+
+        for centro in centros:
+
+            option_value = centro.clave
+            option_label = "%s : %s" % (
+                centro.clave,
+                centro.descripcion
+            )
+
+            valores.append(
+                (
+                    option_value,
+                    option_label,
                 )
             )
 
