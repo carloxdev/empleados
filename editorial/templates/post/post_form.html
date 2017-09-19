@@ -2,78 +2,84 @@
 {% load static from staticfiles %}
 {% load custom_tags %}
 {% load crispy_forms_tags %}
-{% block titulo %} Administración de Noticias {% endblock titulo %}
-{% block title-page %} Administración de Noticias {% endblock title-page %}
+{% block titulo %} Noticia {% endblock titulo %}
+{% block title-page %} Noticia {% endblock title-page %}
 
 {% block css %}
-    <!-- Bootstrap WYSIHTML5 -->
-    <link rel="stylesheet" href="{% static 'libs/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css' %}">
-    <!-- Legalink's Styles -->
-    <link rel="stylesheet" href="{% static 'post/post_form.css' %}" type="text/css"/>
+    <!-- Bootstrap WYSIHTML5 
+    <link rel="stylesheet" href="{% static 'libs/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css' %}">-->
 {% endblock css %}
 
 {% block contenido %}
 
-    <div class="be-content">
-
-        <div class="page-head nova-page-head">
-            {% if operacion == "Editar" %}
-            <h2 class="page-head-title nova-title">Edicion del Noticas: {{form.instance.pk}}</h2>
-            {% else %}
-            <h2 class="page-head-title nova-title">Crear Noticas </h2>
-            {% endif %}
+<div class="be-content">
+    <div class="page-head nova-page-head">
+        {% if operacion == "Editar" %}
+            <h2 class="page-head-title nova-title">Edicion de Noticia: {{form.instance.pk}}</h2>
             <ol class="breadcrumb page-head-nav pull-right">
                 <li><a href="{% url 'home:inicio' %}">Inicio</a></li>
-                <li id="menu" data-opcion="viaticos_lista" class="active">Administracion de Noticias</li>
+                <li><a href="{% url 'editorial:post_administracion' %}">Administración de Noticias</a></li>
+                <li id="menu" data-opcion="comunicacion_admin" class="active">Editar Noticia</li>
             </ol>
-        </div>
-
-        <div class="row">
-            <div class="col-xs-12">
-                <article class="legal-article">
-
-                    <form
-                    action=""
-                    method="POST"
-                    enctype="multipart/form-data"> {% csrf_token %}
-
-                        <div class="legal-article-form">
-
-                            {% tag_input form.titulo %}
-
-                            {% tag_input form.imagen %}
-
-                            {% tag_input form.contenido %}
-
-                            {% tag_input form.status %}
-                        </div>
-
-                        <footer class="legal-article-botones">
-
-                            {% if operacion == "Editar" %}
-                            <input type="submit" class="btn btn-lg btn-warning" value="Actualizar">
-                            {% else %}
-                            <input type="submit" class="btn btn-lg btn-success" value="Guardar">
-                            {% endif %}
-
-                        </footer>
-
-                    </form>
-
-                </article>
-            </div>
-        </div>        
-
+        {% else %}
+            <h2 class="page-head-title nova-title">Nueva Noticia </h2>
+            <ol class="breadcrumb page-head-nav pull-right">
+                <li><a href="{% url 'home:inicio' %}">Inicio</a></li>
+                <li><a href="{% url 'editorial:post_administracion' %}">Administración de Noticias</a></li>
+                <li id="menu" data-opcion="comunicacion_admin" class="active">Nueva Noticia</li>
+            </ol>
+        {% endif %}
     </div>
+
+    <div class="main-content container-fluid nova-main-content">
+        <div class="row">
+            <div class="col-md-12">
+                <form class="panel panel-border panel-contrast" action="" method="POST" enctype="multipart/form-data"> {% csrf_token %}
+                    <div class="panel-heading panel-heading-default nova-border-bottom">
+                        Informacion de la Noticia
+                    </div>
+                    <div class="panel-body form-horizontal">
+
+                        {% if form.non_field_errors %}
+
+                            {% for error in form.non_field_errors %}
+                                {% tag_mensaje 'error' error %}
+                            {% endfor %}
+
+                        {% endif %}
+
+                        
+                        {% tag_input form.titulo 3 7 %}
+
+                        {% tag_input form.contenido 3 7 %}
+                        
+                        {% tag_input form.imagen 3 7 %}
+
+                        {% tag_input form.status 3 7 %}
+
+
+                    </div>
+                    <div class="modal-footer nova-modal-footer">
+                        {% if operacion == "Editar" %}
+                            <input type="submit" class="btn btn-lg btn-success" value="Actualizar">
+                        {% else %}
+                            <input type="submit" class="btn btn-lg btn-primary" value="Guardar">
+                        {% endif %}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
 {% endblock contenido %}
 
 {% block scripts %}
 
-    <!-- Bootstrap WYSIHTML5 -->
-    <script type="text/javascript" src="{% static 'libs/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js' %}"></script>
+    <!-- Bootstrap WYSIHTML5 
+    <script type="text/javascript" src="{% static 'libs/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js' %}"></script>-->
 
-    <!-- Legalink's Scripts -->
+    <!-- NOVA -->
     <script type="text/javascript" src="{% static 'post/post_form.js' %}"></script>
 
 {% endblock scripts %}

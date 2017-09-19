@@ -9,6 +9,15 @@ from jde.models import VIEW_GASTOS_AUTORIZADORES
 class CentroCostoBusiness(object):
 
     @classmethod
+    def get_ByClave(self, _clave):
+
+        centro = VIEW_CENTROSCOSTO.objects.using('jde_p').get(
+            clave=_clave
+        )
+
+        return centro
+
+    @classmethod
     def get_Activos(self):
 
         centros = None
@@ -173,6 +182,8 @@ class AutorizadorGastosBusiness(object):
     @classmethod
     def get_ByEmpleado(self, _empleado_clave):
 
-        record = VIEW_GASTOS_AUTORIZADORES.objects.using('jde_p').get(empleado_clave=_empleado_clave)
+        record = VIEW_GASTOS_AUTORIZADORES.objects.using('jde_p').get(
+            empleado_clave=_empleado_clave
+        )
 
         return record

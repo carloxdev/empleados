@@ -35,7 +35,7 @@
     <!-- Main Theme CSS -->
     <link rel="stylesheet" href="{% static 'theme/css/style.css' %}" type="text/css"/>
 
-    <!-- Fastclick 
+    <!-- Fastclick
     <link rel="stylesheet" href="{% static 'theme/lib/fastclick/fastclick.min.js' %}" type="text/css" />-->
 
     <!-- Nova -->
@@ -60,21 +60,22 @@
                         <span class="icon mdi mdi-menu"></span>
                     </a>
                 </div>
-                <div class="be-right-navbar">
+                <div class="nova-be-right-navbar">
                     <ul class="nav navbar-nav navbar-right be-user-nav">
                         <li class="dropdown">
                             <a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="dropdown-toggle">
-                                <div class="crop-img">
+                            
+                                <div class="nova-crop-img">
                                 {% if user.profile.foto %}
-                                    <img class="imagen-avatar" src="{{ user.profile.foto.url }}" alt="User Image" class="user-image">
+                                    <img class="nova-imagen-avatar" src="{{ user.profile.foto.url }}" alt="User Image" class="user-image">
                                 {% else %}
-                                    <img class="imagen-avatar-default" src="{% static 'theme/img/avatar.png' %}" alt="User Image">
+                                    <img class="nova-imagen-avatar" src="{% static 'theme/img/avatar.png' %}" alt="User Image">
                                 {% endif %}
                                 </div>
 
-                                <span class="user-name">{{ user.username }}</span>
+                                <span class="user-name nova-user-name">{{ user.username }}</span>
                             </a>
-                            <ul role="menu" class="dropdown-menu">
+                            <ul role="menu" class="dropdown-menu nova-dropdown">
                                 <li>
                                     <div class="user-info">
                                         <div class="user-name">
@@ -102,7 +103,7 @@
                         </li>
                     </ul>
                     <!-- <div class="page-title"><span>Blank Page</span></div> -->
-                    <ul class="nav navbar-nav navbar-right be-icons-nav">
+                    <ul class="nav navbar-nav navbar-right be-icons-nav nova-be-icons-nav">
                         <li class="dropdown"><a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="dropdown-toggle"><span class="icon mdi mdi-notifications"></span><span class="indicator"></span></a>
                             <ul class="dropdown-menu be-notifications">
                                 <li>
@@ -177,7 +178,7 @@
 
         <!-- Menu -->
         <div class="be-left-sidebar nova-be-left-sidebar">
-            <div class="left-sidebar-wrapper"><a href="#" class="left-sidebar-toggle">{% block title-page %}  {% endblock title-page %}</a>
+            <div class="left-sidebar-wrapper"><a href="#" class="left-sidebar-toggle nova-left-sidebar-toggle">{% block title-page %}  {% endblock title-page %}</a>
                 <div class="left-sidebar-spacer">
                     <div class="left-sidebar-scroll">
                         <div class="left-sidebar-content">

@@ -20,12 +20,16 @@ from django.forms import FileInput
 from django.forms import CharField
 from django.forms import HiddenInput
 from django.forms import DateInput
+from django.forms import DateField
 from django.forms import Select
 from django.forms import PasswordInput
 from django.forms import ChoiceField
 from django.forms import ClearableFileInput
 from django.forms import FileField
 from django.forms import ValidationError
+
+# Third-party Libraries
+from dateutil import parser
 
 # Own's Libraries
 from ebs.business import EmpleadoBusiness
@@ -43,11 +47,11 @@ class UserRegistroForm(UserCreationForm):
         label="Clave de JDE",
         widget=HiddenInput()
     )
-    foto = CharField(
+    foto = FileField(
         label="Foto",
-        widget=FileInput(
+        widget=ClearableFileInput(
             attrs={'class': 'dropzone dz-clickable dz-started'}
-        )
+        ),
     )
     password1 = CharField(
         label="Contraseña",
@@ -66,6 +70,9 @@ class UserRegistroForm(UserCreationForm):
         widget=TextInput(
             attrs={'class': 'form-control input-xs'}
         )
+    )
+    fecha_nacimiento = DateField(
+        widget=HiddenInput()
     )
 
     class Meta:
@@ -105,54 +112,60 @@ class UserRegistroForm(UserCreationForm):
         self.fields['first_name'].required = False
         self.fields['last_name'].required = False
         self.fields['email'].required = True
+        self.fields['rfc'].required = True
         self.fields[
             'clave_rh'].choices = EmpleadoBusiness.get_SinUsuario_ForSelect()
         self.fields['clave_jde'].required = False
         self.fields['foto'].required = False
+        self.fields['fecha_nacimiento'].required = False
 
     def clean(self):
-
         cleaned_data = super(UserRegistroForm, self).clean()
         clave_rh = cleaned_data.get("clave_rh")
         rfc = cleaned_data.get("rfc")
 
-        username = cleaned_data.get("username")
-        first_name = cleaned_data.get("first_name")
-        last_name = cleaned_data.get("last_name")
+        password1 = cleaned_data.get("password1")
+        password2 = cleaned_data.get("password2")
+        email = cleaned_data.get("email")
 
-        try:
+        if clave_rh and rfc and email and password1 and password2:
 
-            datos = EmpleadoBusiness.get_ByNumero(clave_rh)
-        except Exception as error:
-            raise ValidationError(
-                str(error)
-            )
+            try:
 
-        if datos.pers_empleado_numero:
-
-            ebs_rfc = datos.pers_rfc.replace("-", "")
-            rfc = rfc.replace("-", "").upper()
-
-            if ebs_rfc != rfc:
+                datos = EmpleadoBusiness.get_ByNumero(clave_rh)
+            except Exception as error:
                 raise ValidationError(
-                    'No existe un usuario con el RFC proporcionado')
+                    str(error)
+                )
 
-            username = datos.pers_empleado_numero
-            first_name = "%s %s" % (
-                datos.pers_primer_nombre, datos.pers_segundo_nombre)
-            last_name = "%s %s" % (
-                datos.pers_apellido_paterno, datos.pers_apellido_materno)
+            if datos.pers_empleado_numero:
 
-            self.cleaned_data["username"] = username
-            self.cleaned_data["first_name"] = first_name
-            self.cleaned_data["last_name"] = last_name
+                ebs_rfc = datos.pers_rfc.replace("-", "")
+                rfc = rfc.replace("-", "").upper()
 
-            return self.cleaned_data
+                if ebs_rfc != rfc:
+                    raise ValidationError(
+                        'No existe un usuario con el RFC proporcionado')
 
-        else:
-            raise ValidationError(
-                "El empleado no tiene un numero especificado"
-            )
+                username = datos.pers_empleado_numero
+                first_name = "%s %s" % (
+                    datos.pers_primer_nombre, datos.pers_segundo_nombre.replace("-", ""))
+                last_name = "%s %s" % (
+                    datos.pers_apellido_paterno, datos.pers_apellido_materno.replace("-", ""))
+
+                self.cleaned_data["username"] = username
+                self.cleaned_data["first_name"] = first_name
+                self.cleaned_data["last_name"] = last_name
+
+                fecha = parser.parse(datos.pers_fecha_nacimiento)
+                self.cleaned_data["fecha_nacimiento"] = fecha.date()
+
+                return self.cleaned_data
+
+            else:
+                raise ValidationError(
+                    "El empleado no tiene un numero especificado"
+                )
 
 
 class UserFilterForm(forms.Form):

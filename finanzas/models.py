@@ -9,7 +9,7 @@ from simple_history.models import HistoricalRecords
 
 # Otros Modelos:
 from seguridad.models import Profile
-from administracion.models import Empresa
+# from administracion.models import Empresa
 
 
 class ViaticoCabecera(models.Model):
@@ -27,15 +27,14 @@ class ViaticoCabecera(models.Model):
     empleado_descripcion = models.CharField(max_length=60, null=True, blank=True)
     fecha_partida = models.DateField()
     fecha_regreso = models.DateField()
-    unidad_negocio_clave = models.CharField(max_length=80, blank=False, null=False)
-    unidad_negocio_descripcion = models.CharField(max_length=144, null=True, blank=True)
+    un_clave = models.CharField(max_length=80, blank=False, null=False)
+    un_descripcion = models.CharField(max_length=144, null=True, blank=True)
     ciudad_destino = models.CharField(max_length=150, blank=False, null=False)
     proposito_viaje = models.TextField(max_length=250, blank=False, null=False)
-    empresa = models.CharField(max_length=150, blank=False, null=False)
-    rfc = models.CharField(max_length=13, blank=True, null=True)
-    direccion = models.CharField(max_length=60, blank=True, null=True)
-    grupo = models.CharField(max_length=40, blank=True, null=True)
-
+    empresa_descripcion = models.CharField(max_length=150, blank=False, null=False)
+    empresa_rfc = models.CharField(max_length=144, blank=True, null=True)
+    empresa_direccion = models.CharField(max_length=250, blank=True, null=True)
+    autorizador_grupo = models.CharField(max_length=40, blank=True, null=True)
     autorizador_clave = models.IntegerField(default=0, blank=True)
     autorizador_descripcion = models.CharField(max_length=60, blank=True, null=True)
 
