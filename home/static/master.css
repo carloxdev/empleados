@@ -893,8 +893,50 @@ div.nova-panel-arbol li.list-group-item {
 
 /* COMUNICACIÓN INTERNA */
 
-.nova-button-toolbar{
-
+.nova-padding-left{
+  padding-left: 0 !important;
 }
-
+.nova-padding-right{
+  padding-right: 0 !important;
+}
+.nova-padding-tools {
+    margin: 0px;
+    padding: 15px 10px 15px !important;
+    overflow: hidden;
+}
+.nova-height-buscar {
+    height: 30px !important;
+}
+.nova-sombreado-lista:nth-of-type(odd){
+  background-color: #F7F7F7;
+}
+.nova-sombreado-lista:hover{
+  background-color: #F1F1F1 !important;
+}
+.nova-titulo-lista {
+    font-size: 15px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 50%;
+}
+.nova-contenido-borde{
+  border: 1px solid #d4d4d4 !important;
+}
+.nova-paginador-estilo{
+  background-color: rgba(66, 133, 244, 0.95) !important;
+  border-color: rgba(66, 133, 244, 0.37) !important;
+}
+.nova-badge-publicado{
+  background-color: #5AAD5F;
+  color: white;
+}
+.nova-sin-resultados{
+    font-size: 32px;
+    text-align: center;
+    background-color: white;
+    height: 80px;
+    line-height: 80px;
+    font-family: Helvetica Neue !important, sans-serif;
+}
 /* FIN COMUNICACIÓN INTERNA */
