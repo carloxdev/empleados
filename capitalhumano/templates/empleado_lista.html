@@ -15,9 +15,8 @@
    <link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.common-bootstrap.min.css' %}"/>
    <link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.bootstrap.min.css' %}"/>
 
-   <!-- Theme -->
-   <link rel="stylesheet" href="{% static 'theme/lib/datetimepicker/css/bootstrap-datetimepicker.min.css' %}"/>
-   <link rel="stylesheet" href="{% static 'theme/lib/daterangepicker/css/daterangepicker.css' %}"/>
+   <!-- DatePicker -->
+   <link rel="stylesheet" href="{% static 'libs/bootstrap-datepicker/2.0/dist/css/bootstrap-datepicker.min.css' %}"/>
 
    <!-- Nova -->
    <link rel="stylesheet" href="{% static 'grid.css' %}"/>
@@ -44,7 +43,7 @@
                         class="btn nova-btn btn-rounded btn-sm btn-space btn-primary" data-toggle="modal" id="id_boton_filtro">
                         <i class="icon icon-left mdi mdi-search nova-white"></i> Filtros
                      </a>
-                     <button type="submit" name="exportar" value="exportar" class="btn nova-btn btn-rounded btn-space btn-success" id="id_boton_exportar">
+                     <button type="submit" name="exportar" value="exportar" class="btn nova-btn btn-rounded btn-space btn-success" id="id_boton_exportar" disabled>
                         <i class="icon icon-left mdi mdi-download nova-white"></i>
                         Exportar
                      </button>
@@ -53,24 +52,24 @@
                </div><!-- Panel Heading -->
                <div id="grid_resultados">
                </div>
-            </div> <!-- Panel -->  
+            </div> <!-- Panel -->
          </div> <!-- col-sm-12 -->
       </div>
 
       <!-- Targeta Filtros -->
       <div id="id_tarjeta_filtros" role="dialog" class="modal fade colored-header colored-header-primary">
-         <div class="modal-dialog modal-lg">
-            <div class="modal-content nova-modal-maxwidth">
-               
+         <div class="modal-dialog modal-lg nova-modal-responsive">
+            <div class="modal-content nova-modal-maxwidth nova-modal-content-responsive">
+
                <div class="modal-header nova-modal-header">
                   <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
                   <h3 class="modal-title">Filtros</h3>
                </div>
-                  
-               <form role="form" action="" method="POST" id="id_formulario_filtro" name="formulario_filtro"> {% csrf_token %}
+
+               <form method="POST" id="id_formulario_filtro"> {% csrf_token %}
 
                   <div id="id_accordion_empleados" class="panel-group accordion nova-modal-accordion">
-                     
+
                      <div class="panel panel-default nova-modal-accordion-panel nova-accordion-border-bottom">
                         <div class="panel-heading">
                            <h4 class="panel-title">
@@ -80,7 +79,7 @@
                            </h4>
                         </div>
                         <div id="collapse_personales" class="panel-collapse collapse in" aria-expanded="true">
-                           
+
                            <div class="nova-accordion-row">
 
                               <!-- pers_primer_nombre -->
@@ -103,7 +102,7 @@
                               {% tag_field_popup_radio_button form.pers_genero_clave 4 %}
 
                            </div>
-                           
+
                         </div>
                      </div>
 
@@ -124,7 +123,7 @@
 
                               <!-- pers_tipo_codigo -->
                               {% tag_field_popup_filter form.pers_tipo_codigo 4 %}
-                              
+
                               <!-- asig_puesto_clave -->
                               {% tag_field_popup_filter form.asig_puesto_clave 4 %}
 
@@ -136,7 +135,7 @@
                               {% tag_field_popup_filter form.asig_organizacion_clave 4 %}
 
                               <!-- fecha_contratacion -->
-                              {% tag_field_popup_daterangepicker form.fecha_contratacion 4 %}
+                              {% tag_field_popup_daterangepicker 'Fecha Contratación' form.contratacion_desde form.contratacion_hasta 8 6 6 %}
 
                               <!-- grup_compania_jde -->
                               {% tag_field_popup_filter form.grup_compania_jde 4 %}
@@ -144,17 +143,17 @@
                            </div>
 
                            <div class="nova-accordion-row">
-                              
-                              <!-- zona 
+
+                              <!-- zona
                               <div class="col-sm-4">
                                  <div class="form-group {% if form.zona.errors %} has-error {% endif %}">
 
                                  <label class="control-label">
-                                 <i class="fa {% if form.zona.errors %} fa-asterisk {% endif %}"></i> 
+                                 <i class="fa {% if form.zona.errors %} fa-asterisk {% endif %}"></i>
                                     Zona
                                  </label>
                                  <p>
-                                    {{ form.zona }} 
+                                    {{ form.zona }}
                                  </p>
                                  {% for error in form.zona.errors %}
                                     <span class="help-block">{{ error }}</span>
@@ -178,7 +177,7 @@
                </form>
                <div class="modal-footer nova-modal-footer">
                   <div class="row col-sm-12">
-                     <button type="button" data-dismiss="modal" class="btn btn-default pull-left">
+                     <button type="button" id="boton_cancelar" data-dismiss="modal" class="btn btn-default pull-left">
                         Cancelar
                      </button>
 
@@ -187,7 +186,7 @@
                         Limpiar
                      </button>
 
-                     <button type="submit" name="buscar" value="buscar" id="boton_buscar" class="btn nova-btn btn-primary btn-lg pull-right">
+                     <button type="submit" id="boton_buscar" name="buscar" value="buscar" class="btn nova-btn btn-primary btn-lg pull-right">
                         <i class="icon icon-left mdi mdi-search nova-white"></i>
                         Buscar
                      </button>
@@ -211,10 +210,9 @@
    <script src="{% static 'libs/kendo/2015.2.624/js/cultures/kendo.culture.es-MX.min.js' %}"></script>
    <script src="{% static 'libs/kendo/2015.2.624/js/kendo.web.min.js' %}"></script>
 
-   <!-- Theme -->
-   <script src="{% static 'theme/lib/datetimepicker/js/bootstrap-datetimepicker.min.js' %}"></script>
-   <script src="{% static 'theme/lib/datetimepicker/js/locales/bootstrap-datetimepicker.es.js' %}"></script>
-   <script src="{% static 'theme/lib/daterangepicker/js/daterangepicker.js' %}"></script>
+   <!-- DatePicker -->
+   <script src="{% static 'libs/bootstrap-datepicker/2.0/dist/js/bootstrap-datepicker.min.js' %}"></script>
+   <script src="{% static 'libs/bootstrap-datepicker/2.0/dist/locales/bootstrap-datepicker.es.min.js' %}"></script>
 
    <!-- NOVA -->
    <script src="{% static 'empleados_lista.js' %}"></script>

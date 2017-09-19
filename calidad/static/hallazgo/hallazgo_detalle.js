@@ -7,7 +7,6 @@ var url_hallazgo_proceso = window.location.origin + "/api-calidad/hallazgoproces
 var url_analisis_hallazgo = window.location.origin + "/api-calidad/analisishallazgo/"
 var url_profile = window.location.origin + "/api-seguridad/profile/"
 var url_archivo = window.location.origin + "/api-home/archivo/"
-// var url_analisis = window.location.origin + "/api-calidad/analisishallazgo/"
 var url_metodologia = window.location.origin + "/api-calidad/metodologia/"
 var url_evidencia_hallazgo = window.location.origin + "/api-calidad/evidenciahallazgo/"
 
@@ -586,8 +585,8 @@ PopupAnalisis.prototype.cargar_Archivos = function (_response) {
 
 function TarjetaPlanAccion() {
 
-   this.toolbar_plan_accion = new ToolBarPlanAccion()
-   this.grid_plan_accion = new GridPlanAccion()
+   this.toolbar = new ToolBarPlanAccion()
+   this.grid = new GridPlanAccion()
 }
 
 /*-----------------------------------------------*\

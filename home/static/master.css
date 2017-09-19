@@ -757,6 +757,13 @@ div.nova-panel-arbol li.list-group-item {
 }
 /* modal descripcion */
 
+@media (max-width: 768px) {
+   .nova-xs-margins {
+      margin-left: -5px;
+      margin-right: -5px;
+      margin-bottom: 5px;
+   }
+}
 
 @media (min-width: 992px) {
     .nova-panel-main {
@@ -778,6 +785,14 @@ div.nova-panel-arbol li.list-group-item {
 .nova-wizard-header .nova-wizard-tools {
    float: right;
    padding: 14px 30px 14px 14px;
+}
+.nova-wizard-tools .icon {
+   font-size: 20px;
+   vertical-align: middle;
+   cursor: pointer;
+   color: #bababa;
+   min-width: 20px;
+   text-align: center;
 }
 .nova-wizard-tools > ul {
    left: -170px;

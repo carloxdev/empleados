@@ -2,16 +2,13 @@
          GLOBAL VARIABLES
 \*-----------------------------------------------*/
 
-// URLS:api-ebs/viewempleadosfull/"
+// URLS:
 var url_empleados_bypage = window.location.origin + "/api-ebs/viewempleadosfull_bypage/"
 var url_empleados = window.location.origin + "/api-ebs/viewempleadosfull/"
 
 // OBJS
 var tarjeta_filtros = null
 var tarjeta_resultados = null
-var toolbar = null
-var grid = null
-
 
 /*-----------------------------------------------*\
          LOAD
@@ -59,77 +56,46 @@ function TarjetaFiltros() {
    //this.$id_zona = $("#id_zona")
    this.$id_grup_fase_jde = $("#id_grup_fase_jde")
    this.$id_grup_nomina_jde = $("input[name='grup_nomina_jde']")
-   this.$fecha_contratacion = $("#id_fecha_contratacion")
+   this.$id_contratacion_desde = $('#id_contratacion_desde_group')
+   this.$id_contratacion_hasta = $('#id_contratacion_hasta_group')
+   this.$boton_cancelar = $('#boton_cancelar')
    this.$boton_buscar = $('#boton_buscar')
    this.$boton_limpiar = $('#boton_limpiar')
    this.$campos_usados = []
-   this.$colapsible_personales = $('#collapse_personales')
-   this.$colapsible_corporativo = $('#collapse_corporativo')
+   this.init_Responsive()
    this.init_Components()
    this.init_Events()
 }
+TarjetaFiltros.prototype.init_Responsive = function () {
+
+   if (window.matchMedia('(max-width: 768px)').matches) {
+      this.$boton_cancelar.addClass('btn-xs')
+      this.$boton_limpiar.addClass('btn-xs')
+      this.$boton_buscar.removeClass('btn-lg')
+   }
+}
 TarjetaFiltros.prototype.init_Components = function () {
 
-   this.$fecha_contratacion.daterangepicker(this.get_ConfDateRangePicker())
    this.$id_pers_tipo_codigo.select2(appnova.get_ConfigSelect2())
    this.$id_asig_puesto_clave.select2(appnova.get_ConfigSelect2())
    this.$id_asig_organizacion_clave.select2(appnova.get_ConfigSelect2())
    this.$id_grup_compania_jde.select2(appnova.get_ConfigSelect2())
    this.$id_grup_fase_jde.select2(appnova.get_ConfigSelect2())
-}
-TarjetaFiltros.prototype.get_ConfDateRangePicker = function () {
-
-   return {
-      autoUpdateInput: false,
-      locale: {
-         format: 'YYYY-MM-DD',
-         applyLabel: "Aplicar",
-         cancelLabel: "Cancelar",
-         fromLabel: "Del",
-         separator: " al ",
-         toLabel: "Al",
-         weekLabel: "S",
-         daysOfWeek: [
-            "Do",
-            "Lu",
-            "Ma",
-            "Mi",
-            "Ju",
-            "Vi",
-            "Sa"
-         ],
-         monthNames: [
-            "Enero",
-            "Febrero",
-            "Marzo",
-            "Abril",
-            "Mayo",
-            "Junio",
-            "Julio",
-            "Agosto",
-            "Septiembre",
-            "Octubre",
-            "Noviembre",
-            "Diciembre"
-         ],
-      },
-      "dateLimit": {
-
-         "months": 6
-      },
-   }
+   this.$id_contratacion_desde.datepicker(appnova.get_ConfDatePicker())
+   this.$id_contratacion_hasta.datepicker(appnova.get_ConfDatePicker())
 }
 TarjetaFiltros.prototype.init_Events = function () {
 
    this.$boton_buscar.on("click", this, this.click_BotonBuscar)
    this.$boton_limpiar.on("click", this, this.click_BotonLimpiar)
-   this.$id_pers_empleado_numero.on("keydown", this, this.keydown_ValidarNegativos)
-   this.$fecha_contratacion.on("apply.daterangepicker", this, this.aplicar_Rango)
-   this.$fecha_contratacion.siblings('[data-event=\'calendario\']').on("click", this, this.click_MostrarPicker)
-   this.$fecha_contratacion.siblings('[data-event=\'limpiar\']').on("click", this, this.click_LimpiarCampo)
    this.$id.on("hide.bs.modal", this, this.hide_Modal)
-   this.$id.on("hidden.bs.modal", this, this.hidden_Modal)
-   this.$id.on("shown.bs.modal", this, this.shown_Modal)
+   this.$id_pers_empleado_numero.on("keydown", this, this.keydown_ValidarNegativos)
+   this.$id_contratacion_desde.on("hide", this, this.hide_DatePicker)
+   this.$id_contratacion_hasta.on("hide", this, this.hide_DatePicker)
+}
+TarjetaFiltros.prototype.hide_DatePicker = function (e) {
+
+   e.stopPropagation();
 }
 TarjetaFiltros.prototype.keydown_ValidarNegativos = function (e) {
 
@@ -138,44 +104,24 @@ TarjetaFiltros.prototype.keydown_ValidarNegativos = function (e) {
       return false
    }
 }
-TarjetaFiltros.prototype.cambio_Estado = function (e) {
-
-   e.data.$campos_iguales = false
-}
-TarjetaFiltros.prototype.aplicar_Rango = function (e, _picker) {
-   
-   $(this).val(_picker.startDate.format('YYYY-MM-DD') + ' al ' + _picker.endDate.format('YYYY-MM-DD'))
-}
-TarjetaFiltros.prototype.click_MostrarPicker = function (e) {
-
-   $(this).siblings('input').data('daterangepicker').show()
-}
-TarjetaFiltros.prototype.click_LimpiarCampo = function (e) {
-
-   $(this).siblings('input').val("")
-}
 TarjetaFiltros.prototype.hide_Modal = function (e) {
 
-   e.data.$fecha_contratacion.data('daterangepicker').hide()
+   e.data.$id_contratacion_desde.data('datepicker').hide()
+   e.data.$id_contratacion_hasta.data('datepicker').hide()
 
    if (e.data.$campos_usados.length) {
-      
+
       e.data.limpiar_CampoNoAplicado()
    }
 }
-TarjetaFiltros.prototype.hidden_Modal = function (e) {
-
-   if (!e.data.$colapsible_personales.hasClass('in')) {
-
-      e.data.$colapsible_personales.collapse('show')
-      e.data.$colapsible_corporativo.collapse('hide')
-   }
-}
 TarjetaFiltros.prototype.limpiar_CampoNoAplicado = function () {
-   
-   var campos = ["id_pers_primer_nombre", "id_pers_segundo_nombre", "id_pers_apellido_paterno", "id_pers_apellido_materno",
-   "pers_genero_clave", "id_pers_empleado_numero", "id_pers_tipo_codigo", "id_asig_puesto_clave", "id_asig_organizacion_clave",
-   "fecha_contratacion", "id_grup_compania_jde", "id_grup_fase_jde", "grup_nomina_jde"]
+
+   var campos = [
+      "id_pers_primer_nombre", "id_pers_segundo_nombre", "id_pers_apellido_paterno", "id_pers_apellido_materno",
+      "pers_genero_clave", "id_pers_empleado_numero", "id_pers_tipo_codigo", "id_asig_puesto_clave",
+      "id_asig_organizacion_clave", "id_grup_compania_jde", "id_grup_fase_jde", "grup_nomina_jde",
+      'id_contratacion_desde_group', 'id_contratacion_hasta_group'
+   ]
 
    var resultados
 
@@ -192,9 +138,10 @@ TarjetaFiltros.prototype.limpiar_CampoNoAplicado = function () {
    })
 
    resultados.forEach(function(_campo) {
-      
+
       if (_campo == "id_pers_primer_nombre") {
          tarjeta_filtros.$id_pers_primer_nombre.val("")
+
       }
       if (_campo == "id_pers_segundo_nombre") {
          tarjeta_filtros.$id_pers_segundo_nombre.val("")
@@ -228,10 +175,6 @@ TarjetaFiltros.prototype.limpiar_CampoNoAplicado = function () {
          tarjeta_filtros.$id_asig_organizacion_clave.data('select2').val(0)
 
       }
-      if (_campo == "fecha_contratacion") {
-         tarjeta_filtros.$fecha_contratacion.val("")
-
-      }
       if (_campo == "id_grup_compania_jde") {
          tarjeta_filtros.$id_grup_compania_jde.data('select2').val(0)
 
@@ -244,11 +187,39 @@ TarjetaFiltros.prototype.limpiar_CampoNoAplicado = function () {
          tarjeta_filtros.$id_grup_nomina_jde.prop('checked', false)
 
       }
+      if (_campo == "id_contratacion_desde_group") {
+         tarjeta_filtros.$id_contratacion_desde.datepicker("clearDates")
+
+      }
+      if (_campo == "id_contratacion_hasta_group") {
+         tarjeta_filtros.$id_contratacion_hasta.datepicker("clearDates")
+
+      }
    })
 }
-TarjetaFiltros.prototype.shown_Modal = function (e) {
-   
-   e.data.$id_pers_primer_nombre.focus()
+TarjetaFiltros.prototype.get_FechaMayorQue = function (element) {
+
+    fecha = $(element).datepicker("getDate")
+    fecha_conformato = moment(fecha).format('YYYY-MM-DD')
+
+    if (fecha_conformato == "Invalid date") {
+        return ""
+    }
+    else {
+        return fecha_conformato
+    }
+}
+TarjetaFiltros.prototype.get_FechaMenorQue = function (element) {
+
+    fecha = $(element).datepicker("getDate")
+    fecha_conformato = moment(fecha).format('YYYY-MM-DD')
+
+    if (fecha_conformato == "Invalid date") {
+        return ""
+    }
+    else {
+        return fecha_conformato
+    }
 }
 TarjetaFiltros.prototype.get_Values = function (_page, _pageSize) {
 
@@ -265,8 +236,8 @@ TarjetaFiltros.prototype.get_Values = function (_page, _pageSize) {
       pers_tipo_codigo: this.$id_pers_tipo_codigo.val(),
       asig_puesto_clave: this.$id_asig_puesto_clave.val(),
       asig_organizacion_clave: this.$id_asig_organizacion_clave.val(),
-      pers_fecha_contratacion_desde: this.$fecha_contratacion.val().split(" al ")[0],
-      pers_fecha_contratacion_hasta: this.$fecha_contratacion.val().split(" al ")[1],
+      pers_fecha_contratacion_desde: this.get_FechaMayorQue("#id_contratacion_desde_group"),
+      pers_fecha_contratacion_hasta: this.get_FechaMenorQue("#id_contratacion_hasta_group"),
       grup_compania_jde: this.$id_grup_compania_jde.val(),
       //zona: this.$id_zona.val(),
       grup_fase_jde: this.$id_grup_fase_jde.val(),
@@ -277,6 +248,7 @@ TarjetaFiltros.prototype.click_BotonBuscar = function (e) {
 
    e.data.apply_Filters()
    e.data.$id.modal('hide')
+   tarjeta_resultados.toolbar.$boton_exportar.removeAttr('disabled')
 }
 TarjetaFiltros.prototype.click_BotonLimpiar = function (e) {
 
@@ -291,7 +263,8 @@ TarjetaFiltros.prototype.click_BotonLimpiar = function (e) {
    e.data.$id_pers_tipo_codigo.data('select2').val(0)
    e.data.$id_asig_puesto_clave.data('select2').val(0)
    e.data.$id_asig_organizacion_clave.data('select2').val(0)
-   e.data.$fecha_contratacion.val("")
+   e.data.$id_contratacion_desde.datepicker("clearDates")
+   e.data.$id_contratacion_hasta.datepicker("clearDates")
    e.data.$id_grup_compania_jde.data('select2').val(0)
    //e.data.$id_zona.val("")
    e.data.$id_grup_fase_jde.data('select2').val(0)
@@ -338,9 +311,13 @@ TarjetaFiltros.prototype.get_NoFiltrosAplicados = function () {
       cantidad += 1
       filtros.push('id_asig_organizacion_clave')
    }
-   if (this.$fecha_contratacion.val() != "") {
+   if (this.get_FechaMayorQue("#id_contratacion_desde_group") != "") {
       cantidad += 1
-      filtros.push('fecha_contratacion')
+      filtros.push('id_contratacion_desde_group')
+   }
+   if (this.get_FechaMenorQue("#id_contratacion_hasta_group") != "") {
+      cantidad += 1
+      filtros.push('id_contratacion_hasta_group')
    }
    if (this.$id_grup_compania_jde.val() != "") {
       cantidad += 1
@@ -374,9 +351,8 @@ TarjetaFiltros.prototype.apply_Filters = function () {
 
         tarjeta_resultados.toolbar.restart_BotonFiltros()
    }
-
-   this.$id.modal('hide')
 }
+
 /*-----------------------------------------------*\
          OBJETO: Tarjeta resultados
 \*-----------------------------------------------*/
@@ -418,7 +394,7 @@ ToolBar.prototype.click_BotonExportar = function (e) {
       if ((tarjeta_resultados.grid.$id.data("kendoGrid").dataSource.total() <= 65535) && (tarjeta_resultados.grid.$id.data("kendoGrid").dataSource.total() >= 1)) {
 
          tarjeta_filtros.$formulario.submit()
-         
+
       }
       else if (tarjeta_resultados.grid.$id.data("kendoGrid").dataSource.total() == 0) {
 
@@ -519,7 +495,6 @@ Grid.prototype.get_Campos = function () {
       pers_estado_civil_desc : { type: "string" },
       pers_email : { type: "string" },
       asig_tipo_empleado : { type: "string" },
-
       asig_fecha_inicio : { type: "date" },
       asig_organizacion_desc : { type: "string" },
       asig_trabajo_desc : { type: "string" },
@@ -531,7 +506,6 @@ Grid.prototype.get_Campos = function () {
       asig_estado_desc : { type: "string" },
       asig_salario_base_desc : { type: "string" },
       informacion_estatutaria_desc : { type: "string" },
-
       grup_nomina_jde : { type: "string" },
       grup_compania_jde : { type: "string" },
       grup_proyecto_code_jde : { type: "string" },
@@ -539,7 +513,6 @@ Grid.prototype.get_Campos = function () {
       grup_fase_code_jde : { type: "string" },
       grup_fase_jde : { type: "string" },
       grup_puesto_jde : { type: "string" },
-
       metodo_banco : { type: "string" },
       metodo_nombre : { type: "string" },
       metodo_tipo : { type: "string" },

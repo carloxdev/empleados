@@ -68,19 +68,14 @@ function TarjetaFiltros() {
    this.$id_proveedor = $("#id_proveedor")
    this.$id_item = $("#id_item")
    this.$id_recepcion = $("#id_recepcion")
-   this.$requisicion_desde = $('#id_requisicion_desde_group')
-   this.$requisicion_hasta = $('#id_requisicion_hasta_group')
-   this.$oc_desde = $('#id_oc_desde_group')
-   this.$oc_hasta = $('#id_oc_hasta_group')
+   this.$id_requisicion_desde = $('#id_requisicion_desde_group')
+   this.$id_requisicion_hasta = $('#id_requisicion_hasta_group')
+   this.$id_oc_desde = $('#id_oc_desde_group')
+   this.$id_oc_hasta = $('#id_oc_hasta_group')
    this.$boton_buscar = $('#boton_buscar')
    this.$boton_limpiar = $('#boton_limpiar')
    this.$boton_cancelar = $('#boton_cancelar')
    this.$campos_usados = []
-   this.$colapsible_compania = $('#id_collapse_compania')
-   this.$colapsible_requisicion = $('#id_collapse_requisicion')
-   this.$colapsible_cotizacion = $('#id_collapse_cotizacion')
-   this.$colapsible_orden = $('#id_collapse_orden')
-   this.$colapsible_almacen = $('#id_collapse_almacen')
    this.init_Responsive()
    this.init_Components()
    this.init_Events()
@@ -99,10 +94,10 @@ TarjetaFiltros.prototype.init_Components = function () {
    this.$id_sucursal.select2(appnova.get_ConfigSelect2())
    this.$id_requisicion_tipo.select2(appnova.get_ConfigSelect2())
    this.$id_requisicion_originador.select2(appnova.get_ConfigSelect2())
-   this.$requisicion_desde.datepicker({format: 'dd/mm/yyyy', autoclose: true, language: 'es' })
-   this.$requisicion_hasta.datepicker({format: 'dd/mm/yyyy', autoclose: true, language: 'es' })
-   this.$oc_desde.datepicker({format: 'dd/mm/yyyy', autoclose: true, language: 'es' })
-   this.$oc_hasta.datepicker({format: 'dd/mm/yyyy', autoclose: true, language: 'es' })
+   this.$id_requisicion_desde.datepicker(appnova.get_ConfDatePicker())
+   this.$id_requisicion_hasta.datepicker(appnova.get_ConfDatePicker())
+   this.$id_oc_desde.datepicker(appnova.get_ConfDatePicker())
+   this.$id_oc_hasta.datepicker(appnova.get_ConfDatePicker())
    this.$id_cotizacion_tipo.select2(appnova.get_ConfigSelect2())
    this.$id_cotizacion_originador.select2(appnova.get_ConfigSelect2())
    this.$id_oc_tipo.select2(appnova.get_ConfigSelect2())
@@ -114,18 +109,17 @@ TarjetaFiltros.prototype.init_Events = function () {
    this.$boton_buscar.on('click', this, this.click_BotonBuscar)
    this.$boton_limpiar.on('click', this, this.click_BotonLimpiar)
    this.$id.on("hide.bs.modal", this, this.hide_Modal)
-   this.$id.on("hidden.bs.modal", this, this.hidden_Modal)
    this.$id_requisicion.on("keydown", this, this.keydown_ValidarNegativos)
    this.$id_cotizacion.on("keydown", this, this.keydown_ValidarNegativos)
    this.$id_oc.on("keydown", this, this.keydown_ValidarNegativos)
+   this.$id_requisicion_desde.on("hide", this, this.hide_DatePicker)
+   this.$id_requisicion_hasta.on("hide", this, this.hide_DatePicker)
+   this.$id_oc_desde.on("hide", this, this.hide_DatePicker)
+   this.$id_oc_hasta.on("hide", this, this.hide_DatePicker)
+}
+TarjetaFiltros.prototype.hide_DatePicker = function (e) {
 
-
-   this.$id_compania.on('select2:close', this, this.click_FocusComponent)
-   // this.$id_compania.on('select2:selecting', this, this.foucusout)
-   this.$id_compania.on('select2:open', this, this.foucusout)
-   // this.$id_compania.on('blur', this, this.foucusout)
-   this.$id_sucursal.on('select2:close', this, this.click_FocusComponent)
-
+   e.stopPropagation();
 }
 TarjetaFiltros.prototype.keydown_ValidarNegativos = function (e) {
 
@@ -134,109 +128,16 @@ TarjetaFiltros.prototype.keydown_ValidarNegativos = function (e) {
       return false
    }
 }
-TarjetaFiltros.prototype.aplicar_Rango = function (e, _picker) {
-
-   $(this).val(_picker.startDate.format('YYYY-MM-DD') + ' al ' + _picker.endDate.format('YYYY-MM-DD'))
-}
-TarjetaFiltros.prototype.click_MostrarPicker = function (e) {
-
-   $(this).siblings('input').data('daterangepicker').show()
-}
-TarjetaFiltros.prototype.click_LimpiarCampo = function (e) {
-
-   $(this).siblings('input').val("")
-}
-TarjetaFiltros.prototype.click_FocusComponent = function (e) {
-
-   $(this).focus()
-}
-TarjetaFiltros.prototype.foucusout = function (e) {
-   console.log("##########################################");
-};
-TarjetaFiltros.prototype.get_Values = function (_page, _pageSize) {
-
-   return {
-      page: _page,
-      pageSize: _pageSize,
-
-      req_compania: this.$id_compania.val(),
-      req_un: this.$id_sucursal.val(),
-      req_comprador_desc: this.$id_comprador.val(),
-      req: this.$id_requisicion.val(),
-      req_tipo: this.$id_requisicion_tipo.val(),
-      req_generador: this.$id_requisicion_originador.val(),
-      req_estado_last: $("input[name='requisicion_canceladas']:checked").val(),
-      cot: this.$id_cotizacion.val(),
-      cot_tipo: this.$id_cotizacion_tipo.val(),
-      cot_generador: this.$id_cotizacion_originador.val(),
-      cot_estado_last: $("input[name='cotizacion_canceladas']:checked").val(),
-      ord: this.$id_oc.val(),
-      ord_tipo: this.$id_oc_tipo.val(),
-      ord_generador: this.$id_oc_originador.val(),
-      ord_estado_last: $("input[name='oc_canceladas']:checked").val(),
-      req_fecha_creacion_desde: this.get_FechaMayorQue(),
-      req_fecha_creacion_hasta: this.get_FechaMenorQue(),
-      ord_fecha_creacion_desde: this.get_FechaMayorQue(),
-      ord_fecha_creacion_hasta: this.get_FechaMenorQue(),
-      ord_proveedor_desc: this.$id_proveedor.val(),
-      req_item_desc: this.$id_item.val(),
-      ord_recepcion: this.$id_recepcion.val()
-   }
-}
-TarjetaFiltros.prototype.click_BotonBuscar = function (e) {
-
-   e.data.apply_Filters()
-   e.data.$id.modal('hide')
-}
-TarjetaFiltros.prototype.click_BotonLimpiar = function (e) {
-
-   e.preventDefault()
-   e.data.$id_compania.data('select2').val(0)
-   e.data.$id_sucursal.data('select2').val(0)
-   e.data.$id_comprador.val("")
-   e.data.$id_requisicion.val("")
-   e.data.$id_requisicion_tipo.data('select2').val(0)
-   e.data.$id_requisicion_originador.data('select2').val(0)
-   e.data.$id_requisicion_canceladas.prop('checked', true)
-   e.data.$id_cotizacion.val("")
-   e.data.$id_cotizacion_tipo.data('select2').val(0)
-   e.data.$id_cotizacion_originador.data('select2').val(0)
-   e.data.$id_cotizacion_canceladas.prop('checked', true)
-   e.data.$id_oc.val("")
-   e.data.$id_oc_tipo.data('select2').val(0)
-   e.data.$id_oc_originador.data('select2').val(0)
-   e.data.$id_oc_canceladas.prop('checked', true)
-   e.data.$id_proveedor.val("")
-   e.data.$id_item.val("")
-   e.data.$id_recepcion.data('select2').val(0)
-   e.data.$requisicion_desde.datepicker("clearDates")
-   e.data.$requisicion_hasta.datepicker("clearDates")
-   e.data.$oc_desde.datepicker("clearDates")
-   e.data.$oc_hasta.datepicker("clearDates")
-
-}
 TarjetaFiltros.prototype.hide_Modal = function (e) {
 
-   e.data.$requisicion_desde.data('datepicker').hide()//FALTA AQUI
-   e.data.$requisicion_hasta.data('datepicker').hide()//FALTA AQUI
-   e.data.$oc_desde.data('datepicker').hide()//FALTA AQUI
-   e.data.$oc_hasta.data('datepicker').hide()//FALTA AQUI
-
+   e.data.$id_requisicion_desde.data('datepicker').hide()
+   e.data.$id_requisicion_hasta.data('datepicker').hide()
+   e.data.$id_oc_desde.data('datepicker').hide()
+   e.data.$id_oc_hasta.data('datepicker').hide()
 
    if (e.data.$campos_usados.length) {
 
       e.data.limpiar_CampoNoAplicado()
-   }
-}
-TarjetaFiltros.prototype.hidden_Modal = function (e) {
-
-   if (!e.data.$colapsible_compania.hasClass('in')) {
-
-      e.data.$colapsible_compania.collapse('show')
-      e.data.$colapsible_requisicion.collapse('hide')
-      e.data.$colapsible_cotizacion.collapse('hide')
-      e.data.$colapsible_orden.collapse('hide')
-      e.data.$colapsible_almacen.collapse('hide')
    }
 }
 TarjetaFiltros.prototype.limpiar_CampoNoAplicado = function () {
@@ -245,8 +146,8 @@ TarjetaFiltros.prototype.limpiar_CampoNoAplicado = function () {
       'id_compania', 'id_sucursal', 'id_comprador', 'id_requisicion', 'id_requisicion_tipo',
       'id_requisicion_originador', 'id_requisicion_canceladas', 'id_cotizacion', 'id_cotizacion_tipo',
       'id_cotizacion_originador', 'id_cotizacion_canceladas', 'id_oc', 'id_oc_tipo', 'id_oc_originador',
-      'id_oc_canceladas', 'id_proveedor', 'id_item', 'id_recepcion', 'id_requisicion_desde', 'id_requisicion_hasta',//FALTA AQUI
-      'id_oc_desde_group', 'id_oc_hasta_group'//FALTA AQUI
+      'id_oc_canceladas', 'id_proveedor', 'id_item', 'id_recepcion', 'id_requisicion_desde_group', 'id_requisicion_hasta_group',
+      'id_oc_desde_group', 'id_oc_hasta_group'
    ]
 
    var resultados
@@ -337,27 +238,27 @@ TarjetaFiltros.prototype.limpiar_CampoNoAplicado = function () {
 
          tarjeta_filtros.$id_recepcion.data('select2').val(0)
       }
-      if (_campo == "requisicion_desde") {
+      if (_campo == "id_requisicion_desde_group") {
 
-         tarjeta_filtros.$requisicion_desde.datepicker("clearDates")
+         tarjeta_filtros.$id_requisicion_desde.datepicker("clearDates")
       }
-      if (_campo == "requisicion_hasta") {
+      if (_campo == "id_requisicion_hasta_group") {
 
-         tarjeta_filtros.$requisicion_hasta.datepicker("clearDates")
+         tarjeta_filtros.$id_requisicion_hasta.datepicker("clearDates")
       }
-      if (_campo == "id_oc_desde_group") {//FALTA AQUI
+      if (_campo == "id_oc_desde_group") {
 
-         tarjeta_filtros.$oc_desde.datepicker("clearDates")
+         tarjeta_filtros.$id_oc_desde.datepicker("clearDates")
       }
-      if (_campo == "id_oc_hasta_group") {//FALTA AQUI
+      if (_campo == "id_oc_hasta_group") {
 
-         tarjeta_filtros.$oc_hasta.datepicker("clearDates")
+         tarjeta_filtros.$id_oc_hasta.datepicker("clearDates")
       }
    })
 }
-TarjetaFiltros.prototype.get_FechaMayorQue = function (e) {//FALTA AQUI
+TarjetaFiltros.prototype.get_FechaMayorQue = function (element) {
 
-    fecha = this.$created_date_mayorque.datepicker("getDate")
+    fecha = $(element).datepicker("getDate")
     fecha_conformato = moment(fecha).format('YYYY-MM-DD')
 
     if (fecha_conformato == "Invalid date") {
@@ -367,9 +268,9 @@ TarjetaFiltros.prototype.get_FechaMayorQue = function (e) {//FALTA AQUI
         return fecha_conformato
     }
 }
-TarjetaFiltros.prototype.get_FechaMenorQue = function (e) {//FALTA AQUI
+TarjetaFiltros.prototype.get_FechaMenorQue = function (element) {
 
-    fecha = this.$requisicion_hasta.datepicker("getDate")
+    fecha = $(element).datepicker("getDate")
     fecha_conformato = moment(fecha).format('YYYY-MM-DD')
 
     if (fecha_conformato == "Invalid date") {
@@ -379,7 +280,69 @@ TarjetaFiltros.prototype.get_FechaMenorQue = function (e) {//FALTA AQUI
         return fecha_conformato
     }
 }
+TarjetaFiltros.prototype.get_Values = function (_page, _pageSize) {
 
+   return {
+      page: _page,
+      pageSize: _pageSize,
+
+      req_compania: this.$id_compania.val(),
+      req_un: this.$id_sucursal.val(),
+      req_comprador_desc: this.$id_comprador.val(),
+      req: this.$id_requisicion.val(),
+      req_tipo: this.$id_requisicion_tipo.val(),
+      req_generador: this.$id_requisicion_originador.val(),
+      req_estado_last: $("input[name='requisicion_canceladas']:checked").val(),
+      cot: this.$id_cotizacion.val(),
+      cot_tipo: this.$id_cotizacion_tipo.val(),
+      cot_generador: this.$id_cotizacion_originador.val(),
+      cot_estado_last: $("input[name='cotizacion_canceladas']:checked").val(),
+      ord: this.$id_oc.val(),
+      ord_tipo: this.$id_oc_tipo.val(),
+      ord_generador: this.$id_oc_originador.val(),
+      ord_estado_last: $("input[name='oc_canceladas']:checked").val(),
+      req_fecha_creacion_desde: this.get_FechaMayorQue("#id_requisicion_desde_group"),
+      req_fecha_creacion_hasta: this.get_FechaMenorQue("#id_requisicion_hasta_group"),
+      ord_fecha_creacion_desde: this.get_FechaMayorQue("#id_oc_desde_group"),
+      ord_fecha_creacion_hasta: this.get_FechaMenorQue("#id_oc_hasta_group"),
+      ord_proveedor_desc: this.$id_proveedor.val(),
+      req_item_desc: this.$id_item.val(),
+      ord_recepcion: this.$id_recepcion.val()
+   }
+}
+TarjetaFiltros.prototype.click_BotonBuscar = function (e) {
+
+   e.data.apply_Filters()
+   e.data.$id.modal('hide')
+   tarjeta_resultados.toolbar.$boton_exportar.removeAttr('disabled')
+}
+TarjetaFiltros.prototype.click_BotonLimpiar = function (e) {
+
+   e.preventDefault()
+   e.data.$id_compania.data('select2').val(0)
+   e.data.$id_sucursal.data('select2').val(0)
+   e.data.$id_comprador.val("")
+   e.data.$id_requisicion.val("")
+   e.data.$id_requisicion_tipo.data('select2').val(0)
+   e.data.$id_requisicion_originador.data('select2').val(0)
+   e.data.$id_requisicion_canceladas.prop('checked', true)
+   e.data.$id_cotizacion.val("")
+   e.data.$id_cotizacion_tipo.data('select2').val(0)
+   e.data.$id_cotizacion_originador.data('select2').val(0)
+   e.data.$id_cotizacion_canceladas.prop('checked', true)
+   e.data.$id_oc.val("")
+   e.data.$id_oc_tipo.data('select2').val(0)
+   e.data.$id_oc_originador.data('select2').val(0)
+   e.data.$id_oc_canceladas.prop('checked', true)
+   e.data.$id_proveedor.val("")
+   e.data.$id_item.val("")
+   e.data.$id_recepcion.data('select2').val(0)
+   e.data.$id_requisicion_desde.datepicker("clearDates")
+   e.data.$id_requisicion_hasta.datepicker("clearDates")
+   e.data.$id_oc_desde.datepicker("clearDates")
+   e.data.$id_oc_hasta.datepicker("clearDates")
+
+}
 TarjetaFiltros.prototype.get_NoFiltrosAplicados = function () {
 
    cantidad = 0
@@ -457,19 +420,19 @@ TarjetaFiltros.prototype.get_NoFiltrosAplicados = function () {
       cantidad += 1
       filtros.push('id_recepcion')
    }
-   if (this.get_FechaMayorQue() != "") {
+   if (this.get_FechaMayorQue("#id_requisicion_desde_group") != "") {
       cantidad += 1
-      filtros.push('requisicion_desde')
+      filtros.push('id_requisicion_desde_group')
    }
-   if (this.get_FechaMenorQue() != "") {
+   if (this.get_FechaMenorQue("#id_requisicion_hasta_group") != "") {
       cantidad += 1
-      filtros.push('requisicion_hasta')
+      filtros.push('id_requisicion_hasta_group')
    }
-   if (this.get_FechaMayorQue() != "") {
+   if (this.get_FechaMayorQue("#id_oc_desde_group") != "") {
       cantidad += 1
       filtros.push('id_oc_desde_group')
    }
-   if (this.get_FechaMenorQue() != "") {
+   if (this.get_FechaMenorQue("#id_oc_hasta_group") != "") {
       cantidad += 1
       filtros.push('id_oc_hasta_group')
    }
@@ -493,8 +456,6 @@ TarjetaFiltros.prototype.apply_Filters = function () {
 
       tarjeta_resultados.toolbar.restart_BotonFiltros()
    }
-
-   this.$id.modal('hide')
 }
 
 /*-----------------------------------------------*\
@@ -515,9 +476,9 @@ function ToolBar() {
 
    this.$boton_exportar = $('#id_boton_exportar')
    this.$boton_filtros = $('#id_boton_filtro')
-   this.init()
+   this.init_Events()
 }
-ToolBar.prototype.init = function () {
+ToolBar.prototype.init_Events = function () {
 
    this.$boton_exportar.on("click", this, this.click_BotonExportar)
 }
@@ -589,10 +550,10 @@ function Grid() {
    this.$id = $("#grid_resultados")
    this.kfuente_datos = null
    this.kgrid = null
-   this.init()
+   this.init_Components()
    this.init_Events()
 }
-Grid.prototype.init = function () {
+Grid.prototype.init_Components = function () {
 
    kendo.culture("es-MX")
    this.kfuente_datos = new kendo.data.DataSource(this.get_DataSourceConfig())
@@ -641,6 +602,7 @@ Grid.prototype.get_DataSourceConfig = function (e) {
 Grid.prototype.get_Campos = function () {
 
    return {
+
       req_compania : { type: "string" },
       req_un : { type: "string" },
       req : { type: "number" },
@@ -800,13 +762,13 @@ PopupDetalles.prototype.init_Responsive = function () {
 }
 PopupDetalles.prototype.init_Events = function () {
 
-   this.$id.on("hidden.bs.modal", this, this.hide)
+   this.$id.on("hidden.bs.modal", this, this.hidden_Modal)
 }
 PopupDetalles.prototype.mostrar = function (e) {
 
    this.$id.modal('show')
 }
-PopupDetalles.prototype.hide = function (e) {
+PopupDetalles.prototype.hidden_Modal = function (e) {
 
    $("#tabla_detalles").html('')
 }
@@ -1011,13 +973,14 @@ PopupAcciones.prototype.filtrar_Cotejo = function (_fila) {
                'fecha_creacion',
                'fecha_lm',
                'doc_factura',
-               'pu_mx',
+               'monto_recib_mx',
+               'monto_recib_ex',
+               'tasa',
                'impuesto',
                'moneda',
                'batch',
                'batch_tipo',
                'fecha_update',
-               'monto_recib_mx',
             ],
             [  'Compañia cotejo',
                'Tipo cotejo',
@@ -1026,13 +989,14 @@ PopupAcciones.prototype.filtrar_Cotejo = function (_fila) {
                'Fecha cotejo',
                'Fecha LM',
                'Factura',
-               'Monto sin impuesto',
+               'Monto MX',
+               'Monto USD',
+               'Tasa',
                'Tipo impuesto',
                'Moneda',
                'Cotejo batch',
                'Batch tipo',
                'Batch fecha',
-               'Monto',
             ],
             'Detalles de Cotejo'
          )

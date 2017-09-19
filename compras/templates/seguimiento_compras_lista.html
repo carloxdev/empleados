@@ -14,9 +14,6 @@
    <link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.common-bootstrap.min.css' %}"/>
    <link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.bootstrap.min.css' %}"/>
 
-   <!-- Theme -->
-   <!-- <link rel="stylesheet" href="{% static 'theme/lib/datetimepicker/css/bootstrap-datetimepicker.min.css' %}"/>
-   <link rel="stylesheet" href="{% static 'theme/lib/daterangepicker/css/daterangepicker.css' %}"/> -->
    <!-- DatePicker -->
    <link rel="stylesheet" href="{% static 'libs/bootstrap-datepicker/2.0/dist/css/bootstrap-datepicker.min.css' %}"/>
 
@@ -48,7 +45,7 @@
                         <i class="icon icon-left mdi mdi-search nova-white"></i> Filtros
                      </a>
 
-                     <button type="submit" name="exportar" value="exportar" class="btn nova-btn btn-rounded btn-space btn-success" id="id_boton_exportar">
+                     <button type="submit" name="exportar" value="exportar" class="btn nova-btn btn-rounded btn-space btn-success" id="id_boton_exportar" disabled>
                         <i class="icon icon-left mdi mdi-download nova-white"></i>
                         Exportar
                      </button>
@@ -63,6 +60,7 @@
    </div> <!-- main content -->
 
 </div> <!-- be content -->
+
 <!-- Targeta Filtros -->
 <div id="id_tarjeta_filtros" role="dialog" class="modal fade colored-header colored-header-primary">
    <div class="modal-dialog modal-lg nova-modal-responsive">
@@ -73,7 +71,7 @@
             <h3 class="modal-title">Filtros</h3>
          </div>
 
-         <form role="form" action="" method="POST" id="id_formulario_filtro" name="formulario_filtro"> {% csrf_token %}
+         <form method="POST" id="id_formulario_filtro"> {% csrf_token %}
 
             <div id="id_accordion_compras" class="panel-group accordion nova-modal-accordion">
 
@@ -125,14 +123,18 @@
 
                      <div class="nova-accordion-row">
 
+                        <!-- req_desde  y req_hasta-->
+                        {% tag_field_popup_daterangepicker 'Fecha Creación' form.requisicion_desde form.requisicion_hasta 12 4 4 %}
+
+                     </div>
+
+                     <div class="nova-accordion-row">
+
                         <!-- comprador -->
                         {% tag_field_popup_filter form.comprador 4 %}
 
                         <!-- requisicion_originador -->
                         {% tag_field_popup_filter form.requisicion_originador 4 %}
-
-                        <!-- req_desde  y req_hasta-->
-                        {% tag_filter_dates 'Fecha Creacion' form.requisicion_desde form.requisicion_hasta %}
 
                      </div>
 
@@ -194,10 +196,15 @@
                         {% tag_field_popup_radio_button form.oc_canceladas 3 %}
 
                      </div>
+
                      <div class="nova-accordion-row">
 
                         <!-- oc_desde_hasta -->
-                        {% tag_filter_dates 'Fecha Creacion' form.oc_desde form.oc_hasta %}
+                        {% tag_field_popup_daterangepicker 'Fecha Creación' form.oc_desde form.oc_hasta 12 4 4 %}
+
+                     </div>
+
+                     <div class="nova-accordion-row">
 
                         <!-- proveedor -->
                         {% tag_field_popup_filter form.proveedor 4 %}
@@ -233,11 +240,10 @@
                </div>
 
             </div><!-- Accordion-->
-            <input type="hidden" id="download_token_value_id"/>
          </form>
          <div class="modal-footer nova-modal-footer">
             <div class="row col-sm-12">
-               <button type="button" data-dismiss="modal" class="btn btn-default pull-left" id="boton_cancelar">
+               <button type="button" id="boton_cancelar" data-dismiss="modal" class="btn btn-default pull-left">
                   Cancelar
                </button>
 
@@ -246,7 +252,7 @@
                   Limpiar
                </button>
 
-               <button type="submit" name="buscar" value="buscar" id="boton_buscar" class="btn nova-btn btn-primary btn-lg pull-right">
+               <button type="submit" id="boton_buscar" name="buscar" value="buscar" class="btn nova-btn btn-primary btn-lg pull-right">
                   <i class="icon icon-left mdi mdi-search nova-white"></i>
                   Buscar
                </button>
@@ -317,10 +323,6 @@
    <script src="{% static 'libs/kendo/2015.2.624/js/cultures/kendo.culture.es-MX.min.js' %}"></script>
    <script src="{% static 'libs/kendo/2015.2.624/js/kendo.web.min.js' %}"></script>
 
-   <!-- Theme -->
-   <script src="{% static 'theme/lib/datetimepicker/js/bootstrap-datetimepicker.min.js' %}"></script>
-   <!-- <script src="{% static 'theme/lib/datetimepicker/js/locales/bootstrap-datetimepicker.es.js' %}"></script>
-   <script src="{% static 'theme/lib/daterangepicker/js/daterangepicker.js' %}"></script> -->
    <!-- DatePicker -->
    <script src="{% static 'libs/bootstrap-datepicker/2.0/dist/js/bootstrap-datepicker.min.js' %}"></script>
    <script src="{% static 'libs/bootstrap-datepicker/2.0/dist/locales/bootstrap-datepicker.es.min.js' %}"></script>

@@ -216,36 +216,22 @@
                                  <th>Resultado</th>
                               </tr>
                            </thead>
-                           <tbody>
+                           <tbody id="id_tbody_plan_accion">
                               <tr class="clickable-row">
                                  <td>
-                                    <a href="#id_tarjeta_acciones" data-toggle="modal" class="btn nova-btn btn-default">
+                                    <button class="btn nova-btn btn-default">
                                        <i class="icon icon-left icon mdi mdi-settings nova-black"></i>
-                                    </a>
+                                    </button>
                                  </td>
-                                 <td>
-                                    <a href="#id_tarjeta_actividad" class="btn btn-default nova-url" data-toggle="modal">Fijar cables</a>
+                                 <!-- id_tarjeta_acciones -->
+                                 <td><!-- En proceso de modificar los id del grid y estrucutura html-->
+                                    <a class="btn btn-default nova-url" data-toggle="modal">Fijar cables</a>
+                                    <!-- #id_tarjeta_actividad -->
                                  </td>
                                  <td>Fijar los cables a las canaletas con cinchos</td>
                                  <td>Luis Enrique lopez Mendez</td>
                                  <td>29/03/2017</td>
                                  <td>Se presencio el aseguramiento de los cables</td>
-                                 <td>Ninguna</td>
-                                 <td>Cumple</td>
-                              </tr>
-                              <tr class="clickable-row">
-                                 <td>
-                                    <a href="#id_tarjeta_acciones" data-toggle="modal" class="btn nova-btn btn-default">
-                                       <i class="icon icon-left icon mdi mdi-settings nova-black"></i>
-                                    </a>
-                                 </td>
-                                 <td>
-                                    <a href="#id_tarjeta_actividad" class="btn btn-default nova-url" data-toggle="modal">Realizar inspeccion</a>
-                                 </td>
-                                 <td>Realizar la inspeccion de otros posibles cables que esten fuera de la canaleta</td>
-                                 <td>Julio Mendez Reyez</td>
-                                 <td>12/04/2017</td>
-                                 <td>Se presencio la inspeccion de los demas cables</td>
                                  <td>Ninguna</td>
                                  <td>Cumple</td>
                               </tr>
@@ -364,16 +350,18 @@
     </div>
 
    <!-- id_tarjeta_actividad -->
-   <div id="id_tarjeta_actividad" role="dialog" class="modal fade colored-header colored-header-primary">
+   <div id="id_tarjeta_actividad" role="dialog" data-primaryKey="" class="modal fade colored-header colored-header-primary">
       <div class="modal-dialog custom-width">
          <div class="modal-content">
 
             <div class="modal-header nova-modal-header">
                <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
-               <h3 class="modal-title">Nueva Actividad</h3>
+               <h3 class="modal-title" id="id_popup_titulo_actividad"></h3>
             </div>
 
             <form id="id_formulario_actividad" class="modal-body form-horizontal">
+
+               <span id="id_mensaje_error_actividad"></span>
 
                <!-- titulo -->
                {% tag_field_popup formulario_plan_accion_hallazgo.titulo 3 8 %}
