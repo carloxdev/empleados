@@ -57,7 +57,10 @@ class ViaticoCabeceraSerializer(serializers.HyperlinkedModelSerializer):
     def get_created_by(self, obj):
 
         try:
-            return obj.created_by.usuario.username
+            if obj.created_by:
+                return obj.created_by.usuario.username
+            else:
+                return ""
         except Exception as e:
             print str(e)
             return ""
@@ -65,14 +68,20 @@ class ViaticoCabeceraSerializer(serializers.HyperlinkedModelSerializer):
     def get_approved_by(self, obj):
 
         try:
-            return obj.approved_by.usuario.username
+            if obj.approved_by:
+                return obj.approved_by.usuario.username
+            else:
+                return ""
         except Exception as e:
             print str(e)
 
     def get_updated_by(self, obj):
 
         try:
-            return obj.updated_by.usuario.username
+            if obj.updated_by:
+                return obj.updated_by.usuario.username
+            else:
+                return ""
         except Exception as e:
             print str(e)
             return ""
