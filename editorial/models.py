@@ -21,7 +21,7 @@ class Post(models.Model):
         ('REC', 'Redactando'),
     )
 
-    titulo = models.CharField(max_length=120)
+    titulo = models.CharField(max_length=300)
     imagen = models.ImageField(
         upload_to=get_ImagePath_Post,
         blank=True,

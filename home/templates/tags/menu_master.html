@@ -1,4 +1,4 @@
-{% load custom_tags %} 
+{% load custom_tags %}
 
 <ul class="sidebar-elements nova-sidebar-elements">
     <li class="divider">Menu</li>
@@ -67,19 +67,19 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <!-- <a href="#">
                         <span>Capacitacion</span>
-                    </a>
+                    </a> -->
                 </li>
                 <li id="capitalhumano_buzon">
                     <a href="{% url 'capitalhumano:empleado_solicitud' %}">
-                        <span>Buzón interno</span>
+                        <span>Buzón Interno</span>
                     </a>
                 </li>
                 {%  if user|tag_validate_has_group:"CH_ADMIN" %}
                 <li>
                     <a href="{% url 'capitalhumano:perfil_configuracion' %}">
-                        <span>Configuracion</span>
+                        <span>Configuración</span>
                     </a>
                 </li>
                 {% endif %}
@@ -207,7 +207,7 @@
      <li class="parent"><a href="#"><i class="icon mdi mdi-blogger"></i><span>Comunicación interna</span></a>
         <ul class="sub-menu">
             <li id="comunicacion_admin">
-                <a href="{% url 'editorial:post_administracion'%}">
+                <a href="{% url 'editorial:post_administracion' %}">
                     <span>Administración</span>
                 </a>
             </li>

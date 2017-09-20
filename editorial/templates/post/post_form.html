@@ -60,10 +60,13 @@
 
                     </div>
                     <div class="modal-footer nova-modal-footer">
+                        <a href=" {% url 'editorial:post_administracion' %}" class="btn btn-default">
+                            <i class="icon mdi mdi-arrow-left"></i> Regresar
+                        </a>
                         {% if operacion == "Editar" %}
-                            <input type="submit" class="btn btn-lg btn-success" value="Actualizar">
+                            <button type="submit" class="btn btn-lg btn-success pull-right"><i class="icon icon-left mdi mdi-refresh-alt nova-white"></i> Actualizar</button> 
                         {% else %}
-                            <input type="submit" class="btn btn-lg btn-primary" value="Guardar">
+                            <button type="submit" class="btn btn-lg btn-primary pull-right"><i class="icon icon-left mdi mdi-save nova-white"></i> Guardar</button> 
                         {% endif %}
                     </div>
                 </form>

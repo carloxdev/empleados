@@ -95,6 +95,15 @@ NovaSitio.prototype.get_ConfDateRangePicker = function () {
         startDate: '01-01-2017'
     }
 }
+NovaSitio.prototype.get_ConfDatePicker = function () {
+
+   return {
+
+      format: 'dd/mm/yyyy',
+      autoclose: true,
+      language: 'es'
+   }
+}
 NovaSitio.prototype.validar_EspaciosSaltos = function (_string)
 {
     return _string.replace(/^\s+|\s+$/g,'');

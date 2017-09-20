@@ -133,12 +133,19 @@ class EmpleadoFilterForm(Form):
         widget=Select(
             attrs={'class': 'select2 nova-select2'}))
 
-    fecha_contratacion = CharField(
-        label='Fecha de contratación',
-        widget=TextInput(
-            attrs={'name': 'fecha_contratacion',
-                   'class': 'form-control input-xs', 'readonly': ''}
-        ),
+    # fecha_contratacion = CharField(
+    #     label='Fecha de contratación',
+    #     widget=TextInput(
+    #         attrs={'name': 'fecha_contratacion',
+    #                'class': 'form-control input-xs', 'readonly': ''}
+    #     ),
+    # )
+    contratacion_desde = CharField(
+        widget=TextInput(attrs={'class': 'form-control input-xs', 'readonly': 'readonly'})
+    )
+
+    contratacion_hasta = CharField(
+        widget=TextInput(attrs={'class': 'form-control input-xs', 'readonly': 'readonly'})
     )
 
     grup_compania_jde = ChoiceField(

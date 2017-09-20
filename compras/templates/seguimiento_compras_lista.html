@@ -14,9 +14,8 @@
    <link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.common-bootstrap.min.css' %}"/>
    <link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.bootstrap.min.css' %}"/>
 
-   <!-- Theme -->
-   <link rel="stylesheet" href="{% static 'theme/lib/datetimepicker/css/bootstrap-datetimepicker.min.css' %}"/>
-   <link rel="stylesheet" href="{% static 'theme/lib/daterangepicker/css/daterangepicker.css' %}"/>
+   <!-- DatePicker -->
+   <link rel="stylesheet" href="{% static 'libs/bootstrap-datepicker/2.0/dist/css/bootstrap-datepicker.min.css' %}"/>
 
    <!-- Nova -->
    <link rel="stylesheet" href="{% static 'grid.css' %}"/>
@@ -46,7 +45,7 @@
                         <i class="icon icon-left mdi mdi-search nova-white"></i> Filtros
                      </a>
 
-                     <button type="submit" name="exportar" value="exportar" class="btn nova-btn btn-rounded btn-space btn-success" id="id_boton_exportar">
+                     <button type="submit" name="exportar" value="exportar" class="btn nova-btn btn-rounded btn-space btn-success" id="id_boton_exportar" disabled>
                         <i class="icon icon-left mdi mdi-download nova-white"></i>
                         Exportar
                      </button>
@@ -60,249 +59,258 @@
       </div>
    </div> <!-- main content -->
 
-   <!-- Targeta Filtros -->
-   <div id="id_tarjeta_filtros" role="dialog" class="modal fade colored-header colored-header-primary">
-      <div class="modal-dialog modal-lg nova-modal-responsive">
-         <div class="modal-content nova-modal-maxwidth nova-modal-content-responsive">
+</div> <!-- be content -->
 
-            <div class="modal-header nova-modal-header">
-               <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
-               <h3 class="modal-title">Filtros</h3>
-            </div>
+<!-- Targeta Filtros -->
+<div id="id_tarjeta_filtros" role="dialog" class="modal fade colored-header colored-header-primary">
+   <div class="modal-dialog modal-lg nova-modal-responsive">
+      <div class="modal-content nova-modal-maxwidth nova-modal-content-responsive">
 
-            <form role="form" action="" method="POST" id="id_formulario_filtro" name="formulario_filtro"> {% csrf_token %}
+         <div class="modal-header nova-modal-header">
+            <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
+            <h3 class="modal-title">Filtros</h3>
+         </div>
 
-               <div id="id_accordion_compras" class="panel-group accordion nova-modal-accordion">
+         <form method="POST" id="id_formulario_filtro"> {% csrf_token %}
 
-                  <div class="panel panel-default nova-modal-accordion-panel nova-accordion-border-bottom">
-                     <div class="panel-heading">
-                        <h4 class="panel-title">
-                           <a data-toggle="collapse" data-parent="#id_accordion_compras" href="#id_collapse_compania" aria-expanded="true" class="">
-                              <i class="icon mdi mdi-chevron-down"></i> Datos de Compañia:
-                           </a>
-                        </h4>
-                     </div>
-                     <div id="id_collapse_compania" class="panel-collapse collapse in" aria-expanded="true">
+            <div id="id_accordion_compras" class="panel-group accordion nova-modal-accordion">
 
-                        <div class="nova-accordion-row">
-
-                           <!-- compañia -->
-                           {% tag_field_popup_filter form.compania 6 %}
-
-                           <!-- sucursal -->
-                           {% tag_field_popup_filter form.sucursal 6 %}
-
-                        </div>
-
-                     </div>
+               <div class="panel panel-default nova-modal-accordion-panel nova-accordion-border-bottom">
+                  <div class="panel-heading">
+                     <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#id_accordion_compras" href="#id_collapse_compania" aria-expanded="true" class="">
+                           <i class="icon mdi mdi-chevron-down"></i> Datos de Compañia:
+                        </a>
+                     </h4>
                   </div>
+                  <div id="id_collapse_compania" class="panel-collapse collapse in" aria-expanded="true">
 
-                  <div class="panel panel-default nova-modal-accordion-panel nova-accordion-border-bottom">
-                     <div class="panel-heading">
-                        <h4 class="panel-title">
-                           <a data-toggle="collapse" data-parent="#id_accordion_compras" href="#id_collapse_requisicion" class="collapsed" aria-expanded="false">
-                              <i class="icon mdi mdi-chevron-down"></i> Requisición:
-                           </a>
-                        </h4>
-                     </div>
-                     <div id="id_collapse_requisicion" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
+                     <div class="nova-accordion-row">
 
-                        <div class="nova-accordion-row">
+                        <!-- compañia -->
+                        {% tag_field_popup_filter form.compania 6 %}
 
-                           <!-- requisicion -->
-                           {% tag_field_popup_filter form.requisicion 4 %}
-
-                           <!-- requisicion_tipo -->
-                           {% tag_field_popup_filter form.requisicion_tipo 5 %}
-
-                           <!-- requisicion_canceladas -->
-                           {% tag_field_popup_radio_button form.requisicion_canceladas 3 %}
-
-                        </div>
-
-                        <div class="nova-accordion-row">
-
-                           <!-- comprador -->
-                           {% tag_field_popup_filter form.comprador 4 %}
-
-                           <!-- requisicion_originador -->
-                           {% tag_field_popup_filter form.requisicion_originador 4 %}
-
-                           <!-- req_desde  y req_hasta-->
-                           {% tag_field_popup_daterangepicker form.req_desde_hasta 4 %}
-
-                        </div>
+                        <!-- sucursal -->
+                        {% tag_field_popup_filter form.sucursal 6 %}
 
                      </div>
+
                   </div>
-
-                  <div class="panel panel-default nova-modal-accordion-panel nova-accordion-border-bottom">
-                     <div class="panel-heading">
-                        <h4 class="panel-title">
-                           <a data-toggle="collapse" data-parent="#id_accordion_compras" href="#id_collapse_cotizacion" class="collapsed" aria-expanded="false">
-                              <i class="icon mdi mdi-chevron-down"></i> Cotización:
-                           </a>
-                        </h4>
-                     </div>
-                     <div id="id_collapse_cotizacion" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
-
-                        <div class="nova-accordion-row">
-
-                           <!-- cotizacion -->
-                           {% tag_field_popup_filter form.cotizacion 4 %}
-
-                           <!-- cotizacion_tipo -->
-                           {% tag_field_popup_filter form.cotizacion_tipo 5 %}
-
-                           <!-- cotizacion_canceladas -->
-                           {% tag_field_popup_radio_button form.cotizacion_canceladas 3 %}
-
-                        </div>
-
-                        <div class="nova-accordion-row">
-
-                           <!-- cotización_originador -->
-                           {% tag_field_popup_filter form.cotizacion_originador 6 %}
-
-                        </div>
-
-                     </div>
-                  </div>
-
-                  <div class="panel panel-default nova-modal-accordion-panel nova-accordion-border-bottom">
-                     <div class="panel-heading">
-                        <h4 class="panel-title">
-                           <a data-toggle="collapse" data-parent="#id_accordion_compras" href="#id_collapse_orden" class="collapsed" aria-expanded="false">
-                              <i class="icon mdi mdi-chevron-down"></i> Orden de Compra:
-                           </a>
-                        </h4>
-                     </div>
-                     <div id="id_collapse_orden" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
-
-                        <div class="nova-accordion-row">
-
-                           <!-- oc -->
-                           {% tag_field_popup_filter form.oc 4 %}
-
-                           <!-- oc_tipo -->
-                           {% tag_field_popup_filter form.oc_tipo 5 %}
-
-                           <!-- oc_canceladas -->
-                           {% tag_field_popup_radio_button form.oc_canceladas 3 %}
-
-                        </div>
-                        <div class="nova-accordion-row">
-
-                           <!-- oc_desde_hasta -->
-                           {% tag_field_popup_daterangepicker form.oc_desde_hasta 4 %}
-
-                           <!-- proveedor -->
-                           {% tag_field_popup_filter form.proveedor 4 %}
-
-                           <!-- oc_originador -->
-                           {% tag_field_popup_filter form.oc_originador 4 %}
-
-                        </div>
-                     </div>
-                  </div>
-
-                  <div class="panel panel-default nova-modal-accordion-panel">
-                     <div class="panel-heading">
-                        <h4 class="panel-title">
-                           <a data-toggle="collapse" data-parent="#id_accordion_compras" href="#id_collapse_almacen" class="collapsed" aria-expanded="false">
-                              <i class="icon mdi mdi-chevron-down"></i> Almacen:
-                           </a>
-                        </h4>
-                     </div>
-                     <div id="id_collapse_almacen" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
-
-                        <div class="nova-accordion-row">
-
-                           <!-- item -->
-                           {% tag_field_popup_filter form.item 6 %}
-
-                           <!-- recepcion -->
-                           {% tag_field_popup_filter form.recepcion 6 %}
-
-                        </div>
-
-                     </div>
-                  </div>
-
-               </div><!-- Accordion-->
-               <input type="hidden" id="download_token_value_id"/>
-            </form>
-            <div class="modal-footer nova-modal-footer">
-               <div class="row col-sm-12">
-                  <button type="button" data-dismiss="modal" class="btn btn-default pull-left" id="boton_cancelar">
-                     Cancelar
-                  </button>
-
-                  <button type="button" id="boton_limpiar" class="btn btn-default nova-btn">
-                     <i class="fa fa-eraser"></i>
-                     Limpiar
-                  </button>
-
-                  <button type="submit" name="buscar" value="buscar" id="boton_buscar" class="btn nova-btn btn-primary btn-lg pull-right">
-                     <i class="icon icon-left mdi mdi-search nova-white"></i>
-                     Buscar
-                  </button>
                </div>
-            </div>
-         </div> <!-- Modal content-->
-      </div> <!-- Modal dialog -->
-   </div><!-- Modal -->
 
-   <!-- tarjeta_detalles-->
-   <div id="id_tarjeta_detalles" role="dialog" class="modal fade colored-header colored-header-primary in">
-      <div class="modal-dialog full-width nova-modal-responsive">
-         <div class="modal-content nova-content nova-modal-content-responsive">
-            <div class="modal-header nova-modal-header">
-               <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
-               <h3 class="modal-title" id="id_titulo_detalles"></h3>
-            </div>
-            <div id="tabla_detalles" class="nova-div-overflow">
-
-            </div>
-
-            <div class="modal-footer nova-popup-table-footer">
-                <div class="row col-sm-12">
-                    <button type="button" data-dismiss="modal" class="btn nova-btn btn-primary btn-lg pull-right" id="boton_ok_detalle">
-                        OK
-                    </button>
-                </div>
-            </div>
-         </div> <!-- Modal content-->
-      </div> <!-- Modal dialog -->
-   </div><!-- Modal -->
-
-   <!-- tarjeta_acciones-->
-   <div id="id_tarjeta_acciones" tabindex="-1" role="dialog" class="modal fade colored-header colored-header-primary">
-      <div class="modal-dialog nova-modal-acciones nova-modal-responsive">
-         <div class="modal-content nova-modal-content-responsive">
-            <div class="modal-header nova-modal-header">
-               <button type="button" data-dismiss="modal" aria-hidden="true" class="close"><span class="mdi mdi-close"></span></button>
-               <h3 class="modal-title">Acciones</h3>
-             </div>
-             <div class="modal-body">
-               <div class="text-center">
-                  <div role="group" class="btn-group-vertical btn-space">
-                     <button class="btn nova-btn btn-space btn-success btn-lg" id="id_boton_autorizadores">
-                        <i class="icon icon-left mdi mdi-accounts nova-white"></i> Autorizadores
-                     </button>
-                     <button class="btn nova-btn btn-space btn-success btn-lg" id="id_boton_recepciones">
-                        <i class="icon icon-left mdi mdi-archive nova-white"></i> Recepciones
-                     </button>
-                     <button class="btn nova-btn btn-space btn-success btn-lg" id="id_boton_cotejo">
-                        <i class="icon icon-left mdi mdi-assignment-check nova-white"></i> Cotejo
-                     </button>
+               <div class="panel panel-default nova-modal-accordion-panel nova-accordion-border-bottom">
+                  <div class="panel-heading">
+                     <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#id_accordion_compras" href="#id_collapse_requisicion" class="collapsed" aria-expanded="false">
+                           <i class="icon mdi mdi-chevron-down"></i> Requisición:
+                        </a>
+                     </h4>
                   </div>
+                  <div id="id_collapse_requisicion" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
+
+                     <div class="nova-accordion-row">
+
+                        <!-- requisicion -->
+                        {% tag_field_popup_filter form.requisicion 4 %}
+
+                        <!-- requisicion_tipo -->
+                        {% tag_field_popup_filter form.requisicion_tipo 5 %}
+
+                        <!-- requisicion_canceladas -->
+                        {% tag_field_popup_radio_button form.requisicion_canceladas 3 %}
+
+                     </div>
+
+                     <div class="nova-accordion-row">
+
+                        <!-- req_desde  y req_hasta-->
+                        {% tag_field_popup_daterangepicker 'Fecha Creación' form.requisicion_desde form.requisicion_hasta 12 4 4 %}
+
+                     </div>
+
+                     <div class="nova-accordion-row">
+
+                        <!-- comprador -->
+                        {% tag_field_popup_filter form.comprador 4 %}
+
+                        <!-- requisicion_originador -->
+                        {% tag_field_popup_filter form.requisicion_originador 4 %}
+
+                     </div>
+
+                  </div>
+               </div>
+
+               <div class="panel panel-default nova-modal-accordion-panel nova-accordion-border-bottom">
+                  <div class="panel-heading">
+                     <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#id_accordion_compras" href="#id_collapse_cotizacion" class="collapsed" aria-expanded="false">
+                           <i class="icon mdi mdi-chevron-down"></i> Cotización:
+                        </a>
+                     </h4>
+                  </div>
+                  <div id="id_collapse_cotizacion" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
+
+                     <div class="nova-accordion-row">
+
+                        <!-- cotizacion -->
+                        {% tag_field_popup_filter form.cotizacion 4 %}
+
+                        <!-- cotizacion_tipo -->
+                        {% tag_field_popup_filter form.cotizacion_tipo 5 %}
+
+                        <!-- cotizacion_canceladas -->
+                        {% tag_field_popup_radio_button form.cotizacion_canceladas 3 %}
+
+                     </div>
+
+                     <div class="nova-accordion-row">
+
+                        <!-- cotización_originador -->
+                        {% tag_field_popup_filter form.cotizacion_originador 6 %}
+
+                     </div>
+
+                  </div>
+               </div>
+
+               <div class="panel panel-default nova-modal-accordion-panel nova-accordion-border-bottom">
+                  <div class="panel-heading">
+                     <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#id_accordion_compras" href="#id_collapse_orden" class="collapsed" aria-expanded="false">
+                           <i class="icon mdi mdi-chevron-down"></i> Orden de Compra:
+                        </a>
+                     </h4>
+                  </div>
+                  <div id="id_collapse_orden" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
+
+                     <div class="nova-accordion-row">
+
+                        <!-- oc -->
+                        {% tag_field_popup_filter form.oc 4 %}
+
+                        <!-- oc_tipo -->
+                        {% tag_field_popup_filter form.oc_tipo 5 %}
+
+                        <!-- oc_canceladas -->
+                        {% tag_field_popup_radio_button form.oc_canceladas 3 %}
+
+                     </div>
+
+                     <div class="nova-accordion-row">
+
+                        <!-- oc_desde_hasta -->
+                        {% tag_field_popup_daterangepicker 'Fecha Creación' form.oc_desde form.oc_hasta 12 4 4 %}
+
+                     </div>
+
+                     <div class="nova-accordion-row">
+
+                        <!-- proveedor -->
+                        {% tag_field_popup_filter form.proveedor 4 %}
+
+                        <!-- oc_originador -->
+                        {% tag_field_popup_filter form.oc_originador 4 %}
+
+                     </div>
+                  </div>
+               </div>
+
+               <div class="panel panel-default nova-modal-accordion-panel">
+                  <div class="panel-heading">
+                     <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#id_accordion_compras" href="#id_collapse_almacen" class="collapsed" aria-expanded="false">
+                           <i class="icon mdi mdi-chevron-down"></i> Almacen:
+                        </a>
+                     </h4>
+                  </div>
+                  <div id="id_collapse_almacen" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
+
+                     <div class="nova-accordion-row">
+
+                        <!-- item -->
+                        {% tag_field_popup_filter form.item 6 %}
+
+                        <!-- recepcion -->
+                        {% tag_field_popup_filter form.recepcion 6 %}
+
+                     </div>
+
+                  </div>
+               </div>
+
+            </div><!-- Accordion-->
+         </form>
+         <div class="modal-footer nova-modal-footer">
+            <div class="row col-sm-12">
+               <button type="button" id="boton_cancelar" data-dismiss="modal" class="btn btn-default pull-left">
+                  Cancelar
+               </button>
+
+               <button type="button" id="boton_limpiar" class="btn btn-default nova-btn">
+                  <i class="fa fa-eraser"></i>
+                  Limpiar
+               </button>
+
+               <button type="submit" id="boton_buscar" name="buscar" value="buscar" class="btn nova-btn btn-primary btn-lg pull-right">
+                  <i class="icon icon-left mdi mdi-search nova-white"></i>
+                  Buscar
+               </button>
+            </div>
+         </div>
+      </div> <!-- Modal content-->
+   </div> <!-- Modal dialog -->
+</div><!-- Modal -->
+
+<!-- tarjeta_detalles-->
+<div id="id_tarjeta_detalles" role="dialog" class="modal fade colored-header colored-header-primary in">
+   <div class="modal-dialog full-width nova-modal-responsive">
+      <div class="modal-content nova-content nova-modal-content-responsive">
+         <div class="modal-header nova-modal-header">
+            <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
+            <h3 class="modal-title" id="id_titulo_detalles"></h3>
+         </div>
+         <div id="tabla_detalles" class="nova-div-overflow">
+
+         </div>
+
+         <div class="modal-footer nova-popup-table-footer">
+             <div class="row col-sm-12">
+                 <button type="button" data-dismiss="modal" class="btn nova-btn btn-primary btn-lg pull-right" id="boton_ok_detalle">
+                     OK
+                 </button>
+             </div>
+         </div>
+      </div> <!-- Modal content-->
+   </div> <!-- Modal dialog -->
+</div><!-- Modal -->
+
+<!-- tarjeta_acciones-->
+<div id="id_tarjeta_acciones" tabindex="-1" role="dialog" class="modal fade colored-header colored-header-primary">
+   <div class="modal-dialog nova-modal-acciones nova-modal-responsive">
+      <div class="modal-content nova-modal-content-responsive">
+         <div class="modal-header nova-modal-header">
+            <button type="button" data-dismiss="modal" aria-hidden="true" class="close"><span class="mdi mdi-close"></span></button>
+            <h3 class="modal-title">Acciones</h3>
+          </div>
+          <div class="modal-body">
+            <div class="text-center">
+               <div role="group" class="btn-group-vertical btn-space">
+                  <button class="btn nova-btn btn-space btn-success btn-lg" id="id_boton_autorizadores">
+                     <i class="icon icon-left mdi mdi-accounts nova-white"></i> Autorizadores
+                  </button>
+                  <button class="btn nova-btn btn-space btn-success btn-lg" id="id_boton_recepciones">
+                     <i class="icon icon-left mdi mdi-archive nova-white"></i> Recepciones
+                  </button>
+                  <button class="btn nova-btn btn-space btn-success btn-lg" id="id_boton_cotejo">
+                     <i class="icon icon-left mdi mdi-assignment-check nova-white"></i> Cotejo
+                  </button>
                </div>
             </div>
          </div>
       </div>
    </div>
-</div> <!-- be content -->
+</div>
 
 {% endblock contenido %}
 
@@ -315,10 +323,9 @@
    <script src="{% static 'libs/kendo/2015.2.624/js/cultures/kendo.culture.es-MX.min.js' %}"></script>
    <script src="{% static 'libs/kendo/2015.2.624/js/kendo.web.min.js' %}"></script>
 
-   <!-- Theme -->
-   <script src="{% static 'theme/lib/datetimepicker/js/bootstrap-datetimepicker.min.js' %}"></script>
-   <script src="{% static 'theme/lib/datetimepicker/js/locales/bootstrap-datetimepicker.es.js' %}"></script>
-   <script src="{% static 'theme/lib/daterangepicker/js/daterangepicker.js' %}"></script>
+   <!-- DatePicker -->
+   <script src="{% static 'libs/bootstrap-datepicker/2.0/dist/js/bootstrap-datepicker.min.js' %}"></script>
+   <script src="{% static 'libs/bootstrap-datepicker/2.0/dist/locales/bootstrap-datepicker.es.min.js' %}"></script>
 
    <!-- NOVA -->
    <script src="{% static 'seguimiento_compras.js' %}"></script>

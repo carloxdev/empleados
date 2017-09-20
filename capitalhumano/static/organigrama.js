@@ -55,6 +55,7 @@ function Organigrama(){
 }
 Organigrama.prototype.empleados_Organizacion = function(e){
   organizacion = e.data.$organizaciones.val()
+  tarjeta_filtros.$contenedor.removeClass("nova-contenido-borde")
 
   if(organizacion != ''){
     tarjeta_filtros.$contenedor.empty()
@@ -98,6 +99,8 @@ Organigrama.prototype.empleados_Organizacion = function(e){
 }
 Organigrama.prototype.empleados_Empresa = function(e){
   empresa = e.data.$empresas.val()
+  tarjeta_filtros.$contenedor.removeClass("nova-contenido-borde")
+
   if(empresa != ''){
 
     tarjeta_filtros.$contenedor.empty()
@@ -134,7 +137,7 @@ Organigrama.prototype.empleados_Empresa = function(e){
             }
 
       })
-  }  
+  }
   else{
     tarjeta_filtros.$contenedor.empty()
     organigrama.mostrar_Mensaje(1)
@@ -155,17 +158,20 @@ Organigrama.prototype.crear_Diagrama = function(_url){
     'nodeUbicacion': 'ubicacion',
     'nodeStaff': 'staff',
     'toggleSiblingsResp': true,
+    'initCompleted': function($chart) {
+        tarjeta_filtros.$contenedor.addClass("nova-contenido-borde")
+      }
   })
 }
 
 Organigrama.prototype.mostrar_Mensaje = function (_total){
 
-   if(_total == 0){
-      document.getElementById('container-mensaje').innerHTML='<br>La organización/empresa no cuenta con empleados'
-      $('#contenedor').hide()
+   if (_total == 0) {
 
-   }else{
-      document.getElementById('container-mensaje').innerHTML=' '
-      $('#contenedor').show()
+      tarjeta_filtros.$contenedor.html('<h3>La organización/empresa no cuenta con empleados</h3>').addClass("nova-contenido-borde")
+   }
+   else {
+
+      tarjeta_filtros.$contenedor.html('')
    }
 }

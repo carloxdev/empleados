@@ -154,11 +154,15 @@ def tag_field_popup_filter(_field, _size_col):
 @register.inclusion_tag(
     'tags/field_popup_daterangepicker.html',
     takes_context=False)
-def tag_field_popup_daterangepicker(_field, _size_group):
+def tag_field_popup_daterangepicker(_etiqueta ,_field1, _field2, _size_group, _size_field1, _size_field2):
 
     contexto = {
-        'campo': _field,
+        'etiqueta': _etiqueta,
+        'campo1': _field1,
+        'campo2': _field2,
         'size_group': _size_group,
+        'size_field1': _size_field1,
+        'size_field2': _size_field2,
     }
     return contexto
 

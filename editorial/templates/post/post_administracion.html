@@ -16,70 +16,71 @@
             <li id="menu" data-opcion="comunicacion_admin" class="active">Administración de Noticias</li>
         </ol>
     </div>
+
     <div class="main-content container-fluid nova-main-content">
-        <div class="row">
-            <div class="col-xs-12 nova-col">
-                <div class="panel panel-default panel-table nova-panel-table">
-                    <div class="panel-heading panel-border nova-panel-heading">
-                        <div class="widget-head nova-widget-head">
-                            <div class="nova-button-toolbar">
+        <div class="fuelux">
+            <div id="wizard1" class="wizard wizard-ux nova-panel-borde-header nova-overflow-visible">
+                <div class="panel-heading nova-panel-heading nova-padding-right">
+                    <span class="title">Registros</span>
+                    <a href="{% url 'editorial:post_nuevo' %}" class=" visible-xs-inline-block btn nova-btn btn-rounded btn-space btn-default  pull-right" id="boton_nuevo"><i class="icon icon-left mdi mdi-plus-circle nova-black"></i> Nuevo post</a>
+                </div>
+            </div>
+            <div class="panel panel-default panel-table">
+                <div class="panel-heading nova-panel-borde-contenido nova-padding-tools">
+                    <a href="{% url 'editorial:post_nuevo' %}" class="btn nova-btn btn-rounded btn-space btn-default  pull-left hidden-xs" id="boton_nuevo"><i class="icon icon-left mdi mdi-plus-circle nova-black"></i> Nuevo post</a>
+                    <form class="pull-right col-sm-6 nova-padding-right"action="" method="GET">
+                        <div class="input-group">
+                            <input type="text" class="form-control btn-rounded nova-height-buscar" name="q" placeholder="Post a buscar..." value="{{ request.GET.q }}">
+                            <span class="input-group-btn">
+                              <button type="submit" id="boton_buscar" class="btn nova-height-buscar nova-btn btn-rounded btn-primary btn-flat">
+                                <i class="fa fa-search"></i>
+                                Buscar
+                              </button>
+                            </span>
+                        </div>
+                    </form>
+                </div>
+                    
+                {% if registros %}
 
-                                    <form action="" method="GET">
-                                        <div class="col-md-5 input-group nova-block">
-                                            <span class="input-group-btn">
-                                              <button type="submit" id="boton_buscar" class="btn btn-info btn-flat">
-                                                <i class="fa fa-search"></i>
-                                                Buscar
-                                              </button>
-                                            </span>
-                                            <input type="text" class="form-control input-xs" name="q" placeholder="Buscar post..." value="{{ request.GET.q }}">
-                                        </div>
-                                    </form>
-                                    <a href="{% url 'editorial:post_nuevo' %}" class="btn nova-btn btn-rounded btn-space btn-default nova-block" id="boton_nuevo"><i class="icon icon-left mdi mdi-plus-circle nova-black"></i> Nuevo post
-                                    </a>
-                                <!--<span class="title hidden-xs">Registros</span>-->
-                            </div>
-                
-                        {% if registros %}
-                            <div class="legal-article-lista">
-                                <div class="list-group">
-                                {% for registro in registros %}
-                                    <a href="{% url 'editorial:post_editar' registro.pk %}" class="list-group-item">{{ registro.titulo }}<span class="badge {% if registro.status == "PUB" %} badge-publicado {% else %} badge-captura {% endif %}"> {{ registro.get_status_display }} </span>
-                                    </a>
+                    <div class="legal-article-lista">
+                        <div class="list-group">
+                        {% for registro in registros %}
+                            <a href="{% url 'editorial:post_editar' registro.pk %}" class="list-group-item nova-sombreado-lista nova-lista-block">
+                            <div class="pull-right"><span class="badge {% if registro.status == "PUB" %} nova-badge-publicado {% else %} badge-captura {% endif %}"> {{ registro.get_status_display }} </span></div>
+                                <h4 class="list-group-item-heading">{{ registro.titulo }}</h4>
+                                <p class="list-group-item-text"><b>Actualizado: </b>{{ registro.updated_date|date:"d F Y f a" }}</p>
+                            </a>
+                        {% endfor %}
+                        </div>
+
+                        <div class="text-center">
+                            <ul class="pagination pagination-sm no-margin legal-paginador">
+                                {% if registros.has_previous %}
+                                    <li><a href="?{{ page_request_var }}={{ registros.previous_page_number }}&q={{ request.GET.q }}">&laquo;</a></li>
+                                {% endif %}
+
+                                {% for i in registros.paginator.page_range %}
+                                    <li {% if registros.number == i %} class="active nova-paginador-estilo" {% endif %}>
+                                        <a {% if registros.number == i %} class="nova-paginador-estilo" {% endif %} href="?page={{i}}&q={{ request.GET.q }}">{{ i }}</a>
+                                    </li>
                                 {% endfor %}
-                                </div>
 
-                                <div class="text-center">
-                                    <ul class="pagination pagination-sm no-margin legal-paginador">
-                                        {% if registros.has_previous %}
-                                            <li><a href="?{{ page_request_var }}={{ registros.previous_page_number }}&q={{ request.GET.q }}">&laquo;</a></li>
-                                        {% endif %}
+                                {% if registros.has_next %}
+                                    <li><a href="?page={{ registros.next_page_number }}&q={{ request.GET.q }}">&raquo;</a></li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </div>
 
-                                        {% for i in registros.paginator.page_range %}
-                                            <li {% if registros.number == i %} class="active" {% endif %}>
-                                                <a href="?page={{i}}&q={{ request.GET.q }}">{{ i }}</a>
-                                            </li>
-                                        {% endfor %}
+                {% else %}
 
-                                        {% if registros.has_next %}
-                                            <li><a href="?page={{ registros.next_page_number }}&q={{ request.GET.q }}">&raquo;</a></li>
-                                        {% endif %}
-                                    </ul>
-                                </div>
-                            </div>
+                    <div class="legal-article-avance nova-contenido-borde nova-sin-resultados">No se encontraron registros</div>
 
-                        {% else %}
-
-                            <div class="legal-article-avance text-center">
-                                <h1>Sin posts</h1>
-                            </div>
-
-                        {% endif %}
-
-                  </div> <!-- end panel-heading -->
-            </div> <!-- end panel panel-default -->
-        </div><!-- end row -->
-    </div> <!-- end main content -->
+                {% endif %}
+            </div> <!-- Panel -->
+        </div> <!-- col sm 12-->
+    </div>
 </div> <!-- end be content -->
 
 {% endblock contenido %}

@@ -1,18 +1,23 @@
 <div class="col-sm-{{ size_group }}">
-   <div class="form-group {% if campo.errors %} has-error {% endif %}">
-
-      <label class="control-label">{{ campo.label }}</label>
-      
-      <div class="input-group">
-
-         {{ campo }}
-         <span class="input-group-addon btn btn-primary" data-event="calendario">
-            <i class="icon-th mdi mdi-calendar"></i>
-         </span>
-         <span class="input-group-addon btn btn-warning" data-event="limpiar">
-            <i class="fa fa-eraser"></i>
-         </span>
+   <div class="form-group">
+      <label class="control-label">{{ etiqueta }}</label>
+      <div class="row">
+         <div class="col-sm-{{ size_field1 }} nova-xs-margins">
+            <div class="input-group date" id="{{ campo1.auto_id }}_group">
+                {{ campo1 }}
+                <span class="input-group-addon nova-addon-button">
+                    <i class="glyphicon glyphicon-calendar"></i>
+                </span>
+            </div>
+         </div>
+         <div class="col-sm-{{ size_field2 }} nova-xs-margins">
+            <div class="input-group date" id="{{ campo2.auto_id }}_group">
+                {{ campo2 }}
+                <span class="input-group-addon nova-addon-button">
+                    <i class="glyphicon glyphicon-calendar"></i>
+                </span>
+            </div>
+         </div>
       </div>
-      
    </div>
 </div>

@@ -15,27 +15,33 @@
       </ol>
    </div>
    <div class="main-content container-fluid nova-main-content">
-      <div class="col-sm-12">
-         <div class="panel panel-default panel-table"> 
-            <div class="col-sm-12 widget">
-                  <div class="col-sm-12">
-                     <label> <h3>Filtros</h3></label>
-                  </div>
-            	  <div class="col-sm-6">
-                     <label>Organizaciones:</label>
-                     {{ form.organizaciones }}
-                  </div>
-                 <div class="col-sm-6">
-                     <label>Empresas:</label>
-                     {{ form2.empresas }}
-                  </div>
-                  <div class="col-sm-12">
-                     <h3 id="container-mensaje"></h3>
-                  </div>
-            </div>    
-         </div><!-- End col-sm-12 widget -->
-         <div class="nova-contenedor-organigrama" id="content-data"></div>
-      </div>  <!-- End col-sm-12 -->
+
+      <div class="row wizard-row">
+
+         <div class="col-sm-12">
+
+               <div class="col-sm-12 widget nova-contenido-borde">
+
+                    <div class="col-sm-12">
+                        <label> <h3>Filtros</h3></label>
+                    </div>
+               	  <div class="col-sm-6">
+                        <label>Organizaciones:</label>
+                        {{ form.organizaciones }}
+                    </div>
+                    <div class="col-sm-6">
+                        <label>Empresas:</label>
+                        {{ form2.empresas }}
+                    </div>
+
+               </div> <!-- col-sm-12 widget -->
+
+               <div class="nova-contenedor-organigrama" id="content-data"></div>
+
+         </div>  <!-- End col-sm-12 -->
+
+      </div> <!-- wizard-row -->
+
    </div><!-- End Main COntent -->
 </div>
 {% endblock contenido %}

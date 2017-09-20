@@ -115,10 +115,13 @@ class SeguimientoComprasLista(View):
                     if datosPost == 'requisicion_canceladas':
                         argumentos['req_estado_last__exact'] = request.POST[datosPost]
 
-                    if datosPost == 'req_desde_hasta':
-                        valores = request.POST.get('req_desde_hasta').split(" al ")
-                        argumentos['req_fecha_creacion__gte'] = "{}T00:00:00".format(valores[0])
-                        argumentos['req_fecha_creacion__lte'] = "{}T23:59:59".format(valores[1])
+                    if datosPost == 'requisicion_desde':
+                        fecha = request.POST.get('requisicion_desde').split('/')
+                        argumentos['req_fecha_creacion__gte'] = "{}T00:00:00".format(fecha[2]+'-'+fecha[1]+'-'+fecha[0])
+
+                    if datosPost == 'requisicion_hasta':
+                        fecha = request.POST.get('requisicion_hasta').split('/')
+                        argumentos['req_fecha_creacion__lte'] = "{}T23:59:59".format(fecha[2]+'-'+fecha[1]+'-'+fecha[0])
 
                     if datosPost == 'cotizacion':
                         argumentos['cot__exact'] = request.POST[datosPost]
@@ -144,10 +147,13 @@ class SeguimientoComprasLista(View):
                     if datosPost == 'oc_canceladas':
                         argumentos['ord_estado_last__exact'] = request.POST[datosPost]
 
-                    if datosPost == 'oc_desde_hasta':
-                        valores = request.POST.get('oc_desde_hasta').split(" al ")
-                        argumentos['ord_fecha_creacion__gte'] = "{}T00:00:00".format(valores[0])
-                        argumentos['ord_fecha_creacion__lte'] = "{}T23:59:59".format(valores[1])
+                    if datosPost == 'oc_desde':
+                        fecha = request.POST.get('oc_desde').split('/')
+                        argumentos['ord_fecha_creacion__gte'] = "{}T00:00:00".format(fecha[2]+'-'+fecha[1]+'-'+fecha[0])
+
+                    if datosPost == 'oc_hasta':
+                        fecha = request.POST.get('oc_hasta').split('/')
+                        argumentos['ord_fecha_creacion__lte'] = "{}T23:59:59".format(fecha[2]+'-'+fecha[1]+'-'+fecha[0])
 
                     if datosPost == 'proveedor':
                         argumentos['ord_proveedor_desc__icontains'] = request.POST[datosPost]
