@@ -41,6 +41,7 @@ function Indicadores () {
    this.$spark1 = $('#spark1')
    this.$spark2 = $('#spark2')
    this.$spark3 = $('#spark3')
+   this.$contenedor_graficas = $('#contenedor_graficas')
 
    this.buscar_EmpleadosGeneral(organizacion)
    this.init_Components()
@@ -99,6 +100,7 @@ Indicadores.prototype.init_Events = function () {
 Indicadores.prototype.filtro = function (e) {
 
    organizacion = e.data.$organizaciones.val()
+   e.data.$contenedor_graficas.find('#panel_mensaje_sin_empleados').remove()
 
    if (organizacion == 0){
       indicadores.buscar_EmpleadosGeneral(organizacion)
@@ -118,7 +120,7 @@ Indicadores.prototype.buscar_EmpleadosGeneral = function (_organizacion){
             //Total de empleados
             total = indicadores.indicador_Total(response, organizacion)
 
-            indicadores.mostrar_Mensaje()
+            indicadores.mostrar_Mensaje(total)
 
             indicadores.ocultar_Graficas(total, organizacion)
 
@@ -165,7 +167,7 @@ Indicadores.prototype.buscar_EmpleadosFiltro = function (_organizacion) {
                //Total de empleados
                total = indicadores.indicador_Total(response, organizacion)
 
-               indicadores.mostrar_Mensaje()
+               indicadores.mostrar_Mensaje(total)
 
                indicadores. ocultar_Graficas(total, organizacion)
 
@@ -234,15 +236,24 @@ Indicadores.prototype.indicador_Organizacion = function (_response) {
    Highcharts.chart('container-organizacion',
         indicador_organizacion.get_IndicadorConfig(organizaciones,empleado_org))
 }
-Indicadores.prototype.mostrar_Mensaje = function (){
+Indicadores.prototype.mostrar_Mensaje = function (_total) {
 
-   if(total == 0){
-      document.getElementById('container-mensaje').innerHTML='La organización no cuenta con empleados'
-   }else{
-      document.getElementById('container-mensaje').innerHTML=' '
+   if(_total == 0){
+      this.$contenedor_graficas.append(
+         '<div class="row wizard-row" id="panel_mensaje_sin_empleados">' +
+
+            '<div class="col-sm-12">' +
+               '<div class="nova-panel-mensaje nova-contenido-borde">' +
+               '<h3>La organización no cuenta con empleados</h3>'+
+               '</div>' +
+            '</div>'+
+
+         '</div>'
+      )
    }
 }
 Indicadores.prototype.ocultar_Graficas = function (_total, _organizacion){
+
    if(total==0){
       $('#container-total').hide()
       $('#container-rotacion-total').hide()
