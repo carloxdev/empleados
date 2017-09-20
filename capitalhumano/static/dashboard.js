@@ -75,20 +75,20 @@ Indicadores.prototype.get_ConfSparkLine = function (){
                lineWidth: 1.15
          }
    spark[1] = {
-              type: 'discrete', 
+              type: 'discrete',
               width: '85',
               height: '35',
               lineHeight: 20,
               lineColor: '#3ADF00',
-              xwidth: 18 
+              xwidth: 18
          }
    spark[2] = {
-              type: 'discrete', 
+              type: 'discrete',
               width: '85',
               height: '35',
               lineHeight: 20,
               lineColor: '#FF8000',
-              xwidth: 18 
+              xwidth: 18
          }
    return spark
 }
@@ -114,13 +114,13 @@ Indicadores.prototype.buscar_EmpleadosGeneral = function (_organizacion){
          method: "GET",
          dataType: "json",
          success: function (response) {
-            
+
             //Total de empleados
             total = indicadores.indicador_Total(response, organizacion)
 
             indicadores.mostrar_Mensaje()
 
-            indicadores. ocultar_Graficas(total, organizacion)
+            indicadores.ocultar_Graficas(total, organizacion)
 
             //Rotacion de empleados
             indicadores.indicador_Rotacion(response, organizacion)
@@ -146,10 +146,10 @@ Indicadores.prototype.buscar_EmpleadosGeneral = function (_organizacion){
          error: function (response) {
             alertify("Ocurrio error al consultar")
          }
-   })  
+   })
 }
 Indicadores.prototype.buscar_EmpleadosFiltro = function (_organizacion) {
-   
+
    organizacion = _organizacion
 
    $.ajax({
@@ -186,12 +186,12 @@ Indicadores.prototype.buscar_EmpleadosFiltro = function (_organizacion) {
 
                $('#container-organizacion').hide()
             }
-            
+
          },
          error: function (response) {
             alertify("Ocurrio error al consultar")
          }
-   })  
+   })
 }
 Indicadores.prototype.indicador_Total = function (_response, _organizacion) {
 
@@ -205,12 +205,12 @@ Indicadores.prototype.indicador_Rotacion = function (_response, _organizacion) {
    document.getElementById('resultado-rotacion').innerHTML=dato_rotacion
 }
 Indicadores.prototype.indicador_GradoAcademico = function (_organizacion) {
-   
+
    indicador_grado.buscar_GradoAcademico(_organizacion)
 }
 Indicadores.prototype.indicador_EstadoCivil = function (_response, _organizacion) {
 
-   dato_estado = indicador_estado_civil.get_EstadoCivil(_response, _organizacion) 
+   dato_estado = indicador_estado_civil.get_EstadoCivil(_response, _organizacion)
    Highcharts.chart('container-estado',
                indicador_estado_civil.get_IndicadorConfig(dato_estado))
 }
@@ -273,7 +273,7 @@ IndicadorTotal.prototype.get_Total= function (_response, _organizacion) {
    var total = 0
    for (var i = 0; i < _response.length; i++) {
       //Excluye aquellos empleados que esten inactivos
-      if ((_response[i].pers_tipo_codigo != '1123') && 
+      if ((_response[i].pers_tipo_codigo != '1123') &&
          (_response[i].pers_tipo_codigo != '1124') &&
          (_response[i].pers_tipo_codigo != '1125') &&
          (_response[i].pers_tipo_codigo != '1118')){
@@ -307,7 +307,7 @@ IndicadorGradoAcademico.prototype.buscar_GradoAcademico = function (_organizacio
          url: url_empledos_grado_academico ,
          method: "GET",
          success: function (response) {
-            
+
              // Empleados por grado de estudios
             empleado_grado = indicador_grado.get_EmpleadoGrado(response, _organizacion)
             // Grados de estudios existentes
@@ -315,12 +315,12 @@ IndicadorGradoAcademico.prototype.buscar_GradoAcademico = function (_organizacio
 
             Highcharts.chart('container-grado',
                indicador_grado.get_IndicadorConfig(grado_estudios,empleado_grado))
-  
+
          },
          error: function (response) {
             alertify("Ocurrio error al consultar")
          }
-   })  
+   })
 }
 IndicadorGradoAcademico.prototype.get_EmpleadoGrado = function (_response, _organizacion) {
    // Contiene num de empleados por grado academico
@@ -345,7 +345,7 @@ IndicadorGradoAcademico.prototype.asigna_GradoEstudios = function(_response) {
    //Coloca en un array los grados academicos (REPETIDAS)
    var grados_estudios = []
    var cont = 0
-   
+
    for (var i = 0; i < _response.length; i++) {
       if(_response[i].qua_grado_academico != ""){
          grados_estudios[cont] = _response[i].qua_grado_academico
@@ -356,7 +356,7 @@ IndicadorGradoAcademico.prototype.asigna_GradoEstudios = function(_response) {
 }
 IndicadorGradoAcademico.prototype.ordena_GradoEstudios = function(_response) {
    //Coloca en un array los grados academicos existentes(SIN REPETIRSE)
-   var grado = []; 
+   var grado = [];
    var grados_estudios = indicador_grado.asigna_GradoEstudios(_response)
 
    for(var i = 0; i < grados_estudios.length; i++) {
@@ -371,6 +371,13 @@ IndicadorGradoAcademico.prototype.get_IndicadorConfig = function (_grados,_emple
    return {
       chart: {
          type: 'column',
+         events: {
+           load: function(event) {
+              event.target.reflow();
+            }
+         },
+         borderColor: '#d4d4d4',
+         borderWidth: 1,
       },
       title: {
          text: 'Distribución por grado de estudios'
@@ -414,13 +421,13 @@ IndicadorGradoAcademico.prototype.get_IndicadorConfig = function (_grados,_emple
 IndicadorGradoAcademico.prototype.get_DataConfig = function (_grados,_empleado_grado) {
    var datos = []
    for (var i = 0; i < _grados.length; i++) {
-               datos.push( 
+               datos.push(
                   {   name: _grados[i],
                      y: _empleado_grado[i],
                   }
-               
+
                )
-            }              
+            }
    return datos
 }
 
@@ -435,7 +442,7 @@ IndicadorEstadoCivil.prototype.get_EstadoCivil = function (_response, _organizac
    var estado = [0,0,0]
    for (var i = 0; i < _response.length; i++) {
       //Exluye aquellos empleados que esten inactivos
-      if ((_response[i].pers_tipo_codigo != '1123') && 
+      if ((_response[i].pers_tipo_codigo != '1123') &&
          (_response[i].pers_tipo_codigo != '1124') &&
          (_response[i].pers_tipo_codigo != '1125') &&
          (_response[i].pers_tipo_codigo != '1118')){
@@ -461,7 +468,14 @@ IndicadorEstadoCivil.prototype.get_IndicadorConfig = function (_estado) {
             options3d: {
                enabled: true,
                alpha: 45
-            }
+            },
+            events: {
+              load: function(event) {
+                 event.target.reflow();
+               }
+            },
+            borderColor: '#d4d4d4',
+            borderWidth: 1,
          },
          title: {
             text: 'Distribución por estado civil'
@@ -470,7 +484,7 @@ IndicadorEstadoCivil.prototype.get_IndicadorConfig = function (_estado) {
             text: ''
          },
          legend: {
-            
+
          },
          navigation: {
             buttonOptions: {
@@ -493,8 +507,8 @@ IndicadorEstadoCivil.prototype.get_IndicadorConfig = function (_estado) {
 }
 IndicadorEstadoCivil.prototype.get_DataConfig = function (_estado) {
 
-   return [ 
-            ['Casado: <br>'+ _estado[0], _estado[0]], 
+   return [
+            ['Casado: <br>'+ _estado[0], _estado[0]],
             ['Soltero: <br>'+ _estado[1], _estado[1]],
             ['Desconocido: <br>'+ _estado[2], _estado[2]],
          ]
@@ -515,7 +529,7 @@ IndicadorRangoEdad.prototype.get_RangoEdad = function (_response, _organizacion)
 
    for (var i = 0; i < _response.length; i++) {
       //Exluye aquellos empleados que esten inactivos
-      if ((_response[i].pers_tipo_codigo != '1123') && 
+      if ((_response[i].pers_tipo_codigo != '1123') &&
          (_response[i].pers_tipo_codigo != '1124') &&
          (_response[i].pers_tipo_codigo != '1125') &&
          (_response[i].pers_tipo_codigo != '1118')){
@@ -524,7 +538,7 @@ IndicadorRangoEdad.prototype.get_RangoEdad = function (_response, _organizacion)
             anio_nacimiento = (_response[i].pers_fecha_nacimiento).split("-")[0]
             mes_nacimiento = (_response[i].pers_fecha_nacimiento).split("-")[1]
             edad = fecha_actual.getFullYear() - anio_nacimiento
-            
+
             //Validar si el empleado ya cumplio años o aun los cumplira
             if (fecha_actual.getMonth()<mes_nacimiento)
                edad= edad-1
@@ -555,7 +569,14 @@ IndicadorRangoEdad.prototype.get_IndicadorConfig = function (_rango_edades) {
          plotBackgroundColor: null,
          plotBorderWidth: null,
          plotShadow: false,
-         type: 'pie'
+         type: 'pie',
+         events: {
+           load: function(event) {
+              event.target.reflow();
+            }
+         },
+         borderColor: '#d4d4d4',
+         borderWidth: 1,
       },
       title: {
          text: 'Distribución por rango de edades'
@@ -636,7 +657,7 @@ IndicadorSexo.prototype.get_Sexo = function (_response, _organizacion) {
 
    for (var i = 0; i < _response.length; i++) {
       //Exluye aquellos empleados que esten inactivos
-      if ((_response[i].pers_tipo_codigo != '1123') && 
+      if ((_response[i].pers_tipo_codigo != '1123') &&
          (_response[i].pers_tipo_codigo != '1124') &&
          (_response[i].pers_tipo_codigo != '1125') &&
          (_response[i].pers_tipo_codigo != '1118')){
@@ -658,7 +679,14 @@ IndicadorSexo.prototype.get_IndicadorConfig = function (_empleado_sexo) {
 
    return {
       chart: {
-         type: 'column'
+         type: 'column',
+         events: {
+           load: function(event) {
+              event.target.reflow();
+            }
+         },
+         borderColor: '#d4d4d4',
+         borderWidth: 1,
       },
       title: {
          text: 'Distribución por sexo'
@@ -727,7 +755,7 @@ IndicadorOrganizacion.prototype.get_EmpleadoOrganizacion = function (_response) 
        num[i] = 0
         for(var j=0; j < _response.length; j++){
 
-            if ((_response[j].pers_tipo_codigo != '1123') && 
+            if ((_response[j].pers_tipo_codigo != '1123') &&
                 (_response[j].pers_tipo_codigo != '1124') &&
                 (_response[j].pers_tipo_codigo != '1125') &&
                 (_response[j].pers_tipo_codigo != '1118')){
@@ -745,7 +773,7 @@ IndicadorOrganizacion.prototype.asigna_Organizaciones = function(_response) {
     //Calcula en un array las organizaciones existentes(REPETIDAS)
     var organizaciones = []
     var num = 0
-    
+
     for (var i = 0; i < _response.length; i++) {
          if(_response[i].asig_organizacion_desc != ''){
             organizaciones[num] = _response[i].asig_organizacion_desc
@@ -753,12 +781,12 @@ IndicadorOrganizacion.prototype.asigna_Organizaciones = function(_response) {
          }
       }
 
-        
+
     return organizaciones
 }
 IndicadorOrganizacion.prototype.ordena_Organizaciones = function(_response) {
     //Ordena en un array las organizaciones existentes(SIN REPETIRSE)
-    var organizacion = []; 
+    var organizacion = [];
     var organizaciones = indicador_organizacion.asigna_Organizaciones(_response)
 
     for(var i = 0; i < organizaciones.length; i++) {
@@ -772,6 +800,13 @@ IndicadorOrganizacion.prototype.get_IndicadorConfig = function (_organizacion,_e
       chart: {
          height: 600,
          type: 'column',
+         events: {
+           load: function(event) {
+              event.target.reflow();
+            }
+         },
+         borderColor: '#d4d4d4',
+         borderWidth: 1,
       },
       title: {
          text: 'Distribución por organizacion'
@@ -815,12 +850,12 @@ IndicadorOrganizacion.prototype.get_IndicadorConfig = function (_organizacion,_e
 IndicadorOrganizacion.prototype.get_DataConfig = function (_organizacion,_empleado_org) {
    var datos = []
    for (var i = 0; i < _organizacion.length; i++) {
-               datos.push( 
+               datos.push(
                   {  name: _organizacion[i],
                      y: _empleado_org[i],
                   }
-               
+
                )
-            }              
+            }
    return datos
 }

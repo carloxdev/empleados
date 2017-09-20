@@ -298,6 +298,17 @@
    }
 
 }
+@media (min-width: 768px) {
+   .nova-highcharts-padding-left {
+     padding-left: 8px;
+   }
+   .nova-highcharts-padding-rigth {
+     padding-right: 8px;
+  }
+}
+.nova-fix-width-highcharts {
+    width: calc(100% + .5px);
+}
 .nova-margin-highcharts {
     margin: 10px 0px 20px;
 }
