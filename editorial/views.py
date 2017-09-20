@@ -25,13 +25,13 @@ from .forms import PostForm
 class PostPublicados(View):
 
     def __init__(self):
-        self.template_name = 'post/post_publicados.html'
+        self.template_name = 'inicio.html'
 
     def get(self, request):
 
         registros = Post.objects.filter(status="PUB").order_by("-created_date")
 
-        owner = Profile.objects.get(is_owner=True)
+        # owner = Profile.objects.get()
 
         paginador = Paginator(registros, 10)
         pagina = request.GET.get('page')
@@ -45,7 +45,7 @@ class PostPublicados(View):
 
         contexto = {
             'registros': posts,
-            'propietario': owner
+            # 'propietario': owner
         }
 
         return render(request, self.template_name, contexto)

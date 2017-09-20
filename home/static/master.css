@@ -939,4 +939,64 @@ div.nova-panel-arbol li.list-group-item {
     line-height: 80px;
     font-family: Helvetica Neue !important, sans-serif;
 }
+.nova-post-titulo{
+  font-size: 25px;
+  text-align: center;
+  border-bottom: 1px solid #d9d9d9; 
+}
+.nova-sin-estilo{
+  color: #1E5382 !important;  
+}
+.nova-sin-estilo:hover{
+  color: #3577B2 !important;  
+}
+.nova-centrar{
+  text-align: center !important;
+}
+.nova-ul-estilo {
+  left: 30%;
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+.nova-li-estilo li{
+  list-style: none;
+  display:inline;
+  margin-right: 3em;
+}
+.nova-post-container{
+  padding-bottom: 0px !important;
+  padding-top: 0px !important;
+}
+.nova-post-imagen{
+  display: block;
+  max-width: 100%;
+  height: auto;
+  -webkit-box-shadow: -1px 2px 5px -1px rgba(0,0,0,0.75);
+  -moz-box-shadow: -1px 2px 5px -1px rgba(0,0,0,0.75);
+  box-shadow: -1px 2px 5px -1px rgba(0,0,0,0.75);
+}
+.nova-post-contenido{
+  font-size: 14px;
+}
+.nova-post-sombreado{
+  -moz-box-shadow: inset 0 0 5px #E5E4E4;
+  -webkit-box-shadow: inset 0 0 5px #E5E4E4;
+  box-shadow: inset 0 0 5px #E5E4E4;
+}
+@media (max-width: 767px) {
+  .nova-ul-estilo {
+    left: 0% !important;
+    margin-top: 1em;
+    margin-bottom: 1em;
+  }
+  .nova-li-estilo li{
+    list-style: none;
+    display:inline;
+    margin-right: 3em;
+  }
+  .nova-post-contenido{
+    margin-top: 1em;
+  }
+
+}
 /* FIN COMUNICACIÓN INTERNA */

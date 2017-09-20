@@ -38,3 +38,5 @@ rsc/migrations/*
 editorial/migrations/*
 
 capitalhumano/utilities.py
+
+
