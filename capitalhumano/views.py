@@ -137,11 +137,13 @@ class EmpleadoLista(View):
                         argumentos['asig_organizacion_clave__exact'] = request.POST[
                             datosPost]
 
-                    if datosPost == 'fecha_contratacion':
-                        valores = request.POST.get(
-                            'fecha_contratacion').split(" al ")
-                        argumentos['pers_fecha_contratacion__gte'] = valores[0]
-                        argumentos['pers_fecha_contratacion__lte'] = valores[1]
+                    if datosPost == 'contratacion_desde':
+                        fecha = request.POST.get('contratacion_desde').split('/')
+                        argumentos['pers_fecha_contratacion__gte'] = fecha[2]+'-'+fecha[1]+'-'+fecha[0]
+
+                    if datosPost == 'contratacion_hasta':
+                        fecha = request.POST.get('contratacion_hasta').split('/')
+                        argumentos['pers_fecha_contratacion__lte'] = fecha[2]+'-'+fecha[1]+'-'+fecha[0]
 
                     if datosPost == 'grup_compania_jde':
                         argumentos['grup_compania_jde__contains'] = request.POST[
@@ -450,11 +452,11 @@ class PerfilPuestoNuevo(View):
 
         if formulario.is_valid():
             perfilpuesto = formulario.save(commit=False)
-            
+
             perfilpuesto.asig_puesto_clave = datos_formulario.get('desc_puesto')
             perfilpuesto.created_by = request.user.profile
 
-            
+
             perfilpuesto.save()
 
             return redirect(reverse('capitalhumano:perfil_nuevo'))
@@ -474,4 +476,3 @@ class PerfilPuestoConfiguraciones(View):
     def get(self, request):
 
         return render(request, 'perfilpuesto/perfil_configuracion.html')
-
