@@ -54,150 +54,149 @@
                </div>
             </div> <!-- Panel -->
          </div> <!-- col-sm-12 -->
-      </div>
+      </div> <!-- wizard-row -->
+   </div> <!-- main-content -->
+</div> <!-- be-content -->
 
-      <!-- Targeta Filtros -->
-      <div id="id_tarjeta_filtros" role="dialog" class="modal fade colored-header colored-header-primary">
-         <div class="modal-dialog modal-lg nova-modal-responsive">
-            <div class="modal-content nova-modal-maxwidth nova-modal-content-responsive">
+<!-- Targeta Filtros -->
+<div id="id_tarjeta_filtros" role="dialog" class="modal fade colored-header colored-header-primary">
+   <div class="modal-dialog modal-lg nova-modal-responsive">
+      <div class="modal-content nova-modal-maxwidth nova-modal-content-responsive">
 
-               <div class="modal-header nova-modal-header">
-                  <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
-                  <h3 class="modal-title">Filtros</h3>
-               </div>
+         <div class="modal-header nova-modal-header">
+            <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
+            <h3 class="modal-title">Filtros</h3>
+         </div>
 
-               <form method="POST" id="id_formulario_filtro"> {% csrf_token %}
+         <form method="POST" id="id_formulario_filtro"> {% csrf_token %}
 
-                  <div id="id_accordion_empleados" class="panel-group accordion nova-modal-accordion">
+            <div id="id_accordion_empleados" class="panel-group accordion nova-modal-accordion">
 
-                     <div class="panel panel-default nova-modal-accordion-panel nova-accordion-border-bottom">
-                        <div class="panel-heading">
-                           <h4 class="panel-title">
-                              <a data-toggle="collapse" data-parent="#id_accordion_empleados" href="#collapse_personales" aria-expanded="true" class="">
-                                 <i class="icon mdi mdi-chevron-down"></i> Datos Personales:
-                              </a>
-                           </h4>
-                        </div>
-                        <div id="collapse_personales" class="panel-collapse collapse in" aria-expanded="true">
+               <div class="panel panel-default nova-modal-accordion-panel nova-accordion-border-bottom">
+                  <div class="panel-heading">
+                     <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#id_accordion_empleados" href="#collapse_personales" aria-expanded="true" class="">
+                           <i class="icon mdi mdi-chevron-down"></i> Datos Personales:
+                        </a>
+                     </h4>
+                  </div>
+                  <div id="collapse_personales" class="panel-collapse collapse in" aria-expanded="true">
 
-                           <div class="nova-accordion-row">
+                     <div class="nova-accordion-row">
 
-                              <!-- pers_primer_nombre -->
-                              {% tag_field_popup_filter form.pers_primer_nombre 4 %}
+                        <!-- pers_primer_nombre -->
+                        {% tag_field_popup_filter form.pers_primer_nombre 4 %}
 
-                              <!-- pers_segundo_nombre -->
-                              {% tag_field_popup_filter form.pers_segundo_nombre 4 %}
+                        <!-- pers_segundo_nombre -->
+                        {% tag_field_popup_filter form.pers_segundo_nombre 4 %}
 
-                              <!-- pers_apellido_paterno -->
-                              {% tag_field_popup_filter form.pers_apellido_paterno 4 %}
+                        <!-- pers_apellido_paterno -->
+                        {% tag_field_popup_filter form.pers_apellido_paterno 4 %}
 
-                           </div>
-
-                           <div class="nova-accordion-row">
-
-                              <!-- pers_apellido_materno -->
-                              {% tag_field_popup_filter form.pers_apellido_materno 4 %}
-
-                              <!-- pers_genero_clave -->
-                              {% tag_field_popup_radio_button form.pers_genero_clave 4 %}
-
-                           </div>
-
-                        </div>
                      </div>
 
-                     <div class="panel panel-default nova-modal-accordion-panel">
-                        <div class="panel-heading">
-                           <h4 class="panel-title">
-                              <a data-toggle="collapse" data-parent="#id_accordion_empleados" href="#collapse_corporativo" class="collapsed" aria-expanded="false">
-                                 <i class="icon mdi mdi-chevron-down"></i> Datos Corporativos:
-                              </a>
-                           </h4>
-                        </div>
-                        <div id="collapse_corporativo" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
+                     <div class="nova-accordion-row">
 
-                           <div class="nova-accordion-row">
+                        <!-- pers_apellido_materno -->
+                        {% tag_field_popup_filter form.pers_apellido_materno 4 %}
 
-                              <!-- pers_empleado_numero -->
-                              {% tag_field_popup_filter form.pers_empleado_numero 4 %}
+                        <!-- pers_genero_clave -->
+                        {% tag_field_popup_radio_button form.pers_genero_clave 4 %}
 
-                              <!-- pers_tipo_codigo -->
-                              {% tag_field_popup_filter form.pers_tipo_codigo 4 %}
-
-                              <!-- asig_puesto_clave -->
-                              {% tag_field_popup_filter form.asig_puesto_clave 4 %}
-
-                           </div>
-
-                           <div class="nova-accordion-row">
-
-                              <!-- asig_organizacion_clave -->
-                              {% tag_field_popup_filter form.asig_organizacion_clave 4 %}
-
-                              <!-- fecha_contratacion -->
-                              {% tag_field_popup_daterangepicker 'Fecha Contratación' form.contratacion_desde form.contratacion_hasta 8 6 6 %}
-
-                              <!-- grup_compania_jde -->
-                              {% tag_field_popup_filter form.grup_compania_jde 4 %}
-
-                           </div>
-
-                           <div class="nova-accordion-row">
-
-                              <!-- zona
-                              <div class="col-sm-4">
-                                 <div class="form-group {% if form.zona.errors %} has-error {% endif %}">
-
-                                 <label class="control-label">
-                                 <i class="fa {% if form.zona.errors %} fa-asterisk {% endif %}"></i>
-                                    Zona
-                                 </label>
-                                 <p>
-                                    {{ form.zona }}
-                                 </p>
-                                 {% for error in form.zona.errors %}
-                                    <span class="help-block">{{ error }}</span>
-                                 {% endfor %}
-                                 </div>
-                              </div>
-                              -->
-
-                              <!-- grup_fase_jde -->
-                              {% tag_field_popup_filter form.grup_fase_jde 4 %}
-
-                              <!-- grup_nomina_jde -->
-                              {% tag_field_popup_radio_button form.grup_nomina_jde 4 %}
-
-                           </div>
-
-                        </div>
                      </div>
 
-                  </div><!-- Accordion-->
-               </form>
-               <div class="modal-footer nova-modal-footer">
-                  <div class="row col-sm-12">
-                     <button type="button" id="boton_cancelar" data-dismiss="modal" class="btn btn-default pull-left">
-                        Cancelar
-                     </button>
-
-                     <button type="button" id="boton_limpiar" class="btn btn-default nova-btn">
-                        <i class="fa fa-eraser"></i>
-                        Limpiar
-                     </button>
-
-                     <button type="submit" id="boton_buscar" name="buscar" value="buscar" class="btn nova-btn btn-primary btn-lg pull-right">
-                        <i class="icon icon-left mdi mdi-search nova-white"></i>
-                        Buscar
-                     </button>
                   </div>
                </div>
-            </div> <!-- Modal content-->
-         </div> <!-- Modal dialog -->
-      </div><!-- Modal -->
 
-   </div>
-</div>
+               <div class="panel panel-default nova-modal-accordion-panel">
+                  <div class="panel-heading">
+                     <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#id_accordion_empleados" href="#collapse_corporativo" class="collapsed" aria-expanded="false">
+                           <i class="icon mdi mdi-chevron-down"></i> Datos Corporativos:
+                        </a>
+                     </h4>
+                  </div>
+                  <div id="collapse_corporativo" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
+
+                     <div class="nova-accordion-row">
+
+                        <!-- pers_empleado_numero -->
+                        {% tag_field_popup_filter form.pers_empleado_numero 4 %}
+
+                        <!-- pers_tipo_codigo -->
+                        {% tag_field_popup_filter form.pers_tipo_codigo 4 %}
+
+                        <!-- asig_puesto_clave -->
+                        {% tag_field_popup_filter form.asig_puesto_clave 4 %}
+
+                     </div>
+
+                     <div class="nova-accordion-row">
+
+                        <!-- asig_organizacion_clave -->
+                        {% tag_field_popup_filter form.asig_organizacion_clave 4 %}
+
+                        <!-- fecha_contratacion -->
+                        {% tag_field_popup_daterangepicker 'Fecha Contratación' form.contratacion_desde form.contratacion_hasta 8 6 6 %}
+
+                        <!-- grup_compania_jde -->
+                        {% tag_field_popup_filter form.grup_compania_jde 4 %}
+
+                     </div>
+
+                     <div class="nova-accordion-row">
+
+                        <!-- zona
+                        <div class="col-sm-4">
+                           <div class="form-group {% if form.zona.errors %} has-error {% endif %}">
+
+                           <label class="control-label">
+                           <i class="fa {% if form.zona.errors %} fa-asterisk {% endif %}"></i>
+                              Zona
+                           </label>
+                           <p>
+                              {{ form.zona }}
+                           </p>
+                           {% for error in form.zona.errors %}
+                              <span class="help-block">{{ error }}</span>
+                           {% endfor %}
+                           </div>
+                        </div>
+                        -->
+
+                        <!-- grup_fase_jde -->
+                        {% tag_field_popup_filter form.grup_fase_jde 4 %}
+
+                        <!-- grup_nomina_jde -->
+                        {% tag_field_popup_radio_button form.grup_nomina_jde 4 %}
+
+                     </div>
+
+                  </div>
+               </div>
+
+            </div><!-- Accordion-->
+         </form>
+         <div class="modal-footer nova-modal-footer">
+            <div class="row col-sm-12">
+               <button type="button" id="boton_cancelar" data-dismiss="modal" class="btn btn-default pull-left">
+                  Cancelar
+               </button>
+
+               <button type="button" id="boton_limpiar" class="btn btn-default nova-btn">
+                  <i class="fa fa-eraser"></i>
+                  Limpiar
+               </button>
+
+               <button type="submit" id="boton_buscar" name="buscar" value="buscar" class="btn nova-btn btn-primary btn-lg pull-right">
+                  <i class="icon icon-left mdi mdi-search nova-white"></i>
+                  Buscar
+               </button>
+            </div>
+         </div>
+      </div> <!-- Modal content-->
+   </div> <!-- Modal dialog -->
+</div><!-- Modal -->
 
 {% endblock contenido %}
 

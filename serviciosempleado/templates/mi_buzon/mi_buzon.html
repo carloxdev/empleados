@@ -23,31 +23,50 @@
          <li id="menu" data-opcion="serviciosempleado_buzon">Mi buzón</li>
         </ol>
     </div>
+
     <div class="main-content container-fluid nova-main-content">
-        <div class="fuelux">
-        {% if request.user.profile.clave_rh != None%}
-            <div class="panel panel-default panel-table">
-                    <div class="panel-heading nova-panel-borde-contenido nova-panel-tools">
-                            <a href="#modal_filtro" class="btn nova-btn btn-rounded btn-space btn-primary pull-right" data-toggle="modal" id="boton_filtros">
-                                <i class="icon icon-left mdi mdi-search nova-white"></i> Filtros
-                            </a>
-                            <a href="#modal_nuevo" class="btn nova-btn btn-rounded btn-space btn-default pull-right " data-toggle="modal" id="boton_nueva_solicitud">
-                                <i class="icon icon-left mdi mdi-plus-circle nova-black"></i> Nueva solicitud
-                             </a>
-                            <div class="title hidden-xs">Solicitudes</div> 
-                    </div>
-                    <input type="hide" class="hide" value="{{ request.user.profile.clave_rh }}" id="numero_empleado" readonly="True">
-                    <div id="grid_resultados" class="nova-div-overflow">
-                    </div>
-            </div> <!-- Panel -->
-        {% else %}
-            <div class="col-sm-12 widget">
-                <h3> Su usuario no tiene asignado un empleado.</h3>
-            </div>
-        {% endif%}
-        </div> <!-- col sm 12-->
-    </div>
-</div> 
+
+      <div class="row wizard-row">
+
+         <div class="col-sm-12">
+
+            {% if request.user.profile.clave_rh != None %}
+
+               <div class="panel panel-default panel-table">
+
+                  <div class="panel-heading panel-border nova-panel-heading">
+                     <div class="tools pull-right" id="toolbar">
+                        <a href="#modal_filtro" class="btn nova-btn btn-rounded btn-space btn-primary" data-toggle="modal" id="boton_filtros">
+                           <i class="icon icon-left mdi mdi-search nova-white"></i> Filtros
+                        </a>
+                        <a href="#modal_nuevo" class="btn nova-btn btn-rounded btn-space btn-default " data-toggle="modal" id="boton_nueva_solicitud">
+                           <i class="icon icon-left mdi mdi-plus-circle nova-black"></i> Nueva solicitud
+                        </a>
+                     </div>
+                     <div class="title hidden-xs">Solicitudes</div>
+                  </div>
+
+                  <input type="hide" class="hide" value="{{ request.user.profile.clave_rh }}" id="numero_empleado" readonly="True">
+
+                  <div id="grid_resultados" class="nova-div-overflow">
+                  </div>
+
+               </div> <!-- Panel -->
+
+            {% else %}
+
+               <div class="col-sm-12 widget">
+                   <h3> Su usuario no tiene asignado un empleado.</h3>
+               </div>
+
+            {% endif%}
+
+         </div> <!-- col-sm-12 -->
+
+      </div>  <!-- wizard-row -->
+   </div> <!-- main-content -->
+
+</div>
 <!-- Modal nuevo-->
 <div id="modal_nuevo" role="dialog" class="modal fade colored-header colored-header-primary">
     <div class="modal-dialog custom-width nova-modal-responsive">
@@ -84,25 +103,26 @@
                         </div>
                     </div>
                 <input type="hide" class="hide" value="{{ request.user.profile.pk }}" id="id_created_by" readonly="True">
-            </div>  
-            </form>          
-                                    
+            </div>
+            </form>
+
             <!-- Botones de acción -->
             <div class="modal-footer nova-modal-footer">
                 <div class="row col-sm-12">
                     <button type="button" id="boton_limpiar_nuevo" class="btn btn-default pull-left">
-                            <i class="fa fa-eraser"></i>
-                            Limpiar
+                         <i class="fa fa-eraser"></i>
+                         Limpiar
                     </button>
                     <button type="submit" id="boton_enviar" class="btn btn-primary pull-right" method='POST'>
-                            <i class="icon icon-left mdi mdi-mail-send nova-white"></i>
-                            Enviar
+                         <i class="icon icon-left mdi mdi-mail-send nova-white"></i>
+                         Enviar
                     </button>
                 </div>
             </div>
         </div> <!-- Modal content-->
     </div> <!-- Modal dialog -->
 </div><!-- Modal nuevo-->
+
 <!-- Modal filtro-->
 <div id="modal_filtro" role="dialog" class="modal fade colored-header colored-header-primary">
         <div class="modal-dialog custom-width nova-modal-responsive">
@@ -117,10 +137,10 @@
                             <!-- Status-->
                             {% tag_filter form.status %}
                             <!-- Asunto-->
-                            {% tag_filter form.asuntofiltro %}        
-                          
+                            {% tag_filter form.asuntofiltro %}
+
                         </div>
-                                                
+
                         <!-- Botones de acción -->
                         <div class="modal-footer nova-modal-footer">
                                 <div class="row col-sm-12">
@@ -138,6 +158,7 @@
                 </div> <!-- Modal content-->
         </div> <!-- Modal dialog -->
 </div><!-- Modal filtro -->
+
 <!-- Modal mostrar informacion-->
 <div id="modal_informacion" role="dialog" class="modal fade colored-header colored-header-primary">
         <div class="modal-dialog custom-width nova-modal-responsive">
@@ -174,16 +195,17 @@
                             <div class="col-sm-8 xs-pt-5 nova-modal-informacion">
                                 <textarea class="form-control input-xs"readonly="true" id="id_observaciones_informacion"></textarea>
                             </div>
-                        </div>                
+                        </div>
                     </div>
                 </div> <!-- Modal mostrar informacion-->
         </div> <!-- Modal dialog -->
 </div><!-- Modal -->
+
 <!-- Modal ver archivos-->
 <div id="modal_ver_informacion" role="dialog" class="modal fade colored-header colored-header-primary">
     <div class="modal-dialog custom-width nova-modal-responsive">
         <div class="modal-content nova-modal-content-responsive">
-            
+
             <div class="modal-header nova-modal-header">
                 <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
                 <h3 class="modal-title">Archivos adjuntos</h3>
@@ -212,7 +234,7 @@
         </div> <!-- Modal content-->
     </div> <!-- Modal dialog -->
 </div><!-- Modal -->
-<!-- Modal ver archivos-->
+
 {% endblock contenido %}
 {% block scripts %}
     <!-- Kendo Js -->

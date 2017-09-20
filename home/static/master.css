@@ -287,6 +287,11 @@
    border-top: 1px solid #d4d4d4;
 }
 
+.nova-panel-mensaje {
+   background-color: #ffffff;
+   text-align: center
+}
+
 @media (min-width: 768px) {
 
    .nova-col-filter {
@@ -297,6 +302,17 @@
       padding-bottom: 20px;
    }
 
+}
+@media (min-width: 768px) {
+   .nova-highcharts-padding-left {
+     padding-left: 8px;
+   }
+   .nova-highcharts-padding-rigth {
+     padding-right: 8px;
+  }
+}
+.nova-fix-width-highcharts {
+    width: calc(100% + .5px);
 }
 .nova-margin-highcharts {
     margin: 10px 0px 20px;
@@ -939,6 +955,7 @@ div.nova-panel-arbol li.list-group-item {
     line-height: 80px;
     font-family: Helvetica Neue !important, sans-serif;
 }
+<<<<<<< HEAD
 .nova-post-titulo{
   font-size: 25px;
   text-align: center;
