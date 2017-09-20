@@ -1,10 +1,11 @@
+# Django's Libraries
 from django.conf.urls import url
 
+# Own's Libraries
 from .views import ViaticoLista
 from .views import ViaticoCabeceraNuevo
 from .views import ViaticoCabeceraEditar
 
-# VISTAS
 from .views import AnticipoLista
 
 urlpatterns = [

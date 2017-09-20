@@ -538,3 +538,20 @@ class UsuarioPerfilContrasena(LoginRequiredMixin, View):
             'form2': form_contrasena_nueva,
         }
         return render(_request, self.template_name, contexto)
+
+
+class Autorizacion(View):
+    template_name = "autorizacion.html"
+
+    def get(self, _request):
+
+        documentos = []
+
+        contexto = {
+            'documents': documentos
+        }
+
+        return render(_request, self.template_name, contexto)
+
+    def post(self, _request):
+        pass
