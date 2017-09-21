@@ -1052,3 +1052,12 @@ div.nova-panel-arbol li.list-group-item {
    border: 1px solid #d4d4d4;
 }
 /* perfil puesto */
+
+.nova-border-top-pantone {
+   border-top-color: #d62828;
+}
+.nova-btn-pantone {
+   color: #fff;
+   background-color: #d62828;
+   border-color: #d62828;
+}

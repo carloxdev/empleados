@@ -25,6 +25,9 @@
     <!-- Main Theme CSS -->
     <link rel="stylesheet" href="{% static 'theme/css/style.css' %}" type="text/css"/>
 
+    <!-- Nova -->
+    <link rel="stylesheet" href="{% static 'master.css' %}"/>
+
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -41,7 +44,7 @@
             <div class="main-content container-fluid">
                 <div class="splash-container">
 
-                    <div class="panel panel-default panel-border-color panel-border-color-primary">
+                    <div class="panel panel-default panel-border-color nova-border-top-pantone">
                         <div class="panel-heading">
                             <img src="{% static '/images/logos/logo.png' %}" alt="Nuvoil" width="120" height="120" class="logo-img">
                             <span class="splash-description">Ingrese los datos correspondientes</span>
@@ -61,7 +64,7 @@
                                 {% endif %}
 
                                 <div class="form-group login-submit">
-                                    <button data-dismiss="modal" type="submit" class="btn btn-primary btn-xl">Iniciar sesión</button>
+                                    <button data-dismiss="modal" type="submit" class="btn nova-btn-pantone btn-xl">Iniciar sesión</button>
                                 </div>
                             </form>
                         </div>

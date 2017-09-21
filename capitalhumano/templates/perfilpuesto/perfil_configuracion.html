@@ -15,7 +15,7 @@
     <!-- Theme -->
     <link rel="stylesheet" href="{% static 'theme/lib/datetimepicker/css/bootstrap-datetimepicker.min.css' %}"/>
     <link rel="stylesheet" href="{% static 'theme/lib/daterangepicker/css/daterangepicker.css' %}"/>
-    
+
     <!-- Nova -->
     <link rel="stylesheet" href="{% static 'grid.css' %}"/>
 {% endblock css %}
@@ -23,14 +23,13 @@
 {% block contenido %}
 
 <div class="be-content">
-    <div class="page-head">
-        <h2 class="page-head-title">Capital Humano</h2>
-        <ol class="breadcrumb page-head-nav">
-            <li class="active" >Perfiles / Configuraciones </li>
-        </ol>
-    </div>
-    
-
+   <div class="page-head nova-page-head">
+   	<h2 class="page-head-title nova-title">Capital Humano</h2>
+   	<ol class="breadcrumb page-head-nav pull-right">
+   	 <li> <a href="{% url 'home:inicio'%}">Inicio</a></li>
+   	 <li class="active" id="menu" data-opcion="capitalhumano_perfil_configuracion">Perfiles Configuración</li>
+   	</ol>
+   </div>
 
 <div class="main-content container-fluid">
         <div class="row">
@@ -45,7 +44,7 @@
                     <div class="tab-content">
                           <div id="home" class="tab-pane active cont">
                                <div class="panel panel-default panel-table">
-                                  <div class="panel-heading">Catalogo Grados Academicos 
+                                  <div class="panel-heading">Catalogo Grados Academicos
                                     <div class="tools"><span class="icon mdi mdi-download"></span><span class="icon mdi mdi-more-vert"></span></div>
                                   </div>
                                     <div class="panel-body">
@@ -68,55 +67,55 @@
                                             <td>
                                               Leer y Escribir
                                             </td>
-                                            
+
                                           </tr>
                                           <tr class="odd gradeA">
                                             <td>3</td>
                                             <td>
                                              Primaria
                                             </td>
-                                            
+
                                           </tr>
                                           <tr class="even gradeA">
                                             <td>4</td>
                                             <td>
                                              Secundaria
                                             </td>
-                                            
+
                                           </tr>
                                           <tr class="odd gradeA">
                                             <td>5</td>
                                             <td>Bachillerato</td>
-                                           
+
                                           </tr>
                                           <tr class="even gradeA">
                                             <td>6</td>
                                             <td>Tecnica</td>
-                                            
+
                                           </tr>
-                                         
+
                                           <tr class="gradeU">
                                             <td>7</td>
                                             <td>Licenciatura</td>
-                                           
+
                                           </tr>
 
                                            <tr class="gradeU">
                                             <td>8</td>
                                             <td>Especialidad</td>
-                                            
+
                                           </tr>
 
                                            <tr class="gradeU">
                                             <td>9</td>
                                             <td>Maestria</td>
-                                            
+
                                           </tr>
 
                                            <tr class="gradeU">
                                             <td>10</td>
                                             <td>Doctorado</td>
-                                           
+
                                           </tr>
                                         </tbody>
                                       </table>
@@ -189,7 +188,7 @@
                                           <td class="center">78.101.SUPERVISOR OPERATIVO</td>
                                           <td class="center">INGENIERO</td>
                                         </tr>
-                                       
+
                                         <tr class="gradeU">
                                           <td>Administrativo</td>
                                           <td>201031</td>
@@ -201,9 +200,9 @@
                                     </table>
                                   </div>
                                 </div>
-                
+
                                 <div class="panel panel-default panel-table">
-                                  <div class="panel-heading">Catalogo de Areas de Experiencias 
+                                  <div class="panel-heading">Catalogo de Areas de Experiencias
                                     <div class="tools"><span class="icon mdi mdi-download"></span><span class="icon mdi mdi-more-vert"></span></div><span class="panel-subtitle">Tecnicas</span>
                                   </div>
                                     <div class="panel-body">
@@ -216,19 +215,19 @@
                                         <tbody>
                                           <tr class="odd gradeX">
                                             <td>Aleman (hablado y escrito)</td>
-                                           
+
                                           </tr>
                                           <tr class="even gradeC">
                                             <td>Ingles (hablado y escrito)</td>
-                                            
+
                                           </tr>
                                           <tr class="odd gradeA">
                                             <td>Manejo de Excel</td>
-                                          
+
                                           </tr>
                                           <tr class="even gradeA">
                                             <td>Manejo de ERP JDE</td>
-                                           
+
                                           </tr>
                                           <tr class="odd gradeA">
                                             <td>Comunicacion efectiva</td>
@@ -236,7 +235,7 @@
                                           </tr>
                                           <tr class="even gradeA">
                                             <td>Habilidades de negociacion</td>
-                                           
+
                                           </tr>
                                           </tbody>
                                         </table>
@@ -247,7 +246,7 @@
 
                           <div id="profile" class="tab-pane cont">
                             <div class="panel panel-default panel-table">
-                            <div class="panel-heading">Permisos de Modulos  
+                            <div class="panel-heading">Permisos de Modulos
                               <div class="tools"><span class="icon mdi mdi-download"></span><span class="icon mdi mdi-more-vert"></span></div><span class="panel-subtitle">Capital Humano</span>
                             </div>
                               <div class="panel-body">
@@ -260,19 +259,19 @@
                                   <tbody>
                                     <tr class="odd gradeX">
                                       <td>Cursos y Capacitaciones</td>
-                                     
+
                                     </tr>
                                     <tr class="even gradeC">
                                       <td>Organigrama</td>
-                                      
+
                                     </tr>
                                     <tr class="odd gradeA">
                                       <td>Perfil de Puestos</td>
-                                    
+
                                     </tr>
                                     <tr class="even gradeA">
                                       <td>Vacaciones</td>
-                                     
+
                                     </tr>
                                     <tr class="odd gradeA">
                                       <td>Dashboard</td>
@@ -290,7 +289,7 @@
 </div>
 
 </div>
-              
+
 
 
 
@@ -307,7 +306,7 @@
     <script src="{% static 'theme/lib/jquery-ui/jquery-ui.min.js' %}"></script>
     <script src="{% static 'theme/lib/datetimepicker/js/bootstrap-datetimepicker.min.js' %}"></script>
     <script src="{% static 'theme/lib/datetimepicker/js/locales/bootstrap-datetimepicker.es.js' %}"></script>
-    <script src="{% static 'theme/lib/daterangepicker/js/daterangepicker.js' %}"></script>    
+    <script src="{% static 'theme/lib/daterangepicker/js/daterangepicker.js' %}"></script>
 
     <!-- NOVA -->
     <script src="{% static 'empleados_filtro.js' %}"></script>

@@ -6,6 +6,7 @@ from django.forms import TextInput
 from django.forms import CheckboxInput
 from django.forms import Textarea
 from django.forms import Select
+from django.forms import NumberInput
 # from django.forms import Form
 from django.forms import CharField
 from django.forms import ChoiceField
@@ -13,7 +14,6 @@ from django.forms import IntegerField
 from django.forms import BooleanField
 from django.forms import FileInput
 from django.forms import HiddenInput
-
 
 # Librerias Propias:
 from .models import IncidenciaDocumento
@@ -31,12 +31,32 @@ from django.forms import Form
 
 class IncidenciaDocumentoFilterForm(forms.Form):
 
-    numero = IntegerField(label="No. Documento")
-    tipo = ChoiceField(widget=Select())
-    fecha_mayorque = CharField()
-    fecha_menorque = CharField()
-    es_registrable = BooleanField()
-    zona = ChoiceField(widget=Select())
+    # numero = IntegerField(label="No. Documento")
+    # tipo = ChoiceField(widget=Select())
+    # fecha_mayorque = CharField()
+    # fecha_menorque = CharField()
+    numero = IntegerField(
+        label="No de Documento:",
+        widget=NumberInput(
+            attrs={'class': 'form-control input-xs', 'min': '1'})
+    )
+    tipo = ChoiceField(
+        label="Tipo:",
+        widget=Select(attrs={'class': 'select2 nova-select2'})
+    )
+    fecha_mayorque = CharField(
+        widget=TextInput(attrs={'class': 'form-control input-xs', 'readonly': 'readonly'})
+    )
+    fecha_menorque = CharField(
+        widget=TextInput(attrs={'class': 'form-control input-xs', 'readonly': 'readonly'})
+    )
+    es_registrable = BooleanField(
+        label="Registrable:"
+    )
+    zona = ChoiceField(
+        label="Zona:",
+        widget=Select(attrs={'class': 'select2 nova-select2'})
+    )
 
     def __init__(self, *args, **kwargs):
         super(IncidenciaDocumentoFilterForm, self).__init__(
@@ -143,11 +163,11 @@ class IncidenciaDocumentoForm(ModelForm):
         # 'updated_date' ]
 
         labels = {
-            'tipo': 'Tipo',
-            'es_registrable': 'Registrable',
-            'fecha': 'Fecha',
-            'empleado_id': 'Empleado id ',
-            'zona': 'Zona',
+            'tipo': 'Tipo:',
+            'es_registrable': 'Registrable:',
+            'fecha': 'Fecha:',
+            'empleado_id': 'Empleado:',
+            'zona': 'Zona:',
             # 'empleado_nombre': 'Nombre',
             #'empleado_zona': 'Zona del Empleado',
             # 'empleado_proyecto': 'Proyecto id',
@@ -158,21 +178,20 @@ class IncidenciaDocumentoForm(ModelForm):
             #'empleado_organizacion': 'Organizacion',
             #'area': 'Area id',
             #'area_descripcion': 'Area',
-            'lugar': 'Lugar de Incidencia',
-            'dias_incapcidad': 'Dias Incapacidad',
-            'centro_atencion': 'Centro de Atencion',
-            'tiene_acr': 'acr Analisis Raiz Causa',
+            'lugar': 'Lugar de Incidencia:',
+            'dias_incapcidad': 'Dias Incapacidad:',
+            'centro_atencion': 'Centro de Atención:',
+            'tiene_acr': 'Analisis Raiz Causa:',
             # 'status': 'Estado de la solicitud',
         }
 
         widgets = {
-            'tipo': Select(attrs={'class': 'form-control input-sm'}),
+            'tipo': Select(attrs={'class': 'select2 nova-select2'}),
             'es_registrable': CheckboxInput(),
-            'fecha': TextInput(attrs={'class': 'form-control pull-right input-sm',
-                                      'data-date-format': 'yyyy-mm-dd'}),
-            'empleado_id': Select(attrs={'class': 'form-control input-sm'}),
+            'fecha': TextInput(attrs={'class': 'form-control input-xs', 'readonly': 'readonly'}),
+            'empleado_id': Select(attrs={'class': 'select2 nova-select2'}),
             # 'empleado_nombre': TextInput(attrs={'class': 'form-control input-xs'}),
-            'zona': Select(attrs={'class': 'form-control input-sm'}),
+            'zona': Select(attrs={'class': 'select2 nova-select2'}),
             # 'empleado_proyecto': TextInput(attrs={'class': 'form-control input-xs'}),
             # 'empleado_proyecto_desc': TextInput(attrs={'class': 'form-control input-xs'}),
             # 'empleado_puesto': TextInput(attrs={'class': 'form-control input-xs'}),
@@ -181,9 +200,9 @@ class IncidenciaDocumentoForm(ModelForm):
             # 'empleado_organizacion': TextInput(attrs={'class': 'form-control input-xs'}),
             #'area': TextInput(attrs={'class': 'form-control input-xs'}),
             #'area_descripcion': TextInput(attrs={'class': 'form-control input-xs'}),
-            'lugar': TextInput(attrs={'class': 'form-control input-xs'}),
-            'dias_incapacidad': TextInput(attrs={'class': 'form-control input-xs'}),
-            'centro_atencion': Select(attrs={'class': 'form-control input-sm'}),
+            'lugar': TextInput(attrs={'class': 'input-xs'}),
+            'dias_incapacidad': NumberInput(attrs={'class': 'form-control input-xs', 'min': '1'}),
+            'centro_atencion': Select(attrs={'class': 'select2 nova-select2'}),
             'tiene_acr': CheckboxInput(),
             # 'status': Select(attrs={'class': 'form-control input-sm'}),
             #'Archivo': FileInput(attrs={'class': 'dropzone dz-clickable dz-started'}),
@@ -220,7 +239,7 @@ class IncidenciaResolucionForm(Form):
 
     tipo = ChoiceField(widget=Select())
     estatus = ChoiceField(widget=Select())
-    
+
 
     def __init__(self, *args, **kwargs):
         super(IncidenciaResolucionForm, self).__init__(
@@ -249,9 +268,9 @@ class IncidenciaResolucionForm(Form):
 
         valores = [('', '------'),('abi', 'Abierto'), ('cer', 'Cerrado'),('pro', 'Proceso'),('can', 'Cancelado')]
 
-        return valores    
+        return valores
 
-        
+
 
     # estatus = ChoiceField(
     #     widget=Select(
@@ -259,7 +278,7 @@ class IncidenciaResolucionForm(Form):
     #     )
     # )
 
-        
+
 
     # def __init__(self, *args, **kwargs):
     #     super(IncidenciaResolucionForm, self).__init__(
@@ -287,7 +306,3 @@ class IncidenciaResolucionForm(Form):
     #         )
 
     #     return valores
-
-        
-
-     
