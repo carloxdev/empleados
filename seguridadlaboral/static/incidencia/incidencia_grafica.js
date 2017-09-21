@@ -32,7 +32,7 @@ IndicadorTotal.prototype.init_Components = function () {
 }
 IndicadorTotal.prototype.buscar_Empleados = function () {
 
-	
+
     $.ajax({
             url: url_incidenciazonaemp,
             method: "GET",
@@ -44,9 +44,9 @@ IndicadorTotal.prototype.buscar_Empleados = function () {
 
             },
             error: function (response) {
-                alert("Ocurrio error al consultar")
+                alertify.error("Ocurrio error al consultar")
             }
-    })  
+    })
 
     $.ajax({
             url: url_incidenciazonaemp,
@@ -59,9 +59,9 @@ IndicadorTotal.prototype.buscar_Empleados = function () {
 
             },
             error: function (response) {
-                alert("Ocurrio error al consultar")
+                alertify.error("Ocurrio error al consultar")
             }
-    })  
+    })
     // para el grid
     $.ajax({
             url: url_incidenciazonaemp,
@@ -74,9 +74,9 @@ IndicadorTotal.prototype.buscar_Empleados = function () {
 
             },
             error: function (response) {
-                alert("Ocurrio error al consultar")
+                alertify.error("Ocurrio error al consultar")
             }
-    })  
+    })
 }
 
 
@@ -185,7 +185,7 @@ function Set_Grid(response) {
               template: '<div style="text-align:center;">#= trir #</div>'
 
           },
-         
+
 
         ],
 
@@ -197,10 +197,10 @@ function Set_Grid(response) {
             pageSizes: false,
             buttonCount: 7
         },
-        
+
         //aggregate: [{ field: "totalempleado", aggregate: "sum" },
-        //            { field: "incidencias_registrables", aggregate: "sum" }  ] 
-                        
+        //            { field: "incidencias_registrables", aggregate: "sum" }  ]
+
         sortable: false,
         columnMenu: false,
         scrollable: false,
@@ -243,15 +243,17 @@ function Set_Grid(response) {
         var myJsonString = JSON.stringify(arr);
         var jsonArray = JSON.parse(JSON.stringify(arr));
 
-        
+
         console.log(jsonArray)
         console.log(jsonArray[0].stack)
         console.log(datosGrafica[0])
 
-       
+
     Highcharts.chart('container-trir', {
     chart: {
-        type: 'column'
+        type: 'column',
+        borderColor: '#d4d4d4',
+        borderWidth: 1,
     },
     title: {
         text: 'TRIR de acuerdo al total de personal por zona'
@@ -266,7 +268,7 @@ function Set_Grid(response) {
     series: [{
     	    name: "TRIR por Zona",
             colorByPoint: true,
-            data: jsonArray 
+            data: jsonArray
         }]
 });
 
@@ -274,7 +276,7 @@ function Set_Grid(response) {
 
 function drawPieChart(seriesData) {
 
-    
+
     //Highcharts.setOptions({
     //    colors: ['#FF8000', '#FF0000', '#0080FF', '#04B431', '#A9F5D0']
     //});
@@ -285,7 +287,9 @@ function drawPieChart(seriesData) {
             plotBorderWidth: null,
             plotShadow: false,
             type: 'pie',
-            colors: ['#A5DF00', '#FF0000', '#0080FF', '#04B431', '#A9F5D0']
+            colors: ['#A5DF00', '#FF0000', '#0080FF', '#04B431', '#A9F5D0'],
+            borderColor: '#d4d4d4',
+            borderWidth: 1,
         },
         title: {
             text: 'Personal por Zona '
@@ -313,13 +317,13 @@ function drawPieChart(seriesData) {
         }]
     });
 
-  
+
 
 }
 
 function drawPieChart2(seriesData) {
 
-    
+
     //Highcharts.setOptions({
     //    colors: ['#FF8000', '#FF0000', '#0080FF', '#04B431', '#A9F5D0']
     //});
@@ -328,9 +332,11 @@ function drawPieChart2(seriesData) {
         chart: {
              type: 'pie',
              options3d: {
-              enabled: true,
-              alpha: 45
-             }
+                 enabled: true,
+                 alpha: 45
+             },
+             borderColor: '#d4d4d4',
+             borderWidth: 1,
         },
         title: {
             text: 'Incidentes por Zona '
@@ -372,7 +378,9 @@ IndicadorTotal.prototype.get_IndicadorConfig = function (seriesData) {
     return {
         chart: {
             type: 'pie',
-           
+            borderColor: '#d4d4d4',
+            borderWidth: 1,
+
         },
         title: {
             text: 'Distribución de empleados por zona'
@@ -400,14 +408,14 @@ IndicadorTotal.prototype.get_IndicadorConfig = function (seriesData) {
             colorByPoint: true,
             data: seriesData
         }]
-	   
+
 	     // series: [{
       //       name: this.get_DataConfig(_datos),
       //       colorByPoint: true,
       //       data: this.get_DataConfig(_datos),
       //       showInLegend: true
       //   }]
-        
+
     }
 }
 // IndicadorTotal.prototype.get_DataConfig = function (_datos) {

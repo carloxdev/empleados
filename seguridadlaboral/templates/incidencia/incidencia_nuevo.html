@@ -28,13 +28,13 @@
 <div class="be-content">
 
 	<div class="page-head nova-page-head">
-	        <h2 class="page-head-title nova-title">Nueva Incidencia</h2>
-	        <ol class="breadcrumb page-head-nav pull-right">
-	            <li><a href="{% url 'home:inicio'%}">Inicio</a></li>
-	            <li><a href="{% url 'seguridadlaboral:incidencia_lista' %}">Incidencias</a></li>
-					<li class="active" id="menu" data-opcion="seguridad_incidencia">{% if id %}Edición {% else %} Nuevo {% endif %}</li>
-	        </ol>
-	    </div>
+		<h2 class="page-head-title nova-title">Nueva Incidencia</h2>
+	  	<ol class="breadcrumb page-head-nav pull-right">
+	      <li><a href="{% url 'home:inicio'%}">Inicio</a></li>
+	      <li><a href="{% url 'seguridadlaboral:incidencia_lista' %}">Incidencias</a></li>
+			<li class="active" id="menu" data-opcion="seguridad_incidencia">{% if id %}Edición {% else %} Nuevo {% endif %}</li>
+	  	</ol>
+	</div>
 
 	<div class="main-content container-fluid nova-main-content">
 
