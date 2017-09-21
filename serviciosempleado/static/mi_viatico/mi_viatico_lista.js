@@ -63,6 +63,9 @@ function PopupFiltros() {
 }
 PopupFiltros.prototype.init_Components = function () {
 
+   this.$empleado.select2(appnova.get_ConfigSelect2())
+   this.$unidad_negocio.select2(appnova.get_ConfigSelect2())
+   this.$autorizador.select2(appnova.get_ConfigSelect2())
    this.$created_date_mayorque.datepicker(appnova.get_ConfDatePicker())
    this.$created_date_menorque.datepicker(appnova.get_ConfDatePicker())
 }

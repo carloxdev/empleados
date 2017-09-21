@@ -61,12 +61,12 @@ class MiViaticoFilterForm(Form):
     )
 
     empleado = ChoiceField(
-        widget=SelectCustom(attrs={'class': 'form-control input-xs'})
+        widget=SelectCustom(attrs={'class': 'select2 form-control input-xs'})
     )
 
     unidad_negocio = ChoiceField(
         label="Unidad de Negocio",
-        widget=SelectCustom(attrs={'class': 'form-control input-xs'})
+        widget=SelectCustom(attrs={'class': 'select2 form-control input-xs'})
     )
 
     ciudad_destino = CharField(
@@ -75,7 +75,7 @@ class MiViaticoFilterForm(Form):
     )
 
     autorizador = ChoiceField(
-        widget=SelectCustom(attrs={'class': 'form-control input-xs'})
+        widget=SelectCustom(attrs={'class': 'select2 form-control input-xs'})
     )
 
     created_date_mayorque = CharField(
