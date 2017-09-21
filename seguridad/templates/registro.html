@@ -101,6 +101,35 @@
                                                 <!-- Confirmar Password -->
                                                 {% tag_field_registro form.password2 4 8 %}
 
+                                                <!-- Terminos y Condiciones -->
+                                                <div class="form-group {% if form.accept_terms.errors %} has-error {% endif %}">
+
+                                                    <label class="col-sm-4 control-label">
+
+                                                    </label>
+
+                                                    <div class="col-sm-8">
+
+                                                      <div class="be-checkbox inline">
+                                                          {{ form.accept_terms }}
+                                                          <label for="{{ form.accept_terms.id_for_label }}">
+                                                              <span>Acepto los terminos y condiciones descritos en este <a href="{% static 'documents/aprivacida_v3.0.pdf' %}">documento</a> </span>
+                                                          </label>
+                                                      </div>
+
+                                                      {% if form.accept_terms.errors %}
+                                                      <ul class="parsley-errors-list filled">
+                                                          {% for error in form.accept_terms.errors %}
+                                                          <li class="parsley-required">
+                                                              {{ error }}
+                                                          </li>
+                                                          {% endfor %}
+                                                      </ul>
+                                                      {% endif %}
+                                                    </div>
+
+                                                </div>
+
                                                 <!-- Ocultos -->
                                                 <div>
                                                     {{ form.clave_jde }}

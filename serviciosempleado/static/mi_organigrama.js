@@ -24,9 +24,9 @@ function Organigrama(){
 
   this.$organizacion = $('#id_organizacion')
   this.$numero_empleado = $('#id_empleado')
-
+  this.$contenedor = $('#content-data')
   this.obtener_Datos()
-  
+
 }
 Organigrama.prototype.obtener_Datos = function (){
 
@@ -44,7 +44,7 @@ Organigrama.prototype.crear_Url = function(_organizacion, _numero_empleado){
 }
 Organigrama.prototype.crear_Diagrama = function(_url){
 
-  $('#content-data').orgchart({
+   this.$contenedor.orgchart({
     'data' : _url,
     // 'depth': 3,
     // 'collapsed': true,
@@ -58,5 +58,8 @@ Organigrama.prototype.crear_Diagrama = function(_url){
     'nodeUbicacion': 'ubicacion',
     'nodeStaff': 'staff',
     'toggleSiblingsResp': true,
+    'initCompleted': function($chart) {
+        organigrama.$contenedor.addClass("nova-contenido-borde")
+      }
   })
 }

@@ -1,0 +1,11 @@
+<div class="form-group">
+    <label class="col-sm-{{ size_label }} nova-col-filter control-label">{{ campo.label }}</label>
+    <div class="col-sm-{{ size_field }} xs-pt-5">
+      {% for radio in campo %}
+         <div class="be-radio inline">
+            {{ radio.tag }}
+            <label for="{{ radio.id_for_label }}">{{ radio.choice_label }}</label>
+         </div>
+      {% endfor %}
+    </div>
+</div>

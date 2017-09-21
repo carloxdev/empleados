@@ -47,7 +47,7 @@ function PopupFiltros() {
     this.$empleado_clave = $('#id_empleado_clave')
     this.$un_clave = $('#id_un_clave')
     this.$ciudad_destino = $('#id_ciudad_destino')
-    this.$autorizador = $('#id_autorizador')
+    this.$autorizador_clave = $('#id_autorizador_clave')
 
     this.$created_date_mayorque = $('#id_created_date_mayorque_group')
     this.$created_date_menorque = $('#id_created_date_menorque_group')
@@ -63,7 +63,7 @@ PopupFiltros.prototype.init = function () {
 
     this.$empleado_clave.select2(appnova.get_ConfigSelect2())
     this.$un_clave.select2(appnova.get_ConfigSelect2())
-    this.$autorizador.select2(appnova.get_ConfigSelect2())
+    this.$autorizador_clave.select2(appnova.get_ConfigSelect2())
     this.$created_date_mayorque.datepicker({format: 'dd/mm/yyyy', autoclose: true})
     this.$created_date_menorque.datepicker({format: 'dd/mm/yyyy', autoclose: true})
 
@@ -110,7 +110,7 @@ PopupFiltros.prototype.get_Values = function (_page) {
         empleado_clave: this.$empleado_clave.val(),
         un_clave: this.$un_clave.val(),
         ciudad_destino: this.$ciudad_destino.val(),
-        autorizador_clave: this.$autorizador.val(),
+        autorizador_clave: this.$autorizador_clave.val(),
         created_date_mayorque: this.get_FechaMayorQue(),
         created_date_menorque: this.get_FechaMenorQue(),
     }
@@ -131,7 +131,7 @@ PopupFiltros.prototype.get_NoFiltrosAplicados = function () {
     if (this.$ciudad_destino.val() !=  "") {
         cantidad += 1
     }
-    if (this.$autorizador.val()  != "" ) {
+    if (this.$autorizador_clave.val()  != "" ) {
         cantidad += 1
     }
     if (this.get_FechaMayorQue() != "") {
@@ -171,7 +171,7 @@ PopupFiltros.prototype.click_BotonLimpiar = function (e) {
     e.data.$empleado_clave.val("").trigger("change")
     e.data.$un_clave.val("").trigger("change")
     e.data.$ciudad_destino.val("")
-    e.data.$autorizador.val("").trigger("change")
+    e.data.$autorizador_clave.val("").trigger("change")
     e.data.$created_date_mayorque.datepicker("clearDates")
     e.data.$created_date_menorque.datepicker("clearDates")
 }

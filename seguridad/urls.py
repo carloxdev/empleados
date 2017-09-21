@@ -7,8 +7,6 @@ from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
 
 # Librerias Propias
-
-# Views:
 from .views import Login
 from .views import Registro
 from .views import RegistroExito
@@ -21,7 +19,7 @@ from .views import UsuarioEditar
 from .views import UsuarioEditarContrasena
 from .views import UsuarioPerfil
 from .views import UsuarioPerfilContrasena
-
+from .views import Autorizacion
 
 app_name = "seguridad"
 
@@ -95,6 +93,7 @@ urlpatterns = [
         UsuarioPerfilContrasena.as_view(),
         name="usuario_perfil_contrasena"
     ),
+    url(r'^autorizacion/$', Autorizacion.as_view(), name="autorizacion"),
 ]
 
 if settings.DEBUG:

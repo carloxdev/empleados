@@ -27,24 +27,24 @@
          <li id="menu" data-opcion="capitalhumano_buzon">Buzón interno</li>
         </ol>
     </div>
-    <div class="main-content container-fluid">
+    <div class="main-content container-fluid nova-main-content">
         <div class="fuelux">
             <div class="panel panel-default panel-table">
-                    <div class="panel-heading nova-panel-borde-contenido nova-panel-tools">
+                    <div class="panel-heading panel-border nova-panel-heading">
                                 <button class="btn nova-btn btn-rounded btn-space btn-success pull-right" id="id_exportar">
                                     <i class="icon icon-left mdi mdi-download nova-white"></i>Exportar
                                 </button>
                                 <a href="#modal_filtro" class="btn nova-btn btn-rounded btn-space btn-primary pull-right" data-toggle="modal" id="boton_filtros">
                                         <i class="icon icon-left mdi mdi-search nova-white"></i>Filtros
                                 </a>
-                                <div class="title hidden-xs">Solicitudes</div> 
+                                <div class="title hidden-xs">Solicitudes</div>
                     </div>
                     <div id="grid_resultados" class="nova-div-overflow">
                     </div>
             </div> <!-- Panel -->
         </div> <!-- col sm 12-->
     </div>
-</div>  
+</div>
 
 <!-- Modal solicitudes-->
 <div id="modal_filtro" role="dialog" class="modal fade colored-header colored-header-primary">
@@ -63,10 +63,10 @@
                             <!-- Status-->
                             {% tag_filter form.status %}
                             <!-- Asunto-->
-                            {% tag_filter form.asunto %}        
-                          
+                            {% tag_filter form.asunto %}
+
                         </div>
-                                                
+
                         <!-- Botones de acción -->
                         <div class="modal-footer nova-modal-footer">
                                 <div class="row col-sm-12">
@@ -84,7 +84,7 @@
                 </div> <!-- Modal content-->
         </div> <!-- Modal dialog -->
 </div><!-- Modal -->
-<!-- Modal editar-->  
+<!-- Modal editar-->
 <div id="modal_editar" role="dialog" class="modal fade colored-header colored-header-primary">
         <div class="modal-dialog custom-width nova-modal-responsive">
                 <div class="modal-content nova-modal-content-responsive">
@@ -93,7 +93,7 @@
                             <h3 class="modal-title">Editar</h3>
                         </div>
                         <input type="hide" class="hide" value="{{ request.user.profile.id }}" id="id_updated_by">
-                        
+
                         <div class="modal-body form-horizontal">
                             <!-- Asunto -->
                             <div class="form-group">
@@ -122,16 +122,16 @@
                                 <div class="col-sm-8 xs-pt-5">
                                     {{ form2.observaciones }}
                                 </div>
-                            </div> 
+                            </div>
                             <!-- Archivos de respuesta -->
                             <div class="form-group">
                                 <label class="col-sm-3 nova-col-filter control-label">{{ form2.archivo.label }}</label>
                                 <div class="col-sm-8 xs-pt-5">
                                     {{ form2.archivo }}
                                 </div>
-                            </div>              
+                            </div>
                         </div>
-                                                
+
                         <!-- Botones de acción -->
                         <div class="modal-footer nova-modal-footer">
                                 <div class="row col-sm-12">
@@ -153,7 +153,7 @@
 <div id="modal_ver_informacion" role="dialog" class="modal fade colored-header colored-header-primary">
     <div class="modal-dialog custom-width nova-modal-responsive">
         <div class="modal-content nova-modal-content-responsive">
-            
+
             <div class="modal-header nova-modal-header">
                 <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
                 <h3 class="modal-title">Archivos adjuntos</h3>

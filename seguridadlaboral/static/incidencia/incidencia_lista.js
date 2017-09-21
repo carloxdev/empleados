@@ -15,12 +15,8 @@ var url_excel = window.location.origin + "/api-seguridadlaboral/incidenciadocume
 
 
 // OBJS
-var grid = null
 var filtros = null
 var resultados = null
-var toolbar = null
-
-
 
 /*-----------------------------------------------*\
             LOAD
@@ -30,7 +26,7 @@ $(document).ready(function () {
     // Inicializar URLS:
     //url_incidencia_editar = window.location.origin.toString() + $('#url_incidencia_editar').val()
     //alert(url_incidencia_editar)
-    
+
     filtros = new TargetaFiltros()
     resultados = new TargetaResultados()
 
@@ -61,22 +57,29 @@ function TargetaFiltros () {
     this.$fecha_creacion = $('#fecha_creacion')
     this.$id_fecha = $('#id_fecha')
     this.$es_registrable = $('#id_es_registrable')
-    this.$empleado_zona = $('#id_empleado_zona')
+    this.$empleado_zona = $('#id_zona')
+    this.$created_date_mayorque = $('#id_fecha_mayorque_group')
+    this.$created_date_menorque = $('#id_fecha_menorque_group')
 
     this.$boton_buscar = $('#boton_buscar')
     this.$boton_limpiar = $('#boton_limpiar')
-  
+
     this.init_Components()
     this.init_Events()
 
 }
-
 TargetaFiltros.prototype.init_Components = function () {
+
+   this.$tipo.select2(appnova.get_ConfigSelect2())
+   this.$empleado_zona.select2(appnova.get_ConfigSelect2())
+   this.$created_date_mayorque.datepicker({format: 'dd/mm/yyyy', autoclose: true})
+   this.$created_date_menorque.datepicker({format: 'dd/mm/yyyy', autoclose: true})
+
     // Estilos, Liberias
     //this.$fecha_mayorque.datepicker()
     //this.$fecha_menorque.datepicker()
-   //this.$fecha_creacion.daterangepicker(this.get_ConfDateRangePicker())  
-   
+   //this.$fecha_creacion.daterangepicker(this.get_ConfDateRangePicker())
+
        // this.$fecha.mask(
        //      "9999-99-99",
        //      {
@@ -84,10 +87,9 @@ TargetaFiltros.prototype.init_Components = function () {
        //      }
        // )
 
-       this.$id_fecha.datetimepicker(this.get_DateTimePickerConfig())
+   // this.$id_fecha.datetimepicker(this.get_DateTimePickerConfig())
 
 }
-
 TargetaFiltros.prototype.init_Events = function () {
 
     this.$id.on("hidden.bs.modal", this, this.hide)
@@ -95,7 +97,6 @@ TargetaFiltros.prototype.init_Events = function () {
     this.$boton_buscar.on("click", this, this.click_BotonBuscar)
     this.$boton_limpiar.on("click", this, this.click_BotonLimpiar)
 }
-
 TargetaFiltros.prototype.get_DateTimePickerConfig = function () {
     return {
         autoclose: true,
@@ -104,77 +105,18 @@ TargetaFiltros.prototype.get_DateTimePickerConfig = function () {
         format: "yyyy-mm-dd",
     }
 }
-
 TargetaFiltros.prototype.hide = function (e) {
     e.data.$fecha_creacion.data('daterangepicker').hide()
 }
-
-// TargetaFiltros.prototype.get_ConfiguracionCalendario = function(){
-    
-//     return{
-//         language: 'es',
-//         autoclose: true,
-//         minView: 2,
-//         format: 'yyyy-mm-dd'
-//     }
-
-//      return {
-//         autoclose: true,
-//         orientation: "bottom left",
-//         minViewMode: 2,
-//         format: "yyyy-mm-dd",
-//     }
-// }
-
-// TargetaFiltros.prototype.get_ConfDateRangePicker = function () {
-
-//     return {
-//         locale: {
-//             format: 'YYYY-MM-DD',
-//             applyLabel: "Aplicar",
-//             cancelLabel: "Cancelar",
-//             fromLabel: "Del",
-//             separator: " al ",
-//             toLabel: "Al",            
-//             weekLabel: "S",
-//             daysOfWeek: [
-//                 "Do",
-//                 "Lu",
-//                 "Ma",
-//                 "Mi",
-//                 "Ju",
-//                 "Vi",
-//                 "Sa"
-//             ],
-//             monthNames: [
-//                 "Enero",
-//                 "Febrero",
-//                 "Marzo",
-//                 "Abril",
-//                 "Mayo",
-//                 "Junio",
-//                 "Julio",
-//                 "Agosto",
-//                 "Septiembre",
-//                 "Octubre",
-//                 "Noviembre",
-//                 "Diciembre"
-//             ],          
-//         },
-//         startDate: '2017-01-01'
-//     }    
-// }
-
 TargetaFiltros.prototype.click_BotonBuscar = function (e) {
 
     e.preventDefault()
     resultados.grid.buscar()
     e.data.$id.modal('hide')
-   
-}
 
+}
 TargetaFiltros.prototype.click_BotonLimpiar = function (e) {
-    
+
     e.preventDefault()
     //alert("entro");
     e.data.$numero.val("")
@@ -184,9 +126,8 @@ TargetaFiltros.prototype.click_BotonLimpiar = function (e) {
     e.data.$fecha_creacion.data('daterangepicker').setStartDate(
         '01-01-2017'
     )
-      
-}
 
+}
 TargetaFiltros.prototype.get_Values = function (_page) {
 
     return {
@@ -200,7 +141,6 @@ TargetaFiltros.prototype.get_Values = function (_page) {
     }
 
 }
-
 TargetaFiltros.prototype.get_FiltrosExcel = function () {
 
     return {
@@ -223,8 +163,6 @@ function TargetaResultados () {
     this.toolbar = new Toolbar()
     this.grid = new Grid()
 }
-
-
 
 /*-----------------------------------------------*\
             OBJETO: Grid
@@ -250,23 +188,20 @@ Grid.prototype.init_Components = function () {
     this.kfuente_datos_excel = new kendo.data.DataSource(this.get_FuenteDatosExcel())
 
     // Se inicializa y configura el grid:
-    this.kgrid = this.$id.kendoGrid(this.get_Configuracion())    
+    this.kgrid = this.$id.kendoGrid(this.get_Configuracion())
 }
-
 Grid.prototype.click_BotonAnexos = function (e) {
 
     e.preventDefault()
     var fila = this.dataItem($(e.currentTarget).closest('tr'))
     window.location.href = url_anexos.replace("incidencia_id", fila.pk)
 }
-
 Grid.prototype.click_BotonSeguimiento = function (e) {
 
     e.preventDefault()
     var fila = this.dataItem($(e.currentTarget).closest('tr'))
     window.location.href = url_seguimiento.replace("incidencia_id", fila.pk)
 }
-
 Grid.prototype.get_DataSourceConfig = function () {
 
     return {
@@ -295,9 +230,8 @@ Grid.prototype.get_DataSourceConfig = function () {
         error: function (e) {
             alertify.error("Status: " + e.status + "; Error message: " + e.errorThrown)
         },
-    } 
+    }
 }
-
 Grid.prototype.get_Campos = function () {
 
     return {
@@ -337,40 +271,40 @@ Grid.prototype.get_Configuracion = function () {
         scrollable: true,
         pageable: true,
         noRecords: {
-            template: "<div class='grid-empy'> No se encontraron registros </div>"
+            template: "<div class='nova-grid-empy'> No se encontraron registros </div>"
         },
         dataBound: this.set_Icons,
-    }    
+    }
 }
 Grid.prototype.get_Columnas = function () {
 
     return [
-        { 
-            field: "pk", 
-            title: "TICKET", 
+        {
+            field: "pk",
+            title: "TICKET",
             width:"100px",
             //template: '<a class="btn btn-default nova-url" href="#=Grid.prototype.get_EditUrl(pk)#">#=pk#</a>',
             template: '<a class="btn btn-default nova-url" href="#=url_incidencia_editar  + pk + "/" + "editar/"  #">#=pk#</a>',
         },
         {
-           command: [ 
+           command: [
                 {
                    text: "Anexos",
                    click: this.click_BotonAnexos,
                    className: "btn btn-space btn-primary"
-                },          
-            ],           
+                },
+            ],
            title: " ",
            width: "120px"
         },
         {
-           command: [ 
+           command: [
                 {
                    text: "Seguimiento",
                    click: this.click_BotonSeguimiento,
                    className: "btn btn-space btn-primary"
-                },             
-            ],           
+                },
+            ],
            title: " ",
            width: "120px"
         },
@@ -394,25 +328,20 @@ Grid.prototype.get_Columnas = function () {
         { field: "centro_atencion", title: "CENTRO ATENCION", width:"100px" },
         { field: "tiene_acr", title: "ACR", width:"50px" },
         { field: "status", title: "STATUS", width:"80px" },
-        
+
     ]
 }
-
 Grid.prototype.get_EditUrl = function(_pk) {
-  return url_incidencia_editar.replace('/0/', '/' + _pk + '/')   
-} 
-
+  return url_incidencia_editar.replace('/0/', '/' + _pk + '/')
+}
 Grid.prototype.buscar = function() {
-    
+
     this.kfuente_datos.page(1)
 }
-
 Grid.prototype.leer_Datos = function() {
-    
+
     this.kfuente_datos_excel.read()
 }
-
-
 Grid.prototype.get_FuenteDatosExcel = function (e) {
 
     return {
@@ -440,15 +369,14 @@ Grid.prototype.get_FuenteDatosExcel = function (e) {
             alertify.error("Status: " + e.status + "; Error message: " + e.errorThrown)
         },
     }
-    
 }
-
 Grid.prototype.set_Icons = function (e) {
 
     e.sender.tbody.find(".k-button.fa.fa-pencil").each(function(idx, element){
         $(element).removeClass("fa fa-pencil").find("span").addClass("fa fa-pencil")
-    })   
+    })
 }
+
 /*-----------------------------------------------*\
             OBJETO: TOOLBAR
 \*-----------------------------------------------*/
@@ -463,7 +391,6 @@ Toolbar.prototype.init = function (e) {
 
     this.$boton_exportar.on("click", this, this.click_BotonExportar)
 }
-
 Toolbar.prototype.Inicializar_CeldasExcel = function (e) {
 
     if (resultados.grid.get_Columnas != null)
@@ -495,7 +422,6 @@ Toolbar.prototype.Inicializar_CeldasExcel = function (e) {
         ]
     }];
 }
-
 Toolbar.prototype.click_BotonExportar = function (e) {
 
     resultados.grid.leer_Datos()

@@ -2,6 +2,8 @@
 
 {% load static from staticfiles %}
 
+{% load custom_tags %}
+
 {% block titulo %} Incidencias {% endblock titulo %}
 
 {% block title-page %} Documentos de Incidencias {% endblock title-page %}
@@ -13,9 +15,8 @@
     <link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.common-bootstrap.min.css' %}"/>
     <link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.bootstrap.min.css' %}"/>
 
-    <!-- Theme -->
-    <link rel="stylesheet" href="{% static 'theme/lib/datetimepicker/css/bootstrap-datetimepicker.min.css' %}"/>
-    <link rel="stylesheet" href="{% static 'theme/lib/daterangepicker/css/daterangepicker.css' %}"/>
+    <!-- DatePicker -->
+    <link rel="stylesheet" href="{% static 'libs/bootstrap-datepicker/2.0/dist/css/bootstrap-datepicker.min.css' %}"/>
 
     <!-- Nova -->
     <link rel="stylesheet" href="{% static 'grid.css' %}"/>
@@ -26,17 +27,17 @@
 
 <div class="be-content">
 
-    <div class="page-head">
-        <h2 class="page-head-title nova-title">Documentos de Incidencias</h2>
-        <ol class="breadcrumb page-head-nav pull-right">
-            <li><a href="{% url 'home:inicio' %}">Inicio</a></li>
-            <li class="active">Incidencias</li>
-        </ol>   
-    </div>
+   <div class="page-head nova-page-head">
+      <h2 class="page-head-title nova-title">Documentos de Incidencias</h2>
+      <ol class="breadcrumb page-head-nav pull-right">
+         <li> <a href="{% url 'home:inicio'%}">Inicio</a></li>
+         <li class="active" id="menu" data-opcion="seguridad_incidencia">Incidencias</li>
+      </ol>
+   </div>
 
     <div>
         <!--<form action="">-->
-            
+
             {# {{ form.as_p }} #}
         <!--</form>
 
@@ -45,18 +46,19 @@
     </div>
 
     <!-- Targeta Resultados -->
-    <div class="main-content container-fluid nova-main-content">  
-        <div class="col-md-12 nova-col">
+    <div class="main-content container-fluid nova-main-content">
+      <div class="row wizard-row">
+         <div class="col-md-12 nova-col">
                 <div class="panel panel-default panel-table">
-                    <div class="panel-heading panel-border nova-panel-heading"> 
+                    <div class="panel-heading panel-border nova-panel-heading">
                         <div class="tools pull-right nova-tools" id="toolbar">
 
-                            <a href="{% url 'seguridadlaboral:incidencia_nuevo' %}" 
+                            <a href="{% url 'seguridadlaboral:incidencia_nuevo' %}"
                                 class="btn nova-btn btn-rounded btn-space btn-default" id="boton_nuevo">
-                                <i class="icon icon-left mdi mdi-plus-circle nova-black"></i>Nuevo Documento 
+                                <i class="icon icon-left mdi mdi-plus-circle nova-black"></i>Nuevo Documento
                             </a>
 
-                            <a href="#tarjeta_filtros" 
+                            <a href="#tarjeta_filtros"
                                 class="btn nova-btn btn-rounded btn-space btn-primary" data-toggle="modal" id="boton_filtros">
                                 <i class="icon icon-left mdi mdi-search nova-white"></i>Filtros
                             </a>
@@ -71,61 +73,32 @@
                     </div><!-- "Panel Body" -->
               </div> <!-- Panel -->
         </div><!-- col md 12 -->
+      </div>
     </div>
 
      <!-- Targeta Filtros -->
     <div id="tarjeta_filtros" tabindex="-1" role="dialog" class="modal fade colored-header colored-header-primary in">
         <div class="modal-dialog custom-width">
             <div class="modal-content">
-                
+
                 <div class="modal-header nova-modal-header">
                     <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
                     <h3 class="modal-title">Filtros</h3>
                 </div>
-                    
+
                 <!-- <div class=" nova-modal-body-padding"> -->
                 <form id="formulario_filtro" class="modal-body form-horizontal">
                 <!-- <div class="modal-body"> -->
 
-                    <div class="form-group">
-                        <label class="col-sm-3 nova-col-filter control-label">No de Documento:</label>
-                        <div class="col-sm-6 xs-pt-5">
-                          {{ form.numero}}
-                        </div>
-                    </div>
+                   {% tag_filter form.numero %}
 
-                    <div class="form-group">
-                      <label class="col-sm-3 nova-col-filter control-label">Tipo:</label>
-                      <div class="col-sm-6 xs-pt-5">
-                        {{ form.tipo }}
-                      </div>
-                    </div>
+                   {% tag_filter form.tipo %}
 
-                    <div class="form-group">
-                      <label class="col-sm-3 nova-col-filter control-label">Registrable:</label>
-                      <div class="col-sm-6 xs-pt-5">
-                        {{ form.es_registrable }}
-                      </div>
-                    </div>
+                   {% tag_filter form.zona %}
 
-                    <div class="form-group">
-                      <label class="col-sm-3 nova-col-filter control-label">Zona:</label>
-                      <div class="col-sm-6 xs-pt-5">
-                        {{ form.zona }}
-                      </div>
-                    </div>
+                   {% tag_filter_dates 'Fecha mayor/menor' form.fecha_mayorque form.fecha_menorque %}
 
-                     <div class="form-group">
-                        <label class="col-sm-3 nova-col-filter control-label">Fecha: </label>
-                        <div class="col-sm-6 xs-pt-5">
-                            <div class="input-group"> 
-                                <input type="text" value="" readonly="" class="form-control input-xs" id="fecha_creacion">
-                                <span class="input-group-addon btn btn-primary">
-                                    <i class="icon-th mdi mdi-calendar"></i>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
+                   {% tag_filter form.es_registrable %}
 
                 </form><!-- Modal body-->
 
@@ -158,15 +131,14 @@
 
     <!--JSZIP -->
     <script src="{% static 'libs/kendo/2015.2.624/js/jszip.min.js' %}"></script>
+
     <!-- Kendo Js -->
     <script src="{% static 'libs/kendo/2015.2.624/js/cultures/kendo.culture.es-MX.min.js' %}"></script>
     <script src="{% static 'libs/kendo/2015.2.624/js/kendo.web.min.js' %}"></script>
 
-    <!-- Theme -->
-    <script src="{% static 'theme/lib/jquery-ui/jquery-ui.min.js' %}"></script>
-    <script src="{% static 'theme/lib/datetimepicker/js/bootstrap-datetimepicker.min.js' %}"></script>
-    <script src="{% static 'theme/lib/datetimepicker/js/locales/bootstrap-datetimepicker.es.js' %}"></script>
-    <script src="{% static 'theme/lib/daterangepicker/js/daterangepicker.js' %}"></script>
+    <!-- DatePicker -->
+    <script src="{% static 'libs/bootstrap-datepicker/2.0/dist/js/bootstrap-datepicker.min.js' %}"></script>
+    <script src="{% static 'libs/bootstrap-datepicker/2.0/dist/locales/bootstrap-datepicker.es.min.js' %}"></script>
 
     <!-- Nova -->
     <script src="{% static 'incidencia/incidencia_lista.js' %}"></script>

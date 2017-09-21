@@ -13,26 +13,31 @@
 {% block contenido %}
 
 <div class="be-content">
-        <div class="page-head nova-page-head">
-            <h2 class="page-head-title nova-title">Mi Organigrama</h2>
-            <ol class="breadcrumb page-head-nav pull-right">
-                <li> <a href="{% url 'home:inicio'%}">Inicio</a></li>
-                <li class="active" id="menu" data-opcion="serviciosempleado_organigrama" >Mi Organigrama </li>
-            </ol>
-        </div>
-        <div class="main-content container-fluid">
-            {% if request.user.profile.clave_rh != None%}
+   <div class="page-head nova-page-head">
+      <h2 class="page-head-title nova-title">Mi Organigrama</h2>
+      <ol class="breadcrumb page-head-nav pull-right">
+          <li> <a href="{% url 'home:inicio'%}">Inicio</a></li>
+          <li class="active" id="menu" data-opcion="serviciosempleado_organigrama" >Mi Organigrama </li>
+      </ol>
+   </div>
+   <div class="main-content container-fluid nova-main-content">
+
+         {% if request.user.profile.clave_rh != None%}
+             <div class="row wizard-row">
                 <input type="hidden" id="id_organizacion" value="{{ organizacion }}" readonly="True"></input>
                 <input type="hidden" id="id_empleado" value="{{ request.user.profile.clave_rh }}" readonly="True"></input>
                 <div class="col-sm-12">
                      <div class="nova-contenedor-organigrama" id="content-data"></div>
                 </div>  <!-- End col-sm-12 -->
-            {% else %}
-                <div class="col-sm-12 widget">
-                    <h3> Su usuario no tiene asignado un empleado.</h3>
-                </div>
-            {% endif%}
-         </div><!-- End Main COntent -->
+             </div>
+         {% else %}
+             <div class="col-sm-12 widget nova-contenido-borde nova-panel-mensaje">
+                 <h3> Su usuario no tiene asignado un empleado.</h3>
+             </div>
+         {% endif%}
+
+
+   </div><!-- End Main COntent -->
 </div>
 
 {% endblock contenido %}
@@ -46,5 +51,3 @@
      <script src="{% static 'mi_organigrama.js' %}"></script>
 
 {% endblock scripts %}
-
-

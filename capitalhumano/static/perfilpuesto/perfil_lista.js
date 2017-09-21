@@ -10,17 +10,15 @@ var url_perfil_puesto_bypage = window.location.origin + "/api-capitalhumano/perf
 var url_excel = window.location.origin + "/api-sgi/incidenciadocumento/"
 
 // OBJS
-var grid = null
 var filtros = null
 var resultados = null
-var toolbar = null
 
 /*-----------------------------------------------*\
             LOAD
 \*-----------------------------------------------*/
 
 $(document).ready(function () {
-    
+
     filtros = new TarjetaFiltros()
     resultados = new TargetaResultados()
 
@@ -48,29 +46,22 @@ function TarjetaFiltros(){
     this.$departamento = $('#id_departamento')
     this.$nivel_estudios = $('#id_estudios')
     this.$experiencia = $('#id_experiencia')
+    this.$boton_buscar = $('#boton_buscar')
 
-     this.$boton_buscar = $('#boton_buscar')
-    
     this.init_Components()
     this.init_Events()
-}  
-
-TarjetaFiltros.prototype.init_Components= function(){
-    this.$puesto.select2(this.get_ConfSelect2())
-    this.$departamento.select2(this.get_ConfSelect2())
-    this.$nivel_estudios.select2(this.get_ConfSelect2())
-    this.$experiencia.select2(this.get_ConfSelect2())
 }
 
-TarjetaFiltros.prototype.get_ConfSelect2 = function () {
-   return {
-      width: '100%'
-    }
+TarjetaFiltros.prototype.init_Components= function(){
+    this.$puesto.select2(appnova.get_ConfigSelect2())
+    this.$departamento.select2(appnova.get_ConfigSelect2())
+    this.$nivel_estudios.select2(appnova.get_ConfigSelect2())
+    this.$experiencia.select2(appnova.get_ConfigSelect2())
 }
 
 TarjetaFiltros.prototype.init_Events = function () {
     // Asosciar Eventos
-    this.$boton_buscar.on("click", this, this.click_BotonBuscar)   
+    this.$boton_buscar.on("click", this, this.click_BotonBuscar)
 }
 
 TarjetaFiltros.prototype.get_Values = function (_page) {
@@ -82,7 +73,7 @@ TarjetaFiltros.prototype.get_Values = function (_page) {
         //departamento: this.$departamento.val(),
         //nivel_estudios: this.$nivel_estudios.val(),
         //experiencia: this.$experiencia.val(),
-      
+
     }
 
 }
@@ -91,7 +82,7 @@ TarjetaFiltros.prototype.click_BotonBuscar = function (e) {
 
     e.preventDefault()
     resultados.grid.buscar()
-   
+
 }
 
 /*-----------------------------------------------*\
@@ -126,9 +117,9 @@ Grid.prototype.init_Components = function () {
     // Se inicializa la fuente da datos (datasource)
     this.kfuente_datos = new kendo.data.DataSource(this.get_DataSourceConfig())
     //this.kfuente_datos_excel = new kendo.data.DataSource(this.get_FuenteDatosExcel())
-   
+
     // Se inicializa y configura el grid:
-    this.kgrid = this.$id.kendoGrid(this.get_Configuracion()) 
+    this.kgrid = this.$id.kendoGrid(this.get_Configuracion())
 }
 
 
@@ -161,7 +152,7 @@ Grid.prototype.get_DataSourceConfig = function () {
         error: function (e) {
             alertify.error("Status: " + e.status + "; Error message: " + e.errorThrown)
         },
-    } 
+    }
 }
 
 
@@ -201,23 +192,23 @@ Grid.prototype.get_Configuracion = function () {
         scrollable: true,
         pageable: true,
         noRecords: {
-            template: "<div class='grid-empy'> No se encontraron registros </div>"
+            template: "<div class='nova-grid-empy'> No se encontraron registros </div>"
         },
         dataBound: this.set_Icons,
-    }    
+    }
 }
 Grid.prototype.get_Columnas = function () {
 
     return [
-        { 
-            field: "pk", 
-            title: "Numero", 
+        {
+            field: "pk",
+            title: "Numero",
             width:"100px",
             //template: '<a class="btn btn-default nova-url" href="#=Grid.prototype.get_EditUrl(pk)#">#=pk#</a>',
             //template: '<a class="btn btn-default nova-url" href="#=url_incidencia_editar  + pk + "/" + "editar/"  #">#=pk#</a>',
         },
         { field: "empleado_puesto_desc", title: "Puesto", width:"100px" },
- 		{ field: "asig_puesto_clave", title: "asig_puesto_clave", width:"200px" },
+ 		  { field: "asig_puesto_clave", title: "Puesto clave", width:"200px" },
         { field: "reporta", title: "Reporta a", width:"100px" },
         { field: "objetivo", title: "Objetivo", width:"70px" },
         { field: "funciones", title: "Funciones", width:"70px" },
@@ -228,20 +219,20 @@ Grid.prototype.get_Columnas = function () {
         { field: "edad_maxima", title: "Edad Maxima", width:"70px" },
         { field: "nivel_estudio", title: "Nivel Estudio", width:"90px" },
         { field: "estado_civil", title: "Estado Civil", width:"90px" },
-        { field: "genero", title: "genero", width:"70px" },
-        { field: "cambio_residencia", title: "cambio de Residencia", width:"100px" },
+        { field: "genero", title: "Genero", width:"70px" },
+        { field: "cambio_residencia", title: "Cambio de Residencia", width:"100px" },
         { field: "disponibilidad_viajar", title: "Disponibilidad Viajar", width:"100px" },
         { field: "requerimientos", title: "Requerimientos", width:"100px" },
         { field: "proposito", title: "Proposito", width:"70px" },
- 
+
         {
-           command: [ 
+           command: [
                 {
                    text: "Seguimiento",
                    //click: this.click_BotonSeguimiento,
                    className: "btn btn-space btn-primary"
-                },             
-            ],           
+                },
+            ],
            title: " ",
            width: "120px"
         },
@@ -254,12 +245,12 @@ Grid.prototype.get_Columnas = function () {
 
 
 Grid.prototype.buscar = function() {
-    
+
     this.kfuente_datos.page(1)
 }
 
 Grid.prototype.leer_Datos = function() {
-    
+
     this.kfuente_datos_excel.read()
 }
 
@@ -291,14 +282,14 @@ Grid.prototype.get_FuenteDatosExcel = function (e) {
             alertify.error("Status: " + e.status + "; Error message: " + e.errorThrown)
         },
     }
-    
+
 }
 
 Grid.prototype.set_Icons = function (e) {
 
     e.sender.tbody.find(".k-button.fa.fa-pencil").each(function(idx, element){
         $(element).removeClass("fa fa-pencil").find("span").addClass("fa fa-pencil")
-    })   
+    })
 }
 /*-----------------------------------------------*\
             OBJETO: TOOLBAR

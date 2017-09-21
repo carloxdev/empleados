@@ -10,13 +10,13 @@ var tarjeta_resultados = null
 var token
 
 
-/*------------------------------------------------*\  
+/*------------------------------------------------*\
             LOAD
 \*-----------------------------------------------*/
 
 $(document).ready(function(){
     tarjeta_filtro = new TarjetaFiltro()
-    tarjeta_resultados = new TarjetaResultados()     
+    tarjeta_resultados = new TarjetaResultados()
 })
 
 
@@ -58,7 +58,15 @@ function Grid() {
     this.$id = $("#grid_resultados")
     this.kfuente_datos = null
     this.kgrid = null
+    this.$width_actions = "40px"
+    this.init_Responsive()
     this.autenticarse()
+}
+Grid.prototype.init_Responsive = function () {
+
+   if (window.matchMedia('(max-width: 768px)').matches) {
+      this.$width_actions = "60px"
+   }
 }
 Grid.prototype.autenticarse = function (){
     var USERNAME = "Nominas"
@@ -87,7 +95,7 @@ Grid.prototype.init = function () {
 
     // Se inicializa la fuente da datos (datasource)
     this.kfuente_datos = new kendo.data.DataSource(this.get_DataSourceConfig())
-    
+
     // Se inicializa y configura el grid:
     this.kgrid = this.$id.kendoGrid(this.get_Configuracion())
 
@@ -123,7 +131,7 @@ Grid.prototype.get_DataSourceConfig = function () {
             error: function (e) {
                     alertify.error("Status: " + e.status + "; Error message: " + e.errorThrown)
             },
-    }    
+    }
 
 }
 Grid.prototype.get_Campos = function () {
@@ -159,13 +167,10 @@ Grid.prototype.get_Configuracion = function () {
 Grid.prototype.get_Columnas = function () {
 
     return [
-        {   title: "PDF",
-            width:"30px" ,
-            template: '<a class="btn btn-default nova-url" href="#=archivo_pdf#" download><i class="icon icon-left icon mdi mdi-archive icon-black"></i></a>'
-        },
-        {   title: "XML",
-            width:"30px" ,
-            template: '<a class="btn btn-default nova-url" href="#=archivo_xml#" download="NominaXML/#=fecha#"><i class="icon icon-left icon mdi mdi-archive icon-black"></i></a>'
+        {   title: "",
+            width: this.$width_actions,
+            template: '<a class="btn btn-default nova-url nova-button-grid" href="#=archivo_pdf#" download><i class="icon icon-left icon fa fa-file-pdf-o icon-black"></i></a>' +
+                      '<a class="btn btn-default nova-url nova-button-grid" href="#=archivo_xml#" download="NominaXML/#=fecha#"><i class="icon icon-left icon fa fa-file-code-o icon-black"></i></a>'
         },
         { field: "fecha", title: "Fecha de pago", width:"70px", format: "{0:dd/MM/yyyy}" },
         { field: "receptor_rfc", title: "RFC", width:"100px"},

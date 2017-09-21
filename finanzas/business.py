@@ -39,3 +39,11 @@ class ViaticoBusiness(object):
     def get_ViaticoCabevera(self, _pk):
         viatico_cabecera = get_object_or_404(ViaticoCabecera, pk=_pk)
         return viatico_cabecera
+
+    @classmethod
+    def get_ByAutorizador(self, _value):
+        viaticos_cabecera = ViaticoCabecera.objects.filter(
+            autorizador_clave=_value
+        )
+
+        return viaticos_cabecera

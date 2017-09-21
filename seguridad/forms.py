@@ -17,15 +17,20 @@ from django.utils.encoding import force_bytes
 
 from django.forms import TextInput
 from django.forms import FileInput
+
 from django.forms import CharField
+from django.forms import DateField
+from django.forms import ChoiceField
+from django.forms import FileField
+from django.forms import BooleanField
+
 from django.forms import HiddenInput
 from django.forms import DateInput
-from django.forms import DateField
-from django.forms import Select
 from django.forms import PasswordInput
-from django.forms import ChoiceField
+from django.forms import CheckboxInput
+from django.forms import Select
 from django.forms import ClearableFileInput
-from django.forms import FileField
+
 from django.forms import ValidationError
 
 # Third-party Libraries
@@ -75,6 +80,10 @@ class UserRegistroForm(UserCreationForm):
         widget=HiddenInput()
     )
 
+    accept_terms = BooleanField(
+        widget=CheckboxInput()
+    )
+
     class Meta:
         model = User
 
@@ -90,6 +99,7 @@ class UserRegistroForm(UserCreationForm):
             'password1',
             'password2',
             'rfc',
+            'accept_terms'
         ]
 
         labels = {
@@ -118,6 +128,7 @@ class UserRegistroForm(UserCreationForm):
         self.fields['clave_jde'].required = False
         self.fields['foto'].required = False
         self.fields['fecha_nacimiento'].required = False
+        self.fields['accept_terms'].required = True
 
     def clean(self):
         cleaned_data = super(UserRegistroForm, self).clean()
@@ -127,8 +138,9 @@ class UserRegistroForm(UserCreationForm):
         password1 = cleaned_data.get("password1")
         password2 = cleaned_data.get("password2")
         email = cleaned_data.get("email")
+        accept_terms = cleaned_data.get("accept_terms")
 
-        if clave_rh and rfc and email and password1 and password2:
+        if clave_rh and rfc and email and password1 and password2 and accept_terms:
 
             try:
 
@@ -199,12 +211,10 @@ class UserFilterForm(forms.Form):
             attrs={'class': 'form-control input-xs'}
         )
     )
-
     created_date_mayorque = CharField(
         widget=TextInput(
             attrs={'class': 'form-control input-xs', 'readonly': 'readonly'})
     )
-
     created_date_menorque = CharField(
         widget=TextInput(
             attrs={'class': 'form-control input-xs', 'readonly': 'readonly'})

@@ -35,6 +35,7 @@ class ViaticoFilterForm(Form):
     )
 
     autorizador_clave = ChoiceField(
+        label="Autorizador",
         widget=SelectCustom(attrs={'class': 'form-control input-xs'})
     )
 
