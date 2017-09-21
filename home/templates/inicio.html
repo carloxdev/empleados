@@ -16,66 +16,81 @@
       </ol>
    </div>
    {% if registros %}
-      <br>
+      <div class="main-content container-fluid nova-main-content">
+      
+            <div class="user-info-list panel panel-default panel-border nova-margin-bottom">
+               <div class="panel-body nova-padding-buscador">
+                     <form class="pull-right col-sm-4 nova-padding-right"action="" method="GET">
+                        <div class="input-group">
+                            <input type="text" class="form-control btn-rounded nova-height-buscar" name="q" placeholder="Post a buscar..." value="{{ request.GET.q }}">
+                            <span class="input-group-btn">
+                              <button type="submit" id="boton_buscar" class="btn nova-height-buscar nova-btn btn-rounded btn-primary btn-flat">
+                                <i class="fa fa-search"></i>
+                                Buscar
+                              </button>
+                            </span>
+                        </div>
+                    </form>
+               </div>
+            </div>
+         
+   </div>
+
       <div class="col-md-8 nova-padding-left">
          {% for registro in registros %}
 
             <div class="main-content container-fluid nova-main-content nova-post-container">
                   
                <div class="user-info-list panel panel-default panel-border nova-post-sombreado">
+                  <div class="col-md-12 nova-post-titulo">
+                     <a class="nova-sin-estilo" href="{% url 'editorial:post_consultar' registro.pk %}">
+                           {{ registro.titulo }}
+                     </a>
+                  </div>
                   <div class="panel-body">
-                      <article class="legal-article">
+                     
+                     <div class="row">
+                        <ul class="col-md-12 nova-ul-estilo nova-li-estilo">
+                           <li>
+                                <i class="fa fa-calendar" aria-hidden="true"></i>
+                                {{ registro.updated_date|date:"M d, Y"}}
+                           </li>
+                           <li>
+                                <i class="fa fa-user" aria-hidden="true"></i>
+                                {{ registro.updated_by  }}
+                           </li>
+                        </ul>
+                     </div>
 
-                          <div class="col-md-12 nova-post-titulo">
-                              <a class="nova-sin-estilo" href="{% url 'editorial:post_consultar' registro.pk %}">
-                                 {{ registro.titulo }}
+                     {% if registro.imagen %}
+                        <div class="col-md-12">     
+                           <img class="nova-post-imagen " src="{{ registro.imagen.url }}" alt="Post Imagen">
+                        </div>
+                        <div class="col-md-12">
+                            <section class="nova-post-contenido">
+                                {{registro.contenido |safe|truncatechars:400 }}
+                            </section>
+
+                        </div>
+                     {% else %}
+                        <div class="col-md-12">
+                            <section class="nova-post-contenido">
+                                {{registro.contenido |safe|truncatechars:420 }}
+                            </section>
+                        </div>
+                     {% endif %}
+                    
+
+                     <div class="modal-footer nova-centrar">
+                           <a href="{% url 'editorial:post_consultar' registro.pk %}" class="btn btn-primary btn-lg nova-post-contenido" role="button">Leer mas...</a>
+
+                           {% if user.is_superuser %}
+                              <a href="{% url 'editorial:post_editar' registro.pk %}" class="btn btn-warning btn-lg nova-post-contenido">
+                                 <i class="fa fa-pencil" aria-hiden="true"></i> Editar
                               </a>
-                          </div>
-                          
-                          <div class="row">
-                              <ul class="col-md-12 nova-ul-estilo nova-li-estilo">
-                                 <li>
-                                      <i class="fa fa-calendar" aria-hidden="true"></i>
-                                      {{ registro.updated_date|date:"M d, Y"}}
-                                 </li>
-                                 <li>
-                                      <i class="fa fa-user" aria-hidden="true"></i>
-                                      {{ registro.updated_by  }}
-                                 </li>
-                              </ul>
-                           </div>
-
-                           {% if registro.imagen %}
-                              <div class="col-md-12">     
-                                 <img class="nova-post-imagen " src="{{ registro.imagen.url }}" alt="Post Imagen">
-                              </div>
-                              <div class="col-md-12">
-                                  <section class="nova-post-contenido">
-                                      {{registro.contenido |safe|truncatechars:400 }}
-                                  </section>
-
-                              </div>
-                           {% else %}
-                              <div class="col-md-12">
-                                  <section class="nova-post-contenido">
-                                      {{registro.contenido |safe|truncatechars:420 }}
-                                  </section>
-                              </div>
                            {% endif %}
-                          
-
-                           <div class="modal-footer nova-centrar">
-                                 <a href="{% url 'editorial:post_consultar' registro.pk %}" class="btn btn-primary btn-lg nova-post-contenido" role="button">Leer mas...</a>
-
-                                 {% if user.is_superuser %}
-                                    <a href="{% url 'editorial:post_editar' registro.pk %}" class="btn btn-warning btn-lg nova-post-contenido">
-                                       <i class="fa fa-pencil" aria-hiden="true"></i> Editar
-                                    </a>
-                                 {% endif %}
-                              
-                              </div>
-
-                      </article>
+                        
+                        </div>
                   </div>
                </div> 
                
@@ -106,21 +121,8 @@
             <div class="col-md-12 nova-post-titulo">
                <leged>Cumpleaños</legend>
             </div>
-            <div class="nova-post-contenido">
-            <time datetime="2014-09-20T21:01:00+08:00">9:01pm, Saturday September 20<sup>th</sup>, 2014</time>
-               <p>Septiembre</p>
-               <p>22-UNA PERSONA LALA LALA</p>
-               <p>22-UNA PERSONA LALA LALA</p>
-               <p>22-UNA PERSONA LALA LALA</p>
-               <p>22-UNA PERSONA LALA LALA</p>
-               <p>22-UNA PERSONA LALA LALA</p>
-               <p>22-UNA PERSONA LALA LALA</p>
-               <p>22-UNA PERSONA LALA LALA</p>
-               <p>22-UNA PERSONA LALA LALA</p>
-               <p>22-UNA PERSONA LALA LALA</p>
-               <p>22-UNA PERSONA LALA LALA</p>
-               <p>22-UNA PERSONA LALA LALA</p>
-               <p>22-UNA PERSONA LALA LALA</p>
+            <div class="nova-cumpleanos-contenido">
+            
             </div>
          </div>
       </div>
@@ -140,23 +142,9 @@
 
          <div class="col-md-4 nova-padding-left">
             <div class="user-info-list panel panel-default panel-border nova-cumpleanos nova-post-sombreado">
-               <div class="col-md-12 nova-post-titulo">
-                  <leged>Cumpleaños</legend>
-               </div>
-               <div class="nova-post-contenido">
-                  <p>Septiembre</p>
-                  <p>22-UNA PERSONA LALA LALA</p>
-                  <p>22-UNA PERSONA LALA LALA</p>
-                  <p>22-UNA PERSONA LALA LALA</p>
-                  <p>22-UNA PERSONA LALA LALA</p>
-                  <p>22-UNA PERSONA LALA LALA</p>
-                  <p>22-UNA PERSONA LALA LALA</p>
-                  <p>22-UNA PERSONA LALA LALA</p>
-                  <p>22-UNA PERSONA LALA LALA</p>
-                  <p>22-UNA PERSONA LALA LALA</p>
-                  <p>22-UNA PERSONA LALA LALA</p>
-                  <p>22-UNA PERSONA LALA LALA</p>
-                  <p>22-UNA PERSONA LALA LALA</p>
+               <leged>Cumpleaños</legend>
+               <div class="nova-cumpleanos-contenido">
+
                </div>
             </div>
          </div>

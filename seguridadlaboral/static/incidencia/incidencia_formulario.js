@@ -27,25 +27,27 @@ $(document).ready(function () {
 
 function TargetaIncidencia(){
 
+    this.$tipo = $('#id_tipo')
+    this.$es_registrable = $('#id_es_registrable')
     this.$fecha = $('#id_fecha')
+    this.$empleado = $('#id_empleado_id')
     this.$zona = $('#id_zona')
-    this.$empleado = $('#id_empleado_id') 
+    this.$lugar = $('#id_lugar')
+    this.$dias_incapcidad = $('#id_dias_incapcidad')
+    this.$centro_atencion = $('#id_centro_atencion')
+    this.$tiene_acr = $('#id_tiene_acr')
+    this.$tipo = $('#id_tipo')
 
     this.init_Components()
     this.init_Events()
 }
 TargetaIncidencia.prototype.init_Components = function () {
 
-    this.$empleado.select2()
-    
-    //this.$fecha.inputmask("yyyy-mm-dd", {"placeholder": "yyyy-mm-dd"})
-    this.$fecha.mask(
-        "9999-99-99",
-        {
-            placeholder:"aaaa/mm/dd"
-        }
-    )
-    this.$fecha.datetimepicker(this.get_DateTimePickerConfig())
+   this.$tipo.select2(appnova.get_ConfigSelect2())
+   this.$fecha.datepicker(appnova.get_ConfDatePicker())
+   this.$empleado.select2(appnova.get_ConfigSelect2())
+   this.$zona.select2(appnova.get_ConfigSelect2())
+   this.$centro_atencion.select2(appnova.get_ConfigSelect2())
 }
 TargetaIncidencia.prototype.init_Events = function () {
 
@@ -62,7 +64,7 @@ TargetaIncidencia.prototype.escoger_Zona = function (e) {
         url: url,
         method: "GET",
         success: function (response) {
-            
+
             // Validar cuando no obtenga regitros
 
             if (response[0].asig_ubicacion_desc == 'OFICINA VILLAHERMOSA JUJO' ||
@@ -74,22 +76,22 @@ TargetaIncidencia.prototype.escoger_Zona = function (e) {
             }
 
             else if (response[0].asig_ubicacion_desc == 'OFICINA POZA RICA'){
-                // alert("POZA RICA")  
-                e.data.$zona.val(2) 
+                // alert("POZA RICA")
+                e.data.$zona.val(2)
             }
             else if (response[0].asig_ubicacion_desc == 'OFICINA REYNOSA'){
                 // alert("REYNOSA")
-                e.data.$zona.val(3) 
+                e.data.$zona.val(3)
             }
             else if (response[0].asig_ubicacion_desc == 'OFICINA VERACRUZ' ||
                     response[0].asig_ubicacion_desc == 'OFICINA NARANJOS'){
-                // alert("VERACRUZ")           
-                e.data.$zona.val(4) 
+                // alert("VERACRUZ")
+                e.data.$zona.val(4)
             }
             else {
 
                 // alert("NARANJOS")
-                e.data.$zona.val(5) 
+                e.data.$zona.val(5)
             }
 
 
@@ -110,7 +112,3 @@ TargetaIncidencia.prototype.get_DateTimePickerConfig = function () {
         format: "yyyy-mm-dd",
     }
 }
-
-
-
-

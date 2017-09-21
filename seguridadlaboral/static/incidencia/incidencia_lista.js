@@ -72,8 +72,8 @@ TargetaFiltros.prototype.init_Components = function () {
 
    this.$tipo.select2(appnova.get_ConfigSelect2())
    this.$empleado_zona.select2(appnova.get_ConfigSelect2())
-   this.$created_date_mayorque.datepicker({format: 'dd/mm/yyyy', autoclose: true})
-   this.$created_date_menorque.datepicker({format: 'dd/mm/yyyy', autoclose: true})
+   this.$created_date_mayorque.datepicker(appnova.get_ConfDatePicker())
+   this.$created_date_menorque.datepicker(appnova.get_ConfDatePicker())
 
     // Estilos, Liberias
     //this.$fecha_mayorque.datepicker()

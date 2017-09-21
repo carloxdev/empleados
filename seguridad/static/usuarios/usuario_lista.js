@@ -67,8 +67,8 @@ function PopupFiltros () {
 }
 PopupFiltros.prototype.init_Components = function () {
     
-    this.$created_date_mayorque.datepicker({format: 'dd/mm/yyyy', autoclose: true})
-    this.$created_date_menorque.datepicker({format: 'dd/mm/yyyy', autoclose: true})
+    this.$created_date_mayorque.datepicker(appnova.get_ConfDatePicker())
+    this.$created_date_menorque.datepicker(appnova.get_ConfDatePicker())
 }
 PopupFiltros.prototype.init_Events = function () {
 

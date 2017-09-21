@@ -64,8 +64,8 @@ PopupFiltros.prototype.init = function () {
     this.$empleado_clave.select2(appnova.get_ConfigSelect2())
     this.$un_clave.select2(appnova.get_ConfigSelect2())
     this.$autorizador_clave.select2(appnova.get_ConfigSelect2())
-    this.$created_date_mayorque.datepicker({format: 'dd/mm/yyyy', autoclose: true})
-    this.$created_date_menorque.datepicker({format: 'dd/mm/yyyy', autoclose: true})
+    this.$created_date_mayorque.datepicker(appnova.get_ConfDatePicker())
+    this.$created_date_menorque.datepicker(appnova.get_ConfDatePicker())
 
 }
 PopupFiltros.prototype.set_Events = function () {

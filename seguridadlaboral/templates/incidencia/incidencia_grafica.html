@@ -19,36 +19,46 @@
 {% block contenido %}
 
 <div class="be-content">
-    <div class="page-head">
-        <h2 class="page-head-title">Graficas Incidencia</h2>
-        <ol class="breadcrumb page-head-nav">
-            <li><a href="#">Inicio</a></li>
-            <li><a href="{% url 'seguridadlaboral:incidencia_lista' %}">Incidencias</a></li>
-        </ol>
-    </div>
 
-   <div class="main-content container-fluid">  
+	<div class="page-head nova-page-head">
+	  <h2 class="page-head-title nova-title">Graficas Incidencia</h2>
+	  <ol class="breadcrumb page-head-nav pull-right">
+		  <li><a href="{% url 'home:inicio'%}">Inicio</a></li>
+		  <li><a href="{% url 'seguridadlaboral:incidencia_lista' %}">Incidencias</a></li>
+		  <li class="active" id="menu" data-opcion="seguridad_incidencia_grafica">Gráficas</li>
+	  </ol>
+	</div>
+
+   <div class="main-content container-fluid nova-main-content">
+		<div class="row wizard-row">
 			 <div class="col-sm-12">
-                <div id="grid"></div> 
+                <div id="grid"></div>
 		     </div>
+		</div>
    </div>
 
-   <div class="main-content container-fluid">  
+   <div class="main-content container-fluid nova-main-content">
+		<div class="row wizard-row">
 			 <div class="col-sm-12">
-                 <div id="container-trir"></div> 
+                 <div id="container-trir"></div>
 		     </div>
-   </div>
-    
-    <div class="main-content container-fluid">  
-			 <div class="col-sm-12">
-                <div id="container-totalzona" style="height: 400px"></div> 
-		     </div>
+		</div>
    </div>
 
-    <div class="main-content container-fluid">  
+    <div class="main-content container-fluid nova-main-content">
+		 <div class="row wizard-row">
 			 <div class="col-sm-12">
-                <div id="container-xpersonal" style="height: 400px"></div> 
+                <div id="container-totalzona" style="height: 400px"></div>
 		     </div>
+		 </div>
+   </div>
+
+    <div class="main-content container-fluid nova-main-content">
+		 <div class="row wizard-row">
+			 <div class="col-sm-12">
+                <div id="container-xpersonal" style="height: 400px"></div>
+		     </div>
+		 </div>
    </div>
 
 </div>
@@ -71,7 +81,7 @@
 	<script src="{% static 'incidencia/incidencia_grafica.js' %}"></script>
 
 	 <!-- HightChars -->
-  
+
     <script src="https://code.highcharts.com/highcharts.js"></script>
 <script src="https://code.highcharts.com/highcharts-3d.js"></script>
 

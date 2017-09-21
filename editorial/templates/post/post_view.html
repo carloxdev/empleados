@@ -4,111 +4,71 @@
 
 {% block css %}
 
-    <!-- Legalink' Styles -->
-    <link rel="stylesheet" href="{% static 'post/post_view.css' %}" type="text/css"/>
-
 {% endblock css %}
 
 {% block contenido %}
 
     <div class="be-content">
-        <div class="row">
 
-            <div class="col-xs-12 col-md-9">
+        <div class="page-head nova-page-head">
+          <h2 class="page-head-title nova-title">Inicio</h2>
+          <ol class="breadcrumb page-head-nav pull-right">
+             <li id="menu" data-opcion="inicio"><a href="{% url 'home:inicio'%}">Inicio</a></li>
+             <li>Noticia</li
+          </ol>
+        </div>
 
-                <article class="legal-article">
+        <div class="main-content container-fluid nova-main-content">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="user-info-list panel panel-default panel-border">
+                        <div class="col-md-12 nova-post-titulo">
+                           {{ registro.titulo }}
+                        </div>
+                       <div class="panel-body">
+                           <div class="row">
+                            <ul class="col-md-12 nova-ul-estilo nova-li-estilo">
+                               <li>
+                                    <i class="fa fa-calendar" aria-hidden="true"></i>
+                                    {{ registro.updated_date|date:"M d, Y"}}
+                               </li>
+                               <li>
+                                    <i class="fa fa-user" aria-hidden="true"></i>
+                                    {{ registro.updated_by  }}
+                               </li>
+                               <li class="hidden-xs">
+                                    <i class="fa fa-comment-o" aria-hidden="true"></i>
+                                    0 comentarios
+                               </li>
+                            </ul>
+                         </div>
 
-                    <header>
-                        <h3 class="legal-titulo">{{ registro.titulo }}</h3>
-                        {% if user.is_superuser %}
-                        <a href="{% url 'editorial:post_editar' registro.pk %}" class="btn btn-warning pull-right legal-btn-editar">
-                            <i class="fa fa-pencil" aria-hiden="true"></i>
-                        </a>
-                        {% endif %}
-                    </header>
+                <section>
+                    {% if registro.imagen %}
+                        <img class="nova-post-imagen " src="{{ registro.imagen.url }}" alt="Post Imagen">
+                    {% endif %}
+                </section>
+                <section class="nova-post-contenido">
+                    {{registro.contenido |safe}}
+                </section>
+                <div class="modal-footer nova-centrar">
+                   <a href="{% url 'home:inicio' %}" class="btn btn-default btn-lg" role="button"><i class="fa fa-arrow-left" aria-hidden="true"></i>Regresar
+                    </a>
 
-                    <nav class="legal-article-meta">
-                        <ul>
-                           <li>
-                                <i class="fa fa-calendar" aria-hidden="true"></i>
-                                {{ registro.created_date|date:"M d, Y"}}
-                           </li>
-                           <li>
-                                <i class="fa fa-user" aria-hidden="true"></i>
-                                {{ registro.created_by }}
-                           </li>
-                           <li class="hidden-xs">
-                                <i class="fa fa-comment-o" aria-hidden="true"></i>
-                                0 comentarios
-                           </li>
-                        </ul>
-
-                    </nav>
-
-                    <section class="legal-article-image">
-                        {% if registro.imagen %}
-                            <img class="img-responsive" src="{{ MEDIA_URL }}{{ registro.imagen }}" alt="Post Imagen">
-                        {% else %}
-                            <img class="img-responsive" src="{% static 'images/decoradores/no-image-user.jpg' %}" alt="Post Imagen">
-                        {% endif %}
-                    </section>
-
-                    <section class="legal-article-avance">
-                        {{ registro.contenido|safe}}
-                    </section>
-
-                    <footer class="legal-article-botones">
-                        <a href="#" class="btn btn-default btn-lg" role="button">
-                            <i class="fa fa-arrow-left" aria-hidden="true"></i>
-                            Regresar
-                        </a>
-                    </footer>
-
-                </article>
+                   {% if user.is_superuser %}
+                      <a href="{% url 'editorial:post_editar' registro.pk %}" class="btn btn-warning btn-lg ">
+                         <i class="fa fa-pencil" aria-hiden="true"></i> Editar
+                      </a>
+                   {% endif %}
+                
+                </div>
+                            
+                       </div>
+                    </div>
+                </div>
 
             </div>
-
-            <aside class="col-xs-12 col-md-3">
-
-                <aside class="legal-about">
-                    <header>
-                        <h4 class="legal-about-title">Acerca de mi</h4>
-                    </header>
-
-                    <!-- <hr class="legal-about-line"> -->
-
-                    <section class="legal-about-image">
-                        {% if propietario.imagen %}
-                        <img class="img-responsive" src="{{ MEDIA_URL }}{{ propietario.imagen }}" alt="Imagen Autor">
-                        {% else %}
-                        <img class="img-responsive" src="{% static "images/decoradores/no-image-user.jpg" %}" alt="Imagen Autor">
-                        {% endif %}
-                    </section>
-
-                    <section class="legal-about-info text-justify">
-                        Mercadologa....etc
-                    </section>
-
-                    <footer class="legal-about-botones">
-                        <a href="#" class="btn btn-primary legal-about-btn-leer" role="button">Leer mas</a>
-                    </footer>
-
-                </aside>
-
-                <aside class="legal-social-media">
-                    <a href="{{ propietario.facebook_url }}" class="fa fa-facebook-official fa-2x legal-link-facebook" aria-hidden="true"></a>
-                    <a href="{{ propietario.pinteres_url }}" class="fa fa-pinterest fa-2x legal-link-facebook" aria-hidden="true"></a>
-                    <a href="{{ propietario.twitter_url }}" class="fa fa-twitter-square fa-2x legal-link-facebook" aria-hidden="true"></a>
-                    <a href="{{ propietario.telefono }}" class="fa fa-whatsapp fa-2x legal-link-facebook" aria-hidden="true"></a>
-
-                    <!-- <i ></i> -->
-                </aside>
-
-            </aside>
-
-        </div>        
-    </div>
-
+        </div>
 
 
 {% endblock contenido %}
