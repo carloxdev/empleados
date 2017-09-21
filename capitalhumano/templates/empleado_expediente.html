@@ -18,13 +18,12 @@
 {% block contenido %}
 {% for dato in empleado %}
 <div class="be-content">
-	<div class="page-head">
-		<h2 class="page-head-title">Expediente</h2>
-		<br>
+
+	<div class="page-head nova-page-head">
+		<h2 class="page-head-title nova-title">Expediente</h2>
 		<ol class="breadcrumb page-head-nav pull-right">
 			<li><a href="{% url 'home:inicio' %}">Inicio</a></li>
-			<li id="menu" data-opcion="capitalhumano_expedientes"><a href="{% url 'capitalhumano:empleado_expedientes_general'%}">Expedientes</a></li>
-			<li>Expediente</li>
+			<li class="active" id="menu" data-opcion="capitalhumano_expedientes"><a href="{% url 'capitalhumano:empleado_expedientes_general'%}">Expedientes</a></li>
 		</ol>
 	</div>
 
@@ -154,7 +153,7 @@
 					</div>
 				</div>
 			</div>
-			
+
 			<!-- Panel con tabs -->
 			<div class="fuelux">
 	            <div id="wizard1" class="wizard wizard-ux nova-panel-borde-header nova-overflow-visible">
@@ -205,7 +204,7 @@
 <div id="modal_ver_informacion" role="dialog" class="modal fade colored-header colored-header-primary">
     <div class="modal-dialog custom-width nova-modal-responsive">
         <div class="modal-content nova-modal-content-responsive">
-            
+
             <div class="modal-header nova-modal-header">
                 <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
                 <h3 class="modal-title">Archivos adjuntos</h3>
@@ -215,7 +214,7 @@
 
 
 				</div>
-                
+
                 <!-- Botones de acción -->
                 <div class="modal-footer nova-modal-footer">
                      <div class="row col-sm-12">
@@ -229,7 +228,7 @@
 <div id="modal_nuevo" role="dialog" class="modal fade colored-header colored-header-primary">
     <div class="modal-dialog custom-width nova-modal-responsive">
         <div class="modal-content nova-modal-content-responsive">
-            
+
             <div class="modal-header nova-modal-header">
                 <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
                 <h3 class="modal-title">Nuevo documento personal</h3>
@@ -238,11 +237,11 @@
 
 					<div class="modal-body form-horizontal">
 						<!-- Agrupador -->
-						{% tag_field_popup form.agrupador 3 8 %}                 
+						{% tag_field_popup form.agrupador 3 8 %}
 
 						<!-- Tipo -->
 						{% tag_field_popup form.tipo_documento 3 8 %}
-	                                 
+
 	                    <!-- Vigencia -->
 	                    <div class="form-group">
 
@@ -253,8 +252,8 @@
 	                        </label>
 
 	                        <div class="col-sm-4 xs-pt-5">
-	                            <div class="input-group date" 
-	                            data-min-view="2" 
+	                            <div class="input-group date"
+	                            data-min-view="2"
 	                            data-date-format="yyyy-mm-dd"
 	                            id="id_vigencia_inicio_input">
 	                                {{ form.vigencia_inicio }}
@@ -262,10 +261,10 @@
 	                                    <span class="glyphicon glyphicon-calendar"></span>
 	                                </span>
 	                            </div>
-	                        </div> 
+	                        </div>
 	                        <div class="col-sm-4 xs-pt-5">
-	                            <div class="input-group date" 
-	                            data-min-view="2" 
+	                            <div class="input-group date"
+	                            data-min-view="2"
 	                            data-date-format="yyyy-mm-dd"
 	                            id="id_vigencia_fin_input">
 	                                {{ form.vigencia_fin }}
@@ -281,7 +280,7 @@
 
 					</div>
 				</form>
-                
+
                 <!-- Botones de acción -->
                 <div class="modal-footer nova-modal-footer">
                      <div class="row col-sm-12">
@@ -299,7 +298,7 @@
 <div id="modal_nuevo_cap" role="dialog" class="modal fade colored-header colored-header-primary">
     <div class="modal-dialog custom-width nova-modal-responsive">
         <div class="modal-content nova-modal-content-responsive">
-            
+
             <div class="modal-header nova-modal-header">
                 <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
                 <h3 class="modal-title">Nueva capacitación</h3>
@@ -308,28 +307,28 @@
 				<div class="modal-body form-horizontal">
 					 <!-- Departamento -->
 					 <input class="form-control input-xs hide" id="id_departamento" readonly="True" value="{{ dato.asig_organizacion_clave }}"></input>
-                 
+
 					<!-- Agrupador -->
 					{% tag_field_popup form2.agrupadorcap 3 8 %}
- 
+
                   	<!-- Area -->
                   	{% tag_field_popup form2.area 3 8 %}
-    
+
 					<!-- Curso -->
 					{% tag_field_popup form2.curso 3 8 %}
-              
+
 					<!-- Proveedor -->
 					{% tag_field_popup form2.proveedor 3 8 %}
-  
+
                     <!-- Modalidad -->
                     {% tag_field_popup form2.modalidad 3 8 %}
-                 
+
 					<!-- Lugar -->
 					{% tag_field_popup form2.lugar 3 8 %}
- 
+
                     <!-- Costo -->
                     {% tag_field_popup form2.costo 3 8 %}
-  
+
                     <!-- Moneda -->
                     {% tag_field_popup form2.moneda 3 8 %}
 
@@ -344,8 +343,8 @@
                         </label>
 
                         <div class="col-sm-4 xs-pt-5">
-                            <div class="input-group date" 
-                            data-min-view="2" 
+                            <div class="input-group date"
+                            data-min-view="2"
                             data-date-format="yyyy-mm-dd"
                             id="id_fecha_inicio_input">
                                 {{ form2.fecha_inicio }}
@@ -353,10 +352,10 @@
                                     <span class="glyphicon glyphicon-calendar"></span>
                                 </span>
                             </div>
-                        </div> 
+                        </div>
                         <div class="col-sm-4 xs-pt-5">
-                            <div class="input-group date" 
-                            data-min-view="2" 
+                            <div class="input-group date"
+                            data-min-view="2"
                             data-date-format="yyyy-mm-dd"
                             id="id_fecha_fin_input">
                                 {{ form2.fecha_fin }}
@@ -368,13 +367,13 @@
                     </div>
 					<!-- Observaciones -->
 					{% tag_field_popup form2.observaciones 3 8 %}
-   
+
                     <!-- Documento -->
                     {% tag_field_popup form2.archivocap 3 8 %}
 
 				</div>
 			</form>
-                
+
             <!-- Botones de acción -->
             <div class="modal-footer nova-modal-footer">
                  <div class="row col-sm-12">

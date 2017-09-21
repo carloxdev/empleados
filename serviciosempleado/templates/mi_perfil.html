@@ -14,15 +14,14 @@
 {% endblock css %}
 {% block contenido %}
 <div class="be-content">
-	<div class="page-head">
-		<h2 class="page-head-title">Mi Expediente</h2>
-		<br>
+	<div class="page-head nova-page-head">
+		<h2 class="page-head-title nova-title">Mi Expediente</h2>
 		<ol class="breadcrumb page-head-nav pull-right">
 		 <li> <a href="{% url 'home:inicio'%}">Inicio</a></li>
 		 <li class="active" id="menu" data-opcion="serviciosempleado_miexpediente">Mi Expediente</li>
 		</ol>
 	</div>
-	<div class="main-content container-fluid">
+	<div class="main-content container-fluid nova-main-content">
 		<div class="user-profile">
 		{% if request.user.profile.clave_rh != None%}
 			<div class="row">
@@ -31,7 +30,7 @@
 				<div class="col-md-12">
 					<!-- Encabezado perfil -->
 					<div class="user-display panel-border">
-						<div class="user-display-bottom"> 
+						<div class="user-display-bottom">
 							<div class="user-display-avatar"><img src="{{ ruta }}" alt="Avatar">
 							</div>
 							<a href="#modal_actualizar" class="btn nova-btn btn-rounded btn-space btn-primary pull-right" data-toggle="modal" id="boton_filtros">
@@ -59,7 +58,7 @@
 					</div>
 				</div>
 				<!-- Informacion perfil -->
-				<div class="col-md-6">
+				<div class="col-md-6 nova-fix-padding-right">
 					<div class="user-info-list panel panel-default panel-border">
 						<div class="panel-heading nova-panel-heading-divider">Información personal</div>
 						<div class="panel-body">
@@ -106,7 +105,7 @@
 					</div>
 				</div>
 
-				<div class="col-md-6">
+				<div class="col-md-6 nova-fix-padding-left">
 					<div class="user-info-list panel panel-default panel-border">
 						<div class="panel-heading nova-panel-heading-divider">Información del trabajo</div>
 						<div class="panel-body">
@@ -155,10 +154,10 @@
 				</div>
 				{% endfor %}
 			</div>
-			
+
 			<!-- Panel con tabs -->
 			<div class="fuelux">
-	            <div id="wizard1" class="wizard wizard-ux nova-panel-borde-header nova-overflow-visible">
+	            <div id="wizard1" class="wizard wizard-ux nova-panel-borde-header nova-overflow-visible nova-panel-no-border-bottom">
 	               	<div class="nova-wizard-header">
 			            <span class="nova-wizard-title">Documentos</span>
 			            <div class="nova-wizard-tools visible-xs-inline-block dropdown"><span data-toggle="dropdown" class="icon mdi mdi-more-vert dropdown-toggle" aria-expanded="false"></span>
@@ -179,11 +178,9 @@
 		                  <a href="" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab">Desempeño</a>-->
 	               	</div>
 	            </div>
-	            <div class="panel panel-default panel-table">
 
-	                  <div id="grid_resultados" class="nova-div-overflow">
-	                  </div>
-	            </div> <!-- Panel -->
+               <div id="grid_resultados" class="nova-div-overflow">
+               </div>
 	        </div> <!-- col sm 12-->
 
 	        {% else %}
@@ -198,7 +195,7 @@
 <div id="modal_ver_informacion" role="dialog" class="modal fade colored-header colored-header-primary">
     <div class="modal-dialog custom-width nova-modal-responsive">
         <div class="modal-content nova-modal-content-responsive">
-            
+
             <div class="modal-header nova-modal-header">
                 <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
                 <h3 class="modal-title">Archivos adjuntos</h3>
@@ -208,7 +205,7 @@
 
 
 				</div>
-                
+
                 <!-- Botones de acción -->
                 <div class="modal-footer nova-modal-footer">
                      <div class="row col-sm-12">
@@ -255,9 +252,9 @@
 		                </div>
 	                </div>
                 <input type="hide" class="hide" value="{{ request.user.profile.pk }}" id="id_created_by">
-            </div>  
-            </form>          
-                                    
+            </div>
+            </form>
+
             <!-- Botones de acción -->
             <div class="modal-footer nova-modal-footer">
                 <div class="row col-sm-12">

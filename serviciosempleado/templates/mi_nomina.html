@@ -20,15 +20,15 @@
         <h2 class="page-head-title nova-title">Mis Recibos de Nómina</h2>
         <ol class="breadcrumb page-head-nav pull-right">
          <li> <a href="{% url 'home:inicio'%}">Inicio</a></li>
-         <li id="menu" data-opcion="serviciosempleado_nomina">Mis Recibos de Nómina</li>
+         <li class="active" id="menu" data-opcion="serviciosempleado_nomina">Mis Recibos de Nómina</li>
         </ol>
     </div>
     <div class="main-content container-fluid nova-main-content">
         <div class="fuelux">
         {% if request.user.profile.clave_rh != None%}
             <div class="panel panel-default panel-table">
-                    <div class="panel-heading nova-panel-borde-contenido nova-panel-tools">        
-                        <div class="title hidden-xs">Recibos de nómina</div> 
+                    <div class="panel-heading panel-border nova-panel-heading">
+                        <div class="title hidden-xs">Recibos de nómina</div>
                     </div>
                     <input type="hide" class="hide" value="{{ rfc }}" id="rfc" readonly="True">
                     <div id="grid_resultados" class="nova-div-overflow">
@@ -41,7 +41,7 @@
         {% endif%}
         </div> <!-- col sm 12-->
     </div>
-</div>  
+</div>
 
 {% endblock contenido %}
 {% block scripts %}
