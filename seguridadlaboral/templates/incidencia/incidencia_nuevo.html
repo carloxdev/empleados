@@ -2,6 +2,8 @@
 
 {% load static from staticfiles %}
 
+{% load custom_tags %}
+
 {% block titulo %} Incidencia {% endblock titulo %}
 
 {% block title-page %} Nueva Incidencia {% endblock title-page %}
@@ -23,9 +25,9 @@
 {% block contenido %}
 
 
-	<div class="be-content">
+<div class="be-content">
 
-		 <div class="page-head nova-page-head">
+	<div class="page-head nova-page-head">
 	        <h2 class="page-head-title nova-title">Nueva Incidencia</h2>
 	        <ol class="breadcrumb page-head-nav pull-right">
 	            <li><a href="{% url 'home:inicio'%}">Inicio</a></li>
@@ -33,23 +35,54 @@
 					<li class="active" id="menu" data-opcion="seguridad_incidencia">{% if id %}Edición {% else %} Nuevo {% endif %}</li>
 	        </ol>
 	    </div>
-		 <div class="main-content container-fluid nova-main-content">
-	      <div class="row wizard-row">
 
-				<div class="col-sm-12">
-					<div class="panel panel-border panel-contrast">
-			            <div class="panel-heading panel-heading-default nova-border-bottom">Solicitud de Incidencia: {% if id %}<strong value="{{ id }}" id="registrable">{{ id }}</strong>{% endif %}
-			               	{% if operation != '' %} <span class="label label-primary nova-label-centrado">{{ operation }}</span> {% endif %}
-			               	<div class="tools" data-toggle="collapse" href="#cabecera_colapsible">{% if registrable %}<span class="icon mdi mdi-caret-down-circle" id="boton_colapsible"></span>{% endif %}</div>
-			            </div>
-			            <div class="panel-body collapse {% if not registrable %}in{% endif %}" id="cabecera_colapsible">
+	<div class="main-content container-fluid nova-main-content">
 
-			                <form action="" method="POST"> {% csrf_token %}
+		<div class="row wizard-row">
 
-									<div class="row">
+			<div class="col-sm-12">
+				<form class="panel panel-border panel-contrast" action="" method="POST"> {% csrf_token %}
+
+					<div class="panel-heading panel-heading-default nova-border-bottom">Solicitud de Incidencia: {% if id %}<strong value="{{ id }}" id="registrable">{{ id }}</strong>{% endif %}
+	               	{% if operation != '' %} <span class="label label-primary nova-label-centrado">{{ operation }}</span> {% endif %}
+	            </div>
+
+	            <div class="panel-body form-horizontal">
+
+                    {% if form.non_field_errors %}
+
+                        {% for error in form.non_field_errors %}
+                            {% tag_mensaje 'error' error %}
+                        {% endfor %}
+
+                    {% endif %}
+
+                    {% include 'tags/message.html' %}
+
+                    {% tag_field_registro form.tipo 3 6 %}
+
+                    {% tag_field_registro form.es_registrable 3 6 %}
+
+						  {% tag_field_date form.fecha 3 6 %}
+
+						  {% tag_field_registro form.empleado_id 3 6 %}
+
+						  {% tag_field_registro form.zona 3 6 %}
+
+                    {% tag_field_registro form.lugar 3 6 %}
+
+                    {% tag_field_registro form.dias_incapcidad 3 6 %}
+
+						  {% tag_field_registro form.centro_atencion 3 6 %}
+
+						  {% tag_field_registro form.tiene_acr 3 6 %}
+
+						  <!-- <form action="" method="POST"> {% csrf_token %} -->
+
+									<!-- <div class="row"> -->
 
 										<!-- Tipo de Incidencia -->
-										<div class="col-sm-4">
+										<!-- <div class="col-sm-4">
 
 											<div class="form-group {% if form.tipo.field.required %} has-warning {% endif %} {% if form.tipo.errors %} has-error {% endif %}">
 
@@ -64,13 +97,13 @@
 												<span class="help-block">{{ error }}</span>
 											{% endfor %}
 											</div>
-										</div>
+										</div> -->
 
-									</div>
+									<!-- </div> -->
 
-									<div class="row">
+									<!-- <div class="row">
 
-										<!-- Es registrable -->
+										 - Es registrable -
 										<div class="col-sm-4">
 
 											<div class="form-group {% if form.es_registrable.field.required %} has-warning {% endif %} {% if form.es_registrable.errors %} has-error {% endif %}">
@@ -88,7 +121,7 @@
 											</div>
 										</div>
 
-									</div>
+									</div> -->
 
 
 		                                <!-- Fecha -->
@@ -105,7 +138,7 @@
 
 
 		                                 <!-- Fecha -->
-		                                <div class="row">
+		                                <!-- <div class="row">
 										  <div class="col-sm-4">
 		                                   <div class="form-group {% if form.fecha.field.required %} has-warning {% endif %} {% if form.fecha.errors %} has-error {% endif %}">
 		                                    <label class="control-label">
@@ -127,11 +160,11 @@
 		                                    {% endfor %}
 		                                    </div>
 		                                  </div>
-		                                </div>
+		                                </div> -->
 
 
-		                                <div class="row">
-														<!-- Empleado ID-->
+		                                <!-- <div class="row">
+														- Empleado ID-
 														<div class="col-sm-6">
 															<div class="form-group {% if form.empleado_id.field.required %} has-warning {% endif %} {% if form.empleado_id.errors %} has-error {% endif %}">
 															<label class="control-label">
@@ -147,7 +180,7 @@
 															</div>
 														</div>
 
-												</div>
+												</div> -->
 
 
 
@@ -157,23 +190,23 @@
 
 											<div class="form-group {% if form.empleado_nombre.field.required %} has-warning {% endif %} {% if form.empleado_nombre.errors %} has-error {% endif %}">
 
-											<label class="control-label">
-											<i class="fa {% if form.empleado_nombre.field.required %} fa-asterisk {% endif %} {% if form.empleado_nombre.errors %} fa-asterisk {% endif %}"></i>
-												{{ form.empleado_nombre.label }}
-											</label>
-											<p>
-												{{ form.empleado_nombre }}
-											</p>
-											{% for error in form.empleado_nombre.errors %}
-												<span class="help-block">{{ error }}</span>
-											{% endfor %}
+												<label class="control-label">
+												<i class="fa {% if form.empleado_nombre.field.required %} fa-asterisk {% endif %} {% if form.empleado_nombre.errors %} fa-asterisk {% endif %}"></i>
+													{{ form.empleado_nombre.label }}
+												</label>
+												<p>
+													{{ form.empleado_nombre }}
+												</p>
+												{% for error in form.empleado_nombre.errors %}
+													<span class="help-block">{{ error }}</span>
+												{% endfor %}
+												</div>
 											</div>
-										</div>
 										</div>-->
 
 
-		                                <div class="row">
-			                                <!-- Empleado Zona-->
+		                                <!-- <div class="row">
+			                                - Empleado Zona-
 														<div class="col-sm-6">
 
 															<div class="form-group {% if form.zona.field.required %} has-warning {% endif %} {% if form.zona.errors %} has-error {% endif %}">
@@ -190,7 +223,7 @@
 															{% endfor %}
 															</div>
 														</div>
-													</div>
+													</div> -->
 
 		                                <!-- Empleado proyecto id-->
 		                                <!--<div class="row">
@@ -355,7 +388,7 @@
 										</div>-->
 
 										<!-- lugar  -->
-										<div class="row">
+										<!-- <div class="row">
 											<div class="col-sm-6">
 
 											<div class="form-group {% if form.lugar.field.required %} has-warning {% endif %} {% if form.lugar.errors %} has-error {% endif %}">
@@ -372,10 +405,10 @@
 											{% endfor %}
 											</div>
 										</div>
-										</div>
+										</div> -->
 
 										<!-- Dias Incapacidad  -->
-										<div class="row">
+										<!-- <div class="row">
 											<div class="col-sm-6">
 
 												<div class="form-group {% if form.dias_incapcidad.field.required %} has-warning {% endif %} {% if form.dias_incapcidad.errors %} has-error {% endif %}">
@@ -392,10 +425,10 @@
 												{% endfor %}
 												</div>
 											</div>
-										</div>
+										</div> -->
 
 										<!-- Centro de Atencion  -->
-										<div class="row">
+										<!-- <div class="row">
 											<div class="col-sm-6">
 
 												<div class="form-group {% if form.centro_atencion.field.required %} has-warning {% endif %} {% if form.centro_atencion.errors %} has-error {% endif %}">
@@ -412,11 +445,11 @@
 												{% endfor %}
 												</div>
 											</div>
-										</div>
+										</div> -->
 
 
 										<!-- ACR tiene  -->
-										<div class="row">
+										<!-- <div class="row">
 											<div class="col-sm-6">
 
 											<div class="form-group {% if form.tiene_acr.field.required %} has-warning {% endif %} {% if form.tiene_acr.errors %} has-error {% endif %}">
@@ -433,12 +466,12 @@
 											{% endfor %}
 											</div>
 										</div>
-										</div>
+										</div> -->
 
 
 
 										<!-- Status  -->
-										<div class="row">
+										<!-- <div class="row">
 										<div class="col-sm-6">
 
 											<div class="form-group {% if form.status.field.required %} has-warning {% endif %} {% if form.status.errors %} has-error {% endif %}">
@@ -454,9 +487,9 @@
 												<span class="help-block">{{ error }}</span>
 											{% endfor %}
 											</div>
-										</div>
+										</div> -->
 
-										{% if form.errors %}
+										<!-- {% if form.errors %}
 										    {% for field in form %}
 										        {% for error in field.errors %}
 										            <div class="alert alert-danger">
@@ -471,70 +504,22 @@
 										            <strong>{{ error|escape }}</strong>
 										        </div>
 										    {% endfor %}
-										{% endif %}
+										{% endif %} -->
 
-										</div><!-- Row -->
+										<!-- </div> --><!-- Row -->
 
-								<form class="panel panel-border panel-contrast" action="" method="POST"> {% csrf_token %}
-		                      <div class="panel-heading panel-heading-default nova-border-bottom">
-		                          Informacion de la solicitud:
-		                      </div>
-		                      <div class="panel-body form-horizontal">
+					</div> <!-- Panel Body -->
+					<div class="modal-footer nova-modal-footer">
+						 <button type="submit" class="btn btn-primary">Guardar incidencia</button>
+					</div>
+				</form>	<!-- Panel -->
 
-		                          {% if form.non_field_errors %}
-
-		                              {% for error in form.non_field_errors %}
-		                                  {% tag_mensaje 'error' error %}
-		                              {% endfor %}
-
-		                          {% endif %}
-
-		                          {% include 'tags/message.html' %}
-
-		                          {% tag_field_registro form.tipo 3 6 %}
-
-		                          {% tag_field_registro form.es_registrable 3 6 %}
-
-										  {% tag_field_registro form.empleado_id 3 6 %}
-
-										  {% tag_field_registro form.zona 3 6 %}
-
-		                          {% tag_field_registro form.lugar 3 6 %}
-
-		                          {% tag_field_registro form.dias_incapcidad 3 6 %}
-
-										  {% tag_field_registro form.centro_atencion 3 6 %}
-
-										  {% tag_field_registro form.tiene_acr 3 6 %}
-
-										  {% tag_field_registro_dates 'Fecha partida/regreso' form.fecha_partida form.fecha_regreso 3 3 3 %}
-
-		                          <!-- Ocultos -->
-		                          <div>
-		                              {{ form.empleado_descripcion }}
-		                              {{ form.un_descripcion }}
-		                          </div>
-
-		                      </div>
-		                      <div class="modal-footer nova-modal-footer">
-		                          <button type="submit" id="boton_buscar" class="btn nova-btn btn-primary btn-lg">
-		                              Guardar
-		                          </button>
-		                      </div>
-		             		</form>
-
-							<div class="pull-right">
-								<button type="submit" class="btn btn-primary">Guardar incidencia</button>
-							</div>
-
-							</form>
-
-		              	</div> <!-- Panel Body -->
-		            </div>	<!-- Panel -->
 			</div>	<!-- col-sm-12 -->
-			</div>
-		 </div>
 
+		</div> <!-- wizard-row -->
+
+	</div> <!-- main-content -->
+</div> <!-- be content -->
 
 {% endblock contenido %}
 

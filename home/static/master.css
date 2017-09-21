@@ -1083,3 +1083,6 @@ div.nova-panel-arbol li.list-group-item {
    background-color: #d62828;
    border-color: #d62828;
 }
+.nova-fix-user-profile {
+   margin-bottom: 35px;
+}
