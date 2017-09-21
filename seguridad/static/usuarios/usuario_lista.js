@@ -221,7 +221,7 @@ Grid.prototype.get_DataSourceConfig = function () {
     return {
 
         serverPaging: true,
-        pageSize: 5,
+        pageSize: 10,
         transport: {
             read: {
 

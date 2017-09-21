@@ -12,77 +12,77 @@
    <div class="page-head nova-page-head">
       <h2 class="page-head-title nova-title">Inicio</h2>
       <ol class="breadcrumb page-head-nav pull-right">
-         <li>Inicio</li>
+         <li id="menu" data-opcion="inicio">Inicio</li>
       </ol>
    </div>
    {% if registros %}
       <br>
-      {% for registro in registros %}
+      <div class="col-md-8 nova-padding-left">
+         {% for registro in registros %}
 
-         <div class="main-content container-fluid nova-main-content nova-post-container">
-            <div class="row">
-               <div class="col-md-12">
-                  <div class="user-info-list panel panel-default panel-border nova-post-sombreado">
-                     <div class="panel-body">
-                         <article class="legal-article">
+            <div class="main-content container-fluid nova-main-content nova-post-container">
+                  
+               <div class="user-info-list panel panel-default panel-border nova-post-sombreado">
+                  <div class="panel-body">
+                      <article class="legal-article">
 
-                             <div class="col-md-12 nova-post-titulo">
-                                 <a class="nova-sin-estilo" href="{% url 'editorial:post_consultar' registro.pk %}">
-                                    {{ registro.titulo }}
-                                 </a>
-                             </div>
-                             
+                          <div class="col-md-12 nova-post-titulo">
+                              <a class="nova-sin-estilo" href="{% url 'editorial:post_consultar' registro.pk %}">
+                                 {{ registro.titulo }}
+                              </a>
+                          </div>
+                          
+                          <div class="row">
+                              <ul class="col-md-12 nova-ul-estilo nova-li-estilo">
+                                 <li>
+                                      <i class="fa fa-calendar" aria-hidden="true"></i>
+                                      {{ registro.updated_date|date:"M d, Y"}}
+                                 </li>
+                                 <li>
+                                      <i class="fa fa-user" aria-hidden="true"></i>
+                                      {{ registro.updated_by  }}
+                                 </li>
+                              </ul>
+                           </div>
 
-                             <div class="row">
-                                 <ul class="col-md-12 nova-ul-estilo nova-li-estilo">
-                                    <li>
-                                         <i class="fa fa-calendar" aria-hidden="true"></i>
-                                         {{ registro.updated_date|date:"M d, Y"}}
-                                    </li>
-                                    <li>
-                                         <i class="fa fa-user" aria-hidden="true"></i>
-                                         {{ registro.updated_by  }}
-                                    </li>
-                                 </ul>
+                           {% if registro.imagen %}
+                              <div class="col-md-12">     
+                                 <img class="nova-post-imagen " src="{{ registro.imagen.url }}" alt="Post Imagen">
+                              </div>
+                              <div class="col-md-12">
+                                  <section class="nova-post-contenido">
+                                      {{registro.contenido |safe|truncatechars:400 }}
+                                  </section>
 
-                                 {% if registro.imagen %}
-                                    <div class="col-xs-12 col-sm-4">     
-                                       <img class="nova-post-imagen " src="{{ registro.imagen.url }}" alt="Post Imagen">
-                                    </div>
-                                    <div class="col-xs-12 col-sm-8">
-                                        <section class="nova-post-contenido">
-                                            {{registro.contenido |safe|truncatechars:400 }}
-                                        </section>
+                              </div>
+                           {% else %}
+                              <div class="col-md-12">
+                                  <section class="nova-post-contenido">
+                                      {{registro.contenido |safe|truncatechars:420 }}
+                                  </section>
+                              </div>
+                           {% endif %}
+                          
 
-                                    </div>
-                                 {% else %}
-                                    <div class="col-sm-12">
-                                        <section class="nova-post-contenido">
-                                            {{registro.contenido |safe|truncatechars:420 }}
-                                        </section>
-                                    </div>
-                                 {% endif %}
-                             </div>
+                           <div class="modal-footer nova-centrar">
+                                 <a href="{% url 'editorial:post_consultar' registro.pk %}" class="btn btn-primary btn-lg nova-post-contenido" role="button">Leer mas...</a>
 
-                             <div class="modal-footer nova-centrar">
-                                 <a href="{% url 'editorial:post_consultar' registro.pk %}" class="btn btn-primary btn-lg" role="button">Leer mas...</a>
                                  {% if user.is_superuser %}
-                                    <a href="{% url 'editorial:post_editar' registro.pk %}" class="btn btn-warning btn-lg">
+                                    <a href="{% url 'editorial:post_editar' registro.pk %}" class="btn btn-warning btn-lg nova-post-contenido">
                                        <i class="fa fa-pencil" aria-hiden="true"></i> Editar
                                     </a>
                                  {% endif %}
-                                </div>
+                              
+                              </div>
 
-                         </article>
-                     </div>
+                      </article>
                   </div>
-               </div>
+               </div> 
+               
             </div>
-         </div>
+          {% endfor %}
 
-       {% endfor %}
-
-       <div class="text-center">
+         <div class="col-md-12 text-center">
            <ul class="pagination pagination-sm no-margin legal-article-paginador">
                {% if registros.has_previous %}
                    <li><a href="?{{ page_request_var }}={{ registros.previous_page_number }}&q={{ request.GET.q }}">&laquo;</a></li>
@@ -98,12 +98,37 @@
                    <li><a href="?page={{ registros.next_page_number }}&q={{ request.GET.q }}">&raquo;</a></li>
                {% endif %}
            </ul>
-       </div>
+         </div>
+
+      </div>
+      <div class="col-md-4 nova-padding-left">
+         <div class="user-info-list panel panel-default panel-border nova-cumpleanos nova-post-sombreado">
+            <div class="col-md-12 nova-post-titulo">
+               <leged>Cumpleaños</legend>
+            </div>
+            <div class="nova-post-contenido">
+            <time datetime="2014-09-20T21:01:00+08:00">9:01pm, Saturday September 20<sup>th</sup>, 2014</time>
+               <p>Septiembre</p>
+               <p>22-UNA PERSONA LALA LALA</p>
+               <p>22-UNA PERSONA LALA LALA</p>
+               <p>22-UNA PERSONA LALA LALA</p>
+               <p>22-UNA PERSONA LALA LALA</p>
+               <p>22-UNA PERSONA LALA LALA</p>
+               <p>22-UNA PERSONA LALA LALA</p>
+               <p>22-UNA PERSONA LALA LALA</p>
+               <p>22-UNA PERSONA LALA LALA</p>
+               <p>22-UNA PERSONA LALA LALA</p>
+               <p>22-UNA PERSONA LALA LALA</p>
+               <p>22-UNA PERSONA LALA LALA</p>
+               <p>22-UNA PERSONA LALA LALA</p>
+            </div>
+         </div>
+      </div>
 
    {% else %}
    <div class="main-content container-fluid nova-main-content">
       <div class="row">
-         <div class="col-md-12">
+         <div class="col-md-8">
             <div class="user-info-list panel panel-default panel-border">
                <div class="panel-body">
                 <article class="nova-sin-resultados">
@@ -112,9 +137,38 @@
                </div>
             </div>
          </div>
+
+         <div class="col-md-4 nova-padding-left">
+            <div class="user-info-list panel panel-default panel-border nova-cumpleanos nova-post-sombreado">
+               <div class="col-md-12 nova-post-titulo">
+                  <leged>Cumpleaños</legend>
+               </div>
+               <div class="nova-post-contenido">
+                  <p>Septiembre</p>
+                  <p>22-UNA PERSONA LALA LALA</p>
+                  <p>22-UNA PERSONA LALA LALA</p>
+                  <p>22-UNA PERSONA LALA LALA</p>
+                  <p>22-UNA PERSONA LALA LALA</p>
+                  <p>22-UNA PERSONA LALA LALA</p>
+                  <p>22-UNA PERSONA LALA LALA</p>
+                  <p>22-UNA PERSONA LALA LALA</p>
+                  <p>22-UNA PERSONA LALA LALA</p>
+                  <p>22-UNA PERSONA LALA LALA</p>
+                  <p>22-UNA PERSONA LALA LALA</p>
+                  <p>22-UNA PERSONA LALA LALA</p>
+                  <p>22-UNA PERSONA LALA LALA</p>
+               </div>
+            </div>
+         </div>
+
       </div>
    </div>
    {% endif %}
 </div>
 
 {% endblock contenido %}
+
+{% block scripts %}
+   <!-- Nova -->
+    <script src="{% static 'post/post_publicados.js' %}"></script>
+{% endblock scripts %}

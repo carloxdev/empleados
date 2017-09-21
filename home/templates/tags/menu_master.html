@@ -77,11 +77,11 @@
                     </a>
                 </li>
                 {%  if user|tag_validate_has_group:"CH_ADMIN" %}
-                <li>
+                <!-- <li id="capitalhumano_perfil_configuracion">
                     <a href="{% url 'capitalhumano:perfil_configuracion' %}">
                         <span>Configuración</span>
                     </a>
-                </li>
+                </li> -->
                 {% endif %}
             </ul>
         </li>
@@ -163,12 +163,12 @@
     {%  if user|tag_validate_has_group:"SEGURIDAD_ADMIN,SEGURIDAD_SEGUIMIENTO" %}
     <li class="parent"><a href="#"><i class="icon fa fa-shield"></i><span>Seguridad</span></a>
         <ul class="sub-menu">
-            <li>
+            <li id="seguridad_incidencia">
                 <a href="{% url 'seguridadlaboral:incidencia_lista' %}">
                     <span>Incidencias</span>
                 </a>
             </li>
-            <li>
+            <li id="seguridad_incidencia_grafica">
                 <a href="{% url 'seguridadlaboral:incidencia_grafica' %}">
                     <span>Graficas</span>
                 </a>
@@ -176,7 +176,7 @@
         </ul>
     </li>
     {% endif %}
-    <li class="parent"><a href="#"><i class="icon fa fa-tree"></i><span>Ambiental</span></a>
+    <!-- <li class="parent"><a href="#"><i class="icon fa fa-tree"></i><span>Ambiental</span></a>
         <ul class="sub-menu">
             <li>
                 <a href="#">
@@ -184,8 +184,8 @@
                 </a>
             </li>
         </ul>
-    </li>
-    <li class="parent"><a href="#"><i class="icon mdi mdi-globe"></i><span>Responsabilidad Social</span></a>
+    </li> -->
+    <!-- <li class="parent"><a href="#"><i class="icon mdi mdi-globe"></i><span>Responsabilidad Social</span></a>
         <ul class="sub-menu">
             <li>
                 <a href="#">
@@ -203,7 +203,7 @@
                 </a>
             </li>
         </ul>
-    </li>
+    </li> -->
      <li class="parent"><a href="#"><i class="icon mdi mdi-blogger"></i><span>Comunicación interna</span></a>
         <ul class="sub-menu">
             <li id="comunicacion_admin">

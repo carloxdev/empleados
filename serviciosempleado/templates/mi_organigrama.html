@@ -21,19 +21,22 @@
       </ol>
    </div>
    <div class="main-content container-fluid nova-main-content">
-      <div class="row wizard-row">
-      {% if request.user.profile.clave_rh != None%}
-          <input type="hidden" id="id_organizacion" value="{{ organizacion }}" readonly="True"></input>
-          <input type="hidden" id="id_empleado" value="{{ request.user.profile.clave_rh }}" readonly="True"></input>
-          <div class="col-sm-12">
-               <div class="nova-contenedor-organigrama" id="content-data"></div>
-          </div>  <!-- End col-sm-12 -->
-      {% else %}
-          <div class="col-sm-12 widget">
-              <h3> Su usuario no tiene asignado un empleado.</h3>
-          </div>
-      {% endif%}
-      </div>
+
+         {% if request.user.profile.clave_rh != None%}
+             <div class="row wizard-row">
+                <input type="hidden" id="id_organizacion" value="{{ organizacion }}" readonly="True"></input>
+                <input type="hidden" id="id_empleado" value="{{ request.user.profile.clave_rh }}" readonly="True"></input>
+                <div class="col-sm-12">
+                     <div class="nova-contenedor-organigrama" id="content-data"></div>
+                </div>  <!-- End col-sm-12 -->
+             </div>
+         {% else %}
+             <div class="col-sm-12 widget nova-contenido-borde nova-panel-mensaje">
+                 <h3> Su usuario no tiene asignado un empleado.</h3>
+             </div>
+         {% endif%}
+
+
    </div><!-- End Main COntent -->
 </div>
 
