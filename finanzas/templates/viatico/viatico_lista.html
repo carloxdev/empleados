@@ -65,19 +65,19 @@
                 </form>
                 <div class="modal-footer nova-modal-footer">
                      <div class="row col-sm-12">
-                            <button type="button" data-dismiss="modal" class="btn btn-default pull-left">
-                                Cancelar
-                            </button>
+                        <button type="button" data-dismiss="modal" class="btn btn-default pull-left">
+                            Cancelar
+                        </button>
 
-                            <button type="button" id="boton_limpiar" class="btn btn-default nova-btn">
-                                <i class="fa fa-eraser"></i>
-                                Limpiar
-                            </button>
+                        <button type="button" id="boton_limpiar" class="btn btn-default nova-btn">
+                            <i class="fa fa-eraser"></i>
+                            Limpiar
+                        </button>
 
-                            <button type="button" id="boton_buscar" class="btn nova-btn btn-primary btn-lg pull-right">
-                                <i class="icon icon-left mdi mdi-search nova-white"></i>
-                                Buscar
-                            </button>
+                        <button type="button" id="boton_buscar" class="btn nova-btn btn-primary btn-lg pull-right">
+                            <i class="icon icon-left mdi mdi-search nova-white"></i>
+                            Buscar
+                        </button>
                     </div>
                 </div>
             </div> <!-- Modal content-->
@@ -88,37 +88,35 @@
     <div class="main-content container-fluid nova-main-content">
         <div class="row">
             <div class="col-xs-12 nova-col">
-                    <div class="panel panel-default panel-table nova-panel-table">
-                        <div class="panel-heading panel-border nova-panel-heading">
-                            <div class="widget-head nova-widget-head">
-                                <div class="button-toolbar">
-                                    <a href="{% url 'finanzas:viatico_nuevo' %}"
-                                        class="btn nova-btn btn-rounded btn-space btn-default" id="boton_nuevo">
-                                        <i class="icon icon-left mdi mdi-plus-circle nova-black"></i> Nuevo
-                                    </a>
+                <div class="panel panel-default panel-table nova-panel-table">
+                    <div class="panel-heading panel-border nova-panel-heading">
+                        <div class="widget-head nova-widget-head">
+                            <div class="button-toolbar">
+                                <a href="{% url 'finanzas:viatico_nuevo' %}"
+                                    class="btn nova-btn btn-rounded btn-space btn-default" id="boton_nuevo">
+                                    <i class="icon icon-left mdi mdi-plus-circle nova-black"></i> Nuevo
+                                </a>
 
-                                    <a href="#tarjeta_filtros"
-                                        class="btn nova-btn btn-rounded btn-space btn-primary" data-toggle="modal" id="boton_filtros">
-                                        <i class="icon icon-left mdi mdi-search nova-white"></i> Filtros
-                                    </a>
+                                <a href="#tarjeta_filtros"
+                                    class="btn nova-btn btn-rounded btn-space btn-primary" data-toggle="modal" id="boton_filtros">
+                                    <i class="icon icon-left mdi mdi-search nova-white"></i> Filtros
+                                </a>
 
-                                    <button class="btn nova-btn btn-rounded btn-space btn-success" id="boton_excel" disabled>
-                                        <i class="icon icon-left mdi mdi-download nova-white"></i> Exportar
-                                    </button>
-                                </div>
-                                <span class="title hidden-xs">Registros</span>
+                                <button class="btn nova-btn btn-rounded btn-space btn-success" id="boton_excel" disabled>
+                                    <i class="icon icon-left mdi mdi-download nova-white"></i> Exportar
+                                </button>
                             </div>
+                            <span class="title hidden-xs">Registros</span>
                         </div>
+                    </div>
 
-                        <div id="grid_resultados">
-                        </div>
-                  </div>
+                    <div id="grid_resultados">
+                    </div>
+              </div>
             </div>
         </div>
 	</div>
-
 </div>
-
 
 {% endblock contenido %}
 
