@@ -56,12 +56,15 @@
         padding-left: 10px;
     }
 
-
 /* ----------------------- VIATICOS EDITAR ----------------------- */
 
-/*.nova-panel-table {
-    border-color: #d4d4d4;
-}*/
+
+
+.own-panel-body {
+    color: #333333 !important;
+    border: 1px solid #d4d4d4 !important;
+    border-top: 0px !important;
+}
 
 .nova-label {
     color: #7d7d7d;

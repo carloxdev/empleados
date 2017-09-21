@@ -31,6 +31,7 @@
     <div class="main-content container-fluid nova-main-content">
         <div class="row">
             <div class="col-xs-12 nova-col">
+
                     <div class="panel panel-default panel-table nova-panel-table">
                         <div class="panel-heading panel-border nova-panel-heading">
                             <div class="widget-head nova-widget-head">
@@ -53,7 +54,46 @@
                             </div>
                         </div>
 
-                        <div id="grid_resultados">
+                        <div class="panel-body own-panel-body">
+                            <div class="table-responsive noSwipe">
+                                {% if viaticos %}
+                                <table class="table table-striped table-hover">
+                                   <thead>
+                                      <tr>
+                                         <th>No. Documento</th>
+                                         <th>Empleado</th>
+                                         <th></th>
+                                      </tr>
+                                   </thead>
+                                   <tbody>
+                                    {% for viatico in viaticos %}
+                                    <tr class="clickable-row">
+                                        <td>
+                                            VIA-{{viatico.pk}}
+                                        </td>
+                                        <td class="user-avatar cell-detail user-info">
+                                            <img src="{% static 'theme' %}" alt="">
+                                            <span>{{viatico.empleado_descripcion}}</span>
+                                            <span class="cell-detail.descripcion">
+                                                Desarrollador
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <a href="{% url 'finanzas:viatico_editar' viatico.pk %}">Ver documento</a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                   </tbody>
+                                </table>
+                                {% else %}
+
+                                <tr>
+                                    <td colspan="7" class="nova-aling-center nova-sin-resultados">No se encontraron resultados.</td>
+                                </tr>
+
+                                {% endif %}
+
+                            </div>
                         </div>
                   </div>
             </div>

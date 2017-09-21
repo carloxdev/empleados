@@ -64,7 +64,7 @@
                     <ul class="nav navbar-nav navbar-right be-user-nav">
                         <li class="dropdown">
                             <a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="dropdown-toggle">
-                            
+
                                 <div class="nova-crop-img">
                                 {% if user.profile.foto %}
                                     <img class="nova-imagen-avatar" src="{{ user.profile.foto.url }}" alt="User Image" class="user-image">
@@ -98,6 +98,7 @@
                                 <li><a href="{% url 'seguridad:usuario_lista' %}"><span class="icon mdi mdi-accounts"></span> Usuarios</a></li>
                                 {% endif %}
                                 <li><a href="{% url 'seguridad:usuario_perfil' user.pk %}"><span class="icon mdi mdi-settings"></span> Perfil</a></li>
+                                <li><a href="{% url 'seguridad:autorizacion' %}"><span class="icon mdi mdi-settings"></span> Autorizaciones</a></li>
                                 <li><a href="{% url 'seguridad:logout' %}"><span class="icon mdi mdi-power"></span> Salir</a></li>
                             </ul>
                         </li>

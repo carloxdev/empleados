@@ -65,7 +65,7 @@ class ViaticoCabeceraNuevo(View):
 
                 return redirect(
                     get_Url_With_Querystring(
-                        reverse('finanzas:viatico_editar', kwargs={'pk': viatico_cabecera.pk}),
+                        reverse('finanzas:viatico_editar', kwargs={'_pk': viatico_cabecera.pk}),
                         new=True
                     )
                 )

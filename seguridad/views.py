@@ -38,6 +38,8 @@ from .forms import UserContrasenaActualForm
 from .forms import UserContrasenaResetForm
 from .forms import UserContrasenaResetConfirmForm
 
+from finanzas.business import ViaticoBusiness
+
 
 class Login(View):
 
@@ -545,10 +547,10 @@ class Autorizacion(View):
 
     def get(self, _request):
 
-        documentos = []
+        viaticos = ViaticoBusiness.get_ByAutorizador(_request.user.username)
 
         contexto = {
-            'documents': documentos
+            'viaticos': viaticos
         }
 
         return render(_request, self.template_name, contexto)
