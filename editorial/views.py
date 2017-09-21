@@ -18,7 +18,6 @@ from django.core.paginator import PageNotAnInteger
 
 # Own's Libraries
 from .models import Post
-from seguridad.models import Profile
 from .forms import PostForm
 
 
@@ -29,9 +28,14 @@ class PostPublicados(View):
 
     def get(self, request):
 
-        registros = Post.objects.filter(status="PUB").order_by("-created_date")
-
-        # owner = Profile.objects.get()
+        query = request.GET.get('q')
+        if query:
+            registros = Post.objects.filter(
+                Q(titulo__icontains=query) |
+                Q(contenido__icontains=query)
+            ).order_by("-created_date")
+        else:
+            registros = Post.objects.filter(status="PUB").order_by("-created_date")
 
         paginador = Paginator(registros, 10)
         pagina = request.GET.get('page')
@@ -45,7 +49,6 @@ class PostPublicados(View):
 
         contexto = {
             'registros': posts,
-            # 'propietario': owner
         }
 
         return render(request, self.template_name, contexto)
