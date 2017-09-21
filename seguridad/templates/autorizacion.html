@@ -36,19 +36,10 @@
                         <div class="panel-heading panel-border nova-panel-heading">
                             <div class="widget-head nova-widget-head">
                                 <div class="button-toolbar">
-                                    <a href="{% url 'finanzas:viatico_nuevo' %}"
-                                        class="btn nova-btn btn-rounded btn-space btn-default" id="boton_nuevo">
-                                        <i class="icon icon-left mdi mdi-plus-circle nova-black"></i> Nuevo
-                                    </a>
-
-                                    <a href="#tarjeta_filtros"
+                                    <!-- <a href="#tarjeta_filtros"
                                         class="btn nova-btn btn-rounded btn-space btn-primary" data-toggle="modal" id="boton_filtros">
                                         <i class="icon icon-left mdi mdi-search nova-white"></i> Filtros
-                                    </a>
-
-                                    <button class="btn nova-btn btn-rounded btn-space btn-success" id="boton_excel" disabled>
-                                        <i class="icon icon-left mdi mdi-download nova-white"></i> Exportar
-                                    </button>
+                                    </a>-->
                                 </div>
                                 <span class="title hidden-xs">Documentos</span>
                             </div>
@@ -58,28 +49,46 @@
                             <div class="table-responsive noSwipe">
                                 {% if viaticos %}
                                 <table class="table table-striped table-hover">
-                                   <thead>
-                                      <tr>
-                                         <th>No. Documento</th>
-                                         <th>Empleado</th>
-                                         <th></th>
-                                      </tr>
-                                   </thead>
-                                   <tbody>
+                                    <thead>
+                                        <tr>
+                                            <th>No. Documento</th>
+                                            <th>Empleado</th>
+                                            <th>Descripcion Documento</th>
+                                            <th>Fechas</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
                                     {% for viatico in viaticos %}
                                     <tr class="clickable-row">
                                         <td>
-                                            VIA-{{viatico.pk}}
+                                            <a class="btn btn-default" href="{% url 'finanzas:viatico_editar' viatico.pk %}">
+                                                VIA-{{viatico.pk}}
+                                            </a>
                                         </td>
-                                        <td class="user-avatar cell-detail user-info">
-                                            <img src="{% static 'theme' %}" alt="">
-                                            <span>{{viatico.empleado_descripcion}}</span>
-                                            <span class="cell-detail.descripcion">
+                                        <td class="cell-detail">
+                                            <span>
+                                                {{viatico.empleado_descripcion}}
+                                            </span>
+                                            <span class="cell-detail-description">
                                                 Desarrollador
                                             </span>
                                         </td>
+                                        <td class="cell-detail">
+                                            <span>{{ viatico.proposito_viaje }}</span>
+                                            <span class="cell-detail-description">
+                                                $ {{ viatico.importe_total }}
+                                            </span>
+                                        </td>
+                                        <td class="cell-detail">
+                                            <span>Partida: {{ viatico.fecha_partida|date:"j M Y" }}</span>
+                                            <span class="cell-detail-description">
+                                                Regreso: {{ viatico.fecha_regreso|date:"j M Y" }}
+                                            </span>
+                                        </td>
                                         <td>
-                                            <a href="{% url 'finanzas:viatico_editar' viatico.pk %}">Ver documento</a>
+                                            <button type="button" name="button" class="btn btn-success" data-type="viatico" data-id="{{viatico.pk}}">Aceptar</button>
+                                            <button type="button" name="button" class="btn btn-danger" data-type="viatico" data-id="{{viatico.pk}}">Rechazar</button>
                                         </td>
                                     </tr>
                                     {% endfor %}
