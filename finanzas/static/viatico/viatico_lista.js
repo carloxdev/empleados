@@ -44,16 +44,18 @@ function PopupFiltros() {
     this.$id = $('#tarjeta_filtros')
 
     this.$proposito_viaje = $('#id_proposito_viaje')
-    this.$empleado_clave = $('#id_empleado_clave')
-    this.$un_clave = $('#id_un_clave')
+    this.$empleado_clave = $('#id_empleado')
+    this.$un_clave = $('#id_unidad_negocio')
     this.$ciudad_destino = $('#id_ciudad_destino')
-    this.$autorizador_clave = $('#id_autorizador_clave')
+    this.$autorizador_clave = $('#id_autorizador')
 
     this.$created_date_mayorque = $('#id_created_date_mayorque_group')
     this.$created_date_menorque = $('#id_created_date_menorque_group')
 
     this.$boton_buscar = $('#boton_buscar')
     this.$boton_limpiar = $('#boton_limpiar')
+
+    this.$actual_user = $('#id_actual_user')
 
     this.init()
     this.set_Events()

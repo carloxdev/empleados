@@ -28,6 +28,9 @@
 <!-- URLs -->
 <input type="text" id="url_viaticocabecera_editar" class="hidden" value="{% url 'finanzas:viatico_editar' 0 %}">
 
+<!-- user -->
+<input type="text" id="id_actual_user" class="hidden" value="{{ request.user.profile.clave_rh }}">
+
 <div class="be-content">
 
 	<div class="page-head nova-page-head">
