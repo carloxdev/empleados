@@ -1,74 +1,89 @@
 {% extends 'master.html' %}
-
 {% load static from staticfiles %}
-
+{% block titulo %} Inicio {% endblock titulo %}
+{% block title-page %} Noticia  {% endblock title-page %}
 {% block css %}
 
 {% endblock css %}
 
 {% block contenido %}
 
-    <div class="be-content">
+<div class="be-content">
 
-        <div class="page-head nova-page-head">
-          <h2 class="page-head-title nova-title">Inicio</h2>
-          <ol class="breadcrumb page-head-nav pull-right">
-             <li id="menu" data-opcion="inicio"><a href="{% url 'home:inicio'%}">Inicio</a></li>
-             <li>Noticia</li
-          </ol>
-        </div>
-
-        <div class="main-content container-fluid nova-main-content">
+    <div class="page-head nova-page-head">
+      <h2 class="page-head-title nova-title">Noticia</h2>
+      <ol class="breadcrumb page-head-nav pull-right">
+         <li id="menu" data-opcion="inicio"><a href="{% url 'home:inicio'%}">Inicio</a></li>
+         <li>Noticia</li>
+      </ol>
+    </div>
+    <div class="col-md-8 nova-padding-left">
+        <div class="main-content container-fluid nova-main-content nova-post-container">
             <div class="row">
                 <div class="col-md-12">
                     <div class="user-info-list panel panel-default panel-border">
                         <div class="col-md-12 nova-post-titulo">
-                           {{ registro.titulo }}
+                            {{ registro.titulo }}
                         </div>
-                       <div class="panel-body">
-                           <div class="row">
-                            <ul class="col-md-12 nova-ul-estilo nova-li-estilo">
-                               <li>
-                                    <i class="fa fa-calendar" aria-hidden="true"></i>
-                                    {{ registro.updated_date|date:"M d, Y"}}
-                               </li>
-                               <li>
-                                    <i class="fa fa-user" aria-hidden="true"></i>
-                                    {{ registro.updated_by  }}
-                               </li>
-                               <li class="hidden-xs">
-                                    <i class="fa fa-comment-o" aria-hidden="true"></i>
-                                    0 comentarios
-                               </li>
-                            </ul>
-                         </div>
+                        <div class="panel-body">
+                               <div class="row">
+                                <ul class="col-md-12 nova-ul-estilo nova-li-estilo">
+                                   <li>
+                                        <i class="fa fa-calendar" aria-hidden="true"></i>
+                                        {{ registro.updated_date|date:"M d, Y"}}
+                                   </li>
+                                   <li>
+                                        <i class="fa fa-user" aria-hidden="true"></i>
+                                        {{ registro.updated_by  }}
+                                   </li>
+                                </ul>
+                             </div>
 
-                <section>
-                    {% if registro.imagen %}
-                        <img class="nova-post-imagen " src="{{ registro.imagen.url }}" alt="Post Imagen">
-                    {% endif %}
-                </section>
-                <section class="nova-post-contenido">
-                    {{registro.contenido |safe}}
-                </section>
-                <div class="modal-footer nova-centrar">
-                   <a href="{% url 'home:inicio' %}" class="btn btn-default btn-lg" role="button"><i class="fa fa-arrow-left" aria-hidden="true"></i>Regresar
-                    </a>
+                            <section>
+                                {% if registro.imagen %}
+                                    <img class="nova-post-imagen " src="{{ registro.imagen.url }}" alt="Post Imagen">
+                                {% endif %}
+                            </section>
+                            <section class="nova-post-contenido">
+                                {% autoescape off %}
+                                    {{ registro.contenido|linebreaks }}
+                                {% endautoescape %}
+                            </section>
+                            <div class="modal-footer nova-centrar">
+                               <a href="{% url 'home:inicio' %}" class="btn btn-default btn-lg" role="button"><i class="fa fa-arrow-left" aria-hidden="true"></i>Regresar
+                                </a>
 
-                   {% if user.is_superuser %}
-                      <a href="{% url 'editorial:post_editar' registro.pk %}" class="btn btn-warning btn-lg ">
-                         <i class="fa fa-pencil" aria-hiden="true"></i> Editar
-                      </a>
-                   {% endif %}
-                
-                </div>
+                               {% if user.is_superuser %}
+                                  <a href="{% url 'editorial:post_editar' registro.pk %}" class="btn btn-warning btn-lg ">
+                                     <i class="fa fa-pencil" aria-hiden="true"></i> Editar
+                                  </a>
+                               {% endif %}
                             
-                       </div>
+                            </div>    
+                        </div>
                     </div>
                 </div>
-
             </div>
         </div>
+    </div>
+    <div class="col-md-4 nova-padding-left">
+         <div class="user-info-list panel panel-default nova-post-borde">
+            <div class="col-md-12 nova-noticias">
+               Noticias
+            </div>
+            {% if registros %}
+                <div class="col-md-12 list-group nova-li-noticias">
+                    {% for r in registros %}
+                        <a href="{% url 'editorial:post_consultar' r.pk %}" class="list-group-item nova-lista-decorador ">
+                        {{ r.titulo }}
+                        </a>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div> 
+        
+    </div>
+</div>
 
 
 {% endblock contenido %}

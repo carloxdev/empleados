@@ -35,7 +35,8 @@ class PostPublicados(View):
                 Q(contenido__icontains=query)
             ).order_by("-created_date")
         else:
-            registros = Post.objects.filter(status="PUB").order_by("-created_date")
+            registros = Post.objects.filter(
+                status="PUB").order_by("-created_date")
 
         paginador = Paginator(registros, 10)
         pagina = request.GET.get('page')
@@ -62,11 +63,12 @@ class PostConsultar(View):
     def get(self, request, pk):
 
         post = get_object_or_404(Post, pk=pk)
-
-        # owner = Profile.objects.get(is_owner=True)
+        registros = Post.objects.filter(
+            status="PUB").order_by("-created_date")
 
         contexto = {
-            'registro': post
+            'registro': post,
+            'registros': registros,
         }
 
         return render(request, self.template_name, contexto)

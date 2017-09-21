@@ -921,7 +921,11 @@ div.nova-panel-arbol li.list-group-item {
 /*-FIN AVATAR DE PERFIL-*/
 
 /* COMUNICACIÓN INTERNA */
-
+.nova-post-borde{
+  border-top: 1px solid #d4d4d4 !important;
+  border-left: 1px solid #d4d4d4 !important;
+  border-right: 1px solid #d4d4d4 !important;
+}
 .nova-padding-left{
   padding-left: 0 !important;
 }
@@ -930,6 +934,15 @@ div.nova-panel-arbol li.list-group-item {
 }
 .nova-margin-bottom{
   margin-bottom: 0 !important;
+}
+.nova-sin-estilo{
+  color: #1E5382 !important;
+}
+.nova-sin-estilo:hover{
+  color: #3577B2 !important;
+}
+.nova-centrar{
+  text-align: center !important;
 }
 .nova-padding-buscador{
   padding: 8px 5px 8px !important;
@@ -979,17 +992,6 @@ div.nova-panel-arbol li.list-group-item {
   font-size: 25px;
   text-align: center;
   border-bottom: 1px solid #d9d9d9;
-  /* text-shadow: 0px -1px 0px #424242; */
-  /* text-shadow: 2px 4px 3px rgba(0,0,0,0.1); */
-}
-.nova-sin-estilo{
-  color: #1E5382 !important;
-}
-.nova-sin-estilo:hover{
-  color: #3577B2 !important;
-}
-.nova-centrar{
-  text-align: center !important;
 }
 .nova-ul-estilo {
   left: 30%;
@@ -1000,6 +1002,14 @@ div.nova-panel-arbol li.list-group-item {
   list-style: none;
   display:inline;
   margin-right: 3em;
+}
+.nova-li-noticias {
+  padding-right: 0 !important;
+}
+.nova-noticias {
+  background-color: white;
+  font-size: 25px;
+  text-align: center;
 }
 .nova-post-container{
   padding-bottom: 0px !important;
@@ -1019,11 +1029,6 @@ div.nova-panel-arbol li.list-group-item {
   margin-top: 2em;
   font-size: 14px;
 }
-/* .nova-post-sombreado{
-  -moz-box-shadow: inset 0 0 5px #E5E4E4;
-  -webkit-box-shadow: inset 0 0 5px #E5E4E4;
-  box-shadow: inset 0 0 5px #E5E4E4;
-} */
 .nova-cumpleanos{
   width: 100%;
   height: 300px;
@@ -1032,14 +1037,9 @@ div.nova-panel-arbol li.list-group-item {
 }
 .nova-cumpleanos-contenido{
   margin-top: 1em;
-  font-size: 14px;
-  margin-left: 2em;
-  margin-right: 2em;
-}
-.nova-top{
-  /* top: 0 !important; */
-  position: fixed;
-  width: 26% !important;
+  font-size: 15px !important;
+  margin-left: 1em;
+  margin-right: 0.5em;
 }
 @media (max-width: 767px) {
   .nova-ul-estilo {
