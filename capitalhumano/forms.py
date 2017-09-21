@@ -887,55 +887,125 @@ class PerfilAgregarPuestoCargoForm(Form):
 
 class PerfilPuestoListaForm(Form):
 
+    # TIPO_ESTUDIOS = (
+    #     ('ind', 'Indistinto'),
+    #     ('sol', 'Soltero'),
+    #     ('cas', 'Casado'),
+    #     ('uni', 'Union Libre'),
+    #     ('viu', 'Viudo'),
+    #     ('div', 'Divorciado'),
+    # )
+    #
+    # asig_puesto_clave = ChoiceField(widget=Select(
+    #     attrs={'class': 'select2 nova-select2'}))
+    #
+    # class Meta:
+    #     model = PerfilPuestoDocumento
+    #
+    #     fields = [
+    #         'asig_puesto_clave',
+    #         'nivel_estudio',
+    #         'reporta',
+    #         'areas_experiencia_id',
+    #         'departamento',
+    #     ]
+    #
+    #     labels = {
+    #         'asig_puesto_clave': 'Puesto:',
+    #         'nivel_estudio': 'Nivel Estudio :',
+    #         'reporta': 'Reporta :',
+    #         'areas_experiencia_id': 'Areas_experiencia :',
+    #         'departamento': 'Departamento:',
+    #     }
+    #
+    # asig_puesto_clave = ChoiceField(label='Puesto', widget=Select(
+    #     attrs={'class': 'select2 nova-select2'}))
+    #
+    # reporta = ChoiceField(label='Reporta', widget=Select(
+    #     attrs={'class': 'select2 nova-select2'}))
+    #
+    # nivel_estudio = ChoiceField(
+    #     label="Nivel de Estudios",
+    #     choices=TIPO_ESTUDIOS,
+    #     widget=Select(
+    #         attrs={'class': 'select2 nova-select2'}
+    #     )
+    # )
+    #
+    # def __init__(self, *args, **kwargs):
+    #     super(PerfilPuestoListaForm, self).__init__(
+    #         *args, **kwargs)
+    #     self.fields['reporta'].choices = self.get_Puestos()
+    #     self.fields['asig_puesto_clave'].choices = self.get_Puestos()
+
     TIPO_ESTUDIOS = (
-        ('ind', 'Indistinto'),
-        ('sol', 'Soltero'),
-        ('cas', 'Casado'),
-        ('uni', 'Union Libre'),
-        ('viu', 'Viudo'),
-        ('div', 'Divorciado'),
+        ('n0', 'Indistinto'),
+        ('n1', 'Trunco'),
+        ('n2', 'Pasante'),
+        ('n3', 'Titulado'),
     )
 
-    asig_puesto_clave = ChoiceField(widget=Select(
-        attrs={'class': 'select2 nova-select2'}))
+    DEPARTAMENTOS = (
+        ('p1', 'Seleccione'),
+        ('Corporativo',
+            (
+                ('p1', 'Capital Humano'),
+                ('p2', 'Juridico'),
+                ('p3', 'Tecnologias de Informacion'),
+                ('p4', 'Gestion de Calidad'),
+                ('p5', 'Licitaciones')
+            )
+        ),
+    )
 
-    class Meta:
-        model = PerfilPuestoDocumento
+    AREAS_EXPERIENCIA = (
+        ('p1', 'Seleccione'),
+        ('n0', 'Administracion y Finanzas'),
+        ('n1', 'Administracion general'),
+        ('n2', 'Auditoria'),
+        ('n3', 'Finanzas'),
+    )
 
-        fields = [
-            'asig_puesto_clave',
-            'nivel_estudio',
-            'reporta',
-            'areas_experiencia_id',
-            'departamento',
-        ]
+    asig_puesto_clave = ChoiceField(
+        label='Puesto',
+        widget=Select(
+            attrs={'class': 'select2 nova-select2'}
+        )
+    )
 
-        labels = {
-            'asig_puesto_clave': 'Puesto:',
-            'nivel_estudio': 'Nivel Estudio :',
-            'reporta': 'Reporta :',
-            'areas_experiencia_id': 'Areas_experiencia :',
-            'departamento': 'Departamento:',
-        }
+    departamento = ChoiceField(
+        choices=DEPARTAMENTOS,
+        widget=Select(
+            attrs={'class': 'select2 nova-select2'}
+        )
+    )
 
-    asig_puesto_clave = ChoiceField(label='Puesto', widget=Select(
-        attrs={'class': 'select2 nova-select2'}))
-
-    reporta = ChoiceField(label='Reporta', widget=Select(
-        attrs={'class': 'select2 nova-select2'}))
+    pertenece = CharField(
+        label='Pertenece a:',
+        widget=Textarea(
+            attrs={'class': 'form-control input-xs', 'rows': '5'}
+            )
+    )
 
     nivel_estudio = ChoiceField(
         label="Nivel de Estudios",
         choices=TIPO_ESTUDIOS,
         widget=Select(
-            attrs={'class': 'select2 nova-select2'}
+            attrs={'class': 'select2 nova-select2', 'id': 'id_estudios'}
+        )
+    )
+
+    area_experiencia = ChoiceField(
+        label="Áreas de Experiencia",
+        choices=AREAS_EXPERIENCIA,
+        widget=Select(
+            attrs={'class': 'select2 nova-select2', 'id': 'id_experiencia'}
         )
     )
 
     def __init__(self, *args, **kwargs):
         super(PerfilPuestoListaForm, self).__init__(
             *args, **kwargs)
-        self.fields['reporta'].choices = self.get_Puestos()
         self.fields['asig_puesto_clave'].choices = self.get_Puestos()
 
     def get_Puestos(self):

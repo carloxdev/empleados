@@ -2,12 +2,14 @@
 
 {% load static from staticfiles %}
 
+{% load custom_tags %}
+
 {% block titulo %} Capital humano {% endblock titulo %}
 
 {% block title-page %} Perfiles  {% endblock title-page %}
 
 {% block css %}
-   
+
    <!-- Kendo -->
    <link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.rtl.min.css' %}"/>
    <link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.common-bootstrap.min.css' %}"/>
@@ -16,595 +18,536 @@
    <!-- Theme -->
    <link rel="stylesheet" href="{% static 'theme/lib/datetimepicker/css/bootstrap-datetimepicker.min.css' %}"/>
    <link rel="stylesheet" href="{% static 'theme/lib/daterangepicker/css/daterangepicker.css' %}"/>
-    
-    <!-- Nova -->
-    <link rel="stylesheet" href="{% static 'grid.css' %}"/>
 
-    <link rel="stylesheet" href="https://cdn.rawgit.com/FortAwesome/Font-Awesome/master/css/font-awesome.min.css">
-    <link rel="stylesheet" href="{% static 'libs/OrgChart/css/jquery.orgchart.css' %}"/>
+   <!-- Nova -->
+   <link rel="stylesheet" href="{% static 'grid.css' %}"/>
+
+   <link rel="stylesheet" href="https://cdn.rawgit.com/FortAwesome/Font-Awesome/master/css/font-awesome.min.css">
+   <link rel="stylesheet" href="{% static 'libs/OrgChart/css/jquery.orgchart.css' %}"/>
 
 {% endblock css %}
 
 {% block contenido %}
 
-    
-      <div class="be-content">
-        <div class="page-head">
-          <h2 class="page-head-title">Perfiles</h2>
-          <ol class="breadcrumb page-head-nav">
-              <li><a href="#">Inicio</a></li>
-	            <li><a href="{% url 'capitalhumano:perfil_lista' %}">Perfiles</a></li>
-	            <li class="active">{% if id %}Edición {% else %} Nuevo {% endif %}</li>
-          </ol>
-        </div>
-        <div class="main-content container-fluid">
-          <div class="row wizard-row">
+
+   <div class="be-content">
+
+      <div class="page-head nova-page-head">
+         <h2 class="page-head-title nova-title">Perfiles</h2>
+         <ol class="breadcrumb page-head-nav pull-right pull-right">
+            <li> <a href="{% url 'home:inicio'%}">Inicio</a> </li>
+            <li>
+               <a href="{% url 'capitalhumano:perfil_lista' %}">Perfiles</a>
+            </li>
+            <li class="active" id="menu" data-opcion="capitalhumano_perfiles">
+               {% if id %}Edición {% else %} Nuevo {% endif %}
+            </li>
+         </ol>
+      </div>
+
+      <div class="main-content container-fluid nova-main-content">
+
+         <div class="row wizard-row">
+
             <div class="col-md-12 fuelux">
-              <div class="block-wizard panel panel-default">
-                <div id="wizard1" class="wizard wizard-ux">
-                  <ul class="steps">
-                    <li data-step="1" class="active">General<span class="chevron"></span></li>
-                    <li data-step="2">Organigrama<span class="chevron"></span></li>
-                    <li data-step="3">Requerimiento<span class="chevron"></span></li>
-                    <li data-step="4">Competencias<span class="chevron"></span></li>
-                  </ul>
-                  <input type="hide" class="hide" value="{{ request.user.profile.pk }}" id="created_by">
-                  <input type="hide" class="hide"  id="numero_puesto">
 
-                  <input type="text" class="hide"  id="id_doc_perfil">
+               <div class="block-wizard panel panel-default nova-contenido-borde">
+                  <div id="wizard1" class="wizard wizard-ux">
+                     <ul class="steps">
+                        <li data-step="1" class="active">General<span class="chevron"></span></li>
+                        <li data-step="2">Organigrama<span class="chevron"></span></li>
+                        <li data-step="3">Requerimiento<span class="chevron"></span></li>
+                        <li data-step="4">Competencias<span class="chevron"></span></li>
+                     </ul>
+                     <input type="hide" class="hide" value="{{ request.user.profile.pk }}" id="created_by">
+                     <input type="hide" class="hide"  id="numero_puesto">
+                     <input type="text" class="hide"  id="id_doc_perfil">
 
-                  <div class="actions">
-                    <button type="button" class="btn btn-xs btn-prev btn-default"><i class="icon mdi mdi-chevron-left"></i>Prev</button>
-                    <button type="button" data-last="Finish" class="btn btn-xs btn-next btn-default">Next<i class="icon mdi mdi-chevron-right"></i></button>
-                  </div>
-                  <div class="step-content">
-                    <div data-step="1" class="step-pane active">
-                    <!--<form action="" method="POST" enctype="multipart/form-data" data-parsley-namespace="data-parsley-"  class="form-horizontal group-border-dashed" id="id_puestos">  {% csrf_token %}
-                       <form action="#" data-parsley-namespace="data-parsley-" data-parsley-validate="" novalidate="" class="form-horizontal group-border-dashed"> -->
-                       <form action="" method="POST" data-parsley-namespace="data-parsley-" data-parsley-validate="" novalidate="" class="form-horizontal group-border-dashed"> {% csrf_token %}
-                        <div class="form-group no-padding">
-                          <div class="col-sm-7">
-                            <h3 class="wizard-title">General</h3>
-                          </div>
-                        </div>
+                     <div class="actions">
+                        <button type="button" class="btn btn-xs btn-prev btn-default"><i class="icon mdi mdi-chevron-left"></i>Prev</button>
+                        <button type="button" data-last="Finish" class="btn btn-xs btn-next btn-default">Next<i class="icon mdi mdi-chevron-right"></i></button>
+                     </div>
 
-                       <!-- puesto de empleado-->
-                        <div class="form-group">
-                          <label class="col-sm-3 control-label">Puesto</label>
-                            <div class="col-sm-6">
-                              <div class="form-group {% if form.desc_puesto.field.required %} has-warning {% endif %} {% if form.desc_puesto.errors %} has-error {% endif %}">
-                              <p>
-                                {{ form.desc_puesto}}  
-                              </p>
-                              {% for error in form.desc_puesto.errors %}
-                                <span class="help-block">{{ error }}</span>
-                              {% endfor %}
-                              </div>
-                            </div>
-                       </div> 
+                     <div class="step-content">
+                        <div data-step="1" class="step-pane active">
+                           <!--<form action="" method="POST" enctype="multipart/form-data" data-parsley-namespace="data-parsley-"  class="form-horizontal group-border-dashed" id="id_puestos">  {% csrf_token %}
+                           <form action="#" data-parsley-namespace="data-parsley-" data-parsley-validate="" novalidate="" class="form-horizontal group-border-dashed"> -->
+                           <form action="" method="POST" data-parsley-namespace="data-parsley-" data-parsley-validate="" novalidate="" class="form-horizontal group-border-dashed"> {% csrf_token %}
 
-                       <!-- puesto de empleado-->
-                        <div class="form-group">
-                          <label class="col-sm-3 control-label">Reporta a:</label>
-                            <div class="col-sm-6">
-                              <div class="form-group {% if form.reporta.field.required %} has-warning {% endif %} {% if form.reporta.errors %} has-error {% endif %}">
-                              <p>
-                                {{ form.reporta}}  
-                              </p>
-                              {% for error in form.reporta.errors %}
-                                <span class="help-block">{{ error }}</span>
-                              {% endfor %}
-                              </div>
-                            </div>
-                       </div> 
-
-
-                       <!-- objetivo -->
-                       
-                           <div class="form-group">
-                              <label class="col-sm-3 control-label" 
-                                 for="{{ form.objetivo.id_for_label }}">
-                                 <i class="fa {% if form.objetivo.field.required %} fa-asterisk {% endif %} {% if form.objetivo.errors %} fa-asterisk {% endif %}"></i>
-                                 {{ form.objetivo.label }}
-                              </label>
-                              <div class="col-sm-6 xs-pt-5">
-                                 {{ form.objetivo }}
-                                <!-- <textarea class="form-control input-sm" cols="40" id="id_objetivo" >
-                                 </textarea> -->
-                              </div> 
-                              {% for error in form.objetivo.errors %}
-                                 <span class="help-block">{{ error }}</span>
-                              {% endfor %}                                        
-                           </div>
-
-
-                        <div class="form-group">
-                              <label class="col-sm-3 control-label" 
-                                 for="{{ form.funciones.id_for_label }}">
-                                 {{ form.funciones.label }}
-                              </label>
-                              <div class="col-sm-6 xs-pt-5">
-                                 {{ form.funciones }}
-                              </div> 
-                              {% for error in form.funciones.errors %}
-                                 <span class="help-block">{{ error }}</span>
-                              {% endfor %}                                        
-                           </div>
-
-                          <!-- RESPONSABILIDADES -->
-                           <div class="form-group">
-                              <label class="col-sm-3 control-label" 
-                                 for="{{ form.responsabilidades.id_for_label }}">
-                                 {{ form.responsabilidades.label }}
-                              </label>
-                              <div class="col-sm-6 xs-pt-5">
-                                 {{ form.responsabilidades }}
-                                 <!--<textarea class="form-control input-sm" cols="40" id="responsabilidades" >
-                                 </textarea>-->
-                              </div> 
-                              {% for error in form.responsabilidades.errors %}
-                                 <span class="help-block">{{ error }}</span>
-                              {% endfor %}                                        
-                           </div>
-
-                         
-
-                        
-                        <div class="form-group">
-                        <label class="col-sm-3 control-label">Posicion Staff</label>
-                        <div class="col-sm-6 xs-pt-5">
-                          <div class="switch-button switch-button-yesno">
-                            <input type="checkbox"  name="posicion" id="posicion"><span>
-                              <label for="posicion"></label></span>
-                          </div>
-                        </div>
-                      </div>
-
-                      {% if form.errors %}
-                      {% for field in form %}
-                          {% for error in field.errors %}
-                              <div class="alert alert-danger">
-                                {{ field.label }}
-                                  <strong>{{ error|escape }}</strong>
-                                
-                              </div>
-                          {% endfor %}
-                      {% endfor %}
-                      {% for error in form.non_field_errors %}
-                          <div class="alert alert-danger">
-                              <strong>{{ error|escape }}</strong>
-                          </div>
-                      {% endfor %}
-                      {% endif %}
-
-                      <div class="form-group">
-                           <div class="col-sm-6 xs-pt-5">
-                             <!--<button type="button" class="btn btn-primary" id="boton_guardar" >Guardar Perfil</button>
-                             <button type="submit" class="btn btn-primary" >Guardar</button>-->
-                             <button type="button" class="btn btn-primary" id="id_boton_guardar_perfil" >Guardar</button>
-                           </div>
-                      </div>
-                      </form>
-                        
-                     <div class="form-group">  
-                       <div class="panel panel-default panel-table">
-                              <div class="panel-heading nova-panel-borde-contenido nova-panel-tools">
-                                 <a href="#modal_nuevo" class="btn nova-btn btn-rounded btn-sm btn-space btn-default pull-right " data-toggle="modal" id="boton_nuevo_per">
-                                    <i class="icon icon-left mdi mdi-plus-circle nova-black"></i> Agregar Puesto Cargo
-                                 </a>
-                                 <a href="#modal_nuevo_cap" class="btn nova-btn btn-rounded btn-sm btn-space btn-default pull-right hidden" data-toggle="modal" id="boton_nuevo_cap">
-                                    <i class="icon icon-left mdi mdi-plus-circle nova-black"></i> Nueva capacitación
-                                 </a>
-                              </div><!-- Panel Heading -->
-                               <div id="grid_resultados" class="nova-div-overflow"> </div>
-                        </div> <!-- Panel -->
-                     </div>   
-
-
-                        <div class="form-group">
-                          <div class="col-sm-offset-2 col-sm-10">
-                            <button class="btn btn-default btn-space">Cancel</button>
-                            <button data-wizard="#wizard1" class="btn btn-primary btn-space wizard-next">Siguiente Paso</button>
-                          </div>
-                        </div>
-                     
-                    </div>
-
-
-<!-- Modal puestos a cargo-->
-<div id="modal_nuevo" role="dialog" class="modal fade colored-header colored-header-primary">
-    <div class="modal-dialog custom-width">
-        <div class="modal-content">
-            
-            <div class="modal-header nova-modal-header">
-                <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
-                <h3 class="modal-title">Agregar Puestos a Cargo</h3>
-            </div>
-            <form action="" method="POST" enctype="multipart/form-data" id="formulario_per"> {% csrf_token %}
-        <!-- Subtipo -->
-        <div class="modal-body form-horizontal">
-                    <div class="form-group">
-                        <label class="col-sm-3 nova-col-filter control-label">Puesto a Cargo</label>
-                        <div class="col-sm-8 xs-pt-5">
-                            {{ form2.desc_puesto2 }}
-                        </div>
-                    </div> 
-        </div>
-
-                <!-- Botones de acción -->
-                <div class="modal-footer nova-modal-footer">
-                     <div class="row col-sm-12">
-                        <button type="button" data-dismiss="modal" class="btn btn-default pull-left">
-                            Cancelar
-                        </button>
-                        <button type="button" class="btn btn-primary" id="id_boton_guardar_acargo" >Guardar</button>
-                    </div>
-                </div>
-            </form>
-        </div> <!-- Modal content-->
-    </div> <!-- Modal dialog -->
-</div><!-- Modal puestos a cargo-->
-
-
-                    <div data-step="2" class="step-pane">
-                      <form action="#" data-parsley-namespace="data-parsley-" data-parsley-validate="" novalidate="" class="form-horizontal group-border-dashed">
-                        <div class="form-group no-padding">
-                          <div class="col-sm-7">
-                            <h3 class="wizard-title">Organigrama</h3>
-                          </div>
-                        </div>
-                        <div class="form-group">
-                          <div class="nova-contenedor-organigrama" id="content-data"></div>
-                        </div>
-
-                        <div class="form-group">
-                          <div class="col-sm-12">
-                            <button data-wizard="#wizard1" class="btn btn-default btn-space wizard-previous">Previous</button>
-                            <button data-wizard="#wizard1" class="btn btn-primary btn-space wizard-next">Siguiente Paso</button>
-                          </div>
-                        </div>
-
-                      </form>
-                       
-                    </div>
-
-
-
-
-                    <div data-step="3" class="step-pane">
-                      <!--<form action="#" data-parsley-namespace="data-parsley-" data-parsley-validate="" novalidate="" class="form-horizontal group-border-dashed">-->
-                       <form action="" method="POST" enctype="multipart/form-data" id="formulario_per"> {% csrf_token %}
-                        <div class="form-group no-padding">
-                          <div class="col-sm-7">
-                            <h3 class="wizard-title">Requerimiento</h3>
-                          </div>
-                        </div>
-
-                         <br><br><br>
-
-                        <div class="form-group">
-                          <!--<div class="col-sm-3 xs-pt-15">-->
-                        
-                               <div class="col-sm-6">
-                               <label class="control-label">Edad Minima</label>
-                               {{ form.edad_minima }}
-
-                               {% for error in form.edad_minima.errors %}
-                                 <span class="help-block">{{ error }}</span>
-                               {% endfor %}   
-                           <!--<input type="text" placeholder="edad minima" class="form-control">-->
-                               </div>
-                        
-                               <div class="col-sm-6">
-                                <label class="control-label">Edad Maxima</label>
-                               <!--<input type="text" placeholder="edad maxima" class="form-control">-->
-                                {{ form.edad_maxima }}
-                               </div>
-
-                        </div>
-
-                         <br><br><br>
-                         <p>
-
-                        <div class="form-group">
-                          <div class="col-sm-7">
-                            <label class="control-label">Nivel de Estudios</label>
-                           {{ form.nivel_estudio }}
-                          </div>
-                        </div>
-                        <br><br><br>
-                        </p>
-
-                        <p>
-                        <div class="form-group">
-                          <div class="col-sm-7">
-                            <label class="control-label">Estado Civil</label>                        
-                            {{ form.estado_civil }}
-                          </div>
-                        </div>
-                        <br><br><br>
-                        </p>
-
-                        <p>
-                         <div class="form-group">
-                          <div class="col-sm-7">
-                            <label class="control-label">Sexo/Genero </label>
-                            <p>
-                                {{ form.genero }}
-                                <!-- <input type="radio" id="indistinct" name="sex" value="0" checked="checked">
-                                 <label class="control-label">Indistinto</label>
-                                 
-                                 <input type="radio" id="male" name="sex" value="1" >
-                                 <label class="control-label">Hombre </label>
-                                 
-                                 <input type="radio" id="female" name="sex" value="2" >
-                                 <label class="control-label">Mujer </label>-->
-                            </p> 
-                          </div>
-                        </div>
-                        </p>
-                        <br><br><br>
-
-                        <div class="form-group">
-                        <p>
-                          <div class="col-sm-7">
-                            <label class="col-sm-7 control-label" 
-                                 for="{{ form.cambio_residencia.id_for_label }}">
-                                 {{ form.cambio_residencia.label }}
-                              </label>                       
-                             {{ form.cambio_residencia }}
-
-                             {% for error in form.cambio_residencia.errors %}
-                                 <span class="help-block">{{ error }}</span>
-                              {% endfor %}   
-                          </div>
-                          </p>
-                        </div>
-
-                         <br><br>
-
-                        <div class="form-group">
-                          <div class="col-sm-7">
-                            <label class="col-sm-7 control-label" 
-                                 for="{{ form.disponibilidad_viajar.id_for_label }}">
-                                 {{ form.disponibilidad_viajar.label }}
-                              </label>                         
-                             {{ form.disponibilidad_viajar }}
-                             {% for error in form.disponibilidad_viajar.errors %}
-                                 <span class="help-block">{{ error }}</span>
-                              {% endfor %}  
-                          </div>
-                        </div>
-
-                        <br><br><br>
-
-                        <p>
-                        <div class="form-group">
-                          <div class="col-sm-7">
-                            <label class="control-label">Otros Requerimientos</label>    
-                            {{ form.requerimentos }}  
-                            {% for error in form.requerimientos.errors %}
-                                 <span class="help-block">{{ error }}</span>
-                              {% endfor %}                    
-                            <!--<textarea class="form-control"></textarea>-->
-                          </div>
-                        </div>
-                        <br>
-                        </p>
-
-
-                        <div class="form-group">
-                          <div class="col-sm-12">
-                            <button data-wizard="#wizard1" class="btn btn-default btn-space wizard-previous">Previous</button>
-                            <button data-wizard="#wizard1" class="btn btn-primary btn-space wizard-next">Siguiente Paso</button>
-                          </div>
-                        </div>
-                      </form>
-                    </div>
-
-                    <div data-step="4" class="step-pane">
-                     <!-- <form action="#" data-parsley-namespace="data-parsley-" data-parsley-validate="" novalidate="" class="form-horizontal group-border-dashed"> -->
-                     <form action="" method="POST" enctype="multipart/form-data" id="formulario_per2"> {% csrf_token %}
-                        <div class="form-group no-padding">
-                          <div class="col-sm-7">
-                            <h3 class="wizard-title">Competencias</h3>
-                          </div>
-                        </div>
-
-                        <div class="form-group">
-                          <!--<label class="col-sm-3 control-label"> Competencias Administrativas</label>-->
-                           <div class="main-content container-fluid">
-                                      <div class="row">
-                                        <div class="col-sm-9">
-                                          <div class="panel panel-default panel-table">
-                                            <div class="panel-heading">Administrativas - Tecnicas
-                                              <div class="tools"><span class="icon mdi mdi-download"></span><span class="icon mdi mdi-more-vert"></span></div>
-                                            </div>
-                                            <div class="panel-body">
-                                             
-                                               <div class="panel-heading nova-panel-borde-contenido nova-panel-tools">
-                                                 <a href="#modal_nuevo_competencia" class="btn nova-btn btn-rounded btn-sm btn-space btn-default pull-right " data-toggle="modal" id="boton_nuevo_per">
-                                                    <i class="icon icon-left mdi mdi-plus-circle nova-black"></i> Agregar Competencia
-                                                 </a>
-                                              </div><!-- Panel Heading -->
-                                              <div id="grid_resultados_competencias" class="nova-div-overflow"> </div>
-
-                                            </div>
-                                          </div>
-                                        </div>
-                                        <!--<div class="row">
-                                           <div class="col-sm-3 xs-pt-15">
-                                             <button class="btn btn-primary btn-space wizard-next">Agregar</button>
-                                           </div>
-                                        </div>-->
-                                      </div>
-                            </div> 
-                        </div>
-
-                        <div class="form-group">
-                          <!--<label class="col-sm-3 control-label"> Competencias Administrativas</label>-->
-                           <div class="main-content container-fluid">
-                                      <div class="row">
-                                        <div class="col-sm-9">
-                                          <div class="panel panel-default panel-table">
-                                            <div class="panel-heading">Indicadores 
-                                              <div class="tools"><span class="icon mdi mdi-download"></span><span class="icon mdi mdi-more-vert"></span></div>
-                                            </div>
-                                            <div class="panel-body">
-                                             
-                                               <div class="panel-heading nova-panel-borde-contenido nova-panel-tools">
-                                                 <a href="#modal_nuevo_competencia" class="btn nova-btn btn-rounded btn-sm btn-space btn-default pull-right " data-toggle="modal" id="boton_nuevo_per">
-                                                    <i class="icon icon-left mdi mdi-plus-circle nova-black"></i> Agregar Indicadores
-                                                 </a>
-                                              </div><!-- Panel Heading -->
-                                              <div id="grid_resultados_indicadores" class="nova-div-overflow"> </div>
-
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </div>
-                            </div> 
-                         </div>
-
-                            <!-- <div class="form-group">
-                                <label class="col-sm-3 control-label"> Competencias Tecnicas </label>
-                                   <div class="main-content container-fluid">
-                                          <div class="row">
-                                            <div class="col-sm-6">
-                                              <div class="panel panel-default panel-table">
-                                                <div class="panel-heading">Tecnicas
-                                                  <div class="tools"><span class="icon mdi mdi-download"></span><span class="icon mdi mdi-more-vert"></span></div>
-                                                </div>
-                                                <div class="panel-body">
-                                                <div id="grid_resultados_competencias_tec" class="nova-div-overflow"> </div>
-                                                </div>
-                                              </div>
-                                            </div>
-                                             <div class="row">
-                                               <div class="col-sm-3 xs-pt-15">
-                                                 <button class="btn btn-primary btn-space wizard-next">Agregar</button>
-                                               </div>
-                                            </div>
-                                          </div>
-
-                                    </div>
-                            </div>-->
-
-
-<!-- Modal puestos competencia-->
-<div id="modal_nuevo_competencia" role="dialog" class="modal fade colored-header colored-header-primary">
-    <div class="modal-dialog custom-width">
-        <div class="modal-content">
-            
-            <div class="modal-header nova-modal-header">
-                <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
-                <h3 class="modal-title">Agregar Competencia</h3>
-            </div>
-            <form action="" method="POST" enctype="multipart/form-data" id="formulario_per"> {% csrf_token %}
-                <!-- competencias -->
-                <div class="modal-body form-horizontal">
-                    <div class="form-group">
-                        <label class="col-sm-3 nova-col-filter control-label">Competencias</label>
-                        <div class="col-sm-8 xs-pt-5">
-                            {{ formc.descripcion }}
-                        </div>
-
-                    </div> 
-                </div>
-
-                <!-- descripcion -->
-                <div class="modal-body form-horizontal">
-                    <div class="form-group">
-                        <label class="col-sm-3 nova-col-filter control-label">Tipo de Competencia</label>
-                        <div class="col-sm-8 xs-pt-5">
-                            {{ formc.tipo_competencia }}
-                        </div>
-
-                    </div> 
-                </div>
-
-                <!-- porcentaje -->
-                <div class="modal-body form-horizontal">
-                    <div class="form-group">
-                        <label class="col-sm-3 nova-col-filter control-label">Porcentaje</label>
-                        <div class="col-sm-8 xs-pt-5">
-                            {{ formc.porcentaje }}
-                        </div>
-
-                    </div> 
-                </div>
-
-                
-
-               {% for error in formc.descripcion.errors %}
-                 <span class="help-block">{{ error }}</span>
-               {% endfor %}  
-
-                <!-- Botones de acción -->
-                <div class="modal-footer nova-modal-footer">
-                     <div class="row col-sm-12">
-                        <button type="button" data-dismiss="modal" class="btn btn-default pull-left">
-                            Cancelar
-                        </button>
-                        <button type="button" class="btn btn-primary" id="boton_guardar_competencia" >Guardar</button>
-                    </div>
-                </div>
-            </form>
-        </div> <!-- Modal content-->
-    </div> <!-- Modal dialog -->
-</div><!-- Modal puestos a cargo-->
-                              <div class="form-group">
-                                 <div class="col-sm-12">
-                                   <button data-wizard="#wizard1" class="btn btn-default btn-space wizard-previous">Previous</button>
-                                   <button  type="button" data-wizard="#wizard1" class="btn btn-success btn-space wizard-next" id="id_btguardar_perfil_detalle">Terminar</button>
+                              <div class="form-group no-padding">
+                                 <div class="col-sm-7">
+                                    <h3 class="wizard-title">General</h3>
                                  </div>
                               </div>
 
-                      </form>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    
-    
+                              <!-- puesto de empleado-->
+                              <div class="form-group">
+                                 <label class="col-sm-3 control-label">Puesto</label>
+                                 <div class="col-sm-6 xs-pt-5">
+                                    <div class="{% if form.desc_puesto.field.required %} has-warning {% endif %} {% if form.desc_puesto.errors %} has-error {% endif %}">
+                                       <p>
+                                          {{ form.desc_puesto}}
+                                       </p>
+                                       {% for error in form.desc_puesto.errors %}
+                                       <span class="help-block">{{ error }}</span>
+                                       {% endfor %}
+                                    </div>
+                                 </div>
+                              </div>
 
+                              <!-- puesto de empleado-->
+                              <div class="form-group">
+                                 <label class="col-sm-3 control-label">Reporta a:</label>
+                                 <div class="col-sm-6 xs-pt-5">
+                                    <div class="{% if form.reporta.field.required %} has-warning {% endif %} {% if form.reporta.errors %} has-error {% endif %}">
+                                       <p>
+                                          {{ form.reporta}}
+                                       </p>
+                                       {% for error in form.reporta.errors %}
+                                       <span class="help-block">{{ error }}</span>
+                                       {% endfor %}
+                                    </div>
+                                 </div>
+                              </div>
+
+                              <!-- objetivo -->
+                              <div class="form-group">
+                                 <label class="col-sm-3 control-label" for="{{ form.objetivo.id_for_label }}">
+                                    <i class="fa {% if form.objetivo.field.required %} fa-asterisk {% endif %} {% if form.objetivo.errors %} fa-asterisk {% endif %}"></i>
+                                    {{ form.objetivo.label }}
+                                 </label>
+
+                                 <div class="col-sm-6 xs-pt-5">
+                                    {{ form.objetivo }}
+                                    <!-- <textarea class="form-control input-sm" cols="40" id="id_objetivo" >
+                                    </textarea> -->
+                                 </div>
+                                 {% for error in form.objetivo.errors %}
+                                 <span class="help-block">{{ error }}</span>
+                                 {% endfor %}
+                              </div>
+
+
+                              <div class="form-group">
+                                 <label class="col-sm-3 control-label" for="{{ form.funciones.id_for_label }}">
+                                    {{ form.funciones.label }}
+                                 </label>
+                                 <div class="col-sm-6 xs-pt-5">
+                                    {{ form.funciones }}
+                                 </div>
+                                 {% for error in form.funciones.errors %}
+                                 <span class="help-block">{{ error }}</span>
+                                 {% endfor %}
+                              </div>
+
+                              <!-- RESPONSABILIDADES -->
+                              <div class="form-group">
+                                 <label class="col-sm-3 control-label" for="{{ form.responsabilidades.id_for_label }}">
+                                    {{ form.responsabilidades.label }}
+                                 </label>
+                                 <div class="col-sm-6 xs-pt-5">
+                                    {{ form.responsabilidades }}
+                                    <!--<textarea class="form-control input-sm" cols="40" id="responsabilidades" >
+                                    </textarea>-->
+                                 </div>
+                                 {% for error in form.responsabilidades.errors %}
+                                    <span class="help-block">{{ error }}</span>
+                                 {% endfor %}
+                              </div>
+
+                              <div class="form-group">
+                                 <label class="col-sm-3 control-label">Posicion Staff</label>
+                                 <div class="col-sm-6 xs-pt-5">
+                                    <div class="switch-button switch-button-yesno">
+                                       <input type="checkbox"  name="posicion" id="posicion">
+                                       <span><label for="posicion"></label></span>
+                                    </div>
+                                 </div>
+                              </div>
+
+                              {% if form.errors %}
+                                 {% for field in form %}
+                                    {% for error in field.errors %}
+                                       <div class="alert alert-danger">
+                                          {{ field.label }}
+                                          <strong>{{ error|escape }}</strong>
+
+                                       </div>
+                                    {% endfor %}
+                                 {% endfor %}
+                                 {% for error in form.non_field_errors %}
+                                    <div class="alert alert-danger">
+                                       <strong>{{ error|escape }}</strong>
+                                    </div>
+                                 {% endfor %}
+                              {% endif %}
+
+                              <div class="nova-wizard-grid">
+                                 <div class="panel-heading nova-panel-borde-contenido nova-panel-tools">
+                                    <a href="#modal_nuevo" class="btn nova-btn btn-rounded btn-sm btn-space btn-default pull-right " data-toggle="modal" id="boton_nuevo_per">
+                                       <i class="icon icon-left mdi mdi-plus-circle nova-black"></i> Agregar Puesto Cargo
+                                    </a>
+                                    <a href="#modal_nuevo_cap" class="btn nova-btn btn-rounded btn-sm btn-space btn-default pull-right hidden" data-toggle="modal" id="boton_nuevo_cap">
+                                       <i class="icon icon-left mdi mdi-plus-circle nova-black"></i> Nueva capacitación
+                                    </a>
+                                 </div><!-- Panel Heading -->
+                                 <div id="grid_resultados" class="nova-div-overflow"> </div>
+                              </div> <!-- Panel -->
+
+                              <div class="nova-wizard-footer">
+                                  <button type="button" class="btn btn-primary btn-lg pull-left" id="id_boton_guardar_perfil" >Guardar</button>
+                                  <button data-wizard="#wizard1" class="btn btn-primary btn-space wizard-next pull-right">Siguiente Paso</button>
+                                  <button class="btn btn-default btn-space pull-right">Cancel</button>
+                              </div>
+
+                           </form>
+
+                        </div>
+
+                        <div data-step="2" class="step-pane">
+
+                           <form action="#" data-parsley-namespace="data-parsley-" data-parsley-validate="" novalidate="" class="form-horizontal group-border-dashed">
+                              <div class="form-group no-padding">
+                                 <div class="col-sm-7">
+                                    <h3 class="wizard-title">Organigrama</h3>
+                                 </div>
+                              </div>
+                              <div class="form-group">
+                                 <div class="nova-contenedor-organigrama" id="content-data"></div>
+                              </div>
+
+                              <div class="nova-wizard-footer nova-border-top">
+
+                                 <button data-wizard="#wizard1" class="btn btn-primary btn-space wizard-next pull-right">Siguiente Paso</button>
+                                 <button data-wizard="#wizard1" class="btn btn-default btn-space wizard-previous pull-right">Previous</button>
+
+                              </div>
+
+                           </form>
+
+                        </div>
+
+                        <div data-step="3" class="step-pane">
+                           <!--<form action="#" data-parsley-namespace="data-parsley-" data-parsley-validate="" novalidate="" class="form-horizontal group-border-dashed">-->
+                           <form action="" method="POST" enctype="multipart/form-data" id="formulario_per" class="form-horizontal group-border-dashed"> {% csrf_token %}
+                              <div class="form-group no-padding">
+                                 <div class="col-sm-7">
+                                    <h3 class="wizard-title">Requerimiento</h3>
+                                 </div>
+                              </div>
+
+                              <div class="form-group">
+                                 <!--<div class="col-sm-3 xs-pt-15">-->
+                                 <label class="col-sm-3 control-label">Edad Minima</label>
+                                 <div class="col-sm-2 xs-pt-5">
+
+                                    {{ form.edad_minima }}
+
+                                    {% for error in form.edad_minima.errors %}
+                                    <span class="help-block">{{ error }}</span>
+                                    {% endfor %}
+                                    <!--<input type="text" placeholder="edad minima" class="form-control">-->
+                                 </div>
+                                 <label class="col-sm-2 control-label">Edad Maxima</label>
+                                 <div class="col-sm-2 xs-pt-5">
+
+                                    <!--<input type="text" placeholder="edad maxima" class="form-control">-->
+                                    {{ form.edad_maxima }}
+                                 </div>
+
+                              </div>
+
+                              <div class="form-group">
+                                 <label class="col-sm-3 control-label">Nivel de Estudios</label>
+                                 <div class="col-sm-6 xs-pt-5">
+                                    {{ form.nivel_estudio }}
+                                 </div>
+                              </div>
+
+                              <div class="form-group">
+                                 <label class="col-sm-3 control-label">Estado Civil</label>
+                                 <div class="col-sm-6 xs-pt-5">
+                                    {{ form.estado_civil }}
+                                 </div>
+                              </div>
+
+                              {% tag_field_radio form.genero 3 6 %}
+
+
+                              <div class="form-group">
+                                 <label class="col-sm-3 control-label" for="{{ form.cambio_residencia.id_for_label }}">
+                                    {{ form.cambio_residencia.label }}
+                                 </label>
+                                 <div class="col-sm-2 xs-pt-5">
+
+                                       {{ form.cambio_residencia }}
+
+                                    {% for error in form.cambio_residencia.errors %}
+                                    <span class="help-block">{{ error }}</span>
+                                    {% endfor %}
+                                 </div>
+
+                                 <label class="col-sm-2 control-label" for="{{ form.disponibilidad_viajar.id_for_label }}">
+                                    {{ form.disponibilidad_viajar.label }}
+                                 </label>
+                                 <div class="col-sm-2 xs-pt-5">
+                                    {{ form.disponibilidad_viajar }}
+                                    {% for error in form.disponibilidad_viajar.errors %}
+                                    <span class="help-block">{{ error }}</span>
+                                    {% endfor %}
+                                 </div>
+                              </div>
+
+                              <div class="form-group">
+                                 <label class="col-sm-3 control-label">Otros Requerimientos</label>
+                                 <div class="col-sm-6 xs-pt-5">
+                                    {{ form.requerimentos }}
+                                    {% for error in form.requerimientos.errors %}
+                                    <span class="help-block">{{ error }}</span>
+                                    {% endfor %}
+                                    <!--<textarea class="form-control"></textarea>-->
+                                 </div>
+                              </div>
+                              <br>
+
+
+                              <div class="nova-wizard-footer nova-border-top">
+
+                                 <button data-wizard="#wizard1" class="btn btn-primary btn-space wizard-next pull-right">Siguiente Paso</button>
+                                 <button data-wizard="#wizard1" class="btn btn-default btn-space wizard-previous pull-right">Previous</button>
+
+                              </div>
+
+                           </form>
+
+                        </div>
+
+                        <div data-step="4" class="step-pane">
+                           <!-- <form action="#" data-parsley-namespace="data-parsley-" data-parsley-validate="" novalidate="" class="form-horizontal group-border-dashed"> -->
+                           <form action="" method="POST" enctype="multipart/form-data" id="formulario_per2" class="form-horizontal group-border-dashed"> {% csrf_token %}
+                              <div class="form-group no-padding">
+                                 <div class="col-sm-7">
+                                    <h3 class="wizard-title">Competencias</h3>
+                                 </div>
+                              </div>
+
+
+
+
+                              <div class="nova-wizard-grid nova-panel-no-border-top">
+                                 <!--<label class="col-sm-3 control-label"> Competencias Administrativas</label>-->
+                                    <div class="panel panel-default panel-table">
+                                       <div class="panel-heading nova-wizard-grid-header">Administrativas - Tecnicas
+                                          <div class="tools"><span class="icon mdi mdi-download"></span><span class="icon mdi mdi-more-vert"></span></div>
+                                       </div>
+                                       <div class="panel-body">
+
+                                          <div class="panel-heading nova-panel-borde-contenido nova-panel-tools">
+                                             <a href="#modal_nuevo_competencia" class="btn nova-btn btn-rounded btn-sm btn-space btn-default pull-right " data-toggle="modal" id="boton_nuevo_per">
+                                                <i class="icon icon-left mdi mdi-plus-circle nova-black"></i> Agregar Competencia
+                                             </a>
+                                          </div><!-- Panel Heading -->
+                                          <div id="grid_resultados_competencias" class="nova-div-overflow"> </div>
+
+                                       </div>
+                                    </div>
+                                       <!--<div class="row">
+                                                <div class="col-sm-3 xs-pt-15">
+                                                <button class="btn btn-primary btn-space wizard-next">Agregar</button>
+                                             </div>
+                                          </div>-->
+                               </div>
+                               <div class="nova-wizard-grid nova-panel-no-border-top">
+                                  <!--<label class="col-sm-3 control-label"> Competencias Administrativas</label>-->
+                                     <div class="panel panel-default panel-table">
+                                        <div class="panel-heading nova-wizard-grid-header">Indicadores
+                                           <div class="tools"><span class="icon mdi mdi-download"></span><span class="icon mdi mdi-more-vert"></span></div>
+                                        </div>
+                                        <div class="panel-body">
+
+                                           <div class="panel-heading nova-panel-borde-contenido nova-panel-tools">
+                                              <a href="#modal_nuevo_competencia" class="btn nova-btn btn-rounded btn-sm btn-space btn-default pull-right " data-toggle="modal" id="boton_nuevo_per">
+                                                 <i class="icon icon-left mdi mdi-plus-circle nova-black"></i> Agregar Indicadores
+                                              </a>
+                                           </div><!-- Panel Heading -->
+                                           <div id="grid_resultados_indicadores" class="nova-div-overflow"> </div>
+
+                                        </div>
+                                     </div>
+                                </div>
+
+                              
+
+                              <!-- <div class="form-group">
+                              <label class="col-sm-3 control-label"> Competencias Tecnicas </label>
+                              <div class="main-content container-fluid">
+                              <div class="row">
+                              <div class="col-sm-6">
+                              <div class="panel panel-default panel-table">
+                              <div class="panel-heading">Tecnicas
+                              <div class="tools"><span class="icon mdi mdi-download"></span><span class="icon mdi mdi-more-vert"></span></div>
+                              </div>
+                              <div class="panel-body">
+                              <div id="grid_resultados_competencias_tec" class="nova-div-overflow"> </div>
+                              </div>
+                              </div>
+                              </div>
+                              <div class="row">
+                              <div class="col-sm-3 xs-pt-15">
+                              <button class="btn btn-primary btn-space wizard-next">Agregar</button>
+                              </div>
+                              </div>
+                              </div>
+
+                              </div>
+                              </div>-->
+
+                              <div class="nova-wizard-footer nova-border-top">
+
+                                 <button  type="button" data-wizard="#wizard1" class="btn btn-success btn-space wizard-next pull-right" id="id_btguardar_perfil_detalle">Terminar</button>
+                                 <button data-wizard="#wizard1" class="btn btn-default btn-space wizard-previous pull-right">Previous</button>
+
+                              </div>
+
+                           </form>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+
+<!-- Modal puestos a cargo-->
+<div id="modal_nuevo" role="dialog" class="modal fade colored-header colored-header-primary">
+   <div class="modal-dialog custom-width">
+      <div class="modal-content">
+
+         <div class="modal-header nova-modal-header">
+            <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
+            <h3 class="modal-title">Agregar Puestos a Cargo</h3>
+         </div>
+         <form action="" method="POST" enctype="multipart/form-data" id="formulario_per"> {% csrf_token %}
+            <!-- Subtipo -->
+            <div class="modal-body form-horizontal">
+               <div class="form-group">
+                  <label class="col-sm-3 nova-col-filter control-label">Puesto a Cargo</label>
+                  <div class="col-sm-8 xs-pt-5">
+                     {{ form2.desc_puesto2 }}
+                  </div>
+               </div>
+            </div>
+
+            <!-- Botones de acción -->
+            <div class="modal-footer nova-modal-footer">
+               <div class="row col-sm-12">
+                  <button type="button" data-dismiss="modal" class="btn btn-default pull-left">
+                     Cancelar
+                  </button>
+                  <button type="button" class="btn btn-primary" id="id_boton_guardar_acargo" >Guardar</button>
+               </div>
+            </div>
+         </form>
+      </div> <!-- Modal content-->
+   </div> <!-- Modal dialog -->
+</div><!-- Modal puestos a cargo-->
+
+<!-- Modal puestos competencia-->
+<div id="modal_nuevo_competencia" role="dialog" class="modal fade colored-header colored-header-primary">
+   <div class="modal-dialog custom-width">
+      <div class="modal-content">
+
+         <div class="modal-header nova-modal-header">
+            <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
+            <h3 class="modal-title">Agregar Competencia</h3>
+         </div>
+         <form action="" method="POST" enctype="multipart/form-data" id="formulario_per"> {% csrf_token %}
+            <!-- competencias -->
+            <div class="modal-body form-horizontal">
+               <div class="form-group">
+                  <label class="col-sm-3 nova-col-filter control-label">Competencias</label>
+                  <div class="col-sm-8 xs-pt-5">
+                     {{ formc.descripcion }}
+                  </div>
+
+               </div>
+            </div>
+
+            <!-- descripcion -->
+            <div class="modal-body form-horizontal">
+               <div class="form-group">
+                  <label class="col-sm-3 nova-col-filter control-label">Tipo de Competencia</label>
+                  <div class="col-sm-8 xs-pt-5">
+                     {{ formc.tipo_competencia }}
+                  </div>
+
+               </div>
+            </div>
+
+            <!-- porcentaje -->
+            <div class="modal-body form-horizontal">
+               <div class="form-group">
+                  <label class="col-sm-3 nova-col-filter control-label">Porcentaje</label>
+                  <div class="col-sm-8 xs-pt-5">
+                     {{ formc.porcentaje }}
+                  </div>
+
+               </div>
+            </div>
+
+
+
+            {% for error in formc.descripcion.errors %}
+            <span class="help-block">{{ error }}</span>
+            {% endfor %}
+
+            <!-- Botones de acción -->
+            <div class="modal-footer nova-modal-footer">
+               <div class="row col-sm-12">
+                  <button type="button" data-dismiss="modal" class="btn btn-default pull-left">
+                     Cancelar
+                  </button>
+                  <button type="button" class="btn btn-primary" id="boton_guardar_competencia" >Guardar</button>
+               </div>
+            </div>
+         </form>
+      </div> <!-- Modal content-->
+   </div> <!-- Modal dialog -->
+</div><!-- Modal puestos a cargo-->
 
 {% endblock contenido %}
 
 {% block scripts %}
 
-    <!--JSZIP -->
-    <script src="{% static 'libs/kendo/2015.2.624/js/jszip.min.js' %}"></script>
-    <!-- Kendo Js -->
-    <script src="{% static 'libs/kendo/2015.2.624/js/cultures/kendo.culture.es-MX.min.js' %}"></script>
-    <script src="{% static 'libs/kendo/2015.2.624/js/kendo.web.min.js' %}"></script>
+<!--JSZIP -->
+<script src="{% static 'libs/kendo/2015.2.624/js/jszip.min.js' %}"></script>
+<!-- Kendo Js -->
+<script src="{% static 'libs/kendo/2015.2.624/js/cultures/kendo.culture.es-MX.min.js' %}"></script>
+<script src="{% static 'libs/kendo/2015.2.624/js/kendo.web.min.js' %}"></script>
 
-   <!-- Theme -->
-   <script src="{% static 'theme/lib/jquery-ui/jquery-ui.min.js' %}"></script>
-   <script src="{% static 'theme/lib/perfect-scrollbar/js/perfect-scrollbar.jquery.min.js' %}"></script> 
+<!-- Theme -->
+<script src="{% static 'theme/lib/jquery-ui/jquery-ui.min.js' %}"></script>
+<script src="{% static 'theme/lib/perfect-scrollbar/js/perfect-scrollbar.jquery.min.js' %}"></script>
 
-   <!-- Wizard -->
-   <script src="{% static 'theme/lib/fuelux/js/wizard.js' %}"></script>
-   <script src="{% static 'theme/lib/fuelux/js/app-form-wizard.js' %}"></script>
+<!-- Wizard -->
+<script src="{% static 'theme/lib/fuelux/js/wizard.js' %}"></script>
+<script src="{% static 'theme/lib/fuelux/js/app-form-wizard.js' %}"></script>
 
-    <!-- OrgChart-->
-   <script src="{% static 'libs/OrgChart/js/jquery-ui-1.9.2.custom.min.js' %}"></script>
-   <script src="{% static 'libs/OrgChart/js/jquery.orgchart.js' %}"></script>
+<!-- OrgChart-->
+<script src="{% static 'libs/OrgChart/js/jquery-ui-1.9.2.custom.min.js' %}"></script>
+<script src="{% static 'libs/OrgChart/js/jquery.orgchart.js' %}"></script>
 
-   <!-- NOVA -->
-   <script src="{% static 'perfilpuesto/perfil_nuevo.js' %}"></script>     
-   <script src="{% static 'perfilpuesto/perfil_organigrama.js' %}"></script> 
+<!-- NOVA -->
+<script src="{% static 'perfilpuesto/perfil_nuevo.js' %}"></script>
+<script src="{% static 'perfilpuesto/perfil_organigrama.js' %}"></script>
 
-    <script type="text/javascript">
-      $(document).ready(function(){
-        //initialize the javascript
-        App.init();
-        App.wizard();
-      });
-    </script>
+<script type="text/javascript">
+$(document).ready(function(){
+   //initialize the javascript
+   App.init();
+   App.wizard();
+});
+</script>
 
 {% endblock scripts %}

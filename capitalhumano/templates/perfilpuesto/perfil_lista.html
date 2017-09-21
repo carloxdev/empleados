@@ -2,211 +2,134 @@
 
 {% load static from staticfiles %}
 
+{% load custom_tags %}
+
 {% block titulo %} Capital humano {% endblock titulo %}
 
 {% block title-page %} Perfiles  {% endblock title-page %}
 
 {% block css %}
+
     <!-- Kendo -->
     <link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.rtl.min.css' %}"/>
     <link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.common-bootstrap.min.css' %}"/>
     <link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.bootstrap.min.css' %}"/>
 
-    <!-- Theme -->
-    <link rel="stylesheet" href="{% static 'theme/lib/datetimepicker/css/bootstrap-datetimepicker.min.css' %}"/>
-    <link rel="stylesheet" href="{% static 'theme/lib/daterangepicker/css/daterangepicker.css' %}"/>
-    
     <!-- Nova -->
     <link rel="stylesheet" href="{% static 'grid.css' %}"/>
+
 {% endblock css %}
 
 {% block contenido %}
 
 <div class="be-content">
-    <div class="page-head">
-        <h2 class="page-head-title">Capital Humano</h2>
-        <ol class="breadcrumb page-head-nav">
-            <li class="active" ><a href="{% url 'capitalhumano:perfil_nuevo' %}">Perfiles / Nuevo </a> </li>
+    <div class="page-head nova-page-head">
+        <h2 class="page-head-title nova-title">Capital Humano</h2>
+        <ol class="breadcrumb page-head-nav pull-right pull-right">
+           <li> <a href="{% url 'home:inicio'%}">Inicio</a></li>
+            <li class="active" id="menu" data-opcion="capitalhumano_perfiles">
+               <a href="{% url 'capitalhumano:perfil_nuevo' %}">Perfiles </a>
+            </li>
         </ol>
     </div>
-    <div class="main-content container-fluid">
-        <div class="col-sm-12">
-            <div class="panel panel-border panel-contrast">
-                <div class="panel-heading panel-heading-default nova-border-bottom">Filtros
-                    <div class="tools" data-toggle="collapse" href="#cabecera_colapsible"><span class="icon mdi mdi-caret-down-circle" id="boton_colapsible"></span>
-                    </div>
-                </div> 
-                <div class="panel-body collapse in" id="cabecera_colapsible">
 
-                    <form action="" method="POST"> {% csrf_token %} 
+   <div class="main-content container-fluid nova-main-content">
 
-                        <div class="row">
-                                
-                            <div class="row nova-padding-row">
-                                <!-- asig_puesto_clave -->
-                                <div class="col-sm-4">
-                                    <div class="form-group {% if form.asig_puesto_clave.errors %} has-error {% endif %}">
+      <div class="row wizard-row">
 
-                                    <label class="control-label">
-                                    <i class="fa {% if form.asig_puesto_clave.errors %} fa-asterisk {% endif %}"></i> 
-                                        Puesto
-                                    </label>
-                                    <p>
-                                    {{ form.asig_puesto_clave}}  
-                           			 </p>
-                                      {% for error in form.asig_puesto_clave.errors %}
-                                      <span class="help-block">{{ error }}</span>
-                                      {% endfor %}
-                                    </div>
-                                </div>
+         <div class="col-sm-12">
+            <div class="panel panel-default panel-table">
 
+               <div class="panel-heading panel-border nova-panel-heading">
+                  <div class="tools pull-right" id="toolbar">
 
-                                <!-- pers_apellido_paterno -->
-                                <div class="col-sm-4">
-                                    <div class="form-group {% if form.reporta.errors %} has-error {% endif %}">
+                     <a href="{% url 'capitalhumano:perfil_nuevo' %}"
+                        class="btn nova-btn btn-rounded btn-space btn-default" id="boton_nuevo">
+                        <i class="icon icon-left mdi mdi-plus-circle nova-black"></i>Nuevo
+                     </a>
+                     <a href="#tarjeta_filtros"
+                        class="btn nova-btn btn-rounded btn-sm btn-space btn-primary" data-toggle="modal" id="id_boton_filtro">
+                        <i class="icon icon-left mdi mdi-search nova-white"></i> Filtros
+                     </a>
+                     <button class="btn nova-btn btn-rounded btn-space btn-success" id="boton_excel">
+                         <i class="icon icon-left mdi mdi-download nova-white"></i>Exportar
+                     </button>
 
-                                    <label class="control-label">
-                                    <i class="fa {% if form.reporta.errors %} fa-asterisk {% endif %}"></i> 
-                                        Departamento
-                                    </label>
-                                    <p>
-                                       <select  class="select2 nova-select2" id="id_departamento">
-                                          <option value="p1">Seleccione</option>
-                                          <optgroup label="Corporativo">
-                                            <option value="p1">Capital Humano</option>
-                                            <option value="p2">Juridico</option>
-                                            <option value="p3">Tecnologias de Informacion</option>
-                                            <option value="p4">Gestion de Calidad</option>
-                                            <option value="p5">Licitaciones</option>
-                                          </optgroup>
-                                        </select> 
-                                    </p>
-                                    </div>
-                                </div>
+                   </div>
+                   <div class="title hidden-xs">Registros</div>
 
+               </div><!-- Panel Heading -->
+               <div id="grid_resultados">
+               </div>
 
-                                 <!-- pertenece -->
-                                <div class="col-sm-4">
-                                    <div class="form-group {% if form.pers_segundo_nombre.errors %} has-error {% endif %}">
-                                        <label class="control-label">
-                                            <i class="fa {% if form.pers_segundo_nombre.errors %} fa-asterisk {% endif %}"></i> 
-                                           Pertenece a:
-                                        </label>
-                                        <p>
-                                            <input type="text" placeholder="" class="form-control">
-                                        </p>               
-                                    </div>
-                                </div>   
-                                
-                 
-                            </div>                       
+            </div> <!-- Panel -->
+         </div><!-- col sm 12-->
 
-                            <!-- pers_apellido_materno -->
-                            <div class="col-sm-4">
-                                <div class="form-group {% if form.pers_apellido_materno.errors %} has-error {% endif %}">
+      </div><!-- wizard-row -->
 
-                                <label class="control-label">
-                                <i class="fa {% if form.pers_apellido_materno.errors %} fa-asterisk {% endif %}"></i> 
-                                    Nivel de Estudios
-                                </label>
-                                <p>
-                                     <select class="select2 nova-select2" id="id_estudios">
-		                                  <option value="n0">Indistinto</option>
-		                                  <option value="n1">Trunco</option>
-		                                  <option value="n2">Pasante</option>
-		                                  <option value="n3">Titulado</option>
-		                             </select>
-                                </p>
-                                </div>
-                            </div>
+   </div> <!-- main-content -->
 
-                           
+</div> <!-- be-content -->
 
-                            <!-- pers_empleado_numero -->
-                            <div class="col-sm-4">
-                                <div class="form-group {% if form.pers_empleado_numero.errors %} has-error {% endif %}">
+<!-- Targeta Filtros -->
+<div id="tarjeta_filtros" role="dialog" class="modal fade colored-header colored-header-primary">
+    <div class="modal-dialog modal-lg nova-modal-responsive">
+        <div class="modal-content nova-modal-maxwidth nova-modal-content-responsive">
 
-                                <label class="control-label">
-                                    Areas de Experiencia
-                                </label>
-                                <p>
-                                    <select class="form-control" class="select2 nova-select2" id="id_experiencia">
-                                      <option value="p1">Seleccione</option>
-	                                  <option value="n0">Administracion y Finanzas</option>
-	                                  <option value="n1">Administracion general</option>
-	                                  <option value="n2">Auditoria</option>
-	                                  <option value="n3">Finanzas</option>
-                                   </select> 
-                               </p>
-                                </div>
-                            </div>
+            <div class="modal-header nova-modal-header">
+                <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
+                <h3 class="modal-title">Filtros</h3>
+            </div>
 
-                            
-                        </div>
-                        <button type="button" id="boton_limpiar" class="btn btn-default pull-left">
-                            <i class="fa fa-eraser"></i>
-                            Limpiar
+            <form action="" method="POST"> {% csrf_token %}
+
+               <div class="modal-body form-horizontal">
+
+                  {% tag_filter form.asig_puesto_clave %}
+
+                  {% tag_filter form.departamento %}
+
+                  {% tag_filter form.pertenece %}
+
+                  {% tag_filter form.nivel_estudio %}
+
+                  {% tag_filter form.area_experiencia %}
+
+               </div>
+               <div class="modal-footer nova-modal-footer">
+                    <div class="row col-sm-12">
+                        <button type="button" data-dismiss="modal" class="btn btn-default pull-left">
+                           Cancelar
+                        </button>
+
+                        <button type="button" id="boton_limpiar" class="btn btn-default nova-btn">
+                           <i class="fa fa-eraser"></i>
+                           Limpiar
                         </button>
 
                         <button type="button" id="boton_buscar" class="btn nova-btn btn-primary btn-lg pull-right" method='POST'>
                             <i class="icon icon-left mdi mdi-search nova-white"></i>
                             Buscar
                         </button>
-                    </form>
-                </div> <!-- Panel Body -->
-            </div>  <!-- Panel -->
-        </div>  <!-- col-sm-12 -->
-        
-        {% if True %}<!--Preguntar si al cargar la ventana va a estar oculto el grid-->
-        <div class="col-sm-12">
-            <div class="panel panel-default panel-table">
-                <div class="panel-heading panel-border nova-panel-heading">
-                    <div class="tools pull-right" id="toolbar">
-
-
-                        <a href="{% url 'capitalhumano:perfil_nuevo' %}" 
-                            class="btn nova-btn btn-rounded btn-space btn-default" id="boton_nuevo">
-                            <i class="icon icon-left mdi mdi-plus-circle nova-black"></i>Nuevo 
-                        </a>
-
-                        <button class="btn nova-btn btn-rounded btn-space btn-success" id="boton_excel">
-                            <i class="icon icon-left mdi mdi-download nova-white"></i>Exportar
-                        </button>
-                    </div>
-                   
-   
-   <div class="title hidden-xs">Registros</div>
-            </div><!-- Panel Heading -->
-            <div id="grid_resultados">
-           
-            </div>
-
-                <div class="panel-footer panel-border nova-panel-footer panel-border">
-                </div><!-- Panel Footer -->
-            </div> <!-- Panel -->
-        </div><!-- col sm 12-->
-        {% endif %}
-    </div>
-</div>
+                   </div>
+               </div>
+            </form>
+        </div> <!-- Modal content-->
+    </div> <!-- Modal dialog -->
+</div><!-- Modal -->
 
 {% endblock contenido %}
 
 {% block scripts %}
+
     <!--JSZIP -->
     <script src="{% static 'libs/kendo/2015.2.624/js/jszip.min.js' %}"></script>
+
     <!-- Kendo Js -->
     <script src="{% static 'libs/kendo/2015.2.624/js/cultures/kendo.culture.es-MX.min.js' %}"></script>
     <script src="{% static 'libs/kendo/2015.2.624/js/kendo.web.min.js' %}"></script>
-
-    <!-- Theme -->
-    <script src="{% static 'theme/lib/jquery-ui/jquery-ui.min.js' %}"></script>
-    <script src="{% static 'theme/lib/datetimepicker/js/bootstrap-datetimepicker.min.js' %}"></script>
-    <script src="{% static 'theme/lib/datetimepicker/js/locales/bootstrap-datetimepicker.es.js' %}"></script>
-    <script src="{% static 'theme/lib/daterangepicker/js/daterangepicker.js' %}"></script>
 
     <!-- NOVA -->
     <script src="{% static 'perfilpuesto/perfil_lista.js' %}"></script>
 
 {% endblock scripts %}
-
-
