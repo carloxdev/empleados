@@ -52,7 +52,8 @@ function PopupFiltros() {
     this.$unidad_negocio = $('#id_unidad_negocio')
     this.$ciudad_destino = $('#id_ciudad_destino')
     this.$autorizador = $('#id_autorizador')
-    this.$fecha_creacion = $('#fecha_creacion')
+    this.$created_date_mayorque = $('#id_created_date_mayorque_group')
+    this.$created_date_menorque = $('#id_created_date_menorque_group')
 
     this.$boton_buscar = $('#boton_buscar')
     this.$boton_limpiar = $('#boton_limpiar')
@@ -62,7 +63,8 @@ function PopupFiltros() {
 }
 PopupFiltros.prototype.init_Components = function () {
 
-    this.$fecha_creacion.daterangepicker(this.get_ConfDateRangePicker())
+   this.$created_date_mayorque.datepicker(appnova.get_ConfDatePicker())
+   this.$created_date_menorque.datepicker(appnova.get_ConfDatePicker())
 }
 PopupFiltros.prototype.init_Events = function () {
 
@@ -83,47 +85,8 @@ PopupFiltros.prototype.end_Show = function (e) {
     e.data.$proposito_viaje.focus()
 }
 PopupFiltros.prototype.hide = function (e) {
-    e.data.$fecha_creacion.data('daterangepicker').hide()
-}
-PopupFiltros.prototype.get_ConfDateRangePicker = function () {
-
-    return {
-        locale: {
-            // format: 'YYYY-MM-DD',
-            format: 'DD-MM-YYYY',
-            applyLabel: "Aplicar",
-            cancelLabel: "Cancelar",
-            fromLabel: "Del",
-            separator: " al ",
-            toLabel: "Al",
-            weekLabel: "S",
-            daysOfWeek: [
-                "Do",
-                "Lu",
-                "Ma",
-                "Mi",
-                "Ju",
-                "Vi",
-                "Sa"
-            ],
-            monthNames: [
-                "Enero",
-                "Febrero",
-                "Marzo",
-                "Abril",
-                "Mayo",
-                "Junio",
-                "Julio",
-                "Agosto",
-                "Septiembre",
-                "Octubre",
-                "Noviembre",
-                "Diciembre"
-            ],
-        },
-        // startDate: '2017-01-01'
-        startDate: '01-01-2017'
-    }
+   e.data.$created_date_mayorque.data('datepicker').hide()
+   e.data.$created_date_menorque.data('datepicker').hide()
 }
 PopupFiltros.prototype.get_Values = function (_page) {
 
@@ -135,8 +98,32 @@ PopupFiltros.prototype.get_Values = function (_page) {
         unidad_negocio_clave: this.$unidad_negocio.val(),
         ciudad_destino: this.$ciudad_destino.val(),
         autorizador_clave: this.$autorizador.val(),
-        creacion_fecha_mayorque: this.$fecha_creacion.data('daterangepicker').startDate.format('YYYY-MM-DD'),
-        creacion_fecha_menorque: this.$fecha_creacion.data('daterangepicker').endDate.format('YYYY-MM-DD'),
+        creacion_fecha_mayorque: this.get_FechaMayorQue("#id_created_date_mayorque_group"),
+        creacion_fecha_menorque: this.get_FechaMenorQue("#id_created_date_menorque_group"),
+    }
+}
+TarjetaFiltros.prototype.get_FechaMayorQue = function (element) {
+
+    fecha = $(element).datepicker("getDate")
+    fecha_conformato = moment(fecha).format('YYYY-MM-DD')
+
+    if (fecha_conformato == "Invalid date") {
+        return ""
+    }
+    else {
+        return fecha_conformato
+    }
+}
+TarjetaFiltros.prototype.get_FechaMenorQue = function (element) {
+
+    fecha = $(element).datepicker("getDate")
+    fecha_conformato = moment(fecha).format('YYYY-MM-DD')
+
+    if (fecha_conformato == "Invalid date") {
+        return ""
+    }
+    else {
+        return fecha_conformato
     }
 }
 PopupFiltros.prototype.get_NoFiltrosAplicados = function () {
@@ -158,9 +145,11 @@ PopupFiltros.prototype.get_NoFiltrosAplicados = function () {
     if (this.$autorizador.val()  != "" ) {
         cantidad += 1
     }
-    if (this.$fecha_creacion.data('daterangepicker').startDate.format('YYYY-MM-DD') != '2017-01-01' ||
-        this.$fecha_creacion.data('daterangepicker').endDate.format('YYYY-MM-DD') != moment().format('YYYY-MM-DD') ) {
-        cantidad += 1
+    if (this.get_FechaMayorQue("#id_created_date_mayorque_group") != "") {
+       cantidad += 1
+    }
+    if (this.get_FechaMenorQue("#id_created_date_menorque_group") != "") {
+       cantidad += 1
     }
 
     return cantidad
@@ -194,13 +183,8 @@ PopupFiltros.prototype.click_BotonLimpiar = function (e) {
     e.data.$unidad_negocio.val("").trigger("change")
     e.data.$ciudad_destino.val("")
     e.data.$autorizador.val("").trigger("change")
-
-    e.data.$fecha_creacion.data('daterangepicker').setStartDate(
-        '01-01-2017'
-    )
-    e.data.$fecha_creacion.data('daterangepicker').setEndDate(
-        moment().format('DD-MM-YYYY')
-    )
+    e.data.$created_date_mayorque.datepicker("clearDates")
+    e.data.$created_date_menorque.datepicker("clearDates")
 }
 
 

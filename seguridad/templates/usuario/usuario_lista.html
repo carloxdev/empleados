@@ -34,24 +34,24 @@
         <ol class="breadcrumb page-head-nav pull-right">
             <li><a href="{% url 'home:inicio' %}">Inicio</a></li>
             <li id="menu" data-opcion="usuario_lista" class="active">Usuarios</li>
-        </ol>   
-    </div>    
+        </ol>
+    </div>
 
     <!-- Targeta Resultados -->
     <div class="main-content container-fluid nova-main-content">
         <div class="row">
             <div class="col-xs-12 nova-col">
                 <div class="panel panel-default panel-table nova-panel-table">
-                    <div class="panel-heading panel-border nova-panel-heading"> 
+                    <div class="panel-heading panel-border nova-panel-heading">
                         <div class="widget-head nova-widget-head" id="toolbar">
                             <div class="button-toolbar">
 
-                                <a href="{% url 'seguridad:usuario_nuevo' %}" 
+                                <a href="{% url 'seguridad:usuario_nuevo' %}"
                                     class="btn nova-btn btn-rounded btn-space btn-default" id="boton_nuevo">
-                                    <i class="icon icon-left mdi mdi-plus-circle nova-black"></i> Nuevo 
+                                    <i class="icon icon-left mdi mdi-plus-circle nova-black"></i> Nuevo
                                 </a>
 
-                                <a href="#tarjeta_filtros" 
+                                <a href="#tarjeta_filtros"
                                     class="btn nova-btn btn-rounded btn-space btn-primary" data-toggle="modal" id="boton_filtros">
                                     <i class="icon icon-left mdi mdi-search nova-white"></i> Filtros
                                 </a>
@@ -66,7 +66,7 @@
                     <div id="grid_resultados">
                     </div><!-- "Panel Body" -->
               </div> <!-- Panel -->
-            </div><!-- col md 12 -->            
+            </div><!-- col md 12 -->
         </div>
     </div>
 </div>
@@ -75,7 +75,7 @@
 <div id="tarjeta_filtros" role="dialog" class="modal fade colored-header colored-header-primary">
     <div class="modal-dialog custom-width nova-modal-responsive">
         <div class="modal-content nova-modal-content-responsive">
-            
+
             <div class="modal-header nova-modal-header">
                 <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
                 <h3 class="modal-title">Filtros</h3>
@@ -85,21 +85,21 @@
 
                 {% tag_filter form.usuario %}
 
-                <!-- First_name --> 
+                <!-- First_name -->
                 {% tag_filter form.usuario__first_name %}
 
                 <!-- Last_name -->
                 {% tag_filter form.usuario__last_name %}
 
-                <!-- Email -->  
+                <!-- Email -->
                 {% tag_filter form.usuario__email %}
 
                 <!-- Clave de empleado -->
                 {% tag_filter form.clave_rh %}
 
-                <!-- Date_joined --> 
-                {% tag_filter_dates 'Fecha Creacion' form.created_date_mayorque form.created_date_menorque %} 
-                      
+                <!-- Date_joined -->
+                {% tag_filter_dates 'Fecha Creacion' form.created_date_mayorque form.created_date_menorque %}
+
             </form>
             <div class="modal-footer nova-modal-footer">
                  <div class="row col-sm-12">
@@ -139,6 +139,7 @@
 
     <!-- DatePicker -->
     <script src="{% static 'libs/bootstrap-datepicker/2.0/dist/js/bootstrap-datepicker.min.js' %}"></script>
+	 <script src="{% static 'libs/bootstrap-datepicker/2.0/dist/locales/bootstrap-datepicker.es.min.js' %}"></script>
 
 	<!-- Nova -->
 	<script src="{% static 'usuarios/usuario_lista.js' %}"></script>

@@ -79,11 +79,11 @@ class MiViaticoFilterForm(Form):
     )
 
     created_date_mayorque = CharField(
-        widget=TextInput(attrs={'class': 'form-control input-xs'})
+        widget=TextInput(attrs={'class': 'form-control input-xs', 'readonly': 'readonly'})
     )
 
     created_date_menorque = CharField(
-        widget=TextInput(attrs={'class': 'form-control input-xs'})
+        widget=TextInput(attrs={'class': 'form-control input-xs', 'readonly': 'readonly'})
     )
 
     def __init__(self, *args, **kwargs):

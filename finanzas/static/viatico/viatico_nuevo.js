@@ -36,8 +36,8 @@ Formulario.prototype.init_Components = function () {
     this.$empleado_clave.select2()
     this.$un_clave.select2()
 
-    this.$fecha_partida_input.datepicker({format: 'dd/mm/yyyy', autoclose: true})
-    this.$fecha_regreso_input.datepicker({format: 'dd/mm/yyyy', autoclose: true})
+    this.$fecha_partida_input.datepicker(appnova.get_ConfDatePicker())
+    this.$fecha_regreso_input.datepicker(appnova.get_ConfDatePicker())
 }
 Formulario.prototype.init_Events = function () {
 
