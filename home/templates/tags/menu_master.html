@@ -204,6 +204,7 @@
             </li>
         </ul>
     </li> -->
+    {%  if user|tag_validate_has_group:"MARKETING_ADMIN" %}
      <li class="parent"><a href="#"><i class="icon mdi mdi-blogger"></i><span>Comunicación interna</span></a>
         <ul class="sub-menu">
             <li id="comunicacion_admin">
@@ -213,4 +214,5 @@
             </li>
         </ul>
     </li>
+    {% endif %}
 </ul>

@@ -383,12 +383,18 @@ class EmpleadoExpediente(View):
             "ebs_p").filter(pers_empleado_numero=_numero_empleado)
 
         ruta = self.comprobar_Direccion(empleado)
-
+        for dato in empleado:
+                fecha_contratacion = self.construir_Fecha(
+                    dato.pers_fecha_contratacion)
+                fecha_nacimiento = self.construir_Fecha(
+                    dato.pers_fecha_nacimiento)
         contexto = {
             'empleado': empleado,
             'ruta': ruta,
             'form': form_per,
-            'form2': form_cap
+            'form2': form_cap,
+            'fecha_contratacion': fecha_contratacion,
+            'fecha_nacimiento': fecha_nacimiento,
         }
 
         return render(request, self.template_name, contexto)
@@ -406,6 +412,11 @@ class EmpleadoExpediente(View):
             ruta = '/static/theme/img/avatar-150.png'
 
         return ruta
+
+    def construir_Fecha(self, _campo):
+        fecha_split = _campo.split('-')
+        fecha = fecha_split[2].split(" 00:00:00")[0] + "/" + fecha_split[1] + "/" + fecha_split[0]
+        return fecha
 
 
 # -------------- PERFILES DE PUESTOS DOCUMENTO  -------------- #

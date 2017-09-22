@@ -1,9 +1,8 @@
 {% extends 'master.html' %}
 
 {% load static from staticfiles %}
-
+{% load custom_tags %}
 {% block titulo %} Inicio {% endblock titulo %}
-
 {% block title-page %} Inicio  {% endblock title-page %}
 
 {% block contenido %}
@@ -16,34 +15,15 @@
       </ol>
    </div>
    {% if registros %}
-      <div class="main-content container-fluid nova-main-content">
-      
-            <div class="user-info-list panel panel-default panel-border nova-margin-bottom">
-               <div class="panel-body nova-padding-buscador">
-                     <form class="pull-right col-sm-4 nova-padding-right"action="" method="GET">
-                        <div class="input-group">
-                            <input type="text" class="form-control btn-rounded nova-height-buscar" name="q" placeholder="Post a buscar..." value="{{ request.GET.q }}">
-                            <span class="input-group-btn">
-                              <button type="submit" id="boton_buscar" class="btn nova-height-buscar nova-btn btn-rounded btn-primary btn-flat">
-                                <i class="fa fa-search"></i>
-                                Buscar
-                              </button>
-                            </span>
-                        </div>
-                    </form>
-               </div>
-            </div>
-         
-   </div>
 
       <div class="col-md-8 nova-padding-left">
          {% for registro in registros %}
 
-            <div class="main-content container-fluid nova-main-content nova-post-container">
+            <div class="main-content container-fluid nova-main-content nova-padding-bottom nova-padding-top">
                   
                <div class="user-info-list panel panel-default panel-border nova-post-sombreado">
                   <div class="col-md-12 nova-post-titulo">
-                     <a class="nova-sin-estilo" href="{% url 'editorial:post_consultar' registro.pk %}">
+                     <a class="nova-a-estilo" href="{% url 'editorial:post_consultar' registro.pk %}">
                            {{ registro.titulo }}
                      </a>
                   </div>
@@ -84,7 +64,7 @@
                      <div class="modal-footer nova-centrar">
                            <a href="{% url 'editorial:post_consultar' registro.pk %}" class="btn btn-primary btn-lg nova-post-contenido" role="button">Leer mas...</a>
 
-                           {% if user.is_superuser %}
+                           {%  if user|tag_validate_has_group:"MARKETING_ADMIN" %}
                               <a href="{% url 'editorial:post_editar' registro.pk %}" class="btn btn-warning btn-lg nova-post-contenido">
                                  <i class="fa fa-pencil" aria-hiden="true"></i> Editar
                               </a>
@@ -98,7 +78,7 @@
           {% endfor %}
 
          <div class="col-md-12 text-center">
-           <ul class="pagination pagination-sm no-margin legal-article-paginador">
+           <ul class="pagination pagination-sm no-margin">
                {% if registros.has_previous %}
                    <li><a href="?{{ page_request_var }}={{ registros.previous_page_number }}&q={{ request.GET.q }}">&laquo;</a></li>
                {% endif %}
@@ -116,18 +96,53 @@
          </div>
 
       </div>
-      <div class="col-md-4 nova-padding-left">
+      <section class="col-md-4 nova-bloque nova-padding-left">
+         <div class="user-info-list panel panel-default panel-border nova-margin-bottom">
+            <div class="panel-body nova-padding-tools">
+               <form class="pull-right nova-padding-right"action="" method="GET">
+                  <div class="input-group">
+                      <input type="text" class="form-control btn-rounded nova-height-buscar" name="q" placeholder="Post a buscar..." value="{{ request.GET.q }}">
+                      <span class="input-group-btn">
+                        <button type="submit" id="boton_buscar" class="btn nova-height-buscar nova-btn btn-rounded btn-primary btn-flat">
+                          <i class="fa fa-search"></i>
+                          Buscar
+                        </button>
+                      </span>
+                  </div>
+               </form>
+            </div>
+         </div>
+      </section>
+      <section class="col-md-4 nova-padding-left">
          <div class="user-info-list panel panel-default panel-border nova-cumpleanos nova-post-sombreado">
-            <div class="col-md-12 nova-post-titulo">
-               <leged>Cumpleaños</legend>
+            <div class="col-md-12 nova-post-titulo">Cumpleaños
             </div>
             <div class="nova-cumpleanos-contenido">
             
             </div>
          </div>
-      </div>
+      </section>
+      
 
    {% else %}
+   <div class="main-content container-fluid nova-main-content">
+      <div class="user-info-list panel panel-default panel-border nova-margin-bottom">
+         <div class="panel-body nova-padding-tools">
+               <form class="pull-right col-sm-4 nova-padding-right"action="" method="GET">
+                  <div class="input-group">
+                      <input type="text" class="form-control btn-rounded nova-height-buscar" name="q" placeholder="Post a buscar..." value="{{ request.GET.q }}">
+                      <span class="input-group-btn">
+                        <button type="submit" id="boton_buscar" class="btn nova-height-buscar nova-btn btn-rounded btn-primary btn-flat">
+                          <i class="fa fa-search"></i>
+                          Buscar
+                        </button>
+                      </span>
+                  </div>
+              </form>
+         </div>
+      </div>
+    </div>
+
    <div class="main-content container-fluid nova-main-content">
       <div class="row">
          <div class="col-md-8">
@@ -142,9 +157,11 @@
 
          <div class="col-md-4 nova-padding-left">
             <div class="user-info-list panel panel-default panel-border nova-cumpleanos nova-post-sombreado">
-               <leged>Cumpleaños</legend>
+               <div class="col-md-12 nova-post-titulo">
+                  Cumpleaños
+               </div>
                <div class="nova-cumpleanos-contenido">
-
+               
                </div>
             </div>
          </div>

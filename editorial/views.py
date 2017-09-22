@@ -3,8 +3,9 @@ from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 
+# Decoradores
 from django.contrib.auth.decorators import login_required
-
+from home.decorators import group_required
 from django.utils.decorators import method_decorator
 
 from django.views.generic.base import View
@@ -75,6 +76,7 @@ class PostConsultar(View):
 
 
 @method_decorator(login_required, name='dispatch')
+@method_decorator(group_required('MARKETING_ADMIN'), name='dispatch')
 class PostAdministracion(View):
 
     def __init__(self):
@@ -109,6 +111,7 @@ class PostAdministracion(View):
 
 
 @method_decorator(login_required, name='dispatch')
+@method_decorator(group_required('MARKETING_ADMIN'), name='dispatch')
 class PostNuevo(View):
 
     def __init__(self):
@@ -147,6 +150,7 @@ class PostNuevo(View):
 
 
 @method_decorator(login_required, name='dispatch')
+@method_decorator(group_required('MARKETING_ADMIN'), name='dispatch')
 class PostEditar(View):
 
     def __init__(self):

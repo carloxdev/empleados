@@ -43,7 +43,7 @@
                     
                 {% if registros %}
 
-                    <div class="legal-article-lista">
+                    <div class="">
                         <div class="list-group">
                         {% for registro in registros %}
                             <a href="{% url 'editorial:post_editar' registro.pk %}" class="list-group-item nova-sombreado-lista nova-lista-block">
@@ -55,7 +55,7 @@
                         </div>
 
                         <div class="text-center">
-                            <ul class="pagination pagination-sm no-margin legal-paginador">
+                            <ul class="pagination pagination-sm no-margin">
                                 {% if registros.has_previous %}
                                     <li><a href="?{{ page_request_var }}={{ registros.previous_page_number }}&q={{ request.GET.q }}">&laquo;</a></li>
                                 {% endif %}
@@ -75,7 +75,7 @@
 
                 {% else %}
 
-                    <div class="legal-article-avance nova-contenido-borde nova-sin-resultados">No se encontraron registros</div>
+                    <div class="nova-contenido-borde nova-sin-resultados">No se encontraron registros</div>
 
                 {% endif %}
             </div> <!-- Panel -->

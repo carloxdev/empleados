@@ -47,7 +47,7 @@
 								</div>
 								<div class="col-xs-4">
 									<div class="title">Fecha Ingreso</div>
-									<div class="counter">{{ dato.pers_fecha_contratacion|cut:"00:00:00" }}</div>
+									<div class="counter">{{ fecha_contratacion }}</div>
 								</div>
 								<div class="col-xs-4">
 									<div class="title">Centro costos</div>
@@ -82,7 +82,7 @@
 									<tr>
 										<td class="icon nova-icon-gray"><span class="mdi mdi-cake"></span></td>
 										<td class="item">Fecha de Nacimiento</td>
-										<td>{{ request.user.profile.fecha_nacimiento|cut:"00:00:00"}}</td>
+										<td>{{ fecha_nacimiento }}</td>
 									</tr>
 									<tr>
 										<td class="icon nova-icon-gray"><span class="mdi mdi-globe-alt"></span></td>

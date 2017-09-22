@@ -1106,7 +1106,7 @@ GridCapacitacion.prototype.get_Configuracion = function () {
 GridCapacitacion.prototype.get_Columnas = function () {
 
     return [  
-            { field: "pk", 
+            { field: "pk",
                 title: " ", 
                 width:"50px" ,
                 template: '<a class="btn nova-btn btn-default nova-btn-delete" id="#=pk#" data-event="eliminar-capacitacion"> <i class="icon icon-left icon mdi mdi-delete nova-white"></i></a>'

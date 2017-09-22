@@ -33,9 +33,17 @@ class MiPerfil(View):
 
             ruta = self.comprobar_Direccion(empleado)
 
+            for dato in empleado:
+                fecha_contratacion = self.construir_Fecha(
+                    dato.pers_fecha_contratacion)
+                fecha_nacimiento = self.construir_Fecha(
+                    dato.pers_fecha_nacimiento)
+
             contexto = {
                 'form': form,
                 'empleado': empleado,
+                'fecha_contratacion': fecha_contratacion,
+                'fecha_nacimiento': fecha_nacimiento,
                 'ruta': ruta,
             }
         else:
@@ -55,6 +63,11 @@ class MiPerfil(View):
             ruta = '/static/theme/img/avatar-150.png'
 
         return ruta
+
+    def construir_Fecha(self, _campo):
+        fecha_split = _campo.split('-')
+        fecha = fecha_split[2].split(" 00:00:00")[0] + "/" + fecha_split[1] + "/" + fecha_split[0]
+        return fecha
 
 
 class MiOrganigrama(View):

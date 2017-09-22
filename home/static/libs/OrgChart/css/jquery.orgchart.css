@@ -486,32 +486,6 @@
   top: 0;
   left: 0;
 }
-
-.orgchart .nivel-1 .title {
-  background-color: #B40404;
-}
-.orgchart .nivel-1 .content {
-  border-color: #B40404;
-}
-.orgchart .niveles .title {
-  background-color: #DF7401;
-}
-.orgchart .niveles .content {
-  border-color: #DF7401;
-}
-.orgchart .staff-level .title {
-  background-color: #848484;
-}
-.orgchart .staff-level .content {
-  border-color: #848484;
-  border-style: dashed;
-}
-.orgchart .padre-jefe .title {
-  background-color: #DF7401;
-}
-.orgchart .padre-jefe .content {
-  border-color: #DF7401;
-}
 .orgchart-no-imagen-user{
   height: 70px;
   width: 70px;
@@ -566,4 +540,48 @@
 
 .orgchart.l2r .node.slide-left, .orgchart.r2l .node.slide-left {
   left: -40px;
+}
+
+/* ORGANIGRAMA */
+.orgchart .nova-nivel-1-2 .title {
+  background-color: rgb(214,40,40);
+}
+.orgchart .nova-nivel-1-2 .content {
+  border-color: rgb(214,40,40);
+}
+.orgchart .nova-nivel-3 .title {
+  background-color: black;
+}
+.orgchart .nova-nivel-3 .content {
+  border-color: black;
+}
+.orgchart .nova-nivel-4 .title{
+  background-color: rgb(87,87,87);
+}
+.orgchart .nova-nivel-4 .content {
+  border-color: rgb(87,87,87);
+}
+.orgchart .nova-nivel-5 .title{
+  background-color: rgb(185,185,185);
+}
+.orgchart .nova-nivel-5 .content {
+  border-color: rgb(185,185,185);
+}
+.orgchart .nova-nivel-6 .title{
+  background-color: white;
+  color: black;
+  border-top: 1px solid #575757;
+  border-left: 1px solid #575757;
+  border-right: 1px solid #575757;
+}
+.orgchart .nova-nivel-6 .content {
+  border-color: #575757;
+}
+.orgchart .nova-nivel-staff .title{
+  background-color: rgb(210,210,210);
+
+}
+.orgchart .nova-nivel-staff .content {
+  border-color: rgb(210,210,210);
+  border-style: dashed;
 }

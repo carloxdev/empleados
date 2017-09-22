@@ -21,6 +21,7 @@ from .models import PerfilCompetencias
 # Otros Modelos
 from ebs.models import VIEW_EMPLEADOS_FULL
 from jde.models import VIEW_PROVEEDORES
+from ebs.models import VIEW_ORGANIGRAMA
 
 
 class PerfilPuestosCargoSerializer(serializers.HyperlinkedModelSerializer):
@@ -391,15 +392,9 @@ class VIEW_ORGANIGRAMA_ORG_SERIALIZADO(object):
 
             if len(hijos):
                 self.get_Estructura(nodo, hijo)
-                self.get_ColorNivel(nodo, hijo)
                 nodo["children"] = self.get_Descendencia(_daddies, hijos, nodo)
             else:
                 self.get_Estructura(nodo, hijo)
-                if hijo.tipo == 'STAFF':
-                    nodo["staff"] = 'STAFF'
-                    nodo["className"] = 'staff-level'
-                else:
-                    self.get_ColorNivel(nodo, hijo)
 
             lista_descendencia.append(nodo)
 
@@ -421,14 +416,9 @@ class VIEW_ORGANIGRAMA_ORG_SERIALIZADO(object):
         if len(hijos):
             for dato in padre:
                 self.get_Estructura(nodo, dato)
-                if dato.pers_empleado_numero == '200817':
-                    nodo["className"] = 'nivel-1'
-                else:
-                    nodo["className"] = 'niveles'
             nodo["children"] = self.get_Descendencia(_daddies, hijos, nodo)
         else:
             self.get_Estructura(nodo, padre)
-            self.get_ColorNivel(nodo, padre)
 
         lista_json = json.dumps(nodo)
 
@@ -442,6 +432,7 @@ class VIEW_ORGANIGRAMA_ORG_SERIALIZADO(object):
         _nodo["puesto"] = "%s" % (_datos.asig_puesto_desc)
         _nodo["centro_costos"] = "%s" % (_datos.grup_fase_jde)
         _nodo["ubicacion"] = "%s" % (_datos.asig_ubicacion_desc)
+        self.get_ColorNivel(_nodo, _datos)
         self.buscar_Foto(_nodo, _datos)
 
     def buscar_Foto(self, _nodo, _datos):
@@ -456,14 +447,21 @@ class VIEW_ORGANIGRAMA_ORG_SERIALIZADO(object):
             _nodo["foto"] = '/static/images/decoradores/no-image-user.jpg '
 
     def get_ColorNivel(self, _nodo, _dato):
-        if _dato.nivel_estructura == 1:
-            _nodo["className"] = 'nivel-1'
-        elif (_dato.nivel_estructura == 2) or \
-                (_dato.nivel_estructura == 3) or \
-                (_dato.nivel_estructura == 4) or \
-                (_dato.nivel_estructura == 5) or \
-                (_dato.nivel_estructura == 6):
-            _nodo["className"] = 'niveles'
+        if (_dato.nivel_estructura == 1) or \
+                (_dato.nivel_estructura == 2):
+            _nodo["className"] = 'nova-nivel-1-2'
+        elif (_dato.nivel_estructura == 3):
+            _nodo["className"] = 'nova-nivel-3'
+        elif (_dato.nivel_estructura == 4):
+            _nodo["className"] = 'nova-nivel-4'
+        elif (_dato.nivel_estructura == 5):
+            _nodo["className"] = 'nova-nivel-5'
+        elif (_dato.nivel_estructura == 6):
+            if _dato.tipo == "STAFF":
+                _nodo["staff"] = 'STAFF'
+                _nodo["className"] = 'nova-nivel-staff'
+            else:
+                _nodo["className"] = 'nova-nivel-6'
 
     def get_Padre(self, _daddies):
 
@@ -490,8 +488,7 @@ class VIEW_ORGANIGRAMA_ORG_SERIALIZADO(object):
                     personasSinJefe.remove(personaMismo)
 
         for dato in personasSinJefe:
-
-            padre = VIEW_EMPLEADOS_FULL.objects.using('ebs_p').filter(
+            padre = VIEW_ORGANIGRAMA.objects.using('ebs_p').filter(
                 pers_clave=dato.asig_jefe_directo_clave)
 
         return padre
@@ -514,15 +511,9 @@ class VIEW_ORGANIGRAMA_EMP_SERIALIZADO(object):
 
             if len(hijos):
                 self.get_Estructura(nodo, hijo)
-                self.get_ColorNivel(nodo, hijo)
                 nodo["children"] = self.get_Descendencia(_daddies, hijos, nodo)
             else:
                 self.get_Estructura(nodo, hijo)
-                if hijo.tipo == 'STAFF':
-                    nodo["staff"] = 'STAFF'
-                    nodo["className"] = 'staff-level'
-                else:
-                    self.get_ColorNivel(nodo, hijo)
 
             lista_descendencia.append(nodo)
 
@@ -542,11 +533,9 @@ class VIEW_ORGANIGRAMA_EMP_SERIALIZADO(object):
 
         if len(hijos):
             self.get_Estructura(nodo, padre)
-            self.get_ColorNivel(nodo, padre)
             nodo["children"] = self.get_Descendencia(_daddies, hijos, nodo)
         else:
             self.get_Estructura(nodo, padre)
-            self.get_ColorNivel(nodo, padre)
 
         lista_json = json.dumps(nodo)
 
@@ -560,12 +549,12 @@ class VIEW_ORGANIGRAMA_EMP_SERIALIZADO(object):
         _nodo["puesto"] = "%s" % (_datos.asig_puesto_desc)
         _nodo["centro_costos"] = "%s" % (_datos.grup_fase_jde)
         _nodo["ubicacion"] = "%s" % (_datos.asig_ubicacion_desc)
+        self.get_ColorNivel(_nodo, _datos)
         self.buscar_Foto(_nodo, _datos)
 
     def buscar_Foto(self, _nodo, _datos):
         persona = VIEW_EMPLEADOS_FULL.objects.using('ebs_p').get(
             pers_empleado_numero=_datos.pers_empleado_numero)
-        # print persona.nombre_foto.encode('utf-8')
         ruta = os.path.join('capitalhumano', 'fotos', "%s" %
                             (persona.nombre_foto),)
         if default_storage.exists(ruta):
@@ -574,14 +563,21 @@ class VIEW_ORGANIGRAMA_EMP_SERIALIZADO(object):
             _nodo["foto"] = '/static/images/decoradores/no-image-user.jpg '
 
     def get_ColorNivel(self, _nodo, _dato):
-        if _dato.nivel_estructura == 1:
-            _nodo["className"] = 'nivel-1'
-        elif ((_dato.nivel_estructura == 2) or
-                (_dato.nivel_estructura == 3) or
-                (_dato.nivel_estructura == 4) or
-                (_dato.nivel_estructura == 5) or
-                (_dato.nivel_estructura == 6)):
-            _nodo["className"] = 'niveles'
+        if (_dato.nivel_estructura == 1) or \
+                (_dato.nivel_estructura == 2):
+            _nodo["className"] = 'nova-nivel-1-2'
+        elif (_dato.nivel_estructura == 3):
+            _nodo["className"] = 'nova-nivel-3'
+        elif (_dato.nivel_estructura == 4):
+            _nodo["className"] = 'nova-nivel-4'
+        elif (_dato.nivel_estructura == 5):
+            _nodo["className"] = 'nova-nivel-5'
+        elif (_dato.nivel_estructura == 6):
+            if _dato.tipo == "STAFF":
+                _nodo["staff"] = 'STAFF'
+                _nodo["className"] = 'nova-nivel-staff'
+            else:
+                _nodo["className"] = 'nova-nivel-6'
 
     def get_NivelPadre(self, _daddies):
         nivel = 6

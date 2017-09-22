@@ -1,9 +1,10 @@
 {% extends 'master.html' %}
 {% load static from staticfiles %}
+{% load custom_tags %}
 {% block titulo %} Inicio {% endblock titulo %}
 {% block title-page %} Noticia  {% endblock title-page %}
-{% block css %}
 
+{% block css %}
 {% endblock css %}
 
 {% block contenido %}
@@ -18,7 +19,7 @@
       </ol>
     </div>
     <div class="col-md-8 nova-padding-left">
-        <div class="main-content container-fluid nova-main-content nova-post-container">
+        <div class="main-content container-fluid nova-main-content nova-padding-bottom nova-padding-top">
             <div class="row">
                 <div class="col-md-12">
                     <div class="user-info-list panel panel-default panel-border">
@@ -53,7 +54,7 @@
                                <a href="{% url 'home:inicio' %}" class="btn btn-default btn-lg" role="button"><i class="fa fa-arrow-left" aria-hidden="true"></i>Regresar
                                 </a>
 
-                               {% if user.is_superuser %}
+                               {%  if user|tag_validate_has_group:"MARKETING_ADMIN" %}
                                   <a href="{% url 'editorial:post_editar' registro.pk %}" class="btn btn-warning btn-lg ">
                                      <i class="fa fa-pencil" aria-hiden="true"></i> Editar
                                   </a>
@@ -69,10 +70,10 @@
     <div class="col-md-4 nova-padding-left">
          <div class="user-info-list panel panel-default nova-post-borde">
             <div class="col-md-12 nova-noticias">
-               Noticias
+               Últimas noticias
             </div>
             {% if registros %}
-                <div class="col-md-12 list-group nova-li-noticias">
+                <div class="col-md-12 list-group nova-padding-right">
                     {% for r in registros %}
                         <a href="{% url 'editorial:post_consultar' r.pk %}" class="list-group-item nova-lista-decorador ">
                         {{ r.titulo }}
