@@ -3,12 +3,12 @@
 \*-----------------------------------------------*/
 
 // URLS:
-var url_seguimiento_bypage = window.location.origin + "/api-jde/viewscompras_bypage/"
+var url_seguimiento_bypage = window.location.origin + "/api-jde/viewscompras/"
 var url_seguimiento = window.location.origin + "/api-jde/viewscompras/"
 var url_seguimiento_compania = window.location.origin + "/api-jde/viewcompanias/"
 var url_seguimiento_sucursal = window.location.origin + "/api-jde/viewunidades/"
-var url_compraseguimeinto_autorizadores = window.location.origin + "/api-jde/viewautorizaciones_bypage/"
-var url_compraseguimiento_recepciones = window.location.origin + "/api-jde/viewrecepciones_bypage/"
+var url_compraseguimeinto_autorizadores = window.location.origin + "/api-jde/viewautorizaciones/"
+var url_compraseguimiento_recepciones = window.location.origin + "/api-jde/viewrecepciones/"
 
 // OBJS
 var tarjeta_filtros = null
@@ -283,8 +283,8 @@ TarjetaFiltros.prototype.get_FechaMenorQue = function (element) {
 TarjetaFiltros.prototype.get_Values = function (_page, _pageSize) {
 
    return {
-      page: _page,
-      pageSize: _pageSize,
+    //   page: _page,
+    //   pageSize: _pageSize,
 
       req_compania: this.$id_compania.val(),
       req_un: this.$id_sucursal.val(),
@@ -572,8 +572,8 @@ Grid.prototype.get_DataSourceConfig = function (e) {
 
    return {
 
-      serverPaging: true,
-      pageSize: 10,
+    //   serverPaging: true,
+    //   pageSize: 10,
       transport: {
          read: {
 
@@ -583,13 +583,14 @@ Grid.prototype.get_DataSourceConfig = function (e) {
          },
          parameterMap: function (_data, _action) {
             if (_action === "read"){
-               return tarjeta_filtros.get_Values(_data.page, _data.pageSize)
+            //    return tarjeta_filtros.get_Values(_data.page, _data.pageSize)
+               return tarjeta_filtros.get_Values()
             }
          }
       },
       schema: {
-         data: "results",
-         total: "count",
+        //  data: "results",
+        //  total: "count",
          model: {
             fields: this.get_Campos()
          }
@@ -660,7 +661,7 @@ Grid.prototype.get_Configuracion = function () {
       scrollable: false,
       columns: this.get_Columnas(),
       scrollable: true,
-      pageable: true,
+      pageable: false,
       noRecords: {
          template: "<div class='nova-grid-empy'> No se encontraron registros </div>"
       },
