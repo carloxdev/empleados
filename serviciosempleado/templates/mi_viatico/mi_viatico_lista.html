@@ -64,6 +64,9 @@
 
                         <div id="grid_resultados">
                         </div><!-- "Panel Body" -->
+
+                        <!-- user -->
+                        <input type="hide" class="hide" value="{{ request.user.profile.clave_rh }}" id="id_actual_user">
                   </div> <!-- Panel -->
             </div><!-- col md 12 -->
         </div>
@@ -135,6 +138,6 @@
     <script src="{% static 'libs/bootstrap-datepicker/2.0/dist/locales/bootstrap-datepicker.es.min.js' %}"></script>
 
     <!-- Nova -->
-    <script src="{% static 'viatico/viatico_lista.js' %}"></script>
+    <script src="{% static 'mi_viatico/mi_viatico_lista.js' %}"></script>
 
 {% endblock scripts %}

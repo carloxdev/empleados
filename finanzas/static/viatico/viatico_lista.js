@@ -23,17 +23,17 @@ $(document).ready(function () {
     tarjeta_resultados = new TarjetaResultados()
 
     // Asigna eventos a teclas
-    $(document).keypress(function (e) {
+    // $(document).keypress(function (e) {
 
-        // Tecla Enter
-        if (e.which == 13) {
+    //     // Tecla Enter
+    //     if (e.which == 13) {
 
-            if (tarjeta_filtros.$id.hasClass('in')) {
-                tarjeta_filtros.apply_Filters()
-            }
+    //         if (tarjeta_filtros.$id.hasClass('in')) {
+    //             tarjeta_filtros.apply_Filters()
+    //         }
 
-        }
-    })
+    //     }
+    // })
 })
 
 
@@ -44,10 +44,10 @@ function PopupFiltros() {
     this.$id = $('#tarjeta_filtros')
 
     this.$proposito_viaje = $('#id_proposito_viaje')
-    this.$empleado_clave = $('#id_empleado')
-    this.$un_clave = $('#id_unidad_negocio')
+    this.$empleado = $('#id_empleado')
+    this.$unidad_negocio = $('#id_unidad_negocio')
     this.$ciudad_destino = $('#id_ciudad_destino')
-    this.$autorizador_clave = $('#id_autorizador')
+    this.$autorizador = $('#id_autorizador')
 
     this.$created_date_mayorque = $('#id_created_date_mayorque_group')
     this.$created_date_menorque = $('#id_created_date_menorque_group')
@@ -55,17 +55,15 @@ function PopupFiltros() {
     this.$boton_buscar = $('#boton_buscar')
     this.$boton_limpiar = $('#boton_limpiar')
 
-    this.$actual_user = $('#id_actual_user')
-
     this.init()
     this.set_Events()
 
 }
 PopupFiltros.prototype.init = function () {
 
-    this.$empleado_clave.select2(appnova.get_ConfigSelect2())
-    this.$un_clave.select2(appnova.get_ConfigSelect2())
-    this.$autorizador_clave.select2(appnova.get_ConfigSelect2())
+    this.$empleado.select2(appnova.get_ConfigSelect2())
+    this.$unidad_negocio.select2(appnova.get_ConfigSelect2())
+    this.$autorizador.select2(appnova.get_ConfigSelect2())
     this.$created_date_mayorque.datepicker(appnova.get_ConfDatePicker())
     this.$created_date_menorque.datepicker(appnova.get_ConfDatePicker())
 
@@ -109,10 +107,10 @@ PopupFiltros.prototype.get_Values = function (_page) {
         page: _page,
 
         proposito_viaje: this.$proposito_viaje.val(),
-        empleado_clave: this.$empleado_clave.val(),
-        un_clave: this.$un_clave.val(),
+        empleado_clave: this.$empleado.val(),
+        unidad_negocio_clave: this.$unidad_negocio.val(),
         ciudad_destino: this.$ciudad_destino.val(),
-        autorizador_clave: this.$autorizador_clave.val(),
+        autorizador_clave: this.$autorizador.val(),
         created_date_mayorque: this.get_FechaMayorQue(),
         created_date_menorque: this.get_FechaMenorQue(),
     }
@@ -124,16 +122,16 @@ PopupFiltros.prototype.get_NoFiltrosAplicados = function () {
     if (this.$proposito_viaje.val() != "") {
         cantidad += 1
     }
-    if (this.$empleado_clave.val() != "") {
+    if (this.$empleado.val() != "") {
         cantidad += 1
     }
-    if (this.$un_clave.val() != "" ) {
+    if (this.$unidad_negocio.val() != "" ) {
         cantidad += 1
     }
     if (this.$ciudad_destino.val() !=  "") {
         cantidad += 1
     }
-    if (this.$autorizador_clave.val()  != "" ) {
+    if (this.$autorizador.val()  != "" ) {
         cantidad += 1
     }
     if (this.get_FechaMayorQue() != "") {
@@ -170,10 +168,10 @@ PopupFiltros.prototype.click_BotonLimpiar = function (e) {
     e.preventDefault()
 
     e.data.$proposito_viaje.val("")
-    e.data.$empleado_clave.val("").trigger("change")
-    e.data.$un_clave.val("").trigger("change")
+    e.data.$empleado.val("").trigger("change")
+    e.data.$unidad_negocio.val("").trigger("change")
     e.data.$ciudad_destino.val("")
-    e.data.$autorizador_clave.val("").trigger("change")
+    e.data.$autorizador.val("").trigger("change")
     e.data.$created_date_mayorque.datepicker("clearDates")
     e.data.$created_date_menorque.datepicker("clearDates")
 }
@@ -248,8 +246,8 @@ FuenteDatos.prototype.get_Campos = function() {
         empleado_descripcion : { type: "string" },
         fecha_partida : { type: "date"},
         fecha_regreso : { type: "date"},
-        un_clave : { type: "string" },
-        un_descripcion : { type: "string" },
+        unidad_negocio_clave : { type: "string" },
+        unidad_negocio_descripcion : { type: "string" },
         ciudad_destino : { type: "string" },
         proposito_viaje : { type: "string" },
         empresa : { type: "string" },
@@ -327,7 +325,7 @@ Grid.prototype.get_Columnas = function () {
         { field: "ciudad_destino", title: "Ciudad Destino", width:"200px" },
         { field: "fecha_partida", title: "Fecha Partida", width:"135px", format: "{0:dd/MM/yyyy}" },
         { field: "fecha_regreso", title: "Fecha Regreso", width:"135px", format: "{0:dd/MM/yyyy}" },
-        { field: "un_clave", title: "Unidad Negocio", width:"150px" },
+        { field: "unidad_negocio_clave", title: "Unidad Negocio", width:"150px" },
         { field: "status", title: "Estado", width:"120px" },
         { field: "autorizador_descripcion", title: "Autorizador", width:"300px" },
         { field: "fecha_autorizacion", title: "Fecha autorizacion", width:"135px", format: "{0:dd/MM/yyyy}" },

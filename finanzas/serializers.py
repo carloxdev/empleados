@@ -51,7 +51,6 @@ class ViaticoCabeceraSerializer(serializers.HyperlinkedModelSerializer):
             return obj.get_status_display()
 
         except Exception as e:
-            print str(e)
             return ""
 
     def get_created_by(self, obj):
@@ -62,7 +61,6 @@ class ViaticoCabeceraSerializer(serializers.HyperlinkedModelSerializer):
             else:
                 return ""
         except Exception as e:
-            print str(e)
             return ""
 
     def get_approved_by(self, obj):
@@ -73,7 +71,7 @@ class ViaticoCabeceraSerializer(serializers.HyperlinkedModelSerializer):
             else:
                 return ""
         except Exception as e:
-            print str(e)
+            return ""
 
     def get_updated_by(self, obj):
 
@@ -83,7 +81,6 @@ class ViaticoCabeceraSerializer(serializers.HyperlinkedModelSerializer):
             else:
                 return ""
         except Exception as e:
-            print str(e)
             return ""
 
 

@@ -166,7 +166,6 @@ class PersonalSerializer(serializers.HyperlinkedModelSerializer):
         try:
             return obj.tipo_documento.tipo_documento
         except Exception as e:
-            print str(e)
             return " "
 
     def get_vigencia_inicio(self, obj):
@@ -176,7 +175,6 @@ class PersonalSerializer(serializers.HyperlinkedModelSerializer):
             else:
                 return obj.vigencia_inicio.strftime('%d/%m/%Y')
         except Exception as e:
-            print str(e)
             return " "
 
     def get_vigencia_fin(self, obj):
@@ -186,28 +184,24 @@ class PersonalSerializer(serializers.HyperlinkedModelSerializer):
             else:
                 return obj.vigencia_fin.strftime('%d/%m/%Y')
         except Exception as e:
-            print str(e)
             return " "
 
     def get_created_by(self, obj):
         try:
             return obj.created_by.usuario.get_full_name()
         except Exception as e:
-            print str(e)
             return " "
 
     def get_organizacion(self, obj):
         try:
             return obj.organizacion
         except Exception as e:
-            print str(e)
             return " "
 
     def get_nombre_completo(self, obj):
         try:
             return obj.nombre_completo
         except Exception as e:
-            print str(e)
             return " "
 
 
@@ -270,7 +264,6 @@ class CapacitacionSerializer(serializers.HyperlinkedModelSerializer):
                 agrupador = 'Reconocimiento'
             return agrupador
         except Exception as e:
-            print str(e)
             return " "
 
     def get_area(self, obj):
@@ -282,14 +275,12 @@ class CapacitacionSerializer(serializers.HyperlinkedModelSerializer):
                 area = 'Operativa'
             return area
         except Exception as e:
-            print str(e)
             return " "
 
     def get_curso(self, obj):
         try:
             return obj.curso.nombre_curso
         except Exception as e:
-            print str(e)
             return " "
 
     def get_proveedor(self, obj):
@@ -298,7 +289,6 @@ class CapacitacionSerializer(serializers.HyperlinkedModelSerializer):
                 'jde_p').get(clave=obj.proveedor)
             return proveedor.descripcion
         except Exception as e:
-            print str(e)
             return " "
 
     def get_modalidad(self, obj):
@@ -312,7 +302,6 @@ class CapacitacionSerializer(serializers.HyperlinkedModelSerializer):
                 titulo = 'Previo'
             return titulo
         except Exception as e:
-            print str(e)
             return " "
 
     def get_moneda(self, obj):
@@ -326,28 +315,24 @@ class CapacitacionSerializer(serializers.HyperlinkedModelSerializer):
                 moneda = 'Euros'
             return moneda
         except Exception as e:
-            print str(e)
             return " "
 
     def get_created_by(self, obj):
         try:
             return obj.created_by.usuario.get_full_name()
         except Exception as e:
-            print str(e)
             return " "
 
     def get_fecha_inicio(self, obj):
         try:
             return obj.fecha_inicio.strftime('%d/%m/%Y')
         except Exception as e:
-            print str(e)
             return " "
 
     def get_fecha_fin(self, obj):
         try:
             return obj.fecha_fin.strftime('%d/%m/%Y')
         except Exception as e:
-            print str(e)
             return " "
 
     def get_fecha_vencimiento(self, obj):
@@ -357,21 +342,18 @@ class CapacitacionSerializer(serializers.HyperlinkedModelSerializer):
             else:
                 return obj.fecha_vencimiento
         except Exception as e:
-            print str(e)
             return " "
 
     def get_organizacion(self, obj):
         try:
             return obj.organizacion
         except Exception as e:
-            print str(e)
             return " "
 
     def get_nombre_completo(self, obj):
         try:
             return obj.nombre_completo
         except Exception as e:
-            print str(e)
             return " "
 
 
@@ -438,7 +420,6 @@ class VIEW_ORGANIGRAMA_ORG_SERIALIZADO(object):
     def buscar_Foto(self, _nodo, _datos):
         persona = VIEW_EMPLEADOS_FULL.objects.using('ebs_p').get(
             pers_empleado_numero=_datos.pers_empleado_numero)
-        # print persona.nombre_foto.encode('utf-8')
         ruta = os.path.join('capitalhumano', 'fotos', "%s" %
                             (persona.nombre_foto),)
         if default_storage.exists(ruta):

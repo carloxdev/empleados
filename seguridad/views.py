@@ -131,7 +131,7 @@ class Registro(View):
             html_content = render_to_string("registro_email.html", contexto)
             text_content = render_to_string("registro_email.txt", contexto)
 
-            subject = "Registro exitoso Nova - Nuvil"
+            subject = "Registro exitoso APPS - Nuvoil"
             from_email = "ti.nuvoil@gmail.com"
             to = usuario.email
             msg = EmailMultiAlternatives(

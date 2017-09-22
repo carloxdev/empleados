@@ -54,6 +54,7 @@ function PopupFiltros() {
     this.$autorizador = $('#id_autorizador')
     this.$created_date_mayorque = $('#id_created_date_mayorque_group')
     this.$created_date_menorque = $('#id_created_date_menorque_group')
+    this.$actual_user = $('#id_actual_user')
 
     this.$boton_buscar = $('#boton_buscar')
     this.$boton_limpiar = $('#boton_limpiar')
@@ -93,19 +94,42 @@ PopupFiltros.prototype.hide = function (e) {
 }
 PopupFiltros.prototype.get_Values = function (_page) {
 
-    return {
-        page: _page,
+   no_filtros = this.get_NoFiltrosAplicados()
+   var no_empledo = this.$actual_user.val()
 
-        proposito_viaje: this.$proposito_viaje.val(),
-        empleado_clave: this.$empleado.val(),
-        unidad_negocio_clave: this.$unidad_negocio.val(),
-        ciudad_destino: this.$ciudad_destino.val(),
-        autorizador_clave: this.$autorizador.val(),
-        creacion_fecha_mayorque: this.get_FechaMayorQue("#id_created_date_mayorque_group"),
-        creacion_fecha_menorque: this.get_FechaMenorQue("#id_created_date_menorque_group"),
-    }
+   if (this.$actual_user.val() == 'None') {
+      no_empledo = 0
+   }
+
+
+   if (no_filtros > 0) {
+      return {
+          page: _page,
+
+          proposito_viaje: this.$proposito_viaje.val(),
+          empleado_clave: this.$empleado.val(),
+          un_clave: this.$unidad_negocio.val(),
+          ciudad_destino: this.$ciudad_destino.val(),
+          autorizador_clave: this.$autorizador.val(),
+          created_date_mayorque: this.get_FechaMayorQue(),
+          created_date_menorque: this.get_FechaMenorQue(),
+      }
+   }
+   else if (no_filtros == 0){
+      return {
+          page: _page,
+
+          proposito_viaje: this.$proposito_viaje.val(),
+          empleado_clave: no_empledo,
+          un_clave: this.$unidad_negocio.val(),
+          ciudad_destino: this.$ciudad_destino.val(),
+          autorizador_clave: this.$autorizador.val(),
+          created_date_mayorque: this.get_FechaMayorQue(),
+          created_date_menorque: this.get_FechaMenorQue(),
+      }
+   }
 }
-TarjetaFiltros.prototype.get_FechaMayorQue = function (element) {
+PopupFiltros.prototype.get_FechaMayorQue = function (element) {
 
     fecha = $(element).datepicker("getDate")
     fecha_conformato = moment(fecha).format('YYYY-MM-DD')
@@ -117,7 +141,7 @@ TarjetaFiltros.prototype.get_FechaMayorQue = function (element) {
         return fecha_conformato
     }
 }
-TarjetaFiltros.prototype.get_FechaMenorQue = function (element) {
+PopupFiltros.prototype.get_FechaMenorQue = function (element) {
 
     fecha = $(element).datepicker("getDate")
     fecha_conformato = moment(fecha).format('YYYY-MM-DD')

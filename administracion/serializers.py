@@ -43,7 +43,6 @@ class AsuntoSerializers(serializers.HyperlinkedModelSerializer):
                 clave_org=obj.clave_departamento)
             return departamento.desc_org
         except Exception as e:
-            print str(e)
             return " "
 
 
@@ -88,21 +87,18 @@ class ArchivoSolicitudSerializer(serializers.HyperlinkedModelSerializer):
                 status = 'Eliminado'
             return status
         except Exception as e:
-            print str(e)
             return " "
 
     def get_asunto(self, obj):
         try:
             return obj.asunto.nombre
         except Exception as e:
-            print str(e)
             return " "
 
     def get_created_by(self, obj):
         try:
             return obj.created_by.usuario.get_full_name()
         except Exception as e:
-            print str(e)
             return " "
 
     def get_updated_by(self, obj):
@@ -112,5 +108,4 @@ class ArchivoSolicitudSerializer(serializers.HyperlinkedModelSerializer):
             else:
                 return obj.updated_by.usuario.get_full_name()
         except Exception as e:
-            print str(e)
             return " "
