@@ -9,17 +9,11 @@
 
 /* -------------------- LOAD -------------------- */
 
-$(document).ready(function () {
-
-
-}
+// $(document).ready(function () {
+//
+// }
 
 /* -------------------- OBJETO: CardResults -------------------- */
-
-function CardResults() {
-
-}
-CardResults
 
 /* -------------------- OBJETO: Toolbar -------------------- */
 
