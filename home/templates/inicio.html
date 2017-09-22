@@ -125,23 +125,6 @@
       
 
    {% else %}
-   <div class="main-content container-fluid nova-main-content">
-      <div class="user-info-list panel panel-default panel-border nova-margin-bottom">
-         <div class="panel-body nova-padding-tools">
-               <form class="pull-right col-sm-4 nova-padding-right"action="" method="GET">
-                  <div class="input-group">
-                      <input type="text" class="form-control btn-rounded nova-height-buscar" name="q" placeholder="Post a buscar..." value="{{ request.GET.q }}">
-                      <span class="input-group-btn">
-                        <button type="submit" id="boton_buscar" class="btn nova-height-buscar nova-btn btn-rounded btn-primary btn-flat">
-                          <i class="fa fa-search"></i>
-                          Buscar
-                        </button>
-                      </span>
-                  </div>
-              </form>
-         </div>
-      </div>
-    </div>
 
    <div class="main-content container-fluid nova-main-content">
       <div class="row">
@@ -155,16 +138,32 @@
             </div>
          </div>
 
-         <div class="col-md-4 nova-padding-left">
-            <div class="user-info-list panel panel-default panel-border nova-cumpleanos nova-post-sombreado">
-               <div class="col-md-12 nova-post-titulo">
-                  Cumpleaños
-               </div>
-               <div class="nova-cumpleanos-contenido">
-               
-               </div>
+         <section class="col-md-4 nova-bloque nova-padding-left">
+         <div class="user-info-list panel panel-default panel-border nova-margin-bottom">
+            <div class="panel-body nova-padding-tools">
+               <form class="pull-right nova-padding-right"action="" method="GET">
+                  <div class="input-group">
+                      <input type="text" class="form-control btn-rounded nova-height-buscar" name="q" placeholder="Post a buscar..." value="{{ request.GET.q }}">
+                      <span class="input-group-btn">
+                        <button type="submit" id="boton_buscar" class="btn nova-height-buscar nova-btn btn-rounded btn-primary btn-flat">
+                          <i class="fa fa-search"></i>
+                          Buscar
+                        </button>
+                      </span>
+                  </div>
+               </form>
             </div>
          </div>
+      </section>
+      <section class="col-md-4 nova-padding-left">
+         <div class="user-info-list panel panel-default panel-border nova-cumpleanos nova-post-sombreado">
+            <div class="col-md-12 nova-post-titulo">Cumpleaños
+            </div>
+            <div class="nova-cumpleanos-contenido">
+            
+            </div>
+         </div>
+      </section>
 
       </div>
    </div>
