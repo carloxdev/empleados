@@ -966,3 +966,28 @@ class VIEW_GASTOS_AUTORIZADORES(models.Model):
     def __unicode__(self):
         value = "%s - %s" % (self.empleado_clave, self.empleado_nombre)
         return value
+
+
+class VIEW_POLITICA_VIATICOS(models.Model):
+    idempleado = models.IntegerField(primary_key=True)
+    limite = models.IntegerField()
+    desconcepto = models.CharField(max_length=30)
+    concepto = models.CharField(max_length=4)
+    autorizador = models.CharField(max_length=40)
+    codigoautorizador = models.IntegerField()
+    descripciongrupo = models.CharField(max_length=30)
+    grupo = models.CharField(max_length=5)
+    abalph = models.CharField(max_length=40)
+
+
+    class Meta:
+        managed = False
+        db_table = u'"NUVPD"."VIEW_POLITICA_VIATICOS"'
+
+    def __str__(self):
+        value = "%s - %s" % (self.idempleado, self.abalph)
+        return value
+
+    def __unicode__(self):
+        value = "%s - %s" % (self.idempleado, self.abalph)
+        return value

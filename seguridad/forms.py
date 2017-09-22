@@ -43,7 +43,7 @@ from ebs.business import EmpleadoBusiness
 class UserRegistroForm(UserCreationForm):
 
     clave_rh = ChoiceField(
-        label="Clave de Empleado",
+        label="Id Empleado",
         widget=Select(
             attrs={'class': 'form-control input-xs'}
         )

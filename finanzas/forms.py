@@ -16,6 +16,7 @@ from django.forms import ValidationError
 # Own's Libraries
 from .models import ViaticoCabecera
 from .models import ViaticoLinea
+from jde.models import VIEW_POLITICA_VIATICOS
 
 from jde.business import CentroCostoBusiness
 from ebs.business import EmpleadoBusiness
@@ -137,22 +138,39 @@ class ViaticoCabeceraForm(ModelForm):
             )
 
 
-class ViaticoLineaForm(ModelForm):
+class ViaticoLineaForm(Form):
 
-    class Meta:
-        model = ViaticoLinea
+    concepto = ChoiceField(
+        widget=Select(attrs={'class': 'select2 input-xs', 'maxlength':'60'})
+    )
 
-        fields = [
-            'concepto',
-            'observaciones',
-            'importe'
-        ]
+    observaciones = ChoiceField(
+        widget=Textarea(attrs={'class': 'form-control input-xs', 'rows': '10', 'required': 'required', 'cols': '40'})
+    )
 
-        widgets = {
-            'concepto': TextInput(attrs={'class': 'form-control input-xs'}),
-            'observaciones': Textarea(attrs={'class': 'form-control input-xs'}),
-            'importe': NumberInput(attrs={'class': 'form-control input-xs'})
-        }
+    importe = ChoiceField(
+        widget=NumberInput(attrs={'class': 'form-control input-xs', 'value': '0.0', 'step': '0.01', 'required': 'required', })
+    )
+
+    def __init__(self, id_empleado, *args, **kargs):
+        super(ViaticoLineaForm, self).__init__(*args, **kargs)
+        self.fields['concepto'].choices = self.get_Conceptos(id_empleado)
+
+    def get_Conceptos(self, id_empleado):
+
+        valores = [('', '-------')]
+
+        conceptos = VIEW_POLITICA_VIATICOS.objects.using('jde_p').filter(idempleado=id_empleado)
+
+        for concepto in conceptos:
+
+            valores.append(
+                (
+                    concepto.concepto,
+                    concepto.desconcepto
+                )
+            )
+        return valores
 
 
 class AnticipoFilterForm(Form):

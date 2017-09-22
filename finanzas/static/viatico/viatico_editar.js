@@ -279,6 +279,7 @@ PopupLinea.prototype.init = function () {
     this.$importe.val("")
     // this.$formulario =  $('#formulario_linea').parsley()
     this.$formulario.parsley()
+    this.$concepto.select2(appnova.get_ConfigSelect2())
 }
 PopupLinea.prototype.set_Events = function () {
 
@@ -286,6 +287,7 @@ PopupLinea.prototype.set_Events = function () {
     // this.$boton_guardar.on("click", this, this.click_BotonGuardar)
 
     this.$formulario.parsley().on('form:submit', this.click_BotonGuardar)
+    this.concepto.on("change", this, this.change_SelectConcepto)
 }
 PopupLinea.prototype.get_Fields = function () {
 
@@ -401,4 +403,10 @@ PopupLinea.prototype.click_BotonGuardar = function (e) {
     }
 
     return false
+}
+PopupLinea.prototype.change_SelectConcepto = function (e) {
+   e.data.set_Importe()
+}
+PopupLinea.prototype.set_Importe = function () {
+
 }
