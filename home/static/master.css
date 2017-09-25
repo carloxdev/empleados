@@ -59,6 +59,20 @@
 /* ----------------------- VIATICOS EDITAR ----------------------- */
 
 
+.nova-item {
+    color: black;
+    margin-left: .5em;
+}
+
+.nova-icon {
+    width: 10px !important;
+}
+
+.nova-mini-img {
+    max-height: 40px !important;
+    max-width: 100px !important;
+    vertical-align: none;
+}
 
 .own-panel-body {
     color: #333333 !important;

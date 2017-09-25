@@ -220,6 +220,14 @@ class VIEW_AUTORIZACIONES_ByPageAPI(viewsets.ReadOnlyModelViewSet):
     permission_classes = (IsAuthenticated,)
 
 
+class VIEW_RECEPCIONES_API(viewsets.ReadOnlyModelViewSet):
+    queryset = VIEW_RECEPCIONES.objects.using('jde_p').order_by('fecha_tran')
+    serializer_class = VIEW_RECEPCIONES_Serializer
+    filter_backends = (DjangoFilterBackend,)
+    filter_class = VIEW_RECEPCIONES_Filter
+    permission_classes = (IsAuthenticated,)
+
+
 class VIEW_RECEPCIONES_ByPageAPI(viewsets.ReadOnlyModelViewSet):
     queryset = VIEW_RECEPCIONES.objects.using('jde_p').order_by('fecha_tran')
     serializer_class = VIEW_RECEPCIONES_Serializer

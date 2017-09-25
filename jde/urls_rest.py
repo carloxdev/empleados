@@ -7,6 +7,7 @@ from jde.views_rest import VIEW_SCOMPRAS_ByPageAPI
 from jde.views_rest import VIEW_UNIDADES_API
 from jde.views_rest import VIEW_COMPANIAS_API
 from jde.views_rest import VIEW_AUTORIZACIONES_ByPageAPI
+from jde.views_rest import VIEW_RECEPCIONES_API
 from jde.views_rest import VIEW_RECEPCIONES_ByPageAPI
 from jde.views_rest import VIEW_PROVEEDORES_API
 from jde.views_rest import VIEW_PROVEEDORES_ByPageAPI
@@ -49,6 +50,13 @@ router_jde.register(
     VIEW_AUTORIZACIONES_ByPageAPI,
     'viewautorizaciones_bypage',
 )
+
+router_jde.register(
+    r'viewrecepciones',
+    VIEW_RECEPCIONES_API,
+    'viewrecepciones',
+)
+
 
 router_jde.register(
     r'viewrecepciones_bypage',

@@ -54,26 +54,12 @@
 			                        {% tag_field_registro form.clave_jde 3 7 %}
 		                        </div>
 
-								<!-- Password-->
-								<div class="form-group">
-									<label class="col-sm-3 control-label">
-										Contraseña
-							    	</label>
-							    	<div class="col-sm-7 xs-pt-5">
-							    		<a href="{% url 'seguridad:usuario_perfil_contrasena' user.id %}"class="btn nova-btn btn-rounded btn-space btn-default" id="boton_nuevo">Cambiar contraseña</a>
-									</div>
-								</div>
 							</div>
 
 	                        <div class="col-sm-3">
 	                           {% tag_image_preview form.foto foto %}
 	                        </div>
 
-	                    </div>
-	                    <div class="modal-footer nova-modal-footer">
-	                         <button type="submit" id="id_boton_guardar" class="btn nova-btn btn-primary btn-lg">
-	                            Guardar cambios
-	                        </button>
 	                    </div>
 	                </form>
 	            </div>

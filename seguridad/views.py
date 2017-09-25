@@ -147,6 +147,72 @@ class Registro(View):
         return render(_request, self.template_name, contexto)
 
 
+class Perfil(View):
+
+    template_name = 'perfil.html'
+
+    def obtener_UrlImagen(self, _imagen):
+        imagen = ''
+        if _imagen:
+            imagen = _imagen.url
+
+        return imagen
+
+    def get(self, _request, _username):
+        usuario = get_object_or_404(User, username=_username)
+        form_usuario = UserPerfilForm(
+            initial={
+                'first_name': usuario.first_name,
+                'last_name': usuario.last_name,
+                'email': usuario.email,
+                'clave_rh': usuario.profile.clave_rh,
+                'clave_jde': usuario.profile.clave_jde,
+                'fecha_nacimiento': usuario.profile.fecha_nacimiento,
+                'foto': usuario.profile.foto,
+            },
+            instance=usuario
+        )
+        contexto = {
+            'form': form_usuario,
+            'foto': self.obtener_UrlImagen(usuario.profile.foto),
+        }
+        return render(_request, self.template_name, contexto)
+
+    def post(self, _request, _username):
+        usuario = get_object_or_404(User, username=_username)
+
+        form_usuario = UserPerfilForm(
+            _request.POST, _request.FILES, instance=usuario)
+
+        if form_usuario.is_valid():
+
+            datos_formulario = form_usuario.cleaned_data
+
+            usuario.first_name = datos_formulario.get('first_name')
+            usuario.last_name = datos_formulario.get('last_name')
+            usuario.email = datos_formulario.get('email')
+            usuario.save()
+
+            usuario.refresh_from_db()
+            usuario.profile.clave_rh = datos_formulario.get('clave_rh')
+            usuario.profile.clave_jde = datos_formulario.get('clave_jde')
+            usuario.profile.fecha_nacimiento = usuario.profile.fecha_nacimiento
+
+            if datos_formulario.get('foto') is not None:
+                usuario.profile.foto.delete()
+                usuario.profile.foto = datos_formulario.get('foto')
+
+            usuario.profile.save()
+
+            return redirect(reverse('seguridad:perfil', kwargs={'_pk': usuario.pk}))
+
+        contexto = {
+            'form': form_usuario,
+            'foto': self.obtener_UrlImagen(usuario.profile.foto),
+        }
+        return render(_request, self.template_name, contexto)
+
+
 class RegistroExito(View):
 
     template_name = 'registro_exito.html'
@@ -450,21 +516,21 @@ class UsuarioPerfil(View):
         return imagen
 
     def get(self, _request, _pk):
-        usuario_id = get_object_or_404(User, pk=_pk)
+        usuario = get_object_or_404(User, pk=_pk)
         form_usuario = UserPerfilForm(
             initial={
-                'first_name': usuario_id.first_name,
-                'last_name': usuario_id.last_name,
-                'email': usuario_id.email,
-                'clave_rh': usuario_id.profile.clave_rh,
-                'clave_jde': usuario_id.profile.clave_jde,
-                'fecha_nacimiento': usuario_id.profile.fecha_nacimiento,
-                'foto': usuario_id.profile.foto,
+                'first_name': usuario.first_name,
+                'last_name': usuario.last_name,
+                'email': usuario.email,
+                'clave_rh': usuario.profile.clave_rh,
+                'clave_jde': usuario.profile.clave_jde,
+                'fecha_nacimiento': usuario.profile.fecha_nacimiento,
+                'foto': usuario.profile.foto,
             }
         )
         contexto = {
             'form': form_usuario,
-            'foto': self.obtener_UrlImagen(usuario_id.profile.foto),
+            'foto': self.obtener_UrlImagen(usuario.profile.foto),
         }
         return render(_request, self.template_name, contexto)
 
@@ -542,12 +608,12 @@ class UsuarioPerfilContrasena(LoginRequiredMixin, View):
         return render(_request, self.template_name, contexto)
 
 
-class Autorizacion(View):
-    template_name = "autorizacion.html"
+class AutorizacionLista(View):
+    template_name = "autorizacion/lista.html"
 
     def get(self, _request):
 
-        viaticos = ViaticoBusiness.get_ByAutorizador(_request.user.username)
+        viaticos = ViaticoBusiness.get_ByAutorizar(_request.user.username)
 
         contexto = {
             'viaticos': viaticos
@@ -557,3 +623,92 @@ class Autorizacion(View):
 
     def post(self, _request):
         pass
+
+
+class AutorizacionAprobar(View):
+    template_name = "autorizacion/aprobar.html"
+
+    def get(self, _request, _type, _pk):
+
+        if _type == "viatico":
+            documento = ViaticoBusiness.get_ViaticoCabecera(_pk)
+
+        contexto = {
+            'documento': documento
+        }
+
+        return render(_request, self.template_name, contexto)
+
+    def post(self, _request, _type, _pk):
+
+        if _type == "viatico":
+            documento = ViaticoBusiness.get_ViaticoCabecera(_pk)
+
+            try:
+                ViaticoBusiness.autorizar(documento, _request.user)
+
+                ViaticoBusiness.send_MailToParticipantes(
+                    "APPS: Viatico VIA-%s aprobado" % (documento.id),
+                    "Se te informa que se ha actualizado el viatico VIA-%s, por %s pesos." % (documento.id, documento.importe_total),
+                    documento,
+                    _request.user
+                )
+
+                return redirect(reverse('seguridad:autorizacion_lista'))
+
+            except Exception as e:
+                messages.error(_request, str(e))
+
+        contexto = {
+            'documento': documento
+        }
+
+        return render(_request, self.template_name, contexto)
+
+
+class AutorizacionCancelar(View):
+    template_name = "autorizacion/cancelar.html"
+
+    def get(self, _request, _type, _pk):
+
+        if _type == "viatico":
+            documento = ViaticoBusiness.get_ViaticoCabecera(_pk)
+
+        contexto = {
+            'documento': documento
+        }
+
+        return render(_request, self.template_name, contexto)
+
+    def post(self, _request, _type, _pk):
+
+        if _type == "viatico":
+            documento = ViaticoBusiness.get_ViaticoCabecera(_pk)
+
+            try:
+                ViaticoBusiness.cancelar(documento, _request.user)
+
+                ViaticoBusiness.send_MailToParticipantes(
+                    "APPS: Viatico VIA-%s cancelado" % (documento.id),
+                    "Se te informa que se ha cancelado el viatico VIA-%s, por %s pesos." % (documento.id, documento.importe_total),
+                    documento,
+                    _request.user
+                )
+
+                return redirect(reverse('seguridad:autorizacion_lista'))
+
+            except Exception as e:
+                messages.error(_request, str(e))
+
+        contexto = {
+            'documento': documento
+        }
+
+        return render(_request, self.template_name, contexto)
+
+
+class AutorizacionDone(View):
+    template_name = "autorizacion/done.html"
+
+    def get(self, _request):
+        return render(_request, self.template_name, {})
