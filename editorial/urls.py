@@ -26,7 +26,7 @@ urlpatterns = [
         name="post_nuevo"
     ),
     url(
-        r'^post/(?P<pk>\d+)/editar/$',
+        r'^post/(?P<pk>\d+)/(?P<clave>[\w\s*]+)/editar/$',
         PostEditar.as_view(),
         name="post_editar"
     ),

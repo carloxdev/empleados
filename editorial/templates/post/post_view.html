@@ -55,7 +55,7 @@
                                 </a>
 
                                {%  if user|tag_validate_has_group:"MARKETING_ADMIN" %}
-                                  <a href="{% url 'editorial:post_editar' registro.pk %}" class="btn btn-warning btn-lg ">
+                                  <a href="{% url 'editorial:post_editar' registro.pk clave %}" class="btn btn-warning btn-lg ">
                                      <i class="fa fa-pencil" aria-hiden="true"></i> Editar
                                   </a>
                                {% endif %}

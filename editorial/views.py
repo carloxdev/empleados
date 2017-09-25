@@ -51,6 +51,7 @@ class PostPublicados(View):
 
         contexto = {
             'registros': posts,
+            'clave': 'publicados',
         }
 
         return render(request, self.template_name, contexto)
@@ -70,6 +71,7 @@ class PostConsultar(View):
         contexto = {
             'registro': post,
             'registros': registros,
+            'clave': 'post',
         }
 
         return render(request, self.template_name, contexto)
@@ -104,7 +106,8 @@ class PostAdministracion(View):
             posts = paginador.page(paginador.num_page)
 
         contexto = {
-            'registros': posts
+            'registros': posts,
+            'clave': 'administracion',
         }
 
         return render(request, self.template_name, contexto)
@@ -157,7 +160,7 @@ class PostEditar(View):
         self.template_name = 'post/post_form.html'
         self.operation = "Editar"
 
-    def get(self, request, pk):
+    def get(self, request, pk, clave):
 
         post = get_object_or_404(Post, pk=pk)
 
@@ -167,12 +170,13 @@ class PostEditar(View):
 
         contexto = {
             'form': formulario,
+            'clave': clave,
             'operacion': self.operation
         }
 
         return render(request, self.template_name, contexto)
 
-    def post(self, request, pk):
+    def post(self, request, pk, clave):
         post = get_object_or_404(Post, pk=pk)
 
         formulario = PostForm(
@@ -188,7 +192,12 @@ class PostEditar(View):
 
             post.save()
 
-            return redirect(reverse('editorial:post_administracion'))
+            if clave == 'administracion':
+                return redirect(reverse('editorial:post_administracion'))
+            elif clave == 'publicados':
+                return redirect(reverse('home:inicio'))
+            elif clave == 'post':
+                return redirect(reverse('editorial:post_consultar', kwargs={'pk': post.pk}))
 
         contexto = {
             'form': formulario,

@@ -62,10 +62,10 @@
                     
 
                      <div class="modal-footer nova-centrar">
-                           <a href="{% url 'editorial:post_consultar' registro.pk %}" class="btn btn-primary btn-lg nova-post-contenido" role="button">Leer mas...</a>
+                           <a href="{% url 'editorial:post_consultar' registro.pk %}" class="btn nova-btn-pantone btn-lg nova-post-contenido" role="button">Leer mas...</a>
 
                            {%  if user|tag_validate_has_group:"MARKETING_ADMIN" %}
-                              <a href="{% url 'editorial:post_editar' registro.pk %}" class="btn btn-warning btn-lg nova-post-contenido">
+                              <a href="{% url 'editorial:post_editar' registro.pk clave %}" class="btn btn-warning btn-lg nova-post-contenido">
                                  <i class="fa fa-pencil" aria-hiden="true"></i> Editar
                               </a>
                            {% endif %}
@@ -84,7 +84,7 @@
                {% endif %}
 
                {% for i in registros.paginator.page_range %}
-                   <li {% if registros.number == i %} class="active" {% endif %}>
+                   <li {% if registros.number == i %} class="nova-paginador" {% endif %}>
                        <a href="?page={{i}}&q={{ request.GET.q }}">{{ i }}</a>
                    </li>
                {% endfor %}
@@ -103,7 +103,7 @@
                   <div class="input-group">
                       <input type="text" class="form-control btn-rounded nova-height-buscar" name="q" placeholder="Post a buscar..." value="{{ request.GET.q }}">
                       <span class="input-group-btn">
-                        <button type="submit" id="boton_buscar" class="btn nova-height-buscar nova-btn btn-rounded btn-primary btn-flat">
+                        <button type="submit" id="boton_buscar" class="btn nova-height-buscar nova-btn btn-rounded nova-btn-pantone btn-flat">
                           <i class="fa fa-search"></i>
                           Buscar
                         </button>

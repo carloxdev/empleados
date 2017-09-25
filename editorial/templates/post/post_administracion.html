@@ -46,7 +46,7 @@
                     <div class="">
                         <div class="list-group">
                         {% for registro in registros %}
-                            <a href="{% url 'editorial:post_editar' registro.pk %}" class="list-group-item nova-sombreado-lista nova-lista-block">
+                            <a href="{% url 'editorial:post_editar' registro.pk clave%}" class="list-group-item nova-sombreado-lista nova-lista-block">
                             <div class="pull-right"><span class="badge {% if registro.status == "PUB" %} nova-badge-publicado {% else %} badge-captura {% endif %}"> {{ registro.get_status_display }} </span></div>
                                 <h4 class="list-group-item-heading">{{ registro.titulo }}</h4>
                                 <p class="list-group-item-text"><b>Actualizado: </b>{{ registro.updated_date|date:"d F Y f a" }}</p>
