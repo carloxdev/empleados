@@ -39,7 +39,7 @@ class NuevaSolicitudForm(Form):
         self.fields['asunto'].choices = self.get_Asuntos()
 
     def get_Asuntos(self):
-        valores = [('', 'ASUNTO')]
+        valores = [('', '------------')]
 
         asuntos = Asunto.objects.all()
         for asunto in asuntos:

@@ -1,5 +1,6 @@
 {% extends 'master.html' %}
 {% load static from staticfiles %}
+{% load custom_tags %}
 {% block titulo %} Servicios empleado {% endblock titulo %}
 {% block title-page %} Mi Expediente  {% endblock title-page %}
 {% block css %}
@@ -216,61 +217,48 @@
     </div> <!-- Modal dialog -->
 </div><!-- Modal -->
 <!-- Modal ver archivos-->
-<!-- Modal actualizar-->
+
+<!-- modal nueva solicitud -->
 <div id="modal_actualizar" role="dialog" class="modal fade colored-header colored-header-primary">
-    <div class="modal-dialog custom-width nova-modal-responsive">
-        <div class="modal-content nova-modal-content-responsive">
-            <div class="modal-header nova-modal-header">
-                <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
-                <h3 class="modal-title">Solicitud</h3>
-            </div>
+  <div class="modal-dialog custom-width">
+     <div class="modal-content">
 
-            <form action="" method="POST" enctype="multipart/form-data" id="formulario"> {% csrf_token %}
+        <div class="modal-header nova-modal-header">
+           <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
+           <h3 class="modal-title">Nueva solicitud</h3>
+        </div>
 
-            <div class="modal-body form-horizontal">
-				<!-- Informacion -->
-				<div class="nova-modal-contenido">
-	                Si desea agregar archivos a su expediente personal u algún dato/archivo es erróneo o necesita actualizarse, indique a continuación el asunto de la solicitud, descripción de la operación a realizarse y adjunte un archivo que corrobore la información proporcionada.
-                </div>
-                <input type="hide" class="hide" value="107" id="departamento">
-					<!-- Asunto -->
-	                <div class="form-group xs-mt-10">
-		                <div class="col-sm-12 nova-modal-contenido">
-		                    {{ form.asunto }}
-		                </div>
-	                </div>
-	                <!-- Descripcion -->
-	                <div class="form-group xs-mt-10">
-		                <div class="col-sm-12 nova-modal-contenido">
-		                    {{ form.descripcion }}
-		                </div>
-	                </div>
-	                <!-- Archivo -->
-	                <div class="form-group xs-mt-10">
-		                <div class="col-sm-12 nova-modal-contenido">
-		                    {{ form.archivo }}
-		                </div>
-	                </div>
-                <input type="hide" class="hide" value="{{ request.user.profile.pk }}" id="id_created_by">
-            </div>
-            </form>
+        <form action="" method="POST" enctype="multipart/form-data" id="formulario"> {% csrf_token %}
 
-            <!-- Botones de acción -->
-            <div class="modal-footer nova-modal-footer">
-                <div class="row col-sm-12">
-                    <button type="button" id="boton_limpiar" class="btn btn-default pull-left">
-                            <i class="fa fa-eraser"></i>
-                            Limpiar
-                    </button>
-                    <button type="submit" id="boton_enviar" class="btn btn-primary pull-right" method='POST'>
-                            <i class="icon icon-left mdi mdi-mail-send nova-white"></i>
-                            Enviar
-                    </button>
-                </div>
-            </div>
-        </div> <!-- Modal content-->
-    </div> <!-- Modal dialog -->
-</div><!-- Modal actualizar-->
+           <div class="modal-body form-horizontal">
+
+            <input type="hide" class="hide" value="107" id="departamento">
+            <input type="hide" class="hide" value="{{ request.user.profile.pk }}" id="id_created_by" readonly="True">
+
+              {% tag_field_popup form.asunto 3 8 %}
+
+              {% tag_field_popup form.descripcion 3 8 %}
+
+              {% tag_field_popup form.archivo 3 8 %}
+
+            </div><!-- Modal body-->
+        </form>
+        <div class="modal-footer nova-modal-footer">
+           <div class="row col-sm-12">
+              <button type="button" id="boton_limpiar_nuevo" class="btn btn-default pull-left">
+                 <i class="fa fa-eraser"></i>
+                 Limpiar
+            </button>
+            <button type="submit" id="boton_enviar" class="btn btn-primary pull-right" method='POST'>
+                 <i class="icon icon-left mdi mdi-mail-send nova-white"></i>
+                 Enviar
+            </button>
+           </div>
+        </div>
+     </div> <!-- Modal content-->
+  </div> <!-- Modal dialog -->
+</div><!-- Modal -->
+
 {% endblock contenido %}
 {% block scripts %}
 	<!-- Kendo Js -->

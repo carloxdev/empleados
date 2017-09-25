@@ -570,14 +570,16 @@
 .orgchart .nova-nivel-6 .title{
   background-color: white;
   color: black;
-  border-top: 1px solid #575757;
-  border-left: 1px solid #575757;
-  border-right: 1px solid #575757;
+  border: 1px solid #575757;
 }
 .orgchart .nova-nivel-6 .content {
-  border-color: #575757;
+  border-top: 0 !important;
+  border-left: 1px solid #575757 !important;
+  border-right: 1px solid #575757 !important;
+  border-bottom: 1px solid #575757 !important;
 }
 .orgchart .nova-nivel-staff .title{
+  color: white;
   background-color: rgb(210,210,210);
 
 }

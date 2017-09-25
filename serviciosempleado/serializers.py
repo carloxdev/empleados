@@ -4,11 +4,9 @@ import json
 from django.core.files.storage import default_storage
 import os
 
-# API Rest:
-from rest_framework import serializers
-
 # Modelos
 from ebs.models import VIEW_EMPLEADOS_FULL
+from ebs.models import VIEW_ORGANIGRAMA
 
 
 class VIEW_ORGANIGRAMA_ORG_SERIALIZADO(object):
@@ -31,15 +29,8 @@ class VIEW_ORGANIGRAMA_ORG_SERIALIZADO(object):
                     self.get_Estructura(nodo, hijo)
 
             if len(hijos):
-                self.get_ColorNivel(nodo, hijo, _clave_rh)
                 nodo["children"] = self.get_Descendencia(
                     _daddies, hijos, nodo, _clave_rh)
-            else:
-                if hijo.tipo == 'STAFF':
-                    nodo["staff"] = 'STAFF'
-                    nodo["className"] = 'staff-level'
-                else:
-                    self.get_ColorNivel(nodo, hijo, _clave_rh)
 
             lista_descendencia.append(nodo)
 
@@ -61,15 +52,10 @@ class VIEW_ORGANIGRAMA_ORG_SERIALIZADO(object):
         if len(hijos):
             for dato in padre:
                 self.get_Estructura(nodo, dato)
-                if dato.pers_empleado_numero == '200817':
-                    nodo["className"] = 'nivel-1'
-                else:
-                    nodo["className"] = 'niveles'
             nodo["children"] = self.get_Descendencia(
                 _daddies, hijos, nodo, _clave_rh)
         else:
             self.get_EstructuraEmpleado(nodo, padre)
-            self.get_ColorNivel(nodo, padre, _clave_rh)
 
         lista_json = json.dumps(nodo)
 
@@ -83,31 +69,40 @@ class VIEW_ORGANIGRAMA_ORG_SERIALIZADO(object):
         _nodo["puesto"] = "%s" % (_datos.asig_puesto_desc)
         _nodo["centro_costos"] = "%s" % (_datos.grup_fase_jde)
         _nodo["ubicacion"] = "%s" % (_datos.asig_ubicacion_desc)
+        self.get_ColorNivel(_nodo, _datos)
         self.get_Foto(_nodo, _datos)
 
     def get_Foto(self, _nodo, _datos):
-        empleado = VIEW_EMPLEADOS_FULL.objects.using('ebs_p').get(pers_empleado_numero=_datos.pers_empleado_numero)
-        ruta = os.path.join('capitalhumano', 'fotos', '%s' % (empleado.nombre_foto))
+        empleado = VIEW_EMPLEADOS_FULL.objects.using('ebs_p').get(
+            pers_empleado_numero=_datos.pers_empleado_numero)
+        ruta = os.path.join('capitalhumano', 'fotos', '%s' %
+                            (empleado.nombre_foto))
         if default_storage.exists(ruta):
-            _nodo["foto"]='/media/' + ruta
+            _nodo["foto"] = '/media/' + ruta
         else:
-            _nodo["foto"]='/static/images/decoradores/no-image-user.jpg '
-
+            _nodo["foto"] = '/static/images/decoradores/no-image-user.jpg '
 
     def get_Estructura(self, _nodo, _datos):
         _nodo["puesto"] = "%s" % (_datos.asig_puesto_desc)
         _nodo["nombre"] = "None"
+        self.get_ColorNivel(_nodo, _datos)
 
-    def get_ColorNivel(self, _nodo, _dato, _clave_rh):
-        if _dato.nivel_estructura == 1:
-            _nodo["className"] = 'nivel-1'
-        elif (_dato.nivel_estructura == 2) or \
-                (_dato.nivel_estructura == 3) or \
-                (_dato.nivel_estructura == 4) or \
-                (_dato.nivel_estructura == 5) or \
-                (_dato.nivel_estructura == 6):
-
-            _nodo["className"] = "niveles"
+    def get_ColorNivel(self, _nodo, _dato):
+        if (_dato.nivel_estructura == 1) or \
+                (_dato.nivel_estructura == 2):
+            _nodo["className"] = 'nova-nivel-1-2'
+        elif (_dato.nivel_estructura == 3):
+            _nodo["className"] = 'nova-nivel-3'
+        elif (_dato.nivel_estructura == 4):
+            _nodo["className"] = 'nova-nivel-4'
+        elif (_dato.nivel_estructura == 5):
+            _nodo["className"] = 'nova-nivel-5'
+        elif (_dato.nivel_estructura == 6):
+            if _dato.tipo == "STAFF":
+                _nodo["staff"] = 'STAFF'
+                _nodo["className"] = 'nova-nivel-staff'
+            else:
+                _nodo["className"] = 'nova-nivel-6'
 
     def get_Padre(self, _daddies):
 
@@ -134,8 +129,7 @@ class VIEW_ORGANIGRAMA_ORG_SERIALIZADO(object):
                     personasSinJefe.remove(personaMismo)
 
         for dato in personasSinJefe:
-
-            padre = VIEW_EMPLEADOS_FULL.objects.using('ebs_p').filter(
+            padre = VIEW_ORGANIGRAMA.objects.using('ebs_p').filter(
                 pers_clave=dato.asig_jefe_directo_clave)
 
         return padre

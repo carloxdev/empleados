@@ -67,61 +67,47 @@
    </div> <!-- main-content -->
 
 </div>
-<!-- Modal nuevo-->
+
+<!-- modal nueva solicitud -->
 <div id="modal_nuevo" role="dialog" class="modal fade colored-header colored-header-primary">
-    <div class="modal-dialog custom-width nova-modal-responsive">
-        <div class="modal-content nova-modal-content-responsive">
-            <div class="modal-header nova-modal-header">
-                <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
-                <h3 class="modal-title">Nueva solicitud</h3>
-            </div>
+  <div class="modal-dialog custom-width">
+     <div class="modal-content">
 
-            <form action="" method="POST" enctype="multipart/form-data" id="formulario"> {% csrf_token %}
+        <div class="modal-header nova-modal-header">
+           <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
+           <h3 class="modal-title">Nueva solicitud</h3>
+        </div>
 
-            <div class="modal-body form-horizontal">
-                <!-- Informacion -->
-                <div class="nova-modal-contenido">
-                    Si desea agregar archivos a su expediente personal u algún dato/archivo es erróneo o necesita actualizarse, indique a continuación el asunto de la solicitud, descripción de la operación a realizarse y adjunte un archivo que corrobore la información proporcionada.
-                </div>
-                <input type="hide" class="hide" value="107" id="departamento">
-                    <!-- Asunto -->
-                    <div class="form-group xs-mt-10">
-                        <div class="col-sm-12 nova-modal-contenido">
-                            {{ form2.asunto }}
-                        </div>
-                    </div>
-                    <!-- Descripcion -->
-                    <div class="form-group xs-mt-10">
-                        <div class="col-sm-12 nova-modal-contenido">
-                            {{ form2.descripcion }}
-                        </div>
-                    </div>
-                    <!-- Archivo -->
-                    <div class="form-group xs-mt-10">
-                        <div class="col-sm-12 nova-modal-contenido">
-                            {{ form2.archivo }}
-                        </div>
-                    </div>
-                <input type="hide" class="hide" value="{{ request.user.profile.pk }}" id="id_created_by" readonly="True">
-            </div>
-            </form>
+        <form action="" method="POST" enctype="multipart/form-data" id="formulario"> {% csrf_token %}
 
-            <!-- Botones de acción -->
-            <div class="modal-footer nova-modal-footer">
-                <div class="row col-sm-12">
-                    <button type="button" id="boton_limpiar_nuevo" class="btn btn-default pull-left">
-                         <i class="fa fa-eraser"></i>
-                         Limpiar
-                    </button>
-                    <button type="submit" id="boton_enviar" class="btn btn-primary pull-right" method='POST'>
-                         <i class="icon icon-left mdi mdi-mail-send nova-white"></i>
-                         Enviar
-                    </button>
-                </div>
-            </div>
-        </div> <!-- Modal content-->
-    </div> <!-- Modal dialog -->
-</div><!-- Modal nuevo-->
+           <div class="modal-body form-horizontal">
+
+            <input type="hide" class="hide" value="107" id="departamento">
+            <input type="hide" class="hide" value="{{ request.user.profile.pk }}" id="id_created_by" readonly="True">
+
+              {% tag_field_popup form2.asunto 3 8 %}
+
+              {% tag_field_popup form2.descripcion 3 8 %}
+
+              {% tag_field_popup form2.archivo 3 8 %}
+
+            </div><!-- Modal body-->
+        </form>
+        <div class="modal-footer nova-modal-footer">
+           <div class="row col-sm-12">
+              <button type="button" id="boton_limpiar_nuevo" class="btn btn-default pull-left">
+                 <i class="fa fa-eraser"></i>
+                 Limpiar
+            </button>
+            <button type="submit" id="boton_enviar" class="btn btn-primary pull-right" method='POST'>
+                 <i class="icon icon-left mdi mdi-mail-send nova-white"></i>
+                 Enviar
+            </button>
+           </div>
+        </div>
+     </div> <!-- Modal content-->
+  </div> <!-- Modal dialog -->
+</div><!-- Modal -->
 
 <!-- Modal filtro-->
 <div id="modal_filtro" role="dialog" class="modal fade colored-header colored-header-primary">
@@ -143,17 +129,17 @@
 
                         <!-- Botones de acción -->
                         <div class="modal-footer nova-modal-footer">
-                                <div class="row col-sm-12">
-                                        <button type="button" id="boton_limpiar_filtro" class="btn btn-default pull-left">
-                                                <i class="fa fa-eraser"></i>
-                                                Limpiar
-                                        </button>
+                            <div class="row col-sm-12">
+                                    <button type="button" id="boton_limpiar_filtro" class="btn btn-default pull-left">
+                                            <i class="fa fa-eraser"></i>
+                                            Limpiar
+                                    </button>
 
-                                        <button type="submit" id="boton_buscar" class="btn nova-btn btn-primary btn-lg pull-right" method='POST'>
-                                                <i class="icon icon-left mdi mdi-search nova-white"></i>
-                                                Buscar
-                                        </button>
-                                </div>
+                                    <button type="submit" id="boton_buscar" class="btn nova-btn btn-primary btn-lg pull-right" method='POST'>
+                                            <i class="icon icon-left mdi mdi-search nova-white"></i>
+                                            Buscar
+                                    </button>
+                            </div>
                         </div>
                 </div> <!-- Modal content-->
         </div> <!-- Modal dialog -->
