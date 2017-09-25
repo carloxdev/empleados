@@ -264,6 +264,8 @@ function PopupLinea() {
     this.$concepto = $('#id_concepto')
     this.$observaciones = $('#id_observaciones')
     this.$importe = $('#id_importe')
+    this.$importe_dia_contendor = $('#importe_dia_contendor')
+    this.$importe_dia = $('#importe_dia')
 
     this.$boton_guardar = $('#boton_guardar')
 
@@ -294,7 +296,7 @@ PopupLinea.prototype.get_Fields = function () {
         "cabecera" : cabecera.$record_pk.text(),
         "concepto" : this.$concepto.val(),
         "observaciones" : this.$observaciones.val(),
-        "importe" : this.calcular_ImporteTotal()
+        "importe" : this.$importe.val()
     }
 }
 PopupLinea.prototype.clear_Fields = function () {
@@ -395,8 +397,14 @@ PopupLinea.prototype.click_BotonGuardar = function (e) {
             },
             error: function (_response) {
 
-               alertify.error("Ocurrio un error al guardar")
-               console.log(_response.responseText);
+               if (_response.responseJSON["importe"]) {
+
+                  alertify.warning("El importe total para esta linea es muy alto.")
+               }
+               else {
+                  alertify.error("Ocurrio un error al guardar")
+               }
+
                return false
             }
         })
@@ -416,23 +424,23 @@ PopupLinea.prototype.set_Importe = function () {
 
       this.$importe.prop("readonly", false)
       this.$importe.val(0)
+      this.$importe_dia_contendor.addClass('hidden')
    }
-   else {
+   else if (parseInt(limite) > 0){
 
+      this.$importe_dia_contendor.removeClass('hidden')
+      this.$importe_dia.html(limite)
       this.$importe.prop("readonly", true)
-      this.$importe.val(parseInt(limite))
+
+      var fecha_partida = this.fecha_ConFormato(cabecera.$fecha_partida.val())
+      var fecha_regreso = this.fecha_ConFormato(cabecera.$fecha_regreso.val())
+      var diferencia = fecha_regreso.getTime() - fecha_partida.getTime()
+      var dias = Math.round(diferencia/1000/60/60/24) + 1
+
+      var total_importe = dias * parseInt(limite)
+
+      this.$importe.val(total_importe)
    }
-}
-PopupLinea.prototype.calcular_ImporteTotal = function () {
-
-   var fecha_partida = this.fecha_ConFormato(cabecera.$fecha_partida.val())
-   var fecha_regreso = this.fecha_ConFormato(cabecera.$fecha_regreso.val())
-   var diferencia = fecha_regreso.getTime() - fecha_partida.getTime()
-   var dias = Math.round(diferencia/1000/60/60/24) + 1
-
-   var importe = this.$importe.val()
-
-   return  dias * importe
 }
 PopupLinea.prototype.fecha_ConFormato = function (_fecha) {
 
