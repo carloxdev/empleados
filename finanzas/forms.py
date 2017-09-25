@@ -141,7 +141,7 @@ class ViaticoCabeceraForm(ModelForm):
 class ViaticoLineaForm(Form):
 
     concepto = ChoiceField(
-        widget=Select(attrs={'class': 'select2 input-xs', 'maxlength':'60'})
+        widget=SelectCustom(attrs={'class': 'select2 input-xs', 'maxlength':'60'})
     )
 
     observaciones = ChoiceField(
@@ -158,18 +158,23 @@ class ViaticoLineaForm(Form):
 
     def get_Conceptos(self, id_empleado):
 
-        valores = [('', '-------')]
+        valores = [('', '-------', '', ''), ]
+        filtros = ['HTL','GPA']
 
         conceptos = VIEW_POLITICA_VIATICOS.objects.using('jde_p').filter(idempleado=id_empleado)
 
         for concepto in conceptos:
 
-            valores.append(
-                (
-                    concepto.concepto,
-                    concepto.desconcepto
+            if not concepto.concepto in filtros:
+
+                valores.append(
+                    (
+                        concepto.concepto,
+                        concepto.desconcepto,
+                        concepto.limite,
+                        ''
+                    )
                 )
-            )
         return valores
 
 

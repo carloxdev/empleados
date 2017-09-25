@@ -32,7 +32,6 @@ $(document).ready(function () {
     })
 })
 
-
 /* -------------------- OBJETO: Cabecera -------------------- */
 
 function Cabecera() {
@@ -57,7 +56,6 @@ Cabecera.prototype.init = function () {
 
     this.$empleado_clave.select2()
     this.$un_clave.select2()
-
     this.$fecha_partida_input.datepicker(appnova.get_ConfDatePicker())
     this.$fecha_regreso_input.datepicker(appnova.get_ConfDatePicker())
 }
@@ -287,7 +285,7 @@ PopupLinea.prototype.set_Events = function () {
     // this.$boton_guardar.on("click", this, this.click_BotonGuardar)
 
     this.$formulario.parsley().on('form:submit', this.click_BotonGuardar)
-    this.concepto.on("change", this, this.change_SelectConcepto)
+    this.$concepto.on("change", this, this.change_SelectConcepto)
 }
 PopupLinea.prototype.get_Fields = function () {
 
@@ -295,18 +293,18 @@ PopupLinea.prototype.get_Fields = function () {
         "cabecera" : cabecera.$record_pk.text(),
         "concepto" : this.$concepto.val(),
         "observaciones" : this.$observaciones.val(),
-        "importe" : this.$importe.val()
+        "importe" : this.calcular_ImporteTotal()
     }
 }
 PopupLinea.prototype.clear_Fields = function () {
 
-    this.$concepto.val("")
+    this.$concepto.val("").trigger('change')
     this.$observaciones.val("")
     this.$importe.val("")
 }
 PopupLinea.prototype.fill_Fields = function (_values) {
 
-    this.$concepto.val(_values.concepto)
+    this.$concepto.val(_values.concepto).trigger('change')
     this.$observaciones.val(_values.observaciones)
     this.$importe.val(_values.importe)
 }
@@ -405,8 +403,38 @@ PopupLinea.prototype.click_BotonGuardar = function (e) {
     return false
 }
 PopupLinea.prototype.change_SelectConcepto = function (e) {
+
    e.data.set_Importe()
 }
 PopupLinea.prototype.set_Importe = function () {
 
+   var limite = $('option:selected', this.$concepto).attr('data-text')
+
+   if (limite == '0') {
+
+      this.$importe.prop("readonly", false)
+      this.$importe.val(0)
+   }
+   else {
+
+      this.$importe.prop("readonly", true)
+      this.$importe.val(parseInt(limite))
+   }
+}
+PopupLinea.prototype.calcular_ImporteTotal = function () {
+
+   var fecha_partida = this.fecha_ConFormato(cabecera.$fecha_partida.val())
+   var fecha_regreso = this.fecha_ConFormato(cabecera.$fecha_regreso.val())
+   var diferencia = fecha_regreso.getTime() - fecha_partida.getTime()
+   var dias = Math.round(diferencia/1000/60/60/24) + 1
+
+   var importe = this.$importe.val()
+
+   return  dias * importe
+}
+PopupLinea.prototype.fecha_ConFormato = function (_fecha) {
+
+   var fecha = _fecha.split('/')
+
+   return new Date(fecha[1]+"/"+fecha[0]+"/"+fecha[2])
 }
