@@ -11,6 +11,10 @@ from simple_history.models import HistoricalRecords
 from seguridad.models import Profile
 # from administracion.models import Empresa
 
+# Django Signals:
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
 
 class ViaticoCabecera(models.Model):
 
@@ -120,3 +124,10 @@ class ViaticoLinea(models.Model):
 
     def __unicode__(self):
         return "%s : %s" % (self.cabecera, self.concepto)
+
+
+@receiver(post_save, sender=ViaticoLinea)
+def save_viatico_linea(sender, instance, **kwargs):
+    cabecera = ViaticoCabecera.objects.get(pk = instance.cabecera.pk)
+    cabecera.importe_total += instance.importe
+    cabecera.save()

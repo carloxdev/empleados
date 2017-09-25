@@ -2,6 +2,7 @@
 
 // URLS:
 var url_viaticolineas = window.location.origin + "/api-finanzas/viaticolinea/"
+var url_viaticocabecera = window.location.origin + "/api-finanzas/viaticocabecera/"
 
 // OBJS:
 var cabecera = null
@@ -48,6 +49,8 @@ function Cabecera() {
 
     this.$ciudad_destino = $('#id_ciudad_destino')
     this.$proposito_viaje = $('#id_proposito_viaje')
+
+    this.$importe_total = $('#importe_total')
 
     this.init()
     this.set_Events()
@@ -282,8 +285,6 @@ PopupLinea.prototype.init = function () {
 PopupLinea.prototype.set_Events = function () {
 
     this.$id.on("shown.bs.modal", this, this.render)
-    // this.$boton_guardar.on("click", this, this.click_BotonGuardar)
-
     this.$formulario.parsley().on('form:submit', this.click_BotonGuardar)
     this.$concepto.on("change", this, this.change_SelectConcepto)
 }
@@ -306,7 +307,6 @@ PopupLinea.prototype.fill_Fields = function (_values) {
 
     this.$concepto.val(_values.concepto).trigger('change')
     this.$observaciones.val(_values.observaciones)
-    this.$importe.val(_values.importe)
 }
 PopupLinea.prototype.open_ForNew = function () {
 
@@ -389,12 +389,14 @@ PopupLinea.prototype.click_BotonGuardar = function (e) {
                 this_obj.$id.modal('hide')
                 alertify.success("Se guardo exitosamente")
                 lineas.grid.buscar()
+                popup_linea.actualizar_ImporteTotal()
 
                 return false
             },
             error: function (_response) {
 
                alertify.error("Ocurrio un error al guardar")
+               console.log(_response.responseText);
                return false
             }
         })
@@ -437,4 +439,18 @@ PopupLinea.prototype.fecha_ConFormato = function (_fecha) {
    var fecha = _fecha.split('/')
 
    return new Date(fecha[1]+"/"+fecha[0]+"/"+fecha[2])
+}
+PopupLinea.prototype.actualizar_ImporteTotal = function () {
+
+   $.ajax({
+      url: url_viaticocabecera + cabecera.$record_pk.text() + "/",
+      method: "GET",
+      success: function (_response) {
+
+         cabecera.$importe_total.html(_response.importe_total)
+      },
+      error: function (_response) {
+         alertify.error("Ocurrio error al consultar")
+      }
+   })
 }
