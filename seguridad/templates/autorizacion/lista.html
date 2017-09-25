@@ -71,7 +71,7 @@
                                                 {{viatico.empleado_descripcion}}
                                             </span>
                                             <span class="cell-detail-description">
-                                                Desarrollador
+                                                {{viatico.empleado_clave}}
                                             </span>
                                         </td>
                                         <td class="cell-detail">
@@ -87,11 +87,8 @@
                                             </span>
                                         </td>
                                         <td>
-                                            <a class="btn btn-success" href="#">Aceptar</a>
-                                            <a class="btn btn-danger" href="#">Recharzar</a>
-
-                                            <button type="button" name="button" class="btn btn-success" data-type="viatico" data-id="{{viatico.pk}}">Aceptar</button>
-                                            <button type="button" name="button" class="btn btn-danger" data-type="viatico" data-id="{{viatico.pk}}">Rechazar</button>
+                                            <a class="btn btn-success" href="{% url 'seguridad:autorizacion_aprobar' _type="viatico" _pk=viatico.pk %}">Aprobar</a>
+                                            <a class="btn btn-danger"  href="{% url 'seguridad:autorizacion_cancelar' _type="viatico" _pk=viatico.pk %}">Cancelar</a>
                                         </td>
                                     </tr>
                                     {% endfor %}
@@ -99,9 +96,7 @@
                                 </table>
                                 {% else %}
 
-                                <tr>
-                                    <td colspan="7" class="nova-aling-center nova-sin-resultados">No se encontraron resultados.</td>
-                                </tr>
+                                <h3 class="text-center">No se encontraron documentos pendientes que autorizar.</h3>
 
                                 {% endif %}
 

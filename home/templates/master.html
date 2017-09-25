@@ -96,9 +96,10 @@
 
                                 {% if user.is_superuser %}
                                 <li><a href="{% url 'seguridad:usuario_lista' %}"><span class="icon mdi mdi-accounts"></span> Usuarios</a></li>
-                                {% endif %}
+                                {% else %}
                                 <li><a href="{% url 'seguridad:usuario_perfil' user.pk %}"><span class="icon mdi mdi-settings"></span> Perfil</a></li>
-                                <li><a href="{% url 'seguridad:autorizacion' %}"><span class="icon mdi mdi-check"></span> Autorizaciones</a></li>
+                                {% endif %}
+                                <li><a href="{% url 'seguridad:autorizacion_lista' %}"><span class="icon mdi mdi-check"></span> Autorizaciones</a></li>
                                 <li><a href="{% url 'seguridad:logout' %}"><span class="icon mdi mdi-power"></span> Salir</a></li>
                             </ul>
                         </li>

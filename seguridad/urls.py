@@ -13,13 +13,20 @@ from .views import RegistroExito
 from .views import ContrasenaReset
 from .views import ContrasenaResetConfirm
 from .views import ContrasenaResetComplete
+
+from .views import Perfil
+
 from .views import UsuarioLista
 from .views import UsuarioNuevo
 from .views import UsuarioEditar
 from .views import UsuarioEditarContrasena
 from .views import UsuarioPerfil
 from .views import UsuarioPerfilContrasena
-from .views import Autorizacion
+
+from .views import AutorizacionLista
+from .views import AutorizacionAprobar
+from .views import AutorizacionCancelar
+from .views import AutorizacionDone
 
 app_name = "seguridad"
 
@@ -37,6 +44,7 @@ urlpatterns = [
 
     # Mensaje 'success' de contrasena cambiada.
     url(r'^reset/done/$', ContrasenaResetComplete.as_view(), name='contrasena_reset_complete'),
+    url(r'^profile/(?P<_username>\d+)/$', Perfil.as_view(), name="perfil"),
     url(r'^usuarios/$', UsuarioLista.as_view(), name="usuario_lista"),
     url(r'^usuarios/nuevo/$', UsuarioNuevo.as_view(), name="usuario_nuevo"),
     url(r'^usuarios/(?P<_pk>\d+)/editar/$', UsuarioEditar.as_view(), name="usuario_editar"),
@@ -45,7 +53,12 @@ urlpatterns = [
     url(r'^usuarios/(?P<_pk>\d+)/perfil/$', UsuarioPerfil.as_view(), name="usuario_perfil"),
     url(r'^usuarios/(?P<_pk>\d+)/perfil/contrasena/$', UsuarioPerfilContrasena.as_view(),
         name="usuario_perfil_contrasena"),
-    url(r'^autorizacion/$',  Autorizacion.as_view(), name="autorizacion"),
+    url(r'^autorizaciones/$',  AutorizacionLista.as_view(), name="autorizacion_lista"),
+    url(r'^autorizaciones/(?P<_type>.*)/(?P<_pk>\d+)/aprobar/$',  AutorizacionAprobar.as_view(),
+        name="autorizacion_aprobar"),
+    url(r'^autorizaciones/(?P<_type>.*)/(?P<_pk>\d+)/cancelar/$',  AutorizacionCancelar.as_view(),
+        name="autorizacion_cancelar"),
+    url(r'^autorizaciones/(?P<_type>.*)/done/$',  AutorizacionDone.as_view(), name="autorizacion_done"),
 ]
 
 if settings.DEBUG:

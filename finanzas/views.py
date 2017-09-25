@@ -90,7 +90,7 @@ class ViaticoCabeceraEditar(View):
             flag_new = False
 
         formulario_cabecera = ViaticoCabeceraForm(
-            instance=ViaticoBusiness.get_ViaticoCabevera(_pk)
+            instance=ViaticoBusiness.get_ViaticoCabecera(_pk)
         )
         formulario_linea = ViaticoLineaForm()
 
@@ -105,7 +105,7 @@ class ViaticoCabeceraEditar(View):
 
         formulario_cabecera = ViaticoCabeceraForm(
             _request.POST,
-            instance=ViaticoBusiness.get_ViaticoCabevera(_pk)
+            instance=ViaticoBusiness.get_ViaticoCabecera(_pk)
         )
         formulario_linea = ViaticoLineaForm()
 

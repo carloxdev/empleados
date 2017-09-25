@@ -1,4 +1,7 @@
 
+# Python's Libraries
+from datetime import datetime
+
 # Django's Libraries
 from django.shortcuts import get_object_or_404
 
@@ -7,6 +10,8 @@ from .models import ViaticoCabecera
 
 from jde.business import AutorizadorGastosBusiness
 from jde.business import CentroCostoBusiness
+
+from django.template.loader import render_to_string
 
 
 class ViaticoBusiness(object):
@@ -36,14 +41,66 @@ class ViaticoBusiness(object):
         _viatico_cabecera.empresa_direccion = data_compania.compania_direccion
 
     @classmethod
-    def get_ViaticoCabevera(self, _pk):
+    def get_ViaticoCabecera(self, _pk):
         viatico_cabecera = get_object_or_404(ViaticoCabecera, pk=_pk)
         return viatico_cabecera
 
     @classmethod
-    def get_ByAutorizador(self, _value):
-        viaticos_cabecera = ViaticoCabecera.objects.filter(
-            autorizador_clave=_value
-        )
+    def get_ByAutorizar(self, _value):
+
+        if _value.isdigit():
+            viaticos_cabecera = ViaticoCabecera.objects.filter(
+                autorizador_clave=_value,
+                status="cap"
+            )
+        else:
+            viaticos_cabecera = ViaticoCabecera.objects.all()
 
         return viaticos_cabecera
+
+    @classmethod
+    def autorizar(self, _documento, _user):
+
+        if str(_user.username) == str(_documento.autorizador_clave):
+
+            _documento.status = "aut"
+            _documento.approved_date = datetime.now()
+            _documento.approved_by = _user.profile
+            _documento.updated_by = _user.profile
+            _documento.save()
+        else:
+            raise ValueError("Usted no tiene permisos para autorizar este viatico")
+
+    @classmethod
+    def cancelar(self, _documento, _user):
+
+        if str(_user.username) == str(_documento.autorizador_clave):
+
+            _documento.status = "can"
+            _documento.updated_by = _user.profile
+            _documento.save()
+        else:
+            raise ValueError("Usted no tiene permisos para cancelar este viatico")
+
+    @classmethod
+    def send_MailToParticipantes(self, _subject, _text, _documento, _user):
+
+        mensaje = render_to_string(
+            'autorizacion/email.html',
+            {
+                'viatico': _documento,
+                'texto': _text
+            }
+        )
+
+        # Envia correo al creador
+        _documento.created_by.usuario.email_user(
+            _subject,
+            mensaje
+        )
+
+        # Envia correo a atorizador
+        _user.email_user(
+            _subject,
+            mensaje
+        )
