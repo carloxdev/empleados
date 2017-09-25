@@ -68,6 +68,12 @@
     width: 10px !important;
 }
 
+.nova-mini-img {
+    max-height: 40px !important;
+    max-width: 100px !important;
+    vertical-align: none;
+}
+
 .own-panel-body {
     color: #333333 !important;
     border: 1px solid #d4d4d4 !important;
