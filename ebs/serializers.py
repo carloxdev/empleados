@@ -202,6 +202,7 @@ class VIEW_ESPECIALIDADES_Serializer(serializers.HyperlinkedModelSerializer):
             'qua_especialidad',
         )
 
+
 class VIEW_COMPETENCIAS_Serializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:

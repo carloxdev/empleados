@@ -53,12 +53,16 @@ class MiPerfil(View):
     def comprobar_Direccion(self, _empleado):
         ruta = ''
         url = ''
+        url2 = ''
 
         for dato in _empleado:
-            url = 'capitalhumano/images/' + dato.nombre_foto
+            url = 'capitalhumano/fotos/' + dato.nombre_foto + '.JPG'
+            url2 = 'capitalhumano/fotos/' + dato.nombre_foto + '.jpg'
 
         if default_storage.exists(url):
             ruta = '/media/' + url
+        elif default_storage.exists(url2):
+            ruta = '/media/' + url2
         else:
             ruta = '/static/theme/img/avatar-150.png'
 
@@ -66,7 +70,8 @@ class MiPerfil(View):
 
     def construir_Fecha(self, _campo):
         fecha_split = _campo.split('-')
-        fecha = fecha_split[2].split(" 00:00:00")[0] + "/" + fecha_split[1] + "/" + fecha_split[0]
+        fecha = fecha_split[2].split(" 00:00:00")[
+            0] + "/" + fecha_split[1] + "/" + fecha_split[0]
         return fecha
 
 

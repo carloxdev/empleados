@@ -38,6 +38,8 @@ class PostPublicados(View):
         else:
             registros = Post.objects.filter(
                 status="PUB").order_by("-created_date")
+            ultimos = Post.objects.filter(
+                status="PUB").order_by("-created_date")[:5]
 
         paginador = Paginator(registros, 10)
         pagina = request.GET.get('page')
@@ -51,6 +53,7 @@ class PostPublicados(View):
 
         contexto = {
             'registros': posts,
+            'ultimos': ultimos,
             'clave': 'publicados',
         }
 
@@ -66,7 +69,7 @@ class PostConsultar(View):
 
         post = get_object_or_404(Post, pk=pk)
         registros = Post.objects.filter(
-            status="PUB").order_by("-created_date")
+            status="PUB").order_by("-created_date")[:5]
 
         contexto = {
             'registro': post,

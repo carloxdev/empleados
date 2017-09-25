@@ -402,12 +402,17 @@ class EmpleadoExpediente(View):
     def comprobar_Direccion(self, _empleado):
         ruta = ''
         url = ''
+        url2 = ''
 
         for dato in _empleado:
-            url = 'capitalhumano/fotos/' + dato.nombre_foto
+
+            url = 'capitalhumano/fotos/' + dato.nombre_foto + '.JPG'
+            url2 = 'capitalhumano/fotos/' + dato.nombre_foto + '.jpg'
 
         if default_storage.exists(url):
             ruta = '/media/' + url
+        elif default_storage.exists(url2):
+            ruta = '/media/' + url2
         else:
             ruta = '/static/theme/img/avatar-150.png'
 

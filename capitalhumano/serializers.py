@@ -420,10 +420,14 @@ class VIEW_ORGANIGRAMA_ORG_SERIALIZADO(object):
     def buscar_Foto(self, _nodo, _datos):
         persona = VIEW_EMPLEADOS_FULL.objects.using('ebs_p').get(
             pers_empleado_numero=_datos.pers_empleado_numero)
-        ruta = os.path.join('capitalhumano', 'fotos', "%s" %
-                            (persona.nombre_foto),)
+        ruta = os.path.join('capitalhumano', 'fotos', "%s.jpg" %
+                            (persona.nombre_foto))
+        ruta2 = os.path.join('capitalhumano', 'fotos', "%s.JPG" %
+                             (persona.nombre_foto))
         if default_storage.exists(ruta):
             _nodo["foto"] = '/media/' + ruta
+        elif default_storage.exists(ruta2):
+            _nodo["foto"] = '/media/' + ruta2
         else:
             _nodo["foto"] = '/static/images/decoradores/no-image-user.jpg '
 
@@ -536,10 +540,14 @@ class VIEW_ORGANIGRAMA_EMP_SERIALIZADO(object):
     def buscar_Foto(self, _nodo, _datos):
         persona = VIEW_EMPLEADOS_FULL.objects.using('ebs_p').get(
             pers_empleado_numero=_datos.pers_empleado_numero)
-        ruta = os.path.join('capitalhumano', 'fotos', "%s" %
+        ruta = os.path.join('capitalhumano', 'fotos', "%s.jpg" %
                             (persona.nombre_foto),)
+        ruta2 = os.path.join('capitalhumano', 'fotos', "%s.JPG" %
+                             (persona.nombre_foto))
         if default_storage.exists(ruta):
             _nodo["foto"] = '/media/' + ruta
+        elif default_storage.exists(ruta2):
+            _nodo["foto"] = '/media/' + ruta2
         else:
             _nodo["foto"] = '/static/images/decoradores/no-image-user.jpg '
 

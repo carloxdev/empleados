@@ -67,5 +67,3 @@ router_ebs.register(
     VIEW_COMPETENCIAS_API,
     'viewcompetencias'
 )
-
-

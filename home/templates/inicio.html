@@ -9,11 +9,23 @@
 
 <div class="be-content">
    <div class="page-head nova-page-head">
-      <h2 class="page-head-title nova-title">Inicio</h2>
-      <ol class="breadcrumb page-head-nav pull-right">
-         <li id="menu" data-opcion="inicio">Inicio</li>
-      </ol>
+      <h2 class="page-head-title nova-title" id="menu" data-opcion="inicio">Últimas noticias</h2>
    </div>
+   <section class="col-md-8 nova-bloque visible-xs-block visible-sm-block">    
+        <div class="panel-body nova-padding-tools">
+           <form class="pull-right nova-padding-right"action="" method="GET">
+              <div class="input-group">
+                  <input type="text" class="form-control btn-rounded nova-height-buscar" name="q" placeholder="Post a buscar..." value="{{ request.GET.q }}">
+                  <span class="input-group-btn">
+                    <button type="submit" id="boton_buscar" class="btn nova-height-buscar nova-btn btn-rounded nova-btn-pantone btn-flat">
+                      <i class="fa fa-search"></i>
+                      Buscar
+                    </button>
+                  </span>
+              </div>
+           </form>  
+        </div>
+    </section>
    {% if registros %}
 
       <div class="col-md-8 nova-padding-left">
@@ -96,22 +108,18 @@
          </div>
 
       </div>
-      <section class="col-md-4 nova-bloque nova-padding-left">
-         <div class="user-info-list panel panel-default panel-border nova-margin-bottom">
-            <div class="panel-body nova-padding-tools">
-               <form class="pull-right nova-padding-right"action="" method="GET">
-                  <div class="input-group">
-                      <input type="text" class="form-control btn-rounded nova-height-buscar" name="q" placeholder="Post a buscar..." value="{{ request.GET.q }}">
-                      <span class="input-group-btn">
-                        <button type="submit" id="boton_buscar" class="btn nova-height-buscar nova-btn btn-rounded nova-btn-pantone btn-flat">
-                          <i class="fa fa-search"></i>
-                          Buscar
-                        </button>
-                      </span>
-                  </div>
-               </form>
-            </div>
-         </div>
+      <section class="col-md-4 nova-bloque nova-padding-left hidden-sm hidden-xs">
+           <form class="pull-right nova-padding-right"action="" method="GET">
+              <div class="input-group">
+                  <input type="text" class="form-control btn-rounded nova-height-buscar" name="q" placeholder="Post a buscar..." value="{{ request.GET.q }}">
+                  <span class="input-group-btn">
+                    <button type="submit" id="boton_buscar" class="btn nova-height-buscar nova-btn btn-rounded nova-btn-pantone btn-flat">
+                      <i class="fa fa-search"></i>
+                      Buscar
+                    </button>
+                  </span>
+              </div>
+            </form>
       </section>
       <section class="col-md-4 nova-padding-left">
          <div class="user-info-list panel panel-default panel-border nova-cumpleanos nova-post-sombreado">
@@ -122,6 +130,22 @@
             </div>
          </div>
       </section>
+
+      <section class="col-md-4 nova-padding-left">
+         <div class="user-info-list panel panel-default nova-post-borde">
+            <div class="col-md-12 nova-noticias">
+               Últimas noticias
+            </div>
+            {% if registros %}
+                <div class="col-md-12 list-group nova-padding-right">
+                    {% for r in ultimos %}
+                        <a href="{% url 'editorial:post_consultar' r.pk %}" class="list-group-item nova-lista-decorador ">
+                        {{ r.titulo }}
+                        </a>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </section> 
       
 
    {% else %}
@@ -138,24 +162,20 @@
             </div>
          </div>
 
-         <section class="col-md-4 nova-bloque nova-padding-left">
-         <div class="user-info-list panel panel-default panel-border nova-margin-bottom">
-            <div class="panel-body nova-padding-tools">
-               <form class="pull-right nova-padding-right"action="" method="GET">
-                  <div class="input-group">
-                      <input type="text" class="form-control btn-rounded nova-height-buscar" name="q" placeholder="Post a buscar..." value="{{ request.GET.q }}">
-                      <span class="input-group-btn">
-                        <button type="submit" id="boton_buscar" class="btn nova-height-buscar nova-btn btn-rounded btn-primary btn-flat">
-                          <i class="fa fa-search"></i>
-                          Buscar
-                        </button>
-                      </span>
-                  </div>
-               </form>
-            </div>
-         </div>
+         <section class="col-md-4 nova-bloque nova-padding-left  hidden-sm hidden-xs">
+           <form class="pull-right nova-padding-right"action="" method="GET">
+              <div class="input-group">
+                  <input type="text" class="form-control btn-rounded nova-height-buscar" name="q" placeholder="Post a buscar..." value="{{ request.GET.q }}">
+                  <span class="input-group-btn">
+                    <button type="submit" id="boton_buscar" class="btn nova-height-buscar nova-btn btn-rounded nova-btn-pantone btn-flat">
+                      <i class="fa fa-search"></i>
+                      Buscar
+                    </button>
+                  </span>
+              </div>
+           </form>
       </section>
-      <section class="col-md-4 nova-padding-left">
+      <section class="col-md-4 nova-padding-left  hidden-sm hidden-xs">
          <div class="user-info-list panel panel-default panel-border nova-cumpleanos nova-post-sombreado">
             <div class="col-md-12 nova-post-titulo">Cumpleaños
             </div>
@@ -164,6 +184,8 @@
             </div>
          </div>
       </section>
+        
+    </div>
 
       </div>
    </div>
