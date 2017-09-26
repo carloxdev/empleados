@@ -9,7 +9,6 @@ var grid = null
 var tarjeta_resultados = null
 var token
 
-
 /*------------------------------------------------*\
             LOAD
 \*-----------------------------------------------*/
@@ -140,7 +139,7 @@ Grid.prototype.get_Campos = function () {
         folio: { type: "string" },
         archivo_pdf : { type: "string" },
         archivo_xml : { type: "string" },
-        fecha : { type: "date"},
+        fechaPago : { type: "date"},
         receptor_rfc: { type: "string" },
         receptor_nombre: { type: "string"},
     }
@@ -172,7 +171,7 @@ Grid.prototype.get_Columnas = function () {
             template: '<a class="btn btn-default nova-url nova-button-grid" href="#=archivo_pdf#" download><i class="icon icon-left icon fa fa-file-pdf-o icon-black"></i></a>' +
                       '<a class="btn btn-default nova-url nova-button-grid" href="#=archivo_xml#" download="NominaXML/#=fecha#"><i class="icon icon-left icon fa fa-file-code-o icon-black"></i></a>'
         },
-        { field: "fecha", title: "Fecha de pago", width:"70px", format: "{0:dd/MM/yyyy}" },
+        { field: "fechaPago", title: "Fecha de pago", width:"70px", format: "{0:dd/MM/yyyy}" },
         { field: "receptor_rfc", title: "RFC", width:"100px"},
         { field: "receptor_nombre", title: "Receptor", width:"150px"},
 

@@ -110,6 +110,16 @@ class VIEW_EMPLEADOS_FULL_Filter(filters.FilterSet):
         name="grup_nomina_jde",
         lookup_expr="exact"
     )
+    pers_fecha_nacimiento_desde = CharFilter(
+        label="Fecha nacimiento desde",
+        name="pers_fecha_nacimiento_desde",
+        method='filter_fecha_desde'
+    )
+    pers_fecha_nacimiento_hasta = CharFilter(
+        label="Fecha nacimiento hasta",
+        name="pers_fecha_nacimiento_hasta",
+        method='filter_fecha_hasta'
+    )
 
     class Meta:
         model = VIEW_EMPLEADOS_FULL
@@ -199,6 +209,27 @@ class VIEW_EMPLEADOS_FULL_Filter(filters.FilterSet):
             'metodo_tipo_cuenta_id',
             'metodo_clabe',
         ]
+
+    def filter_fecha_desde(self, queryset, name, value):
+
+        valor = "{} 00:00:00".format(value)
+        print valor
+
+        if not value:
+            return queryset
+        else:
+            consulta = queryset.filter(pers_fecha_nacimiento__gte=valor)
+            return consulta
+
+    def filter_fecha_hasta(self, queryset, name, value):
+
+        valor = "{} 00:00:00".format(value)
+
+        if not value:
+            return queryset
+        else:
+            consulta = queryset.filter(pers_fecha_nacimiento__lte=valor)
+            return consulta
 
 
 class VIEW_EMPLEADOS_GRADO_Filter(filters.FilterSet):
