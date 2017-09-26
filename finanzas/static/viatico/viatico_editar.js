@@ -106,9 +106,9 @@ function Toolbar() {
 }
 Toolbar.prototype.set_Events = function() {
 
-    this.$boton_nuevo.on("click", this, this.click_BotonEditar)
+    this.$boton_nuevo.on("click", this, this.click_BotonNuevo)
 }
-Toolbar.prototype.click_BotonEditar = function() {
+Toolbar.prototype.click_BotonNuevo = function() {
 
     popup_linea.open_ForNew()
 }
@@ -187,7 +187,8 @@ Grid.prototype.init = function () {
     this.instancia = this.$id.kendoGrid(this.get_Configuracion())
 }
 Grid.prototype.set_Events = function () {
-    this.instancia.data("kendoGrid").tbody.on("click", ".btn-default", this.click_BotonEditar)
+
+    this.instancia.data("kendoGrid").tbody.on("click", "[data-event='editar']", this.click_BotonEditar)
 }
 Grid.prototype.get_Configuracion = function () {
 
@@ -218,7 +219,7 @@ Grid.prototype.get_Columnas = function () {
             field: "slug",
             title: "#",
             width: "55px",
-            template: '<button class="btn btn-default">#=slug#</button>',
+            template: '<button class="btn btn-default" data-event="editar">#=slug#</button>',
         },
         {
             field: "concepto_clave",
@@ -246,7 +247,7 @@ Grid.prototype.click_BotonEditar = function (e) {
     row = $(e.currentTarget).closest('tr')
     fila = lineas.grid.instancia.data("kendoGrid").dataItem(row)
 
-    popup_linea.open_ForEdit(fila.pk.toString(), fila.slug.toString())
+   //  popup_linea.open_ForEdit(fila.pk.toString(), fila.slug.toString())
 }
 Grid.prototype.onDataBound = function (e) {
 
@@ -355,7 +356,7 @@ PopupLinea.prototype.clear_Fields = function () {
 }
 PopupLinea.prototype.fill_Fields = function (_values) {
 
-    this.$concepto.val(_values.concepto).trigger('change')
+    this.$concepto.val(_values.concepto_clave).trigger('change')
     this.$observaciones.val(_values.observaciones)
     this.$importe.val(_values.importe)
 }
