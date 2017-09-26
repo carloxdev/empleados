@@ -127,3 +127,10 @@ class ViaticoBusiness(object):
 
             # Envia correo al creador
             usuario.email_user(_subject, mensaje)
+
+    @classmethod
+    def set_FinalizarCaptura(self, _cabecera, _user):
+
+        _cabecera.status = "fin"
+        _cabecera.updated_by = _user.profile
+        _cabecera.save()

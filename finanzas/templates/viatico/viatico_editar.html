@@ -44,57 +44,60 @@
             <div class="col-md-8 nova-panel-main">
 
                 <!-- Cabecera -->
-                <form class="panel panel-border panel-contrast nova-panel-default nova-panel-formulario" action="" method="POST"> {% csrf_token %}
-                    <div class="panel-heading panel-heading-default nova-panel-heading-formulario">
-                        <span class="title">Informacion de la solicitud: <strong>VIA-<span id="cabecera_pk">{{ form_cabecera.instance.id }}</span></strong></span>
-                    </div>
-                    <div class="panel-body form-horizontal">
+                <div class="panel panel-border panel-contrast nova-panel-default nova-panel-formulario">
 
-                        {% if form_cabecera.non_field_errors %}
-                            {% for error_message in form_cabecera.non_field_errors %}
-                                {% tag_mensaje 'error' error_message %}
-                            {% endfor %}
-                        {% endif %}
+                   <form action="" method="POST"> {% csrf_token %}
+                       <div class="panel-heading panel-heading-default nova-panel-heading-formulario">
+                           <span class="title">Informacion de la solicitud: <strong>VIA-<span id="cabecera_pk">{{ form_cabecera.instance.id }}</span></strong></span>
+                       </div>
 
-                        {% if flag_new %}
-                            {% tag_mensaje 'exito' 'Solicitud Creada con exito' %}
-                        {% endif %}
+                       <div class="panel-body form-horizontal">
 
-                        {% include 'tags/message.html' %}
+                           {% if form_cabecera.non_field_errors %}
+                               {% for error_message in form_cabecera.non_field_errors %}
+                                   {% tag_mensaje 'error' error_message %}
+                               {% endfor %}
+                           {% endif %}
 
-                        {% tag_section_info 12 0 '¡Instrucciones!' 'Ahora puedes agregar/modificar gastos en la targeta <strong>"Lineas"</strong>' %}
+                           {% if flag_new %}
+                               {% tag_mensaje 'exito' 'Solicitud Creada con exito' %}
+                           {% endif %}
 
-                        {% tag_field_registro form_cabecera.empleado_clave 3 8 %}
+                           {% include 'tags/message.html' %}
 
-                        {% tag_field_registro form_cabecera.un_clave 3 8 %}
+                           {% tag_section_info 12 0 '¡Instrucciones!' 'Ahora puedes agregar/modificar gastos en la targeta <strong>"Lineas"</strong>' %}
 
-                        {% tag_field_registro_dates 'Fecha partida/regreso' form_cabecera.fecha_partida form_cabecera.fecha_regreso 3 4 4 %}
+                           {% tag_field_registro form_cabecera.empleado_clave 3 8 %}
 
-                        {% tag_field_registro form_cabecera.ciudad_destino 3 8 %}
+                           {% tag_field_registro form_cabecera.un_clave 3 8 %}
 
-                        {% tag_field_registro form_cabecera.proposito_viaje 3 8 %}
+                           {% tag_field_registro_dates 'Fecha partida/regreso' form_cabecera.fecha_partida form_cabecera.fecha_regreso 3 4 4 %}
 
-                        <!-- Ocultos -->
-                        <div>
-                            {{ form_cabecera.empleado_descripcion }}
-                            {{ form_cabecera.un_descripcion }}
-                        </div>
+                           {% tag_field_registro form_cabecera.ciudad_destino 3 8 %}
 
-                    </div>
-                    <div class="modal-footer nova-modal-footer">
-                        <div class="nova-footer-botons">
-                            <a href=" {% url 'finanzas:viatico_lista' %}" class="btn btn-default">
-                                <i class="icon mdi mdi-arrow-left"></i>
-                                Regresar a Listado
-                            </a>
+                           {% tag_field_registro form_cabecera.proposito_viaje 3 8 %}
 
-                            <button type="submit" id="btn_registrar" class="btn nova-btn btn-primary btn-lg pull-right">
-                                Guardar
-                            </button>
-                        </div>
-                    </div>
-                </form>
+                           <!-- Ocultos -->
+                           <div>
+                               {{ form_cabecera.empleado_descripcion }}
+                               {{ form_cabecera.un_descripcion }}
+                           </div>
 
+                       </div>
+                       <div class="modal-footer nova-modal-footer">
+                           <div class="nova-footer-botons">
+                               <a href=" {% url 'finanzas:viatico_lista' %}" class="btn btn-default">
+                                   <i class="icon mdi mdi-arrow-left"></i>
+                                   Regresar a Listado
+                               </a>
+
+                               <button type="submit" name="guardar" id="btn_registrar" class="btn nova-btn btn-primary btn-lg pull-right">
+                                   Guardar
+                               </button>
+                           </div>
+                       </div>
+
+                </div>
                 <!-- Lineas -->
                 <div class="panel panel-default panel-table nova-panel-table">
                     <div class="panel-heading panel-border nova-panel-heading">
@@ -133,10 +136,10 @@
                 <!-- Botones -->
                 <div class="panel panel-border panel-contrast nova-panel-default">
                     <div class="panel-body text-center">
-                        <button type="button" class="btn btn-warning btn-lg" disabled>Finalizar y Enviar</button>
+                        <button type="submit" name="fin_captura" class="btn btn-warning btn-lg" id="boton_finalizar_captura">Finalizar y Enviar</button>
                     </div>
                 </div>
-
+                </form>
             </div>
 
             <!-- Datos Autorizacion -->

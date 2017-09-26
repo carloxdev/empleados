@@ -57,6 +57,6 @@ def get_FilePath_Resolucion(instance, filename):
 
     if instance.resolucion_id:
         upload_dir = os.path.join(
-            'incidencias', str(instance.resolucion.incidencia_id), 'files', 'resoluciones')
+            'incidencias')
 
     return os.path.join(upload_dir, filename)    
