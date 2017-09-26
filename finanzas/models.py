@@ -122,10 +122,10 @@ class ViaticoLinea(models.Model):
         super(ViaticoLinea, self).save(*args, **kwargs)
 
     def __str__(self):
-        return "%s : %s" % (self.cabecera, self.concepto)
+        return "%s : %s" % (self.cabecera, self.concepto_clave)
 
     def __unicode__(self):
-        return "%s : %s" % (self.cabecera, self.concepto)
+        return "%s : %s" % (self.cabecera, self.concepto_clave)
 
 
 @receiver(post_save, sender=ViaticoLinea)
