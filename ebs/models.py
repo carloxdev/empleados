@@ -5,6 +5,7 @@ from __future__ import unicode_literals
 
 # Librerias/Clases Django
 from django.db import models
+from datetime import datetime
 
 
 class VIEW_EMPLEADOS_SIMPLE(models.Model):
@@ -35,6 +36,17 @@ class VIEW_EMPLEADOS_SIMPLE(models.Model):
     pers_estado_civil = models.CharField(max_length=30)
     pers_estado_civil_desc = models.CharField(max_length=7)
     pers_fecha_contratacion = models.CharField(max_length=8)
+
+    def _cumpleanios(self):
+        try:
+            anio = datetime.now().year
+            fecha = self.pers_fecha_nacimiento.split(" ")
+            fecha_nacimiento = datetime.strptime(fecha[0], '%Y-%m-%d').date()
+            cumpleanios = fecha_nacimiento.replace(year=anio)
+            return cumpleanios
+        except Exception:
+            return 0.0
+    fecha_cumpleanios = property(_cumpleanios)
 
     class Meta:
         managed = False
@@ -248,3 +260,11 @@ class VIEW_COMPETENCIAS(models.Model):
     class Meta:
         managed = False
         db_table = u'"NUVAPP"."VIEW_COMPETENCIAS"'
+
+
+class VIEW_COMPANIAS(models.Model):
+    desc_compania = models.CharField(primary_key=True, max_length=60)
+
+    class Meta:
+        managed = False
+        db_table = u'"NUVAPP"."VIEW_COMPANIAS"'

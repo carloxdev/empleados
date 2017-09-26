@@ -46,6 +46,7 @@ class VIEW_EMPLEADOS_SIMPLE_Serializer(serializers.HyperlinkedModelSerializer):
             'pers_estado_civil',
             'pers_estado_civil_desc',
             'pers_fecha_contratacion',
+            'fecha_cumpleanios',
         )
 
 

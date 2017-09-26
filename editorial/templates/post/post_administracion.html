@@ -32,7 +32,7 @@
                         <div class="input-group">
                             <input type="text" class="form-control btn-rounded nova-height-buscar" name="q" placeholder="Post a buscar..." value="{{ request.GET.q }}">
                             <span class="input-group-btn">
-                              <button type="submit" id="boton_buscar" class="btn nova-height-buscar nova-btn btn-rounded btn-primary btn-flat">
+                              <button type="submit" id="boton_buscar" class="btn nova-height-buscar nova-btn btn-rounded nova-btn-pantone btn-flat">
                                 <i class="fa fa-search"></i>
                                 Buscar
                               </button>
@@ -61,7 +61,7 @@
                                 {% endif %}
 
                                 {% for i in registros.paginator.page_range %}
-                                    <li {% if registros.number == i %} class="active nova-paginador-estilo" {% endif %}>
+                                    <li {% if registros.number == i %} class="nova-paginador" {% endif %}>
                                         <a {% if registros.number == i %} class="nova-paginador-estilo" {% endif %} href="?page={{i}}&q={{ request.GET.q }}">{{ i }}</a>
                                     </li>
                                 {% endfor %}

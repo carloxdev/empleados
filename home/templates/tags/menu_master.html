@@ -24,7 +24,6 @@
             </ul>
         </li>
     {% endif %}
-    {%  if user|tag_validate_has_group:"COMPRAS_CONSULTA" %}
         <li class="parent"><a href="#"><i class="icon mdi mdi-shopping-cart"></i></i><span>Compras</span></a>
             <ul class="sub-menu">
                 <li id="compras_seguimiento">
@@ -34,7 +33,6 @@
                 </li>
             </ul>
         </li>
-    {% endif%}
     {%  if user|tag_validate_has_group:"CH_ADMIN,CH_OPERA" %}
         <li class="parent"><a href="#"><i class="icon mdi mdi-accounts"></i></i><span>Capital Humano</span></a>
             <ul class="sub-menu">
