@@ -94,7 +94,7 @@ class ViaticoCabeceraEditar(View):
         )
 
         formulario_linea = ViaticoLineaForm(
-            ViaticoBusiness.get_ViaticoCabevera(_pk).empleado_clave
+            ViaticoBusiness.get_ViaticoCabecera(_pk).empleado_clave
         )
 
         contexto = {

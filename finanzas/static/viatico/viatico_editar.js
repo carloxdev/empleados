@@ -156,7 +156,8 @@ FuenteDatos.prototype.get_Campos = function () {
     return {
         pk : { type: "number" },
         slug : { type: "string" },
-        concepto : { type: "string" },
+        concepto_clave : { type: "string" },
+        concepto_descripcion : { type: "string" },
         observaciones : { type: "string" },
         importe : { type: "decimal" },
     }
@@ -204,11 +205,15 @@ Grid.prototype.get_Configuracion = function () {
         noRecords: {
             template: "<div class='nova-grid-empy'> Sin Lineas/Gastos </div>"
         },
-        dataBound: this.set_Columnas,
+        dataBound: this.onDataBound,
     }
 }
 Grid.prototype.get_Columnas = function () {
     return [
+
+        {   template: '<a class="btn nova-btn btn-default nova-btn-delete" id="#=pk#" data-event="eliminar"> <i class="icon icon-left icon mdi mdi-delete nova-white"></i></a>',
+            width: '75px',
+        },
         {
             field: "slug",
             title: "#",
@@ -216,8 +221,13 @@ Grid.prototype.get_Columnas = function () {
             template: '<button class="btn btn-default">#=slug#</button>',
         },
         {
-            field: "concepto",
-            title: "Concepto",
+            field: "concepto_clave",
+            title: "Concepto Clave",
+            width:"180px"
+        },
+        {
+            field: "concepto_descripcion",
+            title: "Concepto Descripción",
             width:"180px"
         },
         { field: "observaciones", title: "observaciones", width:"300px" },
@@ -238,11 +248,48 @@ Grid.prototype.click_BotonEditar = function (e) {
 
     popup_linea.open_ForEdit(fila.pk.toString(), fila.slug.toString())
 }
-Grid.prototype.set_Columnas = function (e) {
+Grid.prototype.onDataBound = function (e) {
 
-    // e.sender.tbody.find(".k-button.fa.fa-pencil").each(function(idx, element){
-    //     $(element).removeClass("fa fa-pencil").find("span").addClass("fa fa-pencil")
-    // })
+   e.sender.tbody.find("[data-event='eliminar']").each(function(idx, element){
+
+      $(this).on("click", function(){
+
+         lineas.grid.click_BotonEliminar(this.id)
+      })
+   })
+}
+Grid.prototype.click_BotonEliminar = function (_id) {
+
+   var url = url_viaticolineas + _id + "/"
+   lineas.grid.eliminar(url)
+}
+Grid.prototype.eliminar = function (_url) {
+
+   alertify.confirm(
+      'Eliminar Registro',
+      '¿Desea Eliminar este registro?.',
+      function () {
+
+         var url = _url
+
+         $.ajax({
+            url: url,
+            method: "DELETE",
+            headers: { "X-CSRFToken": appnova.galletita },
+            success: function () {
+
+               alertify.success("Se eliminó registro correctamente")
+               popup_linea.actualizar_ImporteTotal()
+               lineas.grid.buscar()
+            },
+            error: function () {
+
+               alertify.error("Ocurrió un error al eliminar")
+            }
+         })
+      },
+      null
+   )
 }
 Grid.prototype.buscar = function() {
     this.fuente_datos.read()
@@ -294,7 +341,8 @@ PopupLinea.prototype.get_Fields = function () {
 
     return {
         "cabecera" : cabecera.$record_pk.text(),
-        "concepto" : this.$concepto.val(),
+        "concepto_clave" : this.$concepto.val(),
+        "concepto_descripcion" : $('option:selected', this.$concepto).attr('data-status'),
         "observaciones" : this.$observaciones.val(),
         "importe" : this.$importe.val()
     }
@@ -309,6 +357,7 @@ PopupLinea.prototype.fill_Fields = function (_values) {
 
     this.$concepto.val(_values.concepto).trigger('change')
     this.$observaciones.val(_values.observaciones)
+    this.$importe.val(_values.importe)
 }
 PopupLinea.prototype.open_ForNew = function () {
 
@@ -425,6 +474,7 @@ PopupLinea.prototype.set_Importe = function () {
       this.$importe.prop("readonly", false)
       this.$importe.val(0)
       this.$importe_dia_contendor.addClass('hidden')
+      this.$importe_dia.html('')
    }
    else if (parseInt(limite) > 0){
 
@@ -440,6 +490,11 @@ PopupLinea.prototype.set_Importe = function () {
       var total_importe = dias * parseInt(limite)
 
       this.$importe.val(total_importe)
+   }
+   if (this.$concepto.val() == '') {
+
+      this.$importe_dia_contendor.addClass('hidden')
+      this.$importe_dia.html('')
    }
 }
 PopupLinea.prototype.fecha_ConFormato = function (_fecha) {

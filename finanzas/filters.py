@@ -80,12 +80,12 @@ class ViaticoCabeceraFilter(filters.FilterSet):
 
 class ViaticoLineaFilter(filters.FilterSet):
 
-    concepto = CharFilter(name="concepto", lookup_expr="icontains")
+    concepto_clave = CharFilter(name="concepto_clave", lookup_expr="icontains")
 
     class Meta:
         model = ViaticoLinea
         fields = [
             'id',
             'cabecera',
-            'concepto'
+            'concepto_clave'
         ]

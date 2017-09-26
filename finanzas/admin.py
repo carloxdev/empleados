@@ -41,7 +41,8 @@ class ViaticoLineaAdmin(admin.ModelAdmin):
     list_display = (
         'slug',
         'cabecera',
-        'concepto',
+        'concepto_clave',
+        'concepto_descripcion',
         'observaciones',
         'importe',
         'created_by',

@@ -159,7 +159,7 @@ class ViaticoLineaForm(Form):
     def get_Conceptos(self, id_empleado):
 
         valores = [('', '-------', '', ''), ]
-        
+
         conceptos = VIEW_POLITICA_VIATICOS.objects.using('jde_p').filter(idempleado=id_empleado)
 
         for concepto in conceptos:
@@ -169,7 +169,7 @@ class ViaticoLineaForm(Form):
                     concepto.concepto,
                     concepto.desconcepto,
                     concepto.limite,
-                    ''
+                    concepto.desconcepto
                 )
             )
 

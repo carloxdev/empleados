@@ -13,6 +13,7 @@ from seguridad.models import Profile
 
 # Django Signals:
 from django.db.models.signals import post_save
+from django.db.models.signals import post_delete
 from django.dispatch import receiver
 
 
@@ -51,7 +52,7 @@ class ViaticoCabecera(models.Model):
     )
 
     importe_total = models.DecimalField(
-        max_digits=7,
+        max_digits=8,
         decimal_places=2,
         blank=True,
         null=True,
@@ -86,9 +87,10 @@ class ViaticoCabecera(models.Model):
 class ViaticoLinea(models.Model):
     slug = models.SlugField(max_length=100, null=True, blank=True)
     cabecera = models.ForeignKey(ViaticoCabecera)
-    concepto = models.CharField(max_length=60, blank=False, null=False)
+    concepto_clave = models.CharField(max_length=4, blank=False, null=False)
+    concepto_descripcion = models.CharField(max_length=60, blank=False, null=False)
     observaciones = models.CharField(max_length=140, blank=False, null=False)
-    importe = models.DecimalField(max_digits=7, decimal_places=2, blank=False, default=0.0)
+    importe = models.DecimalField(max_digits=8, decimal_places=2, blank=False, default=0.0)
     created_by = models.ForeignKey(Profile, related_name='vialinea_created_by', null=True)
     created_date = models.DateTimeField(
         auto_now=False,
@@ -130,4 +132,11 @@ class ViaticoLinea(models.Model):
 def save_viatico_linea(sender, instance, **kwargs):
     cabecera = ViaticoCabecera.objects.get(pk = instance.cabecera.pk)
     cabecera.importe_total += instance.importe
+    cabecera.save()
+
+
+@receiver(post_delete, sender=ViaticoLinea)
+def delete_viatico_linea(sender, instance, **kwargs):
+    cabecera = ViaticoCabecera.objects.get(pk = instance.cabecera.pk)
+    cabecera.importe_total -= instance.importe
     cabecera.save()
