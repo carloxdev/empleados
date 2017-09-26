@@ -106,32 +106,69 @@ class ViaticoCabeceraEditar(View):
 
     def post(self, _request, _pk):
 
-        formulario_cabecera = ViaticoCabeceraForm(
-            _request.POST,
-            instance=ViaticoBusiness.get_ViaticoCabecera(_pk)
-        )
-        formulario_linea = ViaticoLineaForm()
+        if 'guardar' in _request.POST:
 
-        if formulario_cabecera.is_valid():
+            formulario_cabecera = ViaticoCabeceraForm(
+                _request.POST,
+                instance=ViaticoBusiness.get_ViaticoCabecera(_pk)
+            )
+            formulario_linea = ViaticoLineaForm(
+                ViaticoBusiness.get_ViaticoCabecera(_pk).empleado_clave
+            )
 
-            viatico_cabecera = formulario_cabecera.save(commit=False)
+            if formulario_cabecera.is_valid():
 
-            try:
-                ViaticoBusiness.set_Data_Autorizacion(viatico_cabecera)
-                ViaticoBusiness.set_Data_Compania(viatico_cabecera)
+                viatico_cabecera = formulario_cabecera.save(commit=False)
 
-                viatico_cabecera.updated_by = _request.user.profile
-                viatico_cabecera.save()
-                messages.success(_request, "Se modifico la solicitud exitosamente")
+                try:
+                    ViaticoBusiness.set_Data_Autorizacion(viatico_cabecera)
+                    ViaticoBusiness.set_Data_Compania(viatico_cabecera)
 
-            except Exception as e:
-                messages.error(_request, str(e))
+                    viatico_cabecera.updated_by = _request.user.profile
+                    viatico_cabecera.save()
+                    messages.success(_request, "Se modifico la solicitud exitosamente")
 
-        contexto = {
-            'form_cabecera': formulario_cabecera,
-            'form_linea': formulario_linea
-        }
-        return render(_request, self.template_name, contexto)
+                except Exception as e:
+                    messages.error(_request, str(e))
+
+            contexto = {
+                'form_cabecera': formulario_cabecera,
+                'form_linea': formulario_linea
+            }
+            return render(_request, self.template_name, contexto)
+
+        elif 'fin_captura' in _request.POST:
+
+            formulario_cabecera = ViaticoCabeceraForm(
+                _request.POST,
+                instance=ViaticoBusiness.get_ViaticoCabecera(_pk)
+            )
+            formulario_linea = ViaticoLineaForm(
+                ViaticoBusiness.get_ViaticoCabecera(_pk).empleado_clave
+            )
+
+            viatico_cabecera = ViaticoBusiness.get_ViaticoCabecera(_pk)
+
+            # try:
+            ViaticoBusiness.set_FinalizarCaptura(viatico_cabecera, _request.user)
+
+                # ViaticoBusiness.send_MailToParticipantes(
+                #     "APPS: Viatico VIA-%s cancelado" % (documento.id),
+                #     "Se te informa que se ha cancelado el viatico VIA-%s, por %s pesos." % (documento.id, documento.importe_total),
+                #     documento,
+                #     _request.user
+                # )
+
+                # return redirect(reverse('seguridad:autorizacion_lista'))
+
+            # except Exception as e:
+            #     messages.error(_request, str(e))
+
+            contexto = {
+                'form_cabecera': formulario_cabecera,
+                'form_linea': formulario_linea
+            }
+            return render(_request, self.template_name, contexto)
 
 
 class AnticipoLista(View):

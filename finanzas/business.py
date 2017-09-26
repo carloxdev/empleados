@@ -104,3 +104,11 @@ class ViaticoBusiness(object):
             _subject,
             mensaje
         )
+
+
+    @classmethod
+    def set_FinalizarCaptura(self, _cabecera, _user):
+
+        _cabecera.status = "fin"
+        _cabecera.updated_by = _user.profile
+        _cabecera.save()
