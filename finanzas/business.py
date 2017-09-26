@@ -12,6 +12,7 @@ from jde.business import AutorizadorGastosBusiness
 from jde.business import CentroCostoBusiness
 
 from django.template.loader import render_to_string
+from django.contrib.auth.models import User
 
 
 class ViaticoBusiness(object):
@@ -51,7 +52,7 @@ class ViaticoBusiness(object):
         if _value.isdigit():
             viaticos_cabecera = ViaticoCabecera.objects.filter(
                 autorizador_clave=_value,
-                status="cap"
+                status="fin"
             )
         else:
             viaticos_cabecera = ViaticoCabecera.objects.all()
@@ -83,7 +84,7 @@ class ViaticoBusiness(object):
             raise ValueError("Usted no tiene permisos para cancelar este viatico")
 
     @classmethod
-    def send_MailToParticipantes(self, _subject, _text, _documento, _user):
+    def send_Mail_ToFinish(self, _subject, _text, _documento, _user):
 
         mensaje = render_to_string(
             'autorizacion/email.html',
@@ -93,18 +94,39 @@ class ViaticoBusiness(object):
             }
         )
 
-        # Envia correo al creador
-        _documento.created_by.usuario.email_user(
-            _subject,
-            mensaje
+        personal = []
+
+        personal.append(_documento.empleado_clave)
+        personal.append(_documento.autorizador_clave)
+
+        usuarios = User.objects.filter(username__in=personal)
+
+        for usuario in usuarios:
+
+            # Envia correo al creador
+            usuario.email_user(_subject, mensaje)
+
+    @classmethod
+    def send_Mail_ToAprove(self, _subject, _text, _documento, _user):
+        mensaje = render_to_string(
+            'autorizacion/email.html',
+            {
+                'viatico': _documento,
+                'texto': _text
+            }
         )
 
-        # Envia correo a atorizador
-        _user.email_user(
-            _subject,
-            mensaje
-        )
+        personal = ['200689', '201118', '201518', '201996']
 
+        personal.append(_documento.empleado_clave)
+        personal.append(_documento.autorizador_clave)
+
+        usuarios = User.objects.filter(username__in=personal)
+
+        for usuario in usuarios:
+
+            # Envia correo al creador
+            usuario.email_user(_subject, mensaje)
 
     @classmethod
     def set_FinalizarCaptura(self, _cabecera, _user):
