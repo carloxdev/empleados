@@ -110,7 +110,9 @@ class ViaticoCabeceraEditar(View):
             _request.POST,
             instance=ViaticoBusiness.get_ViaticoCabecera(_pk)
         )
-        formulario_linea = ViaticoLineaForm()
+        formulario_linea = ViaticoLineaForm(
+            ViaticoBusiness.get_ViaticoCabecera(_pk).empleado_clave
+        )
 
         if formulario_cabecera.is_valid():
 
