@@ -38,8 +38,8 @@ class PostPublicados(View):
         else:
             registros = Post.objects.filter(
                 status="PUB").order_by("-created_date")
-            ultimos = Post.objects.filter(
-                status="PUB").order_by("-created_date")[:5]
+        ultimos = Post.objects.filter(
+            status="PUB").order_by("-created_date")[:5]
 
         paginador = Paginator(registros, 10)
         pagina = request.GET.get('page')

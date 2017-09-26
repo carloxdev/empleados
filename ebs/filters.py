@@ -218,7 +218,7 @@ class VIEW_EMPLEADOS_FULL_Filter(filters.FilterSet):
         if not value:
             return queryset
         else:
-            consulta = queryset.filter(pers_fecha_nacimiento__gte=valor)
+            consulta = queryset.filter(pers_fecha_nacimiento__month=valor)
             return consulta
 
     def filter_fecha_hasta(self, queryset, name, value):
@@ -228,7 +228,7 @@ class VIEW_EMPLEADOS_FULL_Filter(filters.FilterSet):
         if not value:
             return queryset
         else:
-            consulta = queryset.filter(pers_fecha_nacimiento__lte=valor)
+            consulta = queryset.filter(pers_fecha_nacimiento__month=valor)
             return consulta
 
 
