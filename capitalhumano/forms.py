@@ -78,19 +78,6 @@ class EmpresasFilterForm(Form):
                 )
             )
         return valores
-    # def get_Empresas(self):
-    #     valores = [('', 'TODAS LAS EMPRESAS')]
-
-    #     empresas = Empresa.objects.all()
-    #     for empresa in empresas:
-
-    #         valores.append(
-    #             (
-    #                 empresa.descripcion_ebs,
-    #                 str(int(empresa.clave)) + ' : ' + empresa.descripcion,
-    #             )
-    #         )
-    #     return valores
 
 
 class EmpleadoFilterForm(Form):
@@ -155,11 +142,13 @@ class EmpleadoFilterForm(Form):
     #     ),
     # )
     contratacion_desde = CharField(
-        widget=TextInput(attrs={'class': 'form-control input-xs', 'readonly': 'readonly'})
+        widget=TextInput(
+            attrs={'class': 'form-control input-xs', 'readonly': 'readonly'})
     )
 
     contratacion_hasta = CharField(
-        widget=TextInput(attrs={'class': 'form-control input-xs', 'readonly': 'readonly'})
+        widget=TextInput(
+            attrs={'class': 'form-control input-xs', 'readonly': 'readonly'})
     )
 
     grup_compania_jde = ChoiceField(
@@ -969,7 +958,7 @@ class PerfilPuestoListaForm(Form):
                 ('p4', 'Gestion de Calidad'),
                 ('p5', 'Licitaciones')
             )
-        ),
+         ),
     )
 
     AREAS_EXPERIENCIA = (
@@ -998,7 +987,7 @@ class PerfilPuestoListaForm(Form):
         label='Pertenece a:',
         widget=Textarea(
             attrs={'class': 'form-control input-xs', 'rows': '5'}
-            )
+        )
     )
 
     nivel_estudio = ChoiceField(
