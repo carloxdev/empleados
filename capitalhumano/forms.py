@@ -26,6 +26,7 @@ from ebs.models import VIEW_COMPETENCIAS
 from administracion.models import Empresa
 from administracion.models import Asunto
 from capitalhumano.models import PerfilPuestoDocumento
+from ebs.models import VIEW_COMPANIAS
 
 
 # Business
@@ -67,13 +68,13 @@ class EmpresasFilterForm(Form):
     def get_Empresas(self):
         valores = [('', 'TODAS LAS EMPRESAS')]
 
-        empresas = Empresa.objects.all()
+        empresas = VIEW_COMPANIAS.objects.using('ebs_p').all()
         for empresa in empresas:
 
             valores.append(
                 (
-                    empresa.descripcion_ebs,
-                    str(int(empresa.clave)) + ' : ' + empresa.descripcion,
+                    empresa.desc_compania,
+                    empresa.desc_compania,
                 )
             )
         return valores
@@ -141,11 +142,13 @@ class EmpleadoFilterForm(Form):
     #     ),
     # )
     contratacion_desde = CharField(
-        widget=TextInput(attrs={'class': 'form-control input-xs', 'readonly': 'readonly'})
+        widget=TextInput(
+            attrs={'class': 'form-control input-xs', 'readonly': 'readonly'})
     )
 
     contratacion_hasta = CharField(
-        widget=TextInput(attrs={'class': 'form-control input-xs', 'readonly': 'readonly'})
+        widget=TextInput(
+            attrs={'class': 'form-control input-xs', 'readonly': 'readonly'})
     )
 
     grup_compania_jde = ChoiceField(
@@ -955,7 +958,7 @@ class PerfilPuestoListaForm(Form):
                 ('p4', 'Gestion de Calidad'),
                 ('p5', 'Licitaciones')
             )
-        ),
+         ),
     )
 
     AREAS_EXPERIENCIA = (
@@ -984,7 +987,7 @@ class PerfilPuestoListaForm(Form):
         label='Pertenece a:',
         widget=Textarea(
             attrs={'class': 'form-control input-xs', 'rows': '5'}
-            )
+        )
     )
 
     nivel_estudio = ChoiceField(

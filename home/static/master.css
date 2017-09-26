@@ -1018,8 +1018,7 @@ div.nova-panel-arbol li.list-group-item {
     font-size: 32px;
     text-align: center;
     background-color: white;
-    height: 80px;
-    line-height: 80px;
+    height: auto;
     font-family: Helvetica Neue !important, sans-serif;
 }
 .nova-post-titulo{
