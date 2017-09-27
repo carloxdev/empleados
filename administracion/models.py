@@ -141,7 +141,7 @@ class Contrato(models.Model):
 
 
 class Asunto(models.Model):
-    nombre = models.CharField(max_length=30)
+    nombre = models.CharField(max_length=250)
     clave_departamento = models.CharField(max_length=5, null=True)
     created_by = models.ForeignKey(
         Profile,

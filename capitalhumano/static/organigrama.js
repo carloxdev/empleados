@@ -116,17 +116,13 @@ Organigrama.prototype.empleados_Empresa = function(e){
               contentType: "application/json; charset=utf-8",
               context: this,
               success: function (response) {
-                cont = 0
-                for (var i = 0; i < response.length; i++) {
-                  cont+=1
-                }
 
-                if (cont == 0){
-                  organigrama.mostrar_Mensaje(cont)
+                if (response.length == 0){
+                  organigrama.mostrar_Mensaje(0)
 
                 }
                 else{
-                  organigrama.mostrar_Mensaje(cont)
+                  organigrama.mostrar_Mensaje(1)
                   organigrama.crear_Diagrama(url)
 
                 }

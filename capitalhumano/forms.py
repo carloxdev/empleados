@@ -27,6 +27,7 @@ from administracion.models import Empresa
 from administracion.models import Asunto
 from capitalhumano.models import PerfilPuestoDocumento
 from ebs.models import VIEW_COMPANIAS
+from ebs.models import VIEW_EMPLEADOS_FULL
 
 
 # Business
@@ -70,7 +71,6 @@ class EmpresasFilterForm(Form):
 
         empresas = VIEW_COMPANIAS.objects.using('ebs_p').all()
         for empresa in empresas:
-
             valores.append(
                 (
                     empresa.desc_compania,
