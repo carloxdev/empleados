@@ -357,7 +357,7 @@ Grid.prototype.get_ColorEstado = function (_estado) {
 
    if (_estado == "Finalizado") {
 
-      estilo = "nova-status-en-aprobacion"
+      estilo = "nova-status-aprobado"
    }
    else if (_estado == "Autorizado") {
 
