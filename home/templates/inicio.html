@@ -1,8 +1,11 @@
 {% extends 'master.html' %}
 
 {% load static from staticfiles %}
+
 {% load custom_tags %}
+
 {% block titulo %} Inicio {% endblock titulo %}
+
 {% block title-page %} Inicio  {% endblock title-page %}
 
 {% block contenido %}
@@ -16,59 +19,57 @@
     <div class="main-content container-fluid nova-main-content">
         <div class="row">
            <div class="col-md-9 nova-panel-main">
-               {% if registros %}
+                {% if registros %}
                    {% for registro in registros %}
                    <div class="user-info-list panel panel-default panel-border nova-panel-default">
 
-                      <div class="col-md-12 nova-post-titulo">
-                         <a class="nova-a-estilo" href="{% url 'editorial:post_consultar' registro.pk %}">
+                        <div class="col-md-12 nova-post-titulo">
+                            <a class="nova-a-estilo" href="{% url 'editorial:post_consultar' registro.pk %}">
                                {{ registro.titulo }}
-                         </a>
-                      </div>
-                      <div class="panel-body">
+                            </a>
+                        </div>
+                        <div class="panel-body">
 
-                         <div class="row">
-                            <ul class="col-md-12 nova-ul-estilo nova-li-estilo">
-                               <li>
-                                    <i class="fa fa-calendar" aria-hidden="true"></i>
-                                    {{ registro.updated_date|date:"M d, Y"}}
-                               </li>
-                               <li>
-                                    <i class="fa fa-user" aria-hidden="true"></i>
-                                    COMUNICACIÓN NUVOIL
-                               </li>
-                            </ul>
-                         </div>
+                            <div class="row">
+                                <ul class="col-md-12 nova-ul-estilo nova-li-estilo">
+                                    <li>
+                                        <i class="fa fa-calendar" aria-hidden="true"></i>
+                                        {{ registro.updated_date|date:"M d, Y"}}
+                                    </li>
+                                    <li>
+                                        <i class="fa fa-user" aria-hidden="true"></i>
+                                        COMUNICACIÓN NUVOIL
+                                    </li>
+                                </ul>
+                            </div>
 
-                         {% if registro.imagen %}
+                            {% if registro.imagen %}
                             <div class="col-md-12">
-                               <img class="nova-post-imagen " src="{{ registro.imagen.url }}" alt="Post Imagen">
+                                <img class="nova-post-imagen " src="{{ registro.imagen.url }}" alt="Post Imagen">
                             </div>
                             <div class="col-md-12">
                                 <section class="nova-post-contenido">
                                     {{registro.contenido |safe|truncatechars:400 }}
                                 </section>
-
                             </div>
-                         {% else %}
+                            {% else %}
                             <div class="col-md-12">
                                 <section class="nova-post-contenido">
-                                    {{registro.contenido |safe|truncatechars:420 }}
+                                        {{registro.contenido |safe|truncatechars:420 }}
                                 </section>
                             </div>
-                         {% endif %}
+                             {% endif %}
 
+                             <div class="modal-footer nova-centrar">
+                                <a href="{% url 'editorial:post_consultar' registro.pk %}" class="btn btn-default btn-lg nova-post-contenido" role="button">Leer mas...</a>
 
-                         <div class="modal-footer nova-centrar">
-                            <a href="{% url 'editorial:post_consultar' registro.pk %}" class="btn btn-default btn-lg nova-post-contenido" role="button">Leer mas...</a>
-
-                            {%  if user|tag_validate_has_group:"MARKETING_ADMIN" %}
-                                <a href="{% url 'editorial:post_editar' registro.pk clave %}" class="btn btn-warning btn-lg nova-post-contenido">
-                                    <i class="fa fa-pencil" aria-hiden="true"></i> Editar
-                                </a>
-                            {% endif %}
+                                {% if user|tag_validate_has_group:"MARKETING_ADMIN" %}
+                                    <a href="{% url 'editorial:post_editar' registro.pk clave %}" class="btn btn-warning btn-lg nova-post-contenido">
+                                        <i class="fa fa-pencil" aria-hiden="true"></i> Editar
+                                    </a>
+                                {% endif %}
+                            </div>
                         </div>
-                      </div>
                    </div>
                    {% endfor %}
                 {% else %}
@@ -78,7 +79,6 @@
                     </div>
                 </div>
                 {% endif %}
-
 
            </div>
 
@@ -107,7 +107,6 @@
                               {% else %}
                                 <h3 class="text-center">Sin cumpleaños</h3>
                               {% endif %}
-
                           </div>
                        </div>
                    </div>
@@ -129,7 +128,6 @@
                    </div>
                </div>
           </div>
-
 
         </div>
     </div>
