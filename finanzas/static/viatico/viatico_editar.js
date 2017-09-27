@@ -232,13 +232,18 @@ Grid.prototype.get_Columnas = function () {
             title: "Concepto Descripción",
             width:"180px"
         },
-        { field: "observaciones", title: "observaciones", width:"300px" },
+        {
+            field: "observaciones",
+            title: "observaciones",
+            width: "300px"
+        },
         {
             field: "importe",
             title: "Importe",
             format: '{0:n2}',
             attributes:{ style:"text-align:right;" },
-            headerAttributes:{ style:"text-align:right;" }
+            headerAttributes:{ style:"text-align:right;" },
+            width: "100px"
         },
     ]
 }
