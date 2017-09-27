@@ -31,7 +31,7 @@ class NuevaSolicitudForm(Form):
         widget=Textarea(attrs={'class': 'form-control input-xs', 'placeholder': 'Ejemplo: Se detectaron incosistencias en la informacion...', 'rows': '5'}))
 
     archivo = FileField(
-        label="Archivo",
+        label="Archivos",
         widget=ClearableFileInput(attrs={'class': 'dropzone dz-clickable dz-started', 'type': 'file', 'multiple': True}))
 
     def __init__(self, *args, **kwargs):

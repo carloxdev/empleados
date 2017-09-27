@@ -46,11 +46,11 @@
 
                   <div class="panel-heading panel-border nova-panel-heading">
                      <div class="tools pull-right" id="toolbar">
-                        <a href="#modal_filtro" class="btn nova-btn btn-rounded btn-space btn-primary" data-toggle="modal" id="boton_filtros">
-                           <i class="icon icon-left mdi mdi-search nova-white"></i> Filtros
-                        </a>
                         <a href="#modal_nuevo" class="btn nova-btn btn-rounded btn-space btn-default " data-toggle="modal" id="boton_nueva_solicitud">
                            <i class="icon icon-left mdi mdi-plus-circle nova-black"></i> Nueva solicitud
+                        </a>
+                        <a href="#modal_filtro" class="btn nova-btn btn-rounded btn-space btn-primary" data-toggle="modal" id="boton_filtros">
+                           <i class="icon icon-left mdi mdi-search nova-white"></i> Filtros
                         </a>
                      </div>
                      <div class="title hidden-xs">Solicitudes</div>
@@ -83,7 +83,7 @@
   <div class="modal-dialog custom-width">
      <div class="modal-content">
 
-        <div class="modal-header nova-modal-header">
+        <div class="modal-header nova-modal-header nova-orange">
            <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
            <h3 class="modal-title">Nueva solicitud</h3>
         </div>
@@ -100,16 +100,26 @@
               {% tag_field_popup form2.descripcion 3 8 %}
 
               {% tag_field_popup form2.archivo 3 8 %}
+              <!--
+              <div role="alert" class="alert alert-primary alert-icon alert-dismissible">
+                <div class="icon"><span class="mdi mdi-info-outline"></span></div>
+                  <div class="message text-center">
+                      <button type="button" data-dismiss="alert" aria-label="Close" class="close">
+                          <span aria-hidden="true" class="mdi mdi-close"></span>
+                      </button>
+                       Nota: Se pueden adjuntar <strong>uno o mas archivos</strong>. 
+                  </div>
+              </div>-->
 
             </div><!-- Modal body-->
         </form>
         <div class="modal-footer nova-modal-footer">
-           <div class="row col-sm-12">
+           <div class="row col-sm-12"> 
               <button type="button" id="boton_limpiar_nuevo" class="btn btn-default pull-left">
                  <i class="fa fa-eraser"></i>
                  Limpiar
             </button>
-            <button type="submit" id="boton_enviar" class="btn btn-primary pull-right" method='POST'>
+            <button type="submit" id="boton_enviar" class="btn nova-btn-orange pull-right" method='POST'>
                  <i class="icon icon-left mdi mdi-mail-send nova-white"></i>
                  Enviar
             </button>
