@@ -1,0 +1,202 @@
+<div class="be-content">
+
+
+   <div class="page-head nova-page-head">
+      <h2 class="page-head-title nova-title" id="menu" data-opcion="inicio">Últimas noticias</h2>
+   </div>
+   <section class="col-md-8 visible-xs-block visible-sm-block">
+        <div class="panel-body nova-padding-tools">
+           <form class="pull-right nova-padding-right"action="" method="GET">
+              <div class="input-group">
+                  <input type="text" class="form-control btn-rounded nova-height-buscar" name="q" placeholder="Post a buscar..." value="{{ request.GET.q }}">
+                  <span class="input-group-btn">
+                    <button type="submit" id="boton_buscar" class="btn nova-height-buscar btn-rounded btn-flat btn-primary">
+                      <i class="fa fa-search"></i>
+                      Buscar
+                    </button>
+                  </span>
+              </div>
+           </form>
+        </div>
+    </section>
+   {% if registros %}
+
+      <div class="col-md-9 nova-padding-left">
+         {% for registro in registros %}
+
+            <div class="main-content container-fluid nova-main-content nova-padding-bottom nova-padding-top">
+
+               <div class="user-info-list panel panel-default panel-border">
+
+                  <div class="col-md-12 nova-post-titulo">
+                     <a class="nova-a-estilo" href="{% url 'editorial:post_consultar' registro.pk %}">
+                           {{ registro.titulo }}
+                     </a>
+                  </div>
+                  <div class="panel-body">
+
+                     <div class="row">
+                        <ul class="col-md-12 nova-ul-estilo nova-li-estilo">
+                           <li>
+                                <i class="fa fa-calendar" aria-hidden="true"></i>
+                                {{ registro.updated_date|date:"M d, Y"}}
+                           </li>
+                           <li>
+                                <i class="fa fa-user" aria-hidden="true"></i>
+                                COMUNICACIÓN NUVOIL
+                           </li>
+                        </ul>
+                     </div>
+
+                     {% if registro.imagen %}
+                        <div class="col-md-12">
+                           <img class="nova-post-imagen " src="{{ registro.imagen.url }}" alt="Post Imagen">
+                        </div>
+                        <div class="col-md-12">
+                            <section class="nova-post-contenido">
+                                {{registro.contenido |safe|truncatechars:400 }}
+                            </section>
+
+                        </div>
+                     {% else %}
+                        <div class="col-md-12">
+                            <section class="nova-post-contenido">
+                                {{registro.contenido |safe|truncatechars:420 }}
+                            </section>
+                        </div>
+                     {% endif %}
+
+
+                     <div class="modal-footer nova-centrar">
+                        <a href="{% url 'editorial:post_consultar' registro.pk %}" class="btn nova-btn-pantone btn-lg nova-post-contenido" role="button">Leer mas...</a>
+
+                        {%  if user|tag_validate_has_group:"MARKETING_ADMIN" %}
+                            <a href="{% url 'editorial:post_editar' registro.pk clave %}" class="btn btn-warning btn-lg nova-post-contenido">
+                                <i class="fa fa-pencil" aria-hiden="true"></i> Editar
+                            </a>
+                        {% endif %}
+                    </div>
+                  </div>
+               </div>
+
+            </div>
+          {% endfor %}
+
+         <div class="col-md-12 text-center">
+           <ul class="pagination pagination-sm no-margin">
+               {% if registros.has_previous %}
+                   <li><a href="?{{ page_request_var }}={{ registros.previous_page_number }}&q={{ request.GET.q }}">&laquo;</a></li>
+               {% endif %}
+
+               {% for i in registros.paginator.page_range %}
+                   <li {% if registros.number == i %} class="" {% endif %}>
+                       <a class="nova-btn-pantone" href="?page={{i}}&q={{ request.GET.q }}">{{ i }}</a>
+                   </li>
+               {% endfor %}
+
+               {% if registros.has_next %}
+                   <li><a href="?page={{ registros.next_page_number }}&q={{ request.GET.q }}">&raquo;</a></li>
+               {% endif %}
+           </ul>
+         </div>
+
+      </div>
+
+      <section class="col-md-3">
+         <div class="user-info-list panel panel-default panel-border nova-cumpleanos ">
+            <div class="col-md-12 nova-cumpleanios-titulo">Cumpleaños del mes
+            </div>
+            <div class="nova-cumpleanos-contenido">
+                <div class="nova-cumpleanios-fecha"></div>
+                    <div class="nova-cumpleanios-lista" style="height: 0px;">
+                        {% for r in lista_cumpleanios %}
+
+                            <b>{{ r.dia }}</b>: {{ r.nombre }}
+                            <br>
+                        {% endfor %}
+                    </div>
+            </div>
+         </div>
+      </section>
+
+      <section class="col-md-3 nova-bloque hidden-sm hidden-xs">
+         <form class="pull-right nova-padding-right"action="" method="GET">
+            <div class="input-group">
+                <input type="text" class="form-control btn-rounded nova-height-buscar" name="q" placeholder="Buscar noticia..." value="{{ request.GET.q }}">
+                <span class="input-group-btn">
+                  <button type="submit" id="boton_buscar" class="btn nova-height-buscar btn-rounded btn-flat btn-primary">
+                    <i class="fa fa-search"></i>
+                    Buscar
+                  </button>
+                </span>
+            </div>
+          </form>
+      </section>
+
+      <section class="col-md-3 ">
+         <div class="user-info-list panel panel-default nova-post-borde">
+            <div class="col-md-12 nova-noticias">
+               Últimas noticias
+            </div>
+            {% if registros %}
+                <div class="col-md-12 list-group nova-padding-right">
+                    {% for r in ultimos %}
+                        <a href="{% url 'editorial:post_consultar' r.pk %}" class="list-group-item nova-lista-decorador ">
+                        {{ r.titulo }}
+                        </a>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </section>
+
+
+   {% else %}
+
+   <div class="main-content container-fluid nova-main-content">
+
+      <div class="row">
+         <div class="col-md-9">
+            <div class="user-info-list panel panel-default panel-border">
+               <div class="panel-body nova-sin-resultados">
+                    Sin articulos publicados
+               </div>
+            </div>
+         </div>
+
+      <section class="col-md-3">
+         <div class="user-info-list panel panel-default panel-border nova-cumpleanos ">
+            <div class="col-md-12 nova-cumpleanios-titulo">Cumpleaños del mes
+            </div>
+            <div class="nova-cumpleanos-contenido">
+                <div class="nova-cumpleanios-fecha"></div>
+                    <div class="nova-cumpleanios-lista" style="height: 0px;">
+                        {% for r in lista_cumpleanios %}
+
+                            <b>{{ r.dia }}</b>: {{ r.nombre }}
+                            <br>
+                        {% endfor %}
+                    <div>
+            </div>
+         </div>
+      </section>
+
+      <section class="col-md-3 nova-bloque hidden-sm hidden-xs pull-right">
+           <form class="pull-right nova-padding-right"action="" method="GET">
+              <div class="input-group">
+                  <input type="text" class="form-control btn-rounded nova-height-buscar" name="q" placeholder="Post a buscar..." value="{{ request.GET.q }}">
+                  <span class="input-group-btn">
+                    <button type="submit" id="boton_buscar" class="btn nova-height-buscar btn-rounded btn-flat btn-primary">
+                      <i class="fa fa-search"></i>
+                      Buscar
+                    </button>
+                  </span>
+              </div>
+           </form>
+      </section>
+
+    </div>
+
+      </div>
+   </div>
+   {% endif %}
+</div>
