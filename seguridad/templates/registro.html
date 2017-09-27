@@ -71,7 +71,7 @@
                                         </div>
                                         <div class="form-group">
 
-                                            {% tag_section_info 8 2 '¡Instrucciones!' 'Selecciona tu Id de empleado, especifica tu Email y RFC' %}
+                                            {% tag_section_info 8 2 '¡INSTRUCCIONES!' 'Selecciona tu Id de empleado, especifica tu Email y RFC' %}
 
                                             <div class="col-sm-8 col-sm-offset-2">
 
@@ -91,6 +91,9 @@
 
                                                 <!-- RFC -->
                                                 {% tag_field_registro form.rfc 4 8 %}
+
+
+                                                {% tag_section_info 8 4 '¡NOTA!' 'De preferencia UTILIZA el CORREO de la EMPRESA, ya que a esa cuenta se te enviaran las NOTIFICACIONES' %}
 
                                                 <!-- Email -->
                                                 {% tag_field_registro form.email 4 8 %}
@@ -154,7 +157,7 @@
                                     Regresar a Login
                                 </a>
 
-                                <button type="submit" id="btn_registrar" class="btn nova-btn btn-primary btn-lg pull-right">
+                                <button type="submit" id="btn_registrar" class="btn nova-btn nova-btn-orange btn-lg pull-right">
                                     <i class="icon mdi mdi-assignment"></i>
                                     Registrarse
                                 </button>
