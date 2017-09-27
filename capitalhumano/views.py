@@ -180,11 +180,15 @@ class EmpleadoLista(View):
                 else:
 
                     if (col_num == 2) or (col_num == 13):
-                        if (row[col_num] != '-'):
+                        if row[col_num] != '-':
 
                             fecha = datetime.datetime.strptime(
                                 row[col_num], '%Y-%m-%d %H:%M:%S').date()
                             ws.write(row_num, col_num, fecha, date_format)
+
+                        elif row[col_num] == '-':
+                            ws.write(row_num, col_num, row[col_num])
+
                         else:
 
                             ws.write(row_num, col_num, row[col_num])
