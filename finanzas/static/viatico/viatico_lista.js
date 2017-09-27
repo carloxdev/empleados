@@ -313,7 +313,7 @@ Grid.prototype.get_Columnas = function () {
         {
             field: "pk",
             title: "Numero",
-            width: "100px",
+            width: "75px",
             template: '<a class="btn btn-default nova-url" href="#=Grid.prototype.get_EditUrl(pk)#">#="V-" + pk#</a>',
         },
         {
@@ -325,10 +325,10 @@ Grid.prototype.get_Columnas = function () {
         { field: "ciudad_destino", title: "Ciudad Destino", width:"200px" },
         { field: "fecha_partida", title: "Fecha Partida", width:"135px", format: "{0:dd/MM/yyyy}" },
         { field: "fecha_regreso", title: "Fecha Regreso", width:"135px", format: "{0:dd/MM/yyyy}" },
-        { field: "unidad_negocio_clave", title: "Unidad Negocio", width:"150px" },
-        { field: "status", title: "Estado", width:"120px" },
+        { field: "un_descripcion", title: "Unidad Negocio", width:"150px" },
+        { field: "status", title: "Estado", width:"120px", attributes:{ class:"nova-centrar" }, },
         { field: "autorizador_descripcion", title: "Autorizador", width:"300px" },
-        { field: "fecha_autorizacion", title: "Fecha autorizacion", width:"135px", format: "{0:dd/MM/yyyy}" },
+        { field: "approved_date", title: "Fecha autorización", width:"135px", format: "{0:dd/MM/yyyy}" },
         // { field: "nombre_empresa", title: "Nombre Empresa", width:"150px" },
         { field: "created_date", title: "Fecha creación", width:"120px", format: "{0:dd/MM/yyyy}" },
         { field: "updated_date", title: "Fecha actualización", width:"150px", format: "{0:dd/MM/yyyy}" },
