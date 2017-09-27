@@ -146,21 +146,20 @@ class VIEW_EMPLEADOS_FULL(models.Model):
 
     def _get_nombre_foto(self):
         try:
-            if self.pers_segundo_nombre == '-':
-                return '%s_%s_%s' % (self.pers_primer_nombre,
-                                     self.pers_apellido_paterno,
-                                     self.pers_apellido_materno)
-            else:
-                particion = self.pers_segundo_nombre.split(" ")
-                if len(particion) >= 2:
-                    segundo_nombre = '%s_%s' % (particion[0], particion[1])
-                else:
-                    segundo_nombre = '%s' % (self.pers_segundo_nombre)
 
-                return '%s_%s_%s_%s' % (self.pers_primer_nombre,
-                                        segundo_nombre,
-                                        self.pers_apellido_paterno,
-                                        self.pers_apellido_materno)
+            if self.pers_segundo_nombre == '-':
+                nombre = '%s %s %s' % (self.pers_primer_nombre,
+                                       self.pers_apellido_paterno,
+                                       self.pers_apellido_materno)
+                formato = nombre.replace(" ", "_")
+                return formato
+            else:
+                nombre = '%s %s %s %s' % (self.pers_primer_nombre,
+                                          self.pers_segundo_nombre,
+                                          self.pers_apellido_paterno,
+                                          self.pers_apellido_materno)
+                formato = nombre.replace(" ", "_")
+                return formato
         except Exception:
             return 0.0
     nombre_foto = property(_get_nombre_foto)

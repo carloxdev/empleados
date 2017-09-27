@@ -96,8 +96,8 @@
                {% endif %}
 
                {% for i in registros.paginator.page_range %}
-                   <li {% if registros.number == i %} class="nova-paginador" {% endif %}>
-                       <a href="?page={{i}}&q={{ request.GET.q }}">{{ i }}</a>
+                   <li {% if registros.number == i %} class="" {% endif %}>
+                       <a class="nova-btn-pantone" href="?page={{i}}&q={{ request.GET.q }}">{{ i }}</a>
                    </li>
                {% endfor %}
 
