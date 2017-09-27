@@ -82,6 +82,7 @@
                                </div>
 
                            </div>
+                           {% if form_cabecera.instance.status == "cap" %}
                            <div class="modal-footer nova-modal-footer">
                                <div class="nova-footer-botons">
                                    <a href=" {% url 'finanzas:viatico_lista' %}" class="btn btn-default">
@@ -94,7 +95,7 @@
                                    </button>
                                </div>
                            </div>
-
+                           {% endif %}
                     </div>
                     <!-- Lineas -->
                     <div class="panel panel-default panel-table nova-panel-table">
