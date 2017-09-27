@@ -146,7 +146,6 @@ class VIEW_EMPLEADOS_FULL(models.Model):
 
     def _get_nombre_foto(self):
         try:
-
             if self.pers_segundo_nombre == '-':
                 nombre = '%s %s %s' % (self.pers_primer_nombre,
                                        self.pers_apellido_paterno,
