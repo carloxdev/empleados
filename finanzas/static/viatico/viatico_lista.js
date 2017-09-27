@@ -44,10 +44,11 @@ function PopupFiltros() {
     this.$id = $('#tarjeta_filtros')
 
     this.$proposito_viaje = $('#id_proposito_viaje')
-    this.$empleado = $('#id_empleado')
-    this.$unidad_negocio = $('#id_unidad_negocio')
+    this.$empleado = $('#id_empleado_clave')
+    this.$unidad_negocio = $('#id_un_clave')
     this.$ciudad_destino = $('#id_ciudad_destino')
-    this.$autorizador = $('#id_autorizador')
+    this.$autorizador = $('#id_autorizador_clave')
+    this.$status = $('#id_status')
 
     this.$created_date_mayorque = $('#id_created_date_mayorque_group')
     this.$created_date_menorque = $('#id_created_date_menorque_group')
@@ -66,6 +67,7 @@ PopupFiltros.prototype.init = function () {
     this.$autorizador.select2(appnova.get_ConfigSelect2())
     this.$created_date_mayorque.datepicker(appnova.get_ConfDatePicker())
     this.$created_date_menorque.datepicker(appnova.get_ConfDatePicker())
+    this.$status.select2(appnova.get_ConfigSelect2())
 
 }
 PopupFiltros.prototype.set_Events = function () {
@@ -113,6 +115,7 @@ PopupFiltros.prototype.get_Values = function (_page) {
         autorizador_clave: this.$autorizador.val(),
         created_date_mayorque: this.get_FechaMayorQue(),
         created_date_menorque: this.get_FechaMenorQue(),
+        status: this.$status.val()
     }
 }
 PopupFiltros.prototype.get_NoFiltrosAplicados = function () {
@@ -138,6 +141,9 @@ PopupFiltros.prototype.get_NoFiltrosAplicados = function () {
         cantidad += 1
     }
     if (this.get_FechaMenorQue() != "") {
+        cantidad += 1
+    }
+    if (this.$status.val() != "" ) {
         cantidad += 1
     }
 
@@ -276,6 +282,11 @@ function Grid() {
     this.fuente_datos = null
     this.kinstancia = null
     this.init()
+    this.$rowTemplateString = '<tr class="#: Discontinued ? "discontinued" : "" #" data-uid="#: uid #">' +
+          '<td>#: ProductName #</td>' +
+          '<td class="#: getUnitsInStockClass(UnitsInStock) #">#: UnitsInStock #</td>' +
+          '<td>#: Discontinued #</td>' +
+          '</tr>';
 }
 Grid.prototype.init = function () {
 
@@ -316,6 +327,7 @@ Grid.prototype.get_Columnas = function () {
             width: "75px",
             template: '<a class="btn btn-default nova-url" href="#=Grid.prototype.get_EditUrl(pk)#">#="V-" + pk#</a>',
         },
+        { field: "status", title: "Estado", width:"120px", attributes:{ class:"nova-centrar #=Grid.prototype.get_ColorEstado(status)#" }, },
         {
             field: "empleado_descripcion",
             title: "Empleado",
@@ -326,7 +338,6 @@ Grid.prototype.get_Columnas = function () {
         { field: "fecha_partida", title: "Fecha Partida", width:"135px", format: "{0:dd/MM/yyyy}" },
         { field: "fecha_regreso", title: "Fecha Regreso", width:"135px", format: "{0:dd/MM/yyyy}" },
         { field: "un_descripcion", title: "Unidad Negocio", width:"150px" },
-        { field: "status", title: "Estado", width:"120px", attributes:{ class:"nova-centrar" }, },
         { field: "autorizador_descripcion", title: "Autorizador", width:"300px" },
         { field: "approved_date", title: "Fecha autorización", width:"135px", format: "{0:dd/MM/yyyy}" },
         // { field: "nombre_empresa", title: "Nombre Empresa", width:"150px" },
@@ -340,6 +351,24 @@ Grid.prototype.get_Columnas = function () {
 //     var fila = this.dataItem($(e.currentTarget).closest('tr'))
 //     window.location.href = url_viaticocabecera_editar + fila.pk;
 // }
+Grid.prototype.get_ColorEstado = function (_estado) {
+
+   var estilo = ""
+
+   if (_estado == "Finalizado") {
+
+      estilo = "nova-status-en-aprobacion"
+   }
+   else if (_estado == "Autorizado") {
+
+      estilo = "nova-status-autorizado"
+   }
+   else if (_estado == "Cancelado") {
+
+      estilo = "nova-status-cancelado"
+   }
+   return estilo
+}
 Grid.prototype.set_Icons = function (e) {
 
     e.sender.tbody.find(".k-button.fa.fa-pencil").each(function(idx, element){

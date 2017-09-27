@@ -716,22 +716,27 @@ div.nova-panel-arbol li.list-group-item {
 
 .nova-status-en-aprobacion {
    background-color: #5ac3f6;
+   color: #000000;
 }
 
 .nova-status-cancelado {
    background-color: #d4d4d4;
+   color: #000000;
 }
 
 .nova-status-aprobado {
    background-color: #4285f4;
+   color: #ffffff;
 }
 
 .nova-status-rechazado {
    background-color: #f6b663;
+   color: #000000;
 }
 
 .nova-status-autorizado {
    background-color: #34a853;
+   color: #ffffff;
 }
 /* bootstrap tables */
 
@@ -1168,3 +1173,18 @@ div.nova-panel-arbol li.list-group-item {
 .nova-fix-user-profile {
    margin-bottom: 35px;
 }
+
+/* Estados de viaticos */
+/*.nova-status-via-finalizado {
+   background-color: #49b164;
+   color: #ffffff;
+}
+.nova-status-via-autorizado {
+   background-color: #76abd9;
+   color: #ffffff;
+}
+.nova-status-via-cancelado {
+   background-color: #e84848;
+   color: #ffffff;
+}*/
+/* Estados de viaticos */

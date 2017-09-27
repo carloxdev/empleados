@@ -25,19 +25,28 @@ from home.forms_fields import SelectCustom
 
 
 class ViaticoFilterForm(Form):
+    VIATICO_ESTADOS = (
+        ('', '------'),
+        ('cap', 'En edicion'),
+        ('sau', 'Sin autorizar'),
+        ('aut', 'Autorizado'),
+        ('rec', 'Rechazado'),
+        ('fin', 'Finalizado'),
+        ('can', 'Cancelado'),
+    )
 
     empleado_clave = ChoiceField(
-        widget=SelectCustom(attrs={'class': 'form-control input-xs'})
+        widget=SelectCustom(attrs={'class': 'select2 form-control input-xs'})
     )
 
     un_clave = ChoiceField(
         label="Unidad de Negocio",
-        widget=SelectCustom(attrs={'class': 'form-control input-xs'})
+        widget=SelectCustom(attrs={'class': 'select2 form-control input-xs'})
     )
 
     autorizador_clave = ChoiceField(
         label="Autorizador",
-        widget=SelectCustom(attrs={'class': 'form-control input-xs'})
+        widget=SelectCustom(attrs={'class': 'select2 form-control input-xs'})
     )
 
     proposito_viaje = CharField(
@@ -56,6 +65,13 @@ class ViaticoFilterForm(Form):
 
     created_date_menorque = CharField(
         widget=TextInput(attrs={'class': 'form-control input-xs', 'readonly': 'readonly'})
+    )
+
+    status = ChoiceField(
+        label="Estado",
+        widget=Select(attrs={'class': 'select2 form-control input-xs'}
+        ),
+        choices=VIATICO_ESTADOS
     )
 
     def __init__(self, *args, **kwargs):
