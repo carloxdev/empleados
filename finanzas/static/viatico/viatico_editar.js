@@ -53,6 +53,7 @@ function Cabecera() {
     this.$proposito_viaje = $('#id_proposito_viaje')
 
     this.$importe_total = $('#importe_total')
+    this.$status = $('#status')
 
     this.init()
     this.set_Events()
@@ -302,20 +303,9 @@ Grid.prototype.eliminar = function (_url) {
 }
 Grid.prototype.validar_Estado = function () {
 
-   $.ajax({
-      url: url_viaticocabecera + cabecera.$record_pk.text() + "/",
-      method: "GET",
-      success: function (_response) {
-
-         if (_response.status == "Finalizado") {
-
-            tarjeta_finalizar.disabled_Buttons()
-         }
-      },
-      error: function (_response) {
-         alertify.error("Ocurrio error al consultar")
-      }
-   })
+   if (cabecera.$status.html() != "En edicion") {
+      tarjeta_finalizar.disabled_Buttons()
+   }
 }
 Grid.prototype.buscar = function() {
     this.fuente_datos.read()
@@ -563,6 +553,6 @@ TarjetaFinalizar.prototype.disabled_Buttons = function () {
 
    lineas.grid.$id.find("[data-event='eliminar']").each(function(idx, element){
 
-      $(this).attr('disabled','true')
+      $(this).remove()
    })
 }

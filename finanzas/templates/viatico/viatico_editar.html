@@ -63,7 +63,7 @@
 
                                {% include 'tags/message.html' %}
 
-                               {% tag_section_info 12 0 '¡Instrucciones!' 'Ahora puedes agregar/modificar gastos en la targeta <strong>"Lineas"</strong>' %}
+                               {% tag_section_info 12 0 '¡Instrucciones!' 'Ahora puedes agregar/modificar gastos en la tarjeta <strong>"Lineas"</strong>' %}
 
                                {% tag_field_registro form_cabecera.empleado_clave 3 8 %}
 
@@ -154,11 +154,11 @@
                                   <tr>
                                         <td class="icon nova-label"><span class="mdi mdi-flag"></span></td>
                                         <td class="item nova-label">Estado:<span class="icon s7-flag"></span></td>
-                                        <td><strong>{{ form_cabecera.instance.get_status_display }}</strong></td>
+                                        <td><strong id="status">{{ form_cabecera.instance.get_status_display }}</strong></td>
                                   </tr>
                                   <tr>
                                       <td class="icon nova-label"><span class="mdi mdi-assignment-check"></span></td>
-                                      <td class="item nova-label">Aprovador:<span class="icon s7-assignment-check"></span></td>
+                                      <td class="item nova-label">Aprobador:<span class="icon s7-assignment-check"></span></td>
 
                                       {% if form_cabecera.instance.status == "aut" %}
                                           <td><strong>{{ form_cabecera.instance.approved_by.user.get_full_name|default:""|upper }}</strong></td>
