@@ -220,22 +220,22 @@ Grid.prototype.get_Columnas = function () {
         {
             field: "slug",
             title: "#",
-            width: "55px",
+            width: "30px",
         },
         {
             field: "concepto_clave",
             title: "Concepto Clave",
-            width:"180px"
+            width:"50px"
         },
         {
             field: "concepto_descripcion",
             title: "Concepto Descripción",
-            width:"180px"
+            width:"100px"
         },
         {
             field: "observaciones",
             title: "observaciones",
-            width: "300px"
+            width: "100px"
         },
         {
             field: "importe",

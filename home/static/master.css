@@ -52,10 +52,6 @@
                     margin-bottom: 0;
                 }
 
-    .own-sidebar {
-        padding-left: 10px;
-    }
-
 /* ----------------------- VIATICOS EDITAR ----------------------- */
 
 .nova-orange {
@@ -323,7 +319,6 @@
 .ms-selection {
    float: left !important;
 }*/
-
 
 .nova-panel-2ndseccion {
    border-top: 1px solid #d4d4d4;
