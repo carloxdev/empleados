@@ -28,7 +28,7 @@
     </section>
    {% if registros %}
 
-      <div class="col-md-8 nova-padding-left">
+      <div class="col-md-9 nova-padding-left">
          {% for registro in registros %}
 
             <div class="main-content container-fluid nova-main-content nova-padding-bottom nova-padding-top">
@@ -108,45 +108,39 @@
          </div>
 
       </div>
-      <section class="col-md-4 nova-bloque hidden-sm hidden-xs">
-           <form class="pull-right nova-padding-right"action="" method="GET">
-              <div class="input-group">
-                  <input type="text" class="form-control btn-rounded nova-height-buscar" name="q" placeholder="Post a buscar..." value="{{ request.GET.q }}">
-                  <span class="input-group-btn">
-                    <button type="submit" id="boton_buscar" class="btn nova-height-buscar btn-rounded btn-flat btn-primary">
-                      <i class="fa fa-search"></i>
-                      Buscar
-                    </button>
-                  </span>
-              </div>
-            </form>
-      </section>
 
-      <section class="col-md-4">
+      <section class="col-md-3">
          <div class="user-info-list panel panel-default panel-border nova-cumpleanos ">
-            <div class="col-md-12 nova-cumpleanios-titulo">Cumpleaños
+            <div class="col-md-12 nova-cumpleanios-titulo">Cumpleaños del mes
             </div>
-
-            {% regroup lista_cumpleanios by dia as lista %}
-
-            {% for dia in lista %}
-                <a data-toggle="collapse" data-parent="#id_fecha" href="#{{ dia.grouper }}" class="collapsed nova-cumpleanios-link" aria-expanded="false">
-                    <div class="col-md-12 panel-heading nova-cumpleanios-contenido">
-                        <div class="nova-cumpleanios-cabeza">{{ dia.grouper }} de {% now " F "%}<i class="icon mdi mdi-caret-down pull-right"></i></div>
+            <div class="nova-cumpleanos-contenido">
+                <div class="nova-cumpleanios-fecha"></div>
+                    <div class="nova-cumpleanios-lista" style="height: 0px;">
+                        {% for r in lista_cumpleanios %}
+                            
+                            <b>{{ r.dia }}</b>: {{ r.nombre }}
+                            <br>
+                        {% endfor %}
                     </div>
-                </a>
-
-              <div id="{{ dia.grouper }}" class="panel-collapse collapse nova-cumpleanios-lista" aria-expanded="false" style="height: 0px;">
-                    {% for r in dia.list %}
-                      <p>{{ r.nombre }}</p>
-                    {% endfor %}
-              </div>
-            {% endfor %}
-            
+            </div>
          </div>
       </section>
+      
+      <section class="col-md-3 nova-bloque hidden-sm hidden-xs">
+         <form class="pull-right nova-padding-right"action="" method="GET">
+            <div class="input-group">
+                <input type="text" class="form-control btn-rounded nova-height-buscar" name="q" placeholder="Buscar noticia..." value="{{ request.GET.q }}">
+                <span class="input-group-btn">
+                  <button type="submit" id="boton_buscar" class="btn nova-height-buscar btn-rounded btn-flat btn-primary">
+                    <i class="fa fa-search"></i>
+                    Buscar
+                  </button>
+                </span>
+            </div>
+          </form>
+      </section>
 
-      <section class="col-md-4 ">
+      <section class="col-md-3 ">
          <div class="user-info-list panel panel-default nova-post-borde">
             <div class="col-md-12 nova-noticias">
                Últimas noticias
@@ -167,7 +161,7 @@
 
    <div class="main-content container-fluid nova-main-content">
       <div class="row">
-         <div class="col-md-8">
+         <div class="col-md-9">
             <div class="user-info-list panel panel-default panel-border">
                <div class="panel-body nova-sin-resultados">
                     Sin articulos publicados
@@ -175,7 +169,7 @@
             </div>
          </div>
 
-         <section class="col-md-4 nova-bloque hidden-sm hidden-xs">
+         <section class="col-md-3 nova-bloque hidden-sm hidden-xs">
            <form class="pull-right nova-padding-right"action="" method="GET">
               <div class="input-group">
                   <input type="text" class="form-control btn-rounded nova-height-buscar" name="q" placeholder="Post a buscar..." value="{{ request.GET.q }}">
@@ -188,27 +182,20 @@
               </div>
            </form>
       </section>
-      <section class="col-md-4">
+      <section class="col-md-3">
          <div class="user-info-list panel panel-default panel-border nova-cumpleanos ">
-            <div class="col-md-12 nova-cumpleanios-titulo">Cumpleaños
+            <div class="col-md-12 nova-cumpleanios-titulo">Cumpleaños del mes
             </div>
-               
-            {% regroup lista_cumpleanios by dia as lista %}
-
-            {% for dia in lista %}
-                <a data-toggle="collapse" data-parent="#id_fecha" href="#{{ dia.grouper }}" class="collapsed nova-cumpleanios-link" aria-expanded="false">
-                    <div class="col-md-12 panel-heading nova-cumpleanios-contenido">
-                        <div class="nova-cumpleanios-cabeza">{{ dia.grouper }} de {% now " F "%}<i class="icon mdi mdi-caret-down pull-right"></i></div>
-                    </div>
-                </a>
-
-              <div id="{{ dia.grouper }}" class="panel-collapse collapse nova-cumpleanios-lista" aria-expanded="false" style="height: 0px;">
-                    {% for r in dia.list %}
-                      <p>{{ r.nombre }}</p>
-                    {% endfor %}
-              </div>
-            {% endfor %}
-            
+            <div class="nova-cumpleanos-contenido">
+                <div class="nova-cumpleanios-fecha"></div>
+                    <div class="nova-cumpleanios-lista" style="height: 0px;">
+                        {% for r in lista_cumpleanios %}
+                            
+                            <b>{{ r.dia }}</b>: {{ r.nombre }}
+                            <br>
+                        {% endfor %}
+                    <div>
+            </div>
          </div>
       </section>
 
