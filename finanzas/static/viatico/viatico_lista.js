@@ -314,7 +314,7 @@ Grid.prototype.get_Columnas = function () {
             field: "pk",
             title: "Numero",
             width: "100px",
-            template: '<a class="btn btn-default nova-url" href="#=Grid.prototype.get_EditUrl(pk)#">#="VIA-" + pk#</a>',
+            template: '<a class="btn btn-default nova-url" href="#=Grid.prototype.get_EditUrl(pk)#">#="V-" + pk#</a>',
         },
         {
             field: "empleado_descripcion",
