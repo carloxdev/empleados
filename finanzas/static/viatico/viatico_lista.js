@@ -23,17 +23,17 @@ $(document).ready(function () {
     tarjeta_resultados = new TarjetaResultados()
 
     // Asigna eventos a teclas
-    // $(document).keypress(function (e) {
+    $(document).keypress(function (e) {
 
-    //     // Tecla Enter
-    //     if (e.which == 13) {
+        // Tecla Enter
+        if (e.which == 13) {
 
-    //         if (tarjeta_filtros.$id.hasClass('in')) {
-    //             tarjeta_filtros.apply_Filters()
-    //         }
+            if (tarjeta_filtros.$id.hasClass('in')) {
+                tarjeta_filtros.apply_Filters()
+            }
 
-    //     }
-    // })
+        }
+    })
 })
 
 
@@ -313,7 +313,7 @@ Grid.prototype.get_Columnas = function () {
         {
             field: "pk",
             title: "Numero",
-            width: "90px",
+            width: "100px",
             template: '<a class="btn btn-default nova-url" href="#=Grid.prototype.get_EditUrl(pk)#">#="VIA-" + pk#</a>',
         },
         {

@@ -219,7 +219,6 @@ Grid.prototype.get_Columnas = function () {
             field: "slug",
             title: "#",
             width: "55px",
-            template: '<button class="btn btn-default" data-event="editar">#=slug#</button>',
         },
         {
             field: "concepto_clave",
@@ -329,7 +328,7 @@ PopupLinea.prototype.init = function () {
     })
     this.$importe.val("")
     // this.$formulario =  $('#formulario_linea').parsley()
-    this.$formulario.parsley()
+    this.$formulario.parsley({ excluded: "#id_concepto" })
     this.$concepto.select2(appnova.get_ConfigSelect2())
 }
 PopupLinea.prototype.set_Events = function () {

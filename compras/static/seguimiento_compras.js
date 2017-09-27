@@ -27,20 +27,20 @@ $(document).ready(function () {
    tarjeta_filtros = new TarjetaFiltros()
 
    // Asigna eventos a teclas
-   $(document).keypress(function (e) {
-
-      // Tecla Enter
-      if (e.which == 13) {
-
-         e.preventDefault()
-
-         if (tarjeta_filtros.$id.hasClass('in')) {
-             tarjeta_filtros.apply_Filters()
-         }
-
-      }
-      // Tecla ESC
-   })
+   // $(document).keypress(function (e) {
+   //
+   //    // Tecla Enter
+   //    if (e.which == 13) {
+   //
+   //       e.preventDefault()
+   //
+   //       if (tarjeta_filtros.$id.hasClass('in')) {
+   //           tarjeta_filtros.apply_Filters()
+   //       }
+   //
+   //    }
+   //    // Tecla ESC
+   // })
 })
 
 /*-----------------------------------------------*\
@@ -314,7 +314,6 @@ TarjetaFiltros.prototype.click_BotonBuscar = function (e) {
 
    e.data.apply_Filters()
    e.data.$id.modal('hide')
-   tarjeta_resultados.toolbar.$boton_exportar.removeAttr('disabled')
 }
 TarjetaFiltros.prototype.click_BotonLimpiar = function (e) {
 
@@ -677,7 +676,7 @@ Grid.prototype.get_Columnas = function () {
                className: "btn nova-btn btn-default"
             },
          ],
-         width: "76px"
+         width: "60px"
       },
       { field: "req_compania", title: "Compañia", width:"100px", attributes: { "class": "nova-grid-column-yellow", } },
       { field: "req_un", title: "Sucursal", width:"130px", attributes: { "class": "nova-grid-column-yellow", } },
@@ -740,6 +739,7 @@ Grid.prototype.set_Icons = function (e) {
 Grid.prototype.buscar = function() {
 
    this.kfuente_datos.page(1)
+   tarjeta_resultados.toolbar.$boton_exportar.removeAttr('disabled')
 }
 
 /*-----------------------------------------------*\

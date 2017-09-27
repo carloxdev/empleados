@@ -6,7 +6,9 @@
 
 {% block css %}
 
+    <!-- Summernote -->
     <link href="{% static 'theme/lib/summernote/summernote.css' %}" rel="stylesheet">
+
 {% endblock css %}
 
 {% block contenido %}
@@ -47,26 +49,28 @@
 
                         {% endif %}
 
-                        
+                        {% include 'tags/message.html' %}
+
                         {% tag_input form.titulo 3 7 %}
 
                         {% tag_input form.contenido 3 7 %}
-                        
+
                         {% tag_input form.imagen 3 7 %}
 
                         {% tag_input form.status 3 7 %}
-     
 
                     </div>
                     <div class="modal-footer nova-modal-footer">
-                        <a href=" {% url 'editorial:post_administracion' %}" class="btn btn-default">
-                            <i class="icon mdi mdi-arrow-left"></i> Regresar
-                        </a>
-                        {% if operacion == "Editar" %}
-                            <button type="submit" class="btn btn-lg btn-success pull-right"><i class="icon icon-left mdi mdi-refresh-alt nova-white"></i> Actualizar</button> 
-                        {% else %}
-                            <button type="submit" class="btn btn-lg btn-primary pull-right"><i class="icon icon-left mdi mdi-save nova-white"></i> Guardar</button> 
-                        {% endif %}
+                        <div class="nova-footer-botons">
+                            <a href=" {% url 'editorial:post_administracion' %}" class="btn btn-default">
+                                <i class="icon mdi mdi-arrow-left"></i> Regresar
+                            </a>
+                            {% if operacion == "Editar" %}
+                                <button type="submit" class="btn btn-lg nova-btn-orange pull-right"><i class="icon icon-left mdi mdi-refresh-alt nova-white"></i> Actualizar</button>
+                            {% else %}
+                                <button type="submit" class="btn btn-lg nova-btn-orange pull-right"><i class="icon icon-left mdi mdi-save nova-white"></i> Guardar</button>
+                            {% endif %}
+                        </div>
                     </div>
                 </form>
             </div>

@@ -34,8 +34,8 @@
 						<div class="user-display-bottom">
 							<div class="user-display-avatar"><img src="{{ ruta }}" alt="Avatar">
 							</div>
-							<a href="#modal_actualizar" class="btn nova-btn btn-rounded btn-space btn-primary pull-right" data-toggle="modal" id="boton_filtros">
-					                <i class="icon icon-left mdi mdi-edit nova-white"></i> Solicitar
+							<a href="#modal_actualizar" class="btn nova-btn btn-rounded btn-space btn-default pull-right" data-toggle="modal" id="boton_filtros">
+					                <i class="icon icon-left mdi mdi-edit"></i> Solicitar
 					        </a>
 							<div class="user-display-info">
 								<div class="name">{{ dato.pers_nombre_completo }}</div>
@@ -223,7 +223,7 @@
   <div class="modal-dialog custom-width">
      <div class="modal-content">
 
-        <div class="modal-header nova-modal-header">
+        <div class="modal-header nova-modal-header nova-orange">
            <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
            <h3 class="modal-title">Nueva solicitud</h3>
         </div>
@@ -249,7 +249,7 @@
                  <i class="fa fa-eraser"></i>
                  Limpiar
             </button>
-            <button type="submit" id="boton_enviar" class="btn btn-primary pull-right" method='POST'>
+            <button type="submit" id="boton_enviar" class="btn pull-right nova-btn-orange" method='POST'>
                  <i class="icon icon-left mdi mdi-mail-send nova-white"></i>
                  Enviar
             </button>

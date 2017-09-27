@@ -58,6 +58,27 @@
 
 /* ----------------------- VIATICOS EDITAR ----------------------- */
 
+.nova-orange {
+    background-color: #F58717 !important;
+    color:white !important;
+}
+
+.nova-btn-orange {
+    color:white;
+    background-color: #F58717;
+    border-color: #dc7309;
+}
+
+    .nova-btn-orange:hover {
+       color: white;
+       background-color: #f8a654;
+       box-shadow: inset 0 -4px 0 #F58717;
+    }
+
+.nova-red {
+    background-color: #CC121E !important;
+    color:white !important;
+}
 
 .nova-item {
     color: black;
@@ -871,9 +892,14 @@ div.nova-panel-arbol li.list-group-item {
   color: #424242 !important;
 }
 /* -AVATAR DE PERFIL- */
-.nova-dropdown{
-  margin: 10px 15px !important;
+.nova-dropdown {
+        margin: 10px 15px !important;
+
 }
+    .nova-dropdown:after {
+        border-bottom-color: #CC121E !important;
+    }
+
 .nova-be-icons-nav {
     margin-right: 5px !important;
 }
@@ -1006,8 +1032,8 @@ div.nova-panel-arbol li.list-group-item {
 }
 .nova-paginador a{
   color: #fff !important;
-  background-color: #d62828 !important;
-  border-color: #d62828 !important;
+  background-color: #3169F5 !important;
+  border-color: #3169F5 !important;
   font-size: 14px !important;
   line-height: 14px !important;
   font-weight: 400 !important;
@@ -1121,16 +1147,16 @@ div.nova-panel-arbol li.list-group-item {
    border-top-color: #d62828;
 }
 .nova-btn-pantone {
-   color: #fff;
-   background-color: #d62828;
-   border-color: #d62828;
+   color: #fff !important;
+   background-color: #d62828 !important;
+   border-color: #d62828 !important;
 }
 .nova-btn-pantone:hover {
-   color: #fff;
+   color: #fff !important;
    box-shadow: inset 0 -2px 0 #c50404;
-   background-color: #e63535;
-   border-color: #bd0b0b;
-   border-bottom-color: #d80b0b;
+   background-color: #e63535 !important;
+   border-color: #bd0b0b !important;
+   border-bottom-color: #d80b0b !important;
 }
 .nova-fix-user-profile {
    margin-bottom: 35px;

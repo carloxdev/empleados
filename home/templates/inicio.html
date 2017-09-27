@@ -11,19 +11,19 @@
    <div class="page-head nova-page-head">
       <h2 class="page-head-title nova-title" id="menu" data-opcion="inicio">Últimas noticias</h2>
    </div>
-   <section class="col-md-8 visible-xs-block visible-sm-block">    
+   <section class="col-md-8 visible-xs-block visible-sm-block">
         <div class="panel-body nova-padding-tools">
            <form class="pull-right nova-padding-right"action="" method="GET">
               <div class="input-group">
                   <input type="text" class="form-control btn-rounded nova-height-buscar" name="q" placeholder="Post a buscar..." value="{{ request.GET.q }}">
                   <span class="input-group-btn">
-                    <button type="submit" id="boton_buscar" class="btn nova-height-buscar nova-btn btn-rounded nova-btn-pantone btn-flat">
+                    <button type="submit" id="boton_buscar" class="btn nova-height-buscar btn-rounded btn-flat btn-primary">
                       <i class="fa fa-search"></i>
                       Buscar
                     </button>
                   </span>
               </div>
-           </form>  
+           </form>
         </div>
     </section>
    {% if registros %}
@@ -32,15 +32,16 @@
          {% for registro in registros %}
 
             <div class="main-content container-fluid nova-main-content nova-padding-bottom nova-padding-top">
-                  
+   
                <div class="user-info-list panel panel-default panel-border">
+
                   <div class="col-md-12 nova-post-titulo">
                      <a class="nova-a-estilo" href="{% url 'editorial:post_consultar' registro.pk %}">
                            {{ registro.titulo }}
                      </a>
                   </div>
                   <div class="panel-body">
-                     
+
                      <div class="row">
                         <ul class="col-md-12 nova-ul-estilo nova-li-estilo">
                            <li>
@@ -55,7 +56,7 @@
                      </div>
 
                      {% if registro.imagen %}
-                        <div class="col-md-12">     
+                        <div class="col-md-12">
                            <img class="nova-post-imagen " src="{{ registro.imagen.url }}" alt="Post Imagen">
                         </div>
                         <div class="col-md-12">
@@ -71,7 +72,7 @@
                             </section>
                         </div>
                      {% endif %}
-                    
+
 
                      <div class="modal-footer nova-centrar">
                         <a href="{% url 'editorial:post_consultar' registro.pk %}" class="btn nova-btn-pantone btn-lg nova-post-contenido" role="button">Leer mas...</a>
@@ -82,10 +83,9 @@
                             </a>
                         {% endif %}
                     </div>
-
                   </div>
-               </div> 
-               
+               </div>
+
             </div>
           {% endfor %}
 
@@ -96,8 +96,8 @@
                {% endif %}
 
                {% for i in registros.paginator.page_range %}
-                   <li {% if registros.number == i %} class="nova-paginador" {% endif %}>
-                       <a href="?page={{i}}&q={{ request.GET.q }}">{{ i }}</a>
+                   <li {% if registros.number == i %} class="" {% endif %}>
+                       <a class="nova-btn-pantone" href="?page={{i}}&q={{ request.GET.q }}">{{ i }}</a>
                    </li>
                {% endfor %}
 
@@ -113,7 +113,7 @@
               <div class="input-group">
                   <input type="text" class="form-control btn-rounded nova-height-buscar" name="q" placeholder="Post a buscar..." value="{{ request.GET.q }}">
                   <span class="input-group-btn">
-                    <button type="submit" id="boton_buscar" class="btn nova-height-buscar nova-btn btn-rounded nova-btn-pantone btn-flat">
+                    <button type="submit" id="boton_buscar" class="btn nova-height-buscar btn-rounded btn-flat nova-btn-pantone">
                       <i class="fa fa-search"></i>
                       Buscar
                     </button>
@@ -126,7 +126,7 @@
          <div class="user-info-list panel panel-default panel-border nova-cumpleanos ">
             <div class="col-md-12 nova-cumpleanios-titulo">Cumpleaños
             </div>
-               
+
             {% regroup lista_cumpleanios by dia as lista %}
 
             {% for dia in lista %}
@@ -160,8 +160,8 @@
                     {% endfor %}
                 </div>
             {% endif %}
-        </section> 
-      
+        </section>
+
 
    {% else %}
 
@@ -180,7 +180,7 @@
               <div class="input-group">
                   <input type="text" class="form-control btn-rounded nova-height-buscar" name="q" placeholder="Post a buscar..." value="{{ request.GET.q }}">
                   <span class="input-group-btn">
-                    <button type="submit" id="boton_buscar" class="btn nova-height-buscar nova-btn btn-rounded nova-btn-pantone btn-flat">
+                    <button type="submit" id="boton_buscar" class="btn nova-height-buscar btn-rounded btn-flat nova-btn-pantone">
                       <i class="fa fa-search"></i>
                       Buscar
                     </button>
@@ -211,7 +211,7 @@
             
          </div>
       </section>
-        
+
     </div>
 
       </div>
