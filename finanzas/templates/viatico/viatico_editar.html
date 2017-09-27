@@ -42,103 +42,103 @@
         <div class="row">
 
             <div class="col-md-8 nova-panel-main">
-
-                <!-- Cabecera -->
-                <div class="panel panel-border panel-contrast nova-panel-default nova-panel-formulario">
-
-                   <form action="" method="POST"> {% csrf_token %}
-                       <div class="panel-heading panel-heading-default nova-panel-heading-formulario">
-                           <span class="title">Informacion de la solicitud: <strong>VIA-<span id="cabecera_pk">{{ form_cabecera.instance.id }}</span></strong></span>
-                       </div>
-
-                       <div class="panel-body form-horizontal">
-
-                           {% if form_cabecera.non_field_errors %}
-                               {% for error_message in form_cabecera.non_field_errors %}
-                                   {% tag_mensaje 'error' error_message %}
-                               {% endfor %}
-                           {% endif %}
-
-                           {% if flag_new %}
-                               {% tag_mensaje 'exito' 'Solicitud Creada con exito' %}
-                           {% endif %}
-
-                           {% include 'tags/message.html' %}
-
-                           {% tag_section_info 12 0 '¡Instrucciones!' 'Ahora puedes agregar/modificar gastos en la targeta <strong>"Lineas"</strong>' %}
-
-                           {% tag_field_registro form_cabecera.empleado_clave 3 8 %}
-
-                           {% tag_field_registro form_cabecera.un_clave 3 8 %}
-
-                           {% tag_field_registro_dates 'Fecha partida/regreso' form_cabecera.fecha_partida form_cabecera.fecha_regreso 3 4 4 %}
-
-                           {% tag_field_registro form_cabecera.ciudad_destino 3 8 %}
-
-                           {% tag_field_registro form_cabecera.proposito_viaje 3 8 %}
-
-                           <!-- Ocultos -->
-                           <div>
-                               {{ form_cabecera.empleado_descripcion }}
-                               {{ form_cabecera.un_descripcion }}
+                <form action="" method="POST"> {% csrf_token %}
+                    <!-- Cabecera -->
+                    <div class="panel panel-border panel-contrast nova-panel-default nova-panel-formulario">
+                           <div class="panel-heading panel-heading-default nova-panel-heading-formulario">
+                               <span class="title">Informacion de la solicitud: <strong>VIA-<span id="cabecera_pk">{{ form_cabecera.instance.id }}</span></strong></span>
                            </div>
 
-                       </div>
-                       <div class="modal-footer nova-modal-footer">
-                           <div class="nova-footer-botons">
-                               <a href=" {% url 'finanzas:viatico_lista' %}" class="btn btn-default">
-                                   <i class="icon mdi mdi-arrow-left"></i>
-                                   Regresar a Listado
-                               </a>
+                           <div class="panel-body form-horizontal">
 
-                               <button type="submit" name="guardar" id="btn_registrar" class="btn nova-btn nova-btn-orange btn-lg pull-right">
-                                   Guardar
-                               </button>
+                               {% if form_cabecera.non_field_errors %}
+                                   {% for error_message in form_cabecera.non_field_errors %}
+                                       {% tag_mensaje 'error' error_message %}
+                                   {% endfor %}
+                               {% endif %}
+
+                               {% if flag_new %}
+                                   {% tag_mensaje 'exito' 'Solicitud Creada con exito' %}
+                               {% endif %}
+
+                               {% include 'tags/message.html' %}
+
+                               {% tag_section_info 12 0 '¡Instrucciones!' 'Ahora puedes agregar/modificar gastos en la targeta <strong>"Lineas"</strong>' %}
+
+                               {% tag_field_registro form_cabecera.empleado_clave 3 8 %}
+
+                               {% tag_field_registro form_cabecera.un_clave 3 8 %}
+
+                               {% tag_field_registro_dates 'Fecha partida/regreso' form_cabecera.fecha_partida form_cabecera.fecha_regreso 3 4 4 %}
+
+                               {% tag_field_registro form_cabecera.ciudad_destino 3 8 %}
+
+                               {% tag_field_registro form_cabecera.proposito_viaje 3 8 %}
+
+                               <!-- Ocultos -->
+                               <div>
+                                   {{ form_cabecera.empleado_descripcion }}
+                                   {{ form_cabecera.un_descripcion }}
+                               </div>
+
                            </div>
-                       </div>
+                           <div class="modal-footer nova-modal-footer">
+                               <div class="nova-footer-botons">
+                                   <a href=" {% url 'finanzas:viatico_lista' %}" class="btn btn-default">
+                                       <i class="icon mdi mdi-arrow-left"></i>
+                                       Regresar a Listado
+                                   </a>
 
-                </div>
-                <!-- Lineas -->
-                <div class="panel panel-default panel-table nova-panel-table">
-                    <div class="panel-heading panel-border nova-panel-heading">
-                        <div class="widget-head nova-widget-head">
-                            <div class="tools visible-xs-inline-block">
+                                   <button type="submit" name="guardar" id="btn_registrar" class="btn nova-btn nova-btn-orange btn-lg pull-right">
+                                       Guardar
+                                   </button>
+                               </div>
+                           </div>
 
-                                <button type="button" class="btn nova-btn btn-sm btn-rounded btn-space btn-default" id="boton_nuevo_m">
-                                    <i class="icon icon-left mdi mdi-plus-circle nova-black"></i> Nuevo
-                                </button>
+                    </div>
+                    <!-- Lineas -->
+                    <div class="panel panel-default panel-table nova-panel-table">
+                        <div class="panel-heading panel-border nova-panel-heading">
+                            <div class="widget-head nova-widget-head">
+                                <div class="tools visible-xs-inline-block">
 
-                                <button type="button" class="btn nova-btn btn-sm btn-rounded btn-space btn-success">
-                                    <i class="icon icon-left mdi mdi-download nova-white"></i> Exportar
-                                </button>
+                                    <button type="button" class="btn nova-btn btn-sm btn-rounded btn-space btn-default" id="boton_nuevo_m">
+                                        <i class="icon icon-left mdi mdi-plus-circle nova-black"></i> Nuevo
+                                    </button>
 
+                                    <button type="button" class="btn nova-btn btn-sm btn-rounded btn-space btn-success">
+                                        <i class="icon icon-left mdi mdi-download nova-white"></i> Exportar
+                                    </button>
+
+                                </div>
+                                <div class="button-toolbar hidden-xs">
+
+                                    <button type="button" class="btn nova-btn btn-rounded btn-space btn-default" id="boton_nuevo">
+                                        <i class="icon icon-left mdi mdi-plus-circle nova-black"></i> Nuevo
+                                    </button>
+
+                                    <button class="btn nova-btn btn-rounded btn-space btn-success" id="boton_excel" disabled>
+                                        <i class="icon icon-left mdi mdi-download nova-white"></i> Exportar
+                                    </button>
+
+                                </div>
+                                <span class="title">Lineas</span>
                             </div>
-                            <div class="button-toolbar hidden-xs">
 
-                                <button type="button" class="btn nova-btn btn-rounded btn-space btn-default" id="boton_nuevo">
-                                    <i class="icon icon-left mdi mdi-plus-circle nova-black"></i> Nuevo
-                                </button>
-
-                                <button class="btn nova-btn btn-rounded btn-space btn-success" id="boton_excel" disabled>
-                                    <i class="icon icon-left mdi mdi-download nova-white"></i> Exportar
-                                </button>
-
-                            </div>
-                            <span class="title">Lineas</span>
                         </div>
 
+                        <div id="grid_lineas">
+                        </div>
                     </div>
 
-                    <div id="grid_lineas">
+                    {% if form_cabecera.instance.status == "cap" %}
+                    <!-- Botones -->
+                    <div class="panel panel-border panel-contrast nova-panel-default">
+                        <div class="panel-body text-center">
+                                <button type="submit" name="fin_captura" class="btn nova-btn-orange btn-lg" id="boton_finalizar_captura">Finalizar y Enviar</button>
+                        </div>
                     </div>
-                </div>
-
-                <!-- Botones -->
-                <div class="panel panel-border panel-contrast nova-panel-default">
-                    <div class="panel-body text-center">
-                        <button type="submit" name="fin_captura" class="btn nova-btn-orange btn-lg" id="boton_finalizar_captura">Finalizar y Enviar</button>
-                    </div>
-                </div>
+                    {% endif %}
                 </form>
             </div>
 
