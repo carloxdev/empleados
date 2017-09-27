@@ -648,8 +648,8 @@ class AutorizacionAprobar(View):
                 ViaticoBusiness.autorizar(documento, _request.user)
 
                 ViaticoBusiness.send_Mail_ToAprove(
-                    "APPS: Viatico VIA-%s aprobado" % (documento.id),
-                    "Se te informa que se ha cancelado el viatico VIA-%s del empleado %s. Monto del viatico %s pesos." % (
+                    "APPS: Viatico VIA-%s APROBADO" % (documento.id),
+                    "Se te informa que se ha APROBADO el viatico VIA-%s del empleado %s. Monto del viatico %s pesos." % (
                         documento.id,
                         documento.empleado_descripcion,
                         documento.importe_total
