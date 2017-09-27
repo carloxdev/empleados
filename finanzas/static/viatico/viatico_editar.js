@@ -307,7 +307,7 @@ Grid.prototype.validar_Estado = function () {
       method: "GET",
       success: function (_response) {
 
-         if (_response.status == "fin") {
+         if (_response.status == "Finalizado") {
 
             tarjeta_finalizar.disabled_Buttons()
          }
@@ -559,7 +559,7 @@ TarjetaFinalizar.prototype.click_BotonFinalizar = function (e) {
 }
 TarjetaFinalizar.prototype.disabled_Buttons = function () {
 
-   this.$boton_finalizar_captura.prop('disabled', true)
+   // this.$boton_finalizar_captura.prop('disabled', true)
 
    lineas.grid.$id.find("[data-event='eliminar']").each(function(idx, element){
 
