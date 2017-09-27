@@ -22,5 +22,5 @@ class PostForm(ModelForm):
         widgets = {
             'titulo': TextInput(attrs={'class': 'form-control input-xs'}),
             'contenido': Textarea(attrs={'class': 'form-control input-xs', 'rows': '8'}),
-            'status': Select(attrs={'class': 'form-control'}),
+            'status': Select(attrs={'class': 'form-control input-xs'}),
         }

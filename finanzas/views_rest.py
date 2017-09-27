@@ -38,7 +38,7 @@ class ViaticoCabeceraByPageAPI(viewsets.ModelViewSet):
 
 
 class ViaticoLineaAPI(viewsets.ModelViewSet):
-    queryset = ViaticoLinea.objects.all().order_by('-slug')
+    queryset = ViaticoLinea.objects.all().order_by('slug')
     serializer_class = ViaticoLineaSerializer
     filter_backends = (DjangoFilterBackend,)
     filter_class = ViaticoLineaFilter
