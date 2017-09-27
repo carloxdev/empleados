@@ -96,8 +96,8 @@
                {% endif %}
 
                {% for i in registros.paginator.page_range %}
-                   <li {% if registros.number == i %} class="" {% endif %}>
-                       <a class="nova-btn-pantone" href="?page={{i}}&q={{ request.GET.q }}">{{ i }}</a>
+                   <li {% if registros.number == i %} class="nova-paginador" {% endif %}>
+                       <a href="?page={{i}}&q={{ request.GET.q }}">{{ i }}</a>
                    </li>
                {% endfor %}
 
@@ -113,7 +113,7 @@
               <div class="input-group">
                   <input type="text" class="form-control btn-rounded nova-height-buscar" name="q" placeholder="Post a buscar..." value="{{ request.GET.q }}">
                   <span class="input-group-btn">
-                    <button type="submit" id="boton_buscar" class="btn nova-height-buscar btn-rounded btn-flat nova-btn-pantone">
+                    <button type="submit" id="boton_buscar" class="btn nova-height-buscar btn-rounded btn-flat btn-primary">
                       <i class="fa fa-search"></i>
                       Buscar
                     </button>
@@ -180,7 +180,7 @@
               <div class="input-group">
                   <input type="text" class="form-control btn-rounded nova-height-buscar" name="q" placeholder="Post a buscar..." value="{{ request.GET.q }}">
                   <span class="input-group-btn">
-                    <button type="submit" id="boton_buscar" class="btn nova-height-buscar btn-rounded btn-flat nova-btn-pantone">
+                    <button type="submit" id="boton_buscar" class="btn nova-height-buscar btn-rounded btn-flat btn-primary">
                       <i class="fa fa-search"></i>
                       Buscar
                     </button>
