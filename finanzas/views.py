@@ -105,7 +105,7 @@ class ViaticoCabeceraEditar(View):
         return render(_request, self.template_name, contexto)
 
     def post(self, _request, _pk):
-        import ipdb; ipdb.set_trace()
+
         if 'guardar' in _request.POST:
 
             formulario_cabecera = ViaticoCabeceraForm(

@@ -133,5 +133,4 @@ class ViaticoBusiness(object):
 
         _cabecera.status = "fin"
         _cabecera.updated_by = _user.profile
-        import ipdb; ipdb.set_trace()
         _cabecera.save()
