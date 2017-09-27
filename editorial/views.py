@@ -21,6 +21,9 @@ from django.core.paginator import PageNotAnInteger
 from .models import Post
 from .forms import PostForm
 
+from ebs.business import EmpleadoBusiness
+from datetime import datetime
+
 
 class PostPublicados(View):
 
@@ -40,6 +43,8 @@ class PostPublicados(View):
                 status="PUB").order_by("-created_date")
         ultimos = Post.objects.filter(
             status="PUB").order_by("-created_date")[:5]
+        lista_cumpleanios = self.lista_fecha_cumpleanios()
+        print lista_cumpleanios.sort()
 
         paginador = Paginator(registros, 10)
         pagina = request.GET.get('page')
@@ -54,10 +59,29 @@ class PostPublicados(View):
         contexto = {
             'registros': posts,
             'ultimos': ultimos,
+            'lista_cumpleanios': lista_cumpleanios,
             'clave': 'publicados',
         }
 
         return render(request, self.template_name, contexto)
+
+    def lista_fecha_cumpleanios(self):
+        hoy = datetime.now()
+        empleado = EmpleadoBusiness.get_Activos()
+        e = []
+        incluir = {}
+
+        for dato in empleado:
+            f = dato.pers_fecha_nacimiento.split(" ")
+            if f[0] != "-":
+                fecha_nacimiento = datetime.strptime(f[0], '%Y-%m-%d').date()
+                if fecha_nacimiento.month == hoy.month:
+                    if fecha_nacimiento.day >= hoy.day:
+                        incluir = {}
+                        incluir['dia'] = fecha_nacimiento.day
+                        incluir['nombre'] = dato.pers_nombre_completo
+                        e.append(incluir)
+        return e
 
 
 class PostConsultar(View):

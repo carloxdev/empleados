@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
-from datetime import datetime
+
 # Django API REST
 from rest_framework import filters
 from django_filters import CharFilter
 from django_filters import NumberFilter
-from django_filters import DateFilter
 
 # Modelos:
 from .models import VIEW_EMPLEADOS_SIMPLE
@@ -18,16 +17,6 @@ class VIEW_EMPLEADOS_SIMPLE_Filter(filters.FilterSet):
     pers_empleado_numero = CharFilter(
         name="pers_empleado_numero",
         lookup_expr="icontains"
-    )
-    pers_fecha_nacimiento_desde = CharFilter(
-        label="Fecha nacimiento desde",
-        name="pers_fecha_nacimiento_desde",
-        method='filter_fecha_desde'
-    )
-    pers_fecha_nacimiento_hasta = CharFilter(
-        label="Fecha nacimiento hasta",
-        name="pers_fecha_nacimiento_hasta",
-        method='filter_fecha_hasta'
     )
 
     class Meta:
@@ -50,9 +39,7 @@ class VIEW_EMPLEADOS_SIMPLE_Filter(filters.FilterSet):
             'pers_rfc',
             'pers_numero_imss',
             'pers_ife',
-            'pers_fecha_nacimiento_desde',
-            'pers_fecha_nacimiento_hasta',
-            # 'pers_fecha_nacimiento',
+            'pers_fecha_nacimiento',
             'pers_ciudad_nacimiento',
             'pers_estado_nacimiento',
             'pers_pais_nacimiento_clave',
@@ -63,28 +50,6 @@ class VIEW_EMPLEADOS_SIMPLE_Filter(filters.FilterSet):
             'pers_estado_civil_desc',
             'pers_fecha_contratacion',
         ]
-
-    def filter_fecha_desde(self, queryset, name, value):
-
-        # e = VIEW_EMPLEADOS_SIMPLE.objects.using('ebs_p').filter(pers_fecha_nacimiento__gte = datetime.datetime.strptime('1993-09-22','%Y-%m-%d').date())
-        fecha = datetime.strptime(value, '%Y-%m-%d').date()
-        hoy = datetime.now()
-
-        if not value:
-            return queryset
-        else:
-            consulta = queryset.filter(fecha_cumpleanios__gte=hoy)
-            return consulta
-
-    def filter_fecha_hasta(self, queryset, name, value):
-
-        fecha = datetime.strptime(value, '%Y-%m-%d').date()
-        if not value:
-            return queryset
-        else:
-            consulta = queryset.filter(
-                pers_fecha_nacimiento__lte=fecha)
-            return consulta
 
 
 class VIEW_EMPLEADOS_FULL_Filter(filters.FilterSet):
