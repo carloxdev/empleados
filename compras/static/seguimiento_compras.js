@@ -3,7 +3,7 @@
 \*-----------------------------------------------*/
 
 // URLS:
-var url_seguimiento_bypage = window.location.origin + "/api-jde/viewscompras/"
+var url_seguimiento_bypage = window.location.origin + "/api-jde/viewscompras_bypage/"
 var url_seguimiento = window.location.origin + "/api-jde/viewscompras/"
 var url_seguimiento_compania = window.location.origin + "/api-jde/viewcompanias/"
 var url_seguimiento_sucursal = window.location.origin + "/api-jde/viewunidades/"
@@ -571,8 +571,8 @@ Grid.prototype.get_DataSourceConfig = function (e) {
 
    return {
 
-    //   serverPaging: true,
-    //   pageSize: 10,
+      serverPaging: true,
+      pageSize: 200,
       transport: {
          read: {
 
@@ -582,14 +582,14 @@ Grid.prototype.get_DataSourceConfig = function (e) {
          },
          parameterMap: function (_data, _action) {
             if (_action === "read"){
-            //    return tarjeta_filtros.get_Values(_data.page, _data.pageSize)
+               return tarjeta_filtros.get_Values(_data.page, _data.pageSize)
                return tarjeta_filtros.get_Values()
             }
          }
       },
       schema: {
-        //  data: "results",
-        //  total: "count",
+         data: "results",
+         total: "count",
          model: {
             fields: this.get_Campos()
          }
@@ -660,7 +660,7 @@ Grid.prototype.get_Configuracion = function () {
       scrollable: false,
       columns: this.get_Columnas(),
       scrollable: true,
-      pageable: false,
+      pageable: true,
       noRecords: {
          template: "<div class='nova-grid-empy'> No se encontraron registros </div>"
       },
@@ -878,7 +878,7 @@ PopupAcciones.prototype.filtrar_Autorizaciones = function (_fila) {
       success: function(_data) {
          tarjeta_detalles.construir_Tabla(
             '#tabla_detalles',
-            _data.results,
+            _data,
             [  'ruta',
                'autorizador_desc',
                'autorizacion_fecha',
@@ -914,7 +914,7 @@ PopupAcciones.prototype.filtrar_Recepciones = function (_fila) {
       success: function(_data) {
          tarjeta_detalles.construir_Tabla(
             '#tabla_detalles',
-            _data.results,
+            _data,
             [  'doc_tipo',
                'doc',
                'oc_tipo',
@@ -966,7 +966,7 @@ PopupAcciones.prototype.filtrar_Cotejo = function (_fila) {
       success: function(_data) {
          tarjeta_detalles.construir_Tabla(
             '#tabla_detalles',
-            _data.results,
+            _data,
             [  'tran_compania',
                'doc_tipo',
                'doc',

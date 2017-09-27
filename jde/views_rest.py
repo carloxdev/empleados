@@ -43,6 +43,7 @@ from .serializers import VIEW_PROVEEDORES_Serializer
 
 # Paginadores:
 from .pagination import GenericPagination
+from .pagination import GenericPaginationCompras
 
 # Filtros:
 from .filters import VIEW_SCOMPRAS_Filter
@@ -73,7 +74,7 @@ class VIEW_SCOMPRAS_API(viewsets.ModelViewSet):
 class VIEW_SCOMPRAS_ByPageAPI(viewsets.ModelViewSet):
     queryset = VIEW_SCOMPRAS.objects.using('jde_p').order_by('req_fecha_creacion')
     serializer_class = VIEW_SCOMPRAS_Serializer
-    pagination_class = GenericPagination
+    pagination_class = GenericPaginationCompras
     filter_backends = (filters.DjangoFilterBackend,)
     filter_class = VIEW_SCOMPRAS_Filter
     permission_classes = (IsAuthenticated,)
@@ -208,6 +209,14 @@ class VIEWS_COMPRAS_API(viewsets.ModelViewSet):
 class VIEW_UNIDADES_API(viewsets.ModelViewSet):
     queryset = VIEW_UNIDADES.objects.using('jde_p').all()
     serializer_class = VIEW_UNIDADES_Serializer
+    permission_classes = (IsAuthenticated,)
+
+
+class VIEW_AUTORIZACIONES_API(viewsets.ReadOnlyModelViewSet):
+    queryset = VIEW_AUTORIZACIONES.objects.using('jde_p').order_by('autorizacion_fecha')
+    serializer_class = VIEW_AUTORIZACIONES_Serializer
+    filter_backends = (DjangoFilterBackend,)
+    filter_class = VIEW_AUTORIZACIONES_Filter
     permission_classes = (IsAuthenticated,)
 
 
