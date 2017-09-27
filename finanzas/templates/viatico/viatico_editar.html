@@ -100,14 +100,11 @@
                     <div class="panel panel-default panel-table nova-panel-table">
                         <div class="panel-heading panel-border nova-panel-heading">
                             <div class="widget-head nova-widget-head">
+                                {% if form_cabecera.instance.status == "cap" %}
                                 <div class="tools visible-xs-inline-block">
 
                                     <button type="button" class="btn nova-btn btn-sm btn-rounded btn-space btn-default" id="boton_nuevo_m">
                                         <i class="icon icon-left mdi mdi-plus-circle nova-black"></i> Nuevo
-                                    </button>
-
-                                    <button type="button" class="btn nova-btn btn-sm btn-rounded btn-space btn-success">
-                                        <i class="icon icon-left mdi mdi-download nova-white"></i> Exportar
                                     </button>
 
                                 </div>
@@ -117,11 +114,8 @@
                                         <i class="icon icon-left mdi mdi-plus-circle nova-black"></i> Nuevo
                                     </button>
 
-                                    <button class="btn nova-btn btn-rounded btn-space btn-success" id="boton_excel" disabled>
-                                        <i class="icon icon-left mdi mdi-download nova-white"></i> Exportar
-                                    </button>
-
                                 </div>
+                                {% endif %}
                                 <span class="title">Lineas</span>
                             </div>
 
