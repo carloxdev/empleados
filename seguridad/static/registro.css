@@ -16,12 +16,13 @@
 .select2-container--default .select2-selection--single .select2-selection__arrow {
     height: 30px !important;
     top: -7px;
-    right: -7px;    
+    right: -7px;
 }
 
 .nova-registro-img {
     width: 60%;
 }
+
 
 .nova-registro-img-btn {
     margin-top: 1em;
