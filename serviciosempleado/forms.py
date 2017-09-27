@@ -28,7 +28,7 @@ class NuevaSolicitudForm(Form):
 
     descripcion = CharField(
         label="Descripcion",
-        widget=Textarea(attrs={'class': 'form-control input-xs','placeholder': 'Ejemplo: Se detectaron incosistencias en la informacion...', 'rows': '5'}))
+        widget=Textarea(attrs={'class': 'form-control input-xs', 'placeholder': 'Ejemplo: Se detectaron incosistencias en la informacion...', 'rows': '5'}))
 
     archivo = FileField(
         label="Archivo",
@@ -79,11 +79,13 @@ class MiViaticoFilterForm(Form):
     )
 
     created_date_mayorque = CharField(
-        widget=TextInput(attrs={'class': 'form-control input-xs', 'readonly': 'readonly'})
+        widget=TextInput(
+            attrs={'class': 'form-control input-xs', 'readonly': 'readonly'})
     )
 
     created_date_menorque = CharField(
-        widget=TextInput(attrs={'class': 'form-control input-xs', 'readonly': 'readonly'})
+        widget=TextInput(
+            attrs={'class': 'form-control input-xs', 'readonly': 'readonly'})
     )
 
     def __init__(self, *args, **kwargs):

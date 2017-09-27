@@ -173,7 +173,7 @@ PopupNuevo.prototype.enviar_Solicitud = function (e){
     id_solicitud = ''
     extension = tarjeta_resultados.popup_nuevo.validar_Archivo(e.data.$archivo.val())
     if (tarjeta_resultados.popup_nuevo.validar_Campos() != 'True'){
-        if (extension == ".pdf"){
+        if ((extension == ".pdf") || (e.data.$asunto.val() == 3)){
             var promesa = $.ajax({
                      url: url_solicitud,
                      method: "POST",
@@ -193,9 +193,17 @@ PopupNuevo.prototype.enviar_Solicitud = function (e){
                      }
                 })
             promesa.then(function(){
+              if(e.data.$asunto.val() != 3){
                 tarjeta_resultados.popup_nuevo.formar_Data(id_solicitud)
+              }
+              else{
+                alertify.success("Se ha guardado la solicitud")
+                tarjeta_resultados.popup_nuevo.hidden_Modal()
+                tarjeta_resultados.grid.init()
+              }
             })
         }else if(extension==""){
+          alert('entre aqui')
             e.data.$formulario.append('<div class="alert alert-danger nova-margin" id="id_error"><span class="icon mdi mdi-close-circle-o"></span><strong>Debe adjuntar el archivo correspondiente.</strong></div>')
         }
         else{
@@ -283,7 +291,10 @@ PopupNuevo.prototype.validar_Campos = function () {
     else{
         this.$descripcion.removeClass("nova-has-error")
     }
-    if(this.$archivo.val() == ""){
+    if (tarjeta_resultados.popup_nuevo.$asunto.val() == 3){
+      this.$archivo.removeClass("nova-has-error")
+    }
+    else if(this.$archivo.val() == "" ){
         this.$archivo.addClass("nova-has-error")
         bandera = 'True'
     }
