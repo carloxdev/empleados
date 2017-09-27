@@ -96,7 +96,7 @@ class ViaticoCabeceraEditar(View):
         formulario_linea = ViaticoLineaForm(
             ViaticoBusiness.get_ViaticoCabecera(_pk).empleado_clave
         )
-
+        # import ipdb; ipdb.set_trace()
         contexto = {
             'form_cabecera': formulario_cabecera,
             'form_linea': formulario_linea,
@@ -149,20 +149,20 @@ class ViaticoCabeceraEditar(View):
 
             viatico_cabecera = ViaticoBusiness.get_ViaticoCabecera(_pk)
 
-            # try:
-            ViaticoBusiness.set_FinalizarCaptura(viatico_cabecera, _request.user)
+            try:
+                ViaticoBusiness.set_FinalizarCaptura(viatico_cabecera, _request.user)
 
-                # ViaticoBusiness.send_MailToParticipantes(
-                #     "APPS: Viatico VIA-%s cancelado" % (documento.id),
-                #     "Se te informa que se ha cancelado el viatico VIA-%s, por %s pesos." % (documento.id, documento.importe_total),
-                #     documento,
-                #     _request.user
-                # )
+                ViaticoBusiness.send_Mail_ToFinish(
+                    "APPS: Viatico VIA-%s pendiente de autorizar." % (viatico_cabecera.id),
+                    "Tienes un viatico VIA-%s por autorizar, por %s pesos." % (viatico_cabecera.id, viatico_cabecera.importe_total),
+                    viatico_cabecera,
+                    _request.user
+                )
 
                 # return redirect(reverse('seguridad:autorizacion_lista'))
 
-            # except Exception as e:
-            #     messages.error(_request, str(e))
+            except Exception as e:
+                messages.error(_request, str(e))
 
             contexto = {
                 'form_cabecera': formulario_cabecera,

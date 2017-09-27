@@ -8,6 +8,7 @@ var url_viaticocabecera = window.location.origin + "/api-finanzas/viaticocabecer
 var cabecera = null
 var lineas = null
 var popup_linea = null
+var tarjeta_finalizar = null
 
 
 /* -------------------- LOAD -------------------- */
@@ -18,6 +19,7 @@ $(document).ready(function () {
     lineas = new Lineas()
 
     popup_linea = new PopupLinea()
+    tarjeta_finalizar = new TarjetaFinalizar()
 
     // Asigna eventos a teclas
     $(document).keypress(function (e) {
@@ -257,6 +259,8 @@ Grid.prototype.onDataBound = function (e) {
          lineas.grid.click_BotonEliminar(this.id)
       })
    })
+
+   lineas.grid.validar_Estado()
 }
 Grid.prototype.click_BotonEliminar = function (_id) {
 
@@ -290,6 +294,23 @@ Grid.prototype.eliminar = function (_url) {
       },
       null
    )
+}
+Grid.prototype.validar_Estado = function () {
+
+   $.ajax({
+      url: url_viaticocabecera + cabecera.$record_pk.text() + "/",
+      method: "GET",
+      success: function (_response) {
+
+         if (_response.status == "fin") {
+
+            tarjeta_finalizar.disabled_Buttons()
+         }
+      },
+      error: function (_response) {
+         alertify.error("Ocurrio error al consultar")
+      }
+   })
 }
 Grid.prototype.buscar = function() {
     this.fuente_datos.read()
@@ -515,5 +536,28 @@ PopupLinea.prototype.actualizar_ImporteTotal = function () {
       error: function (_response) {
          alertify.error("Ocurrio error al consultar")
       }
+   })
+}
+
+function TarjetaFinalizar () {
+
+   this.$boton_finalizar_captura = $('#boton_finalizar_captura')
+   this.init_Events()
+}
+TarjetaFinalizar.prototype.init_Events = function () {
+
+   this.$boton_finalizar_captura.on("click", this, this.click_BotonFinalizar)
+}
+TarjetaFinalizar.prototype.click_BotonFinalizar = function (e) {
+
+   e.data.disabled_Buttons()
+}
+TarjetaFinalizar.prototype.disabled_Buttons = function () {
+
+   this.$boton_finalizar_captura.prop('disabled', true)
+
+   lineas.grid.$id.find("[data-event='eliminar']").each(function(idx, element){
+
+      $(this).attr('disabled','true')
    })
 }
