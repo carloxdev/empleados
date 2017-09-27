@@ -159,7 +159,7 @@ class ViaticoCabeceraEditar(View):
                     _request.user
                 )
 
-                # return redirect(reverse('seguridad:autorizacion_lista'))
+                return redirect(reverse('seguridad:autorizacion_lista'))
 
             except Exception as e:
                 messages.error(_request, str(e))
