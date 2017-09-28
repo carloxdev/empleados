@@ -18,16 +18,16 @@
          <li>Noticia</li>
       </ol>
     </div>
-    <div class="col-md-8 nova-padding-left">
-        <div class="main-content container-fluid nova-main-content nova-padding-bottom nova-padding-top">
+
+        <div class="main-content container-fluid nova-main-content">
             <div class="row">
-                <div class="col-md-12">
+                <div class=" {% if registros %} col-md-9 nova-panel-main{% else %} col-md-12 {% endif %}">
                     <div class="user-info-list panel panel-default panel-border">
                         <div class="col-md-12 nova-post-titulo">
                             {{ registro.titulo }}
                         </div>
                         <div class="panel-body">
-                               <div class="row">
+                              <div class="row">
                                 <ul class="col-md-12 nova-ul-estilo nova-li-estilo">
                                    <li>
                                         <i class="fa fa-calendar" aria-hidden="true"></i>
@@ -64,26 +64,32 @@
                         </div>
                     </div>
                 </div>
+                {% if registros %}
+                <div class="col-md-3 own-sidebar">
+                   <div class="row">
+                       <div class="col-md-12">
+                           <div class="panel panel-border panel-contrast user-info-list nova-panel-default">
+                              <div class="panel-heading panel-heading-default nova-panel-heading-formulario nova-centrar">
+                                  Últimas noticias
+                              </div>
+                                <div class="panel-body nova-padding-left nova-padding-right">
+                                    <ul>
+                                        {% for r in registros %}
+                                            <li>
+                                                <a href="{% url 'editorial:post_consultar' r.pk %}">{{ r.titulo }}</a>
+
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                           </div>
+                       </div>
+                   </div>
+               </div>
+                {% endif %}
             </div>
         </div>
-    </div>
-    <div class="col-md-4 nova-padding-left">
-         <div class="user-info-list panel panel-default nova-post-borde">
-            <div class="col-md-12 nova-noticias">
-               Últimas noticias
-            </div>
-            {% if registros %}
-                <div class="col-md-12 list-group nova-padding-right">
-                    {% for r in registros %}
-                        <a href="{% url 'editorial:post_consultar' r.pk %}" class="list-group-item nova-lista-decorador ">
-                        {{ r.titulo }}
-                        </a>
-                    {% endfor %}
-                </div>
-            {% endif %}
-        </div> 
-        
-    </div>
+    
 </div>
 
 

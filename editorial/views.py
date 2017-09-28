@@ -93,7 +93,7 @@ class PostConsultar(View):
 
         post = get_object_or_404(Post, pk=pk)
         registros = Post.objects.filter(
-            status="PUB").order_by("-created_date")[:5]
+            status="PUB").exclude(pk=pk).order_by("-created_date")[:5]
 
         contexto = {
             'registro': post,
