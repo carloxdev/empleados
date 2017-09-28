@@ -978,11 +978,6 @@ div.nova-panel-arbol li.list-group-item {
 /*-FIN AVATAR DE PERFIL-*/
 
 /* COMUNICACIÓN INTERNA */
-.nova-post-borde{
-  border-top: 1px solid #d4d4d4 !important;
-  border-left: 1px solid #d4d4d4 !important;
-  border-right: 1px solid #d4d4d4 !important;
-}
 .nova-padding-left{
   padding-left: 0 !important;
 }
@@ -999,16 +994,17 @@ div.nova-panel-arbol li.list-group-item {
   margin-bottom: 0 !important;
 }
 .nova-a-estilo{
-  color: #1E5382 !important;
+  color: black !important;
 }
 .nova-a-estilo:hover{
-  color: #3577B2 !important;
+  color: #474646 !important;
 }
 .nova-centrar{
   text-align: center !important;
 }
 .nova-padding-elemento-post{
     padding: 1em 0 1em 0 !important;
+    font-size: 12px;
 }
 .nova-padding-tools {
   margin: 0px;
@@ -1039,20 +1035,11 @@ div.nova-panel-arbol li.list-group-item {
     font-family: Helvetica Neue !important, sans-serif;
 }
 .nova-post-titulo{
-  font-size: 25px;
+  font-size: 30px;
   font-weight: 400 !important;
   text-align: center;
   border-bottom: 1px solid #d9d9d9;
   margin: 0 !important;
-}
-.nova-paginador a{
-  color: #fff !important;
-  background-color: #3169F5 !important;
-  border-color: #3169F5 !important;
-  font-size: 14px !important;
-  line-height: 14px !important;
-  font-weight: 400 !important;
-  padding: 10px 12px !important;
 }
 .nova-post-imagen{
   display: block;
@@ -1061,12 +1048,26 @@ div.nova-panel-arbol li.list-group-item {
   padding: 3px;
   border: 1px solid #cccccc;
 }
-.nova-post-imagen:hover {
-  filter: grayscale(50%);
+.nova-contenedor-imagen img{
+  -webkit-transition:all .9s ease;
+  -moz-transition:all .9s ease; 
+  -o-transition:all .9s ease; 
+  -ms-transition:all .9s ease; 
+  width:100%;
+}
+.nova-contenedor-imagen:hover img {
+  -webkit-transform:scale(1.25);
+  -moz-transform:scale(1.25);
+  -ms-transform:scale(1.25);
+  -o-transform:scale(1.25);
+  transform:scale(1.3);
+}
+.nova-contenedor-imagen {
+  overflow:hidden;
 }
 .nova-post-contenido{
   margin-top: 2em;
-  font-size: 14px;
+  font-size: 16px;
 }
 @media (max-width: 767px) {
   .nova-post-contenido{

@@ -35,29 +35,25 @@
                                     <i class="fa fa-calendar" aria-hidden="true"></i>
                                     {{ registro.updated_date|date:"M d, Y"}}
                                 </div>
-                                <div class="pull-right nova-padding-elemento-post">
-                                    <i class="fa fa-user" aria-hidden="true"></i>
-                                      COMUNICACIÓN NUVOIL
-                                </div>
                             </div>
 
                             {% if registro.imagen %}
-                                <div class="col-md-12">
+                                <div class="col-md-12 nova-contenedor-imagen">
                                     <img class="nova-post-imagen " src="{{ registro.imagen.url }}" alt="Post Imagen">
                                 </div>
                             {% endif %}
 
                             <div class="col-md-12">
                                 <section class="nova-post-contenido">
-                                        {{registro.contenido|safe|truncatechars_html:420 }}
+                                        {{registro.contenido|safe|truncatechars_html:500 }}
                                 </section>
                             </div>
 
                              <div class="modal-footer nova-centrar">
-                                <a href="{% url 'editorial:post_consultar' registro.pk %}" class="btn btn-default btn-lg nova-post-contenido" role="button">Leer mas...</a>
+                                <a href="{% url 'editorial:post_consultar' registro.pk %}" class="btn btn-default btn-lg" role="button">Leer mas...</a>
 
                                 {% if user|tag_validate_has_group:"MARKETING_ADMIN" %}
-                                    <a href="{% url 'editorial:post_editar' registro.pk clave %}" class="btn btn-warning btn-lg nova-post-contenido">
+                                    <a href="{% url 'editorial:post_editar' registro.pk clave %}" class="btn btn-warning btn-lg">
                                         <i class="fa fa-pencil" aria-hiden="true"></i> Editar
                                     </a>
                                 {% endif %}

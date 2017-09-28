@@ -28,27 +28,27 @@
                         </div>
                         <div class="panel-body">
 
-                            <section>
+                            <div class="col-md-12">
                                 <div class="pull-left nova-padding-elemento-post">
                                     <i class="fa fa-calendar" aria-hidden="true"></i>
                                     {{ registro.updated_date|date:"M d, Y"}}
                                 </div>
-                                <div class="pull-right nova-padding-elemento-post">
-                                    <i class="fa fa-user" aria-hidden="true"></i>
-                                      COMUNICACIÓN NUVOIL
-                                </div>
-                            </section>
+                            </div>
 
-                            <section>
-                                {% if registro.imagen %}
+                            {% if registro.imagen %}
+                                <div class="col-md-12 nova-contenedor-imagen">
                                     <img class="nova-post-imagen " src="{{ registro.imagen.url }}" alt="Post Imagen">
-                                {% endif %}
-                            </section>
-                            <section class="nova-post-contenido">
+                                </div>
+                            {% endif %}
+
+                            <div class="col-md-12">
+                                <section class="nova-post-contenido">
                                 {% autoescape off %}
                                     {{ registro.contenido|linebreaks }}
                                 {% endautoescape %}
-                            </section>
+                                </section>
+                            </div>
+
                             <div class="modal-footer nova-centrar">
                                <a href="{% url 'home:inicio' %}" class="btn btn-default btn-lg" role="button"><i class="fa fa-arrow-left" aria-hidden="true"></i> Regresar
                                 </a>

@@ -118,7 +118,7 @@ Indicadores.prototype.buscar_EmpleadosGeneral = function (_organizacion){
          success: function (response) {
 
             //Total de empleados
-            total = indicadores.indicador_Total(response, organizacion)
+            total = indicador_total.get_Total(response, organizacion)
 
             indicadores.mostrar_Mensaje(total)
 
@@ -128,21 +128,26 @@ Indicadores.prototype.buscar_EmpleadosGeneral = function (_organizacion){
             indicadores.indicador_Rotacion(response, organizacion)
 
             //Distribucion por grado de estudios
-            indicadores.indicador_GradoAcademico(organizacion)
+            indicador_grado.buscar_GradoAcademico(organizacion)
 
             //Disribucion por estado civil
-            indicadores.indicador_EstadoCivil(response, organizacion)
+            dato_estado = indicador_estado_civil.get_EstadoCivil(response, organizacion)
+            Highcharts.chart('container-estado',indicador_estado_civil.get_IndicadorConfig(dato_estado))
 
             //Disribucion por rango de edad
-            indicadores.indicador_RangoEdad(response, organizacion)
+            dato_edad = indicador_rango_edad.get_RangoEdad(response, organizacion)
+            Highcharts.chart('container-edad',indicador_rango_edad.get_IndicadorConfig(dato_edad))
 
             //Disribucion por sexo
-            indicadores.indicador_Sexo(response, organizacion)
+            dato_sexo = indicador_sexo.get_Sexo(response, _organizacion)
+            Highcharts.chart('container-sexo',indicador_sexo.get_IndicadorConfig(dato_sexo))
 
             $('#container-organizacion').show()
 
             //Disribucion por organizacion
-            indicadores.indicador_Organizacion(response)
+            empleado_org = indicador_organizacion.get_EmpleadoOrganizacion(response)//Numero de empleados por organizacion
+            organizaciones = indicador_organizacion.ordena_Organizaciones(response) // Organizaciones existentes
+            Highcharts.chart('container-organizacion',indicador_organizacion.get_IndicadorConfig(organizaciones,empleado_org))
 
          },
          error: function (response) {
@@ -165,7 +170,7 @@ Indicadores.prototype.buscar_EmpleadosFiltro = function (_organizacion) {
 
             if(organizacion != 0){
                //Total de empleados
-               total = indicadores.indicador_Total(response, organizacion)
+               total = indicador_total.get_Total(response, organizacion)
 
                indicadores.mostrar_Mensaje(total)
 
@@ -175,16 +180,19 @@ Indicadores.prototype.buscar_EmpleadosFiltro = function (_organizacion) {
                indicadores.indicador_Rotacion(response, organizacion)
 
                //Distribucion por grado de estudios
-               indicadores.indicador_GradoAcademico(organizacion)
+               indicador_grado.buscar_GradoAcademico(organizacion)
 
                //Disribucion por estado civil
-               indicadores.indicador_EstadoCivil(response, organizacion)
+               dato_estado = indicador_estado_civil.get_EstadoCivil(response, organizacion)
+               Highcharts.chart('container-estado',indicador_estado_civil.get_IndicadorConfig(dato_estado))
 
                //Disribucion por rango de edad
-               indicadores.indicador_RangoEdad(response, organizacion)
+               dato_edad = indicador_rango_edad.get_RangoEdad(response, organizacion)
+               Highcharts.chart('container-edad',indicador_rango_edad.get_IndicadorConfig(dato_edad))
 
                //Disribucion por sexo
-               indicadores.indicador_Sexo(response, organizacion)
+               dato_sexo = indicador_sexo.get_Sexo(response, organizacion)
+               Highcharts.chart('container-sexo',indicador_sexo.get_IndicadorConfig(dato_sexo))
 
                $('#container-organizacion').hide()
             }
@@ -195,46 +203,10 @@ Indicadores.prototype.buscar_EmpleadosFiltro = function (_organizacion) {
          }
    })
 }
-Indicadores.prototype.indicador_Total = function (_response, _organizacion) {
-
-   dato_total = indicador_total.get_Total(_response, _organizacion)
-
-   return dato_total
-}
 Indicadores.prototype.indicador_Rotacion = function (_response, _organizacion) {
 
    dato_rotacion = 0 //indicador_total.get_Rotacion(_response)
-   document.getElementById('resultado-rotacion').innerHTML=dato_rotacion
-}
-Indicadores.prototype.indicador_GradoAcademico = function (_organizacion) {
-
-   indicador_grado.buscar_GradoAcademico(_organizacion)
-}
-Indicadores.prototype.indicador_EstadoCivil = function (_response, _organizacion) {
-
-   dato_estado = indicador_estado_civil.get_EstadoCivil(_response, _organizacion)
-   Highcharts.chart('container-estado',
-               indicador_estado_civil.get_IndicadorConfig(dato_estado))
-}
-Indicadores.prototype.indicador_RangoEdad = function (_response, _organizacion) {
-   dato_edad = indicador_rango_edad.get_RangoEdad(_response, _organizacion)
-   Highcharts.chart('container-edad',
-               indicador_rango_edad.get_IndicadorConfig(dato_edad))
-}
-Indicadores.prototype.indicador_Sexo = function (_response, _organizacion) {
-   dato_sexo = indicador_sexo.get_Sexo(_response, _organizacion)
-   Highcharts.chart('container-sexo',
-               indicador_sexo.get_IndicadorConfig(dato_sexo))
-}
-Indicadores.prototype.indicador_Organizacion = function (_response) {
-
-   //Numero de empleados por organizacion
-   empleado_org = indicador_organizacion.get_EmpleadoOrganizacion(_response)
-   // Organizaciones existentes
-   organizaciones = indicador_organizacion.ordena_Organizaciones(_response)
-
-   Highcharts.chart('container-organizacion',
-        indicador_organizacion.get_IndicadorConfig(organizaciones,empleado_org))
+   $('#resultado_rotacion').text(dato_rotacion)
 }
 Indicadores.prototype.mostrar_Mensaje = function (_total) {
 
@@ -277,8 +249,7 @@ Indicadores.prototype.ocultar_Graficas = function (_total, _organizacion){
          OBJETO: INDICADOR TOTAL DE EMPLEADOS
 \*-----------------------------------------------*/
 
-function IndicadorTotal () {
-}
+function IndicadorTotal () {}
 IndicadorTotal.prototype.get_Total= function (_response, _organizacion) {
    // Empleados activos, inactivos
    var total = 0
@@ -310,8 +281,7 @@ IndicadorTotal.prototype.animacion_Resultado = function (_total){
          OBJETO: INDICADOR POR GRADO DE ESTUDIOS
 \*-----------------------------------------------*/
 
-function IndicadorGradoAcademico () {
-}
+function IndicadorGradoAcademico () {}
 IndicadorGradoAcademico.prototype.buscar_GradoAcademico = function (_organizacion){
 
    $.ajax({
@@ -446,8 +416,7 @@ IndicadorGradoAcademico.prototype.get_DataConfig = function (_grados,_empleado_g
          OBJETO: INDICADOR POR ESTADO CIVIL
 \*-----------------------------------------------*/
 
-function IndicadorEstadoCivil () {
-}
+function IndicadorEstadoCivil () {}
 IndicadorEstadoCivil.prototype.get_EstadoCivil = function (_response, _organizacion) {
    // Estado empleados: Casado, Soltero, Desconocido
    var estado = [0,0,0]
@@ -530,8 +499,7 @@ IndicadorEstadoCivil.prototype.get_DataConfig = function (_estado) {
 \*-----------------------------------------------*/
 
 
-function IndicadorRangoEdad () {
-}
+function IndicadorRangoEdad () {}
 IndicadorRangoEdad.prototype.get_RangoEdad = function (_response, _organizacion) {
    // Rango de edades: (19-30),(30-40),(40-50),(50-60),(60-70),(70-80)
    var rango_edades = [0,0,0,0,0,0]
@@ -660,8 +628,7 @@ IndicadorRangoEdad.prototype.get_DataConfig = function (_rango_edades) {
 \*-----------------------------------------------*/
 
 
-function IndicadorSexo () {
-}
+function IndicadorSexo () {}
 IndicadorSexo.prototype.get_Sexo = function (_response, _organizacion) {
    // Empleado por sexo
    var empleado_sexo = [0,0]
@@ -754,8 +721,7 @@ IndicadorSexo.prototype.get_DataConfig = function (_empleado_sexo) {
          OBJETO: INDICADOR POR ORGANIZACIÓN
 \*-----------------------------------------------*/
 
-function IndicadorOrganizacion () {
-}
+function IndicadorOrganizacion () {}
 IndicadorOrganizacion.prototype.get_EmpleadoOrganizacion = function (_response) {
     // Contiene num de empleados por organizacion
     var num = []
@@ -786,9 +752,15 @@ IndicadorOrganizacion.prototype.asigna_Organizaciones = function(_response) {
     var num = 0
 
     for (var i = 0; i < _response.length; i++) {
-         if(_response[i].asig_organizacion_desc != ''){
-            organizaciones[num] = _response[i].asig_organizacion_desc
-            num+=1
+         if ((_response[i].pers_tipo_codigo != '1123') &&
+                (_response[i].pers_tipo_codigo != '1124') &&
+                (_response[i].pers_tipo_codigo != '1125') &&
+                (_response[i].pers_tipo_codigo != '1118')){
+
+               if(_response[i].asig_organizacion_desc != ''){
+                  organizaciones[num] = _response[i].asig_organizacion_desc
+                  num+=1
+               }
          }
       }
 
