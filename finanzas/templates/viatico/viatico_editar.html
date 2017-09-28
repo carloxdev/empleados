@@ -168,7 +168,7 @@
                                       <td class="item nova-label">Aprobador:<span class="icon s7-assignment-check"></span></td>
 
                                       {% if form_cabecera.instance.status == "aut" %}
-                                          <td><strong>{{ form_cabecera.instance.approved_by.user.get_full_name|default:""|upper }}</strong></td>
+                                          <td><strong>{{ form_cabecera.instance.approved_by.usuario.get_full_name|default:""|upper }}</strong></td>
                                       {% else %}
                                           <td><strong>{{ form_cabecera.instance.autorizador_descripcion|default:""|upper }}</strong></td>
                                       {% endif %}
