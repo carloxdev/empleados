@@ -92,6 +92,14 @@
 
            <div class="modal-body form-horizontal">
 
+            <div role="alert" class="alert alert-primary alert-simple alert-dismissible">
+                <button type="button" data-dismiss="alert" aria-label="Close" class="close">
+                    <span aria-hidden="true" class="mdi mdi-close"></span>
+                </button>
+                <span class="icon mdi mdi-info-outline"></span>
+                Nota: Se pueden adjuntar <strong>uno o mas archivos</strong> en la misma solicitud. 
+            </div>
+
             <input type="hide" class="hide" value="107" id="departamento">
             <input type="hide" class="hide" value="{{ request.user.profile.pk }}" id="id_created_by" readonly="True">
 
@@ -100,16 +108,6 @@
               {% tag_field_popup form2.descripcion 3 8 %}
 
               {% tag_field_popup form2.archivo 3 8 %}
-              <!--
-              <div role="alert" class="alert alert-primary alert-icon alert-dismissible">
-                <div class="icon"><span class="mdi mdi-info-outline"></span></div>
-                  <div class="message text-center">
-                      <button type="button" data-dismiss="alert" aria-label="Close" class="close">
-                          <span aria-hidden="true" class="mdi mdi-close"></span>
-                      </button>
-                       Nota: Se pueden adjuntar <strong>uno o mas archivos</strong>. 
-                  </div>
-              </div>-->
 
             </div><!-- Modal body-->
         </form>
