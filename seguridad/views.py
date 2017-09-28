@@ -621,9 +621,6 @@ class AutorizacionLista(View):
 
         return render(_request, self.template_name, contexto)
 
-    def post(self, _request):
-        pass
-
 
 class AutorizacionAprobar(View):
     template_name = "autorizacion/aprobar.html"

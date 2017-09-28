@@ -46,7 +46,14 @@
                     <!-- Cabecera -->
                     <div class="panel panel-border panel-contrast nova-panel-default nova-panel-formulario">
                            <div class="panel-heading panel-heading-default nova-panel-heading-formulario">
-                               <span class="title">Informacion de la solicitud: <strong>V-<span id="cabecera_pk">{{ form_cabecera.instance.id }}</span></strong></span>
+                               <span class="title"><span class="hidden-xs">Informacion de la solicitud: </span><strong>V-<span id="cabecera_pk">{{ form_cabecera.instance.id }}</span></strong></span>
+
+                               {% if form_cabecera.instance.status == "cap" %}
+                               <a href="{% url 'finanzas:viatico_cancelar' form_cabecera.instance.pk %}" class="pull-right btn btn-danger">
+                                   Cancelar
+                               </a>
+                               {% endif %}
+
                            </div>
 
                            <div class="panel-body form-horizontal">

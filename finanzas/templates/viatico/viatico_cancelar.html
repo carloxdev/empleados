@@ -2,19 +2,19 @@
 
 {% load static from staticfiles %}
 
-{% block titulo %} Cancelar Documento {% endblock titulo %}
+{% block titulo %} Cancelar Viatico {% endblock titulo %}
 
-{% block title-page %} Cancelar Documento {% endblock title-page %}
+{% block title-page %} Cancelar Viatico {% endblock title-page %}
 
 {% block contenido %}
 
     <div class="be-content">
         <div class="page-head nova-page-head">
-    		<h2 class="page-head-title nova-title">Cancelar Documento</h2>
+    		<h2 class="page-head-title nova-title">Cancelar Viatico</h2>
     		<ol class="breadcrumb page-head-nav pull-right">
     			<li><a href="{% url 'home:inicio' %}">Inicio</a></li>
     			<li class="active">
-                    <a href="{% url 'seguridad:autorizacion_lista' %}">Autorizaciones</a>
+                    <a href="{% url 'finanzas:viatico_lista' %}">Viaticos</a>
                 </li>
                 <li id="menu" class="active">Cancelar</li>
     		</ol>
@@ -29,7 +29,7 @@
 
                         <div class="panel-heading panel-heading-default nova-panel-heading-formulario text-center">
                             <h3>
-                            ¿Esta seguro que desea cancelar el viatico  <a href="{% url 'finanzas:viatico_editar' documento.pk %}">V-{{ documento.pk }}</a> ?
+                            ¿Esta seguro que desea cancelar el viatico V-{{ viatico_cabecera.pk }}?
                             </h3>
                         </div>
 
@@ -42,51 +42,51 @@
                                         <td class="item nova-label">
                                             Empleado:<span class="icon s7-face"></span>
                                             <strong class="nova-item">
-                                                {{ documento.empleado_descripcion|default:""|upper }}
+                                                {{ viatico_cabecera.empleado_descripcion|default:""|upper }}
                                             </strong>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td class="icon nova-icon nova-label"><span class="mdi mdi-shopping-basket"></span></td>
                                         <td class="item nova-label">Unidad Negocio:<span class="icon s7-shopping-basket"></span>
-                                            <strong class="nova-item">({{documento.un_clave|default:""}}) {{ documento.un_descripcion|default:""|upper }}</strong>
+                                            <strong class="nova-item">({{viatico_cabecera.un_clave|default:""}}) {{ viatico_cabecera.un_descripcion|default:""|upper }}</strong>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td class="icon nova-icon nova-label"><span class="mdi mdi-case"></span></td>
                                         <td class="item nova-label">Empresa:<span class="icon s7-case"></span>
-                                            <strong class="nova-item">{{ documento.empresa_descripcion|default:"" }}</strong>
+                                            <strong class="nova-item">{{ viatico_cabecera.empresa_descripcion|default:"" }}</strong>
                                         </td>
                                     </tr>
 
                                     <tr>
                                         <td class="icon nova-icon nova-label"><span class="glyphicon glyphicon-calendar"></td>
                                         <td class="item nova-label">Partida:<span class="icon s7-glyphicon-calendar"></span>
-                                            <strong class="nova-item">{{ documento.fecha_partida|default:""|date:"d F Y" }}</strong>
+                                            <strong class="nova-item">{{ viatico_cabecera.fecha_partida|default:""|date:"d F Y" }}</strong>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td class="icon nova-icon nova-label"><span class="glyphicon glyphicon-calendar"></td>
                                         <td class="item nova-label">Regreso:<span class="icon s7-glyphicon-calendar"></span>
-                                            <strong class="nova-item">{{ documento.fecha_regreso|default:""|date:"d F Y" }}</strong>
+                                            <strong class="nova-item">{{ viatico_cabecera.fecha_regreso|default:""|date:"d F Y" }}</strong>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td class="icon nova-icon nova-label"><span class="mdi mdi-airplane"></span></td>
                                         <td class="item nova-label">Destino:<span class="icon s7-airplane"></span>
-                                            <strong class="nova-item">{{ documento.ciudad_destino|default:"" }}</strong>
+                                            <strong class="nova-item">{{ viatico_cabecera.ciudad_destino|default:"" }}</strong>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td class="icon nova-icon nova-label"><span class="mdi mdi-flag"></span></td>
                                         <td class="item nova-label">Proposito:<span class="icon s7-flag"></span>
-                                            <strong class="nova-item">{{ documento.proposito_viaje|default:"" }}</strong>
+                                            <strong class="nova-item">{{ viatico_cabecera.proposito_viaje|default:"" }}</strong>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td class="icon nova-icon nova-label"><span class="mdi mdi-money"></span></td>
                                         <td class="item nova-label">Importe:<span class="icon s7-money"></span>
-                                            <strong class="nova-item">{{ documento.importe_total }}</strong>
+                                            <strong class="nova-item">{{ viatico_cabecera.importe_total }}</strong>
                                         </td>
                                     </tr>
                                     <tr>
@@ -94,7 +94,7 @@
                                         <td class="item nova-label">
                                             Autorizador:<span class="icon s7-face"></span>
                                             <strong class="nova-item">
-                                                {{ documento.autorizador_descripcion|default:""|upper }}
+                                                {{ viatico_cabecera.autorizador_descripcion|default:""|upper }}
                                             </strong>
                                         </td>
                                     </tr>
@@ -103,9 +103,9 @@
                         </div>
                         <div class="modal-footer nova-modal-footer">
                             <div class="nova-footer-botons">
-                                <a href=" {% url 'seguridad:autorizacion_lista' %}" class="btn btn-default">
+                                <a href=" {% url 'finanzas:viatico_editar' viatico_cabecera.pk %}" class="btn btn-default">
                                     <i class="icon mdi mdi-arrow-left"></i>
-                                    No, Regresar a Listado
+                                    No, Regresar al Viatico
                                 </a>
 
                                 <button type="submit" id="btn_registrar" class="btn nova-btn btn-success btn-lg pull-right">

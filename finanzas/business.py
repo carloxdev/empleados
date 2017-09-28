@@ -75,7 +75,9 @@ class ViaticoBusiness(object):
     @classmethod
     def cancelar(self, _documento, _user):
 
-        if str(_user.username) == str(_documento.autorizador_clave):
+        if str(_user.username) == str(_documento.autorizador_clave) or \
+           str(_user.username) == str(_documento.created_by.usuario.username) or \
+           str(_user.username) == str(_documento.empleado_clave):
 
             _documento.status = "can"
             _documento.updated_by = _user.profile

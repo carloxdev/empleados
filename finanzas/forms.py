@@ -69,8 +69,7 @@ class ViaticoFilterForm(Form):
 
     status = ChoiceField(
         label="Estado",
-        widget=Select(attrs={'class': 'select2 form-control input-xs'}
-        ),
+        widget=Select(attrs={'class': 'select2 form-control input-xs'}),
         choices=VIATICO_ESTADOS
     )
 
@@ -157,9 +156,8 @@ class ViaticoCabeceraForm(ModelForm):
 class ViaticoLineaForm(Form):
 
     concepto = ChoiceField(
-        widget=SelectCustom(attrs={'class': 'select2 input-xs', 'maxlength':'60'})
+        widget=SelectCustom(attrs={'class': 'select2 input-xs', 'maxlength': '60'})
     )
-
     observaciones = ChoiceField(
         widget=Textarea(attrs={'class': 'form-control input-xs', 'rows': '10', 'required': 'required', 'cols': '40'})
     )

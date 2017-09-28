@@ -141,8 +141,8 @@ class ViaticoCabeceraEditar(View):
             try:
                 ViaticoBusiness.set_FinalizarCaptura(viatico_cabecera, _request.user)
                 ViaticoBusiness.send_Mail_ToFinish(
-                    "APPS: Viatico VIA-%s pendiente de autorizar." % (viatico_cabecera.id),
-                    "Tienes un viatico VIA-%s por autorizar, por %s pesos." % (viatico_cabecera.id, viatico_cabecera.importe_total),
+                    "APPS: Viatico V-%s pendiente de autorizar." % (viatico_cabecera.id),
+                    "Tienes un viatico V-%s por autorizar, por %s pesos." % (viatico_cabecera.id, viatico_cabecera.importe_total),
                     viatico_cabecera,
                     _request.user
                 )
@@ -156,6 +156,38 @@ class ViaticoCabeceraEditar(View):
             'form_cabecera': formulario_cabecera,
             'form_linea': formulario_linea
         }
+        return render(_request, self.template_name, contexto)
+
+
+class ViaticoCabeceraCancelar(View):
+    template_name = "viatico/viatico_cancelar.html"
+
+    def get(self, _request, _pk):
+
+        viatico_cabecera = ViaticoBusiness.get_ViaticoCabecera(_pk)
+
+        contexto = {
+            'viatico_cabecera': viatico_cabecera
+        }
+
+        return render(_request, self.template_name, contexto)
+
+    def post(self, _request, _pk):
+
+        viatico_cabecera = ViaticoBusiness.get_ViaticoCabecera(_pk)
+
+        try:
+            ViaticoBusiness.cancelar(viatico_cabecera, _request.user)
+
+            return redirect(reverse('finanzas:viatico_lista'))
+
+        except Exception as e:
+            messages.error(_request, str(e))
+
+        contexto = {
+            'viatico_cabecera': viatico_cabecera
+        }
+
         return render(_request, self.template_name, contexto)
 
 
