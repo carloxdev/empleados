@@ -10,6 +10,7 @@ from ebs.models import VIEW_EMPLEADOS_FULL
 class ArchivoSolicitudFilter(filters.FilterSet):
 
     pk = CharFilter(
+        label="Pk",
         name="pk",
         lookup_expr="contains")
 
@@ -22,6 +23,7 @@ class ArchivoSolicitudFilter(filters.FilterSet):
         lookup_expr="contains")
 
     clave_departamento = CharFilter(
+        label="Clave departamento",
         name="clave_departamento",
         method="filter_departamento")
 
@@ -30,6 +32,7 @@ class ArchivoSolicitudFilter(filters.FilterSet):
         method="filter_asunto")
 
     numero_empleado_oficina = CharFilter(
+        label="Oficina clave",
         name="numero_empleado_oficina",
         method="filter_oficina")
 

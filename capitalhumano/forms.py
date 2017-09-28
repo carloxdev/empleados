@@ -482,9 +482,14 @@ class SolicitudesFilterForm(Form):
         choices=STATUS,
         widget=Select(attrs={'class': 'select2 nova-select2'}))
 
+    oficina = ChoiceField(
+        label="Oficina",
+        widget=Select(attrs={'class': 'select2 nova-select2'}))
+
     def __init__(self, *args, **kwargs):
         super(SolicitudesFilterForm, self).__init__(*args, **kwargs)
         self.fields['asunto'].choices = self.get_Asuntos()
+        self.fields['oficina'].choices = self.get_Oficina()
         self.fields[
             'numero_empleado'].choices = EmpleadoBusiness.get_Empleados()
 
@@ -501,6 +506,19 @@ class SolicitudesFilterForm(Form):
                 )
             )
         return valores
+
+    def get_Oficina(self):
+        valores = []
+
+        oficinas = VIEW_EMPLEADOS_FULL.objects.using('ebs_p').all()
+        for oficina in oficinas:
+            valores.append((oficina.asig_ubicacion_clave,
+                            oficina.asig_ubicacion_desc)
+                           )
+        nueva_lista = dict.fromkeys(valores).keys()
+        nueva_lista.insert(0, ('', '------------'))
+
+        return nueva_lista
 
 
 class SolicitudesEditarForm(Form):

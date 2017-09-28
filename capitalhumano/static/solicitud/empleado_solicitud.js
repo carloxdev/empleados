@@ -55,10 +55,11 @@ function PopupFiltros(){
 
     this.$modal = $('#modal_filtro')
     this.$numero_empleado = $('#id_numero_empleado')
-    this.$oficina = $('#id_oficina')
+    this.$oficina = $('#id_oficina_empleado')
     this.$asunto = $('#id_asunto')
     this.$status = $('#id_status')
     this.$folio = $('#id_folio')
+    this.$oficina_filter = $('#id_oficina')
 
     this.$boton_buscar = $('#boton_buscar')
     this.$boton_limpiar = $('#boton_limpiar')
@@ -71,6 +72,7 @@ PopupFiltros.prototype.init_Components = function () {
     this.$numero_empleado.select2(appnova.get_ConfigSelect2())
     this.$asunto.select2(appnova.get_ConfigSelect2())
     this.$status.select2(appnova.get_ConfigSelect2())
+    this.$oficina_filter.select2(appnova.get_ConfigSelect2())
 }
 PopupFiltros.prototype.init_Events = function () {
 
@@ -92,7 +94,7 @@ PopupFiltros.prototype.get_Values = function (_page) {
                 numero_empleado: this.$numero_empleado.val(),
                 asunto: this.$asunto.val(),
                 status: this.$status.val(),
-                numero_empleado_oficina:  this.$oficina.val(),
+                numero_empleado_oficina:  this.$oficina_filter.val(),
      }
 }
 PopupFiltros.prototype.get_Values_Excel = function () {
@@ -102,7 +104,7 @@ PopupFiltros.prototype.get_Values_Excel = function () {
                 numero_empleado: this.$numero_empleado.val(),
                 asunto: this.$asunto.val(),
                 status: this.$status.val(),
-                numero_empleado_oficina:  this.$oficina.val(),
+                numero_empleado_oficina:  this.$oficina_filter.val(),
      }
 }
 PopupFiltros.prototype.click_BotonLimpiar = function (e) {
@@ -111,7 +113,8 @@ PopupFiltros.prototype.click_BotonLimpiar = function (e) {
         e.data.$folio.val("")
         e.data.$numero_empleado.data('select2').val(0)
         e.data.$asunto.data('select2').val(0)
-        e.data.$status.val("cap").trigger('change')  
+        e.data.$oficina_filter.data('select2').val(0)
+        e.data.$status.val("cap").trigger('change')
 }
 PopupFiltros.prototype.hidden_Modal = function () {
 
@@ -520,6 +523,7 @@ Grid.prototype.get_Campos = function () {
             descripcion : { type: "string"},
             observaciones : { type: "string"},
             archivo : { type: "string"},
+            oficina : { type: "string"},
             created_by : { type: "string"},
             created_date : { type: "date"},
             updated_by : { type: "string"},
@@ -609,6 +613,7 @@ Grid.prototype.get_Columnas = function () {
             { field: "status", title: "Estatus",width:"100px"},
             { field: "descripcion",title: "Descripción",width:"200px"},
             { field: "observaciones",title: "Observaciones",width:"200px"},
+            { field: "oficina",title: "Oficina",width:"200px"},
             { field: "created_by", title: "Creado por", width:"200px" },
             { field: "created_date", title: "Fecha de creación", width:"150px", format: "{0:dd/MM/yyyy}" },
             { field: "updated_by", title: "Actualizado por", width:"200px" },

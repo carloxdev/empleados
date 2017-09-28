@@ -4,7 +4,7 @@ from rest_framework import serializers
 from .models import Asunto
 from .models import Solicitud
 from ebs.models import VIEW_ORGANIZACIONES
-
+from ebs.models import VIEW_EMPLEADOS_FULL
 
 class SolicitudSerializers(serializers.HyperlinkedModelSerializer):
     asunto = serializers.PrimaryKeyRelatedField(
@@ -54,6 +54,7 @@ class ArchivoSolicitudSerializer(serializers.HyperlinkedModelSerializer):
     )
     status = serializers.SerializerMethodField()
     asunto = serializers.SerializerMethodField()
+    oficina = serializers.SerializerMethodField()
     created_by = serializers.SerializerMethodField()
     updated_by = serializers.SerializerMethodField()
 
@@ -92,6 +93,14 @@ class ArchivoSolicitudSerializer(serializers.HyperlinkedModelSerializer):
     def get_asunto(self, obj):
         try:
             return obj.asunto.nombre
+        except Exception as e:
+            return " "
+
+    def get_oficina(self, obj):
+        try:
+            oficina = VIEW_EMPLEADOS_FULL.objects.using(
+                'ebs_p').get(pers_empleado_numero=obj.numero_empleado)
+            return oficina.asig_ubicacion_desc
         except Exception as e:
             return " "
 

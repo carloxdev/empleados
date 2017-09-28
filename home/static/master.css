@@ -1042,10 +1042,11 @@ div.nova-panel-arbol li.list-group-item {
     font-family: Helvetica Neue !important, sans-serif;
 }
 .nova-post-titulo{
-  margin-top: 1em !important;
   font-size: 25px;
+  font-weight: 400 !important;
   text-align: center;
   border-bottom: 1px solid #d9d9d9;
+  margin: 0 !important;
 }
 .nova-paginador a{
   color: #fff !important;

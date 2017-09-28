@@ -48,7 +48,7 @@
 
 <!-- Modal solicitudes-->
 <div id="modal_filtro" role="dialog" class="modal fade colored-header colored-header-primary">
-        <input type="hide" class="hide" value="{{ oficina }}" id="id_oficina">
+        <input type="hide" class="hide" value="{{ oficina }}" id="id_oficina_empleado">
         <div class="modal-dialog custom-width nova-modal-responsive">
                 <div class="modal-content nova-modal-content-responsive">
                         <div class="modal-header nova-modal-header">
@@ -64,6 +64,8 @@
                             {% tag_filter form.status %}
                             <!-- Asunto-->
                             {% tag_filter form.asunto %}
+
+                            {% tag_filter form.oficina %}
 
                         </div>
 
