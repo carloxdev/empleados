@@ -167,7 +167,7 @@
             </li>
         </ul>
     </li> -->
-    {%  if user|tag_validate_has_group:"SEGURIDAD_ADMIN,SEGURIDAD_SEGUIMIENTO" %}
+    {%  if user|tag_validate_has_group:"SEGURIDAD_ADMIN,SEGURIDAD_SEGUIMIENTO,SEGURIDAD_CONSULTA" %}
     <li class="parent"><a href="#"><i class="icon fa fa-shield"></i><span>Seguridad</span></a>
         <ul class="sub-menu">
             <li id="seguridad_incidencia">
@@ -175,6 +175,8 @@
                     <span>Incidencias</span>
                 </a>
             </li>
+    {% endif %}
+    {%  if user|tag_validate_has_group:"SEGURIDAD_ADMIN,SEGURIDAD_SEGUIMIENTO" %}
             <li id="seguridad_incidencia_grafica">
                 <a href="{% url 'seguridadlaboral:incidencia_grafica' %}">
                     <span>Graficas</span>
