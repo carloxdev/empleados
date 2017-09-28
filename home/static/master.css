@@ -983,9 +983,6 @@ div.nova-panel-arbol li.list-group-item {
   border-left: 1px solid #d4d4d4 !important;
   border-right: 1px solid #d4d4d4 !important;
 }
-.nova-bloque{
-  padding-bottom: 1em;
-}
 .nova-padding-left{
   padding-left: 0 !important;
 }
@@ -1010,6 +1007,9 @@ div.nova-panel-arbol li.list-group-item {
 .nova-centrar{
   text-align: center !important;
 }
+.nova-padding-elemento-post{
+    padding: 1em 0 1em 0 !important;
+}
 .nova-padding-tools {
   margin: 0px;
   padding: 8px 5px 8px !important;
@@ -1023,9 +1023,6 @@ div.nova-panel-arbol li.list-group-item {
 }
 .nova-sombreado-lista:hover{
   background-color: #F1F1F1 !important;
-}
-.nova-cumpleanios-link{
-  color: black !important;
 }
 .nova-contenido-borde{
   border: 1px solid #d4d4d4 !important;
@@ -1057,21 +1054,6 @@ div.nova-panel-arbol li.list-group-item {
   font-weight: 400 !important;
   padding: 10px 12px !important;
 }
-.nova-ul-estilo {
-  left: 30%;
-  margin-top: 1em;
-  margin-bottom: 1em;
-}
-.nova-li-estilo li{
-  list-style: none;
-  display:inline;
-  margin-right: 3em;
-}
-.nova-noticias {
-  background-color: white;
-  font-size: 20px;
-  text-align: center;
-}
 .nova-post-imagen{
   display: block;
   max-width: 100%;
@@ -1086,48 +1068,7 @@ div.nova-panel-arbol li.list-group-item {
   margin-top: 2em;
   font-size: 14px;
 }
-.nova-cumpleanos{
-  width: 100%;
-  height: 300px;
-  overflow: scroll;
-}
-.nova-cumpleanios-titulo{
-  font-size: 20px;
-  text-align: center;
-  border-bottom: 1px solid #d9d9d9;
-}
-.nova-cumpleanios-cabeza{
-  font-size: 15px !important;
-  font-weight: 400;
-  margin-left: 1em;
-  margin-right: 1em;
-}
-.nova-cumpleanios-fecha{
-  margin-bottom: 0.5em;
-  padding-top: 1em;
-  font-size: 20px;
-  text-align: center;
-  color: black;
-}
-.nova-cumpleanios-contenido{
-  border-bottom: 1px solid #d4d4d4 !important;
-  margin-left: 0 !important;
-}
-.nova-cumpleanios-lista{
-  margin-left: 1em !important;
-  font-size: 12px !important;
-}
 @media (max-width: 767px) {
-  .nova-ul-estilo {
-    left: 0% !important;
-    margin-top: 1em;
-    margin-bottom: 1em;
-  }
-  .nova-li-estilo li{
-    list-style: none;
-    display:inline;
-    margin-right: 3em;
-  }
   .nova-post-contenido{
     margin-top: 1em !important;
   }

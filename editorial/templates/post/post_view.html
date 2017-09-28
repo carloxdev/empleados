@@ -23,22 +23,21 @@
             <div class="row">
                 <div class=" {% if registros %} col-md-9 nova-panel-main{% else %} col-md-12 {% endif %}">
                     <div class="user-info-list panel panel-default panel-border">
-                        <div class="col-md-12 nova-post-titulo">
+                        <div class="col-md-12 panel-heading nova-post-titulo">
                             {{ registro.titulo }}
                         </div>
                         <div class="panel-body">
-                              <div class="row">
-                                <ul class="col-md-12 nova-ul-estilo nova-li-estilo">
-                                   <li>
-                                        <i class="fa fa-calendar" aria-hidden="true"></i>
-                                        {{ registro.updated_date|date:"M d, Y"}}
-                                   </li>
-                                   <li>
-                                        <i class="fa fa-user" aria-hidden="true"></i>
-                                        COMUNICACIÓN NUVOIL
-                                   </li>
-                                </ul>
-                             </div>
+
+                            <section>
+                                <div class="pull-left nova-padding-elemento-post">
+                                    <i class="fa fa-calendar" aria-hidden="true"></i>
+                                    {{ registro.updated_date|date:"M d, Y"}}
+                                </div>
+                                <div class="pull-right nova-padding-elemento-post">
+                                    <i class="fa fa-user" aria-hidden="true"></i>
+                                      COMUNICACIÓN NUVOIL
+                                </div>
+                            </section>
 
                             <section>
                                 {% if registro.imagen %}
