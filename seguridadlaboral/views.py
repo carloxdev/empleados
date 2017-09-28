@@ -184,7 +184,7 @@ class IncidenciaDocumentoNuevo(View):
                            """
 
             from_email = '"Notificaciones Nuvoil" <notificaciones@nuvoil.com>'
-            to = 'janet.castro@nuvoil.com, julio.lara@nuvoil.com, mauricio.borrero@nuvoil.com, chrystian.hernandez@nuvoil.com, joseluis.moctezumah@nuvoil.com, diana.santos@nuvoil.com'
+            to = 'julio.lara@nuvoil.com, mauricio.borrero@nuvoil.com, chrystian.hernandez@nuvoil.com, joseluis.moctezumah@nuvoil.com, diana.santos@nuvoil.com, janet.castro@nuvoil.com'
             msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
             msg.attach_alternative(html_content, "text/html")
             msg.send()
@@ -314,7 +314,7 @@ class IncidenciaDocumentoEditar(View):
             incidencia.area_id = empleado.asig_ubicacion_clave
             incidencia.area_descripcion = empleado.asig_ubicacion_desc
             incidencia.empleado_un = empleado.grup_fase_jde
-            incidencia.created_by = request.user.profile
+            incidencia.updated_by = request.user.profile
 
             incidencia.save()
 
