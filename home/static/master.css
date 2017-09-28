@@ -489,6 +489,7 @@ div.nova-panel-arbol li.list-group-item {
 
 .nova-btn-delete {
    background-color: #ff4141 !important;
+   color: white !important;
 }
 
 .nova-btn-edit {
@@ -931,7 +932,10 @@ div.nova-panel-arbol li.list-group-item {
   clip-path: circle(23px at 50% 25px) !important;
   -webkit-clip-path: circle(23px at 50% 25px) !important;
 }
+
+
 @media (max-width: 767px) {
+
   .nova-crop-img {
     width: 50% !important;
   }
@@ -945,12 +949,12 @@ div.nova-panel-arbol li.list-group-item {
     -webkit-justify-content: space-between;
         -ms-flex-pack: justify;
             justify-content: space-between;
-    border-bottom: 1px solid #4285f4;
+    border-bottom: 1px solid #CC121E;
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    background-color: #4285f4;
+    background-color: #CC121E;
     z-index: 1030;
   }
   .nova-dropdown{
