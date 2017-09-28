@@ -59,25 +59,25 @@ function Cabecera() {
 }
 Cabecera.prototype.init = function () {
 
-    this.$empleado_clave.select2(appnova.get_ConfigSelect2())
+    // this.$empleado_clave.select2(appnova.get_ConfigSelect2())
     this.$un_clave.select2(appnova.get_ConfigSelect2())
     this.$fecha_partida_input.datepicker(appnova.get_ConfDatePicker())
     this.$fecha_regreso_input.datepicker(appnova.get_ConfDatePicker())
 }
 Cabecera.prototype.set_Events = function () {
 
-    this.$empleado_clave.on("change", this, this.seleccionar_ComboBoxEmpleado)
+    // this.$empleado_clave.on("change", this, this.seleccionar_ComboBoxEmpleado)
     this.$un_clave.on("change", this, this.seleccionar_ComboBoxUnidadNegocio)
 
 }
-Cabecera.prototype.seleccionar_ComboBoxEmpleado = function(e) {
-
-    var value_select = e.data.$empleado_clave.find(":selected").text()
-
-    e.data.$empleado_descripcion.val(
-        Miner.get_TextFromSelectOption(value_select)
-    )
-}
+// Cabecera.prototype.seleccionar_ComboBoxEmpleado = function(e) {
+//
+//     var value_select = e.data.$empleado_clave.find(":selected").text()
+//
+//     e.data.$empleado_descripcion.val(
+//         Miner.get_TextFromSelectOption(value_select)
+//     )
+// }
 Cabecera.prototype.seleccionar_ComboBoxUnidadNegocio = function(e) {
 
     var value_select = e.data.$un_clave.find(":selected").text()

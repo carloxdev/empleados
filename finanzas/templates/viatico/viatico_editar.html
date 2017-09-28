@@ -72,7 +72,19 @@
 
                                {% tag_section_info 12 0 '¡Instrucciones!' 'Ahora puedes agregar/modificar gastos en la tarjeta <strong>"Lineas"</strong>' %}
 
-                               {% tag_field_registro form_cabecera.empleado_clave 3 8 %}
+                               <div class="hidden">
+                                   {{ form_cabecera.empleado_clave }}
+                               </div>
+
+                               <div class="form-group">
+                                    <label class="col-sm-3 control-label">
+                                        Empleado:
+                                    </label>
+
+                                   <div class="col-sm-8 xs-pt-5">
+                                       <input type="text" name="" value="{{ form_cabecera.instance.empleado_descripcion }}" disabled class="form-control input-xs">
+                                   </div>
+                               </div>
 
                                {% tag_field_registro form_cabecera.un_clave 3 8 %}
 
