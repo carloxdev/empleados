@@ -19,7 +19,6 @@ $(document).ready(function () {
     lineas = new Lineas()
 
     popup_linea = new PopupLinea()
-    tarjeta_finalizar = new TarjetaFinalizar()
 
     // Asigna eventos a teclas
     $(document).keypress(function (e) {
@@ -188,6 +187,7 @@ Grid.prototype.init = function () {
 
     // Se inicializa y configura el grid:
     this.instancia = this.$id.kendoGrid(this.get_Configuracion())
+
 }
 Grid.prototype.set_Events = function () {
 
@@ -204,38 +204,36 @@ Grid.prototype.get_Configuracion = function () {
         resizable: true,
         selectable: true,
         columns: this.get_Columnas(),
-        scrollable: true,
+        // scrollable: true,
         pageable: false,
         noRecords: {
             template: "<div class='nova-grid-empy'> Sin Lineas/Gastos </div>"
         },
-        dataBound: this.onDataBound,
+        dataBound: this.apply_Estilos,
     }
 }
 Grid.prototype.get_Columnas = function () {
-    return [
 
-        {   template: '<a class="btn nova-btn btn-default nova-btn-delete" id="#=pk#" data-event="eliminar"> <i class="icon icon-left icon mdi mdi-delete nova-white"></i></a>',
-            width: '75px',
-        },
+    var columns =  [
         {
             field: "slug",
             title: "#",
             width: "30px",
+            attributes:{ style:"text-align:center;" },
         },
         {
             field: "concepto_clave",
-            title: "Concepto Clave",
-            width:"50px"
+            title: "Concepto",
+            width:"80px"
         },
         {
             field: "concepto_descripcion",
             title: "Concepto Descripción",
-            width:"100px"
+            width:"140px"
         },
         {
             field: "observaciones",
-            title: "observaciones",
+            title: "Observaciones",
             width: "100px"
         },
         {
@@ -244,9 +242,25 @@ Grid.prototype.get_Columnas = function () {
             format: '{0:n2}',
             attributes:{ style:"text-align:right;" },
             headerAttributes:{ style:"text-align:right;" },
-            width: "100px"
+            width: "120px"
         },
     ]
+
+    if (cabecera.$status.html() == "En edicion") {
+       columns.push(
+            {
+                command: [{
+                   text: " Eliminar",
+                   click: this.click_BotonEliminar,
+                   className: "nova-btn-delete fa fa-trash-o"
+                },],
+                title: " ",
+                width: "100px"
+            }
+       )
+    }
+
+    return columns
 }
 Grid.prototype.click_BotonEditar = function (e) {
 
@@ -256,56 +270,41 @@ Grid.prototype.click_BotonEditar = function (e) {
 
    //  popup_linea.open_ForEdit(fila.pk.toString(), fila.slug.toString())
 }
-Grid.prototype.onDataBound = function (e) {
+Grid.prototype.apply_Estilos = function (e) {
 
-   e.sender.tbody.find("[data-event='eliminar']").each(function(idx, element){
-
-      $(this).on("click", function(){
-
-         lineas.grid.click_BotonEliminar(this.id)
-      })
-   })
-
-   lineas.grid.validar_Estado()
+    e.sender.tbody.find(".k-button.fa.fa-trash-o").each(function(idx, element){
+        $(element).removeClass("fa fa-trash-o").find("span").addClass("fa fa-trash-o")
+    })
 }
-Grid.prototype.click_BotonEliminar = function (_id) {
+Grid.prototype.click_BotonEliminar = function (e) {
 
-   var url = url_viaticolineas + _id + "/"
-   lineas.grid.eliminar(url)
-}
-Grid.prototype.eliminar = function (_url) {
+    e.preventDefault()
+    var fila = this.dataItem($(e.currentTarget).closest('tr'))
 
-   alertify.confirm(
-      'Eliminar Registro',
-      '¿Desea Eliminar este registro?.',
-      function () {
+    alertify.confirm(
+       'Eliminar Registro',
+       '¿Desea Eliminar este registro?.',
+       function () {
 
-         var url = _url
+          var url = url_viaticolineas + fila.pk + "/"
 
-         $.ajax({
-            url: url,
-            method: "DELETE",
-            headers: { "X-CSRFToken": appnova.galletita },
-            success: function () {
+          $.ajax({
+             url: url,
+             method: "DELETE",
+             headers: { "X-CSRFToken": appnova.galletita },
+             success: function () {
 
-               alertify.success("Se eliminó registro correctamente")
-               popup_linea.actualizar_ImporteTotal()
-               lineas.grid.buscar()
-            },
-            error: function () {
-
-               alertify.error("Ocurrió un error al eliminar")
-            }
-         })
-      },
-      null
-   )
-}
-Grid.prototype.validar_Estado = function () {
-
-   if (cabecera.$status.html() != "En edicion") {
-      tarjeta_finalizar.disabled_Buttons()
-   }
+                alertify.success("Se eliminó registro correctamente")
+                popup_linea.actualizar_ImporteTotal()
+                lineas.grid.buscar()
+             },
+             error: function () {
+                alertify.error("Ocurrió un error al eliminar")
+             }
+          })
+       },
+       null
+    )
 }
 Grid.prototype.buscar = function() {
     this.fuente_datos.read()
@@ -531,28 +530,5 @@ PopupLinea.prototype.actualizar_ImporteTotal = function () {
       error: function (_response) {
          alertify.error("Ocurrio error al consultar")
       }
-   })
-}
-
-function TarjetaFinalizar () {
-
-   this.$boton_finalizar_captura = $('#boton_finalizar_captura')
-   this.init_Events()
-}
-TarjetaFinalizar.prototype.init_Events = function () {
-
-   this.$boton_finalizar_captura.on("click", this, this.click_BotonFinalizar)
-}
-TarjetaFinalizar.prototype.click_BotonFinalizar = function (e) {
-
-   e.data.disabled_Buttons()
-}
-TarjetaFinalizar.prototype.disabled_Buttons = function () {
-
-   // this.$boton_finalizar_captura.prop('disabled', true)
-
-   lineas.grid.$id.find("[data-event='eliminar']").each(function(idx, element){
-
-      $(this).remove()
    })
 }

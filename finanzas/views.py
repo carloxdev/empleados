@@ -84,19 +84,21 @@ class ViaticoCabeceraEditar(View):
 
     def get(self, _request, _pk):
 
+        viatico_cabecera = ViaticoBusiness.get_ViaticoCabecera(_pk)
+
         if len(_request.GET):
             flag_new = bool(_request.GET['new'])
         else:
             flag_new = False
 
         formulario_cabecera = ViaticoCabeceraForm(
-            instance=ViaticoBusiness.get_ViaticoCabecera(_pk)
+            instance=viatico_cabecera
         )
 
         formulario_linea = ViaticoLineaForm(
-            ViaticoBusiness.get_ViaticoCabecera(_pk).empleado_clave
+            viatico_cabecera.empleado_clave
         )
-        # import ipdb; ipdb.set_trace()
+
         contexto = {
             'form_cabecera': formulario_cabecera,
             'form_linea': formulario_linea,
@@ -106,52 +108,38 @@ class ViaticoCabeceraEditar(View):
 
     def post(self, _request, _pk):
 
-        if 'guardar' in _request.POST:
+        viatico_cabecera = ViaticoBusiness.get_ViaticoCabecera(_pk)
 
-            formulario_cabecera = ViaticoCabeceraForm(
-                _request.POST,
-                instance=ViaticoBusiness.get_ViaticoCabecera(_pk)
-            )
-            formulario_linea = ViaticoLineaForm(
-                ViaticoBusiness.get_ViaticoCabecera(_pk).empleado_clave
-            )
+        formulario_cabecera = ViaticoCabeceraForm(
+            _request.POST,
+            instance=viatico_cabecera
+        )
+
+        formulario_linea = ViaticoLineaForm(
+            viatico_cabecera.empleado_clave
+        )
+
+        if 'guardar' in _request.POST:
 
             if formulario_cabecera.is_valid():
 
-                viatico_cabecera = formulario_cabecera.save(commit=False)
+                new_data = formulario_cabecera.save(commit=False)
 
                 try:
-                    ViaticoBusiness.set_Data_Autorizacion(viatico_cabecera)
-                    ViaticoBusiness.set_Data_Compania(viatico_cabecera)
+                    ViaticoBusiness.set_Data_Autorizacion(new_data)
+                    ViaticoBusiness.set_Data_Compania(new_data)
 
-                    viatico_cabecera.updated_by = _request.user.profile
-                    viatico_cabecera.save()
+                    new_data.updated_by = _request.user.profile
+                    new_data.save()
                     messages.success(_request, "Se modifico la solicitud exitosamente")
 
                 except Exception as e:
                     messages.error(_request, str(e))
 
-            contexto = {
-                'form_cabecera': formulario_cabecera,
-                'form_linea': formulario_linea
-            }
-            return render(_request, self.template_name, contexto)
-
         elif 'fin_captura' in _request.POST:
-
-            formulario_cabecera = ViaticoCabeceraForm(
-                _request.POST,
-                instance=ViaticoBusiness.get_ViaticoCabecera(_pk)
-            )
-            formulario_linea = ViaticoLineaForm(
-                ViaticoBusiness.get_ViaticoCabecera(_pk).empleado_clave
-            )
-
-            viatico_cabecera = ViaticoBusiness.get_ViaticoCabecera(_pk)
 
             try:
                 ViaticoBusiness.set_FinalizarCaptura(viatico_cabecera, _request.user)
-
                 ViaticoBusiness.send_Mail_ToFinish(
                     "APPS: Viatico VIA-%s pendiente de autorizar." % (viatico_cabecera.id),
                     "Tienes un viatico VIA-%s por autorizar, por %s pesos." % (viatico_cabecera.id, viatico_cabecera.importe_total),
@@ -164,11 +152,11 @@ class ViaticoCabeceraEditar(View):
             except Exception as e:
                 messages.error(_request, str(e))
 
-            contexto = {
-                'form_cabecera': formulario_cabecera,
-                'form_linea': formulario_linea
-            }
-            return render(_request, self.template_name, contexto)
+        contexto = {
+            'form_cabecera': formulario_cabecera,
+            'form_linea': formulario_linea
+        }
+        return render(_request, self.template_name, contexto)
 
 
 class AnticipoLista(View):
