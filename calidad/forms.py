@@ -837,11 +837,11 @@ class AnalisisHallazgoForm(Form):
 class PlanAccionHallazgoForm(Form):
 
     titulo = CharField(
-        widget=TextInput(attrs={'class': 'form-control input-xs', 'maxlength': '40'}),
+        widget=TextInput(attrs={'class': 'form-control input-xs', 'maxlength': '40', 'id': 'id_titulo_actividad' }),
     )
 
     actividad = CharField(
-        widget=Textarea(attrs={'class': 'form-control input-xs', 'rows': '4', 'maxlength': '400'}),
+        widget=Textarea(attrs={'class': 'form-control input-xs', 'rows': '4', 'maxlength': '400', 'id': 'id_actividad_descripcion'}),
     )
 
     responsable = ChoiceField(
@@ -853,7 +853,7 @@ class PlanAccionHallazgoForm(Form):
     )
 
     evidencia = CharField(
-        widget=Textarea(attrs={'class': 'form-control input-xs', 'rows': '3', 'maxlength': '140'}),
+        widget=Textarea(attrs={'class': 'form-control input-xs', 'rows': '3', 'maxlength': '140', 'id': 'id_evidencia_actividad'}),
     )
 
     def __init__(self, *args, **kargs):
@@ -862,34 +862,19 @@ class PlanAccionHallazgoForm(Form):
 
     def get_Empleados(self):
 
-        # valores = [('', '-------')]
-        #
-        # empleados = VIEW_EMPLEADOS_SIMPLE.objects.using('ebs_p').all()
-        #
-        # for empleado in empleados:
-        #
-        #     if not (empleado.pers_empleado_numero is u''):
-        #         valores.append(
-        #             (
-        #                 empleado.pers_empleado_numero,
-        #                 empleado.pers_empleado_numero + ' : ' + empleado.pers_nombre_completo
-        #             )
-        #         )
-        # return valores
-        valores = [('', '-------'),
-                    ('al', 'alguien alguien alguien')]
+        valores = [('', '-------')]
 
-        # empleados = VIEW_EMPLEADOS_SIMPLE.objects.using('ebs_p').all()
-        #
-        # for empleado in empleados:
-        #
-        #     if not (empleado.pers_empleado_numero is u''):
-        #         valores.append(
-        #             (
-        #                 empleado.pers_empleado_numero,
-        #                 empleado.pers_empleado_numero + ' : ' + empleado.pers_nombre_completo
-        #             )
-        #         )
+        empleados = VIEW_EMPLEADOS_SIMPLE.objects.using('ebs_p').all()
+
+        for empleado in empleados:
+
+            if not (empleado.pers_empleado_numero is u''):
+                valores.append(
+                    (
+                        empleado.pers_empleado_numero,
+                        empleado.pers_empleado_numero + ' : ' + empleado.pers_nombre_completo
+                    )
+                )
         return valores
 
 

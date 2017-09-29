@@ -268,7 +268,7 @@ class VIEW_SCOMPRAS_Filter(filters.FilterSet):
     )
     req_estado_last = CharFilter(
         name="req_estado_last",
-        lookup_expr="exact"
+        method="req_filter_estado_last"
     )
     cot = NumberFilter(
         name="cot",
@@ -284,7 +284,7 @@ class VIEW_SCOMPRAS_Filter(filters.FilterSet):
     )
     cot_estado_last = CharFilter(
         name="cot_estado_last",
-        lookup_expr="exact"
+        method="cot_filter_estado_last"
     )
     ord = NumberFilter(
         name="ord",
@@ -300,7 +300,7 @@ class VIEW_SCOMPRAS_Filter(filters.FilterSet):
     )
     ord_estado_last = CharFilter(
         name="ord_estado_last",
-        lookup_expr="exact"
+        method="ord_filter_estado_last"
     )
     req_fecha_creacion_desde = CharFilter(
         name="req_fecha_creacion_desde",
@@ -401,6 +401,51 @@ class VIEW_SCOMPRAS_Filter(filters.FilterSet):
             return queryset
         else:
             consulta = queryset.filter(ord_fecha_creacion__lte=valor)
+
+            return consulta
+
+    def req_filter_estado_last(self, queryset, name, value):
+
+        if not value:
+            return queryset
+
+        elif value == "-980":
+            consulta = queryset.exclude(req_estado_last__exact='980')
+
+            return consulta
+
+        else:
+            consulta = queryset.filter(req_estado_last__exact=value)
+
+            return consulta
+
+    def cot_filter_estado_last(self, queryset, name, value):
+
+        if not value:
+            return queryset
+
+        elif value == "-980":
+            consulta = queryset.exclude(cot_estado_last__exact='980')
+
+            return consulta
+
+        else:
+            consulta = queryset.filter(cot_estado_last__exact=value)
+
+            return consulta
+
+    def ord_filter_estado_last(self, queryset, name, value):
+
+        if not value:
+            return queryset
+
+        elif value == "-980":
+            consulta = queryset.exclude(ord_estado_last__exact='980')
+
+            return consulta
+
+        else:
+            consulta = queryset.filter(ord_estado_last__exact=value)
 
             return consulta
 

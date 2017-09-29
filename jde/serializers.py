@@ -360,6 +360,8 @@ class VIEW_SCOMPRAS_Serializer(serializers.HyperlinkedModelSerializer):
             'req_cantidad_solicitada',
             'req_udm',
             'req_udm_desc',
+            'req_glclass',
+            'req_glclass_desc',
             'cot_compania',
             'cot_tipo',
             'cot',
@@ -408,6 +410,7 @@ class VIEW_SCOMPRAS_Serializer(serializers.HyperlinkedModelSerializer):
             'ord_termino_pago_desc',
             'ord_updated_by',
             'ord_updated_by_desc',
+            # 'cotejo',
         )
 
 

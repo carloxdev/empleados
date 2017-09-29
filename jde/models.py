@@ -175,6 +175,8 @@ class VIEW_SCOMPRAS(models.Model):
     req_cantidad_solicitada = models.CharField(max_length=30)
     req_udm = models.CharField(max_length=2)
     req_udm_desc = models.CharField(max_length=30)
+    req_glclass = models.CharField(max_length=30)
+    req_glclass_desc = models.CharField(max_length=30)
     cot_compania = models.CharField(max_length=5)
     cot_tipo = models.CharField(max_length=2)
     cot = models.IntegerField()

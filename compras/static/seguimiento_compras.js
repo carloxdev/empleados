@@ -56,15 +56,15 @@ function TarjetaFiltros() {
    this.$id_requisicion = $("#id_requisicion")
    this.$id_requisicion_tipo = $("#id_requisicion_tipo")
    this.$id_requisicion_originador = $("#id_requisicion_originador")
-   this.$id_requisicion_canceladas = $('#id_requisicion_canceladas_0')
+   this.$id_requisicion_canceladas = $('#id_requisicion_canceladas')
    this.$id_cotizacion = $("#id_cotizacion")
    this.$id_cotizacion_tipo = $("#id_cotizacion_tipo")
    this.$id_cotizacion_originador = $("#id_cotizacion_originador")
-   this.$id_cotizacion_canceladas = $("#id_cotizacion_canceladas_0")
+   this.$id_cotizacion_canceladas = $("#id_cotizacion_canceladas")
    this.$id_oc = $("#id_oc")
    this.$id_oc_tipo = $("#id_oc_tipo")
    this.$id_oc_originador = $("#id_oc_originador")
-   this.$id_oc_canceladas = $("#id_oc_canceladas_0")
+   this.$id_oc_canceladas = $("#id_oc_canceladas")
    this.$id_proveedor = $("#id_proveedor")
    this.$id_item = $("#id_item")
    this.$id_recepcion = $("#id_recepcion")
@@ -96,12 +96,15 @@ TarjetaFiltros.prototype.init_Components = function () {
    this.$id_requisicion_originador.select2(appnova.get_ConfigSelect2())
    this.$id_requisicion_desde.datepicker(appnova.get_ConfDatePicker())
    this.$id_requisicion_hasta.datepicker(appnova.get_ConfDatePicker())
+   this.$id_requisicion_canceladas.select2(appnova.get_ConfigSelect2())
    this.$id_oc_desde.datepicker(appnova.get_ConfDatePicker())
    this.$id_oc_hasta.datepicker(appnova.get_ConfDatePicker())
    this.$id_cotizacion_tipo.select2(appnova.get_ConfigSelect2())
    this.$id_cotizacion_originador.select2(appnova.get_ConfigSelect2())
+   this.$id_cotizacion_canceladas.select2(appnova.get_ConfigSelect2())
    this.$id_oc_tipo.select2(appnova.get_ConfigSelect2())
    this.$id_oc_originador.select2(appnova.get_ConfigSelect2())
+   this.$id_oc_canceladas.select2(appnova.get_ConfigSelect2())
    this.$id_recepcion.select2(appnova.get_ConfigSelect2())
 }
 TarjetaFiltros.prototype.init_Events = function () {
@@ -146,8 +149,8 @@ TarjetaFiltros.prototype.limpiar_CampoNoAplicado = function () {
       'id_compania', 'id_sucursal', 'id_comprador', 'id_requisicion', 'id_requisicion_tipo',
       'id_requisicion_originador', 'id_requisicion_canceladas', 'id_cotizacion', 'id_cotizacion_tipo',
       'id_cotizacion_originador', 'id_cotizacion_canceladas', 'id_oc', 'id_oc_tipo', 'id_oc_originador',
-      'id_oc_canceladas', 'id_proveedor', 'id_item', 'id_recepcion', 'id_requisicion_desde_group', 'id_requisicion_hasta_group',
-      'id_oc_desde_group', 'id_oc_hasta_group'
+      'id_oc_canceladas', 'id_proveedor', 'id_item', 'id_recepcion', 'id_requisicion_desde_group',
+      'id_requisicion_hasta_group', 'id_oc_desde_group', 'id_oc_hasta_group'
    ]
 
    var resultados
@@ -192,7 +195,7 @@ TarjetaFiltros.prototype.limpiar_CampoNoAplicado = function () {
       }
       if (_campo == "id_requisicion_canceladas") {
 
-         tarjeta_filtros.$id_requisicion_canceladas.prop('checked', true)
+         tarjeta_filtros.$id_requisicion_canceladas.data('select2').val(0)
       }
       if (_campo == "id_cotizacion") {
 
@@ -208,7 +211,7 @@ TarjetaFiltros.prototype.limpiar_CampoNoAplicado = function () {
       }
       if (_campo == "id_cotizacion_canceladas") {
 
-         tarjeta_filtros.$id_cotizacion_canceladas.prop('checked', true)
+         tarjeta_filtros.$id_cotizacion_canceladas.data('select2').val(0)
       }
       if (_campo == "id_oc") {
 
@@ -224,7 +227,7 @@ TarjetaFiltros.prototype.limpiar_CampoNoAplicado = function () {
       }
       if (_campo == "id_oc_canceladas") {
 
-         tarjeta_filtros.$id_oc_canceladas.prop('checked', true)
+         tarjeta_filtros.$id_oc_canceladas.data('select2').val(0)
       }
       if (_campo == "id_proveedor") {
 
@@ -292,15 +295,15 @@ TarjetaFiltros.prototype.get_Values = function (_page, _pageSize) {
       req: this.$id_requisicion.val(),
       req_tipo: this.$id_requisicion_tipo.val(),
       req_generador: this.$id_requisicion_originador.val(),
-      req_estado_last: $("input[name='requisicion_canceladas']:checked").val(),
+      req_estado_last: this.$id_requisicion_canceladas.val(),
       cot: this.$id_cotizacion.val(),
       cot_tipo: this.$id_cotizacion_tipo.val(),
       cot_generador: this.$id_cotizacion_originador.val(),
-      cot_estado_last: $("input[name='cotizacion_canceladas']:checked").val(),
+      cot_estado_last: this.$id_cotizacion_canceladas.val(),
       ord: this.$id_oc.val(),
       ord_tipo: this.$id_oc_tipo.val(),
       ord_generador: this.$id_oc_originador.val(),
-      ord_estado_last: $("input[name='oc_canceladas']:checked").val(),
+      ord_estado_last: this.$id_oc_canceladas.val(),
       req_fecha_creacion_desde: this.get_FechaMayorQue("#id_requisicion_desde_group"),
       req_fecha_creacion_hasta: this.get_FechaMenorQue("#id_requisicion_hasta_group"),
       ord_fecha_creacion_desde: this.get_FechaMayorQue("#id_oc_desde_group"),
@@ -324,15 +327,15 @@ TarjetaFiltros.prototype.click_BotonLimpiar = function (e) {
    e.data.$id_requisicion.val("")
    e.data.$id_requisicion_tipo.data('select2').val(0)
    e.data.$id_requisicion_originador.data('select2').val(0)
-   e.data.$id_requisicion_canceladas.prop('checked', true)
+   e.data.$id_requisicion_canceladas.data('select2').val(0)
    e.data.$id_cotizacion.val("")
    e.data.$id_cotizacion_tipo.data('select2').val(0)
    e.data.$id_cotizacion_originador.data('select2').val(0)
-   e.data.$id_cotizacion_canceladas.prop('checked', true)
+   e.data.$id_cotizacion_canceladas.data('select2').val(0)
    e.data.$id_oc.val("")
    e.data.$id_oc_tipo.data('select2').val(0)
    e.data.$id_oc_originador.data('select2').val(0)
-   e.data.$id_oc_canceladas.prop('checked', true)
+   e.data.$id_oc_canceladas.data('select2').val(0)
    e.data.$id_proveedor.val("")
    e.data.$id_item.val("")
    e.data.$id_recepcion.data('select2').val(0)
@@ -371,7 +374,7 @@ TarjetaFiltros.prototype.get_NoFiltrosAplicados = function () {
       cantidad += 1
       filtros.push('id_requisicion_originador')
    }
-   if ($("input[name='requisicion_canceladas']:checked").val() != "") {
+   if (this.$id_requisicion_canceladas.val() != "") {
       cantidad += 1
       filtros.push('id_requisicion_canceladas')
    }
@@ -387,7 +390,7 @@ TarjetaFiltros.prototype.get_NoFiltrosAplicados = function () {
       cantidad += 1
       filtros.push('id_cotizacion_originador')
    }
-   if ($("input[name='cotizacion_canceladas']:checked").val() != "") {
+   if (this.$id_cotizacion_canceladas.val() != "") {
       cantidad += 1
       filtros.push('id_cotizacion_canceladas')
    }
@@ -403,7 +406,7 @@ TarjetaFiltros.prototype.get_NoFiltrosAplicados = function () {
       cantidad += 1
       filtros.push('id_oc_originador')
    }
-   if ($("input[name='oc_canceladas']:checked").val() != "") {
+   if (this.$id_oc_canceladas.val() != "") {
       cantidad += 1
       filtros.push('id_oc_canceladas')
    }
@@ -582,8 +585,8 @@ Grid.prototype.get_DataSourceConfig = function (e) {
          },
          parameterMap: function (_data, _action) {
             if (_action === "read"){
+
                return tarjeta_filtros.get_Values(_data.page, _data.pageSize)
-               return tarjeta_filtros.get_Values()
             }
          }
       },
@@ -694,6 +697,8 @@ Grid.prototype.get_Columnas = function () {
       { field: "req_item_desc", title: "Descripción del item", width:"500px", attributes: { "class": "nova-grid-column-yellow", } },
       { field: "req_cantidad_solicitada", title: "Cantidad solicitada", width:"120px", attributes: { "class": "nova-grid-column-yellow", } },
       { field: "req_udm", title: "UDM", width:"75px", attributes: { "class": "nova-grid-column-yellow", } },
+      { field: "req_glclass", title: "GL Class", width:"75px", attributes: { "class": "nova-grid-column-yellow", } },
+      { field: "req_glclass_desc", title: "GL Class Descripción", width:"300px", attributes: { "class": "nova-grid-column-yellow", } },
       { field: "cot", title: "Cotización", width:"120px", attributes: { "class": "nova-grid-column-purple", } },
       { field: "cot_tipo", title: "Tipo", width:"75px", attributes: { "class": "nova-grid-column-purple", } },
       { field: "cot_fecha_creacion", title: "Fecha creación", width:"120px", format: "{0:dd-MM-yyyy}", attributes: { "class": "nova-grid-column-purple", } },
@@ -718,7 +723,8 @@ Grid.prototype.get_Columnas = function () {
       { field: "ord_pu_ex", title: "Costo Unitario USD", format: "{0:c}", width:"150px", attributes: { "class": "nova-grid-column-blue", } },
       { field: "ord_total_ex", title: "Total de linea USD", format: "{0:c}", width:"150px", attributes: { "class": "nova-grid-column-blue", } },
       { field: "ord_impuesto", title: "Impuesto", width:"100px", attributes: { "class": "nova-grid-column-blue", } },
-      { field: "ord_recepcion", title: "Recepción",width:"120px", attributes: { "class": "nova-grid-column-blue", } }
+      { field: "ord_recepcion", title: "Recepción",width:"120px", attributes: { "class": "nova-grid-column-blue", } },
+      // { field: "cotejo", title: "Cotejo", width:"100px", attributes: { "class": "nova-grid-column-yellow", } },
    ]
 }
 Grid.prototype.click_BotonAcciones = function (e) {
@@ -764,6 +770,7 @@ PopupDetalles.prototype.init_Responsive = function () {
 PopupDetalles.prototype.init_Events = function () {
 
    this.$id.on("hidden.bs.modal", this, this.hidden_Modal)
+   this.$id.on("shown.bs.modal", this, this.shown_Modal)
 }
 PopupDetalles.prototype.mostrar = function (e) {
 
@@ -773,24 +780,37 @@ PopupDetalles.prototype.hidden_Modal = function (e) {
 
    $("#tabla_detalles").html('')
 }
+PopupDetalles.prototype.shown_Modal = function (e) {
+
+   $("body").addClass("modal-open")
+   $("html").addClass("be-modal-open")
+}
 PopupDetalles.prototype.construir_Tabla = function (_id_contenedor, _data, _campos, _columnas_nombre, _titulo){
 
    var head = ''
    var rows = ''
    if (_data.length) {
 
-      for ( fila = 0; fila < _data.length; fila++ ) {
+      for ( fila = _data.length-1; fila >= 0; fila-- ) {
 
          var cols = ''
          for ( columna = 0; columna < _campos.length; columna++ ) {
 
-            if ([_campos[columna]] == 'pu_mx' || [_campos[columna]] == 'monto_recib_mx') {
+            if (_campos[columna] == 'pu_mx' || _campos[columna] == 'monto_recib_mx') {
 
                cols += '<td>$ '+_data[fila][_campos[columna]]+'</td>'
             }
-            else if ([_campos[columna]] == 'autorizacion_fecha' || [_campos[columna]] == 'fecha_tran' || [_campos[columna]] == 'fecha_update' || [_campos[columna]] == 'fecha_lm' || [_campos[columna]] == 'fecha_creacion') {
-               var fecha_data = _data[fila][_campos[columna]].split('-')
-               cols += '<td>'+ fecha_data[2] + '-' + fecha_data[1] + '-' + fecha_data[0] +'</td>'
+            else if (_campos[columna] == 'autorizacion_fecha' || _campos[columna] == 'fecha_tran' || _campos[columna] == 'fecha_update' || _campos[columna] == 'fecha_lm' || _campos[columna] == 'fecha_creacion') {
+
+               if (_campos[columna] == 'autorizacion_fecha' && _data[fila]["estado"].includes("N")) {
+
+                  cols += '<td></td>'
+               }
+               else {
+
+                  var fecha_data = _data[fila][_campos[columna]].split('-')
+                  cols += '<td>'+ fecha_data[2] + '-' + fecha_data[1] + '-' + fecha_data[0] +'</td>'
+               }
             }
             else {
 
