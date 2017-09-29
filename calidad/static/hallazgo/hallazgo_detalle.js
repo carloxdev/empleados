@@ -737,8 +737,7 @@ function PopupActividad() {
    this.$id_titulo = $('#id_titulo_actividad')
    this.$id_actividad = $('#id_actividad_descripcion')
    this.$id_responsable = $('#id_responsable')
-   this.$id_fecha_programada = $('#id_fecha_programada')
-   this.$id_fecha_programada_group = $('#id_fecha_programada_group')
+   this.$id_fecha_programada = $('#id_fecha_programada_group')
    this.$id_evidencia = $('#id_evidencia_actividad')
    this.$id_boton_guardar = $('#id_boton_guardar_actividad')
    this.$id_mensaje_error = $('#id_mensaje_error_actividad')
@@ -755,7 +754,7 @@ function PopupActividad() {
 PopupActividad.prototype.init_Components = function () {
 
    this.$id_responsable.select2(appnova.get_ConfigSelect2())
-   this.$id_fecha_programada_group.datepicker(appnova.get_ConfDatePicker())
+   this.$id_fecha_programada.datepicker(appnova.get_ConfDatePicker())
 }
 PopupActividad.prototype.init_Events = function () {
 
@@ -831,7 +830,7 @@ PopupActividad.prototype.crear = function (e) {
             "titulo": e.data.$id_titulo.val(),
             "actividad": e.data.$id_actividad.val(),
             "responsable": e.data.$id_responsable.val(),
-            "fecha_programada": e.data.$id_fecha_programada.val(),
+            "fecha_programada": e.data.get_FechaConFormato("#id_fecha_programada_group"),
             "evidencia": e.data.$id_evidencia.val(),
             "hallazgo": url_hallazgo_proceso + tarjeta_detalle_hallazgo.$id_pk_hal.val() + "/",
             "create_by": url_profile + tarjeta_detalle_hallazgo.$id_actual_user.val() + "/",
@@ -900,12 +899,6 @@ PopupActividad.prototype.validar = function () {
 
    var bandera = true
 
-   e.data.,
-   e.data.,
-   e.data.$id_responsable.val(),
-   e.data.$id_fecha_programada.val(),
-   e.data.,
-
    if ( appnova.validar_EspaciosSaltos(this.$id_titulo.val()) == "" ) {
 
       this.$id_titulo.addClass("nova-has-error")
@@ -913,19 +906,22 @@ PopupActividad.prototype.validar = function () {
    }
    if ( appnova.validar_EspaciosSaltos(this.$id_actividad.val()) == "" ) {
 
-      this.$id_actividad.val().addClass("nova-has-error")
+      this.$id_actividad.addClass("nova-has-error")
       bandera = false
    }
    if ( this.$id_responsable.val() == "" ) {
 
-      this.$id_actividad.val().addClass("nova-has-error")
+      this.$id_responsable.data('select2').$selection.addClass("nova-has-error")
       bandera = false
    }
+   if ( this.get_FechaConFormato("#id_fecha_programada_group") == "" ) {
 
-
+      this.$id_fecha_programada.addClass("nova-has-error")
+      bandera = false
+   }
    if ( appnova.validar_EspaciosSaltos(this.$id_evidencia.val()) == "" ) {
 
-      this.$id_actividad.val().addClass("nova-has-error")
+      this.$id_evidencia.addClass("nova-has-error")
       bandera = false
    }
 
@@ -935,6 +931,18 @@ PopupActividad.prototype.validar = function () {
    }
 
    return bandera
+}
+PopupActividad.prototype.get_FechaConFormato = function (element) {
+
+    fecha = $(element).datepicker("getDate")
+    fecha_conformato = moment(fecha).format('YYYY-MM-DD')
+
+    if (fecha_conformato == "Invalid date") {
+        return ""
+    }
+    else {
+        return fecha_conformato
+    }
 }
 PopupActividad.prototype.set_Data = function (_pk) {
 

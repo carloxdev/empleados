@@ -197,19 +197,7 @@ TarjetaFiltros.prototype.limpiar_CampoNoAplicado = function () {
       }
    })
 }
-TarjetaFiltros.prototype.get_FechaMayorQue = function (element) {
-
-    fecha = $(element).datepicker("getDate")
-    fecha_conformato = moment(fecha).format('YYYY-MM-DD')
-
-    if (fecha_conformato == "Invalid date") {
-        return ""
-    }
-    else {
-        return fecha_conformato
-    }
-}
-TarjetaFiltros.prototype.get_FechaMenorQue = function (element) {
+TarjetaFiltros.prototype.get_FechaConFormato = function (element) {
 
     fecha = $(element).datepicker("getDate")
     fecha_conformato = moment(fecha).format('YYYY-MM-DD')
@@ -236,8 +224,8 @@ TarjetaFiltros.prototype.get_Values = function (_page, _pageSize) {
       pers_tipo_codigo: this.$id_pers_tipo_codigo.val(),
       asig_puesto_clave: this.$id_asig_puesto_clave.val(),
       asig_organizacion_clave: this.$id_asig_organizacion_clave.val(),
-      pers_fecha_contratacion_desde: this.get_FechaMayorQue("#id_contratacion_desde_group"),
-      pers_fecha_contratacion_hasta: this.get_FechaMenorQue("#id_contratacion_hasta_group"),
+      pers_fecha_contratacion_desde: this.get_FechaConFormato("#id_contratacion_desde_group"),
+      pers_fecha_contratacion_hasta: this.get_FechaConFormato("#id_contratacion_hasta_group"),
       grup_compania_jde: this.$id_grup_compania_jde.val(),
       //zona: this.$id_zona.val(),
       grup_fase_jde: this.$id_grup_fase_jde.val(),
@@ -311,11 +299,11 @@ TarjetaFiltros.prototype.get_NoFiltrosAplicados = function () {
       cantidad += 1
       filtros.push('id_asig_organizacion_clave')
    }
-   if (this.get_FechaMayorQue("#id_contratacion_desde_group") != "") {
+   if (this.get_FechaConFormato("#id_contratacion_desde_group") != "") {
       cantidad += 1
       filtros.push('id_contratacion_desde_group')
    }
-   if (this.get_FechaMenorQue("#id_contratacion_hasta_group") != "") {
+   if (this.get_FechaConFormato("#id_contratacion_hasta_group") != "") {
       cantidad += 1
       filtros.push('id_contratacion_hasta_group')
    }

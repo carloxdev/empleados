@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 
 # Librerias de Django
+from datetime import datetime
 from django.db import models
 from django.contrib.contenttypes.fields import GenericRelation
 
@@ -511,18 +512,23 @@ class AnalisisHallazgo(models.Model):
 
 
 class PlanAccionHallazgo(models.Model):
+    TIPO = (
+        ('prev','Preventiva'),
+        ('corr','Correctiva'),
+    )
+
     titulo = models.CharField(max_length=40)
     actividad = models.CharField(max_length=400)
     responsable = models.CharField(max_length=240)
     fecha_programada = models.DateField()
     evidencia = models.CharField(max_length=140)
     hallazgo = models.ForeignKey(HallazgoProceso)
-    resultado = models.CharField(max_length=9)
-    resultado_evaluacion = models.CharField(max_length=400)
-    fecha_evaluacion = models.DateField()
-    criterio_decision = models.CharField(max_length=120)
-    tipo_accion = models.CharField(max_length=12) #CHECAR EL DEFAUL PARA ESTA ACCION PARECE QUE TODAS SERAN CORRECTIVAS
-    observacion = models.CharField(max_length=400)
+    resultado = models.CharField(max_length=9, blank=True, null=True)
+    resultado_evaluacion = models.CharField(max_length=400, blank=True, null=True)
+    fecha_evaluacion = models.DateField(blank=True, null=True)
+    criterio_decision = models.CharField(max_length=120, blank=True, null=True)
+    tipo_accion = models.CharField(max_length=12, blank=True, null=True, choices=TIPO, default="Correctiva")
+    observacion = models.CharField(max_length=400, blank=True, null=True)
     relacion_archivo = GenericRelation(Archivo, related_query_name='relacion_plan_accion')
     create_by = models.ForeignKey(Profile, related_name='plan_hal_created_by', null=True)
     create_date = models.DateTimeField(
