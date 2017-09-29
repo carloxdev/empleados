@@ -26,14 +26,14 @@
    </div>
 
    <div class="main-content container-fluid nova-main-content">
-      
+
       <div class="row">
          <!-- Tarjeta resultados-->
          <div class="col-sm-12 nova-col">
             <div class="panel panel-default panel-table">
                <div class="panel-heading panel-border nova-panel-heading">
                    <div class="tools pull-right" id="toolbar">
-                       <a href="#tarjeta_filtros" 
+                       <a href="#tarjeta_filtros"
                            class="btn nova-btn btn-rounded btn-space btn-primary" data-toggle="modal" id="boton_filtros">
                            <i class="icon icon-left mdi mdi-search nova-white"></i>Filtros
                        </a>
@@ -188,12 +188,12 @@
    <div id="tarjeta_filtros" role="dialog" class="modal fade colored-header colored-header-primary">
       <div class="modal-dialog custom-width">
          <div class="modal-content">
-            
+
             <div class="modal-header nova-modal-header">
                <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
                <h3 class="modal-title">Filtros</h3>
             </div>
-               
+
             <form id="formulario_filtro" class="modal-body form-horizontal">
 
                <div class="form-group">
@@ -206,7 +206,7 @@
                         <option value="LALG">Suministro, Logística y Control</option>
                      </select>
                   </div>
-               </div>                
+               </div>
 
                <div class="form-group">
                   <label class="col-sm-3 nova-col-filter control-label">Área</label>
@@ -221,7 +221,7 @@
                <div class="form-group">
                   <label class="col-sm-3 nova-col-filter control-label">Fecha programada</label>
                   <div class="col-sm-7 xs-pt-5">
-                     <div class="input-group"> 
+                     <div class="input-group">
                         <input type="text" value="" readonly="" class="form-control input-xs" id="id_fecha_programada">
                         <span class="input-group-addon btn btn-primary">
                            <i class="icon-th mdi mdi-calendar"></i>
@@ -233,7 +233,7 @@
                <div class="form-group">
                   <label class="col-sm-3 nova-col-filter control-label">Fecha real</label>
                   <div class="col-sm-7 xs-pt-5">
-                     <div class="input-group"> 
+                     <div class="input-group">
                         <input type="text" value="" readonly="" class="form-control input-xs" id="id_fecha_real">
                         <span class="input-group-addon btn btn-primary">
                            <i class="icon-th mdi mdi-calendar"></i>
@@ -245,7 +245,7 @@
                <div class="form-group">
                   <label class="col-sm-3 nova-col-filter control-label">Fecha seguimiento</label>
                   <div class="col-sm-7 xs-pt-5">
-                     <div class="input-group"> 
+                     <div class="input-group">
                         <input type="text" value="" readonly="" class="form-control input-xs" id="id_fecha_seguimiento">
                         <span class="input-group-addon btn btn-primary">
                            <i class="icon-th mdi mdi-calendar"></i>
@@ -281,7 +281,7 @@
 {% endblock contenido %}
 
 {% block scripts %}
-   
+
    <!-- Beagle Theme -->
    <script src="{% static 'theme/lib/daterangepicker/js/daterangepicker.js' %}"></script>
 

@@ -48,7 +48,7 @@
                            <div class="panel-heading panel-heading-default nova-panel-heading-formulario">
                                <span class="title"><span class="hidden-xs">Informacion de la solicitud: </span><strong>V-<span id="cabecera_pk">{{ form_cabecera.instance.id }}</span></strong></span>
 
-                               {% if form_cabecera.instance.status == "cap" %}
+                               {% if form_cabecera.instance.status == "cap" or form_cabecera.instance.status == "fin" %}
                                <a href="{% url 'finanzas:viatico_cancelar' form_cabecera.instance.pk %}" class="pull-right btn btn-danger">
                                    Cancelar
                                </a>
@@ -82,7 +82,7 @@
                                     </label>
 
                                    <div class="col-sm-8 xs-pt-5">
-                                       <input type="text" name="" value="{{ form_cabecera.instance.empleado_descripcion }}" disabled class="form-control input-xs">
+                                       <input type="text" name="" value="({{form_cabecera.instance.empleado_clave}}) - {{ form_cabecera.instance.empleado_descripcion }}" disabled class="form-control input-xs">
                                    </div>
                                </div>
 

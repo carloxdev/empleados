@@ -130,13 +130,13 @@ class ViaticoLinea(models.Model):
 
 @receiver(post_save, sender=ViaticoLinea)
 def save_viatico_linea(sender, instance, **kwargs):
-    cabecera = ViaticoCabecera.objects.get(pk = instance.cabecera.pk)
+    cabecera = ViaticoCabecera.objects.get(pk=instance.cabecera.pk)
     cabecera.importe_total += instance.importe
     cabecera.save()
 
 
 @receiver(post_delete, sender=ViaticoLinea)
 def delete_viatico_linea(sender, instance, **kwargs):
-    cabecera = ViaticoCabecera.objects.get(pk = instance.cabecera.pk)
+    cabecera = ViaticoCabecera.objects.get(pk=instance.cabecera.pk)
     cabecera.importe_total -= instance.importe
     cabecera.save()
