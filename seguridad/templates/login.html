@@ -26,6 +26,7 @@
     <link rel="stylesheet" href="{% static 'theme/css/style.css' %}" type="text/css"/>
 
     <!-- Nova -->
+    <link rel="stylesheet" href="{% static 'login.css' %}"/>
     <link rel="stylesheet" href="{% static 'master.css' %}"/>
 
     <!--[if lt IE 9]>
@@ -70,10 +71,13 @@
                         </div>
                     </div>
 
-                    <div class="splash-footer">
+                    <div class="splash-footer nova-splash-footer">
                         <span><a href="{% url 'seguridad:contrasena_reset' %}">¿Olvidaste tu contraseña?</a></span>
                         <br>
-                        <span>¿No tienes una cuenta? <a href="{% url 'seguridad:usuario_registro' %}">Ir al registro</a></span>
+                        <div class="hidden">
+                            ¿No tienes una cuenta?
+                        </div>
+                        <span> <a href="{% url 'seguridad:usuario_registro' %}">Ir al registro</a></span>
                     </div>
 
                     <br>

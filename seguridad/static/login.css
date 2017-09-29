@@ -1,0 +1,20 @@
+body {
+    background-image:url('/static/images/fondos/background.jpg');
+
+
+    background-attachment:fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
+    -ms-background-size: cover;
+    -o-background-size: cover;
+    -moz-background-size: cover;
+    -webkit-background-size: cover;
+    background-size: cover;
+}
+
+
+.nova-splash-footer a {
+     color: white;
+     font-size: 14px;
+     /*text-decoration: none;*/
+}
