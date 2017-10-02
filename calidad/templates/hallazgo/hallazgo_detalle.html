@@ -311,7 +311,7 @@
    </div><!-- Modal -->
 
    <!-- tarjeta_acciones-->
-   <div id="id_tarjeta_acciones" tabindex="-1" role="dialog" class="modal fade colored-header colored-header-primary">
+   <div id="id_tarjeta_acciones" role="dialog" data-primaryKey="" class="modal fade colored-header colored-header-primary">
       <div class="modal-dialog nova-modal-acciones">
         <div class="modal-content">
           <div class="modal-header nova-modal-header">
@@ -321,11 +321,14 @@
           <div class="modal-body">
             <div class="text-center">
                <div role="group" class="btn-group-vertical btn-space">
-                  <a href="#id_tarjeta_seguimiento_plan" class="btn nova-btn btn-space btn-default btn-lg" data-toggle="modal" id="id_boton_seguimiento_plan">
-                     <i class="icon icon-left mdi mdi-assignment-o nova-black"></i> Seguimiento Al Plan de Acción
+                  <a class="btn nova-btn btn-space btn-default btn-lg" id="id_boton_seguimiento_plan">
+                     <i class="icon icon-left mdi mdi-assignment-o nova-black"></i> Seguimiento <!--Al Plan de Acción-->
                   </a>
-                  <a href="#id_tarjeta_evaluacion" class="btn nova-btn btn-space btn-default btn-lg" data-toggle="modal" id="id_boton_evaluacion_eficacia">
-                     <i class="icon icon-left mdi mdi-assignment-check nova-black"></i> Evaluación De Eficacia A Acciones
+                  <a class="btn nova-btn btn-space btn-default btn-lg" id="id_boton_evaluacion_eficacia">
+                     <i class="icon icon-left mdi mdi-assignment-check nova-black"></i> Evaluación <!-- De Eficacia A Acciones-->
+                  </a>
+                  <a class="btn nova-btn btn-space nova-btn-delete btn-lg" id="id_boton_eliminar_actividad">
+                     <i class="icon icon-left icon mdi mdi-delete nova-white"></i>
                   </a>
                </div>
             </div>
@@ -383,7 +386,7 @@
    </div><!-- Modal -->
 
    <!-- id_tarjeta_seguimiento_plan -->
-   <div id="id_tarjeta_seguimiento_plan" tabindex="-1" role="dialog" class="modal fade colored-header colored-header-primary">
+   <div id="id_tarjeta_seguimiento_plan" data-primaryKey="" role="dialog" class="modal fade colored-header colored-header-primary">
       <div class="modal-dialog modal-lg">
          <div class="modal-content nova-modal-maxwidth">
 

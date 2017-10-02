@@ -634,15 +634,15 @@ GridPlanAccion.prototype.click_FilaGrid = function () {
 }
 GridPlanAccion.prototype.click_EditarPlan = function (e) {
 
-   e.preventDefault()
+   // e.preventDefault()
    pk = this.getAttribute("data-id")
    popup_actividad.mostrar( pk, "editar")
 }
 GridPlanAccion.prototype.click_AccionesPlan = function (e) {
 
-   e.preventDefault()
+   // e.preventDefault()
    pk = this.getAttribute("data-id") //obtener data id
-   popup_actividad.mostrar( pk )
+   popup_acciones.mostrar( pk )
    // e.data.eliminar(pk)
 }
 GridPlanAccion.prototype.load_Data = function () {
@@ -676,8 +676,8 @@ GridPlanAccion.prototype.refresh_Data = function (_response) {
 
           datos += '<tr class="clickable-row">' +
                       '<td>' +
-                        '<button class="btn nova-btn btn-default">' +
-                           '<i class="icon icon-left icon mdi mdi-settings nova-black" data-event="accionesPlan" data-id="' + _response[i].pk + '"></i>' +
+                        '<button class="btn nova-btn btn-default" data-event="accionesPlan" data-id="' + _response[i].pk + '">' +
+                           '<i class="icon icon-left icon mdi mdi-settings nova-black"></i>' +
                         '</button>' +
                       '</td>' +
                       '<td>' +
@@ -685,7 +685,7 @@ GridPlanAccion.prototype.refresh_Data = function (_response) {
                       '</td>' +
                       '<td>' + _response[i].actividad + '</td>' +
                       '<td>' + _response[i].responsable + '</td>' +
-                      '<td>' + _response[i].fecha_programada + '</td>' +
+                      '<td>' + this.get_FechaDisplay(_response[i].fecha_programada) + '</td>' +
                       '<td>' + _response[i].evidencia + '</td>' +
                       '<td>' + _response[i].observacion + '</td>' +
                       '<td>' + _response[i].resultado + '</td>' +
@@ -699,6 +699,12 @@ GridPlanAccion.prototype.refresh_Data = function (_response) {
                 '</tr>'
    }
    this.$id_tbody.html(datos)
+}
+GridPlanAccion.prototype.get_FechaDisplay = function (date) {
+
+   fecha = date.split("-")
+
+   return fecha[2] + "/" + fecha[1] +"/"+ fecha[0]
 }
 GridPlanAccion.prototype.eliminar = function (_pk) {
 
@@ -868,7 +874,7 @@ PopupActividad.prototype.editar = function (e, _pk) {
             "titulo": e.data.$id_titulo.val(),
             "actividad": e.data.$id_actividad.val(),
             "responsable": e.data.$id_responsable.val(),
-            "fecha_programada": e.data.get_FechaConFormato("#id_fecha_programada"),
+            "fecha_programada": e.data.get_FechaConFormato("#id_fecha_programada_group"),
             "evidencia": e.data.$id_evidencia.val(),
             "hallazgo": url_hallazgo_proceso + tarjeta_detalle_hallazgo.$id_pk_hal.val() + "/",
             "update_by": url_profile + tarjeta_detalle_hallazgo.$id_actual_user.val() + "/",
@@ -944,6 +950,11 @@ PopupActividad.prototype.get_FechaConFormato = function (element) {
         return fecha_conformato
     }
 }
+PopupActividad.prototype.set_FechaConFormato = function (element, date) {
+
+   fecha = date.split("-")
+   $(element).datepicker("update", fecha[2] + "/" + fecha[1] +"/"+ fecha[0])
+}
 PopupActividad.prototype.set_Data = function (_pk) {
 
    $.ajax({
@@ -956,8 +967,8 @@ PopupActividad.prototype.set_Data = function (_pk) {
          this.$id_titulo.val(_response.titulo)
          this.$id_actividad.val(_response.actividad)
          this.$id_responsable.val(_response.responsable).trigger("change")
-         this.$id_fecha_programada.datepicker("setDate", moment(_response.fecha_programada).format('dd/mm/yyyy') )
-         this.$id_evidencia.val(_response.evidencia)
+         this.set_FechaConFormato('#id_fecha_programada_group', _response.fecha_programada)
+         this.$id_evidencia.val(_response.evidencia) //dd/mm/yyyy
       },
       error: function (_response) {
 
@@ -975,34 +986,40 @@ function PopupAcciones () {
    popup_seguimiento_plan = new PopupSeguimientoPlan()
    popup_evaluacion_plan = new PopupEvaluacionPlan()
    this.$id = $('#id_tarjeta_acciones')
-   this.$id_boton_evaluacion_eficacia = $('#id_boton_evaluacion_eficacia')
    this.$id_boton_seguimiento_plan = $('#id_boton_seguimiento_plan')
+   this.$id_boton_evaluacion_eficacia = $('#id_boton_evaluacion_eficacia')
+   this.$id_boton_evaluacion_eficacia = $('#id_boton_eliminar_actividad')
    this.init_Events()
 }
 PopupAcciones.prototype.init_Events = function () {
 
-   this.$id.on("hidden.bs.modal", this, this.hidden_Modal)
-   this.$id_boton_seguimiento_plan.on("click", this, this.click_BotonSeguimientoPlan )
    this.$id_boton_evaluacion_eficacia.on("click", this, this.click_BotonEvaluacion)
+   this.$id_boton_seguimiento_plan.on("click", this, this.click_BotonSeguimientoPlan )
+   this.$id_boton_evaluacion_eficacia.on("click", this, this.click_BotonEliminar)
 }
 PopupAcciones.prototype.click_BotonSeguimientoPlan = function (e) {
 
    e.preventDefault()
    e.data.$id.modal('hide')
+   pk = this.getAttribute("data-primaryKey")
+   popup_seguimiento_plan.mostrar(pk)
 }
 PopupAcciones.prototype.click_BotonEvaluacion = function (e) {
 
    e.preventDefault()
    e.data.$id.modal('hide')
+   pk = this.getAttribute("data-primaryKey")
+   popup_evaluacion_plan.mostrar(pk)
+}
+PopupAcciones.prototype.click_BotonEliminar = function (e) {
+
+   e.preventDefault()
+   e.data.$id.modal('hide')
+   pk = this.getAttribute("data-primaryKey")
 }
 PopupAcciones.prototype.mostrar = function ( _pk ) {
 
-   this.$id.modal('show').attr
-}
-PopupAcciones.prototype.hidden_Modal = function (e) {
-
-   $("body").addClass("modal-open")
-   $("html").addClass("be-modal-open")
+   this.$id.modal('show').attr("data-primaryKey", _pk)
 }
 
 /*-----------------------------------------------*\
@@ -1017,11 +1034,25 @@ function PopupSeguimientoPlan () {
    this.$id_fecha_seguimiento = $('#id_fecha_seguimiento')
    this.$id_archivo = $('#id_archivo_seguimiento_plan')
    this.init_Components()
+   this.init_Events()
 }
 PopupSeguimientoPlan.prototype.init_Components = function () {
 
    this.$id_fecha_seguimiento_group.datepicker(appnova.get_ConfDatePicker())
    this.$id_archivo.fileinput(this.get_ConfigFileInput())
+}
+PopupSeguimientoPlan.prototype.init_Events = function () {
+
+   this.$id.on("shown.bs.modal", this, this.shown_Modal)
+}
+PopupSeguimientoPlan.prototype.shown_Modal = function (e) {
+
+   $("body").addClass("modal-open")
+   $("html").addClass("be-modal-open")
+}
+PopupSeguimientoPlan.prototype.mostrar = function ( _pk ) {
+
+   this.$id.modal('show').attr("data-primaryKey", _pk)
 }
 PopupSeguimientoPlan.prototype.get_ConfigFileInput = function () {
    return {
@@ -1059,11 +1090,25 @@ function PopupEvaluacionPlan () {
    this.$id_criterio_decision = $('#id_criterio_decision_plan_eval')
    this.$id_archivo = $('#id_archivo_plan_eval')
    this.init_Components()
+   this.init_Events()
 }
 PopupEvaluacionPlan.prototype.init_Components = function () {
 
    this.$id_fecha_evaluacion_group.datepicker(appnova.get_ConfDatePicker())
    this.$id_archivo.fileinput(this.get_ConfigFileInput())
+}
+PopupEvaluacionPlan.prototype.init_Events = function () {
+
+   this.$id.on("shown.bs.modal", this, this.shown_Modal)
+}
+PopupEvaluacionPlan.prototype.shown_Modal = function (e) {
+
+   $("body").addClass("modal-open")
+   $("html").addClass("be-modal-open")
+}
+PopupEvaluacionPlan.prototype.mostrar = function ( _pk ) {
+
+   this.$id.modal('show').attr("data-primaryKey", _pk)
 }
 PopupEvaluacionPlan.prototype.get_ConfigFileInput = function () {
 
