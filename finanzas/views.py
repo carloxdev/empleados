@@ -203,3 +203,14 @@ class AnticipoLista(View):
         }
 
         return render(_request, self.template_name, contexto)
+
+
+class Flujo(View):
+    template_name = 'flujo.html'
+
+    def get(self, _request):
+
+        contexto = {
+        }
+
+        return render(_request, self.template_name, contexto)

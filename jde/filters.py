@@ -21,6 +21,7 @@ from .models import VM_PORF_CXC
 from .models import VM_PORF_CXP
 from .models import VM_PORF_NOMINA
 from .models import VIEW_PROVEEDORES
+from .models import VIEW_FLUJO_EGRESOS
 
 
 # ----------------- VIEW_INVENTARIO ----------------- #
@@ -527,4 +528,24 @@ class VIEW_PROVEEDORES_Filter(filters.FilterSet):
         fields = [
             'clave',
             'descripcion'
+        ]
+
+
+# ----------------- VIEW_FLUJO_EGRESOS ----------------- #
+
+class VIEW_FLUJO_EGRESOS_Filter(filters.FilterSet):
+
+    descripcion_un = CharFilter(
+        name="descripcion_un",
+        lookup_expr="contains"
+    )
+
+    class Meta:
+        model = VIEW_FLUJO_EGRESOS
+        fields = [
+            'compania',
+            'anio',
+            'tipo_un',
+            'descripcion_un',
+            'cuenta_clase_desc',
         ]

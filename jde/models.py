@@ -981,7 +981,6 @@ class VIEW_POLITICA_VIATICOS(models.Model):
     grupo = models.CharField(max_length=5)
     abalph = models.CharField(max_length=40)
 
-
     class Meta:
         managed = False
         db_table = u'"NUVPD"."VIEW_POLITICA_VIATICOS"'
@@ -993,3 +992,38 @@ class VIEW_POLITICA_VIATICOS(models.Model):
     def __unicode__(self):
         value = "%s - %s" % (self.idempleado, self.abalph)
         return value
+
+
+class VIEW_FLUJO_EGRESOS(models.Model):
+    compania = models.CharField(primary_key=True, max_length=5)
+    anio = models.IntegerField()
+    tipo_un = models.CharField(max_length=8)
+    descripcion_un = models.CharField(max_length=30)
+    cuenta_clase_desc = models.CharField(max_length=30)
+    enero = models.IntegerField()
+    febrero = models.IntegerField()
+    marzo = models.IntegerField()
+    abril = models.IntegerField()
+    mayo = models.IntegerField()
+    junio = models.IntegerField()
+    julio = models.IntegerField()
+    agosto = models.IntegerField()
+    septiembre = models.IntegerField()
+    octubre = models.IntegerField()
+    noviembre = models.IntegerField()
+    diciembre = models.IntegerField()
+
+    def _get_total(self):
+        try:
+            total = self.enero + self.febrero + self.marzo + \
+                self.abril + self.mayo + self.junio + \
+                self.julio + self.agosto + self.septiembre + \
+                self.octubre + self.noviembre + self.diciembre
+            return total
+        except Exception:
+            return 0.0
+    total = property(_get_total)
+
+    class Meta:
+        managed = False
+        db_table = u'"NUVPD"."VIEW_FLUJO_EGRESOS"'
