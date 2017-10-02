@@ -366,6 +366,24 @@ Grid.prototype.get_Columnas = function () {
         // { field: "importe_total", title: "Importe total", width:"100px" },
     ]
 }
+Grid.prototype.get_ColorEstado = function (_estado) {
+
+   var estilo = ""
+
+   if (_estado == "Finalizado") {
+
+      estilo = "nova-status-aprobado"
+   }
+   else if (_estado == "Autorizado") {
+
+      estilo = "nova-status-autorizado"
+   }
+   else if (_estado == "Cancelado") {
+
+      estilo = "nova-status-cancelado"
+   }
+   return estilo
+}
 Grid.prototype.click_BotonEditar = function (e) {
 
     var fila = this.dataItem($(e.currentTarget).closest('tr'))
