@@ -24,9 +24,9 @@
 
     <nav class="navbar navbar-default navbar-fixed-top be-top-header">
         <div class="container-fluid">
-  
+
             <div class="navbar-header">
-                <a class="navbar-brand" href="{% url 'home:inicio' %}"></a>
+                <a class="navbar-brand" href="{% url 'seguridad:login' %}"></a>
             </div>
         </div>
     </nav>
@@ -37,7 +37,7 @@
             <div class="col-sm-12 text-center">
                 <div class="page-head">
                     <h1 class="page-head-title">Restablecer Contraseña</h1>
-                </div>         
+                </div>
             </div>
         </div>
 
@@ -50,12 +50,12 @@
                     </h4>
 
                         {{ form.as_p }}
-                        
+
                         <button type="submit" class="btn btn-success btn-lg">
                             <i class="icon mdi mdi-key"></i>
                             Restablecer mi contraseña
                         </button>
-                    
+
 
                         {% if messages %}
                             {% for message in messages %}
@@ -82,7 +82,7 @@
                 </form>
                 </div>
             </div>
-        </div>        
+        </div>
 
     </div>
 </div>
