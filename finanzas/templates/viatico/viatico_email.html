@@ -1,0 +1,16 @@
+{% autoescape off %}
+Hola,
+
+{{ texto }}
+
+DETALLE DEL DOCUMENTO:
+
+Destino: {{ viatico.ciudad_destino|default:"" }}
+Proposito del viaje: {{ viatico.proposito_viaje|default:"" }}
+Fecha Partida: {{ viatico.fecha_partida|default:""|date:"d F Y" }}
+Fecha Regreso: {{ viatico.fecha_regreso|default:""|date:"d F Y" }}
+Unidad Negocio: {{ viatico.un_clave|default:"" }} - {{ viatico.un_descripcion|default:"" }}
+Empresa: {{ viatico.empresa_descripcion|default:"" }}
+
+Atte: Equipo TI
+{% endautoescape %}
