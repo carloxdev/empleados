@@ -180,7 +180,7 @@ class SeguimientoComprasLista(View):
             'cot', 'cot_tipo', 'cot_fecha_creacion', 'cot_generador', 'cot_linea', 'cot_estado_last', 'cot_estado_next',
             'ord', 'ord_tipo', 'ord_fecha_creacion', 'ord_fecha_entrega', 'ord_generador', 'ord_linea',
             'ord_proveedor', 'ord_proveedor_desc', 'ord_estado_last', 'ord_estado_next', 'ord_cantidad_solic', 'ord_moneda',
-            'ord_pu_mx', 'ord_total_mx', 'ord_pu_ex', 'ord_total_ex', 'ord_impuesto', 'ord_recepcion', 'cotejo'
+            'ord_pu_mx', 'ord_total_mx', 'ord_pu_ex', 'ord_total_ex', 'ord_impuesto', 'ord_recepcion'
         )
 
         date_format = xlwt.XFStyle()

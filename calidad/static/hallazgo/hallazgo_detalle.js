@@ -851,7 +851,6 @@ PopupActividad.prototype.crear = function (e) {
          error: function (_response) {
 
             alertify.error("Ocurrio error al insertar evidencia")
-            console.log(_response.responseText);
          }
       })
    }
@@ -861,7 +860,7 @@ PopupActividad.prototype.editar = function (e, _pk) {
    if (e.data.validar()) {
 
       $.ajax({
-         url: url_evidencia_hallazgo + _pk + "/",
+         url: url_plan_accion_hallazgo + _pk + "/",
          method: "PUT",
          headers: { "X-CSRFToken": appnova.galletita },
          data: {
@@ -869,28 +868,29 @@ PopupActividad.prototype.editar = function (e, _pk) {
             "titulo": e.data.$id_titulo.val(),
             "actividad": e.data.$id_actividad.val(),
             "responsable": e.data.$id_responsable.val(),
-            "fecha_programada": e.data.$id_fecha_programada.val(),
+            "fecha_programada": e.data.get_FechaConFormato("#id_fecha_programada"),
             "evidencia": e.data.$id_evidencia.val(),
             "hallazgo": url_hallazgo_proceso + tarjeta_detalle_hallazgo.$id_pk_hal.val() + "/",
             "update_by": url_profile + tarjeta_detalle_hallazgo.$id_actual_user.val() + "/",
          },
          success: function (_response) {
 
-            if (e.data.$id_archivo.fileinput('getFileStack').length > 0) {
-
-               e.data.$pk_evidencia = _response.pk
-               e.data.$id_archivo.fileinput('upload')
-            }
-            else {
-
+            // if (e.data.$id_archivo.fileinput('getFileStack').length > 0) {
+            //
+            //    e.data.$pk_evidencia = _response.pk
+            //    e.data.$id_archivo.fileinput('upload')
+            // }
+            // else {
+            //
                e.data.$id.modal('hide')
-               tarjeta_evidencia.grid.load_Data()
+               tarjeta_plan_accion.grid.load_Data()
                e.data.$ocultar = false
-            }
+            // }
          },
          error: function (_response) {
 
-            alertify.error("Ocurrio error al insertar evidencia")
+            alertify.error("Ocurrio error al insertar actividad")
+            console.log(_response.responseText);
          }
       })
    }
@@ -948,14 +948,16 @@ PopupActividad.prototype.set_Data = function (_pk) {
 
    $.ajax({
 
-      url: url_evidencia_hallazgo + _pk +"/",
+      url: url_plan_accion_hallazgo + _pk + "/",
       method: "GET",
       context: this,
       success: function (_response) {
 
          this.$id_titulo.val(_response.titulo)
-         this.$id_observacion.val(_response.observacion)
-         this.cargar_Archivos(_response)
+         this.$id_actividad.val(_response.actividad)
+         this.$id_responsable.val(_response.responsable).trigger("change")
+         this.$id_fecha_programada.datepicker("setDate", moment(_response.fecha_programada).format('dd/mm/yyyy') )
+         this.$id_evidencia.val(_response.evidencia)
       },
       error: function (_response) {
 
@@ -1433,7 +1435,6 @@ PopupEvidencia.prototype.crear = function (e) {
          error: function (_response) {
 
             alertify.error("Ocurrio error al insertar evidencia")
-            console.log(_response.responseText);
          }
       })
    }
