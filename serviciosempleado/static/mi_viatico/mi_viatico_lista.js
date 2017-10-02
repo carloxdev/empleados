@@ -212,6 +212,7 @@ PopupFiltros.prototype.click_BotonLimpiar = function (e) {
     e.data.$autorizador.val("").trigger("change")
     e.data.$created_date_mayorque.datepicker("clearDates")
     e.data.$created_date_menorque.datepicker("clearDates")
+    e.data.$status.val("").trigger("change")
 }
 
 
@@ -307,7 +308,7 @@ Grid.prototype.get_Campos = function () {
         empleado_descripcion : { type: "string" },
         fecha_partida : { type: "date"},
         fecha_regreso : { type: "date"},
-        unidad_negocio_clave : { type: "string" },
+        un_clave : { type: "string" },
         unidad_negocio_descripcion : { type: "string" },
         ciudad_destino : { type: "string" },
         proposito_viaje : { type: "string" },
@@ -353,23 +354,26 @@ Grid.prototype.get_Columnas = function () {
         {
             field: "pk",
             title: "Numero",
-            width: "90px",
-            template: '<a class="btn btn-default nova-url" href="#=Grid.prototype.get_EditUrl(pk)#">#="VIA-" + pk#</a>',
+            width: "75px",
+            template: '<a class="btn btn-default nova-url" href="#=Grid.prototype.get_EditUrl(pk)#">#="V-" + pk#</a>',
         },
+        { field: "status", title: "Estado", width:"120px", attributes:{ class:"nova-centrar #=Grid.prototype.get_ColorEstado(status)#" }, },
+        { field: "empleado_clave", title: "Empleado", width:"90px" },
         {
             field: "empleado_descripcion",
-            title: "Empleado",
+            title: "Empleado descripcion",
             width:"300px"
         },
         { field: "proposito_viaje", title: "Proposito", width:"200px" },
         { field: "ciudad_destino", title: "Ciudad Destino", width:"200px" },
         { field: "fecha_partida", title: "Fecha Partida", width:"135px", format: "{0:dd/MM/yyyy}" },
         { field: "fecha_regreso", title: "Fecha Regreso", width:"135px", format: "{0:dd/MM/yyyy}" },
-        { field: "unidad_negocio_clave", title: "Unidad Negocio", width:"150px" },
-        { field: "status", title: "Estado", width:"120px" },
-        { field: "autorizador_descripcion", title: "Autorizador", width:"300px" },
-        { field: "fecha_autorizacion", title: "Fecha autorizacion", width:"135px", format: "{0:dd/MM/yyyy}" },
-        // { field: "nombre_empresa", title: "Nombre Empresa", width:"150px" },
+        { field: "un_clave", title: "UN clave", width:"100px" },
+        { field: "un_descripcion", title: "UN descripcion", width:"300px" },
+        { field: "autorizador_clave", title: "Autorizador", width:"90px" },
+        { field: "autorizador_descripcion", title: "Autorizador descripcion", width:"300px" },
+        { field: "approved_date", title: "Fecha autorización", width:"135px", format: "{0:dd/MM/yyyy}" },
+        { field: "empresa_descripcion", title: "Nombre Empresa", width:"300px" },
         { field: "created_date", title: "Fecha creación", width:"120px", format: "{0:dd/MM/yyyy}" },
         { field: "updated_date", title: "Fecha actualización", width:"150px", format: "{0:dd/MM/yyyy}" },
         // { field: "importe_total", title: "Importe total", width:"100px" },
