@@ -228,3 +228,22 @@ class AnticipoFilterForm(Form):
         self.fields['empleado'].choices = EmpleadoBusiness.get_Todos_ForSelectCustom()
         self.fields['unidad_negocio'].choices = CentroCostoBusiness.get_Todos_ForSelectCustom()
         self.fields['autorizador'].choices = EmpleadoBusiness.get_Todos_ForSelectCustom()
+
+
+class FLujoFilterForm(Form):
+
+    anio = ChoiceField(
+        label="Año",
+        widget=Select(attrs={'class': 'form-control input-xs'})
+    )
+
+    proyecto = ChoiceField(
+        label="Proyecto",
+        widget=Select(attrs={'class': 'form-control input-xs'})
+    )
+
+    centro_costos = ChoiceField(
+        label="Centro de costos",
+        widget=Select(attrs={'class': 'form-control input-xs'})
+    )
+
