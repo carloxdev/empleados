@@ -51,9 +51,9 @@ class SeguimientoComprasFilterForm(Form):
     )
 
     CANCELADAS = (
-        ('', 'No'),
-        ('980', 'Si')
-
+        ('', 'Mostrar canceladas'),
+        ('980', 'Solo canceladas'),
+        ('-980', 'No mostrar canceladas')
     )
     RECEPCION = (
         ('', '-------'),
@@ -89,9 +89,11 @@ class SeguimientoComprasFilterForm(Form):
         label="Requisicion Originador",
         widget=Select(attrs={'name': 'requisicion_originador', 'class': 'select2 nova-select2'})
     )
-    requisicion_canceladas = ChoiceField(
+    requisicion_canceladas = CharField(
         label='¿Mostrar canceladas?',
-        widget=RadioSelect, choices=CANCELADAS
+        widget=Select(attrs={ 'class': 'select2 nova-select2'},
+                      choices=CANCELADAS
+        )
     )
     requisicion_desde = CharField(
         widget=TextInput(attrs={'class': 'form-control input-xs', 'readonly': 'readonly'})
@@ -115,9 +117,11 @@ class SeguimientoComprasFilterForm(Form):
         label="Cotizacion Originador",
         widget=Select(attrs={'name': 'cotizacion_originador', 'class': 'select2 nova-select2'})
     )
-    cotizacion_canceladas = ChoiceField(
+    cotizacion_canceladas = CharField(
         label='¿Mostrar canceladas?',
-        widget=RadioSelect, choices=CANCELADAS
+        widget=Select(attrs={ 'class': 'select2 nova-select2'},
+                      choices=CANCELADAS
+        )
     )
 
     oc = IntegerField(
@@ -134,9 +138,11 @@ class SeguimientoComprasFilterForm(Form):
         label="Orden Originador",
         widget=Select(attrs={'name': 'oc_originador', 'class': 'select2 nova-select2'})
     )
-    oc_canceladas = ChoiceField(
+    oc_canceladas = CharField(
         label='¿Mostrar canceladas?',
-        widget=RadioSelect, choices=CANCELADAS
+        widget=Select(attrs={ 'class': 'select2 nova-select2'},
+                      choices=CANCELADAS
+        )
     )
     oc_desde = CharField(
         widget=TextInput(attrs={'class': 'form-control input-xs', 'readonly': 'readonly'})

@@ -13,8 +13,8 @@ from .business import ViaticoBusiness
 from .forms import ViaticoCabeceraForm
 from .forms import ViaticoFilterForm
 from .forms import ViaticoLineaForm
-
 from .forms import AnticipoFilterForm
+from .forms import FLujoFilterForm
 
 from home.utilities import get_Url_With_Querystring
 
@@ -209,6 +209,20 @@ class AnticipoLista(View):
 
         contexto = {
             'form': formulario
+        }
+
+        return render(_request, self.template_name, contexto)
+
+
+class Flujo(View):
+    template_name = 'flujo.html'
+
+    def get(self, _request):
+
+        form = FLujoFilterForm()
+
+        contexto = {
+            'form': form,
         }
 
         return render(_request, self.template_name, contexto)

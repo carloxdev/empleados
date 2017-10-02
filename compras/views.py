@@ -74,8 +74,8 @@ class SeguimientoComprasLista(View):
         columns = [
             'Compañia', 'Sucursal', 'Requisición', 'Tipo', 'Originador', 'Fecha creación', 'Fecha necesidad',
             'Linea', 'Tipo linea', 'Último estatus', 'Siguiente estatus', 'Comprador',
-            'No. item', 'Descripción del item', 'Cantidad solicitada', 'UDM', 'Cotización', 'Tipo',
-            'Fecha creación', 'Originador', 'Linea', 'Último estado', 'Siguiente estado',
+            'No. item', 'Descripción del item', 'Cantidad solicitada', 'UDM', 'GL Class', 'GL Class Descripción',
+            'Cotización', 'Tipo', 'Fecha creación', 'Originador', 'Linea', 'Último estado', 'Siguiente estado',
             'OC', 'Tipo', 'Fecha creación', 'Fecha entrega', 'Originador', 'Linea',
             'Proveedor codigo', 'Proveedor descripcion', 'Último estado', 'Siguiente estado',
             'Cantidad', 'Moneda', 'Costo Unitario MXP', 'Total de linea MXP', 'Costo Unitario USD',
@@ -113,7 +113,10 @@ class SeguimientoComprasLista(View):
                         argumentos['req_generador__contains'] = request.POST[datosPost]
 
                     if datosPost == 'requisicion_canceladas':
-                        argumentos['req_estado_last__exact'] = request.POST[datosPost]
+                        if request.POST[datosPost] == '-980':
+                            argumentos['req_estado_last__exact'] != '980'
+                        else:
+                            argumentos['req_estado_last__exact'] = request.POST[datosPost]
 
                     if datosPost == 'requisicion_desde':
                         fecha = request.POST.get('requisicion_desde').split('/')
@@ -133,7 +136,10 @@ class SeguimientoComprasLista(View):
                         argumentos['cot_generador__contains'] = request.POST[datosPost]
 
                     if datosPost == 'cotizacion_canceladas':
-                        argumentos['cot_estado_last__exact'] = request.POST[datosPost]
+                        if request.POST[datosPost] == '-980':
+                            argumentos['cot_estado_last__exact'] != '980'
+                        else:
+                            argumentos['cot_estado_last__exact'] = request.POST[datosPost]
 
                     if datosPost == 'oc':
                         argumentos['ord__exact'] = request.POST[datosPost]
@@ -145,7 +151,10 @@ class SeguimientoComprasLista(View):
                         argumentos['ord_generador__contains'] = request.POST[datosPost]
 
                     if datosPost == 'oc_canceladas':
-                        argumentos['ord_estado_last__exact'] = request.POST[datosPost]
+                        if request.POST[datosPost] == '-980':
+                            argumentos['ord_estado_last__exact'] != '980'
+                        else:
+                            argumentos['ord_estado_last__exact'] = request.POST[datosPost]
 
                     if datosPost == 'oc_desde':
                         fecha = request.POST.get('oc_desde').split('/')
@@ -167,11 +176,12 @@ class SeguimientoComprasLista(View):
         rows = VIEW_SCOMPRAS.objects.using('jde_p').filter(**argumentos).values_list(
             'req_compania', 'req_un', 'req', 'req_tipo', 'req_generador', 'req_fecha_creacion', 'req_fecha_necesidad',
             'req_linea', 'req_linea_tipo', 'req_estado_last', 'req_estado_next', 'req_comprador_desc',
-            'req_item_numero', 'req_item_desc', 'req_cantidad_solicitada', 'req_udm', 'cot', 'cot_tipo',
-            'cot_fecha_creacion', 'cot_generador', 'cot_linea', 'cot_estado_last', 'cot_estado_next',
+            'req_item_numero', 'req_item_desc', 'req_cantidad_solicitada', 'req_udm', 'req_glclass', 'req_glclass_desc',
+            'cot', 'cot_tipo', 'cot_fecha_creacion', 'cot_generador', 'cot_linea', 'cot_estado_last', 'cot_estado_next',
             'ord', 'ord_tipo', 'ord_fecha_creacion', 'ord_fecha_entrega', 'ord_generador', 'ord_linea',
-            'ord_proveedor', 'ord_proveedor_desc', 'ord_estado_last', 'ord_estado_next',
-            'ord_cantidad_solic', 'ord_moneda', 'ord_pu_mx', 'ord_total_mx', 'ord_pu_ex', 'ord_total_ex', 'ord_impuesto', 'ord_recepcion')
+            'ord_proveedor', 'ord_proveedor_desc', 'ord_estado_last', 'ord_estado_next', 'ord_cantidad_solic', 'ord_moneda',
+            'ord_pu_mx', 'ord_total_mx', 'ord_pu_ex', 'ord_total_ex', 'ord_impuesto', 'ord_recepcion'
+        )
 
         date_format = xlwt.XFStyle()
         date_format.num_format_str = 'dd/mm/yyyy'
@@ -182,15 +192,15 @@ class SeguimientoComprasLista(View):
                 pattern = xlwt.Pattern()
                 pattern.pattern = xlwt.Pattern.SOLID_PATTERN
 
-                if col_num >= 0 and col_num <= 15:
+                if col_num >= 0 and col_num <= 17:
                     pattern.pattern_fore_colour = xlwt.Style.colour_map['LightYellow']
 
 
-                elif col_num >= 16 and col_num <= 22:
+                elif col_num >= 18 and col_num <= 24:
                     pattern.pattern_fore_colour = xlwt.Style.colour_map['GhostWhite']
 
 
-                elif col_num >= 23 and col_num <= 41:
+                elif col_num >= 25 and col_num <= 43:
                     pattern.pattern_fore_colour = xlwt.Style.colour_map['Azure']
 
                 resultados_style.pattern = pattern
@@ -205,7 +215,6 @@ class SeguimientoComprasLista(View):
                         ws.write(row_num, col_num, fecha, resultados_style)
 
                     else:
-
 
                         date_format.pattern = pattern
                         date_format.borders = bordes_resultados

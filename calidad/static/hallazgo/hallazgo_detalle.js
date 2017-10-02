@@ -8,6 +8,7 @@ var url_analisis_hallazgo = window.location.origin + "/api-calidad/analisishalla
 var url_profile = window.location.origin + "/api-seguridad/profile/"
 var url_archivo = window.location.origin + "/api-home/archivo/"
 var url_metodologia = window.location.origin + "/api-calidad/metodologia/"
+var url_plan_accion_hallazgo = window.location.origin + "/api-calidad/planaccionhallazgo/"
 var url_evidencia_hallazgo = window.location.origin + "/api-calidad/evidenciahallazgo/"
 
 // OBJS
@@ -201,7 +202,7 @@ GridAnalisis.prototype.click_EliminarAnalisis = function (e) {
 
    e.preventDefault()
    pk = this.getAttribute("data-id")
-   tarjeta_analisis.grid.eliminar(pk)
+   e.data.eliminar(pk)
 }
 GridAnalisis.prototype.load_Data = function () {
 
@@ -596,6 +597,16 @@ function TarjetaPlanAccion() {
 function ToolBarPlanAccion() {
 
    popup_actividad = new PopupActividad()
+   this.$boton_plan_accion = $('#id_boton_plan')
+   this.init_Events()
+}
+ToolBarPlanAccion.prototype.init_Events = function () {
+
+   this.$boton_plan_accion.on("click", this, this.click_BotonNuevo)
+}
+ToolBarPlanAccion.prototype.click_BotonNuevo = function (e) {
+
+   popup_actividad.mostrar( 0, "nuevo" )
 }
 
 /*-----------------------------------------------*\
@@ -606,16 +617,113 @@ function GridPlanAccion() {
 
    popup_acciones = new PopupAcciones()
   //  popup_editarA = new PopupEditarA()
-   this.$id_grid_plan_accion = $('#id_grid_plan_accion')
+   this.$id = $('#id_grid_plan_accion')
+   this.$id_tbody = $('#id_tbody_plan_accion')
    this.init_Events()
+   this.load_Data()
 }
 GridPlanAccion.prototype.init_Events = function () {
 
-   this.$id_grid_plan_accion.on("click", '.clickable-row', this.click_FilaGrid)
+   this.$id.on("click", '.clickable-row', this.click_FilaGrid)
+   this.$id.on("click", '[data-event=\'editarPlan\']', this.click_EditarPlan)
+   this.$id.on("click", '[data-event=\'accionesPlan\']', this.click_AccionesPlan)
 }
 GridPlanAccion.prototype.click_FilaGrid = function () {
 
    $(this).addClass('nova-active-row').siblings().removeClass('nova-active-row')
+}
+GridPlanAccion.prototype.click_EditarPlan = function (e) {
+
+   e.preventDefault()
+   pk = this.getAttribute("data-id")
+   popup_actividad.mostrar( pk, "editar")
+}
+GridPlanAccion.prototype.click_AccionesPlan = function (e) {
+
+   e.preventDefault()
+   pk = this.getAttribute("data-id") //obtener data id
+   popup_actividad.mostrar( pk )
+   // e.data.eliminar(pk)
+}
+GridPlanAccion.prototype.load_Data = function () {
+
+   $.ajax({
+
+      url: url_plan_accion_hallazgo,
+      method: "GET",
+      context: this,
+      data: {
+
+         hallazgo_id: tarjeta_detalle_hallazgo.$id_pk_hal.val(),
+      },
+      success: function (_response) {
+
+         this.refresh_Data(_response)
+      },
+      error: function (_response) {
+
+         alertify.error("Ocurrio error al cargar datos")
+      }
+   })
+}
+GridPlanAccion.prototype.refresh_Data = function (_response) {
+
+   this.$id_tbody.text()
+   var datos = ''
+   if (_response.length) {
+
+      for (var i = 0; i < _response.length; i++) {
+
+          datos += '<tr class="clickable-row">' +
+                      '<td>' +
+                        '<button class="btn nova-btn btn-default">' +
+                           '<i class="icon icon-left icon mdi mdi-settings nova-black" data-event="accionesPlan" data-id="' + _response[i].pk + '"></i>' +
+                        '</button>' +
+                      '</td>' +
+                      '<td>' +
+                        '<a class="btn btn-default nova-url" data-event="editarPlan" data-id="' + _response[i].pk + '">' + _response[i].titulo + '</a>' +
+                      '</td>' +
+                      '<td>' + _response[i].actividad + '</td>' +
+                      '<td>' + _response[i].responsable + '</td>' +
+                      '<td>' + _response[i].fecha_programada + '</td>' +
+                      '<td>' + _response[i].evidencia + '</td>' +
+                      '<td>' + _response[i].observacion + '</td>' +
+                      '<td>' + _response[i].resultado + '</td>' +
+                   '</tr>'
+      }
+   }
+   else {
+
+      datos +=  '<tr class="clickable-row">' +
+                   '<td colspan="8" class="nova-aling-center nova-sin-resultados">No se encontraron resultados.</td>' +
+                '</tr>'
+   }
+   this.$id_tbody.html(datos)
+}
+GridPlanAccion.prototype.eliminar = function (_pk) {
+
+   alertify.confirm(
+
+      'Eliminar Registro',
+      '¿Desea Eliminar este registro?',
+      function (e) {
+
+         $.ajax({
+            url: url_plan_accion_hallazgo + _pk + '/',
+            method: "DELETE",
+            headers: { "X-CSRFToken": appnova.galletita },
+            success: function () {
+               tarjeta_analisis.grid.load_Data()
+               alertify.success("Se eliminó registro correctamente")
+            },
+            error: function () {
+
+               alertify.error("Ocurrió un error al eliminar")
+            }
+         })
+      },
+      null
+   )
 }
 
 /*-----------------------------------------------*\
@@ -624,30 +732,238 @@ GridPlanAccion.prototype.click_FilaGrid = function () {
 
 function PopupActividad() {
 
-   this.$id_actividad = $('#id_actividad')
+   this.$id = $('#id_tarjeta_actividad')
+   this.$id_popup_titulo = $('#id_popup_titulo_actividad')
+   this.$id_titulo = $('#id_titulo_actividad')
+   this.$id_actividad = $('#id_actividad_descripcion')
    this.$id_responsable = $('#id_responsable')
-   this.$id_fecha_programada = $('#id_fecha_programada')
-   this.$id_fecha_programada_group = $('#id_fecha_programada_group')
+   this.$id_fecha_programada = $('#id_fecha_programada_group')
+   this.$id_evidencia = $('#id_evidencia_actividad')
+   this.$id_boton_guardar = $('#id_boton_guardar_actividad')
+   this.$id_mensaje_error = $('#id_mensaje_error_actividad')
+   this.$accion
+
+   this.$pk_actividad
+
    this.init_Components()
+   this.init_Events()
+
+   // this.$id_archivo = $('#id_archivo_analisis')
+   // this.$ocultar = false
 }
 PopupActividad.prototype.init_Components = function () {
 
    this.$id_responsable.select2(appnova.get_ConfigSelect2())
-   this.$id_fecha_programada.mask(
-      "9999-99-99",
-      {
-         placeholder:"aaaa/mm/dd"
-      }
-   )
-   this.$id_fecha_programada_group.datetimepicker(this.get_DateTimePickerConfig())
+   this.$id_fecha_programada.datepicker(appnova.get_ConfDatePicker())
 }
-PopupActividad.prototype.get_DateTimePickerConfig = function () {
-   return {
-      autoclose: true,
-      orientation: "bottom left",
-      minViewMode: 2,
-      format: "yyyy-mm-dd",
+PopupActividad.prototype.init_Events = function () {
+
+   this.$id_boton_guardar.on("click", this, this.click_BotonGuardar)
+   this.$id.on("hidden.bs.modal", this, this.hidden_Modal)
+}
+PopupActividad.prototype.mostrar = function (_pk, _accion) {
+
+   this.$id.modal('show').attr("data-primaryKey", _pk)
+   this.$accion = _accion
+
+   if (_accion == "nuevo") {
+
+      this.$id_popup_titulo.text('Nueva Actividad')
    }
+   else if (_accion == "editar") {
+
+      this.$id_popup_titulo.text('Editar Actividad')
+      this.set_Data(_pk)
+      this.$pk_evidencia = _pk
+   }
+}
+PopupActividad.prototype.click_BotonGuardar = function (e) {
+
+   // e.data.$ocultar = true
+   e.data.guardar_Actividad(e)
+}
+PopupActividad.prototype.hidden_Modal = function (e) {
+
+   e.data.clear_Estilos(e)
+   e.data.clear_Formulario(e)
+}
+PopupActividad.prototype.guardar_Actividad = function (e) {
+
+   if (e.data.$accion == "nuevo") {
+
+      e.data.clear_Estilos(e)
+      e.data.crear(e)
+   }
+   else if (e.data.$accion == "editar") {
+
+      pk = e.data.$id.attr("data-primaryKey")
+      e.data.editar(e, pk)
+   }
+}
+PopupActividad.prototype.clear_Estilos = function (e) {
+
+   e.data.$id_mensaje_error.html('')
+   e.data.$id_titulo.removeClass("nova-has-error")
+   e.data.$id_actividad.removeClass("nova-has-error")
+   e.data.$id_responsable.data('select2').$selection.removeClass("nova-has-error")
+   e.data.$id_fecha_programada.removeClass("nova-has-error")
+   e.data.$id_evidencia.removeClass("nova-has-error")
+}
+PopupActividad.prototype.clear_Formulario = function (e) {
+
+   e.data.$id_titulo.val("")
+   e.data.$id_actividad.val("")
+   e.data.$id_responsable.val("").trigger("change")
+   e.data.$id_fecha_programada.datepicker("clearDates")
+   e.data.$id_evidencia.val("")
+}
+PopupActividad.prototype.crear = function (e) {
+
+   if (e.data.validar()) {
+
+      $.ajax({
+         url: url_plan_accion_hallazgo,
+         method: "POST",
+         headers: { "X-CSRFToken": appnova.galletita },
+         data: {
+
+            "titulo": e.data.$id_titulo.val(),
+            "actividad": e.data.$id_actividad.val(),
+            "responsable": e.data.$id_responsable.val(),
+            "fecha_programada": e.data.get_FechaConFormato("#id_fecha_programada_group"),
+            "evidencia": e.data.$id_evidencia.val(),
+            "hallazgo": url_hallazgo_proceso + tarjeta_detalle_hallazgo.$id_pk_hal.val() + "/",
+            "create_by": url_profile + tarjeta_detalle_hallazgo.$id_actual_user.val() + "/",
+         },
+         success: function (_response) {
+
+            // if (e.data.$id_archivo.fileinput('getFileStack').length > 0) {
+            //
+            //    e.data.$pk_evidencia = _response.pk
+            //    e.data.$id_archivo.fileinput('upload')
+            // }
+            // else {
+               e.data.$id.modal('hide')
+               tarjeta_plan_accion.grid.load_Data()
+               e.data.$ocultar = false //Checar si es necesario
+            // }
+         },
+         error: function (_response) {
+
+            alertify.error("Ocurrio error al insertar evidencia")
+         }
+      })
+   }
+}
+PopupActividad.prototype.editar = function (e, _pk) {
+
+   if (e.data.validar()) {
+
+      $.ajax({
+         url: url_plan_accion_hallazgo + _pk + "/",
+         method: "PUT",
+         headers: { "X-CSRFToken": appnova.galletita },
+         data: {
+
+            "titulo": e.data.$id_titulo.val(),
+            "actividad": e.data.$id_actividad.val(),
+            "responsable": e.data.$id_responsable.val(),
+            "fecha_programada": e.data.get_FechaConFormato("#id_fecha_programada"),
+            "evidencia": e.data.$id_evidencia.val(),
+            "hallazgo": url_hallazgo_proceso + tarjeta_detalle_hallazgo.$id_pk_hal.val() + "/",
+            "update_by": url_profile + tarjeta_detalle_hallazgo.$id_actual_user.val() + "/",
+         },
+         success: function (_response) {
+
+            // if (e.data.$id_archivo.fileinput('getFileStack').length > 0) {
+            //
+            //    e.data.$pk_evidencia = _response.pk
+            //    e.data.$id_archivo.fileinput('upload')
+            // }
+            // else {
+            //
+               e.data.$id.modal('hide')
+               tarjeta_plan_accion.grid.load_Data()
+               e.data.$ocultar = false
+            // }
+         },
+         error: function (_response) {
+
+            alertify.error("Ocurrio error al insertar actividad")
+            console.log(_response.responseText);
+         }
+      })
+   }
+}
+PopupActividad.prototype.validar = function () {
+
+   var bandera = true
+
+   if ( appnova.validar_EspaciosSaltos(this.$id_titulo.val()) == "" ) {
+
+      this.$id_titulo.addClass("nova-has-error")
+      bandera = false
+   }
+   if ( appnova.validar_EspaciosSaltos(this.$id_actividad.val()) == "" ) {
+
+      this.$id_actividad.addClass("nova-has-error")
+      bandera = false
+   }
+   if ( this.$id_responsable.val() == "" ) {
+
+      this.$id_responsable.data('select2').$selection.addClass("nova-has-error")
+      bandera = false
+   }
+   if ( this.get_FechaConFormato("#id_fecha_programada_group") == "" ) {
+
+      this.$id_fecha_programada.addClass("nova-has-error")
+      bandera = false
+   }
+   if ( appnova.validar_EspaciosSaltos(this.$id_evidencia.val()) == "" ) {
+
+      this.$id_evidencia.addClass("nova-has-error")
+      bandera = false
+   }
+
+   if ( !bandera ){
+
+      this.$id_mensaje_error.html('Completa los campos marcados en rojo.')
+   }
+
+   return bandera
+}
+PopupActividad.prototype.get_FechaConFormato = function (element) {
+
+    fecha = $(element).datepicker("getDate")
+    fecha_conformato = moment(fecha).format('YYYY-MM-DD')
+
+    if (fecha_conformato == "Invalid date") {
+        return ""
+    }
+    else {
+        return fecha_conformato
+    }
+}
+PopupActividad.prototype.set_Data = function (_pk) {
+
+   $.ajax({
+
+      url: url_plan_accion_hallazgo + _pk + "/",
+      method: "GET",
+      context: this,
+      success: function (_response) {
+
+         this.$id_titulo.val(_response.titulo)
+         this.$id_actividad.val(_response.actividad)
+         this.$id_responsable.val(_response.responsable).trigger("change")
+         this.$id_fecha_programada.datepicker("setDate", moment(_response.fecha_programada).format('dd/mm/yyyy') )
+         this.$id_evidencia.val(_response.evidencia)
+      },
+      error: function (_response) {
+
+         alertify.error("Ocurrio error al cargar datos")
+      }
+   })
 }
 
 /*-----------------------------------------------*\
@@ -658,33 +974,35 @@ function PopupAcciones () {
 
    popup_seguimiento_plan = new PopupSeguimientoPlan()
    popup_evaluacion_plan = new PopupEvaluacionPlan()
-   this.$id_tarjeta_acciones = $('#id_tarjeta_acciones')
+   this.$id = $('#id_tarjeta_acciones')
    this.$id_boton_evaluacion_eficacia = $('#id_boton_evaluacion_eficacia')
    this.$id_boton_seguimiento_plan = $('#id_boton_seguimiento_plan')
    this.init_Events()
 }
 PopupAcciones.prototype.init_Events = function () {
 
+   this.$id.on("hidden.bs.modal", this, this.hidden_Modal)
    this.$id_boton_seguimiento_plan.on("click", this, this.click_BotonSeguimientoPlan )
    this.$id_boton_evaluacion_eficacia.on("click", this, this.click_BotonEvaluacion)
 }
 PopupAcciones.prototype.click_BotonSeguimientoPlan = function (e) {
 
    e.preventDefault()
-   popup_seguimiento_plan.$id.on('shown.bs.modal', function(){
-      $("body").addClass("modal-open")
-      $("html").addClass("be-modal-open")
-   })
-   e.data.$id_tarjeta_acciones.modal('hide')
+   e.data.$id.modal('hide')
 }
 PopupAcciones.prototype.click_BotonEvaluacion = function (e) {
 
    e.preventDefault()
-   popup_evaluacion_plan.$id.on('shown.bs.modal', function(){
-      $("body").addClass("modal-open")
-      $("html").addClass("be-modal-open")
-   })
-   e.data.$id_tarjeta_acciones.modal('hide')
+   e.data.$id.modal('hide')
+}
+PopupAcciones.prototype.mostrar = function ( _pk ) {
+
+   this.$id.modal('show').attr
+}
+PopupAcciones.prototype.hidden_Modal = function (e) {
+
+   $("body").addClass("modal-open")
+   $("html").addClass("be-modal-open")
 }
 
 /*-----------------------------------------------*\
@@ -702,23 +1020,8 @@ function PopupSeguimientoPlan () {
 }
 PopupSeguimientoPlan.prototype.init_Components = function () {
 
-   this.$id_fecha_seguimiento.mask(
-      "9999-99-99",
-      {
-         placeholder:"aaaa/mm/dd"
-      }
-   )
-   this.$id_fecha_seguimiento_group.datetimepicker(this.get_DateTimePickerConfig())
+   this.$id_fecha_seguimiento_group.datepicker(appnova.get_ConfDatePicker())
    this.$id_archivo.fileinput(this.get_ConfigFileInput())
-}
-PopupSeguimientoPlan.prototype.get_DateTimePickerConfig = function () {
-
-  return {
-      autoclose: true,
-      orientation: "bottom left",
-      minViewMode: 2,
-      format: "yyyy-mm-dd",
-   }
 }
 PopupSeguimientoPlan.prototype.get_ConfigFileInput = function () {
    return {
@@ -759,13 +1062,7 @@ function PopupEvaluacionPlan () {
 }
 PopupEvaluacionPlan.prototype.init_Components = function () {
 
-   this.$id_fecha_evaluacion.mask(
-      "9999-99-99",
-      {
-         placeholder:"aaaa/mm/dd"
-      }
-   )
-   this.$id_fecha_evaluacion_group.datetimepicker(this.get_DateTimePickerConfig())
+   this.$id_fecha_evaluacion_group.datepicker(appnova.get_ConfDatePicker())
    this.$id_archivo.fileinput(this.get_ConfigFileInput())
 }
 PopupEvaluacionPlan.prototype.get_ConfigFileInput = function () {
@@ -794,14 +1091,6 @@ PopupEvaluacionPlan.prototype.get_ConfigFileInput = function () {
           ],
           purifyHtml: true,
      }
-}
-PopupEvaluacionPlan.prototype.get_DateTimePickerConfig = function () {
-   return {
-      autoclose: true,
-      orientation: "bottom left",
-      minViewMode: 2,
-      format: "yyyy-mm-dd",
-   }
 }
 
 /*-----------------------------------------------*\
@@ -1146,7 +1435,6 @@ PopupEvidencia.prototype.crear = function (e) {
          error: function (_response) {
 
             alertify.error("Ocurrio error al insertar evidencia")
-            console.log(_response.responseText);
          }
       })
    }

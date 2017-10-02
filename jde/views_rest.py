@@ -24,6 +24,7 @@ from .models import VIEW_COMPANIAS
 from .models import VIEW_AUTORIZACIONES
 from .models import VIEW_RECEPCIONES
 from .models import VIEW_PROVEEDORES
+from .models import VIEW_FLUJO_EGRESOS
 
 # Serializadores:
 from .serializers import VIEW_SCOMPRAS_Serializer
@@ -40,6 +41,7 @@ from .serializers import VM_PORF_CXC_Serializer
 from .serializers import VM_PORF_CXP_Serializer
 from .serializers import VM_PORF_NOMINA_Serializer
 from .serializers import VIEW_PROVEEDORES_Serializer
+from .serializers import VIEW_FLUJO_EGRESOS_Serializer
 
 # Paginadores:
 from .pagination import GenericPagination
@@ -58,13 +60,15 @@ from .filters import VM_PORF_CXC_Filter
 from .filters import VM_PORF_CXP_Filter
 from .filters import VM_PORF_NOMINA_Filter
 from .filters import VIEW_PROVEEDORES_Filter
+from .filters import VIEW_FLUJO_EGRESOS_Filter
 
 
 # ----------------- VIEW_SCOMPRAS ----------------- #
 
 
 class VIEW_SCOMPRAS_API(viewsets.ModelViewSet):
-    queryset = VIEW_SCOMPRAS.objects.using('jde_p').order_by('req_fecha_creacion')
+    queryset = VIEW_SCOMPRAS.objects.using(
+        'jde_p').order_by('req_fecha_creacion')
     serializer_class = VIEW_SCOMPRAS_Serializer
     filter_backends = (filters.DjangoFilterBackend,)
     filter_class = VIEW_SCOMPRAS_Filter
@@ -72,7 +76,8 @@ class VIEW_SCOMPRAS_API(viewsets.ModelViewSet):
 
 
 class VIEW_SCOMPRAS_ByPageAPI(viewsets.ModelViewSet):
-    queryset = VIEW_SCOMPRAS.objects.using('jde_p').order_by('req_fecha_creacion')
+    queryset = VIEW_SCOMPRAS.objects.using(
+        'jde_p').order_by('req_fecha_creacion')
     serializer_class = VIEW_SCOMPRAS_Serializer
     pagination_class = GenericPaginationCompras
     filter_backends = (filters.DjangoFilterBackend,)
@@ -213,7 +218,8 @@ class VIEW_UNIDADES_API(viewsets.ModelViewSet):
 
 
 class VIEW_AUTORIZACIONES_API(viewsets.ReadOnlyModelViewSet):
-    queryset = VIEW_AUTORIZACIONES.objects.using('jde_p').order_by('autorizacion_fecha')
+    queryset = VIEW_AUTORIZACIONES.objects.using(
+        'jde_p').order_by('autorizacion_fecha')
     serializer_class = VIEW_AUTORIZACIONES_Serializer
     filter_backends = (DjangoFilterBackend,)
     filter_class = VIEW_AUTORIZACIONES_Filter
@@ -221,7 +227,8 @@ class VIEW_AUTORIZACIONES_API(viewsets.ReadOnlyModelViewSet):
 
 
 class VIEW_AUTORIZACIONES_ByPageAPI(viewsets.ReadOnlyModelViewSet):
-    queryset = VIEW_AUTORIZACIONES.objects.using('jde_p').order_by('autorizacion_fecha')
+    queryset = VIEW_AUTORIZACIONES.objects.using(
+        'jde_p').order_by('autorizacion_fecha')
     serializer_class = VIEW_AUTORIZACIONES_Serializer
     pagination_class = GenericPagination
     filter_backends = (DjangoFilterBackend,)
@@ -261,10 +268,24 @@ class VIEW_PROVEEDORES_API(viewsets.ModelViewSet):
 class VIEW_PROVEEDORES_ByPageAPI(viewsets.ModelViewSet):
     queryset = VIEW_PROVEEDORES.objects.using('jde_p').all()
     serializer_class = VIEW_PROVEEDORES_Serializer
-    permission_classes = (IsAuthenticated,)
-    queryset = VIEW_PROVEEDORES.objects.using('jde_p').all()
-    serializer_class = VIEW_PROVEEDORES_Serializer
     pagination_class = GenericPagination
     filter_backends = (DjangoFilterBackend,)
     filter_class = VIEW_PROVEEDORES_Filter
+    permission_classes = (IsAuthenticated,)
+
+
+class VIEW_FLUJO_EGRESOS_API(viewsets.ModelViewSet):
+    queryset = VIEW_FLUJO_EGRESOS.objects.using('jde_p').all()
+    serializer_class = VIEW_FLUJO_EGRESOS_Serializer
+    filter_backends = (DjangoFilterBackend,)
+    filter_class = VIEW_FLUJO_EGRESOS_Filter
+    permission_classes = (IsAuthenticated,)
+
+
+class VIEW_FLUJO_EGRESOS_ByPageAPI(viewsets.ModelViewSet):
+    queryset = VIEW_FLUJO_EGRESOS.objects.using('jde_p').all()
+    serializer_class = VIEW_FLUJO_EGRESOS_Serializer
+    pagination_class = GenericPagination
+    filter_backends = (DjangoFilterBackend,)
+    filter_class = VIEW_FLUJO_EGRESOS_Filter
     permission_classes = (IsAuthenticated,)

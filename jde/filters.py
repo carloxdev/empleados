@@ -21,6 +21,7 @@ from .models import VM_PORF_CXC
 from .models import VM_PORF_CXP
 from .models import VM_PORF_NOMINA
 from .models import VIEW_PROVEEDORES
+from .models import VIEW_FLUJO_EGRESOS
 
 
 # ----------------- VIEW_INVENTARIO ----------------- #
@@ -268,7 +269,7 @@ class VIEW_SCOMPRAS_Filter(filters.FilterSet):
     )
     req_estado_last = CharFilter(
         name="req_estado_last",
-        lookup_expr="exact"
+        method="req_filter_estado_last"
     )
     cot = NumberFilter(
         name="cot",
@@ -284,7 +285,7 @@ class VIEW_SCOMPRAS_Filter(filters.FilterSet):
     )
     cot_estado_last = CharFilter(
         name="cot_estado_last",
-        lookup_expr="exact"
+        method="cot_filter_estado_last"
     )
     ord = NumberFilter(
         name="ord",
@@ -300,7 +301,7 @@ class VIEW_SCOMPRAS_Filter(filters.FilterSet):
     )
     ord_estado_last = CharFilter(
         name="ord_estado_last",
-        lookup_expr="exact"
+        method="ord_filter_estado_last"
     )
     req_fecha_creacion_desde = CharFilter(
         name="req_fecha_creacion_desde",
@@ -404,6 +405,51 @@ class VIEW_SCOMPRAS_Filter(filters.FilterSet):
 
             return consulta
 
+    def req_filter_estado_last(self, queryset, name, value):
+
+        if not value:
+            return queryset
+
+        elif value == "-980":
+            consulta = queryset.exclude(req_estado_last__exact='980')
+
+            return consulta
+
+        else:
+            consulta = queryset.filter(req_estado_last__exact=value)
+
+            return consulta
+
+    def cot_filter_estado_last(self, queryset, name, value):
+
+        if not value:
+            return queryset
+
+        elif value == "-980":
+            consulta = queryset.exclude(cot_estado_last__exact='980')
+
+            return consulta
+
+        else:
+            consulta = queryset.filter(cot_estado_last__exact=value)
+
+            return consulta
+
+    def ord_filter_estado_last(self, queryset, name, value):
+
+        if not value:
+            return queryset
+
+        elif value == "-980":
+            consulta = queryset.exclude(ord_estado_last__exact='980')
+
+            return consulta
+
+        else:
+            consulta = queryset.filter(ord_estado_last__exact=value)
+
+            return consulta
+
 
 class VIEW_AUTORIZACIONES_Filter(filters.FilterSet):
 
@@ -482,4 +528,24 @@ class VIEW_PROVEEDORES_Filter(filters.FilterSet):
         fields = [
             'clave',
             'descripcion'
+        ]
+
+
+# ----------------- VIEW_FLUJO_EGRESOS ----------------- #
+
+class VIEW_FLUJO_EGRESOS_Filter(filters.FilterSet):
+
+    descripcion_un = CharFilter(
+        name="descripcion_un",
+        lookup_expr="contains"
+    )
+
+    class Meta:
+        model = VIEW_FLUJO_EGRESOS
+        fields = [
+            'compania',
+            'anio',
+            'tipo_un',
+            'descripcion_un',
+            'cuenta_clase_desc',
         ]

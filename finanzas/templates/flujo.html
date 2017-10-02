@@ -4,9 +4,9 @@
 
 {% load custom_tags %}
 
-{% block titulo %} Solicitudes de Viaticos {% endblock titulo %}
+{% block titulo %} Flujo {% endblock titulo %}
 
-{% block title-page %} Solicitudes de Viaticos {% endblock title-page %}
+{% block title-page %} Flujo {% endblock title-page %}
 
 {% block css %}
 
@@ -15,9 +15,6 @@
     <link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.common-bootstrap.min.css' %}"/>
     <link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.bootstrap.min.css' %}"/>
 
-    <!-- DatePicker -->
-    <link rel="stylesheet" href="{% static 'libs/bootstrap-datepicker/2.0/dist/css/bootstrap-datepicker.min.css' %}"/>
-
     <!-- Nova -->
     <link rel="stylesheet" href="{% static 'grid.css' %}"/>
 
@@ -25,20 +22,17 @@
 
 {% block contenido %}
 
-<!-- URLs -->
-<input type="text" id="url_viaticocabecera_editar" class="hidden" value="{% url 'finanzas:viatico_editar' 0 %}">
-
 <div class="be-content">
 
 	<div class="page-head nova-page-head">
-		<h2 class="page-head-title nova-title">Solicitudes de Viaticos</h2>
+		<h2 class="page-head-title nova-title">Flujo</h2>
 		<ol class="breadcrumb page-head-nav pull-right">
 			<li><a href="{% url 'home:inicio' %}">Inicio</a></li>
-			<li id="menu" data-opcion="viaticos_lista" class="active">Solicitudes de Viaticos</li>
+			<li id="menu" data-opcion="viaticos_flujo" class="active">Flujo</li>
 		</ol>
 	</div>
 
-    <!-- Targeta Filtros -->
+	<!-- Targeta Filtros -->
     <div id="tarjeta_filtros" role="dialog" class="modal fade colored-header colored-header-primary">
         <div class="modal-dialog modal-lg nova-modal-responsive">
             <div class="modal-content nova-modal-maxwidth nova-modal-content-responsive">
@@ -50,19 +44,11 @@
 
                 <form id="formulario_filtro" class="modal-body form-horizontal">
 
-                    {% tag_filter form.empleado_clave %}
+                    {% tag_filter form.anio %}
 
-                    {% tag_filter form.un_clave %}
+                    {% tag_filter form.proyecto %}
 
-                    {% tag_filter form.autorizador_clave %}
-
-                    {% tag_filter form.proposito_viaje %}
-
-                    {% tag_filter form.ciudad_destino %}
-
-                    {% tag_filter_dates 'Fecha Creacion' form.created_date_mayorque form.created_date_menorque %}
-
-                    {% tag_filter form.status %}
+                    {% tag_filter form.centro_costos %}
 
                 </form>
                 <div class="modal-footer nova-modal-footer">
@@ -86,7 +72,6 @@
         </div> <!-- Modal dialog -->
     </div><!-- Modal -->
 
-
     <!-- Targeta Resultados -->
     <div class="main-content container-fluid nova-main-content">
         <div class="row">
@@ -95,19 +80,10 @@
                         <div class="panel-heading panel-border nova-panel-heading">
                             <div class="widget-head nova-widget-head">
                                 <div class="button-toolbar">
-                                    <a href="{% url 'finanzas:viatico_nuevo' %}"
-                                        class="btn nova-btn btn-rounded btn-space btn-default" id="boton_nuevo">
-                                        <i class="icon icon-left mdi mdi-plus-circle nova-black"></i> Nuevo
-                                    </a>
-
                                     <a href="#tarjeta_filtros"
                                         class="btn nova-btn btn-rounded btn-space btn-primary" data-toggle="modal" id="boton_filtros">
                                         <i class="icon icon-left mdi mdi-search nova-white"></i> Filtros
                                     </a>
-
-                                    <button class="btn nova-btn btn-rounded btn-space btn-success" id="boton_excel" disabled>
-                                        <i class="icon icon-left mdi mdi-download nova-white"></i> Exportar
-                                    </button>
                                 </div>
                                 <span class="title hidden-xs">Registros</span>
                             </div>
@@ -119,7 +95,6 @@
             </div>
         </div>
 	</div>
-
 </div>
 
 
@@ -127,8 +102,6 @@
 
 {% block scripts %}
 
-    <!--JSZIP -->
-    <script src="{% static 'libs/kendo/2015.2.624/js/jszip.min.js' %}"></script>
 
     <!-- Kendo Js -->
     <script src="{% static 'libs/kendo/2015.2.624/js/cultures/kendo.culture.es-MX.min.js' %}"></script>
@@ -137,11 +110,7 @@
     <!-- Theme -->
     <script src="{% static 'theme/lib/jquery-ui/jquery-ui.min.js' %}"></script>
 
-    <!-- DatePicker -->
-    <script src="{% static 'libs/bootstrap-datepicker/2.0/dist/js/bootstrap-datepicker.min.js' %}"></script>
-    <script src="{% static 'libs/bootstrap-datepicker/2.0/dist/locales/bootstrap-datepicker.es.min.js' %}"></script>
-
     <!-- Nova -->
-    <script src="{% static 'viatico/viatico_lista.js' %}"></script>
+    <script src="{% static 'flujo.js' %}"></script>
 
 {% endblock scripts %}

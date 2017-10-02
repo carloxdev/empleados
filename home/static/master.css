@@ -921,9 +921,9 @@ div.nova-panel-arbol li.list-group-item {
     padding-right: 0px !important;
 }
 .nova-crop-img {
-  height: 60px !important;
+   height: 60px !important;
   overflow: hidden !important;
-  line-height: 70px !important;
+  line-height: 70px !important; 
 }
 .nova-imagen-avatar{
   max-width: 100px !important;
@@ -1003,7 +1003,7 @@ div.nova-panel-arbol li.list-group-item {
   text-align: center !important;
 }
 .nova-padding-elemento-post{
-    padding: 1em 0 1em 0 !important;
+    padding: 1em 0 1em 1em !important;
     font-size: 12px;
 }
 .nova-padding-tools {
@@ -1072,6 +1072,13 @@ div.nova-panel-arbol li.list-group-item {
 @media (max-width: 767px) {
   .nova-post-contenido{
     margin-top: 1em !important;
+  }
+  .nova-post-titulo{
+    font-size: 25px;
+    font-weight: 400 !important;
+    text-align: center;
+    border-bottom: 1px solid #d9d9d9;
+    margin: 0 !important;
   }
 }
 /* FIN COMUNICACIÓN INTERNA */

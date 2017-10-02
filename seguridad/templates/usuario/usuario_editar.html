@@ -8,101 +8,95 @@
 {% block contenido %}
 
 <div class="be-content">
-	{% if request.user.is_staff == True %}
-		<div class="page-head nova-page-head">
-			<h2 class="page-head-title nova-title">Editar usuario</h2>
-			<ol class="breadcrumb page-head-nav pull-right">
-				<li><a href="{% url 'home:inicio' %}">Inicio</a></li>
-				<li><a href="{% url 'seguridad:usuario_lista' %}">Usuarios</a></li>
-				<li>Editar usuario</li>
-			</ol>
-		</div><!-- End Page head -->
-		<div class="main-content container-fluid nova-main-content">
-	        <div class="row">
-	            <div class="col-md-12">
-	                <form class="panel panel-border panel-contrast" action="" method="POST" enctype="multipart/form-data"> {% csrf_token %}
-	                    <div class="panel-heading panel-heading-default nova-border-bottom">
-	                        Usuario <b>{{ usuario.username }}</b>
-	                    </div>
-	                    <div class="panel-body form-horizontal">
-							
-	                        {% if form.non_field_errors %}
+	<div class="page-head nova-page-head">
+		<h2 class="page-head-title nova-title">Editar usuario</h2>
+		<ol class="breadcrumb page-head-nav pull-right">
+			<li><a href="{% url 'home:inicio' %}">Inicio</a></li>
+			<li><a href="{% url 'seguridad:usuario_lista' %}">Usuarios</a></li>
+			<li>Editar usuario</li>
+		</ol>
+	</div><!-- End Page head -->
+	<div class="main-content container-fluid nova-main-content">
+        <div class="row">
+            <div class="col-md-12">
+                <form class="panel panel-border panel-contrast" action="" method="POST" enctype="multipart/form-data"> {% csrf_token %}
+                    <div class="panel-heading panel-heading-default nova-border-bottom">
+                        Usuario <b>{{ usuario.username }}</b>
+                    </div>
+                    <div class="panel-body form-horizontal">
+						
+                        {% if form.non_field_errors %}
 
-	                            {% for error in form.non_field_errors %}
-	                                {% tag_mensaje 'error' error %}
-	                            {% endfor %}
+                            {% for error in form.non_field_errors %}
+                                {% tag_mensaje 'error' error %}
+                            {% endfor %}
 
-	                        {% endif %}
-							
-							<div class="col-sm-9">
-	                        	<!-- Clave_rh -->
-		                        {% tag_field_registro form.clave_rh 3 7 %}
+                        {% endif %}
+						
+						<div class="col-sm-9">
+                        	<!-- Clave_rh -->
+	                        {% tag_field_registro form.clave_rh 3 7 %}
 
-		                        <!-- Primer nombre -->
-		                        {% tag_field_registro form.first_name 3 7 %}
+	                        <!-- Primer nombre -->
+	                        {% tag_field_registro form.first_name 3 7 %}
 
-		                        <!-- Apellidos -->
-		                        {% tag_field_registro form.last_name 3 7 %}
+	                        <!-- Apellidos -->
+	                        {% tag_field_registro form.last_name 3 7 %}
 
-		                         <!-- Fecha nacimiento -->
-		                        {% tag_field_registro form.fecha_nacimiento 3 7 %}
+	                         <!-- Fecha nacimiento -->
+	                        {% tag_field_registro form.fecha_nacimiento 3 7 %}
 
-		                         <!-- Email -->
-		                        {% tag_field_registro form.email 3 7 %}
+	                         <!-- Email -->
+	                        {% tag_field_registro form.email 3 7 %}
 
-		                        <!--Ocultos-->
-		                        <div class="hide">
-			                        <!-- Clave jde -->
-			                        {% tag_field_registro form.clave_jde 3 7 %}
-		                        </div>
-								
-								<!-- Password-->
-								<div class="form-group">
-									<label class="col-sm-3 control-label">
-										Contraseña
-							    	</label>
-							    	<div class="col-sm-7 xs-pt-5">
-							    		<a href="{% url 'seguridad:usuario_editar_contrasena' usuario.id %}"class="btn nova-btn btn-rounded btn-space btn-default" id="boton_nuevo">Cambiar contraseña</a>
-									</div>
-								</div>
-								<div class="form-group">
-									<label class="col-sm-3 control-label">
-										Permisos
-							    	</label>
-									<!-- Is_active-->
-									{% tag_field_checkbox form.is_active 'is_active' 2 %}
-								
-									<!-- Is_staff-->
-									{% tag_field_checkbox form.is_staff 'is_staff'  3%}
-
-									<!-- Is_superuser-->
-									{% tag_field_checkbox form.is_superuser 'is_superuser' 4 %}
-								</div>
-		
-							</div>
-
-	                        <div class="col-sm-3">
-	                           {% tag_image_preview form.foto foto %}
+	                        <!--Ocultos-->
+	                        <div class="hide">
+		                        <!-- Clave jde -->
+		                        {% tag_field_registro form.clave_jde 3 7 %}
 	                        </div>
+							
+							<!-- Password-->
+							<div class="form-group">
+								<label class="col-sm-3 control-label">
+									Contraseña
+						    	</label>
+						    	<div class="col-sm-7 xs-pt-5">
+						    		<a href="{% url 'seguridad:usuario_editar_contrasena' usuario.id %}"class="btn nova-btn btn-rounded btn-space btn-default" id="boton_nuevo">Cambiar contraseña</a>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-3 control-label">
+									Permisos
+						    	</label>
+								<!-- Is_active-->
+								{% tag_field_checkbox form.is_active 'is_active' 2 %}
+							
+								<!-- Is_staff-->
+								{% tag_field_checkbox form.is_staff 'is_staff'  3%}
 
-	                    </div>
-	                    <div class="modal-footer nova-modal-footer">
-	                        <a href=" {% url 'seguridad:usuario_lista' %}" class="btn btn-default">
-	                            <i class="icon mdi mdi-arrow-left"></i> Regresar
-	                        </a>
-	                         <button type="submit" id="id_boton_guardar" class="btn nova-btn btn-primary btn-lg pull-right">
-	                            Guardar cambios
-	                        </button>
-	                    </div>
-	                </form>
-	            </div>
-	        </div>
-	    </div>
-	{% else%}
-		<div class="col-md-12">
-			<h2> Usted no tiene acceso a esta sección </h2>
-		</div>
-	{% endif %}
+								<!-- Is_superuser-->
+								{% tag_field_checkbox form.is_superuser 'is_superuser' 4 %}
+							</div>
+	
+						</div>
+
+                        <div class="col-sm-3">
+                           {% tag_image_preview form.foto foto %}
+                        </div>
+
+                    </div>
+                    <div class="modal-footer nova-modal-footer">
+                        <a href=" {% url 'seguridad:usuario_lista' %}" class="btn btn-default">
+                            <i class="icon mdi mdi-arrow-left"></i> Regresar
+                        </a>
+                         <button type="submit" id="id_boton_guardar" class="btn nova-btn btn-primary btn-lg pull-right">
+                            Guardar cambios
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </div><!-- End Be content -->
 {% endblock contenido %}
 {% block scripts %}

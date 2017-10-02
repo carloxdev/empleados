@@ -14,7 +14,7 @@ var indicador_estado_civil=null
 var indicador_rango_edad=null
 var indicador_sexo=null
 var indicador_organizacion = null
-var organizacion = 0
+var indicador_antiguedad = null
 
 /*-----------------------------------------------*\
          LOAD
@@ -28,7 +28,7 @@ $(document).ready(function () {
    indicador_rango_edad = new IndicadorRangoEdad()
    indicador_sexo = new IndicadorSexo()
    indicador_organizacion = new IndicadorOrganizacion()
-
+   indicador_antiguedad = new IndicadorAntiguedad()
 })
 
 /*-----------------------------------------------*\
@@ -43,7 +43,7 @@ function Indicadores () {
    this.$spark3 = $('#spark3')
    this.$contenedor_graficas = $('#contenedor_graficas')
 
-   this.buscar_EmpleadosGeneral(organizacion)
+   this.buscar_Empleados()
    this.init_Components()
    this.init_Events()
 }
@@ -95,70 +95,18 @@ Indicadores.prototype.get_ConfSparkLine = function (){
 }
 Indicadores.prototype.init_Events = function () {
 
-   this.$organizaciones.on("change", this, this.filtro)
+   this.$organizaciones.on("change", this, this.buscar_Empleados)
 }
-Indicadores.prototype.filtro = function (e) {
-
-   organizacion = e.data.$organizaciones.val()
-   e.data.$contenedor_graficas.find('#panel_mensaje_sin_empleados').remove()
-
-   if (organizacion == 0){
-      indicadores.buscar_EmpleadosGeneral(organizacion)
-   }else if (organizacion != 0){
-      indicadores.buscar_EmpleadosFiltro(organizacion)
+Indicadores.prototype.buscar_Empleados = function (e) {
+   if(e){
+      organizacion = e.data.$organizaciones.val()
+      e.data.$contenedor_graficas.find('#panel_mensaje_sin_empleados').remove()
    }
-}
-Indicadores.prototype.buscar_EmpleadosGeneral = function (_organizacion){
-   organizacion = _organizacion
-
-   $.ajax({
-         url: url_empleados_full,
-         method: "GET",
-         dataType: "json",
-         success: function (response) {
-
-            //Total de empleados
-            total = indicador_total.get_Total(response, organizacion)
-
-            indicadores.mostrar_Mensaje(total)
-
-            indicadores.ocultar_Graficas(total, organizacion)
-
-            //Rotacion de empleados
-            indicadores.indicador_Rotacion(response, organizacion)
-
-            //Distribucion por grado de estudios
-            indicador_grado.buscar_GradoAcademico(organizacion)
-
-            //Disribucion por estado civil
-            dato_estado = indicador_estado_civil.get_EstadoCivil(response, organizacion)
-            Highcharts.chart('container-estado',indicador_estado_civil.get_IndicadorConfig(dato_estado))
-
-            //Disribucion por rango de edad
-            dato_edad = indicador_rango_edad.get_RangoEdad(response, organizacion)
-            Highcharts.chart('container-edad',indicador_rango_edad.get_IndicadorConfig(dato_edad))
-
-            //Disribucion por sexo
-            dato_sexo = indicador_sexo.get_Sexo(response, _organizacion)
-            Highcharts.chart('container-sexo',indicador_sexo.get_IndicadorConfig(dato_sexo))
-
-            $('#container-organizacion').show()
-
-            //Disribucion por organizacion
-            empleado_org = indicador_organizacion.get_EmpleadoOrganizacion(response)//Numero de empleados por organizacion
-            organizaciones = indicador_organizacion.ordena_Organizaciones(response) // Organizaciones existentes
-            Highcharts.chart('container-organizacion',indicador_organizacion.get_IndicadorConfig(organizaciones,empleado_org))
-
-         },
-         error: function (response) {
-            alertify("Ocurrio error al consultar")
-         }
-   })
-}
-Indicadores.prototype.buscar_EmpleadosFiltro = function (_organizacion) {
-
-   organizacion = _organizacion
-
+   else{
+      organizacion = this.$organizaciones.val()
+      this.$contenedor_graficas.find('#panel_mensaje_sin_empleados').remove()
+   }
+   
    $.ajax({
          url: url_empleados_full,
          method: "GET",
@@ -167,8 +115,6 @@ Indicadores.prototype.buscar_EmpleadosFiltro = function (_organizacion) {
             asig_organizacion_clave:organizacion
          },
          success: function (response) {
-
-            if(organizacion != 0){
                //Total de empleados
                total = indicador_total.get_Total(response, organizacion)
 
@@ -183,17 +129,23 @@ Indicadores.prototype.buscar_EmpleadosFiltro = function (_organizacion) {
                indicador_grado.buscar_GradoAcademico(organizacion)
 
                //Disribucion por estado civil
-               dato_estado = indicador_estado_civil.get_EstadoCivil(response, organizacion)
-               Highcharts.chart('container-estado',indicador_estado_civil.get_IndicadorConfig(dato_estado))
+               indicador_estado_civil.get_EstadoCivil(response, organizacion)
 
                //Disribucion por rango de edad
-               dato_edad = indicador_rango_edad.get_RangoEdad(response, organizacion)
-               Highcharts.chart('container-edad',indicador_rango_edad.get_IndicadorConfig(dato_edad))
+               indicador_rango_edad.get_RangoEdad(response, organizacion)
 
                //Disribucion por sexo
-               dato_sexo = indicador_sexo.get_Sexo(response, organizacion)
-               Highcharts.chart('container-sexo',indicador_sexo.get_IndicadorConfig(dato_sexo))
+               indicador_sexo.get_Sexo(response, organizacion)
 
+               //Distribución por antiguedad
+               indicador_antiguedad.get_EmpleadoAntiguedad(response)
+
+            if(organizacion == ""){
+               $('#container-organizacion').show()
+               //Disribucion por organizacion
+               indicador_organizacion.get_EmpleadoOrganizacion(response)
+            }
+            else{
                $('#container-organizacion').hide()
             }
 
@@ -234,7 +186,8 @@ Indicadores.prototype.ocultar_Graficas = function (_total, _organizacion){
       $('#container-estado').hide()
       $('#container-edad').hide()
       $('#container-sexo').hide()
-   }else if((total=!0) || (_organizacion == 0)){
+      $('#container-antiguedad').hide()
+   }else if((total=!0) || (_organizacion == "")){
       $('#container-total').show()
       $('#container-rotacion-total').show()
       $('#container-rotacion-renuncia').show()
@@ -242,6 +195,8 @@ Indicadores.prototype.ocultar_Graficas = function (_total, _organizacion){
       $('#container-estado').show()
       $('#container-edad').show()
       $('#container-sexo').show()
+      $('#container-antiguedad').show()
+
    }
 }
 
@@ -259,9 +214,7 @@ IndicadorTotal.prototype.get_Total= function (_response, _organizacion) {
          (_response[i].pers_tipo_codigo != '1124') &&
          (_response[i].pers_tipo_codigo != '1125') &&
          (_response[i].pers_tipo_codigo != '1118')){
-         if((_response[i].asig_organizacion_clave == _organizacion) || (_organizacion == 0)){
             total+=1
-         }
       }
    }
    this.animacion_Resultado(total)
@@ -426,19 +379,17 @@ IndicadorEstadoCivil.prototype.get_EstadoCivil = function (_response, _organizac
          (_response[i].pers_tipo_codigo != '1124') &&
          (_response[i].pers_tipo_codigo != '1125') &&
          (_response[i].pers_tipo_codigo != '1118')){
-            if((_response[i].asig_organizacion_clave == _organizacion) || (_organizacion == 0)){
-               // Cuenta el numero de empleados separados por su estado civil
-               if (_response[i].pers_estado_civil_desc == 'Casado'){
-                  estado[0] += 1
-               } else if (_response[i].pers_estado_civil_desc == 'Soltero'){
-                  estado[1] += 1
-               } else if (_response[i].pers_estado_civil_desc == '-'){
-                  estado[2] += 1
-               }
+            // Cuenta el numero de empleados separados por su estado civil
+            if (_response[i].pers_estado_civil_desc == 'Casado'){
+               estado[0] += 1
+            } else if (_response[i].pers_estado_civil_desc == 'Soltero'){
+               estado[1] += 1
+            } else if (_response[i].pers_estado_civil_desc == '-'){
+               estado[2] += 1
             }
       }
    }
-   return estado
+   Highcharts.chart('container-estado',indicador_estado_civil.get_IndicadorConfig(estado))
 }
 IndicadorEstadoCivil.prototype.get_IndicadorConfig = function (_estado) {
 
@@ -539,7 +490,8 @@ IndicadorRangoEdad.prototype.get_RangoEdad = function (_response, _organizacion)
          }
       }
    }
-   return rango_edades
+   // return rango_edades
+   Highcharts.chart('container-edad',indicador_rango_edad.get_IndicadorConfig(rango_edades))
 }
 IndicadorRangoEdad.prototype.get_IndicadorConfig = function (_rango_edades) {
 
@@ -595,32 +547,17 @@ IndicadorRangoEdad.prototype.get_IndicadorConfig = function (_rango_edades) {
 }
 IndicadorRangoEdad.prototype.get_DataConfig = function (_rango_edades) {
 
-   return [
-         {
-            name: '18 a 30',
-            y: _rango_edades[0]
-         },
-         {
-            name: '30 a 40',
-            y: _rango_edades[1]
-         },
-         {
-            name: '40 a 50',
-            y: _rango_edades[2]
-         },
-         {
-            name: '50 a 60',
-            y: _rango_edades[3]
-         },
-         {
-            name: '60 a 70',
-            y: _rango_edades[4]
-         },
-         {
-            name: '70 a 80',
-            y: _rango_edades[5]
-         },
-         ]
+   var datos = []
+   var names = ['18 a 30', '30 a 40', '40 a 50','50 a 60','60 a 70', '70 a 80 años']
+   for (var i = 0; i < names.length; i++) {
+               datos.push(
+                  {  name: names[i],
+                     y: _rango_edades[i],
+                  }
+
+               )
+            }
+   return datos
 }
 
 /*-----------------------------------------------*\
@@ -639,19 +576,17 @@ IndicadorSexo.prototype.get_Sexo = function (_response, _organizacion) {
          (_response[i].pers_tipo_codigo != '1124') &&
          (_response[i].pers_tipo_codigo != '1125') &&
          (_response[i].pers_tipo_codigo != '1118')){
+         
+         sexo = _response[i].pers_genero_clave
 
-         if((_response[i].asig_organizacion_clave == _organizacion) || (_organizacion == 0)){
-            sexo = _response[i].pers_genero_clave
-
-            if(sexo == 'M'){
-               empleado_sexo[0] += 1
-            } else if(sexo == 'F'){
-               empleado_sexo[1] += 1
-            }
+         if(sexo == 'M'){
+            empleado_sexo[0] += 1
+         } else if(sexo == 'F'){
+            empleado_sexo[1] += 1
          }
       }
    }
-   return empleado_sexo
+   Highcharts.chart('container-sexo',indicador_sexo.get_IndicadorConfig(empleado_sexo))
 }
 IndicadorSexo.prototype.get_IndicadorConfig = function (_empleado_sexo) {
 
@@ -744,7 +679,7 @@ IndicadorOrganizacion.prototype.get_EmpleadoOrganizacion = function (_response) 
             }
         }
     }
-    return num
+   Highcharts.chart('container-organizacion',indicador_organizacion.get_IndicadorConfig(dato,num))
 }
 IndicadorOrganizacion.prototype.asigna_Organizaciones = function(_response) {
     //Calcula en un array las organizaciones existentes(REPETIDAS)
@@ -842,3 +777,127 @@ IndicadorOrganizacion.prototype.get_DataConfig = function (_organizacion,_emplea
             }
    return datos
 }
+
+/*-----------------------------------------------*\
+         OBJETO: INDICADOR POR ANTIGUEDAD
+\*-----------------------------------------------*/
+
+function IndicadorAntiguedad () {}
+IndicadorAntiguedad.prototype.get_EmpleadoAntiguedad = function (_response) {
+   rango_antiguedad = [0,0,0,0,0,0,0,0,0]
+   for(var j=0; j < _response.length; j++){
+
+      if ((_response[j].pers_tipo_codigo != '1123') &&
+          (_response[j].pers_tipo_codigo != '1124') &&
+          (_response[j].pers_tipo_codigo != '1125') &&
+          (_response[j].pers_tipo_codigo != '1118')){
+
+         fecha_contratacion = this.formatear_Fecha(_response[j].pers_fecha_contratacion)
+         antiguedad = this.calcular_Antiguedad(fecha_contratacion)
+
+         if((antiguedad>=0) && (antiguedad<=1)){
+            rango_antiguedad[0] += 1
+         }else if ((antiguedad>1) && (antiguedad<=3)){
+            rango_antiguedad[1] += 1
+         }else if ((antiguedad>3) && (antiguedad<=5)){
+            rango_antiguedad[2] += 1
+         }else if ((antiguedad>5) && (antiguedad<=10)){
+            rango_antiguedad[3] += 1
+         }else if ((antiguedad>10) && (antiguedad<=15)){
+            rango_antiguedad[4] += 1
+         }else if ((antiguedad>15) && (antiguedad<=20)){
+            rango_antiguedad[5] += 1
+         }else if ((antiguedad>20) && (antiguedad<=25)){
+            rango_antiguedad[6] += 1
+         }else if ((antiguedad>25) && (antiguedad<=30)){
+            rango_antiguedad[7] += 1
+         }else if ((antiguedad>30) && (antiguedad<=35)){
+            rango_antiguedad[8] += 1
+         }
+
+      }
+   }
+   Highcharts.chart('container-antiguedad',indicador_antiguedad.get_IndicadorConfig(rango_antiguedad))
+}
+IndicadorAntiguedad.prototype.formatear_Fecha = function(_fecha) {
+   fecha_split = _fecha.split(" ")
+   fecha = new Date(fecha_split[0])
+   return fecha
+}
+IndicadorAntiguedad.prototype.calcular_Antiguedad = function(_fecha){
+   hoy = new Date()
+   anios = hoy.getFullYear() - _fecha.getFullYear()
+   _fecha.setFullYear(hoy.getFullYear())
+   if (hoy < _fecha)
+   {
+      anios--
+   }
+
+   return anios
+}
+IndicadorAntiguedad.prototype.get_IndicadorConfig = function (_rango_antiguedad) {
+
+   return {
+      chart: {
+         plotBackgroundColor: null,
+         plotBorderWidth: null,
+         plotShadow: false,
+         type: 'pie',
+         events: {
+           load: function(event) {
+              event.target.reflow();
+            }
+         },
+         borderColor: '#d4d4d4',
+         borderWidth: 1,
+      },
+      title: {
+         text: 'Distribución por antigüedad'
+      },
+      tooltip: {
+         pointFormat: '{series.name}: <b>{point.y}</b>'
+      },
+      navigation: {
+         buttonOptions: {
+            enabled: false
+         }
+      },
+      plotOptions: {
+         pie: {
+            allowPointSelect: true,
+            cursor: 'pointer',
+            dataLabels: {
+               enabled: false
+            },
+            showInLegend: true
+         },
+         series: {
+            borderWidth: 1,
+            dataLabels: {
+               enabled: true,
+               format: '{point.y}'
+            }
+         }
+      },
+      series: [{
+         name: 'Empleados',
+         colorByPoint: true,
+         data: this.get_DataConfig(_rango_antiguedad),
+         showInLegend: true
+      }]
+   }
+}
+IndicadorAntiguedad.prototype.get_DataConfig = function (_rango_antiguedad) {
+   var datos = []
+   var names = ['0 a 1', '1 a 3', '3 a 5 ','5 a 10','10 a 15', '15 a 20', '20 a 25', '25 a 30', '30 a 35 años']
+   for (var i = 0; i < names.length; i++) {
+               datos.push(
+                  {  name: names[i],
+                     y: _rango_antiguedad[i],
+                  }
+
+               )
+            }
+   return datos
+}
+
