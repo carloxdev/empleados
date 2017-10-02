@@ -25,9 +25,10 @@
 
 {% block contenido %}
 
-<div class="be-content">
+<!-- URLs -->
+<input type="text" id="url_usuario_editar" class="hidden" value="{% url 'seguridad:usuario_editar' 0 %}">
 
-    <input type="text" id="url_usuario_editar" class="hidden" value="{% url 'seguridad:usuario_editar' 0 %}">
+<div class="be-content">
 
     <div class="page-head nova-page-head">
         <h2 class="page-head-title nova-title">Usuarios</h2>
@@ -36,6 +37,58 @@
             <li id="menu" data-opcion="usuario_lista" class="active">Usuarios</li>
         </ol>
     </div>
+
+	<!-- Targeta Filtros -->
+	<div id="tarjeta_filtros" role="dialog" class="modal fade colored-header colored-header-primary">
+	    <div class="modal-dialog modal-lg nova-modal-responsive">
+	        <div class="modal-content nova-modal-maxwidth nova-modal-content-responsive">
+
+	            <div class="modal-header nova-modal-header">
+	                <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
+	                <h3 class="modal-title">Filtros</h3>
+	            </div>
+
+	            <form id="formulario_filtro" class="modal-body form-horizontal">
+
+	                {% tag_filter form.usuario %}
+
+	                <!-- First_name -->
+	                {% tag_filter form.usuario__first_name %}
+
+	                <!-- Last_name -->
+	                {% tag_filter form.usuario__last_name %}
+
+	                <!-- Email -->
+	                {% tag_filter form.usuario__email %}
+
+	                <!-- Clave de empleado -->
+	                {% tag_filter form.clave_rh %}
+
+	                <!-- Date_joined -->
+	                {% tag_filter_dates 'Fecha Creacion' form.created_date_mayorque form.created_date_menorque %}
+
+	            </form>
+	            <div class="modal-footer nova-modal-footer">
+	                 <div class="row col-sm-12">
+                        <button type="button" data-dismiss="modal" class="btn btn-default pull-left">
+                            Cancelar
+                        </button>
+
+                        <button type="button" id="boton_limpiar" class="btn btn-default nova-btn">
+                            <i class="fa fa-eraser"></i>
+                            Limpiar
+                        </button>
+
+                        <button type="button" id="boton_buscar" class="btn nova-btn btn-primary btn-lg pull-right">
+                            <i class="icon icon-left mdi mdi-search nova-white"></i>
+                            Buscar
+                        </button>
+	                </div>
+	            </div>
+	        </div> <!-- Modal content-->
+	    </div> <!-- Modal dialog -->
+	</div><!-- Modal -->
+
 
     <!-- Targeta Resultados -->
     <div class="main-content container-fluid nova-main-content">
@@ -71,56 +124,6 @@
     </div>
 </div>
 
-<!-- Targeta Filtros -->
-<div id="tarjeta_filtros" role="dialog" class="modal fade colored-header colored-header-primary">
-    <div class="modal-dialog custom-width nova-modal-responsive">
-        <div class="modal-content nova-modal-content-responsive">
-
-            <div class="modal-header nova-modal-header">
-                <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
-                <h3 class="modal-title">Filtros</h3>
-            </div>
-
-            <form id="formulario_filtro" class="modal-body form-horizontal">
-
-                {% tag_filter form.usuario %}
-
-                <!-- First_name -->
-                {% tag_filter form.usuario__first_name %}
-
-                <!-- Last_name -->
-                {% tag_filter form.usuario__last_name %}
-
-                <!-- Email -->
-                {% tag_filter form.usuario__email %}
-
-                <!-- Clave de empleado -->
-                {% tag_filter form.clave_rh %}
-
-                <!-- Date_joined -->
-                {% tag_filter_dates 'Fecha Creacion' form.created_date_mayorque form.created_date_menorque %}
-
-            </form>
-            <div class="modal-footer nova-modal-footer">
-                 <div class="row col-sm-12">
-                        <button type="button" data-dismiss="modal" class="btn btn-default pull-left">
-                            Cancelar
-                        </button>
-
-                        <button type="button" id="boton_limpiar" class="btn btn-default nova-btn">
-                            <i class="fa fa-eraser"></i>
-                            Limpiar
-                        </button>
-
-                        <button type="button" id="boton_buscar" class="btn nova-btn btn-primary btn-lg pull-right">
-                            <i class="icon icon-left mdi mdi-search nova-white"></i>
-                            Buscar
-                        </button>
-                </div>
-            </div>
-        </div> <!-- Modal content-->
-    </div> <!-- Modal dialog -->
-</div><!-- Modal -->
 
 {% endblock contenido %}
 

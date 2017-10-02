@@ -3,105 +3,101 @@
 {% load custom_tags %}
 {% block titulo %} Usuarios {% endblock titulo %}
 {% block title-page %} Nuevo usuario {% endblock title-page %}
-{% block css %}
-{% endblock css %}
 {% block contenido %}
 
 <div class="be-content">
-	{% if request.user.is_staff == True %}
-		<div class="page-head nova-page-head">
-			<h2 class="page-head-title nova-title">Nuevo usuario</h2>
-			<ol class="breadcrumb page-head-nav pull-right">
-				<li><a href="{% url 'home:inicio' %}">Inicio</a></li>
-				<li><a href="{% url 'seguridad:usuario_lista' %}">Usuarios</a></li>
-				<li>Nuevo usuario</li>
-			</ol>
-		</div>
-		<div class="main-content container-fluid nova-main-content">
-	        <div class="row">
-	            <div class="col-md-12">
-	                <form class="panel panel-border panel-contrast" action="" method="POST" enctype="multipart/form-data"> {% csrf_token %}
-	                    <div class="panel-heading panel-heading-default nova-border-bottom">
-	                        Nuevo usuario
-	                    </div>
-	                    <div class="panel-body form-horizontal">
-							
-	                        {% if form.non_field_errors %}
 
-	                            {% for error in form.non_field_errors %}
-	                                {% tag_mensaje 'error' error %}
-	                            {% endfor %}
+	<div class="page-head nova-page-head">
+		<h2 class="page-head-title nova-title">Nuevo usuario</h2>
+		<ol class="breadcrumb page-head-nav pull-right">
+			<li><a href="{% url 'home:inicio' %}">Inicio</a></li>
+			<li><a href="{% url 'seguridad:usuario_lista' %}">Usuarios</a></li>
+			<li>Nuevo</li>
+		</ol>
+	</div>
 
-	                        {% endif %}
-							
-							<div class="col-sm-9">
-	                        <!-- Clave_rh -->
-		                        {% tag_field_registro form.clave_rh 3 7 %}
+	<div class="main-content container-fluid nova-main-content">
 
-		                        <!-- Primer nombre -->
-		                        {% tag_field_registro form.first_name 3 7 %}
+        <div class="row">
+            <div class="col-md-12">
+                <form class="panel panel-border panel-contrast" action="" method="POST" enctype="multipart/form-data"> {% csrf_token %}
+                    <div class="panel-heading panel-heading-default nova-border-bottom">
+                        Informacion del usuario
+                    </div>
+                    <div class="panel-body form-horizontal">
 
-		                        <!-- Apellidos -->
-		                        {% tag_field_registro form.last_name 3 7 %}
+                        {% if form.non_field_errors %}
 
-		                         <!-- Fecha nacimiento -->
-		                        {% tag_field_registro form.fecha_nacimiento 3 7 %}
+                            {% for error in form.non_field_errors %}
+                                {% tag_mensaje 'error' error %}
+                            {% endfor %}
 
-		                         <!-- Email -->
-		                        {% tag_field_registro form.email 3 7 %}
-		                        
-		                        <!-- Nombre usuario -->
-		                        {% tag_field_registro form.username 3 7 %}
+                        {% endif %}
 
-		                        <!-- Password -->
-		                        {% tag_field_registro form.password1 3 7 %}
+						{% include 'tags/message.html' %}
 
-		                        <!-- Confirmar Password -->
-		                        {% tag_field_registro form.password2 3 7 %}
+						<div class="col-sm-9">
+                        	<!-- Clave_rh -->
+	                        {% tag_field_registro form.clave_rh 3 7 %}
 
-		                        <!-- Ocultos -->
-		                        <div class="hide">
-		                            {{ form.clave_jde }}
-		                        </div>
-		                        <div class="form-group">
+	                        <!-- Primer nombre -->
+	                        {% tag_field_registro form.first_name 3 7 %}
+
+	                        <!-- Apellidos -->
+	                        {% tag_field_registro form.last_name 3 7 %}
+
+	                         <!-- Fecha nacimiento -->
+	                        {% tag_field_registro form.fecha_nacimiento 3 7 %}
+
+	                         <!-- Email -->
+	                        {% tag_field_registro form.email 3 7 %}
+
+	                        <!-- Nombre usuario -->
+	                        {% tag_field_registro form.username 3 7 %}
+
+	                        <!-- Password -->
+	                        {% tag_field_registro form.password1 3 7 %}
+
+	                        <!-- Confirmar Password -->
+	                        {% tag_field_registro form.password2 3 7 %}
+
+
+	                        <div class="form-group">
 								<label class="col-sm-3 control-label">
 									Permisos
 						    	</label>
 								<!-- Is_active-->
 								{% tag_field_checkbox form.is_active 'is_active' 2 %}
-							
+
 								<!-- Is_staff-->
 								{% tag_field_checkbox form.is_staff 'is_staff'  3 %}
 
 								<!-- Is_superuser-->
 								{% tag_field_checkbox form.is_superuser 'is_superuser' 4 %}
-								</div>
-		
 							</div>
 
-	                        <div class="col-sm-3">
-	                           {% tag_image_registro form.foto %}
+							<!-- Ocultos -->
+	                        <div class="hide">
+	                            {{ form.clave_jde }}
 	                        </div>
+						</div>
 
-	                    </div>
-	                    <div class="modal-footer nova-modal-footer">
-	                        <a href=" {% url 'seguridad:usuario_lista' %}" class="btn btn-default">
-	                            <i class="icon mdi mdi-arrow-left"></i> Regresar
-	                        </a>
-	                         <button type="submit" id="btn_registrar" class="btn nova-btn btn-primary btn-lg pull-right">
-	                            Guardar
-	                        </button>
-	                    </div>
-	                </form>
-	            </div>
-	        </div>
-	    </div>
+                        <div class="col-sm-3">
+                           {% tag_image_registro form.foto %}
+                        </div>
 
-	{% else%}
-		<div class="col-md-12">
-			<h2> Usted no tiene acceso a esta sección </h2>
-		</div>
-	{% endif %}
+                    </div>
+                    <div class="modal-footer nova-modal-footer">
+                         <button type="submit" class="btn nova-btn nova-btn-orange btn-lg">
+                            Guardar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
 </div><!-- End be content -->
 
 {% endblock contenido %}
@@ -112,5 +108,5 @@
 
 	<!-- NOVA -->
 	<script src="{% static 'usuarios/usuario_formulario.js' %}"></script>
-	
+
 {% endblock scripts %}

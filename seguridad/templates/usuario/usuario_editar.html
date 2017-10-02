@@ -3,8 +3,7 @@
 {% load custom_tags %}
 {% block titulo %} Usuarios {% endblock titulo %}
 {% block title-page %} Editar usuario {% endblock title-page %}
-{% block css %}
-{% endblock css %}
+
 {% block contenido %}
 
 <div class="be-content">
@@ -13,18 +12,19 @@
 		<ol class="breadcrumb page-head-nav pull-right">
 			<li><a href="{% url 'home:inicio' %}">Inicio</a></li>
 			<li><a href="{% url 'seguridad:usuario_lista' %}">Usuarios</a></li>
-			<li>Editar usuario</li>
+			<li>Editar</li>
 		</ol>
-	</div><!-- End Page head -->
+	</div>
+
 	<div class="main-content container-fluid nova-main-content">
         <div class="row">
             <div class="col-md-12">
                 <form class="panel panel-border panel-contrast" action="" method="POST" enctype="multipart/form-data"> {% csrf_token %}
                     <div class="panel-heading panel-heading-default nova-border-bottom">
-                        Usuario <b>{{ usuario.username }}</b>
+                        Usuario: <b>{{ usuario.username }}</b>
                     </div>
                     <div class="panel-body form-horizontal">
-						
+
                         {% if form.non_field_errors %}
 
                             {% for error in form.non_field_errors %}
@@ -32,7 +32,9 @@
                             {% endfor %}
 
                         {% endif %}
-						
+
+						{% include 'tags/message.html' %}
+
 						<div class="col-sm-9">
                         	<!-- Clave_rh -->
 	                        {% tag_field_registro form.clave_rh 3 7 %}
@@ -49,12 +51,6 @@
 	                         <!-- Email -->
 	                        {% tag_field_registro form.email 3 7 %}
 
-	                        <!--Ocultos-->
-	                        <div class="hide">
-		                        <!-- Clave jde -->
-		                        {% tag_field_registro form.clave_jde 3 7 %}
-	                        </div>
-							
 							<!-- Password-->
 							<div class="form-group">
 								<label class="col-sm-3 control-label">
@@ -64,20 +60,26 @@
 						    		<a href="{% url 'seguridad:usuario_editar_contrasena' usuario.id %}"class="btn nova-btn btn-rounded btn-space btn-default" id="boton_nuevo">Cambiar contraseña</a>
 								</div>
 							</div>
+
 							<div class="form-group">
 								<label class="col-sm-3 control-label">
 									Permisos
 						    	</label>
 								<!-- Is_active-->
 								{% tag_field_checkbox form.is_active 'is_active' 2 %}
-							
+
 								<!-- Is_staff-->
 								{% tag_field_checkbox form.is_staff 'is_staff'  3%}
 
 								<!-- Is_superuser-->
 								{% tag_field_checkbox form.is_superuser 'is_superuser' 4 %}
 							</div>
-	
+
+							<!-- Ocultos -->
+	                        <div class="hide">
+	                            {{ form.clave_jde }}
+	                        </div>
+
 						</div>
 
                         <div class="col-sm-3">
@@ -86,10 +88,7 @@
 
                     </div>
                     <div class="modal-footer nova-modal-footer">
-                        <a href=" {% url 'seguridad:usuario_lista' %}" class="btn btn-default">
-                            <i class="icon mdi mdi-arrow-left"></i> Regresar
-                        </a>
-                         <button type="submit" id="id_boton_guardar" class="btn nova-btn btn-primary btn-lg pull-right">
+                         <button type="submit" id="id_boton_guardar" class="btn nova-btn nova-btn-orange btn-lg">
                             Guardar cambios
                         </button>
                     </div>

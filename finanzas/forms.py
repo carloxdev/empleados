@@ -246,4 +246,3 @@ class FLujoFilterForm(Form):
         label="Centro de costos",
         widget=Select(attrs={'class': 'form-control input-xs'})
     )
-
