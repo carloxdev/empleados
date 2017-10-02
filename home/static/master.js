@@ -116,6 +116,17 @@ NovaSitio.prototype.get_ConfDatePicker = function () {
       language: 'es'
    }
 }
+
+NovaSitio.prototype.get_ConfDateTimePicker = function () {
+
+   return {
+
+      format: 'dd/mm/yyyy 00:00:00.000000',
+      autoclose: true,
+      language: 'es'
+   }
+}
+
 NovaSitio.prototype.validar_EspaciosSaltos = function (_string)
 {
     return _string.replace(/^\s+|\s+$/g,'');

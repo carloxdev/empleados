@@ -44,7 +44,8 @@ function TargetaIncidencia(){
 TargetaIncidencia.prototype.init_Components = function () {
 
    this.$tipo.select2(appnova.get_ConfigSelect2())
-   this.$fecha.datepicker(appnova.get_ConfDatePicker())
+   //this.$fecha.datepicker(appnova.get_ConfDatePicker())
+   this.$fecha.datepicker(appnova.get_ConfDateTimePicker())
    this.$empleado.select2(appnova.get_ConfigSelect2())
    this.$zona.select2(appnova.get_ConfigSelect2())
    this.$centro_atencion.select2(appnova.get_ConfigSelect2())
@@ -109,6 +110,6 @@ TargetaIncidencia.prototype.get_DateTimePickerConfig = function () {
         autoclose: true,
         orientation: "bottom left",
         minViewMode: 2,
-        format: "yyyy-mm-dd",
+        format: "yyyy-mm-dd 00:00:00.000000",
     }
 }
