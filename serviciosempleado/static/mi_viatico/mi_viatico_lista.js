@@ -54,7 +54,6 @@ function PopupFiltros() {
     this.$autorizador = $('#id_autorizador')
     this.$created_date_mayorque = $('#id_created_date_mayorque_group')
     this.$created_date_menorque = $('#id_created_date_menorque_group')
-    this.$actual_user = $('#id_actual_user')
 
     this.$boton_buscar = $('#boton_buscar')
     this.$boton_limpiar = $('#boton_limpiar')
@@ -95,38 +94,26 @@ PopupFiltros.prototype.hide = function (e) {
 PopupFiltros.prototype.get_Values = function (_page) {
 
    no_filtros = this.get_NoFiltrosAplicados()
-   var no_empledo = this.$actual_user.val()
-
-   if (this.$actual_user.val() == 'None') {
-      no_empledo = 0
-   }
-
+   var clave = 0
 
    if (no_filtros > 0) {
-      return {
-          page: _page,
-
-          proposito_viaje: this.$proposito_viaje.val(),
-          empleado_clave: this.$empleado.val(),
-          un_clave: this.$unidad_negocio.val(),
-          ciudad_destino: this.$ciudad_destino.val(),
-          autorizador_clave: this.$autorizador.val(),
-          created_date_mayorque: this.get_FechaMayorQue(),
-          created_date_menorque: this.get_FechaMenorQue(),
-      }
+      clave = this.$empleado.val()
    }
-   else if (no_filtros == 0){
-      return {
-          page: _page,
+   else if (no_filtros == 0) {
+      clave = appnova.$user.text()
+   }
 
-          proposito_viaje: this.$proposito_viaje.val(),
-          empleado_clave: no_empledo,
-          un_clave: this.$unidad_negocio.val(),
-          ciudad_destino: this.$ciudad_destino.val(),
-          autorizador_clave: this.$autorizador.val(),
-          created_date_mayorque: this.get_FechaMayorQue(),
-          created_date_menorque: this.get_FechaMenorQue(),
-      }
+   return {
+
+       page: _page,
+
+       proposito_viaje: this.$proposito_viaje.val(),
+       empleado_clave: clave,
+       un_clave: this.$unidad_negocio.val(),
+       ciudad_destino: this.$ciudad_destino.val(),
+       autorizador_clave: this.$autorizador.val(),
+       created_date_mayorque: this.get_FechaMayorQue(),
+       created_date_menorque: this.get_FechaMenorQue(),
    }
 }
 PopupFiltros.prototype.get_FechaMayorQue = function (element) {
