@@ -36,6 +36,7 @@ function NovaSitio() {
 
     this.galletita = $.cookie('csrftoken')
     this.$menu = $("#menu")
+    this.$user = $('#request_user')
 
     this.set_ActivePage()
     this.set_AlertifyConfig()
