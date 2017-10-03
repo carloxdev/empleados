@@ -1,0 +1,25 @@
+.nova-buscador {
+  height: 30px !important;
+}
+.nova-sombreado-lista:nth-of-type(odd){
+  background-color: #F7F7F7;
+}
+.nova-sombreado-lista:hover{
+  background-color: #F1F1F1 !important;
+}
+.nova-badge-publicado{
+  background-color: #5AAD5F;
+  color: white;
+}
+.nova-herramientas {
+  margin: 0px;
+  padding: 8px 5px 8px !important;
+  overflow: hidden;
+}
+.nova-sin-resultados{
+    font-size: 32px;
+    text-align: center;
+    background-color: white;
+    height: auto;
+    font-family: Helvetica Neue !important, sans-serif;
+}

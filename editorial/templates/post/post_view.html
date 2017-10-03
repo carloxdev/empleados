@@ -5,6 +5,8 @@
 {% block title-page %} Noticia  {% endblock title-page %}
 
 {% block css %}
+  <link rel="stylesheet" href="{% static 'css/post.css' %}"/>
+  <link rel="stylesheet" href="{% static 'css/post_view.css' %}"/>
 {% endblock css %}
 
 {% block contenido %}
@@ -28,7 +30,7 @@
                         </div>
                         <div class="panel-body">
 
-                            <div class="col-md-12 nova-padding-elemento-post">
+                            <div class="col-md-12 nova-calendario">
                                 <i class="fa fa-calendar" aria-hidden="true"></i> {{ registro.updated_date|date:"M d, Y"}}
                             </div>
 
@@ -38,12 +40,11 @@
                                 </div>
                             {% endif %}
 
-                            <div class="col-md-12">
-                                <section class="nova-post-contenido">
+                            <div class="col-md-12 nova-post-contenido">
                                 {% autoescape off %}
                                     {{ registro.contenido|linebreaks }}
                                 {% endautoescape %}
-                                </section>
+                                
                             </div>
 
                             <div class="modal-footer nova-centrar">
@@ -68,8 +69,8 @@
                               <div class="panel-heading panel-heading-default nova-panel-heading-formulario nova-centrar">
                                   Últimas noticias
                               </div>
-                                <div class="panel-body nova-padding-left nova-padding-right">
-                                    <ul>
+                                <div class="panel-body">
+                                    <ul class="nova-padding-left">
                                         {% for r in registros %}
                                             <li>
                                                 <a href="{% url 'editorial:post_consultar' r.pk %}">{{ r.titulo }}</a>
