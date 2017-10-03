@@ -23,6 +23,7 @@ $(document).ready(function () {
     // Inicializando Objetos
     tarjeta_filtros = new PopupFiltros()
     tarjeta_resultados = new TarjetaResultados()
+    tarjeta_filtros.apply_Filters()
 
     // Asigna eventos a teclas
     $(document).keypress(function (e) {
@@ -63,7 +64,7 @@ function PopupFiltros() {
 }
 PopupFiltros.prototype.init_Components = function () {
 
-   this.$empleado.select2(appnova.get_ConfigSelect2())
+   this.$empleado.select2(appnova.get_ConfigSelect2()).val(appnova.$user.text()).trigger("change")
    this.$unidad_negocio.select2(appnova.get_ConfigSelect2())
    this.$autorizador.select2(appnova.get_ConfigSelect2())
    this.$created_date_mayorque.datepicker(appnova.get_ConfDatePicker())
@@ -93,22 +94,11 @@ PopupFiltros.prototype.hide = function (e) {
 }
 PopupFiltros.prototype.get_Values = function (_page) {
 
-   no_filtros = this.get_NoFiltrosAplicados()
-   var clave = 0
-
-   if (no_filtros > 0) {
-      clave = this.$empleado.val()
-   }
-   else if (no_filtros == 0) {
-      clave = appnova.$user.text()
-   }
-
    return {
 
        page: _page,
-
        proposito_viaje: this.$proposito_viaje.val(),
-       empleado_clave: clave,
+       empleado_clave: this.$empleado.val(),
        un_clave: this.$unidad_negocio.val(),
        ciudad_destino: this.$ciudad_destino.val(),
        autorizador_clave: this.$autorizador.val(),
