@@ -923,16 +923,12 @@ div.nova-panel-arbol li.list-group-item {
 .nova-crop-img {
   height: 60px !important;
   overflow: hidden !important;
-<<<<<<< HEAD
-  line-height: 70px !important;
-=======
   width: 75px !important;
   text-align: center;
 }
 .nova-perfil-img{
   height: 280px;
   object-fit: cover;
->>>>>>> ffd74af738340f8cc3d30f36ec38fc291ed7bf6d
 }
 .nova-imagen-avatar{
   max-width: 75px !important;
