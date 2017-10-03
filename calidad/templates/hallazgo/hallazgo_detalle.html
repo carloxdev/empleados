@@ -394,9 +394,17 @@
                <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
                <h3 class="modal-title">Seguimiento al Plan de Acción</h3>
             </div>
+            <div class="nova-overflow-hidden xs-p-20 xs-pb-0">
+               <button type="button" id="id_boton_nuevo_seguimiento" class="btn nova-btn btn-rounded btn-default pull-right">
+                  <i class="icon icon-left mdi mdi-plus-circle nova-black"></i>
+                  Nuevo
+               </button>
+            </div>
+            <form id="id_formulario_seguimiento_plan" class="modal-body form-horizontal xs-pt-0">
 
-            <form id="id_formulario_seguimiento_plan" class="modal-body form-horizontal">
                <div class="nova-modal-content nova-overflow-hidden">
+
+                  <span id="id_mensaje_error_serguimiento"></span>
 
                   <!-- resultado_seguimiento -->
                   {% tag_field_popup formulario_seguimiento_plan.resultado_seguimiento 3 8 %}
@@ -406,39 +414,20 @@
                      {% tag_field_popup_datepicker formulario_seguimiento_plan.fecha_seguimiento 3 8 True %}
                   </div>
 
-                  <button type="button" id="id_boton_guardar_seguimiento_plan" class="btn nova-btn btn-primary btn-lg pull-right">
+                  <!-- archivo -->
+                  <div class="form-group">
+                     {% tag_field_popup formulario_seguimiento_plan.archivo 3 8 %}
+                  </div>
+                  <button type="button" id="id_boton_guardar_seguimiento" class="btn nova-btn btn-primary btn-lg pull-right">
                      <i class="icon icon-left mdi mdi-floppy nova-white"></i>
                      Guardar
-                  </button> <!--xs-mb-10-->
+                  </button>
                </div>
 
             </form><!-- Modal body-->
+            <div id="id_contenedor_seguimientos">
 
-            <div class="panel panel-default panel-border-color panel-border-color-primary">
-               <div class="panel-heading panel-heading-default nova-border-bottom nova-overflow-hidden">
-                  <div class="pull-left nova-modal-title-seguimientos">
-                     Evaluador: <strong>Julio Hendandez Perez</strong>. Fecha Seguimiento: <strong>2017-06-19</strong>. Fecha Evaluacion: <strong>2017-06-19</strong>. Criterio: <strong>Criterio 1</strong>
-                  </div>
-                  <button type="button" class="btn btn-space btn-social nova-btn-delete pull-right"><i class="icon mdi mdi-delete nova-white"></i></button>
-                  <button type="button" class="btn btn-space btn-social nova-btn-edit pull-right"><i class="icon mdi mdi-edit nova-white"></i></button>
-               </div>
-               <div class="panel-body">
-                  <div class="row">
-                     <div class="col-sm-12 nova-modal-informacion">
-                        <textarea class="form-control" readonly="">Resultados de seguimiento</textarea>
-                     </div>
-                  </div>
-                  <div class="row">
-                     <div class="col-sm-12 nova-modal-informacion">
-
-                        <!-- archivo -->
-                        {% tag_field_popup formulario_seguimiento_plan.archivo 0 12 %}
-
-                     </div>
-                  </div>
-
-               </div>
-            </div>  <!-- Panel -->
+            </div>
 
             <div class="modal-footer nova-modal-footer">
                <div class="row col-sm-12">

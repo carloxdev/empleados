@@ -700,6 +700,10 @@ div.nova-panel-arbol li.list-group-item {
    border-radius: 0px !important;
    margin-top: 0px !important;
 }
+.nova-modal-margin-contents {
+   /*margin: 20px;*/
+   margin: 0px 20px 20px 20px;
+}
 /* modales */
 
 /* bootstrap tables */
@@ -923,7 +927,7 @@ div.nova-panel-arbol li.list-group-item {
 .nova-crop-img {
    height: 60px !important;
   overflow: hidden !important;
-  line-height: 70px !important; 
+  line-height: 70px !important;
 }
 .nova-imagen-avatar{
   max-width: 100px !important;
@@ -1050,9 +1054,9 @@ div.nova-panel-arbol li.list-group-item {
 }
 .nova-contenedor-imagen img{
   -webkit-transition:all .9s ease;
-  -moz-transition:all .9s ease; 
-  -o-transition:all .9s ease; 
-  -ms-transition:all .9s ease; 
+  -moz-transition:all .9s ease;
+  -o-transition:all .9s ease;
+  -ms-transition:all .9s ease;
   width:100%;
 }
 .nova-contenedor-imagen:hover img {
@@ -1127,18 +1131,3 @@ div.nova-panel-arbol li.list-group-item {
 .nova-fix-user-profile {
    margin-bottom: 35px;
 }
-
-/* Estados de viaticos */
-/*.nova-status-via-finalizado {
-   background-color: #49b164;
-   color: #ffffff;
-}
-.nova-status-via-autorizado {
-   background-color: #76abd9;
-   color: #ffffff;
-}
-.nova-status-via-cancelado {
-   background-color: #e84848;
-   color: #ffffff;
-}*/
-/* Estados de viaticos */
