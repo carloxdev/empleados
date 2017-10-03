@@ -134,7 +134,6 @@ class IncidenciaDocumentoNuevo(View):
                            <center> 
                              <table width=650 cellpadding=0 cellspacing=2 border=0>  
                                 <tr>  
-                                <td width=1% valign=top><a href="mailto:ti@nuvoil.com"><img src="" alt=Nuvoil width=197 height=76 border=0 alt="Nuvoil"></a></td> 
                                 <td align=right><font face=arial size=-1><a href="mailto:ti@nuvoil.com">Enviarnos e-mail</a></font><hr size=4 noshade color="#D10018"></td> 
                                 </tr>   
                             </table> 
@@ -185,6 +184,7 @@ class IncidenciaDocumentoNuevo(View):
 
             from_email = '"Notificaciones Nuvoil" <notificaciones@nuvoil.com>'
             to = 'julio.lara@nuvoil.com, mauricio.borrero@nuvoil.com, chrystian.hernandez@nuvoil.com, joseluis.moctezumah@nuvoil.com, diana.santos@nuvoil.com, janet.castro@nuvoil.com'
+            #to = 'janet.castro@nuvoil.com'
             msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
             msg.attach_alternative(html_content, "text/html")
             msg.send()

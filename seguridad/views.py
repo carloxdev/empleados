@@ -645,11 +645,16 @@ class AutorizacionAprobar(View):
                 ViaticoBusiness.autorizar(documento, _request.user)
 
                 ViaticoBusiness.send_Mail_ToAprove(
-                    "APPS: Viatico V-%s APROBADO" % (documento.id),
-                    "Se te informa que se ha APROBADO el viatico V-%s del empleado %s. Monto del viatico %s pesos." % (
+                    "APPS: Viatico V-%s de (%s) %s fue APROBADO" % (
                         documento.id,
+                        documento.empleado_clave,
+                        documento.empleado_descripcion
+                    ),
+                    "Se te informa que se ha APROBADO el viatico V-%s de (%s) %s. Monto del viatico: %s pesos." % (
+                        documento.id,
+                        documento.empleado_clave,
                         documento.empleado_descripcion,
-                        documento.importe_total
+                        documento.importe_total,
                     ),
                     documento,
                     _request.user
@@ -690,11 +695,16 @@ class AutorizacionCancelar(View):
                 ViaticoBusiness.cancelar(documento, _request.user)
 
                 ViaticoBusiness.send_Mail_ToAprove(
-                    "APPS: Viatico V-%s cancelado" % (documento.id),
-                    "Se te informa que se ha cancelado el viatico V-%s del empleado %s. Monto del viatico %s pesos." % (
+                    "APPS: Viatico V-%s de (%s) %s fue CANCELADO" % (
                         documento.id,
+                        documento.empleado_clave,
+                        documento.empleado_descripcion
+                    ),
+                    "Se te informa que se ha CANCELADO el viatico V-%s de (%s) %s. Monto del viatico: %s pesos." % (
+                        documento.id,
+                        documento.empleado_clave,
                         documento.empleado_descripcion,
-                        documento.importe_total
+                        documento.importe_total,
                     ),
                     documento,
                     _request.user

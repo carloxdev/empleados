@@ -182,7 +182,7 @@ class UserRegistroForm(UserCreationForm):
 
 class UserFilterForm(forms.Form):
     usuario = CharField(
-        label="Nombre de usuario:",
+        label="Clave:",
         widget=TextInput(
             attrs={'class': 'form-control input-xs'}
         )

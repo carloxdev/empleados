@@ -10,11 +10,22 @@ var appnova = null
             LOAD
 \*-----------------------------------------------*/
 
+window.paceOptions = {
+    // Disable the 'elements' source
+    elements: false,
+    // Only show the progress on regular and ajax-y page navigation,
+    // not every request
+    restartOnRequestAfter: true,
+    ajax: {
+      trackMethods: ['GET', 'POST', 'DELETE', 'PUT', 'PATCH']
+    }
+}
+
 $(document).ready(function () {
 
     appnova = new NovaSitio()
 
-    FastClick.attach(document.body);
+    // FastClick.attach(document.body)
 })
 
 /*-----------------------------------------------*\
@@ -25,6 +36,7 @@ function NovaSitio() {
 
     this.galletita = $.cookie('csrftoken')
     this.$menu = $("#menu")
+    this.$user = $('#request_user')
 
     this.set_ActivePage()
     this.set_AlertifyConfig()
@@ -104,6 +116,17 @@ NovaSitio.prototype.get_ConfDatePicker = function () {
       language: 'es'
    }
 }
+
+NovaSitio.prototype.get_ConfDateTimePicker = function () {
+
+   return {
+
+      format: 'dd/mm/yyyy 00:00:00.000000',
+      autoclose: true,
+      language: 'es'
+   }
+}
+
 NovaSitio.prototype.validar_EspaciosSaltos = function (_string)
 {
     return _string.replace(/^\s+|\s+$/g,'');

@@ -54,7 +54,6 @@ function PopupFiltros() {
     this.$autorizador = $('#id_autorizador')
     this.$created_date_mayorque = $('#id_created_date_mayorque_group')
     this.$created_date_menorque = $('#id_created_date_menorque_group')
-    this.$actual_user = $('#id_actual_user')
 
     this.$boton_buscar = $('#boton_buscar')
     this.$boton_limpiar = $('#boton_limpiar')
@@ -95,38 +94,26 @@ PopupFiltros.prototype.hide = function (e) {
 PopupFiltros.prototype.get_Values = function (_page) {
 
    no_filtros = this.get_NoFiltrosAplicados()
-   var no_empledo = this.$actual_user.val()
-
-   if (this.$actual_user.val() == 'None') {
-      no_empledo = 0
-   }
-
+   var clave = 0
 
    if (no_filtros > 0) {
-      return {
-          page: _page,
-
-          proposito_viaje: this.$proposito_viaje.val(),
-          empleado_clave: this.$empleado.val(),
-          un_clave: this.$unidad_negocio.val(),
-          ciudad_destino: this.$ciudad_destino.val(),
-          autorizador_clave: this.$autorizador.val(),
-          created_date_mayorque: this.get_FechaMayorQue(),
-          created_date_menorque: this.get_FechaMenorQue(),
-      }
+      clave = this.$empleado.val()
    }
-   else if (no_filtros == 0){
-      return {
-          page: _page,
+   else if (no_filtros == 0) {
+      clave = appnova.$user.text()
+   }
 
-          proposito_viaje: this.$proposito_viaje.val(),
-          empleado_clave: no_empledo,
-          un_clave: this.$unidad_negocio.val(),
-          ciudad_destino: this.$ciudad_destino.val(),
-          autorizador_clave: this.$autorizador.val(),
-          created_date_mayorque: this.get_FechaMayorQue(),
-          created_date_menorque: this.get_FechaMenorQue(),
-      }
+   return {
+
+       page: _page,
+
+       proposito_viaje: this.$proposito_viaje.val(),
+       empleado_clave: clave,
+       un_clave: this.$unidad_negocio.val(),
+       ciudad_destino: this.$ciudad_destino.val(),
+       autorizador_clave: this.$autorizador.val(),
+       created_date_mayorque: this.get_FechaMayorQue(),
+       created_date_menorque: this.get_FechaMenorQue(),
    }
 }
 PopupFiltros.prototype.get_FechaMayorQue = function (element) {
@@ -212,6 +199,7 @@ PopupFiltros.prototype.click_BotonLimpiar = function (e) {
     e.data.$autorizador.val("").trigger("change")
     e.data.$created_date_mayorque.datepicker("clearDates")
     e.data.$created_date_menorque.datepicker("clearDates")
+    e.data.$status.val("").trigger("change")
 }
 
 
@@ -307,7 +295,7 @@ Grid.prototype.get_Campos = function () {
         empleado_descripcion : { type: "string" },
         fecha_partida : { type: "date"},
         fecha_regreso : { type: "date"},
-        unidad_negocio_clave : { type: "string" },
+        un_clave : { type: "string" },
         unidad_negocio_descripcion : { type: "string" },
         ciudad_destino : { type: "string" },
         proposito_viaje : { type: "string" },
@@ -353,27 +341,48 @@ Grid.prototype.get_Columnas = function () {
         {
             field: "pk",
             title: "Numero",
-            width: "90px",
-            template: '<a class="btn btn-default nova-url" href="#=Grid.prototype.get_EditUrl(pk)#">#="VIA-" + pk#</a>',
+            width: "75px",
+            template: '<a class="btn btn-default nova-url" href="#=Grid.prototype.get_EditUrl(pk)#">#="V-" + pk#</a>',
         },
+        { field: "status", title: "Estado", width:"120px", attributes:{ class:"nova-centrar #=Grid.prototype.get_ColorEstado(status)#" }, },
+        { field: "empleado_clave", title: "Empleado", width:"90px" },
         {
             field: "empleado_descripcion",
-            title: "Empleado",
+            title: "Empleado descripcion",
             width:"300px"
         },
         { field: "proposito_viaje", title: "Proposito", width:"200px" },
         { field: "ciudad_destino", title: "Ciudad Destino", width:"200px" },
         { field: "fecha_partida", title: "Fecha Partida", width:"135px", format: "{0:dd/MM/yyyy}" },
         { field: "fecha_regreso", title: "Fecha Regreso", width:"135px", format: "{0:dd/MM/yyyy}" },
-        { field: "unidad_negocio_clave", title: "Unidad Negocio", width:"150px" },
-        { field: "status", title: "Estado", width:"120px" },
-        { field: "autorizador_descripcion", title: "Autorizador", width:"300px" },
-        { field: "fecha_autorizacion", title: "Fecha autorizacion", width:"135px", format: "{0:dd/MM/yyyy}" },
-        // { field: "nombre_empresa", title: "Nombre Empresa", width:"150px" },
+        { field: "un_clave", title: "UN clave", width:"100px" },
+        { field: "un_descripcion", title: "UN descripcion", width:"300px" },
+        { field: "autorizador_clave", title: "Autorizador", width:"90px" },
+        { field: "autorizador_descripcion", title: "Autorizador descripcion", width:"300px" },
+        { field: "approved_date", title: "Fecha autorización", width:"135px", format: "{0:dd/MM/yyyy}" },
+        { field: "empresa_descripcion", title: "Nombre Empresa", width:"300px" },
         { field: "created_date", title: "Fecha creación", width:"120px", format: "{0:dd/MM/yyyy}" },
         { field: "updated_date", title: "Fecha actualización", width:"150px", format: "{0:dd/MM/yyyy}" },
         // { field: "importe_total", title: "Importe total", width:"100px" },
     ]
+}
+Grid.prototype.get_ColorEstado = function (_estado) {
+
+   var estilo = ""
+
+   if (_estado == "Finalizado") {
+
+      estilo = "nova-status-aprobado"
+   }
+   else if (_estado == "Autorizado") {
+
+      estilo = "nova-status-autorizado"
+   }
+   else if (_estado == "Cancelado") {
+
+      estilo = "nova-status-cancelado"
+   }
+   return estilo
 }
 Grid.prototype.click_BotonEditar = function (e) {
 

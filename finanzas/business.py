@@ -89,7 +89,7 @@ class ViaticoBusiness(object):
     def send_Mail_ToFinish(self, _subject, _text, _documento, _user):
 
         mensaje = render_to_string(
-            'autorizacion/email.html',
+            'viatico/viatico_email.html',
             {
                 'viatico': _documento,
                 'texto': _text
@@ -111,7 +111,7 @@ class ViaticoBusiness(object):
     @classmethod
     def send_Mail_ToAprove(self, _subject, _text, _documento, _user):
         mensaje = render_to_string(
-            'autorizacion/email.html',
+            'viatico/viatico_email.html',
             {
                 'viatico': _documento,
                 'texto': _text
@@ -133,6 +133,9 @@ class ViaticoBusiness(object):
     @classmethod
     def set_FinalizarCaptura(self, _cabecera, _user):
 
-        _cabecera.status = "fin"
-        _cabecera.updated_by = _user.profile
-        _cabecera.save()
+        if _cabecera.viaticolinea_set.count() != 0:
+            _cabecera.status = "fin"
+            _cabecera.updated_by = _user.profile
+            _cabecera.save()
+        else:
+            raise ValueError("No se puede finalizar un viatico sin gastos.")

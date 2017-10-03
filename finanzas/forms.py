@@ -279,29 +279,25 @@ class FLujoFilterForm(Form):
             'centro_costos'].choices = self.get_CC()
 
     def get_Proyecto(self):
-        valores = []
+        valores = [('', '------')]
 
-        proyectos = VIEW_FLUJO_EGRESOS.objects.using('jde_p').all()
+        proyectos = VIEW_FLUJO_EGRESOS.objects.using('jde_p').filter(tipo_un='PROYECTO').order_by(
+            'descripcion_un').values_list('descripcion_un', flat=True).distinct()
         for proyecto in proyectos:
-            if proyecto.tipo_un != "CC":
-                valores.append((proyecto.descripcion_un,
-                                proyecto.descripcion_un)
-                               )
-        nueva_lista = dict.fromkeys(valores).keys()
-        nueva_lista.insert(0, ('', '------------'))
+            valores.append((proyecto,
+                            proyecto)
+                           )
 
-        return nueva_lista
+        return valores
 
     def get_CC(self):
-        valores = []
+        valores = [('', '------')]
 
-        proyectos = VIEW_FLUJO_EGRESOS.objects.using('jde_p').all()
+        proyectos = VIEW_FLUJO_EGRESOS.objects.using('jde_p').filter(tipo_un='CC').order_by(
+            'descripcion_un').values_list('descripcion_un', flat=True).distinct()
         for proyecto in proyectos:
-            if proyecto.tipo_un == "CC":
-                valores.append((proyecto.descripcion_un,
-                                proyecto.descripcion_un)
-                               )
-        nueva_lista = dict.fromkeys(valores).keys()
-        nueva_lista.insert(0, ('', '------------'))
+            valores.append((proyecto,
+                            proyecto)
+                           )
 
-        return nueva_lista
+        return valores

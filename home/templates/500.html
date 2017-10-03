@@ -1,0 +1,35 @@
+{% extends 'master.html' %}
+
+{% load static from staticfiles %}
+
+{% block titulo %} Acceso denegado {% endblock titulo %}
+
+{% block title-page %} Error 500  {% endblock title-page %}
+
+{% block contenido %}
+<div class="be-content">
+    <div class="be-splash-screen">
+        <div class="be-wrapper be-error nova-be-error-403">
+            <div class="be-content">
+                <div class="main-content container-fluid">
+                    <div class="error-container">
+                        <div class="nova-error-number">
+                            <!--<img class="nova-imagen-403 nova-imagen-filtro" src="{% static 'images/decoradores/corredor.png' %}"></img>-->
+                            403!
+                            <!--<img class="nova-imagen-403" src="{% static 'images/decoradores/policia.png' %}"></img>-->
+                        </div>
+                        <div class="error-description">Ocurrio un problema en sitio.</div>
+                        <div class="error-goback-text">¿Te gustaria ir a inicio?</div>
+                        <div class="error-goback-button"><a href="{% url 'home:inicio' %}" class="btn btn-xl btn-primary">Ir a inicio</a></div>
+                        <div class="footer">© Nuvoil 2017 </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="be-scroll-top"></div>
+    </div>
+</div>
+
+{% endblock contenido %}

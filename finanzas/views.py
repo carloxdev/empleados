@@ -141,8 +141,17 @@ class ViaticoCabeceraEditar(View):
             try:
                 ViaticoBusiness.set_FinalizarCaptura(viatico_cabecera, _request.user)
                 ViaticoBusiness.send_Mail_ToFinish(
-                    "APPS: Viatico V-%s pendiente de autorizar." % (viatico_cabecera.id),
-                    "Tienes un viatico V-%s por autorizar, por %s pesos." % (viatico_cabecera.id, viatico_cabecera.importe_total),
+                    "APPS: Viatico V-%s de (%s) %s pendiente de autorizar." % (
+                            viatico_cabecera.id,
+                            viatico_cabecera.empleado_clave,
+                            viatico_cabecera.empleado_descripcion
+                    ),
+                    "Tienes el viatico V-%s de (%s) %s pendiente de autorizar por %s pesos." % (
+                        viatico_cabecera.id,
+                        viatico_cabecera.empleado_clave,
+                        viatico_cabecera.empleado_descripcion,
+                        viatico_cabecera.importe_total,
+                    ),
                     viatico_cabecera,
                     _request.user
                 )

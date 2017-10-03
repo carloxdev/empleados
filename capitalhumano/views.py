@@ -62,7 +62,7 @@ class EmpleadoLista(View):
 
     def post(self, request):
         response = HttpResponse(content_type='application/ms-excel')
-        response['Content-Disposition'] = 'attachment; filename="compras.xls"'
+        response['Content-Disposition'] = 'attachment; filename="empleados.xls"'
 
         wb = xlwt.Workbook(encoding='utf-8')
         ws = wb.add_sheet('Empleados')

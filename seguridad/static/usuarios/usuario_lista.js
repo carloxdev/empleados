@@ -30,8 +30,8 @@ $(document).ready(function () {
                 filtros.apply_Filters()
             }
         }
-    })  
-    $(document).keydown(function (e) {  
+    })
+    $(document).keydown(function (e) {
         if (e.which == 27){
             filtros.$id.modal('hide')
         }
@@ -66,7 +66,7 @@ function PopupFiltros () {
 
 }
 PopupFiltros.prototype.init_Components = function () {
-    
+
     this.$created_date_mayorque.datepicker(appnova.get_ConfDatePicker())
     this.$created_date_menorque.datepicker(appnova.get_ConfDatePicker())
 }
@@ -104,7 +104,7 @@ PopupFiltros.prototype.click_BotonBuscar = function (e) {
     tarjeta_resultados.grid.buscar()
 }
 PopupFiltros.prototype.click_BotonLimpiar = function (e) {
-    
+
     e.preventDefault()
 
     e.data.$usuario__username.val("")
@@ -113,7 +113,7 @@ PopupFiltros.prototype.click_BotonLimpiar = function (e) {
     e.data.$clave_rh.val("")
     e.data.$usuario__email.val("")
     e.data.$created_date_mayorque.datepicker("clearDates")
-    e.data.$created_date_menorque.datepicker("clearDates") 
+    e.data.$created_date_menorque.datepicker("clearDates")
 }
 PopupFiltros.prototype.get_Values = function (_page) {
 
@@ -136,7 +136,7 @@ PopupFiltros.prototype.get_NoFiltrosAplicados = function () {
         cantidad += 1
     }
     if (this.$usuario__first_name.val() != "") {
-        cantidad += 1   
+        cantidad += 1
     }
     if (this.$usuario__last_name.val() != "" ) {
         cantidad += 1
@@ -161,18 +161,18 @@ PopupFiltros.prototype.apply_Filters = function () {
     tarjeta_resultados.grid.buscar()
 
     no_filtros = this.get_NoFiltrosAplicados()
-    
+
     this.$id.modal('hide')
 }
 PopupFiltros.prototype.click_BotonBuscar = function (e) {
-    
+
     e.preventDefault()
     e.data.apply_Filters()
 }
 PopupFiltros.prototype.get_FiltrosExcel = function () {
 
     return {
-        usuario__first_name: this.$usuario__first_name.val(), 
+        usuario__first_name: this.$usuario__first_name.val(),
         usuario__last_name: this.$usuario__last_name.val(),
         usuario__email: this.$usuario__email.val(),
         clave_rh: this.$clave_rh.val(),
@@ -245,7 +245,7 @@ Grid.prototype.get_DataSourceConfig = function () {
         error: function (e) {
             alertify.error("Status: " + e.status + "; Error message: " + e.errorThrown)
         },
-    }    
+    }
 }
 Grid.prototype.get_Campos = function () {
 
@@ -278,16 +278,16 @@ Grid.prototype.get_Configuracion = function () {
         scrollable: true,
         pageable: true,
         noRecords: {
-            template: "<div class='grid-empy'> No se encontraron registros </div>"
+            template: "<div class='nova-grid-empy'> No se encontraron registros </div>"
         },
         dataBound: this.set_Icons,
     }
 }
 Grid.prototype.get_Columnas = function () {
 
-    return [  
-        { field: "pk", 
-          title: "Cuenta", 
+    return [
+        { field: "pk",
+          title: "Cuenta",
           width:"100px" ,
           template: '<a class="btn btn-default nova-url" href="#=url_profile_editar_bypage + pk #/editar/">#=cuenta#</a>',
         },
@@ -306,7 +306,7 @@ Grid.prototype.buscar = function() {
     this.kfuente_datos.page(1)
 }
 Grid.prototype.leer_Datos = function() {
-    
+
     this.kfuente_datos_excel.read()
 }
 Grid.prototype.get_FuenteDatosExcel = function (e) {
