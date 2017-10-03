@@ -17,6 +17,7 @@ from django.forms import ValidationError
 from .models import ViaticoCabecera
 from .models import ViaticoLinea
 from jde.models import VIEW_POLITICA_VIATICOS
+from jde.models import VIEW_FLUJO_EGRESOS
 
 from jde.business import CentroCostoBusiness
 from ebs.business import EmpleadoBusiness
@@ -60,11 +61,13 @@ class ViaticoFilterForm(Form):
     )
 
     created_date_mayorque = CharField(
-        widget=TextInput(attrs={'class': 'form-control input-xs', 'readonly': 'readonly'})
+        widget=TextInput(
+            attrs={'class': 'form-control input-xs', 'readonly': 'readonly'})
     )
 
     created_date_menorque = CharField(
-        widget=TextInput(attrs={'class': 'form-control input-xs', 'readonly': 'readonly'})
+        widget=TextInput(
+            attrs={'class': 'form-control input-xs', 'readonly': 'readonly'})
     )
 
     status = ChoiceField(
@@ -79,9 +82,12 @@ class ViaticoFilterForm(Form):
         self.fields['un_clave'].required = False
         self.fields['autorizador_clave'].required = False
 
-        self.fields['empleado_clave'].choices = EmpleadoBusiness.get_Todos_ForSelectCustom()
-        self.fields['un_clave'].choices = CentroCostoBusiness.get_Todos_ForSelectCustom()
-        self.fields['autorizador_clave'].choices = EmpleadoBusiness.get_Todos_ForSelectCustom()
+        self.fields[
+            'empleado_clave'].choices = EmpleadoBusiness.get_Todos_ForSelectCustom()
+        self.fields[
+            'un_clave'].choices = CentroCostoBusiness.get_Todos_ForSelectCustom()
+        self.fields[
+            'autorizador_clave'].choices = EmpleadoBusiness.get_Todos_ForSelectCustom()
 
 
 class ViaticoCabeceraForm(ModelForm):
@@ -125,15 +131,18 @@ class ViaticoCabeceraForm(ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(ViaticoCabeceraForm, self).__init__(*args, **kwargs)
-        self.fields['empleado_clave'].choices = EmpleadoBusiness.get_Activos_ForSelect()
-        self.fields['un_clave'].choices = CentroCostoBusiness.get_Activos_ForSelect()
+        self.fields[
+            'empleado_clave'].choices = EmpleadoBusiness.get_Activos_ForSelect()
+        self.fields[
+            'un_clave'].choices = CentroCostoBusiness.get_Activos_ForSelect()
 
     def clean_fecha_regreso(self):
         f_partida = self.cleaned_data['fecha_partida']
         f_regreso = self.cleaned_data['fecha_regreso']
 
         if f_partida > f_regreso:
-            raise ValidationError("La fecha de regreso no puede ser menor a la fecha partida")
+            raise ValidationError(
+                "La fecha de regreso no puede ser menor a la fecha partida")
 
         return f_regreso
 
@@ -156,14 +165,17 @@ class ViaticoCabeceraForm(ModelForm):
 class ViaticoLineaForm(Form):
 
     concepto = ChoiceField(
-        widget=SelectCustom(attrs={'class': 'select2 input-xs', 'maxlength': '60'})
+        widget=SelectCustom(
+            attrs={'class': 'select2 input-xs', 'maxlength': '60'})
     )
     observaciones = ChoiceField(
-        widget=Textarea(attrs={'class': 'form-control input-xs', 'rows': '10', 'required': 'required', 'cols': '40'})
+        widget=Textarea(attrs={'class': 'form-control input-xs',
+                               'rows': '10', 'required': 'required', 'cols': '40'})
     )
 
     importe = ChoiceField(
-        widget=NumberInput(attrs={'class': 'form-control input-xs', 'value': '0.0', 'step': '0.01', 'required': 'required', })
+        widget=NumberInput(attrs={'class': 'form-control input-xs',
+                                  'value': '0.0', 'step': '0.01', 'required': 'required', })
     )
 
     def __init__(self, id_empleado, *args, **kargs):
@@ -174,7 +186,8 @@ class ViaticoLineaForm(Form):
 
         valores = [('', '-------', '', ''), ]
 
-        conceptos = VIEW_POLITICA_VIATICOS.objects.using('jde_p').filter(idempleado=id_empleado)
+        conceptos = VIEW_POLITICA_VIATICOS.objects.using(
+            'jde_p').filter(idempleado=id_empleado)
 
         for concepto in conceptos:
 
@@ -225,15 +238,26 @@ class AnticipoFilterForm(Form):
 
     def __init__(self, *args, **kwargs):
         super(AnticipoFilterForm, self).__init__(*args, **kwargs)
-        self.fields['empleado'].choices = EmpleadoBusiness.get_Todos_ForSelectCustom()
-        self.fields['unidad_negocio'].choices = CentroCostoBusiness.get_Todos_ForSelectCustom()
-        self.fields['autorizador'].choices = EmpleadoBusiness.get_Todos_ForSelectCustom()
+        self.fields[
+            'empleado'].choices = EmpleadoBusiness.get_Todos_ForSelectCustom()
+        self.fields[
+            'unidad_negocio'].choices = CentroCostoBusiness.get_Todos_ForSelectCustom()
+        self.fields[
+            'autorizador'].choices = EmpleadoBusiness.get_Todos_ForSelectCustom()
 
 
 class FLujoFilterForm(Form):
+    ANIOS = (
+        ('17', '2017'),
+        ('16', '2016'),
+        ('15', '2015'),
+        ('14', '2014'),
+        ('13', '2013'),
+    )
 
     anio = ChoiceField(
         label="Año",
+        choices=ANIOS,
         widget=Select(attrs={'class': 'form-control input-xs'})
     )
 
@@ -247,3 +271,37 @@ class FLujoFilterForm(Form):
         widget=Select(attrs={'class': 'form-control input-xs'})
     )
 
+    def __init__(self, *args, **kwargs):
+        super(FLujoFilterForm, self).__init__(*args, **kwargs)
+        self.fields[
+            'proyecto'].choices = self.get_Proyecto()
+        self.fields[
+            'centro_costos'].choices = self.get_CC()
+
+    def get_Proyecto(self):
+        valores = []
+
+        proyectos = VIEW_FLUJO_EGRESOS.objects.using('jde_p').all()
+        for proyecto in proyectos:
+            if proyecto.tipo_un != "CC":
+                valores.append((proyecto.descripcion_un,
+                                proyecto.descripcion_un)
+                               )
+        nueva_lista = dict.fromkeys(valores).keys()
+        nueva_lista.insert(0, ('', '------------'))
+
+        return nueva_lista
+
+    def get_CC(self):
+        valores = []
+
+        proyectos = VIEW_FLUJO_EGRESOS.objects.using('jde_p').all()
+        for proyecto in proyectos:
+            if proyecto.tipo_un == "CC":
+                valores.append((proyecto.descripcion_un,
+                                proyecto.descripcion_un)
+                               )
+        nueva_lista = dict.fromkeys(valores).keys()
+        nueva_lista.insert(0, ('', '------------'))
+
+        return nueva_lista

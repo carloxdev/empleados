@@ -535,9 +535,13 @@ class VIEW_PROVEEDORES_Filter(filters.FilterSet):
 
 class VIEW_FLUJO_EGRESOS_Filter(filters.FilterSet):
 
+    anio = NumberFilter(
+        name="anio",
+        lookup_expr="exact"
+    )
     descripcion_un = CharFilter(
         name="descripcion_un",
-        lookup_expr="contains"
+        lookup_expr="exact"
     )
 
     class Meta:

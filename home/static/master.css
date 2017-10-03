@@ -907,7 +907,7 @@ div.nova-panel-arbol li.list-group-item {
 }
 /* -AVATAR DE PERFIL- */
 .nova-dropdown {
-        margin: 10px 15px !important;
+    margin: 10px 15px !important;
 
 }
     .nova-dropdown:after {
@@ -921,16 +921,20 @@ div.nova-panel-arbol li.list-group-item {
     padding-right: 0px !important;
 }
 .nova-crop-img {
-   height: 60px !important;
+  height: 60px !important;
   overflow: hidden !important;
-  line-height: 70px !important; 
+  width: 75px !important;
+}
+.nova-perfil-img{
+  height: 280px;
+  object-fit: cover;
 }
 .nova-imagen-avatar{
-  max-width: 100px !important;
+  max-width: 75px !important;
   max-height: 60px !important;
   width: auto !important;
-  clip-path: circle(23px at 50% 25px) !important;
-  -webkit-clip-path: circle(23px at 50% 25px) !important;
+  clip-path: circle(23px at 50% 50%) !important;
+  -webkit-clip-path: circle(23px at 50% 50%) !important;
 }
 
 
