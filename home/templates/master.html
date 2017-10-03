@@ -64,9 +64,9 @@
 
                                 <div class="nova-crop-img">
                                 {% if user.profile.foto %}
-                                    <img class="nova-imagen-avatar" src="{{ user.profile.foto.url }}" alt="User Image" class="user-image">
+                                    <img class="nova-imagen-avatar nova-perfil-img" src="{{ user.profile.foto.url }}" alt="User Image" class="user-image">
                                 {% else %}
-                                    <img class="nova-imagen-avatar" src="{% static 'theme/img/avatar.png' %}" alt="User Image">
+                                    <img class="nova-imagen-avatar nova-perfil-img" src="{% static 'theme/img/avatar.png' %}" alt="User Image">
                                 {% endif %}
                                 </div>
 

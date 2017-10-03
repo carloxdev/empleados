@@ -3,7 +3,9 @@
 {% load custom_tags %}
 {% block titulo %} Administración de Noticias {% endblock titulo %}
 {% block title-page %} Administración de Noticias {% endblock title-page %}
+
 {% block css %}
+    <link rel="stylesheet" href="{% static 'css/post_administracion.css' %}"/>
 {% endblock css %}
 
 {% block contenido %}
@@ -20,19 +22,19 @@
     <div class="main-content container-fluid nova-main-content">
         <div class="fuelux">
             <div id="wizard1" class="wizard wizard-ux nova-panel-borde-header nova-overflow-visible">
-                <div class="panel-heading nova-panel-heading nova-padding-right">
+                <div class="panel-heading nova-panel-heading nova-padding">
                     <span class="title">Registros</span>
                     <a href="{% url 'editorial:post_nuevo' %}" class=" visible-xs-inline-block btn nova-btn btn-rounded btn-space btn-default  pull-right" id="boton_nuevo"><i class="icon icon-left mdi mdi-plus-circle nova-black"></i> Nuevo post</a>
                 </div>
             </div>
             <div class="panel panel-default panel-table">
-                <div class="panel-heading nova-panel-borde-contenido nova-padding-tools">
+                <div class="panel-heading nova-panel-borde-contenido nova-herramientas">
                     <a href="{% url 'editorial:post_nuevo' %}" class="btn nova-btn btn-rounded btn-space btn-default  pull-left hidden-xs" id="boton_nuevo"><i class="icon icon-left mdi mdi-plus-circle nova-black"></i> Nuevo post</a>
-                    <form class="pull-right col-sm-6 nova-padding-right"action="" method="GET">
+                    <form class="pull-right col-sm-6 nova-padding"action="" method="GET">
                         <div class="input-group">
-                            <input type="text" class="form-control btn-rounded nova-height-buscar" name="q" placeholder="Post a buscar..." value="{{ request.GET.q }}">
+                            <input type="text" class="form-control btn-rounded nova-buscador" name="q" placeholder="Post a buscar..." value="{{ request.GET.q }}">
                             <span class="input-group-btn">
-                              <button type="submit" id="boton_buscar" class="btn nova-height-buscar nova-btn btn-rounded btn-primary btn-flat">
+                              <button type="submit" id="boton_buscar" class="btn nova-buscador nova-btn btn-rounded btn-primary btn-flat">
                                 <i class="fa fa-search"></i>
                                 Buscar
                               </button>

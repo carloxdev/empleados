@@ -9,6 +9,7 @@ from django.views.generic.base import View
 from django.shortcuts import render
 from django.shortcuts import redirect
 from django.shortcuts import get_object_or_404
+from django.db import transaction
 
 from django.core.urlresolvers import reverse
 from django.core.mail import EmailMultiAlternatives
@@ -178,6 +179,7 @@ class Perfil(View):
         }
         return render(_request, self.template_name, contexto)
 
+    @transaction.atomic
     def post(self, _request, _username):
         usuario = get_object_or_404(User, username=_username)
 
