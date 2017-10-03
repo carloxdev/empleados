@@ -294,7 +294,7 @@ class FLujoFilterForm(Form):
         valores = [('', '------')]
 
         proyectos = VIEW_FLUJO_EGRESOS.objects.using('jde_p').filter(tipo_un='CC').order_by(
-            'descripcion_un').values_list('descripcion_un', flat=True).distinct()
+            'descripcion_un').values_list('descripcion_un', flat=True).distinct()                          
         for proyecto in proyectos:
             valores.append((proyecto,
                             proyecto)
