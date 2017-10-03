@@ -1066,6 +1066,7 @@ div.nova-panel-arbol li.list-group-item {
 }
 .nova-contenedor-imagen {
   overflow:hidden;
+  margin-bottom: 1em;
 }
 .nova-post-contenido{
   margin-top: 2em;
