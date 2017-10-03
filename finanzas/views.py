@@ -215,7 +215,7 @@ class AnticipoLista(View):
 
 
 class Flujo(View):
-    template_name = 'flujo.html'
+    template_name = 'reportes/flujo.html'
 
     def get(self, _request):
 

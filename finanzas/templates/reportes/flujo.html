@@ -35,7 +35,7 @@
 	<!-- Targeta Filtros -->
     <div id="tarjeta_filtros" role="dialog" class="modal fade colored-header colored-header-primary">
         <div class="modal-dialog modal-lg nova-modal-responsive">
-            <div class="modal-content nova-modal-maxwidth nova-modal-content-responsive">
+            <div class="modal-content nova-modal-content-responsive">
 
                 <div class="modal-header nova-modal-header">
                     <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
@@ -44,11 +44,11 @@
 
                 <form id="formulario_filtro" class="modal-body form-horizontal">
 
-                    {% tag_filter form.anio %}
+                    {% tag_field_popup form.anio 4 6 %}
 
-                    {% tag_filter form.proyecto %}
+                    {% tag_field_popup form.proyecto 4 6 %}
 
-                    {% tag_filter form.centro_costos %}
+                    {% tag_field_popup form.centro_costos 4 6 %}
 
                 </form>
                 <div class="modal-footer nova-modal-footer">
@@ -94,14 +94,20 @@
                   </div>
             </div>
         </div>
-	</div>
+        <div class="row wizard-row">
+	        <div class="col-sm-12">
+	            <div class="nova-margin-highcharts nova-fix-width-highcharts" id="container-flujo"></div>
+	            </div>
+
+	        </div>
+		</div>
+
 </div>
 
 
 {% endblock contenido %}
 
 {% block scripts %}
-
 
     <!-- Kendo Js -->
     <script src="{% static 'libs/kendo/2015.2.624/js/cultures/kendo.culture.es-MX.min.js' %}"></script>
@@ -110,7 +116,12 @@
     <!-- Theme -->
     <script src="{% static 'theme/lib/jquery-ui/jquery-ui.min.js' %}"></script>
 
+    <!-- Highcharts -->
+   <script src="{% static 'libs/highcharts/5.0.11/js/highcharts.js' %}"></script>
+   <script src="{% static 'libs/highcharts/5.0.11/js/highcharts-3d.js' %}"></script>
+   <script src="{% static 'libs/highcharts/5.0.11/js/highcharts-more.js' %}"></script>
+
     <!-- Nova -->
-    <script src="{% static 'flujo.js' %}"></script>
+    <script src="{% static 'reportes/flujo.js' %}"></script>
 
 {% endblock scripts %}
