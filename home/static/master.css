@@ -923,7 +923,7 @@ div.nova-panel-arbol li.list-group-item {
 .nova-crop-img {
    height: 60px !important;
   overflow: hidden !important;
-  line-height: 70px !important; 
+  line-height: 70px !important;
 }
 .nova-imagen-avatar{
   max-width: 100px !important;
@@ -1050,9 +1050,9 @@ div.nova-panel-arbol li.list-group-item {
 }
 .nova-contenedor-imagen img{
   -webkit-transition:all .9s ease;
-  -moz-transition:all .9s ease; 
-  -o-transition:all .9s ease; 
-  -ms-transition:all .9s ease; 
+  -moz-transition:all .9s ease;
+  -o-transition:all .9s ease;
+  -ms-transition:all .9s ease;
   width:100%;
 }
 .nova-contenedor-imagen:hover img {
@@ -1068,6 +1068,7 @@ div.nova-panel-arbol li.list-group-item {
 .nova-post-contenido{
   margin-top: 2em;
   font-size: 16px;
+  text-align: justify;
 }
 @media (max-width: 767px) {
   .nova-post-contenido{
