@@ -44,9 +44,11 @@
                                     <img class="nova-post-imagen " src="{{ registro.imagen.url }}" alt="Post Imagen">
                                 </div>
                             {% endif %}
-                            
+
                             <section class="nova-post-contenido">
+                                {% autoescape off %}
                                     {{registro.contenido|safe|truncatechars_html:500 }}
+                                {% endautoescape %}
                             </section>
 
                              <div class="modal-footer nova-centrar">
