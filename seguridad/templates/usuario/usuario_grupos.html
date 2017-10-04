@@ -50,9 +50,18 @@
 
                     </div>
                     <div class="modal-footer nova-modal-footer">
-                         <button type="submit" id="id_boton_guardar" class="btn nova-btn nova-btn-orange btn-lg">
-                            Guardar cambios
-                        </button>
+
+                        <div class="nova-footer-botons">
+                            <a href=" {% url 'seguridad:usuario_editar' form.instance.pk %}" class="btn btn-default">
+                                <i class="icon mdi mdi-arrow-left"></i>
+                                Regresar a Edicion
+                            </a>
+                            <button type="submit" id="id_boton_guardar" class="btn nova-btn nova-btn-orange btn-lg pull-right">
+                               Guardar cambios
+                           </button>
+                        </div>
+
+
                     </div>
                 </form>
             </div>
