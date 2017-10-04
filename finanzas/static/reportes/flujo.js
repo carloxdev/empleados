@@ -88,7 +88,7 @@ PopupFiltros.prototype.click_BotonLimpiar = function (e) {
 
     e.preventDefault()
 
-    e.data.$anio.val("").trigger("change")
+    e.data.$anio.val("17").trigger("change")
     e.data.$proyecto.val("").trigger("change")
     e.data.$centro_costos.val("").trigger("change")
 }
@@ -235,13 +235,20 @@ function Grafica(){
     this.obtener_Informacion()
 }
 Grafica.prototype.obtener_Informacion = function (){
+    valor= ''
+    if (tarjeta_filtros.$proyecto.val() != ''){
+        valor = tarjeta_filtros.$proyecto.val()
+    }
+    else if(tarjeta_filtros.$centro_costos.val() != ''){
+        valor = tarjeta_filtros.$centro_costos.val()
+    }
     $.ajax({
          url: url_viewflujoegresos,
          method: "GET",
          dataType: "json",
          data: {
             anio: tarjeta_filtros.$anio.val(),
-            descripcion_un: tarjeta_filtros.$proyecto.val()
+            descripcion_un: valor,
          },
          success: function (response) {
             

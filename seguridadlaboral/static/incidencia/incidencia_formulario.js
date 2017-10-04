@@ -87,10 +87,14 @@ TargetaIncidencia.prototype.escoger_Zona = function (e) {
             else if (response[0].asig_ubicacion_desc == 'OFICINA VERACRUZ' ||
                     response[0].asig_ubicacion_desc == 'OFICINA NARANJOS'){
                 // alert("VERACRUZ")
-                e.data.$zona.val(4)
+                    if (response[0].grup_proyecto_code_jde == '133') {
+                        e.data.$zona.val(6)
+                    }
+                    else {
+                        e.data.$zona.val(4)
+                    }
             }
             else {
-
                 // alert("NARANJOS")
                 e.data.$zona.val(5)
             }

@@ -18,7 +18,8 @@ from .models import IncidenciaResolucion
 class IncidenciaDocumentoFilter(filters.FilterSet):
 
     zona = CharFilter(
-        name="zona",
+        name="zona_id",
+        method='filter_zona',
         lookup_expr="icontains"
     )
 
@@ -26,6 +27,12 @@ class IncidenciaDocumentoFilter(filters.FilterSet):
         name="status",
         lookup_expr="icontains"
     )
+
+    es_registrable = CharFilter(
+        name="es_registrable",
+        lookup_expr="icontains"
+    )
+
 
     # fecha_anio = CharFilter(
     #     name="fecha_anio",
@@ -70,7 +77,7 @@ class IncidenciaDocumentoFilter(filters.FilterSet):
             'fecha_mayorque',
             'fecha_menorque',
             'es_registrable',
-            'zona',
+            'zona_id',
             'status',
             'empleado_nombre',
             'empleado_proyecto_desc',
@@ -78,6 +85,16 @@ class IncidenciaDocumentoFilter(filters.FilterSet):
             'empleado_organizacion',
             'centro_atencion',
         ]
+
+
+    def filter_zona(self, queryset, name, value):
+
+        if not value:
+            return ' '
+        else:
+            zona = queryset.filter(
+                zona_id=value)
+            return zona
 
     # def get_fecha_byanio(self, queryset, name, value):
 

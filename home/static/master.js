@@ -131,3 +131,20 @@ NovaSitio.prototype.validar_EspaciosSaltos = function (_string)
 {
     return _string.replace(/^\s+|\s+$/g,'');
 }
+NovaSitio.prototype.get_FechaConFormato = function (element) {
+
+    fecha = $(element).datepicker("getDate")
+    fecha_conformato = moment(fecha).format('YYYY-MM-DD')
+
+    if (fecha_conformato == "Invalid date") {
+        return ""
+    }
+    else {
+        return fecha_conformato
+    }
+}
+NovaSitio.prototype.set_FechaConFormato = function (element, date) {
+
+   fecha = date.split("-")
+   $(element).datepicker("update", fecha[2] + "/" + fecha[1] +"/"+ fecha[0])
+}

@@ -96,15 +96,15 @@ TarjetaFiltros.prototype.init_Components = function () {
    this.$id_requisicion_originador.select2(appnova.get_ConfigSelect2())
    this.$id_requisicion_desde.datepicker(appnova.get_ConfDatePicker())
    this.$id_requisicion_hasta.datepicker(appnova.get_ConfDatePicker())
-   this.$id_requisicion_canceladas.select2(appnova.get_ConfigSelect2())
+   this.$id_requisicion_canceladas.select2(appnova.get_ConfigSelect2()).val('-980').trigger("change")
    this.$id_oc_desde.datepicker(appnova.get_ConfDatePicker())
    this.$id_oc_hasta.datepicker(appnova.get_ConfDatePicker())
    this.$id_cotizacion_tipo.select2(appnova.get_ConfigSelect2())
    this.$id_cotizacion_originador.select2(appnova.get_ConfigSelect2())
-   this.$id_cotizacion_canceladas.select2(appnova.get_ConfigSelect2())
+   this.$id_cotizacion_canceladas.select2(appnova.get_ConfigSelect2()).val('-980').trigger("change")
    this.$id_oc_tipo.select2(appnova.get_ConfigSelect2())
    this.$id_oc_originador.select2(appnova.get_ConfigSelect2())
-   this.$id_oc_canceladas.select2(appnova.get_ConfigSelect2())
+   this.$id_oc_canceladas.select2(appnova.get_ConfigSelect2()).val('-980').trigger("change")
    this.$id_recepcion.select2(appnova.get_ConfigSelect2())
 }
 TarjetaFiltros.prototype.init_Events = function () {
@@ -374,7 +374,7 @@ TarjetaFiltros.prototype.get_NoFiltrosAplicados = function () {
       cantidad += 1
       filtros.push('id_requisicion_originador')
    }
-   if (this.$id_requisicion_canceladas.val() != "") {
+   if (this.$id_requisicion_canceladas.val() != "-980") {
       cantidad += 1
       filtros.push('id_requisicion_canceladas')
    }
@@ -390,7 +390,7 @@ TarjetaFiltros.prototype.get_NoFiltrosAplicados = function () {
       cantidad += 1
       filtros.push('id_cotizacion_originador')
    }
-   if (this.$id_cotizacion_canceladas.val() != "") {
+   if (this.$id_cotizacion_canceladas.val() != "-980") {
       cantidad += 1
       filtros.push('id_cotizacion_canceladas')
    }
@@ -406,7 +406,7 @@ TarjetaFiltros.prototype.get_NoFiltrosAplicados = function () {
       cantidad += 1
       filtros.push('id_oc_originador')
    }
-   if (this.$id_oc_canceladas.val() != "") {
+   if (this.$id_oc_canceladas.val() != "-980") {
       cantidad += 1
       filtros.push('id_oc_canceladas')
    }

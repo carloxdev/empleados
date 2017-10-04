@@ -51,9 +51,9 @@ class SeguimientoComprasFilterForm(Form):
     )
 
     CANCELADAS = (
+        ('-980', 'No mostrar canceladas'),
         ('', 'Mostrar canceladas'),
         ('980', 'Solo canceladas'),
-        ('-980', 'No mostrar canceladas')
     )
     RECEPCION = (
         ('', '-------'),
