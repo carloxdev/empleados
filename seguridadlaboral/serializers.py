@@ -21,6 +21,7 @@ class IncidenciaDocumentoSerializer(serializers.HyperlinkedModelSerializer):
     status = serializers.SerializerMethodField()
     es_registrable = serializers.SerializerMethodField()
     tiene_acr = serializers.SerializerMethodField()
+    fecha = serializers.SerializerMethodField()
 
     class Meta:
         model = IncidenciaDocumento
@@ -134,6 +135,12 @@ class IncidenciaDocumentoSerializer(serializers.HyperlinkedModelSerializer):
         except Exception as e:
             print str(e)
             return " "
+
+    def get_fecha(self, obj):
+        try:
+            return obj.fecha.strftime('%d/%m/%Y')
+        except Exception as e:
+            return " "        
 
     
 
