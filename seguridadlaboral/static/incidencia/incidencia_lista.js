@@ -56,7 +56,11 @@ function TargetaFiltros () {
     this.$tipo = $('#id_tipo')
     this.$fecha_creacion = $('#fecha_creacion')
     this.$id_fecha = $('#id_fecha')
-    this.$es_registrable = $('#id_es_registrable')
+    //this.$es_registrable = $('#id_es_registrable')
+    //this.$es_registrable = $("input[name='id_es_registrable']")
+     this.$es_registrable = $("input[name='es_registrable']:checked").val(),
+
+
     this.$empleado_zona = $('#id_zona')
     this.$created_date_mayorque = $('#id_fecha_mayorque_group')
     this.$created_date_menorque = $('#id_fecha_menorque_group')
@@ -106,13 +110,14 @@ TargetaFiltros.prototype.get_DateTimePickerConfig = function () {
     }
 }
 TargetaFiltros.prototype.hide = function (e) {
-    e.data.$fecha_creacion.data('daterangepicker').hide()
+    //e.data.$fecha_creacion.data('daterangepicker').hide()
 }
 TargetaFiltros.prototype.click_BotonBuscar = function (e) {
 
     e.preventDefault()
     resultados.grid.buscar()
     e.data.$id.modal('hide')
+
 
 }
 TargetaFiltros.prototype.click_BotonLimpiar = function (e) {
@@ -121,11 +126,12 @@ TargetaFiltros.prototype.click_BotonLimpiar = function (e) {
     //alert("entro");
     e.data.$numero.val("")
     e.data.$tipo.val("").trigger("change")
-    e.data.$es_registrable.val("").trigger("change")
     e.data.$empleado_zona.val("").trigger("change")
-    e.data.$fecha_creacion.data('daterangepicker').setStartDate(
-        '01-01-2017'
-    )
+    e.data.$es_registrable.prop('checked', false)
+   // e.data.$fecha_creacion.data('daterangepicker').setStartDate('01-01-2017')
+   e.data.$created_date_mayorque.datepicker("clearDates")
+   e.data.$created_date_menorque.datepicker("clearDates")
+   
 
 }
 TargetaFiltros.prototype.get_Values = function (_page) {
@@ -135,8 +141,8 @@ TargetaFiltros.prototype.get_Values = function (_page) {
         id: this.$numero.val(),
         tipo: this.$tipo.val(),
         fecha_creacion: this.$fecha_creacion.val(),
-        es_registrable: this.$es_registrable.val(),
-        empleado_zona: this.$empleado_zona.val(),
+        es_registrable:  $("input[name='es_registrable']:checked").val(),
+        zona: this.$empleado_zona.val(),
 
     }
 
@@ -148,7 +154,7 @@ TargetaFiltros.prototype.get_FiltrosExcel = function () {
         tipo: this.$tipo.val(),
         fecha_creacion: this.$fecha_creacion.val(),
         es_registrable: this.$es_registrable.val(),
-        empleado_zona: this.$empleado_zona.val(),
+        zona: this.$empleado_zona.val(),
     }
 }
 

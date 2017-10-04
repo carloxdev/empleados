@@ -104,6 +104,24 @@ class IncidenciaDocumentoSerializer(serializers.HyperlinkedModelSerializer):
 
         return obj.zona.descripcion
 
+        # try:
+        #     if obj.zona.descripcion == 'VILLAHERMOSA':
+        #        zona == 1
+        #     elif obj.zona.descripcion == 'POZA RICA':
+        #          zona == 2
+        #     elif obj.zona.descripcion == 'REYNOSA':
+        #         zona == 3
+        #     elif obj.zona.descripcion == 'VERACRUZ':
+        #         zona == 4
+        #     elif obj.zona.descripcion == 'NARANJOS':
+        #         zona == 5
+        #     elif obj.zona.descripcion == 'CD.CARMEN':
+        #         zona == 6               
+        #     return obj.zona.id
+        # except Exception as e:
+        #     print str(e)
+        #     return " " 
+
     def get_tipo(self, obj):
 
         return obj.tipo.descripcion
