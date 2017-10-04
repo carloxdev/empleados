@@ -154,8 +154,8 @@ TargetaFiltros.prototype.click_BotonLimpiar = function (e) {
     e.data.$empleado_zona.val("").trigger("change")
     
    // e.data.$fecha_creacion.data('daterangepicker').setStartDate('01-01-2017')
-   e.data.$created_date_mayorque.datepicker("clearDates")
-   e.data.$created_date_menorque.datepicker("clearDates")
+   e.data.$fecha_mayorque.datepicker("clearDates")
+   e.data.$fecha_menorque.datepicker("clearDates")
    //e.data.$es_registrable.prop('checked', false)
    $("input[name='es_registrable']:checked", false).val()
    
