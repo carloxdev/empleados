@@ -36,11 +36,19 @@ def get_FilePath_Archivo(instance, filename):
             return os.path.join('capitalhumano', 'solicitudes', filename)
         return os.path.join(upload_dir, filename)
 
-    elif instance.tipo_archivo == 'cal':
+    elif instance.tipo_archivo in ('cal_anali', 'cal_evid', 'cal_eval'):
 
         auditoria = instance.content_object.hallazgo.proceso.auditoria.folio
 
-        upload_dir = os.path.join('calidad', 'hallazgodetalle', "%s" % (auditoria),)
+        upload_dir = os.path.join('calidad', "%s" % (auditoria), 'hallazgo', "%s" % (instance.tipo_archivo), )
+
+        return os.path.join(upload_dir, filename)
+
+    elif instance.tipo_archivo == 'cal_segui':
+
+        auditoria = instance.content_object.plan_accion_hallazgo.hallazgo.proceso.auditoria.folio
+
+        upload_dir = os.path.join('calidad', "%s" % (auditoria), 'hallazgo', "%s" % (instance.tipo_archivo), )
 
         return os.path.join(upload_dir, filename)
 

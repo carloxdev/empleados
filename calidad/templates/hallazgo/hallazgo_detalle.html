@@ -441,9 +441,9 @@
    </div><!-- Modal -->
 
    <!-- id_tarjeta_evaluacion_plan_accion -->
-   <div id="id_tarjeta_evaluacion" role="dialog" class="modal fade colored-header colored-header-primary">
-      <div class="modal-dialog custom-width">
-         <div class="modal-content">
+   <div id="id_tarjeta_evaluacion" role="dialog" data-primaryKey="" class="modal fade colored-header colored-header-primary">
+      <div class="modal-dialog modal-lg">
+         <div class="modal-content nova-modal-maxwidth">
 
             <div class="modal-header nova-modal-header">
                <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
@@ -452,25 +452,27 @@
 
             <form id="id_formulario_evaluacion" class="modal-body form-horizontal">
 
-              <!-- resultado -->
-              {% tag_filter_radio formulario_seguimiento_plan_evaluacion.resultado %}
+               <span id="id_mensaje_error_evaluacion"></span>
 
-              <!-- resultado_evaluacion -->
-              {% tag_field_popup formulario_seguimiento_plan_evaluacion.resultado_evaluacion 3 8 %}
+               <!-- resultado -->
+               {% tag_filter_radio formulario_seguimiento_plan_evaluacion.resultado %}
 
-              <!-- fecha_evaluacion -->
-              <div class="form-group">
+               <!-- resultado_evaluacion -->
+               {% tag_field_popup formulario_seguimiento_plan_evaluacion.resultado_evaluacion 3 8 %}
+
+               <!-- fecha_evaluacion -->
+               <div class="form-group">
                  {% tag_field_popup_datepicker formulario_seguimiento_plan_evaluacion.fecha_evaluacion 3 8 True %}
-              </div>
+               </div>
 
-              <!-- criterio_decision -->
-              {% tag_field_popup formulario_seguimiento_plan_evaluacion.criterio_decision 3 8 %}
+               <!-- criterio_decision -->
+               {% tag_field_popup formulario_seguimiento_plan_evaluacion.criterio_decision 3 8 %}
 
-              <!-- observaciones -->
-              {% tag_field_popup formulario_seguimiento_plan_evaluacion.observaciones 3 8 %}
+               <!-- observaciones -->
+               {% tag_field_popup formulario_seguimiento_plan_evaluacion.observaciones 3 8 %}
 
-              <!-- archivo -->
-              {% tag_field_popup formulario_seguimiento_plan_evaluacion.archivo 3 8 %}
+               <!-- archivo -->
+               {% tag_field_popup formulario_seguimiento_plan_evaluacion.archivo 3 8 %}
 
             </form><!-- Modal body-->
             <div class="modal-footer nova-modal-footer">

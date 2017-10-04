@@ -204,7 +204,7 @@ GridAnalisis.prototype.click_EliminarAnalisis = function (e) {
 
    e.preventDefault()
    pk = this.getAttribute("data-id")
-   e.data.eliminar(pk)
+   tarjeta_analisis.grid.eliminar(pk)
 }
 GridAnalisis.prototype.load_Data = function () {
 
@@ -346,7 +346,7 @@ PopupAnalisis.prototype.get_ConfigFileInput = function (_show_upload_button, _in
                 return {
 
                    archivo: popup_analisis.$id_archivo.fileinput('getFileStack')[index],
-                   tipo_archivo: "cal",
+                   tipo_archivo: "cal_anali",
                    content_object: url_analisis_hallazgo + popup_analisis.$pk_analisis + "/",
                    created_by: url_profile + tarjeta_detalle_hallazgo.$id_actual_user.val() + "/",
                 }
@@ -375,7 +375,8 @@ PopupAnalisis.prototype.uploadcomplete_Filebatch = function (e, files) {
 }
 PopupAnalisis.prototype.hidden_FileZoom = function (e) {
 
-   $(document.body).addClass('modal-open')
+   $("body").addClass("modal-open")
+   $("html").addClass("be-modal-open")
 }
 PopupAnalisis.prototype.hidden_Modal = function (e) {
 
@@ -521,7 +522,7 @@ PopupAnalisis.prototype.editar = function (e, _pk) {
          },
          error: function (_response) {
 
-            alertify.error("Ocurrio error al insertar analisis")
+            alertify.error("Ocurrio error al editar analisis")
          }
       })
    }
@@ -687,7 +688,7 @@ GridPlanAccion.prototype.refresh_Data = function (_response) {
                       '</td>' +
                       '<td>' + _response[i].actividad + '</td>' +
                       '<td>' + _response[i].responsable + '</td>' +
-                      '<td>' + this.get_FechaDisplay(_response[i].fecha_programada) + '</td>' +
+                      '<td>' + appnova.get_FechaDisplay(_response[i].fecha_programada) + '</td>' +
                       '<td>' + _response[i].evidencia + '</td>' +
                       '<td>' + _response[i].observacion + '</td>' +
                       '<td>' + _response[i].resultado + '</td>' +
@@ -701,12 +702,6 @@ GridPlanAccion.prototype.refresh_Data = function (_response) {
                 '</tr>'
    }
    this.$id_tbody.html(datos)
-}
-GridPlanAccion.prototype.get_FechaDisplay = function (date) {
-
-   fecha = date.split("-")
-
-   return fecha[2] + "/" + fecha[1] +"/"+ fecha[0]
 }
 GridPlanAccion.prototype.eliminar = function (_pk) {
 
@@ -897,7 +892,7 @@ PopupActividad.prototype.editar = function (e, _pk) {
          },
          error: function (_response) {
 
-            alertify.error("Ocurrio error al insertar actividad")
+            alertify.error("Ocurrio error al editar actividad")
             console.log(_response.responseText);
          }
       })
@@ -952,8 +947,8 @@ PopupActividad.prototype.set_Data = function (_pk) {
          this.$id_titulo.val(_response.titulo)
          this.$id_actividad.val(_response.actividad)
          this.$id_responsable.val(_response.responsable).trigger("change")
-         this.set_FechaConFormato('#id_fecha_programada_group', _response.fecha_programada)
-         this.$id_evidencia.val(_response.evidencia) //dd/mm/yyyy
+         appnova.set_FechaConFormato('#id_fecha_programada_group', _response.fecha_programada)
+         this.$id_evidencia.val(_response.evidencia)
       },
       error: function (_response) {
 
@@ -1024,22 +1019,25 @@ function PopupSeguimientoPlan () {
    this.$pk_actividad // Used for filter seguimientos
    this.init_Components()
    this.init_Events()
-   this.load_Data()
+   // this.load_Data()
 }
 PopupSeguimientoPlan.prototype.init_Components = function () {
 
    this.$id_fecha_seguimiento.datepicker(appnova.get_ConfDatePicker())
-   this.$id_archivo.fileinput(this.get_ConfigFileInput(false, [], []))
+   this.$id_archivo.fileinput(this.get_ConfigFileInput([], []))
 }
 PopupSeguimientoPlan.prototype.init_Events = function () {
 
    this.$id.on("shown.bs.modal", this, this.shown_Modal)
+   this.$id.on("hidden.bs.modal", this, this.shown_Modal)
    this.$id_archivo.on("filebatchuploadcomplete", this, this.uploadcomplete_Filebatch)
    this.$id_archivo.on('filezoomhidden', this, this.hidden_FileZoom)
    this.$id_boton_nuevo.on("click", this, this.click_BotonNuevo)
    this.$boton_guardar.on("click", this, this.click_BotonGuardar)
+   this.$id_contenedor.on("click", '[data-event=\'editar\']', this.click_EditarSeguimiento)
+   this.$id_contenedor.on("click", '[data-event=\'eliminar\']', this.click_EliminarSeguimiento)
 }
-PopupSeguimientoPlan.prototype.get_ConfigFileInput = function (_show_upload_button, _initial_preview, _initial_preview_config ) {
+PopupSeguimientoPlan.prototype.get_ConfigFileInput = function (_initial_preview, _initial_preview_config ) {
 
    return {
 
@@ -1051,9 +1049,9 @@ PopupSeguimientoPlan.prototype.get_ConfigFileInput = function (_show_upload_butt
           uploadAsync: true,
           maxFileCount: 15,
           showRemove: false,
+          showUpload: false,
           showClose: false,
           maxFileSize: 2048,
-          showUpload: _show_upload_button,
           showCaption: false,
           showBrowse: false,
           browseOnZoneClick: true,
@@ -1066,7 +1064,7 @@ PopupSeguimientoPlan.prototype.get_ConfigFileInput = function (_show_upload_butt
                 return {
 
                    archivo: popup_seguimiento_plan.$id_archivo.fileinput('getFileStack')[index],
-                   tipo_archivo: "cal",
+                   tipo_archivo: "cal_segui",
                    content_object: url_seguimiento_plan + popup_seguimiento_plan.$pk_seguimiento + "/",
                    created_by: url_profile + tarjeta_detalle_hallazgo.$id_actual_user.val() + "/",
                 }
@@ -1082,25 +1080,27 @@ PopupSeguimientoPlan.prototype.get_ConfigFileInput = function (_show_upload_butt
 PopupSeguimientoPlan.prototype.click_BotonNuevo = function (e) {
 
    e.preventDefault()
-   e.data.$accion = "nuevo"
-   e.data.clear_Formulario()
+   popup_seguimiento_plan.$accion = "nuevo"
+   popup_seguimiento_plan.clear_Formulario(e)
 }
-PopupSeguimientoPlan.prototype.click_EditarAnalisis = function (e) {
+PopupSeguimientoPlan.prototype.click_EditarSeguimiento = function (e) {
+
+   e.preventDefault()
+   popup_seguimiento_plan.$accion = "editar"
+   pk = this.getAttribute("data-id")
+   popup_seguimiento_plan.$pk_seguimiento = pk
+   popup_seguimiento_plan.set_Data(pk)
+   // popup_analisis.mostrar( pk, "editar")
+}
+PopupSeguimientoPlan.prototype.click_EliminarSeguimiento = function (e) {
 
    e.preventDefault()
    pk = this.getAttribute("data-id")
-   popup_analisis.mostrar( pk, "editar")
-}
-PopupSeguimientoPlan.prototype.click_EliminarAnalisis = function (e) {
-
-   e.preventDefault()
-   pk = this.getAttribute("data-id")
-   e.data.eliminar(pk)
+   popup_seguimiento_plan.eliminar(pk)
 }
 PopupSeguimientoPlan.prototype.click_BotonGuardar = function (e) {
 
    e.preventDefault()
-   // e.data.$ocultar = true
    e.data.guardar_Seguimiento(e)
 }
 PopupSeguimientoPlan.prototype.load_Data = function () {
@@ -1112,7 +1112,7 @@ PopupSeguimientoPlan.prototype.load_Data = function () {
       context: this,
       data: {
 
-         plan_accion_hallazgo_id: this.pk_actividad,
+         plan_accion_hallazgo_id: this.$pk_actividad,
       },
       success: function (_response) {
 
@@ -1128,22 +1128,32 @@ PopupSeguimientoPlan.prototype.refresh_Data = function (_response) {
 
    this.$id_contenedor.text()
    var datos = ''
+
    if (_response.length) {
 
       for (var i = 0; i < _response.length; i++) {
 
+         var archivos = ''
+
+         for (var j = 0; j < _response[i].relacion_archivo.length; j++) {
+            var archivo = _response[i].relacion_archivo[j]['archivo'].split('/')
+            archivos += '<a href="' + _response[i].relacion_archivo[j]['archivo'] + '" target="_blank">' + archivo[archivo.length-1] + '</a>' + '<br/>'
+         }
           datos += '<div class="panel panel-border-color panel-border-color-primary nova-modal-margin-contents">' +
                       '<div class="panel-heading panel-heading-default nova-border-bottom nova-overflow-hidden">' +
                          '<div class="pull-left nova-modal-title-seguimientos">' +
-                            'Evaluador: <strong>' + _response[i].create_by + '</strong>. Fecha Seguimiento: <strong>' + _response[i].fecha_seguimiento + '</strong>. Fecha Evaluacion: <strong>' + _response[i].fecha_evaluacion + '</strong>' +
+                            'Evaluador: <strong>' + _response[i].evaluador + '</strong>. <br/>Fecha Seguimiento: <strong>' + appnova.get_FechaDisplay(_response[i].fecha_seguimiento) + '</strong>' +
                          '</div>' +
-                         '<button type="button" class="btn btn-space btn-social nova-btn-delete pull-right" data-primaryKey="' + _response[i].pk + '" data-event="eliminar"><i class="icon mdi mdi-delete nova-white"></i></button>' +
-                         '<button type="button" class="btn btn-space btn-social nova-btn-edit pull-right" data-primaryKey="' + _response[i].pk + '" data-event="editar"><i class="icon mdi mdi-edit nova-white"></i></button>' +
+                         '<button type="button" class="btn btn-space btn-social nova-btn-delete pull-right" data-id="' + _response[i].pk + '" data-event="eliminar"><i class="icon mdi mdi-delete nova-white"></i></button>' +
+                         '<button type="button" class="btn btn-space btn-social nova-btn-edit pull-right" data-id="' + _response[i].pk + '" data-event="editar"><i class="icon mdi mdi-edit nova-white"></i></button>' +
                       '</div>' +
                       '<div class="panel-body">' +
                          '<div class="row">' +
                             '<div class="col-sm-12 nova-modal-informacion">' +
                                '<textarea class="form-control" readonly="">' + _response[i].resultado_seguimiento+ '</textarea>' +
+                            '</div>' +
+                            '<div class="col-sm-12 nova-modal-informacion">' +
+                              archivos +
                             '</div>' +
                          '</div>' +
                       '</div>' +
@@ -1171,10 +1181,9 @@ PopupSeguimientoPlan.prototype.eliminar = function (_pk) {
          $.ajax({
             url: url_seguimiento_plan + _pk + '/',
             method: "DELETE",
-            context: this,
             headers: { "X-CSRFToken": appnova.galletita },
             success: function () {
-               this.load_Data()
+               popup_seguimiento_plan.load_Data()
                alertify.success("Se eliminó registro correctamente")
             },
             error: function () {
@@ -1188,16 +1197,13 @@ PopupSeguimientoPlan.prototype.eliminar = function (_pk) {
 }
 PopupSeguimientoPlan.prototype.uploadcomplete_Filebatch = function (e, files) {
 
-   if(e.data.$ocultar) {
-
-      e.data.$id.modal('hide')
-      tarjeta_analisis.grid.load_Data()
-      e.data.$ocultar = false
-   }
+   e.data.load_Data()
+   e.data.clear_Formulario(e)
 }
 PopupSeguimientoPlan.prototype.hidden_FileZoom = function (e) {
 
-   $(document.body).addClass('modal-open')
+   $("body").addClass("modal-open")
+   $("html").addClass("be-modal-open")
 }
 PopupSeguimientoPlan.prototype.guardar_Seguimiento = function (e) {
 
@@ -1208,8 +1214,7 @@ PopupSeguimientoPlan.prototype.guardar_Seguimiento = function (e) {
    }
    else if (e.data.$accion == "editar") {
 
-      pk = e.data.$id.attr("data-primaryKey")
-      e.data.editar(e, pk)
+      e.data.editar(e)
    }
 }
 PopupSeguimientoPlan.prototype.clear_Estilos = function (e) {
@@ -1223,7 +1228,7 @@ PopupSeguimientoPlan.prototype.clear_Formulario = function (e) {
    e.data.$id_resultado_seguimiento.val("")
    e.data.$id_fecha_seguimiento.datepicker("clearDates")
    e.data.$id_archivo.fileinput('destroy')
-   e.data.$id_archivo.fileinput(this.get_ConfigFileInput(false, [], [] ))
+   e.data.$id_archivo.fileinput(this.get_ConfigFileInput([], [] ))
 }
 PopupSeguimientoPlan.prototype.validar = function () {
 
@@ -1271,9 +1276,8 @@ PopupSeguimientoPlan.prototype.crear = function (e) {
             }
             else {
 
-               e.data.clear_Formulario()
+               e.data.clear_Formulario(e)
                e.data.load_Data()
-               // e.data.$ocultar = false
             }
          },
          error: function (_response) {
@@ -1283,39 +1287,37 @@ PopupSeguimientoPlan.prototype.crear = function (e) {
       })
    }
 }
-PopupSeguimientoPlan.prototype.editar = function (e, _pk) {
+PopupSeguimientoPlan.prototype.editar = function (e) {
 
    if (e.data.validar()) {
 
       $.ajax({
-         url: url_seguimiento_plan + _pk + "/",
+         url: url_seguimiento_plan + e.data.$pk_seguimiento + "/",
          method: "PUT",
          headers: { "X-CSRFToken": appnova.galletita },
          data: {
 
-            "titulo": e.data.$id_titulo.val(),
-            "metodologia": url_metodologia + e.data.$id_metodologia.val() + "/",
-            "causa": e.data.$id_causas.val(),
-            "hallazgo": url_hallazgo_proceso + tarjeta_detalle_hallazgo.$id_pk_hal.val() + "/",
+            "resultado_seguimiento": e.data.$id_resultado_seguimiento.val(),
+            "fecha_seguimiento": appnova.get_FechaConFormato("#id_fecha_seguimiento_group"),
+            "plan_accion_hallazgo": url_plan_accion_hallazgo + e.data.$pk_actividad + "/",
             "update_by": url_profile + tarjeta_detalle_hallazgo.$id_actual_user.val() + "/",
          },
          success: function (_response) {
 
             if (e.data.$id_archivo.fileinput('getFileStack').length > 0) {
 
-               e.data.$pk_analisis = _response.pk
+               e.data.$pk_seguimiento = _response.pk
                e.data.$id_archivo.fileinput('upload')
             }
             else {
 
-               e.data.$id.modal('hide')
-               tarjeta_analisis.grid.load_Data()
-               e.data.$ocultar = false
+               e.data.clear_Formulario(e)
+               e.data.load_Data()
             }
          },
          error: function (_response) {
 
-            alertify.error("Ocurrio error al insertar analisis")
+            alertify.error("Ocurrio error al editar seguimiento")
          }
       })
    }
@@ -1324,14 +1326,13 @@ PopupSeguimientoPlan.prototype.set_Data = function (_pk) {
 
    $.ajax({
 
-      url: url_analisis_hallazgo + _pk +"/",
+      url: url_seguimiento_plan + _pk +"/",
       method: "GET",
       context: this,
       success: function (_response) {
 
-         this.$id_titulo.val(_response.titulo)
-         this.$id_metodologia.val(_response.metodologia_id).trigger("change")
-         this.$id_causas.val(_response.causa)
+         this.$id_resultado_seguimiento.val(_response.resultado_seguimiento)
+         appnova.set_FechaConFormato('#id_fecha_seguimiento_group', _response.fecha_seguimiento)
          this.cargar_Archivos(_response)
       },
       error: function (_response) {
@@ -1373,7 +1374,7 @@ PopupSeguimientoPlan.prototype.cargar_Archivos = function (_response) {
       }
    }
    this.$id_archivo.fileinput('destroy')
-   this.$id_archivo.fileinput(this.get_ConfigFileInput(true, initial_preview, initial_preview_config))
+   this.$id_archivo.fileinput(this.get_ConfigFileInput(initial_preview, initial_preview_config))
 }
 PopupSeguimientoPlan.prototype.hidden_Modal = function (e) {
 
@@ -1387,71 +1388,398 @@ PopupSeguimientoPlan.prototype.shown_Modal = function (e) {
 }
 PopupSeguimientoPlan.prototype.mostrar = function ( _pk ) {
 
-   this.$pk_actividad = this.$id.modal('show').attr("data-primaryKey", _pk)
+   this.$pk_actividad = _pk
+   this.$id.modal('show').attr("data-primaryKey", _pk)
    this.$accion = "nuevo"
+   this.load_Data()
 }
 
 /*-----------------------------------------------*\
          OBJETO: popup evaluacion plan
 \*-----------------------------------------------*/
 
+// function PopupEvaluacionPlan () {
+//
+//    this.$id = $('#id_tarjeta_evaluacion')
+//    this.$id_resultado = $('#id_resultado_plan_eval')
+//    this.$id_resultado_evaluacion = $('#id_resultado_evaluacion_plan_eval')
+//    this.$id_fecha_evaluacion = $('#id_fecha_evaluacion_plan_eval')
+//    this.$id_fecha_evaluacion_group = $('#id_fecha_evaluacion_group')
+//    this.$id_criterio_decision = $('#id_criterio_decision_plan_eval')
+//    this.$id_archivo = $('#id_archivo_plan_eval')
+//    this.init_Components()
+//    this.init_Events()
+// }
+// PopupEvaluacionPlan.prototype.init_Components = function () {
+//
+//    this.$id_fecha_evaluacion_group.datepicker(appnova.get_ConfDatePicker())
+//    this.$id_archivo.fileinput(this.get_ConfigFileInput())
+// }
 function PopupEvaluacionPlan () {
 
    this.$id = $('#id_tarjeta_evaluacion')
+   this.$id_mensaje_error = $('#id_mensaje_error_evaluacion')
    this.$id_resultado = $('#id_resultado_plan_eval')
    this.$id_resultado_evaluacion = $('#id_resultado_evaluacion_plan_eval')
-   this.$id_fecha_evaluacion = $('#id_fecha_evaluacion_plan_eval')
-   this.$id_fecha_evaluacion_group = $('#id_fecha_evaluacion_group')
+   this.$id_fecha_evaluacion = $('#id_fecha_evaluacion_group')
    this.$id_criterio_decision = $('#id_criterio_decision_plan_eval')
+   this.$id_observacion_evaluacion = $('#id_observaciones_plan_eval')
    this.$id_archivo = $('#id_archivo_plan_eval')
+   this.$id_boton_guardar = $('#id_boton_guardar_evaluacion')
+   // this.$accion =
+   this.$pk_actividad
+   this.$ocultar = false
    this.init_Components()
    this.init_Events()
+
 }
 PopupEvaluacionPlan.prototype.init_Components = function () {
 
-   this.$id_fecha_evaluacion_group.datepicker(appnova.get_ConfDatePicker())
-   this.$id_archivo.fileinput(this.get_ConfigFileInput())
+   this.$id_fecha_evaluacion.datepicker(appnova.get_ConfDatePicker())
+   this.$id_archivo.fileinput(this.get_ConfigFileInput(false, [], []))
 }
 PopupEvaluacionPlan.prototype.init_Events = function () {
 
+   this.$id_boton_guardar.on("click", this, this.click_BotonGuardar)
+   this.$id_archivo.on("filebatchuploadcomplete", this, this.uploadcomplete_Filebatch)
+   this.$id_archivo.on('filezoomhidden', this, this.hidden_FileZoom)
+   this.$id.on("hidden.bs.modal", this, this.hidden_Modal)
    this.$id.on("shown.bs.modal", this, this.shown_Modal)
+}
+PopupEvaluacionPlan.prototype.get_ConfigFileInput = function (_show_upload_button, _initial_preview, _initial_preview_config ) {
+
+   return {
+
+          uploadUrl: url_archivo,
+          ajaxSettings: {  headers: { "X-CSRFToken": appnova.galletita }  },
+          ajaxDeleteSettings: {  method: "DELETE", headers: { "X-CSRFToken": appnova.galletita }  },
+          allowedFileExtensions: ['jpg', 'jpeg', 'png', 'bmp', 'txt', 'pdf'],
+          allowedPreviewMimeTypes: ['jpg', 'jpeg', 'png', 'bmp', 'txt', 'pdf'],
+          uploadAsync: true,
+          maxFileCount: 15,
+          showRemove: false,
+          showClose: false,
+          maxFileSize: 2048,
+          showUpload: _show_upload_button,
+          showCaption: false,
+          showBrowse: false,
+          browseOnZoneClick: true,
+          fileActionSettings: {
+             showUpload: false,
+          },
+          uploadExtraData: function(previewId, index) {
+             if (popup_evaluacion_plan.$id_archivo.fileinput('getFileStack').length > 0) {
+
+                return {
+
+                   archivo: popup_evaluacion_plan.$id_archivo.fileinput('getFileStack')[index],
+                   tipo_archivo: "cal_eval",
+                   content_object: url_plan_accion_hallazgo + popup_evaluacion_plan.$pk_actividad + "/",
+                   created_by: url_profile + tarjeta_detalle_hallazgo.$id_actual_user.val() + "/",
+                }
+             }
+          },
+          overwriteInitial: false,
+          initialPreviewAsData: true,
+          initialPreview: _initial_preview,
+          initialPreviewConfig: _initial_preview_config,
+          language:"es",
+     }
+}
+PopupEvaluacionPlan.prototype.click_BotonGuardar = function (e) {
+
+   e.data.$ocultar = true
+   e.data.guardar_Evaluacion(e)
+}
+PopupEvaluacionPlan.prototype.uploadcomplete_Filebatch = function (e, files) {
+
+   if(e.data.$ocultar) {
+
+      // e.data.$id.modal('hide')
+      tarjeta_plan_accion.grid.load_Data()
+      e.data.$ocultar = false
+   }
+}
+PopupEvaluacionPlan.prototype.hidden_FileZoom = function (e) {
+
+   $("body").addClass("modal-open")
+   $("html").addClass("be-modal-open")
+}
+PopupEvaluacionPlan.prototype.hidden_Modal = function (e) {
+
+   e.data.clear_Estilos(e)
+   e.data.clear_Formulario(e)
 }
 PopupEvaluacionPlan.prototype.shown_Modal = function (e) {
 
    $("body").addClass("modal-open")
    $("html").addClass("be-modal-open")
 }
-PopupEvaluacionPlan.prototype.mostrar = function ( _pk ) {
+PopupEvaluacionPlan.prototype.guardar_Evaluacion = function (e) {
+
+   // if (e.data.$accion == "nuevo") {
+   //
+   //    e.data.clear_Estilos(e)
+   //    e.data.crear(e)
+   // }
+   // else if (e.data.$accion == "editar") {
+
+   pk = e.data.$id.attr("data-primaryKey")
+   e.data.get_Data(pk)
+   // }
+}
+PopupEvaluacionPlan.prototype.clear_Estilos = function (e) {
+
+   e.data.$id_mensaje_error.html('')
+   e.data.$id_resultado.removeClass("nova-has-error")
+   e.data.$id_resultado_evaluacion.removeClass("nova-has-error")
+   e.data.$id_fecha_evaluacion.removeClass("nova-has-error")
+   e.data.$id_criterio_decision.removeClass("nova-has-error")
+   e.data.$id_observacion_evaluacion.removeClass("nova-has-error")
+}
+PopupEvaluacionPlan.prototype.clear_Formulario = function (e) {
+
+   e.data.$id_resultado.val("")
+   e.data.$id_resultado_evaluacion.val("")
+   e.data.$id_fecha_evaluacion.val("")
+   e.data.$id_criterio_decision.val("")
+   e.data.$id_observacion_evaluacion.val("")
+   e.data.$id_archivo.fileinput('destroy')
+   e.data.$id_archivo.fileinput(this.get_ConfigFileInput(false, [], [] ))
+}
+PopupEvaluacionPlan.prototype.mostrar = function (_pk) {
 
    this.$id.modal('show').attr("data-primaryKey", _pk)
+   // this.$accion = _accion
+   this.set_Data(_pk)
+   this.$pk_actividad = _pk
 }
-PopupEvaluacionPlan.prototype.get_ConfigFileInput = function () {
+PopupEvaluacionPlan.prototype.validar = function () {
 
-   return {
+   var bandera = true
 
-          uploadUrl: "una/url/donde/se/subira/",
-          uploadAsync: false,
-          minFileCount: 2,
-          maxFileCount: 5,
-          overwriteInitial: false,
-          language:"es",
-          initialPreview: [
-             "/static/images/referenciavisual/documento.jpg",
-             "/static/images/referenciavisual/1.jpg",
-             "/static/images/referenciavisual/2.jpg",
-             "/static/images/referenciavisual/3.jpg",
-          ],
-          initialPreviewAsData: true,
-          initialPreviewFileType: 'image',
-          initialPreviewConfig: [
-            {  caption: "Documento.jpg", size: 827000, url: "/file-upload-batch/2", key: 1  },
-            {  caption: "1.jpg", size: 827000, url: "/file-upload-batch/2", key: 2  },
-            {  caption: "2.jpg", size: 827000, url: "/file-upload-batch/2", key: 3  },
-            {  caption: "3.jpg", size: 827000, url: "/file-upload-batch/2", key: 4  },
-          ],
-          purifyHtml: true,
-     }
+   if ( this.$id_resultado.val() == "undefined" ) {
+
+      this.$id_resultado.addClass("nova-has-error")
+      bandera = false
+   }
+   if ( appnova.validar_EspaciosSaltos(this.$id_resultado_evaluacion.val()) == "" ) {
+
+      this.$id_resultado_evaluacion.addClass("nova-has-error")
+      bandera = false
+   }
+   if ( appnova.get_FechaConFormato("#id_fecha_evaluacion_group") == "" ) {
+
+      this.$id_fecha_evaluacion.addClass("nova-has-error")
+      bandera = false
+   }
+   if ( appnova.validar_EspaciosSaltos(this.$id_criterio_decision.val()) == "" ) {
+
+      this.$id_criterio_decision.addClass("nova-has-error")
+      bandera = false
+   }
+   if ( appnova.validar_EspaciosSaltos(this.$id_resultado_evaluacion.val()) == "" ) {
+
+      this.$id_resultado_evaluacion.addClass("nova-has-error")
+      bandera = false
+   }
+   if ( appnova.validar_EspaciosSaltos(this.$id_observacion_evaluacion.val()) == "" ) {
+
+      this.$id_resultado_evaluacion.addClass("nova-has-error")
+      bandera = false
+   }
+
+   if ( !bandera ){
+
+      this.$id_mensaje_error.html('Completa los campos marcados en rojo.')
+   }
+
+   return bandera
 }
+PopupEvaluacionPlan.prototype.editar = function (_pk, _response) {
+
+   if (this.validar()) {
+
+      $.ajax({
+         url: url_plan_accion_hallazgo + _pk + "/",
+         method: "PUT",
+         headers: { "X-CSRFToken": appnova.galletita },
+         data: {
+
+            "titulo": _response.titulo,
+            "actividad": _response.actividad,
+            "responsable": _response.responsable,
+            "fecha_programada": _response.fecha_programada,
+            "evidencia": _response.evidencia,
+            "resultado": $("input[name='resultado']:checked").val(),
+            "resultado_evaluacion": this.$id_resultado_evaluacion.val(),
+            "fecha_evaluacion": this.$id_fecha_evaluacion.val(),
+            "criterio_decision": this.$id_criterio_decision.val(),
+            "observacion": this.$id_observacion_evaluacion.val(),
+            "hallazgo": url_hallazgo_proceso + tarjeta_detalle_hallazgo.$id_pk_hal.val() + "/",
+            "update_by": url_profile + tarjeta_detalle_hallazgo.$id_actual_user.val() + "/",
+         },
+         success: function (_response) {
+
+            if (popup_evaluacion_plan.$id_archivo.fileinput('getFileStack').length > 0) {
+
+               popup_evaluacion_plan.$pk_actividad = _response.pk
+               popup_evaluacion_plan.$id_archivo.fileinput('upload')
+            }
+            else {
+
+               popup_evaluacion_plan.$id.modal('hide')
+               tarjeta_plan_accion.grid.load_Data()
+               popup_evaluacion_plan.$ocultar = false
+            }
+         },
+         error: function (_response) {
+
+            alertify.error("Ocurrio error al editar actividad")
+         }
+      })
+   }
+}
+PopupEvaluacionPlan.prototype.get_Data = function (_pk) {
+
+   $.ajax({
+
+      url: url_plan_accion_hallazgo + _pk +"/",
+      method: "GET",
+      context: this,
+      success: function (_response) {
+
+         this.editar(_pk, _response)
+      },
+      error: function (_response) {
+
+         alertify.error("Ocurrio error al cargar datos")
+      }
+   })
+}
+PopupEvaluacionPlan.prototype.set_Data = function (_pk) {
+
+   $.ajax({
+
+      url: url_plan_accion_hallazgo + _pk +"/",
+      method: "GET",
+      context: this,
+      success: function (_response) {
+
+         // this.$id_resultado.prop('checked', _response.resultado)
+         this.set_ValResultado(_response.resultado)
+         this.$id_resultado_evaluacion.val(_response.resultado_evaluacion)
+         appnova.set_FechaConFormato('#id_fecha_evaluacion_group', _response.fecha_evaluacion)
+         this.$id_criterio_decision.val(_response.criterio_decision)
+         this.$id_observacion_evaluacion.val(_response.observacion)
+         this.cargar_Archivos(_response)
+      },
+      error: function (_response) {
+
+         alertify.error("Ocurrio error al cargar datos")
+      }
+   })
+}
+PopupEvaluacionPlan.prototype.cargar_Archivos = function (_response) {
+
+   var initial_preview = []
+   var initial_preview_config = []
+
+   for (var i = 0; i < _response.relacion_archivo.length; i++) {
+
+      initial_preview.push(_response.relacion_archivo[i]["archivo"])
+      var url_archivo_response = _response.relacion_archivo[i]["archivo"].split('/')
+      var nombre_archivo = url_archivo_response[url_archivo_response.length-1]
+      var extension_archivo = nombre_archivo.split('.')
+      var extension = extension_archivo[extension_archivo.length-1]
+
+      if (extension == "pdf") {
+
+         initial_preview_config.push(
+            {  type: extension, caption: nombre_archivo, url: _response.relacion_archivo[i]["pk"] }
+         )
+      }
+      else if (extension == "txt" || extension == "docx") {
+
+         initial_preview_config.push(
+            {  type: "text", caption: nombre_archivo, url: _response.relacion_archivo[i]["pk"] }
+         )
+      }
+      else if (extension == "jpg" || extension == "jpeg" || extension == "png" || extension == "bmp") {
+
+         initial_preview_config.push(
+            {  caption: nombre_archivo, url: _response.relacion_archivo[i]["pk"] }
+         )
+      }
+   }
+   this.$id_archivo.fileinput('destroy')
+   this.$id_archivo.fileinput(this.get_ConfigFileInput(true, initial_preview, initial_preview_config))
+}
+PopupEvaluacionPlan.prototype.set_ValResultado = function (_resultado) {
+
+   if(_resultado != "") {
+
+         $("input[name='resultado'][value='"+_resultado+"']").prop("checked", "true")
+   }
+}
+
+// function PopupEvaluacionPlan () {
+//
+//    this.$id = $('#id_tarjeta_evaluacion')
+//    this.$id_resultado = $('#id_resultado_plan_eval')
+//    this.$id_resultado_evaluacion = $('#id_resultado_evaluacion_plan_eval')
+//    this.$id_fecha_evaluacion = $('#id_fecha_evaluacion_plan_eval')
+//    this.$id_fecha_evaluacion_group = $('#id_fecha_evaluacion_group')
+//    this.$id_criterio_decision = $('#id_criterio_decision_plan_eval')
+//    this.$id_archivo = $('#id_archivo_plan_eval')
+//    this.init_Components()
+//    this.init_Events()
+// }
+// PopupEvaluacionPlan.prototype.init_Components = function () {
+//
+//    this.$id_fecha_evaluacion_group.datepicker(appnova.get_ConfDatePicker())
+//    this.$id_archivo.fileinput(this.get_ConfigFileInput())
+// }
+// PopupEvaluacionPlan.prototype.init_Events = function () {
+//
+//    this.$id.on("shown.bs.modal", this, this.shown_Modal)
+// }
+// PopupEvaluacionPlan.prototype.shown_Modal = function (e) {
+//
+//    $("body").addClass("modal-open")
+//    $("html").addClass("be-modal-open")
+// }
+// PopupEvaluacionPlan.prototype.mostrar = function ( _pk ) {
+//
+//    this.$id.modal('show').attr("data-primaryKey", _pk)
+// }
+// PopupEvaluacionPlan.prototype.get_ConfigFileInput = function () {
+//
+//    return {
+//
+//           uploadUrl: "una/url/donde/se/subira/",
+//           uploadAsync: false,
+//           minFileCount: 2,
+//           maxFileCount: 5,
+//           overwriteInitial: false,
+//           language:"es",
+//           initialPreview: [
+//              "/static/images/referenciavisual/documento.jpg",
+//              "/static/images/referenciavisual/1.jpg",
+//              "/static/images/referenciavisual/2.jpg",
+//              "/static/images/referenciavisual/3.jpg",
+//           ],
+//           initialPreviewAsData: true,
+//           initialPreviewFileType: 'image',
+//           initialPreviewConfig: [
+//             {  caption: "Documento.jpg", size: 827000, url: "/file-upload-batch/2", key: 1  },
+//             {  caption: "1.jpg", size: 827000, url: "/file-upload-batch/2", key: 2  },
+//             {  caption: "2.jpg", size: 827000, url: "/file-upload-batch/2", key: 3  },
+//             {  caption: "3.jpg", size: 827000, url: "/file-upload-batch/2", key: 4  },
+//           ],
+//           purifyHtml: true,
+//      }
+// }
 
 /*-----------------------------------------------*\
             OBJETO: popup editarA
@@ -1664,7 +1992,7 @@ PopupEvidencia.prototype.get_ConfigFileInput = function (_show_upload_button, _i
                 return {
 
                    archivo: popup_evidencia.$id_archivo.fileinput('getFileStack')[index],
-                   tipo_archivo: "cal",
+                   tipo_archivo: "cal_evid",
                    content_object: url_evidencia_hallazgo + popup_evidencia.$pk_evidencia + "/",
                    created_by: url_profile + tarjeta_detalle_hallazgo.$id_actual_user.val() + "/",
                 }
@@ -1693,7 +2021,8 @@ PopupEvidencia.prototype.uploadcomplete_Filebatch = function (e, files) {
 }
 PopupEvidencia.prototype.hidden_FileZoom = function (e) {
 
-   $(document.body).addClass('modal-open')
+   $("body").addClass("modal-open")
+   $("html").addClass("be-modal-open")
 }
 PopupEvidencia.prototype.hidden_Modal = function (e) {
 
@@ -1746,9 +2075,9 @@ PopupEvidencia.prototype.validar = function () {
 
    var bandera = true
 
-   if ( appnova.validar_EspaciosSaltos(this.$id_resultado_seguimiento.val()) == "" ) {
+   if ( appnova.validar_EspaciosSaltos(this.$id_titulo.val()) == "" ) {
 
-      this.$id_resultado_seguimiento.addClass("nova-has-error")
+      this.$id_titulo.addClass("nova-has-error")
       bandera = false
    }
    if ( appnova.validar_EspaciosSaltos(this.$id_observacion.val()) == "" ) {
@@ -1830,7 +2159,7 @@ PopupEvidencia.prototype.editar = function (e, _pk) {
          },
          error: function (_response) {
 
-            alertify.error("Ocurrio error al insertar evidencia")
+            alertify.error("Ocurrio error al editar evidencia")
          }
       })
    }
