@@ -2,7 +2,7 @@
          GLOBAL VARIABLES
 \*-----------------------------------------------*/
 
-// URLS:api-ebs/
+// URLS:ebs/
 var url_empleados_full = window.location.origin + "/api-ebs/viewempleadosfull/"
 var url_empledos_grado_academico = window.location.origin + "/api-ebs/viewempleadosgrado/"
 

@@ -891,51 +891,6 @@ class HallazgoDetalle(View):
         return render(request, self.template_name, contexto)
 
 
-# class EvidenciaFormulario(View):
-#     def __init__(self):
-#         self.template_name = 'evidencia/evidencia_formulario.html'
-
-#     def get(self, request):
-
-#         # formulario = EmpleadoFilterForm()
-
-#         # contexto = {
-#         #     'form': formulario
-#         # }
-
-#         return render(request, self.template_name, {})
-
-
-# class PlanAccionLista(View):
-#     def __init__(self):
-#         self.template_name = 'plan_accion/plan_accion_lista.html'
-
-#     def get(self, request):
-
-#         # formulario = EmpleadoFilterForm()
-
-#         # contexto = {
-#         #     'form': formulario
-#         # }
-
-#         return render(request, self.template_name, {})
-
-
-# class SeguimientoPlanAccionFormulario(View):
-#     def __init__(self):
-#         self.template_name = 'seguimiento_plan_accion/seguimiento_plan_accion_formulario.html'
-
-#     def get(self, request):
-
-#         # formulario = EmpleadoFilterForm()
-
-#         # contexto = {
-#         #     'form': formulario
-#         # }
-
-#         return render(request, self.template_name, {})
-
-
 # ----------------- CALIDAD - PROGRAMA ----------------- #
 
 

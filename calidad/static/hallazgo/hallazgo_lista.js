@@ -2,7 +2,7 @@
          GLOBAL VARIABLES
 \*-----------------------------------------------*/
 
-// URLS:api-
+// URLS:
 var url_hallazgo = window.location.origin + "/api-calidad/hallazgoproceso/"
 
 // OBJS
@@ -76,6 +76,7 @@ Grid.prototype.init_Events = function () {
 
    this.$id_grid_hallazgo.on("click", '.clickable-row', this.click_FilaGrid)
    this.$id_grid_hallazgo.on("click", '[data-event=\'acciones\']', this.click_BotonAcciones )
+   this.$id_grid_hallazgo.on("click", '[data-event=\'cerrar\']', this.click_BotonCerrar )
 }
 Grid.prototype.click_FilaGrid = function (e) {
 
@@ -85,6 +86,28 @@ Grid.prototype.click_BotonAcciones = function (e) {
 
    pk = this.getAttribute("data-primaryKey")
    popup_acciones.mostrar(pk)
+}
+Grid.prototype.click_BotonCerrar = function (e) {
+
+   pk = this.getAttribute("data-primaryKey")
+   this.get_Data(pk)
+}
+Grid.prototype.get_Data = function (_pk) {
+
+   $.ajax({
+
+      url: url_plan_accion_hallazgo + _pk +"/",
+      method: "GET",
+      context: this,
+      success: function (_response) {
+
+         this.editar(_pk, _response)
+      },
+      error: function (_response) {
+
+         alertify.error("Ocurrio error al cargar datos")
+      }
+   })
 }
 
 /*-----------------------------------------------*\

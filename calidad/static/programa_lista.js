@@ -2,7 +2,7 @@
             GLOBAL VARIABLES
 \*-----------------------------------------------*/
 
-// URLS:api-
+// URLS:
 //var url_empleados_bypage = window.location.origin + "/api-ebs/viewempleadosfull_bypage/"
 
 // OBJS

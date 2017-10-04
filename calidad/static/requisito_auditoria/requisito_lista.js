@@ -2,7 +2,7 @@
          GLOBAL VARIABLES
 \*-----------------------------------------------*/
 
-// URLS:api-
+// URLS:
 var url_requisitos = window.location.origin + "/api-calidad/requisito/"
 var url_requisitos_proceso = window.location.origin + "/api-calidad/requisitoproceso/"
 var url_profile = window.location.origin + "/api-seguridad/profile/"
