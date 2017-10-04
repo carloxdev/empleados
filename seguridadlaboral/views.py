@@ -101,7 +101,7 @@ class IncidenciaDocumentoNuevo(View):
             incidencia.empleado_puesto_desc = empleado.asig_puesto_desc
 
             #import ipdb; ipdb.set_trace()
-            empresa = Empresa.objects.filter(descripcion=empleado.grup_compania_jde)
+            empresa = Empresa.objects.filter(descripcion_ebs=empleado.grup_compania_jde)
 
             incidencia.empresa = empresa[0]
             incidencia.area_id = empleado.asig_ubicacion_clave
@@ -187,6 +187,7 @@ class IncidenciaDocumentoNuevo(View):
             #to = 'janet.castro@nuvoil.com'
             #to = ['janexa@gmail.com','janet.castro@nuvoil.com']
             msg = EmailMultiAlternatives(subject, text_content, from_email, ['julio.lara@nuvoil.com','mauricio.borrero@nuvoil.com','chrystian.hernandez@nuvoil.com','joseluis.moctezumah@nuvoil.com','diana.santos@nuvoil.com','janet.castro@nuvoil.com'])
+            #msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
             msg.attach_alternative(html_content, "text/html")
             msg.send()
 

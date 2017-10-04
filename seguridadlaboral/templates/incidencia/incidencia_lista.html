@@ -99,7 +99,8 @@
 
                    {% tag_filter_dates 'Fecha mayor/menor' form.fecha_mayorque form.fecha_menorque %}
 
-                   {% tag_filter form.es_registrable %}
+                   {# {% tag_filter form.es_registrable %} #}
+                   {% tag_field_popup_radio_button form.es_registrable 5 %}
 
                 </form><!-- Modal body-->
 
