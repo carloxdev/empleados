@@ -310,7 +310,7 @@ class IncidenciaDocumentoEditar(View):
             incidencia.empleado_puesto = empleado.asig_puesto_clave
             incidencia.empleado_puesto_desc = empleado.asig_puesto_desc
 
-            empresa = Empresa.objects.filter(descripcion=empleado.grup_compania_jde)
+            empresa = Empresa.objects.filter(descripcion_ebs=empleado.grup_compania_jde)
 
             incidencia.empresa = empresa[0]
             incidencia.area_id = empleado.asig_ubicacion_clave
