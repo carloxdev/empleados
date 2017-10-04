@@ -15,6 +15,7 @@ from django.forms import IntegerField
 from django.forms import BooleanField
 from django.forms import FileInput
 from django.forms import HiddenInput
+from django.forms import RadioSelect
 
 # Librerias Propias:
 from .models import IncidenciaDocumento
@@ -33,6 +34,10 @@ from django.forms import Form
 
 class IncidenciaDocumentoFilterForm(forms.Form):
 
+    TIPOS = (
+        ('1', 'Registrable'),
+        ('0', 'No Registrable'),
+    )
     # numero = IntegerField(label="No. Documento")
     # tipo = ChoiceField(widget=Select())
     # fecha_mayorque = CharField()
@@ -43,7 +48,7 @@ class IncidenciaDocumentoFilterForm(forms.Form):
             attrs={'class': 'form-control input-xs', 'min': '1'})
     )
     tipo = ChoiceField(
-        label="Tipo:",
+        label="Categoria:",
         widget=Select(attrs={'class': 'select2 nova-select2'})
     )
     fecha_mayorque = CharField(
@@ -52,9 +57,14 @@ class IncidenciaDocumentoFilterForm(forms.Form):
     fecha_menorque = CharField(
         widget=TextInput(attrs={'class': 'form-control input-xs', 'readonly': 'readonly'})
     )
-    es_registrable = BooleanField(
-        label="Registrable:"
-    )
+    # es_registrable = BooleanField(
+    #     label="Registrable:"
+    # )
+
+    es_registrable = ChoiceField(
+    label='Tipo',
+    widget=RadioSelect, choices=TIPOS)
+
     zona = ChoiceField(
         label="Zona:",
         widget=Select(attrs={'class': 'select2 nova-select2'})
@@ -65,6 +75,8 @@ class IncidenciaDocumentoFilterForm(forms.Form):
             *args, **kwargs)
         self.fields['tipo'].choices = self.get_Tipos()
         self.fields['zona'].choices = self.get_Zonas()
+
+
 
     def get_Tipos(self):
 
