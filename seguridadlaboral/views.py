@@ -183,9 +183,10 @@ class IncidenciaDocumentoNuevo(View):
                            """
 
             from_email = '"Notificaciones Nuvoil" <notificaciones@nuvoil.com>'
-            to = 'julio.lara@nuvoil.com', 'mauricio.borrero@nuvoil.com', 'chrystian.hernandez@nuvoil.com', 'joseluis.moctezumah@nuvoil.com', 'diana.santos@nuvoil.com', 'janet.castro@nuvoil.com'
+            #to = 'julio.lara@nuvoil.com', 'mauricio.borrero@nuvoil.com', 'chrystian.hernandez@nuvoil.com', 'joseluis.moctezumah@nuvoil.com', 'diana.santos@nuvoil.com', 'janet.castro@nuvoil.com'
             #to = 'janet.castro@nuvoil.com'
-            msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+            #to = ['janexa@gmail.com','janet.castro@nuvoil.com']
+            msg = EmailMultiAlternatives(subject, text_content, from_email, ['julio.lara@nuvoil.com','mauricio.borrero@nuvoil.com','chrystian.hernandez@nuvoil.com','joseluis.moctezumah@nuvoil.com','diana.santos@nuvoil.com','janet.castro@nuvoil.com'])
             msg.attach_alternative(html_content, "text/html")
             msg.send()
 
