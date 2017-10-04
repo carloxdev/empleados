@@ -37,6 +37,7 @@ from .forms import UserPerfilForm
 from .forms import UserContrasenaActualForm
 from .forms import UserContrasenaResetForm
 from .forms import UserContrasenaResetConfirmForm
+from .forms import UserGroupForm
 
 from finanzas.business import ViaticoBusiness
 
@@ -727,3 +728,35 @@ class AutorizacionDone(View):
 
     def get(self, _request):
         return render(_request, self.template_name, {})
+
+
+class UsuarioGrupos(View):
+    template_name = "usuario/usuario_grupos.html"
+    # group = ['security', ]
+
+    def get(self, _request, _pk):
+
+        usuario = get_object_or_404(User, pk=_pk)
+        form = UserGroupForm(instance=usuario)
+
+        context = {
+            'form': form
+        }
+
+        return render(_request, self.template_name, context)
+
+    def post(self, _request, _pk):
+
+        usuario = get_object_or_404(User, pk=_pk)
+
+        form = UserGroupForm(
+            data=_request.POST,
+            instance=usuario)
+        if form.is_valid():
+            form.save()
+            messages.success(_request, "Se actualizaron los grupos del usuario")
+
+        context = {
+            'form': form
+        }
+        return render(_request, self.template_name, context)

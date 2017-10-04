@@ -529,3 +529,12 @@ class UserContrasenaResetForm(PasswordResetForm):
                 usuario.email,
                 html_email_template_name=html_email_template_name,
             )
+
+
+class UserGroupForm(ModelForm):
+
+    class Meta:
+        model = User
+        fields = (
+            'groups',
+        )

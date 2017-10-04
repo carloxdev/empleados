@@ -57,7 +57,16 @@
 									Contraseña
 						    	</label>
 						    	<div class="col-sm-7 xs-pt-5">
-						    		<a href="{% url 'seguridad:usuario_editar_contrasena' usuario.id %}"class="btn nova-btn btn-rounded btn-space btn-default" id="boton_nuevo">Cambiar contraseña</a>
+						    		<a href="{% url 'seguridad:usuario_editar_contrasena' usuario.id %}" class="btn nova-btn btn-rounded btn-space btn-default" id="boton_nuevo">Cambiar contraseña</a>
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="col-sm-3 control-label">
+									Grupos
+						    	</label>
+								<div class="col-sm-7 xs-pt-5">
+									<a href="{% url 'seguridad:usuario_grupos' usuario.id %}" class="btn nova-btn btn-rounded btn-space btn-default">Grupos</a>
 								</div>
 							</div>
 
