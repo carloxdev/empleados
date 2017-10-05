@@ -58,7 +58,8 @@ function TargetaFiltros () {
     this.$id_fecha = $('#id_fecha')
     //this.$es_registrable = $('#id_es_registrable')
     //this.$es_registrable = $("input[name='id_es_registrable']")
-     this.$es_registrable = $("input[name='es_registrable']:checked").val(),
+    this.$es_registrable = $("input[name='es_registrable']")
+    //this.$es_registrable = $("input[name='es_registrable']:checked").val(),
 
 
     this.$empleado_zona = $('#id_zona')
@@ -156,8 +157,8 @@ TargetaFiltros.prototype.click_BotonLimpiar = function (e) {
    // e.data.$fecha_creacion.data('daterangepicker').setStartDate('01-01-2017')
    e.data.$fecha_mayorque.datepicker("clearDates")
    e.data.$fecha_menorque.datepicker("clearDates")
-   //e.data.$es_registrable.prop('checked', false)
-   $("input[name='es_registrable']:checked", false).val()
+   e.data.$es_registrable.prop('checked', false)
+   //$("input[name='es_registrable']:checked", false).val()
    
 
 }
