@@ -91,13 +91,13 @@ Grid.prototype.click_BotonAcciones = function (e) {
 Grid.prototype.click_BotonCerrar = function (e) {
 
    pk = this.getAttribute("data-primaryKey")
-   this.get_Data(pk)
+   tarjeta_resultados.grid.get_Data(pk)
 }
 Grid.prototype.get_Data = function (_pk) {
 
    $.ajax({
 
-      url: url_plan_accion_hallazgo + _pk +"/",
+      url: url_hallazgo + _pk +"/",
       method: "GET",
       context: this,
       success: function (_response) {
@@ -119,6 +119,7 @@ Grid.prototype.cerrar_hallazgo = function (_pk, _response) {
       data: {
 
          "titulo": _response.titulo,
+         "proceso": _response.proceso,
          "estado": _response.estado,
          "tipo_hallazgo": _response.tipo_hallazgo,
          "observacion": _response.observacion,
@@ -128,10 +129,11 @@ Grid.prototype.cerrar_hallazgo = function (_pk, _response) {
       success: function (_response) {
 
          //Recargar
+         alertify.success("Hallazgo cerrado con éxito.")
       },
       error: function (_response) {
 
-         alertify.error("Ocurrio error al editar actividad")
+         alertify.error("Ocurrio error al cerrar hallazgo")
       }
    })
 }

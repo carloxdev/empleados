@@ -1,14 +1,14 @@
-{% if set_label %}
+<div class="form-group">
    <label class="col-sm-{{ size_label }} nova-col-popup control-label">
       {{ campo.label }}
    </label>
-{% endif %}
 
-<div class="col-sm-{{ size_field }} xs-pt-5">
-   <div class="input-group date" data-min-view="2" data-date-format="yyyy-mm-dd" id="{{ campo.auto_id }}_group">
-      {{ campo }}
-      <span class="input-group-addon nova-addon-button">
-         <span class="glyphicon glyphicon-calendar"></span>
-      </span>
+   <div class="col-sm-{{ size_field }} xs-pt-5">
+      <div class="input-group date" data-min-view="2" data-date-format="yyyy-mm-dd" id="{{ campo.auto_id }}_group">
+         {{ campo }}
+         <span class="input-group-addon nova-addon-button">
+            <span class="glyphicon glyphicon-calendar"></span>
+         </span>
+      </div>
    </div>
 </div>

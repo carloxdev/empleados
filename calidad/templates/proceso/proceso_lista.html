@@ -10,11 +10,8 @@
 
 {% block css %}
 
-   <!-- Beagle Theme -->
-   <link rel="stylesheet" href="{% static 'theme/lib/daterangepicker/css/daterangepicker.css' %}"/>
-
-   <!-- Nova -->
-   <link rel="stylesheet" href="{% static 'grid.css' %}"/>
+   <!-- DatePicker -->
+   <link rel="stylesheet" href="{% static 'libs/bootstrap-datepicker/2.0/dist/css/bootstrap-datepicker.min.css' %}"/>
 
 {% endblock css %}
 
@@ -143,13 +140,7 @@
                 {% tag_field_popup form.rep_subproceso 3 8 %}
 
                 <!-- fecha_desde_hasta -->
-                <div class="form-group">
-
-                   {% tag_field_popup_datepicker form.fecha_programada_ini 3 4 True %}
-
-                   {% tag_field_popup_datepicker form.fecha_programada_fin 3 4 False %}
-
-                </div>
+                {% tag_field_popup_dates 'Fecha Programada desde / hasta' form.fecha_programada_ini form.fecha_programada_fin %}
 
                 <!-- auditor -->
                 {% tag_field_popup form.auditor 3 8 %}
@@ -210,9 +201,9 @@
 
 {% block scripts %}
 
-   <!-- Beagle Theme -->
-   <script src="{% static 'theme/lib/datetimepicker/js/bootstrap-datetimepicker.min.js' %}"></script>
-   <script src="{% static 'theme/lib/jquery.maskedinput/jquery.maskedinput.min.js' %}"></script>
+   <!-- DatePicker -->
+   <script src="{% static 'libs/bootstrap-datepicker/2.0/dist/js/bootstrap-datepicker.min.js' %}"></script>
+   <script src="{% static 'libs/bootstrap-datepicker/2.0/dist/locales/bootstrap-datepicker.es.min.js' %}"></script>
 
    <!-- JS Template -->
    <script src="{% static 'proceso/proceso_lista.js' %}"></script>
