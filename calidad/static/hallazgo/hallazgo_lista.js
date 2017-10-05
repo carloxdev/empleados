@@ -4,6 +4,7 @@
 
 // URLS:
 var url_hallazgo = window.location.origin + "/api-calidad/hallazgoproceso/"
+var url_profile = window.location.origin + "/api-seguridad/profile/"
 
 // OBJS
 var popup_hallazgo = null
@@ -101,11 +102,36 @@ Grid.prototype.get_Data = function (_pk) {
       context: this,
       success: function (_response) {
 
-         this.editar(_pk, _response)
+         this.cerrar_hallazgo(_pk, _response)
       },
       error: function (_response) {
 
          alertify.error("Ocurrio error al cargar datos")
+      }
+   })
+}
+Grid.prototype.cerrar_hallazgo = function (_pk, _response) {
+
+   $.ajax({
+      url: url_hallazgo + _pk + "/",
+      method: "PUT",
+      headers: { "X-CSRFToken": appnova.galletita },
+      data: {
+
+         "titulo": _response.titulo,
+         "estado": _response.estado,
+         "tipo_hallazgo": _response.tipo_hallazgo,
+         "observacion": _response.observacion,
+         "cerrado": "Si",
+         "update_by": url_profile + appnova.$user + "/",
+      },
+      success: function (_response) {
+
+         //Recargar
+      },
+      error: function (_response) {
+
+         alertify.error("Ocurrio error al editar actividad")
       }
    })
 }

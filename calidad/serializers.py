@@ -411,10 +411,18 @@ class HallazgoProcesoSerializer(serializers.HyperlinkedModelSerializer):
         fields = (
             'pk',
             'titulo',
+            'proceso',
             'proceso_sitio',
             'estado',
+            'requisito_referencia',
+            'falla',
             'tipo_hallazgo',
+            'observacion',
             'cerrado',
+            'create_by',
+            'create_date',
+            'update_by',
+            'update_date',
         )
 
     def get_proceso_sitio(self, obj):

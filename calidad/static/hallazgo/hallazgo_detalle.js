@@ -893,7 +893,7 @@ PopupActividad.prototype.editar = function (e, _pk) {
          error: function (_response) {
 
             alertify.error("Ocurrio error al editar actividad")
-            console.log(_response.responseText);
+
          }
       })
    }
@@ -1281,7 +1281,6 @@ PopupSeguimientoPlan.prototype.crear = function (e) {
             }
          },
          error: function (_response) {
-            console.log(_response.responseText);
             alertify.error("Ocurrio error al insertar seguimiento")
          }
       })
