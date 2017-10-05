@@ -748,6 +748,13 @@ div.nova-panel-arbol li.list-group-item {
    color: #ffffff;
    text-align: center;
 }
+
+.nova-status-captura {
+    text-align: center;
+    color: black;
+    background-color: white;
+}
+
 /* bootstrap tables */
 
 /* multiselect 2 */

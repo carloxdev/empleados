@@ -342,7 +342,7 @@ Grid.prototype.get_ColorEstado = function (_estado) {
       estilo = "nova-status-cancelado"
    }
    else {
-       estilo = "nova-aling-center"
+       estilo = "nova-status-captura"
    }
 
    return estilo
