@@ -24,10 +24,8 @@ function Formulario() {
    this.$id_contratos = $("#id_contratos")
    this.$id_criterios = $("#id_criterios")
 
-   this.$id_fecha_programada_ini = $('#id_fecha_programada_ini')
-   this.$id_fecha_programada_ini_group = $('#id_fecha_programada_ini_group')
-   this.$id_fecha_programada_fin = $('#id_fecha_programada_fin')
-   this.$id_fecha_programada_fin_group = $('#id_fecha_programada_fin_group')
+   this.$id_fecha_programada_ini = $('#id_fecha_programada_ini_input')
+   this.$id_fecha_programada_fin = $('#id_fecha_programada_fin_input')
 
    this.$id_objetivo = $("#id_objetivo")
    this.$id_alcance_auditoria = $("#id_alcance_auditoria")
@@ -41,29 +39,6 @@ Formulario.prototype.init_Components = function () {
    this.$id_compania.select2(appnova.get_ConfigSelect2())
    this.$id_contratos.select2(appnova.get_ConfigSelect2())
    this.$id_criterios.select2(appnova.get_ConfigSelect2())
-
-   this.$id_fecha_programada_ini.mask(
-      "9999-99-99",
-      {
-         placeholder:"aaaa/mm/dd"
-      }
-   )
-   this.$id_fecha_programada_ini_group.datetimepicker(this.get_DateTimePickerConfig())
-
-   this.$id_fecha_programada_fin.mask(
-      "9999-99-99",
-      {
-         placeholder:"aaaa/mm/dd"
-      }
-   )
-   this.$id_fecha_programada_fin_group.datetimepicker(this.get_DateTimePickerConfig())
-
-}
-Formulario.prototype.get_DateTimePickerConfig = function () {
-   return {
-      autoclose: true,
-      orientation: "bottom left",
-      minViewMode: 2,
-      format: "yyyy-mm-dd",
-   }
+   this.$id_fecha_programada_ini.datepicker(appnova.get_ConfDatePicker())
+   this.$id_fecha_programada_fin.datepicker(appnova.get_ConfDatePicker())
 }

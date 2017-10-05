@@ -2,7 +2,7 @@
          GLOBAL VARIABLES
 \*-----------------------------------------------*/
 
-// URLS:api-
+// URLS:
 var url_subproceso = window.location.origin + "/api-calidad/subproceso/"
 var url_responsable = window.location.origin + "/api-calidad/responsable/"
 

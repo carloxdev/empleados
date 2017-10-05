@@ -453,6 +453,11 @@ class HallazgoProceso(models.Model):
         ('Aprobado','Aprobado')
     )
 
+    CERRADO = (
+        ('Si','Si'),
+        ('No','No')
+    )
+
     titulo = models.CharField(max_length=40)
     proceso = models.ForeignKey(ProcesoAuditoria)
     estado = models.CharField(max_length=13, choices=ESTADOS, default="En Captura")
@@ -460,7 +465,7 @@ class HallazgoProceso(models.Model):
     falla = models.ManyToManyField(Falla, blank=True)
     tipo_hallazgo = models.CharField(max_length=11)
     observacion = models.CharField(max_length=400, blank=True)
-    cerrado = models.CharField(max_length=2, default="No")
+    cerrado = models.CharField(max_length=2, default="No", choices=CERRADO)
     create_by = models.ForeignKey(Profile, related_name='hal_pro_created_by', null=True)
     create_date = models.DateTimeField(
         auto_now=False,

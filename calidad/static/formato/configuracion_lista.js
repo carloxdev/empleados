@@ -2,7 +2,7 @@
             GLOBAL VARIABLES
 \*-----------------------------------------------*/
 
-// URLS:api-
+// URLS:
 var url_formato = window.location.origin + "/api-calidad/formato/"
 var url_pantalla_formato = window.location.origin + "/configuracion/formatos/"
 

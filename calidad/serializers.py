@@ -411,10 +411,18 @@ class HallazgoProcesoSerializer(serializers.HyperlinkedModelSerializer):
         fields = (
             'pk',
             'titulo',
+            'proceso',
             'proceso_sitio',
             'estado',
+            'requisito_referencia',
+            'falla',
             'tipo_hallazgo',
+            'observacion',
             'cerrado',
+            'create_by',
+            'create_date',
+            'update_by',
+            'update_date',
         )
 
     def get_proceso_sitio(self, obj):
@@ -520,6 +528,7 @@ class SeguimientoPlanAccionSerializer(serializers.HyperlinkedModelSerializer):
 
     plan_accion_hallazgo_id = serializers.SerializerMethodField()
     relacion_archivo = Archivo(many=True, read_only=True)
+    evaluador = serializers.SerializerMethodField()
 
     class Meta:
         model = SeguimientoPlanAccion
@@ -530,6 +539,7 @@ class SeguimientoPlanAccionSerializer(serializers.HyperlinkedModelSerializer):
             'plan_accion_hallazgo',
             'plan_accion_hallazgo_id',
             'relacion_archivo',
+            'evaluador',
             'create_by',
             'create_date',
             'update_by',
@@ -539,6 +549,12 @@ class SeguimientoPlanAccionSerializer(serializers.HyperlinkedModelSerializer):
     def get_plan_accion_hallazgo_id(self, obj):
         try:
             return obj.plan_accion_hallazgo.id
+        except:
+            return ""
+
+    def get_evaluador(self, obj):
+        try:
+            return str(obj.create_by.clave_rh) + " : " + obj.create_by.usuario.get_full_name()
         except:
             return ""
 
