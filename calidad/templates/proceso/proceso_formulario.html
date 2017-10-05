@@ -10,6 +10,8 @@
 
 {% block css %}
 
+   <!-- DatePicker -->
+   <link rel="stylesheet" href="{% static 'libs/bootstrap-datepicker/2.0/dist/css/bootstrap-datepicker.min.css' %}"/>
 
 {% endblock css %}
 
@@ -94,13 +96,7 @@
                            {% tag_field form.rep_subproceso 3 8 %}
 
                            <!-- fecha_desde_hasta -->
-                           <div class="form-group">
-
-                              {% tag_field_date form.fecha_programada_ini 3 4 %}
-
-                              {% tag_field_date form.fecha_programada_fin 3 4 %}
-
-                           </div>
+                           {% tag_field_registro_dates 'Fecha Programada desde / hasta' form.fecha_programada_ini form.fecha_programada_fin 3 4 4 %}
 
                            <!-- auditor -->
                            {% tag_field form.auditor 3 8 %}
@@ -137,9 +133,9 @@
 
 {% block scripts %}
 
-   <!-- Beagle Theme -->
-   <script src="{% static 'theme/lib/datetimepicker/js/bootstrap-datetimepicker.min.js' %}"></script>
-   <script src="{% static 'theme/lib/jquery.maskedinput/jquery.maskedinput.min.js' %}"></script>
+   <!-- DatePicker -->
+   <script src="{% static 'libs/bootstrap-datepicker/2.0/dist/js/bootstrap-datepicker.min.js' %}"></script>
+   <script src="{% static 'libs/bootstrap-datepicker/2.0/dist/locales/bootstrap-datepicker.es.min.js' %}"></script>
 
    <!-- JS Template -->
    <script src="{% static 'proceso/proceso_formulario.js' %}"></script>

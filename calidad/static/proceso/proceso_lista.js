@@ -70,10 +70,8 @@ function PopupProceso() {
    this.$id_proceso = $('#id_proceso')
    this.$id_subproceso = $('#id_subproceso')
    this.$id_rep_subproceso = $('#id_rep_subproceso')
-   this.$id_fecha_programada_ini = $('#id_fecha_programada_ini')
-   this.$id_fecha_programada_ini_group = $('#id_fecha_programada_ini_group')
-   this.$id_fecha_programada_fin = $('#id_fecha_programada_fin')
-   this.$id_fecha_programada_fin_group = $('#id_fecha_programada_fin_group')
+   this.$id_fecha_programada_ini = $('#id_fecha_programada_ini_group')
+   this.$id_fecha_programada_fin = $('#id_fecha_programada_fin_group')
    this.$id_auditor = $('#id_auditor')
    this.$id_sitio = $('#id_sitio')
    this.$id_subproceso_existe = $('#id_subproceso_existe')
@@ -88,33 +86,11 @@ PopupProceso.prototype.init_Components = function () {
    this.$id_proceso.select2(appnova.get_ConfigSelect2())
    this.$id_subproceso.select2(appnova.get_ConfigSelect2())
    this.$id_rep_subproceso.select2(appnova.get_ConfigSelect2())
-   this.$id_fecha_programada_ini.mask(
-      "9999-99-99",
-      {
-         placeholder:"aaaa/mm/dd"
-      }
-   )
-   this.$id_fecha_programada_ini_group.datetimepicker(this.get_DateTimePickerConfig())
-
-   this.$id_fecha_programada_fin.mask(
-      "9999-99-99",
-      {
-         placeholder:"aaaa/mm/dd"
-      }
-   )
-   this.$id_fecha_programada_fin_group.datetimepicker(this.get_DateTimePickerConfig())
+   this.$id_fecha_programada_ini.datepicker(appnova.get_ConfDatePicker())
+   this.$id_fecha_programada_fin.datepicker(appnova.get_ConfDatePicker())
    this.$id_auditor.select2(appnova.get_ConfigSelect2())
    this.$id_sitio.select2(appnova.get_ConfigSelect2())
 
-}
-PopupProceso.prototype.get_DateTimePickerConfig = function () {
-
-   return {
-      autoclose: true,
-      orientation: "bottom left",
-      minViewMode: 2,
-      format: "yyyy-mm-dd",
-   }
 }
 PopupProceso.prototype.init_Events = function () {
 

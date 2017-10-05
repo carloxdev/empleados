@@ -150,6 +150,7 @@ NovaSitio.prototype.set_FechaConFormato = function (element, date) {
       $(element).datepicker("update", fecha[2] + "/" + fecha[1] +"/"+ fecha[0])
 
    } catch (e) {
+      $(element).datepicker("clearDates")
    }
 }
 NovaSitio.prototype.get_FechaDisplay = function (date) {

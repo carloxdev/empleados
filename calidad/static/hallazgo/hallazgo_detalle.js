@@ -1612,7 +1612,7 @@ PopupEvaluacionPlan.prototype.editar = function (_pk, _response) {
             "evidencia": _response.evidencia,
             "resultado": $("input[name='resultado']:checked").val(),
             "resultado_evaluacion": this.$id_resultado_evaluacion.val(),
-            "fecha_evaluacion": this.$id_fecha_evaluacion.val(),
+            "fecha_evaluacion": appnova.get_FechaConFormato("#id_fecha_evaluacion_group"),
             "criterio_decision": this.$id_criterio_decision.val(),
             "observacion": this.$id_observacion_evaluacion.val(),
             "hallazgo": url_hallazgo_proceso + tarjeta_detalle_hallazgo.$id_pk_hal.val() + "/",
