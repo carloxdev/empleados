@@ -19,7 +19,7 @@ class EmpleadoBusiness(object):
 
         for empleado in empleados:
             nombre = "%s : %s" % (empleado.pers_empleado_numero,
-                                empleado.pers_nombre_completo)
+                                  empleado.pers_nombre_completo)
             valores.append(
                 (
                     empleado.pers_empleado_numero,

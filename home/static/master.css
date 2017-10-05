@@ -722,26 +722,31 @@ div.nova-panel-arbol li.list-group-item {
 .nova-status-en-aprobacion {
    background-color: #5ac3f6;
    color: #ffffff;
+   text-align: center;
 }
 
 .nova-status-cancelado {
    background-color: #d4d4d4;
    color: #000000;
+   text-align: center;
 }
 
 .nova-status-aprobado {
    background-color: #4285f4;
    color: #ffffff;
+   text-align: center;
 }
 
 .nova-status-rechazado {
    background-color: #f6b663;
    color: #000000;
+   text-align: center;
 }
 
 .nova-status-autorizado {
    background-color: #34a853;
    color: #ffffff;
+   text-align: center;
 }
 /* bootstrap tables */
 

@@ -27,7 +27,7 @@ $(document).ready(function () {
         if (e.which == 13) {
 
             if (tarjeta_filtros.$id.hasClass('in')) {
-                tarjeta_filtros.apply_Filters()
+                tarjeta_filtros.$boton_buscar.click()
             }
 
         }
@@ -101,11 +101,9 @@ PopupFiltros.prototype.get_FechaMenorQue = function (e) {
         return fecha_conformato
     }
 }
-PopupFiltros.prototype.get_Values = function (_page) {
+PopupFiltros.prototype.get_Values = function () {
 
     return {
-        page: _page,
-
         proposito_viaje: this.$proposito_viaje.val(),
         empleado_clave: this.$empleado.val(),
         un_clave: this.$unidad_negocio.val(),
@@ -116,56 +114,13 @@ PopupFiltros.prototype.get_Values = function (_page) {
         status: this.$status.val()
     }
 }
-PopupFiltros.prototype.get_NoFiltrosAplicados = function () {
-
-    cantidad = 0
-
-    if (this.$proposito_viaje.val() != "") {
-        cantidad += 1
-    }
-    if (this.$empleado.val() != "") {
-        cantidad += 1
-    }
-    if (this.$unidad_negocio.val() != "" ) {
-        cantidad += 1
-    }
-    if (this.$ciudad_destino.val() !=  "") {
-        cantidad += 1
-    }
-    if (this.$autorizador.val()  != "" ) {
-        cantidad += 1
-    }
-    if (this.get_FechaMayorQue() != "") {
-        cantidad += 1
-    }
-    if (this.get_FechaMenorQue() != "") {
-        cantidad += 1
-    }
-    if (this.$status.val() != "" ) {
-        cantidad += 1
-    }
-
-    return cantidad
-}
-PopupFiltros.prototype.apply_Filters = function () {
-
-    tarjeta_resultados.grid.buscar()
-
-    no_filtros = this.get_NoFiltrosAplicados()
-
-    if (no_filtros != 0) {
-        tarjeta_resultados.toolbar.change_BotonFiltros(no_filtros)
-    }
-    else {
-        tarjeta_resultados.toolbar.restart_BotonFiltros()
-    }
-
-    this.$id.modal('hide')
-}
 PopupFiltros.prototype.click_BotonBuscar = function (e) {
 
     e.preventDefault()
-    e.data.apply_Filters()
+    datos = e.data.get_Values()
+    tarjeta_resultados.toolbar.set_BotonFiltros(datos)
+    tarjeta_resultados.grid.buscar()
+    e.data.$id.modal('hide')
 }
 PopupFiltros.prototype.click_BotonLimpiar = function (e) {
 
@@ -195,17 +150,32 @@ function TarjetaResultados(){
 
 function ToolBar() {
     this.$boton_filtros = $('#boton_filtros')
+    this.$boton_exportar = $('#boton_exportar')
 }
-ToolBar.prototype.change_BotonFiltros = function (_no_filtros) {
+ToolBar.prototype.set_Events = function () {
+    this.$boton_exportar.on()
+}
+ToolBar.prototype.set_BotonFiltros = function(_data) {
 
-    html = "<i class='icon icon-left mdi mdi-search nova-white'></i>Filtros <span class='badge nova-border-bottom'>no_filtros</span>".replace("no_filtros", _no_filtros)
+    var no_valores = 0
+
+    for (var i in _data) {
+        if (_data[i] != "") {
+            no_valores += 1
+        }
+    }
+
+    if (no_valores != 0) {
+        html = "<i class='icon icon-left mdi mdi-search nova-white'></i>Filtros <span class='badge nova-border-bottom'>no_filtros</span>".replace("no_filtros", no_valores)
+    }
+    else {
+        html = "<i class='icon icon-left mdi mdi-search nova-white'></i>Filtros"
+    }
 
     this.$boton_filtros.html(html)
-}
-ToolBar.prototype.restart_BotonFiltros = function () {
-    this.$boton_filtros.html("<i class='icon icon-left mdi mdi-search nova-white'></i>Filtros")
-}
 
+    return no_valores
+}
 
 /* -------------------- OBJETO: FuenteDatos -------------------- */
 
@@ -229,7 +199,9 @@ FuenteDatos.prototype.get_Configuracion = function() {
             },
             parameterMap: function (data, action) {
                 if (action === "read"){
-                    return tarjeta_filtros.get_Values(data.page)
+                    datos = tarjeta_filtros.get_Values()
+                    datos.page = data.page
+                    return datos
                 }
             }
         },
@@ -369,6 +341,10 @@ Grid.prototype.get_ColorEstado = function (_estado) {
 
       estilo = "nova-status-cancelado"
    }
+   else {
+       estilo = "nova-aling-center"
+   }
+
    return estilo
 }
 Grid.prototype.set_Icons = function (e) {
