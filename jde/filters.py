@@ -535,6 +535,10 @@ class VIEW_PROVEEDORES_Filter(filters.FilterSet):
 
 class VIEW_FLUJO_EGRESOS_Filter(filters.FilterSet):
 
+    compania = CharFilter(
+        name="compania",
+        lookup_expr="exact"
+    )
     anio = NumberFilter(
         name="anio",
         lookup_expr="exact"

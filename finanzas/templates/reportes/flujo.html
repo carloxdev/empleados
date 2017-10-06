@@ -46,6 +46,8 @@
 
                     {% tag_field_popup form.anio 4 6 %}
 
+                    {% tag_field_popup form.compania 4 6 %}
+
                     {% tag_field_popup form.proyecto 4 6 %}
 
                     {% tag_field_popup form.centro_costos 4 6 %}
@@ -97,10 +99,10 @@
         <div class="row wizard-row">
 	        <div class="col-sm-12">
 	            <div class="nova-margin-highcharts nova-fix-width-highcharts nova-contenido-borde" id="container-flujo"></div>
-	            </div>
-
 	        </div>
-		</div>
+
+	    </div>
+	</div>
 
 </div>
 
@@ -108,6 +110,9 @@
 {% endblock contenido %}
 
 {% block scripts %}
+	<!-- Linq -->
+    <script src="{% static 'libs/linq/3.0.4/linq.js' %}"></script>
+    <script src="{% static 'libs/linq/3.0.4/extensions/linq.jquery.js' %}"></script>
 
     <!-- Kendo Js -->
     <script src="{% static 'libs/kendo/2015.2.624/js/cultures/kendo.culture.es-MX.min.js' %}"></script>

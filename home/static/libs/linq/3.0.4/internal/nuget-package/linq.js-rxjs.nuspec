@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+    <metadata>
+        <id>linq.js-RxJS</id>
+        <version>3.0.4-beta5</version>
+        <title>linq.js - RxJS Binding</title>
+        <authors>neuecc</authors>
+        <owners>neuecc</owners>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>linq.js binding for RxJS.</description>
+        <language>en-US</language>
+        <licenseUrl>http://linqjs.codeplex.com/license</licenseUrl>
+        <projectUrl>http://linqjs.codeplex.com/</projectUrl>
+        <tags>linq javascript Rx RxJS</tags>
+        <dependencies>
+            <dependency id="linq.js" version="3.0.4-beta5"></dependency>
+            <dependency id="RxJS-Main" version="2.0.20921"></dependency>
+        </dependencies>
+    </metadata>
+    <files>
+        <file src="..\..\extensions\linq.rx.js" target="Content\Scripts" />
+    </files>
+</package>

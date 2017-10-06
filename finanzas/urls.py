@@ -22,5 +22,5 @@ urlpatterns = [
     url(r'^viaticos/(?P<_pk>\d+)/cancelar/$', ViaticoCabeceraCancelar.as_view(), name="viatico_cancelar"),
 
     # Flujo
-    url(r'^flujo/$', Flujo.as_view(), name="flujo"),
+    url(r'^reportes/flujo/$', Flujo.as_view(), name="flujo"),
 ]

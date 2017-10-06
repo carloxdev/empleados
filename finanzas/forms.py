@@ -18,6 +18,7 @@ from .models import ViaticoCabecera
 from .models import ViaticoLinea
 from jde.models import VIEW_POLITICA_VIATICOS
 from jde.models import VIEW_FLUJO_EGRESOS
+from jde.models import VIEW_COMPANIAS
 
 from jde.business import CentroCostoBusiness
 from ebs.business import EmpleadoBusiness
@@ -255,6 +256,9 @@ class FLujoFilterForm(Form):
         ('13', '2013'),
     )
 
+    compania = ChoiceField(
+        label="Compañia",
+        widget=Select(attrs={'class': 'form-control input-xs'}))
     anio = ChoiceField(
         label="Año",
         choices=ANIOS,
@@ -273,6 +277,7 @@ class FLujoFilterForm(Form):
 
     def __init__(self, *args, **kwargs):
         super(FLujoFilterForm, self).__init__(*args, **kwargs)
+        self.fields['compania'].choices = self.get_Compania()
         self.fields[
             'proyecto'].choices = self.get_Proyecto()
         self.fields[
@@ -293,11 +298,22 @@ class FLujoFilterForm(Form):
     def get_CC(self):
         valores = [('', '------')]
 
-        proyectos = VIEW_FLUJO_EGRESOS.objects.using('jde_p').filter(tipo_un='CC').order_by(
-            'descripcion_un').values_list('descripcion_un', flat=True).distinct()                          
-        for proyecto in proyectos:
-            valores.append((proyecto,
-                            proyecto)
+        centro_costos = VIEW_FLUJO_EGRESOS.objects.using('jde_p').filter(tipo_un='CC').order_by(
+            'descripcion_un').values_list('descripcion_un', flat=True).distinct()
+        for cc in centro_costos:
+            valores.append((cc,
+                            cc)
+                           )
+
+        return valores
+
+    def get_Compania(self):
+        valores = [('', '------')]
+
+        companias = VIEW_COMPANIAS.objects.using('jde_p').all()
+        for compania in companias:
+            valores.append((compania.comp_code,
+                            compania.book_desc)
                            )
 
         return valores

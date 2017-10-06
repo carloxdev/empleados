@@ -68,4 +68,11 @@
   .nova-post-titulo{
     font-size: 25px;
   }
+  .nova-contenedor-imagen:hover img {
+    -webkit-transform:none;
+    -moz-transform:none;
+    -ms-transform:none;
+    -o-transform:none;
+    transform:none;
+  }
 }

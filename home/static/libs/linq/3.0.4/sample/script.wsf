@@ -1,0 +1,24 @@
+﻿<job id="Main">
+    <script language="JScript" src="../linq.js"></script>
+    <script language="JScript">
+    
+        // resource auto close example
+        function enumerateLines(filePath)
+        {
+            return Enumerable.repeatWithFinalize(
+                    function () { return WScript.CreateObject("Scripting.FileSystemObject").OpenTextFile(filePath) },
+                    function (ts) { ts.Close() })
+                .takeWhile(function (ts) { return !ts.AtEndOfStream })
+                .select(function (ts) { return ts.ReadLine() });
+        }
+
+        enumerateLines("C:\\test.txt").take(4).forEach(function (s)
+        {
+            WScript.Echo(s);
+        });
+
+        // or write your script!
+    
+    
+    </script>
+</job>
