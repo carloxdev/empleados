@@ -39,3 +39,11 @@ class CalidadMethods(object):
     @classmethod
     def get_Usuario(self, _pk):
         return Profile.objects.get(pk = _pk)
+
+
+    @classmethod
+    def get_Coma(self, _texto1, _texto2):
+        if len(_texto2):
+            return _texto1 + ','
+
+        return _texto1

@@ -81,12 +81,18 @@ class CompaniaAccionFilter(filters.FilterSet):
         lookup_expr="exact"
     )
 
+    rol = CharFilter(
+        name="personal_rol__rol",
+        lookup_expr="exact"
+    )
+
     class Meta:
         model = CompaniaAccion
         fields = [
             'compania_codigo',
             'compania',
             'personal_rol_id',
+            'personal_rol__rol',
         ]
 
 

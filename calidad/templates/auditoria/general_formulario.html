@@ -98,6 +98,14 @@
                            <!-- compania -->
                            {% tag_field form.compania 3 6 %}
 
+                           {% if mensaje %}
+                              <div class="form-group">
+                                 <div class="col-xs-4 col-xs-offset-4">
+                                    {% tag_mensaje 'error' 'La compañia no tiene'|add:mensaje|add:' configurado'%}
+                                 </div>
+                              </div>
+                           {% endif %}
+
                            <!-- contratos -->
                            {% tag_field form.contratos 3 6 %}
 

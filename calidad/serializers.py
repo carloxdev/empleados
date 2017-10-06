@@ -246,6 +246,7 @@ class RolSerializer(serializers.HyperlinkedModelSerializer):
 class CompaniaAccionSerializer(serializers.HyperlinkedModelSerializer):
 
     personal_rol_id = serializers.SerializerMethodField()
+    rol = serializers.SerializerMethodField()
 
     class Meta:
         model = CompaniaAccion
@@ -255,6 +256,7 @@ class CompaniaAccionSerializer(serializers.HyperlinkedModelSerializer):
             'compania',
             'personal_rol',
             'personal_rol_id',
+            'rol',
             'create_by',
             'create_date',
             'update_by',
@@ -273,6 +275,13 @@ class CompaniaAccionSerializer(serializers.HyperlinkedModelSerializer):
 
         try:
             return obj.personal_rol.id
+        except:
+            return ""
+
+    def get_rol(self, obj):
+
+        try:
+            return obj.personal_rol.rol
         except:
             return ""
 

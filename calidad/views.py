@@ -136,15 +136,47 @@ class GeneralFormularioCreate(View):
 
         formulario = GeneralAuditoriaForm(request.POST)
 
+        compania_codigo = request.POST['compania'].split(':')[0]
+        mensaje = ""
+        mensaje_autorizador = ""
+        mensaje_aprobador = ""
+        mensaje_lider = ""
+        error = False
+
+        try:
+            autorizador = Rol.objects.get(companiaaccion__compania_codigo=compania_codigo, rol='Autorizador')
+        except Rol.DoesNotExist:
+            mensaje_autorizador = " Autorizador"
+            error = True
+        try:
+            aprobador = Rol.objects.get(companiaaccion__compania_codigo=compania_codigo, rol='Aprobador')
+        except Rol.DoesNotExist:
+            mensaje_aprobador = " Aprobador"
+            error = True
+        try:
+            auditor_lider = Rol.objects.get(companiaaccion__compania_codigo=compania_codigo, rol='Auditor Lider')
+        except Rol.DoesNotExist:
+            mensaje_lider = " Auditor lider"
+            error = True
+
+        if error:
+            mensaje = CalidadMethods.get_Coma(mensaje_autorizador, mensaje_aprobador) + CalidadMethods.get_Coma(mensaje_aprobador, mensaje_lider) + mensaje_lider
+
+        contexto = {
+            'form': formulario,
+            'mensaje': mensaje,
+        }
+
+        if len(mensaje):
+            return render(request, self.template_name, contexto)
+
         if formulario.is_valid():
             datos_formulario = formulario.cleaned_data
             auditoria = Auditoria()
-            compania = datos_formulario.get('compania')
-            autorizador = Rol.objects.filter(companiaaccion__compania_codigo=compania.split(':')[0], rol='Autorizador' )
-            aprobador = Rol.objects.filter(companiaaccion__compania_codigo=compania.split(':')[0], rol='Aprobador' )
+
             auditoria.folio = self.get_Folio()
             auditoria.tipo_auditoria = datos_formulario.get('tipo_de_auditoria')
-            auditoria.compania = compania
+            auditoria.compania = datos_formulario.get('compania')
             if datos_formulario.get('fecha_programada_ini') is not u'':
                 auditoria.fecha_programada_inicial = CalidadMethods.get_FechaConFormato(datos_formulario.get('fecha_programada_ini'))
             if datos_formulario.get('fecha_programada_fin') is not u'':
@@ -153,8 +185,8 @@ class GeneralFormularioCreate(View):
             auditoria.alcance = datos_formulario.get('alcance')
             auditoria.recurso_necesario = datos_formulario.get('recursos_necesarios')
             auditoria.estado = 'En Captura'
-            auditoria.autorizador = autorizador[0].nombre_completo
-            auditoria.aprobador = aprobador[0].nombre_completo
+            auditoria.autorizador = autorizador.nombre_completo
+            auditoria.aprobador = aprobador.nombre_completo
             auditoria.create_by = CalidadMethods.get_Usuario(request.user.id)
             auditoria.save()
 
@@ -170,13 +202,9 @@ class GeneralFormularioCreate(View):
 
             return redirect(reverse('calidad:auditor_formulario_update', kwargs={'pk': auditoria.pk}))
 
-        contexto = {
-            'form': formulario,
-            'operation': 'Nuevo',
-            'pk': auditoria.pk
-        }
 
         return render(request, self.template_name, contexto)
+
 
     def get_Folio(self):
         fecha = datetime.datetime.now()
@@ -239,8 +267,42 @@ class GeneralFormularioUpdate(View):
 
     def post(self, request, pk):
 
-        formulario = GeneralAuditoriaForm( request.POST )
-        auditoria = get_object_or_404( Auditoria, pk = pk )
+        formulario = GeneralAuditoriaForm(request.POST)
+        auditoria = get_object_or_404(Auditoria, pk = pk)
+
+        compania_codigo = request.POST['compania'].split(':')[0]
+        mensaje = ""
+        mensaje_autorizador = ""
+        mensaje_aprobador = ""
+        mensaje_lider = ""
+        error = False
+
+        try:
+            autorizador = Rol.objects.get(companiaaccion__compania_codigo=compania_codigo, rol='Autorizador')
+        except Rol.DoesNotExist:
+            mensaje_autorizador = " Autorizador"
+            error = True
+        try:
+            aprobador = Rol.objects.get(companiaaccion__compania_codigo=compania_codigo, rol='Aprobador')
+        except Rol.DoesNotExist:
+            mensaje_aprobador = " Aprobador"
+            error = True
+        try:
+            auditor_lider = Rol.objects.get(companiaaccion__compania_codigo=compania_codigo, rol='Auditor Lider')
+        except Rol.DoesNotExist:
+            mensaje_lider = " Auditor lider"
+            error = True
+
+        if error:
+            mensaje = CalidadMethods.get_Coma(mensaje_autorizador, mensaje_aprobador) + CalidadMethods.get_Coma(mensaje_aprobador, mensaje_lider) + mensaje_lider
+
+        contexto = {
+            'form': formulario,
+            'mensaje': mensaje,
+        }
+
+        if len(mensaje):
+            return render(request, self.template_name, contexto)
 
         if formulario.is_valid():
             datos_formulario = formulario.cleaned_data
