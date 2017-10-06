@@ -648,15 +648,15 @@ class AutorizacionAprobar(View):
                 ViaticoBusiness.autorizar(documento, _request.user)
 
                 ViaticoBusiness.send_Mail_ToAprove(
-                    "APPS: Viatico V-%s de (%s) %s fue APROBADO" % (
+                    "APPS: Viatico V-%s APROBADO de %s (%s)" % (
                         documento.id,
-                        documento.empleado_clave,
-                        documento.empleado_descripcion
-                    ),
-                    "Se te informa que se ha APROBADO el viatico V-%s de (%s) %s. Monto del viatico: %s pesos." % (
-                        documento.id,
-                        documento.empleado_clave,
                         documento.empleado_descripcion,
+                        documento.empleado_clave,
+                    ),
+                    "Se te informa que se ha APROBADO el viatico V-%s de %s (%s). Monto del viatico: %s pesos." % (
+                        documento.id,
+                        documento.empleado_descripcion,
+                        documento.empleado_clave,
                         documento.importe_total,
                     ),
                     documento,
@@ -698,15 +698,15 @@ class AutorizacionCancelar(View):
                 ViaticoBusiness.cancelar(documento, _request.user)
 
                 ViaticoBusiness.send_Mail_ToAprove(
-                    "APPS: Viatico V-%s de (%s) %s fue CANCELADO" % (
+                    "APPS: Viatico V-%s de %s (%s) fue CANCELADO" % (
                         documento.id,
-                        documento.empleado_clave,
-                        documento.empleado_descripcion
-                    ),
-                    "Se te informa que se ha CANCELADO el viatico V-%s de (%s) %s. Monto del viatico: %s pesos." % (
-                        documento.id,
-                        documento.empleado_clave,
                         documento.empleado_descripcion,
+                        documento.empleado_clave,
+                    ),
+                    "Se te informa que se ha CANCELADO el viatico V-%s de %s (%s). Monto del viatico: %s pesos." % (
+                        documento.id,
+                        documento.empleado_descripcion,
+                        documento.empleado_clave,
                         documento.importe_total,
                     ),
                     documento,

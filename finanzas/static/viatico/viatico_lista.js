@@ -295,7 +295,7 @@ Grid.prototype.get_Columnas = function () {
         {
             field: "pk",
             title: "Numero",
-            width: "75px",
+            width: "100px",
             template: '<a class="btn btn-default nova-url" href="#=Grid.prototype.get_EditUrl(pk)#">#="V-" + pk#</a>',
         },
         { field: "status", title: "Estado", width:"120px", attributes:{ class:"nova-centrar #=Grid.prototype.get_ColorEstado(status)#" }, },
