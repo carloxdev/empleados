@@ -51,16 +51,6 @@
 	                         <!-- Email -->
 	                        {% tag_field_registro form.email 3 7 %}
 
-							<!-- Password-->
-							<div class="form-group">
-								<label class="col-sm-3 control-label">
-									Contraseña
-						    	</label>
-						    	<div class="col-sm-7 xs-pt-5">
-						    		<a href="{% url 'seguridad:usuario_editar_contrasena' usuario.id %}"class="btn nova-btn btn-rounded btn-space btn-default" id="boton_nuevo">Cambiar contraseña</a>
-								</div>
-							</div>
-
 							<div class="form-group">
 								<label class="col-sm-3 control-label">
 									Permisos
@@ -73,6 +63,17 @@
 
 								<!-- Is_superuser-->
 								{% tag_field_checkbox form.is_superuser 'is_superuser' 4 %}
+							</div>
+
+							<!-- Password -->
+							<div class="form-group">
+								<label class="col-sm-3 control-label">
+
+						    	</label>
+						    	<div class="col-sm-7 xs-pt-5">
+						    		<a href="{% url 'seguridad:usuario_editar_contrasena' usuario.id %}" class="btn nova-btn btn-rounded btn-space btn-default" id="boton_nuevo">Cambiar contraseña</a>
+									<a href="{% url 'seguridad:usuario_grupos' usuario.id %}" class="btn nova-btn btn-rounded btn-space btn-default">Asignar Grupos</a>
+								</div>
 							</div>
 
 							<!-- Ocultos -->

@@ -319,7 +319,7 @@ class Auditoria(models.Model):
 
     folio = models.CharField(max_length=12)
     tipo_auditoria = models.CharField(max_length=17)
-    compania = models.CharField(max_length=60)
+    compania = models.CharField(max_length=240)
     criterio = models.ManyToManyField(Criterio, blank=True)
     fecha_programada_inicial = models.DateField(null=True, blank=True)
     fecha_programada_final = models.DateField(null=True, blank=True)
@@ -329,11 +329,11 @@ class Auditoria(models.Model):
     fecha_real_inicial = models.DateField(null=True, blank=True)
     fecha_real_final = models.DateField(null=True, blank=True)
     estado = models.CharField(max_length=13, choices=ESTADOS, default="En Captura")
-    auditor_lider = models.CharField(max_length=30, blank=True)
+    auditor_lider = models.CharField(max_length=240, blank=True)
     auditores_designados = models.ManyToManyField(Rol, related_name="auditores_designados")
     auditores_colaboradores = models.ManyToManyField(Rol, related_name="auditores_colaboradores")
-    autorizador = models.CharField(max_length=30, blank=True)
-    aprobador = models.CharField(max_length=30, blank=True)
+    autorizador = models.CharField(max_length=240, blank=True)
+    aprobador = models.CharField(max_length=240, blank=True)
     fecha_autorizacion = models.DateTimeField(null=True, blank=True)
     fecha_aprobacion = models.DateTimeField(null=True, blank=True)
     create_by = models.ForeignKey(Profile, related_name='aud_created_by', null=True)
@@ -453,6 +453,11 @@ class HallazgoProceso(models.Model):
         ('Aprobado','Aprobado')
     )
 
+    CERRADO = (
+        ('Si','Si'),
+        ('No','No')
+    )
+
     titulo = models.CharField(max_length=40)
     proceso = models.ForeignKey(ProcesoAuditoria)
     estado = models.CharField(max_length=13, choices=ESTADOS, default="En Captura")
@@ -460,7 +465,7 @@ class HallazgoProceso(models.Model):
     falla = models.ManyToManyField(Falla, blank=True)
     tipo_hallazgo = models.CharField(max_length=11)
     observacion = models.CharField(max_length=400, blank=True)
-    cerrado = models.CharField(max_length=2, default="No")
+    cerrado = models.CharField(max_length=2, default="No", choices=CERRADO)
     create_by = models.ForeignKey(Profile, related_name='hal_pro_created_by', null=True)
     create_date = models.DateTimeField(
         auto_now=False,

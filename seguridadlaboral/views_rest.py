@@ -45,7 +45,7 @@ class IncidenciaDocumentoAPI(viewsets.ModelViewSet):
 
 
 class IncidenciaDocumentoByPageAPI(viewsets.ModelViewSet):
-    queryset = IncidenciaDocumento.objects.all()
+    queryset = IncidenciaDocumento.objects.all().order_by('-id')
     serializer_class = IncidenciaDocumentoSerializer
     filter_backends = (DjangoFilterBackend,)
     filter_class = IncidenciaDocumentoFilter

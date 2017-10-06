@@ -38,6 +38,7 @@ from .forms import UserPerfilForm
 from .forms import UserContrasenaActualForm
 from .forms import UserContrasenaResetForm
 from .forms import UserContrasenaResetConfirmForm
+from .forms import UserGroupForm
 
 from finanzas.business import ViaticoBusiness
 
@@ -647,15 +648,15 @@ class AutorizacionAprobar(View):
                 ViaticoBusiness.autorizar(documento, _request.user)
 
                 ViaticoBusiness.send_Mail_ToAprove(
-                    "APPS: Viatico V-%s de (%s) %s fue APROBADO" % (
+                    "APPS: Viatico V-%s APROBADO de %s (%s)" % (
                         documento.id,
-                        documento.empleado_clave,
-                        documento.empleado_descripcion
-                    ),
-                    "Se te informa que se ha APROBADO el viatico V-%s de (%s) %s. Monto del viatico: %s pesos." % (
-                        documento.id,
-                        documento.empleado_clave,
                         documento.empleado_descripcion,
+                        documento.empleado_clave,
+                    ),
+                    "Se te informa que se ha APROBADO el viatico V-%s de %s (%s). Monto del viatico: %s pesos." % (
+                        documento.id,
+                        documento.empleado_descripcion,
+                        documento.empleado_clave,
                         documento.importe_total,
                     ),
                     documento,
@@ -697,15 +698,15 @@ class AutorizacionCancelar(View):
                 ViaticoBusiness.cancelar(documento, _request.user)
 
                 ViaticoBusiness.send_Mail_ToAprove(
-                    "APPS: Viatico V-%s de (%s) %s fue CANCELADO" % (
+                    "APPS: Viatico V-%s de %s (%s) fue CANCELADO" % (
                         documento.id,
-                        documento.empleado_clave,
-                        documento.empleado_descripcion
-                    ),
-                    "Se te informa que se ha CANCELADO el viatico V-%s de (%s) %s. Monto del viatico: %s pesos." % (
-                        documento.id,
-                        documento.empleado_clave,
                         documento.empleado_descripcion,
+                        documento.empleado_clave,
+                    ),
+                    "Se te informa que se ha CANCELADO el viatico V-%s de %s (%s). Monto del viatico: %s pesos." % (
+                        documento.id,
+                        documento.empleado_descripcion,
+                        documento.empleado_clave,
                         documento.importe_total,
                     ),
                     documento,
@@ -729,3 +730,35 @@ class AutorizacionDone(View):
 
     def get(self, _request):
         return render(_request, self.template_name, {})
+
+
+class UsuarioGrupos(View):
+    template_name = "usuario/usuario_grupos.html"
+    # group = ['security', ]
+
+    def get(self, _request, _pk):
+
+        usuario = get_object_or_404(User, pk=_pk)
+        form = UserGroupForm(instance=usuario)
+
+        context = {
+            'form': form
+        }
+
+        return render(_request, self.template_name, context)
+
+    def post(self, _request, _pk):
+
+        usuario = get_object_or_404(User, pk=_pk)
+
+        form = UserGroupForm(
+            data=_request.POST,
+            instance=usuario)
+        if form.is_valid():
+            form.save()
+            messages.success(_request, "Se actualizaron los grupos del usuario")
+
+        context = {
+            'form': form
+        }
+        return render(_request, self.template_name, context)

@@ -10,8 +10,8 @@
 
 {% block css %}
 
-   <!-- Beagle Theme -->
-   <link rel="stylesheet" href="{% static 'theme/lib/datetimepicker/css/bootstrap-datetimepicker.min.css' %}" type="text/css"/>
+<!-- DatePicker -->
+<link rel="stylesheet" href="{% static 'libs/bootstrap-datepicker/2.0/dist/css/bootstrap-datepicker.min.css' %}"/>
 
 {% endblock css %}
 
@@ -105,13 +105,7 @@
                            {% tag_field form.criterios 3 6 %}
 
                            <!-- fecha_programada_ini_fin -->
-                           <div class="form-group">
-
-                              {% tag_field_date form.fecha_programada_ini 3 3 %}
-
-                              {% tag_field_date form.fecha_programada_fin 3 3 %}
-
-                           </div>
+                           {% tag_field_registro_dates 'Fecha Programada inicial / final' form.fecha_programada_ini form.fecha_programada_fin 3 3 3 %}
 
                            <!-- objetivo -->
                            {% tag_field form.objetivo 3 6 %}
@@ -157,9 +151,9 @@
 
 {% block scripts %}
 
-   <!-- Beagle Theme -->
-   <script src="{% static 'theme/lib/datetimepicker/js/bootstrap-datetimepicker.min.js' %}"></script>
-   <script src="{% static 'theme/lib/jquery.maskedinput/jquery.maskedinput.min.js' %}"></script>
+   <!-- DatePicker -->
+   <script src="{% static 'libs/bootstrap-datepicker/2.0/dist/js/bootstrap-datepicker.min.js' %}"></script>
+   <script src="{% static 'libs/bootstrap-datepicker/2.0/dist/locales/bootstrap-datepicker.es.min.js' %}"></script>
 
    <!-- JS Template -->
    <script src="{% static 'auditoria/general_formulario.js' %}"></script>

@@ -2,8 +2,9 @@
          GLOBAL VARIABLES
 \*-----------------------------------------------*/
 
-// URLS:api-
+// URLS:
 var url_hallazgo = window.location.origin + "/api-calidad/hallazgoproceso/"
+var url_profile = window.location.origin + "/api-seguridad/profile/"
 
 // OBJS
 var popup_hallazgo = null
@@ -76,6 +77,7 @@ Grid.prototype.init_Events = function () {
 
    this.$id_grid_hallazgo.on("click", '.clickable-row', this.click_FilaGrid)
    this.$id_grid_hallazgo.on("click", '[data-event=\'acciones\']', this.click_BotonAcciones )
+   this.$id_grid_hallazgo.on("click", '[data-event=\'cerrar\']', this.click_BotonCerrar )
 }
 Grid.prototype.click_FilaGrid = function (e) {
 
@@ -85,6 +87,55 @@ Grid.prototype.click_BotonAcciones = function (e) {
 
    pk = this.getAttribute("data-primaryKey")
    popup_acciones.mostrar(pk)
+}
+Grid.prototype.click_BotonCerrar = function (e) {
+
+   pk = this.getAttribute("data-primaryKey")
+   tarjeta_resultados.grid.get_Data(pk)
+}
+Grid.prototype.get_Data = function (_pk) {
+
+   $.ajax({
+
+      url: url_hallazgo + _pk +"/",
+      method: "GET",
+      context: this,
+      success: function (_response) {
+
+         this.cerrar_hallazgo(_pk, _response)
+      },
+      error: function (_response) {
+
+         alertify.error("Ocurrio error al cargar datos")
+      }
+   })
+}
+Grid.prototype.cerrar_hallazgo = function (_pk, _response) {
+
+   $.ajax({
+      url: url_hallazgo + _pk + "/",
+      method: "PUT",
+      headers: { "X-CSRFToken": appnova.galletita },
+      data: {
+
+         "titulo": _response.titulo,
+         "proceso": _response.proceso,
+         "estado": _response.estado,
+         "tipo_hallazgo": _response.tipo_hallazgo,
+         "observacion": _response.observacion,
+         "cerrado": "Si",
+         "update_by": url_profile + appnova.$user + "/",
+      },
+      success: function (_response) {
+
+         //Recargar
+         alertify.success("Hallazgo cerrado con éxito.")
+      },
+      error: function (_response) {
+
+         alertify.error("Ocurrio error al cerrar hallazgo")
+      }
+   })
 }
 
 /*-----------------------------------------------*\

@@ -123,7 +123,11 @@
                                   <td>{{ hallazgo.tipo_hallazgo }}</td>
                                   <td>{{ hallazgo.observacion }}</td>
                                   <td>
-                                    <button class="btn btn-space btn-warning" {% if hallazgo.cerrado == "Si" %} disabled {% endif %}>{{ hallazgo.cerrado }}
+                                    <button class="btn btn-space btn-warning"
+                                       {% if hallazgo.cerrado == "Si" %}
+                                          disabled
+                                       {% endif %}
+                                    data-primaryKey="{{ hallazgo.pk }}" data-event="cerrar">{{ hallazgo.cerrado }}
                                     </button>
                                   </td>
                                </tr>

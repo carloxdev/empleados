@@ -297,7 +297,6 @@ class FLujoFilterForm(Form):
 
     def get_CC(self):
         valores = [('', '------')]
-
         centro_costos = VIEW_FLUJO_EGRESOS.objects.using('jde_p').filter(tipo_un='CC').order_by(
             'descripcion_un').values_list('descripcion_un', flat=True).distinct()
         for cc in centro_costos:
@@ -313,7 +312,5 @@ class FLujoFilterForm(Form):
         companias = VIEW_COMPANIAS.objects.using('jde_p').all()
         for compania in companias:
             valores.append((compania.comp_code,
-                            compania.book_desc)
-                           )
-
+                            compania.book_desc))
         return valores

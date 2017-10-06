@@ -18,10 +18,6 @@
    padding: 15px 10px 25px;
 }
 
-    .nova-panel-main {
-        top
-    }
-
         .nova-panel-default {
             box-shadow: inset 0 1px 0 rgba(255,255,255,0.2), 0 1px 2px rgba(0,0,0,0.05);
             margin-bottom: 10px;
@@ -53,6 +49,7 @@
                 .nova-widget-head {
                     margin-bottom: 0;
                 }
+
 
 /* ----------------------- VIATICOS EDITAR ----------------------- */
 
@@ -351,6 +348,14 @@
    .nova-panel-footer {
       padding-bottom: 20px;
    }
+
+   .nova-panel-main {
+       /*padding-right: 10px;*/
+   }
+
+   /*.nova-sidebar {
+       padding-left: 0px;
+   }*/
 
 }
 @media (min-width: 768px) {
@@ -722,27 +727,39 @@ div.nova-panel-arbol li.list-group-item {
 .nova-status-en-aprobacion {
    background-color: #5ac3f6;
    color: #ffffff;
+   text-align: center;
 }
 
 .nova-status-cancelado {
    background-color: #d4d4d4;
    color: #000000;
+   text-align: center;
 }
 
 .nova-status-aprobado {
    background-color: #4285f4;
    color: #ffffff;
+   text-align: center;
 }
 
 .nova-status-rechazado {
    background-color: #f6b663;
    color: #000000;
+   text-align: center;
 }
 
 .nova-status-autorizado {
    background-color: #34a853;
    color: #ffffff;
+   text-align: center;
 }
+
+.nova-status-captura {
+    text-align: center;
+    color: black;
+    background-color: white;
+}
+
 /* bootstrap tables */
 
 /* multiselect 2 */
@@ -786,7 +803,7 @@ div.nova-panel-arbol li.list-group-item {
 /* bootstrap Tables */
 .nova-sin-resultados {
    font-size: 32px;
-   background-color: #ececec;
+   background-color: #ffffff;
 }
 .nova-tabla-popup {
    padding: 0px 74px 0px 74px;
@@ -850,6 +867,10 @@ div.nova-panel-arbol li.list-group-item {
 @media (min-width: 992px) {
     .nova-panel-main {
         padding-right: 0;
+    }
+
+    .nova-sidebar {
+        padding-left: 10px;
     }
 }
 .nova-overflow-visible {

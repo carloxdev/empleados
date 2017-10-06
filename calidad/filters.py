@@ -243,7 +243,7 @@ class PlanAccionHallazgoFilter(filters.FilterSet):
 class SeguimientoPlanAccionFilter(filters.FilterSet):
 
     plan_accion_hallazgo_id = NumberFilter(
-        name="hallazgo_id",
+        name="plan_accion_hallazgo_id",
         lookup_expr="exact"
     )
 

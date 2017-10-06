@@ -881,6 +881,7 @@ class PlanAccionHallazgoForm(Form):
 class SeguimientoPlanAccionForm(Form):
 
     resultado_seguimiento = CharField(
+        label="Resultado",
         widget=Textarea(attrs={'class': 'form-control input-xs', 'rows': '4', 'maxlength': '400'}),
     )
 

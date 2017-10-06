@@ -58,12 +58,14 @@ function TargetaFiltros () {
     this.$id_fecha = $('#id_fecha')
     //this.$es_registrable = $('#id_es_registrable')
     //this.$es_registrable = $("input[name='id_es_registrable']")
-     this.$es_registrable = $("input[name='es_registrable']:checked").val(),
+    this.$es_registrable = $("input[name='es_registrable']")
+    //this.$es_registrable = $("input[name='es_registrable']:checked").val(),
 
 
     this.$empleado_zona = $('#id_zona')
-    this.$created_date_mayorque = $('#id_fecha_mayorque_group')
-    this.$created_date_menorque = $('#id_fecha_menorque_group')
+    this.$fecha_mayorque = $('#id_fecha_mayorque')
+    this.$fecha_menorque = $('#id_fecha_menorque')
+
 
     this.$boton_buscar = $('#boton_buscar')
     this.$boton_limpiar = $('#boton_limpiar')
@@ -76,8 +78,8 @@ TargetaFiltros.prototype.init_Components = function () {
 
    this.$tipo.select2(appnova.get_ConfigSelect2())
    this.$empleado_zona.select2(appnova.get_ConfigSelect2())
-   this.$created_date_mayorque.datepicker(appnova.get_ConfDatePicker())
-   this.$created_date_menorque.datepicker(appnova.get_ConfDatePicker())
+   this.$fecha_mayorque.datepicker(appnova.get_ConfDatePicker())
+   this.$fecha_menorque.datepicker(appnova.get_ConfDatePicker())
 
     // Estilos, Liberias
     //this.$fecha_mayorque.datepicker()
@@ -100,6 +102,30 @@ TargetaFiltros.prototype.init_Events = function () {
     // Asosciar Eventos
     this.$boton_buscar.on("click", this, this.click_BotonBuscar)
     this.$boton_limpiar.on("click", this, this.click_BotonLimpiar)
+}
+TargetaFiltros.prototype.get_FechaMayorQue = function (e) {
+
+    fecha = this.$fecha_mayorque.datepicker("getDate")
+    fecha_conformato = moment(fecha).format('YYYY-MM-DD')
+
+    if (fecha_conformato == "Invalid date") {
+        return ""
+    }
+    else {
+        return fecha_conformato
+    }
+}
+TargetaFiltros.prototype.get_FechaMenorQue = function (e) {
+
+    fecha = this.$fecha_menorque.datepicker("getDate")
+    fecha_conformato = moment(fecha).format('YYYY-MM-DD')
+
+    if (fecha_conformato == "Invalid date") {
+        return ""
+    }
+    else {
+        return fecha_conformato
+    }
 }
 TargetaFiltros.prototype.get_DateTimePickerConfig = function () {
     return {
@@ -129,10 +155,10 @@ TargetaFiltros.prototype.click_BotonLimpiar = function (e) {
     e.data.$empleado_zona.val("").trigger("change")
     
    // e.data.$fecha_creacion.data('daterangepicker').setStartDate('01-01-2017')
-   e.data.$created_date_mayorque.datepicker("clearDates")
-   e.data.$created_date_menorque.datepicker("clearDates")
-   //e.data.$es_registrable.prop('checked', false)
-   $("input[name='es_registrable']:checked", false).val()
+   e.data.$fecha_mayorque.datepicker("clearDates")
+   e.data.$fecha_menorque.datepicker("clearDates")
+   e.data.$es_registrable.prop('checked', false)
+   //$("input[name='es_registrable']:checked", false).val()
    
 
 }
@@ -145,6 +171,8 @@ TargetaFiltros.prototype.get_Values = function (_page) {
         fecha_creacion: this.$fecha_creacion.val(),
         es_registrable:  $("input[name='es_registrable']:checked").val(),
         zona: this.$empleado_zona.val(),
+        fecha_mayorque: this.get_FechaMayorQue(),
+        fecha_menorque: this.get_FechaMenorQue(),
 
     }
 

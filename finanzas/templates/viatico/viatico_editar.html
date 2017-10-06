@@ -20,6 +20,7 @@
 
     <!-- Nova -->
     <link rel="stylesheet" href="{% static 'grid.css' %}"/>
+    <link rel="stylesheet" href="{% static 'viatico/viatico_editar.css' %}"/>
 
 {% endblock css %}
 
@@ -157,7 +158,7 @@
             </div>
 
             <!-- Datos Autorizacion -->
-            <div class="col-md-4 own-sidebar">
+            <div class="col-md-4 nova-sidebar">
                   <div class="panel panel-border panel-contrast user-info-list nova-panel-default">
                       <div class="panel-heading panel-heading-default nova-panel-heading-formulario">
                           Datos de Autorización
@@ -173,7 +174,11 @@
                                   <tr>
                                         <td class="icon nova-label"><span class="mdi mdi-flag"></span></td>
                                         <td class="item nova-label">Estado:<span class="icon s7-flag"></span></td>
-                                        <td><strong id="status">{{ form_cabecera.instance.get_status_display }}</strong></td>
+                                        <td>
+                                            <span class="badge nova-status-{{form_cabecera.instance.status}}">
+                                                {{ form_cabecera.instance.get_status_display }}
+                                            </span>
+                                        </td>
                                   </tr>
                                   <tr>
                                       <td class="icon nova-label"><span class="mdi mdi-assignment-check"></span></td>
@@ -203,7 +208,7 @@
             </div>
 
             <!-- Datos Auditoria -->
-            <div class="col-md-4 own-sidebar">
+            <div class="col-md-4 nova-sidebar">
                   <div class="panel panel-border panel-contrast user-info-list nova-panel-default">
                       <div class="panel-heading panel-heading-default nova-panel-heading-formulario">
                           Datos de Autitoria
@@ -238,7 +243,7 @@
             </div>
 
             <!-- Datos para Facturacion -->
-            <div class="col-md-4 own-sidebar">
+            <div class="col-md-4 nova-sidebar">
                   <div class="panel panel-border panel-contrast user-info-list nova-panel-default">
                       <div class="panel-heading panel-heading-default nova-panel-heading-formulario">
                           Datos para Facturacion

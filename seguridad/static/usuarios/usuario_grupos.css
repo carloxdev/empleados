@@ -1,0 +1,14 @@
+.ms-container {
+    width: 100%;
+}
+
+
+.own-select-header {
+    background-color: #F3F3F3;
+    border-top: 1px solid #C1C1C1;
+    border-left: 1px solid #C1C1C1;
+    border-right: 1px solid #C1C1C1;
+    border-radius: 3px;
+    font-weight: bold;
+
+}

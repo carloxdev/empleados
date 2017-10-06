@@ -36,7 +36,7 @@ function NovaSitio() {
 
     this.galletita = $.cookie('csrftoken')
     this.$menu = $("#menu")
-    this.$user = $('#request_user')
+    this.$user = $('#request_user').text()
 
     this.set_ActivePage()
     this.set_AlertifyConfig()
@@ -145,6 +145,22 @@ NovaSitio.prototype.get_FechaConFormato = function (element) {
 }
 NovaSitio.prototype.set_FechaConFormato = function (element, date) {
 
-   fecha = date.split("-")
-   $(element).datepicker("update", fecha[2] + "/" + fecha[1] +"/"+ fecha[0])
+   try {
+      fecha = date.split("-")
+      $(element).datepicker("update", fecha[2] + "/" + fecha[1] +"/"+ fecha[0])
+
+   } catch (e) {
+      $(element).datepicker("clearDates")
+   }
+}
+NovaSitio.prototype.get_FechaDisplay = function (date) {
+
+   try {
+
+      fecha = date.split("-")
+      return fecha[2] + "/" + fecha[1] +"/"+ fecha[0]
+   } catch (e) {
+
+      return date
+   }
 }

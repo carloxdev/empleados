@@ -23,10 +23,10 @@ from django.http import HttpResponse
 # Librerias/Clases de Terceros
 
 # Librerias/Clases propias
+from .methods import CalidadMethods
 
 # Modelos:
 from administracion.models import Contrato
-from administracion.models import Profile
 from jde.models import VIEW_CONTRATO
 from .models import Criterio
 from .models import Proceso
@@ -146,16 +146,16 @@ class GeneralFormularioCreate(View):
             auditoria.tipo_auditoria = datos_formulario.get('tipo_de_auditoria')
             auditoria.compania = compania
             if datos_formulario.get('fecha_programada_ini') is not u'':
-                auditoria.fecha_programada_inicial = datos_formulario.get('fecha_programada_ini')
+                auditoria.fecha_programada_inicial = CalidadMethods.get_FechaConFormato(datos_formulario.get('fecha_programada_ini'))
             if datos_formulario.get('fecha_programada_fin') is not u'':
-                auditoria.fecha_programada_final = datos_formulario.get('fecha_programada_fin')
+                auditoria.fecha_programada_final = CalidadMethods.get_FechaConFormato(datos_formulario.get('fecha_programada_fin'))
             auditoria.objetivo = datos_formulario.get('objetivo')
             auditoria.alcance = datos_formulario.get('alcance')
             auditoria.recurso_necesario = datos_formulario.get('recursos_necesarios')
             auditoria.estado = 'En Captura'
             auditoria.autorizador = autorizador[0].nombre_completo
             auditoria.aprobador = aprobador[0].nombre_completo
-            auditoria.create_by = Profile.objects.get(pk = request.user.id)
+            auditoria.create_by = CalidadMethods.get_Usuario(request.user.id)
             auditoria.save()
 
             for criterio in datos_formulario.get('criterios'):
@@ -219,8 +219,8 @@ class GeneralFormularioUpdate(View):
             'compania' : auditoria.compania,
             'contratos' : contratos,
             'criterios' : criterios,
-            'fecha_programada_ini': auditoria.fecha_programada_inicial,
-            'fecha_programada_fin': auditoria.fecha_programada_final,
+            'fecha_programada_ini': CalidadMethods.set_FechaConFormato(auditoria.fecha_programada_inicial),
+            'fecha_programada_fin': CalidadMethods.set_FechaConFormato(auditoria.fecha_programada_final),
             'objetivo': auditoria.objetivo,
             'alcance': auditoria.alcance,
             'recursos_necesarios': auditoria.recurso_necesario,
@@ -250,13 +250,13 @@ class GeneralFormularioUpdate(View):
             auditoria.tipo_auditoria = datos_formulario.get('tipo_de_auditoria')
             auditoria.compania = datos_formulario.get('compania')
             if datos_formulario.get('fecha_programada_ini') is not u'':
-                auditoria.fecha_programada_inicial = datos_formulario.get('fecha_programada_ini')
+                auditoria.fecha_programada_inicial = CalidadMethods.get_FechaConFormato(datos_formulario.get('fecha_programada_ini'))
             if datos_formulario.get('fecha_programada_fin') is not u'':
-                auditoria.fecha_programada_final = datos_formulario.get('fecha_programada_fin')
+                auditoria.fecha_programada_final = CalidadMethods.get_FechaConFormato(datos_formulario.get('fecha_programada_fin'))
             auditoria.objetivo = datos_formulario.get('objetivo')
             auditoria.alcance = datos_formulario.get('alcance')
             auditoria.recurso_necesario = datos_formulario.get('recursos_necesarios')
-            auditoria.update_by = Profile.objects.get(pk = request.user.id)
+            auditoria.update_by = CalidadMethods.get_Usuario(request.user.id)
             auditoria.save()
 
             aud_cri_list_db = []
@@ -311,8 +311,8 @@ class GeneralFormularioUpdate(View):
             'compania' : auditoria.compania,
             'contratos' : contratos,
             'criterios' : criterios,
-            'fecha_programada_ini': auditoria.fecha_programada_inicial,
-            'fecha_programada_fin': auditoria.fecha_programada_final,
+            'fecha_programada_ini': CalidadMethods.set_FechaConFormato(auditoria.fecha_programada_inicial),
+            'fecha_programada_fin': CalidadMethods.set_FechaConFormato(auditoria.fecha_programada_final),
             'objetivo': auditoria.objetivo,
             'alcance': auditoria.alcance,
             'recursos_necesarios': auditoria.recurso_necesario,
@@ -438,11 +438,12 @@ class ProcesoLista(View):
                 proceso.subproceso = subproceso.subproceso
                 proceso.rep_subpro_nombre_completo = responsable.nombre_completo
                 proceso.rep_subpro_numero_empleado = responsable.numero_empleado
-                proceso.fecha_programada_inicial = datos_formulario.get('fecha_programada_ini')
-                proceso.fecha_programada_final = datos_formulario.get('fecha_programada_fin')
+                proceso.fecha_programada_inicial = CalidadMethods.get_FechaConFormato(datos_formulario.get('fecha_programada_ini'))
+                proceso.fecha_programada_final = CalidadMethods.get_FechaConFormato(datos_formulario.get('fecha_programada_fin'))
                 proceso.auditor_nombre_completo = aud_des.nombre_completo
                 proceso.auditor_numero_empleado = aud_des.numero_empleado
                 proceso.sitio = datos_formulario.get('sitio')
+                proceso.create_by = CalidadMethods.get_Usuario(request.user.id)
                 proceso.save()
 
             except IntegrityError as e:
@@ -502,8 +503,8 @@ class ProcesoFormularioUpdate(View):
             'proceso' : proceso.pk,
             'subproceso' : subproceso.pk ,
             'rep_subproceso' : responsable.pk,
-            'fecha_programada_ini' : proceso_aud.fecha_programada_inicial,
-            'fecha_programada_fin' : proceso_aud.fecha_programada_final,
+            'fecha_programada_ini': CalidadMethods.set_FechaConFormato(proceso_aud.fecha_programada_inicial),
+            'fecha_programada_fin': CalidadMethods.set_FechaConFormato(proceso_aud.fecha_programada_final),
             'auditor' : auditor_des.pk,
             'sitio' : proceso_aud.sitio,
         }
@@ -524,24 +525,30 @@ class ProcesoFormularioUpdate(View):
         proceso = get_object_or_404(ProcesoAuditoria, pk = pk_pro)
         auditoria = get_object_or_404(Auditoria, pk = pk)
         auditores_designados = self.get_AuditoresDesignados( auditoria )
-        subprocesos = self.get_Subprocesos(proceso.pk)
-        rep_subprocesos = self.get_RepSubprocesos(proceso.pk)
+
+        id_proceso_select = Proceso.objects.get(proceso = proceso.proceso)
+
+        subprocesos = self.get_Subprocesos(id_proceso_select.pk)
+        rep_subprocesos = self.get_RepSubprocesos(id_proceso_select.pk)
 
         formulario = ProcesoAuditoriaEdicionForm( auditores_designados, subprocesos, rep_subprocesos, request.POST )
 
         if formulario.is_valid():
+
             datos_formulario = formulario.cleaned_data
             responsable = Responsable.objects.get( pk = datos_formulario.get('rep_subproceso') )
             aud_des = auditoria.auditores_designados.get( pk = datos_formulario.get('auditor') )
+            subproceso = Subproceso.objects.get( pk = datos_formulario.get('subproceso') )
 
-            proceso.subproceso = datos_formulario.get('subproceso')
+            proceso.subproceso = subproceso.subproceso
             proceso.rep_subpro_nombre_completo = responsable.nombre_completo
             proceso.rep_subpro_numero_empleado = responsable.numero_empleado
-            proceso.fecha_programada_inicial = datos_formulario.get('fecha_programada_ini')
-            proceso.fecha_programada_final = datos_formulario.get('fecha_programada_fin')
+            proceso.fecha_programada_inicial = CalidadMethods.get_FechaConFormato(datos_formulario.get('fecha_programada_ini'))
+            proceso.fecha_programada_final = CalidadMethods.get_FechaConFormato(datos_formulario.get('fecha_programada_fin'))
             proceso.auditor_nombre_completo = aud_des.nombre_completo
             proceso.auditor_numero_empleado = aud_des.numero_empleado
             proceso.sitio = datos_formulario.get('sitio')
+            proceso.update_by = CalidadMethods.get_Usuario(request.user.id)
             proceso.save()
 
             return redirect(reverse('calidad:proceso_formulario_update', kwargs={ 'pk': pk, 'pk_pro': proceso.pk }))
@@ -638,7 +645,7 @@ class RequisitoLista(View):
                 datos_formulario = formulario.cleaned_data
                 req_pro.proceso_auditoria = ProcesoAuditoria.objects.get(pk = pk_pro )
                 req_pro.requisito = Requisito.objects.get(pk = datos_formulario.get('requisito'))
-                req_pro.create_by = Profile.objects.get(pk = request.user.id)
+                req_pro.create_by = CalidadMethods.get_Usuario(request.user.id)
                 req_pro.save()
             except IntegrityError as e:
 
@@ -745,7 +752,7 @@ class HallazgoLista(View):
             hallazgo.tipo_hallazgo = datos_formulario.get('tipo_hallazgo')
             hallazgo.observacion = datos_formulario.get('observaciones')
             hallazgo.cerrado = "No"
-            hallazgo.create_by = Profile.objects.get(pk = request.user.id)
+            hallazgo.create_by = CalidadMethods.get_Usuario(request.user.id)
             hallazgo.save()
 
             for requisito_choice in datos_formulario.get('requisito_referencia'):
@@ -838,7 +845,7 @@ class HallazgoDetalle(View):
             hallazgo.titulo = datos_formulario.get('titulo')
             hallazgo.tipo_hallazgo = datos_formulario.get('tipo_hallazgo')
             hallazgo.observacion = datos_formulario.get('observaciones')
-            hallazgo.update_by = Profile.objects.get(pk = request.user.id)
+            hallazgo.update_by = CalidadMethods.get_Usuario(request.user.id)
             hallazgo.save()
 
             requisito_hallazgo_list_db = []
@@ -889,51 +896,6 @@ class HallazgoDetalle(View):
             'folio': auditoria.folio,
         }
         return render(request, self.template_name, contexto)
-
-
-# class EvidenciaFormulario(View):
-#     def __init__(self):
-#         self.template_name = 'evidencia/evidencia_formulario.html'
-
-#     def get(self, request):
-
-#         # formulario = EmpleadoFilterForm()
-
-#         # contexto = {
-#         #     'form': formulario
-#         # }
-
-#         return render(request, self.template_name, {})
-
-
-# class PlanAccionLista(View):
-#     def __init__(self):
-#         self.template_name = 'plan_accion/plan_accion_lista.html'
-
-#     def get(self, request):
-
-#         # formulario = EmpleadoFilterForm()
-
-#         # contexto = {
-#         #     'form': formulario
-#         # }
-
-#         return render(request, self.template_name, {})
-
-
-# class SeguimientoPlanAccionFormulario(View):
-#     def __init__(self):
-#         self.template_name = 'seguimiento_plan_accion/seguimiento_plan_accion_formulario.html'
-
-#     def get(self, request):
-
-#         # formulario = EmpleadoFilterForm()
-
-#         # contexto = {
-#         #     'form': formulario
-#         # }
-
-#         return render(request, self.template_name, {})
 
 
 # ----------------- CALIDAD - PROGRAMA ----------------- #
@@ -1044,123 +1006,6 @@ class ConfiguracionRolLista(View):
         }
 
         return render(request, self.template_name, contexto)
-
-    # def post(self, request):
-
-    #     formulario = RolForm(request.POST)
-
-    #     if formulario.is_valid():
-    #         datos_formulario = formulario.cleaned_data
-    #         rol = Rol()
-    #         texto = datos_formulario.get('empleado')
-    #         datos = texto.split(":")
-    #         numero_empleado = datos[0]
-    #         nombre_completo = datos[1]
-    #         rol.numero_empleado = numero_empleado
-    #         rol.nombre_completo = nombre_completo
-    #         rol.rol = datos_formulario.get('rol')
-    #         rol.save()
-
-    #         return redirect(reverse('calidad:configuracion_rol_lista'))
-
-    #     contexto = {
-    #         'form': formulario,
-    #         'operation': 'Nuevo',
-    #     }
-
-    #     return render(request, self.template_name, contexto)
-
-
-# class ConfiguracionRolNuevo(View):
-
-#     def __init__(self):
-#         self.template_name = 'rol/configuracion_lista.html'
-
-#     def get(self, request):
-
-#         formularioRol = RolForm()
-#         formularioRolFiltro = RolFilterForm()
-#         formularioCompaniaRol = CompaniaRolForm()
-#         roles = Rol.objects.all()
-#         contexto = {
-#             'formularioRol': formularioRol,
-#             'formularioRolFiltro': formularioRolFiltro,
-#             'formularioCompaniaRol': formularioCompaniaRol,
-#             'roles': roles,
-#         }
-#         return render(request, self.template_name, contexto)
-
-#     def post(self, request):
-#         formulario = RolForm(request.POST)
-
-#         if formulario.is_valid():
-#             datos_formulario = formulario.cleaned_data
-#             rol = Rol()
-#             texto = datos_formulario.get('empleado')
-#             datos = texto.split(":")
-#             numero_empleado = datos[0]
-#             nombre_completo = datos[1]
-#             rol.numero_empleado = numero_empleado
-#             rol.nombre_completo = nombre_completo
-#             rol.rol = datos_formulario.get('rol')
-#             rol.save()
-
-#             return redirect(reverse('calidad:configuracion_rol_lista'))
-
-#         contexto = {
-#             'form': formulario,
-#             'operation': 'Nuevo',
-#         }
-
-#         return render(request, self.template_name, contexto)
-
-
-# class ConfiguracionRolEditar(View):
-
-#     def __init__(self):
-#         self.template_name = 'rol/configuracion_lista.html'
-
-#     def get(self, request):
-
-#         formularioRol = RolForm()
-#         formularioRolFiltro = RolFilterForm()
-#         formularioCompaniaRol = CompaniaRolForm()
-#         roles = Rol.objects.all()
-#         contexto = {
-#             'formularioRol': formularioRol,
-#             'formularioRolFiltro': formularioRolFiltro,
-#             'formularioCompaniaRol': formularioCompaniaRol,
-#             'roles': roles,
-#         }
-
-#         return render(request, self.template_name, contexto)
-
-#     def post(self, request):
-
-#         rol = get_object_or_404(Rol, pk=pk)
-
-#         formulario = RolForm(request.POST)
-
-#         if formulario.is_valid():
-#             datos_formulario = formulario.cleaned_data
-#             rol = Rol()
-#             texto = datos_formulario.get('empleado')
-#             datos = texto.split(":")
-#             numero_empleado = datos[0]
-#             nombre_completo = datos[1]
-#             rol.numero_empleado = numero_empleado
-#             rol.nombre_completo = nombre_completo
-#             rol.rol = datos_formulario.get('rol')
-#             rol.save()
-
-#             return redirect(reverse('calidad:configuracion_rol_lista'))
-
-#         contexto = {
-#             'form': formulario,
-#             'operation': 'Nuevo',
-#         }
-
-#         return render(request, self.template_name, contexto)
 
 
 class ConfiguracionSitioLista(View):

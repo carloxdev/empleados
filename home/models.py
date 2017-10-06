@@ -23,14 +23,17 @@ class Archivo(models.Model):
         ('per', 'Personal'),
         ('cap', 'Capacitacion'),
         ('sol', 'Solicitud'),
-        ('cal', 'Calidad'),
+        ('cal_anali', 'Calidad'),
+        ('cal_segui', 'Calidad'),
+        ('cal_evid', 'Calidad'),
+        ('cal_eval', 'Calidad'),
         ('res', 'Respuesta'),
     )
 
     tipo_archivo = models.CharField(
         choices=TIPO,
         default="per",
-        max_length=3)
+        max_length=12)
     archivo = models.FileField(
         upload_to=get_FilePath_Archivo
     )

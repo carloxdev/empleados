@@ -2,7 +2,7 @@
             GLOBAL VARIABLES
 \*-----------------------------------------------*/
 
-// URLS:api-
+// URLS:
 var url_api_rol = window.location.origin + "/api-calidad/rol/"
 var url_compania = window.location.origin + "/api-calidad/compania/"
 var url_rol = window.location.origin + "/configuracion/roles/"

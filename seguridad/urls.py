@@ -22,6 +22,7 @@ from .views import UsuarioEditar
 from .views import UsuarioEditarContrasena
 from .views import UsuarioPerfil
 from .views import UsuarioPerfilContrasena
+from .views import UsuarioGrupos
 
 from .views import AutorizacionLista
 from .views import AutorizacionAprobar
@@ -50,6 +51,7 @@ urlpatterns = [
     url(r'^usuarios/(?P<_pk>\d+)/editar/$', UsuarioEditar.as_view(), name="usuario_editar"),
     url(r'^usuarios/(?P<_pk>\d+)/editar/contrasena/$', UsuarioEditarContrasena.as_view(),
         name="usuario_editar_contrasena"),
+    url(r'^usuarios/(?P<_pk>\d+)/grupos/$', UsuarioGrupos.as_view(), name="usuario_grupos"),
     url(r'^usuarios/(?P<_pk>\d+)/perfil/$', UsuarioPerfil.as_view(), name="usuario_perfil"),
     url(r'^usuarios/(?P<_pk>\d+)/perfil/contrasena/$', UsuarioPerfilContrasena.as_view(),
         name="usuario_perfil_contrasena"),
