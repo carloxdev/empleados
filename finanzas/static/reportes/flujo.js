@@ -111,7 +111,7 @@ function Grid() {
    // this.init()
 }
 Grid.prototype.init = function (_resultado) {
-
+   $("#grid_resultados").empty()
    kendo.culture("es-MX")
    this.kfuente_datos = new kendo.data.DataSource(this.get_DataSourceConfig(_resultado))
    this.kgrid = this.$id.kendoGrid(this.get_Configuracion())
@@ -188,10 +188,28 @@ Grid.prototype.get_DataSourceConfig = function (_resultado) {
                 fields: this.get_Campos()
             }
         },
+        aggregate: this.get_Aggregate(),
         error: function (e) {
             alertify.error("Status: " + e.status + "; Error message: " + e.errorThrown)
         },
     }  
+}
+Grid.prototype.get_Aggregate = function () {
+    return [
+          { field: "enero", aggregate: "sum" },
+          { field: "febrero", aggregate: "sum" },
+          { field: "marzo", aggregate: "sum" },
+          { field: "abril", aggregate: "sum" },
+          { field: "mayo", aggregate: "sum" },
+          { field: "junio", aggregate: "sum" },
+          { field: "julio", aggregate: "sum" },
+          { field: "agosto", aggregate: "sum" },
+          { field: "septiembre", aggregate: "sum" },
+          { field: "octubre", aggregate: "sum" },
+          { field: "noviembre", aggregate: "sum" },
+          { field: "diciembre", aggregate: "sum" },
+          { field: "total", aggregate: "sum" },
+    ]
 }
 Grid.prototype.get_Campos = function () {
 
@@ -217,12 +235,12 @@ Grid.prototype.get_Configuracion = function () {
    return {
       // autoBind: false,
       dataSource: this.kfuente_datos,
-      columnMenu: true,
+      columnMenu: false,
       groupable: false,
       sortable: false,
       resizable: true,
       selectable: true,
-      scrollable: false,
+      scrollable: true,
       columns: this.get_Columnas(),
       scrollable: true,
       editable: false,
@@ -230,27 +248,116 @@ Grid.prototype.get_Configuracion = function () {
       noRecords: {
          template: "<div class='nova-grid-empy'> No se encontrarón registros </div>"
       },
+      dataBound: this.aplicar_Estilos,
    }
 }
 Grid.prototype.get_Columnas = function () {
 
     return [
-        {   field: "cuenta_clase_desc", title: "Descripción", width: "150px", template:"<strong>#=cuenta_clase_desc#</strong>" },
-        {   field: "enero", title: "Enero", format: "{0:c}", width:"120px", },
-        {   field: "febrero", title: "Febrero", format: "{0:c}", width:"120px" },
-        {   field: "marzo", title: "Marzo", format: "{0:c}", width:"120px" },
-        {   field: "abril", title: "Abril", format: "{0:c}", width:"120px" },
-        {   field: "mayo", title: "Mayo", format: "{0:c}", width:"120px" },
-        {   field: "junio", title: "Junio", format: "{0:c}", width:"120px" },
-        {   field: "julio", title: "Julio", format: "{0:c}", width:"120px" },
-        {   field: "agosto", title: "Agosto", format: "{0:c}", width:"120px" },
-        {   field: "septiembre", title: "Septiembre", format: "{0:c}", width:"120px" },
-        {   field: "octubre", title: "Octubre", format: "{0:c}", width:"120px" },
-        {   field: "noviembre", title: "Noviembre", format: "{0:c}", width:"120px" },
-        {   field: "diciembre", title: "Diciembre", format: "{0:c}", width:"120px" },
-        {   field: "total", title: "Total", width:"150px", format: "{0:c}"},//,template:"<strong>$#=total#</strong>" },
-        {   title: "CXP", width:"100px" },
+        {   field: "cuenta_clase_desc",
+            title: "Descripción",
+            locked: true,
+            width: "150px",
+            template:"<strong>#=cuenta_clase_desc#</strong>",
+            footerTemplate: "TOTAL",
+        },
+        {   field: "enero",
+            title: "Enero",
+            format: "{0:c}",
+            width:"120px",
+            aggregates: ["sum"],
+            footerTemplate: "$#: kendo.toString(sum, '\\#\\#,\\#.\\#\\#') #",
+        },
+        {   field: "febrero",
+            title: "Febrero",
+            format: "{0:c}",
+            aggregates: ["sum"],
+            footerTemplate: "$#: kendo.toString(sum, '\\#\\#,\\#.\\#\\#') #",
+            width:"120px" 
+        },
+        {   field: "marzo",
+            title: "Marzo",
+            format: "{0:c}",
+            aggregates: ["sum"],
+            footerTemplate: "$#: kendo.toString(sum, '\\#\\#,\\#.\\#\\#') #",
+            width:"120px" 
+        },
+        {   field: "abril", 
+            title: "Abril",
+            format: "{0:c}",
+            aggregates: ["sum"],
+            footerTemplate: "$#: kendo.toString(sum, '\\#\\#,\\#.\\#\\#') #",
+            width:"120px" 
+        },
+        {   field: "mayo",
+            title: "Mayo",
+            format: "{0:c}",
+            aggregates: ["sum"],
+            footerTemplate: "$#: kendo.toString(sum, '\\#\\#,\\#.\\#\\#') #",
+            width:"120px"
+        },
+        {   field: "junio",
+            title: "Junio",
+            format: "{0:c}",
+            aggregates: ["sum"],
+            footerTemplate: "$#: kendo.toString(sum, '\\#\\#,\\#.\\#\\#') #",
+            width:"120px" 
+        },
+        {   field: "julio",
+            title: "Julio",
+            format: "{0:c}",
+            aggregates: ["sum"],
+            footerTemplate: "$#: kendo.toString(sum, '\\#\\#,\\#.\\#\\#') #",
+            width:"120px"
+        },
+        {   field: "agosto",
+            title: "Agosto",
+            format: "{0:c}",
+            aggregates: ["sum"],
+            footerTemplate: "$#: kendo.toString(sum, '\\#\\#,\\#.\\#\\#') #",
+            width:"120px"
+        },
+        {   field: "septiembre",
+            title: "Septiembre",
+            format: "{0:c}",
+            aggregates: ["sum"],
+            footerTemplate: "$#: kendo.toString(sum, '\\#\\#,\\#.\\#\\#') #",
+            width:"120px"
+        },
+        {   field: "octubre",
+            title: "Octubre",
+            format: "{0:c}",
+            aggregates: ["sum"],
+            footerTemplate: "$#: kendo.toString(sum, '\\#\\#,\\#.\\#\\#') #",
+            width:"120px"
+        },
+        {   field: "noviembre",
+            title: "Noviembre",
+            format: "{0:c}",
+            aggregates: ["sum"],
+            footerTemplate: "$#: kendo.toString(sum, '\\#\\#,\\#.\\#\\#') #",
+            width:"120px"
+        },
+        {   field: "diciembre",
+            title: "Diciembre",
+            format: "{0:c}",
+            aggregates: ["sum"],
+            footerTemplate: "$#: kendo.toString(sum, '\\#\\#,\\#.\\#\\#') #",
+            width:"120px"
+        },
+        {   field: "total",
+            title: "Total",
+            width:"150px",
+            format: "{0:c}",
+            aggregates: ["sum"],
+            footerTemplate: "$#: kendo.toString(sum, '\\#\\#,\\#.\\#\\#') #",
+        },
+        {   title: "CXP",width:"150px" },
     ]
+}
+Grid.prototype.aplicar_Estilos = function (e) {
+
+    $('.k-grid-content-locked').addClass("nova-grid-fix-static")
 }
 
 /* -------------------- OBJETO: Grafica -------------------- */

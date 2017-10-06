@@ -34,3 +34,6 @@
 .k-grid-norecords {
 	border-top: 1px solid #d4d4d4;
 }
+.nova-grid-fix-static{
+	height: auto !important;
+}
