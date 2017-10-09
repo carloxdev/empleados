@@ -178,12 +178,10 @@ Grid.prototype.agrupar_Informacion = function (){
 Grid.prototype.get_DataSourceConfig = function (_resultado) {
 
     return {
-
         serverPaging: true,
         pageSize: 10,
         data: _resultado,
         schema: {
-            // total: "count",
             model: {
                 fields: this.get_Campos()
             }
@@ -369,7 +367,7 @@ Grafica.prototype.get_IndicadorConfig = function (_response) {
 
    return {
 
-      colors: ['#d73027', '#f46d43', '#fdae61', '#fee090', '#41b6c4', '#abd9e9', '#74add1', '#0B0B61', '#ffffcc','#a1dab4','#2c7fb8','#253494'],
+      colors: ['#d73027', '#f46d43', '#fdae61', '#fee090', '#41b6c4', '#abd9e9', '#74add1', '#0B0B61', '#F7DC6F','#a1dab4','#2c7fb8','#253494'],
       chart: {
         type: 'column'
       },

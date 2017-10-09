@@ -138,12 +138,16 @@ class EmpleadoLista(View):
                             datosPost]
 
                     if datosPost == 'contratacion_desde':
-                        fecha = request.POST.get('contratacion_desde').split('/')
-                        argumentos['pers_fecha_contratacion__gte'] = fecha[2]+'-'+fecha[1]+'-'+fecha[0]
+                        fecha = request.POST.get(
+                            'contratacion_desde').split('/')
+                        argumentos['pers_fecha_contratacion__gte'] = fecha[
+                            2] + '-' + fecha[1] + '-' + fecha[0]
 
                     if datosPost == 'contratacion_hasta':
-                        fecha = request.POST.get('contratacion_hasta').split('/')
-                        argumentos['pers_fecha_contratacion__lte'] = fecha[2]+'-'+fecha[1]+'-'+fecha[0]
+                        fecha = request.POST.get(
+                            'contratacion_hasta').split('/')
+                        argumentos['pers_fecha_contratacion__lte'] = fecha[
+                            2] + '-' + fecha[1] + '-' + fecha[0]
 
                     if datosPost == 'grup_compania_jde':
                         argumentos['grup_compania_jde__contains'] = request.POST[
@@ -264,10 +268,12 @@ class OrganigramaEmpAPI(View):
 
         daddies = VIEW_ORGANIGRAMA.objects.using(
             'ebs_p').filter(grup_compania_jde=pk)
+        daddies_full = VIEW_EMPLEADOS_FULL.objects.using(
+            'ebs_p').filter(grup_compania_jde=pk)
 
         len(daddies)
         serializador = VIEW_ORGANIGRAMA_EMP_SERIALIZADO()
-        lista_json = serializador.get_Json(daddies)
+        lista_json = serializador.get_Json(daddies, daddies_full)
 
         return HttpResponse(
             lista_json,
@@ -307,7 +313,8 @@ class Solicitudes(View):
         clave = request.user.profile.clave_rh
 
         if clave is not None:
-            oficina = VIEW_EMPLEADOS_FULL.objects.using('ebs_p').get(pers_empleado_numero= request.user.profile.clave_rh)
+            oficina = VIEW_EMPLEADOS_FULL.objects.using('ebs_p').get(
+                pers_empleado_numero=request.user.profile.clave_rh)
 
             contexto = {
                 'form': form,
@@ -389,10 +396,10 @@ class EmpleadoExpediente(View):
 
         ruta = self.comprobar_Direccion(empleado)
         for dato in empleado:
-                fecha_contratacion = self.construir_Fecha(
-                    dato.pers_fecha_contratacion)
-                fecha_nacimiento = self.construir_Fecha(
-                    dato.pers_fecha_nacimiento)
+            fecha_contratacion = self.construir_Fecha(
+                dato.pers_fecha_contratacion)
+            fecha_nacimiento = self.construir_Fecha(
+                dato.pers_fecha_nacimiento)
         contexto = {
             'empleado': empleado,
             'ruta': ruta,
@@ -425,7 +432,8 @@ class EmpleadoExpediente(View):
 
     def construir_Fecha(self, _campo):
         fecha_split = _campo.split('-')
-        fecha = fecha_split[2].split(" 00:00:00")[0] + "/" + fecha_split[1] + "/" + fecha_split[0]
+        fecha = fecha_split[2].split(" 00:00:00")[
+            0] + "/" + fecha_split[1] + "/" + fecha_split[0]
         return fecha
 
 
@@ -474,9 +482,9 @@ class PerfilPuestoNuevo(View):
         if formulario.is_valid():
             perfilpuesto = formulario.save(commit=False)
 
-            perfilpuesto.asig_puesto_clave = datos_formulario.get('desc_puesto')
+            perfilpuesto.asig_puesto_clave = datos_formulario.get(
+                'desc_puesto')
             perfilpuesto.created_by = request.user.profile
-
 
             perfilpuesto.save()
 
@@ -487,8 +495,6 @@ class PerfilPuestoNuevo(View):
         }
 
         return render(request, self.template_name, contexto)
-
-
 
 
 @method_decorator(group_required('CH_ADMIN'), name='dispatch')

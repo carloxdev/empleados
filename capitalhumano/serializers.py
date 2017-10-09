@@ -481,7 +481,7 @@ class VIEW_ORGANIGRAMA_ORG_SERIALIZADO(object):
 
 class VIEW_ORGANIGRAMA_EMP_SERIALIZADO(object):
 
-    def get_Descendencia(self, _daddies, _hijos, _nodo_jefe_nombre_completo):
+    def get_Descendencia(self, _daddies, _daddies_full, _hijos, _nodo_jefe_nombre_completo):
 
         lista_descendencia = []
 
@@ -495,16 +495,17 @@ class VIEW_ORGANIGRAMA_EMP_SERIALIZADO(object):
                     hijos.append(persona)
 
             if len(hijos):
-                self.get_Estructura(nodo, hijo)
-                nodo["children"] = self.get_Descendencia(_daddies, hijos, nodo)
+                self.get_Estructura(nodo, hijo, _daddies_full)
+                nodo["children"] = self.get_Descendencia(
+                    _daddies, _daddies_full, hijos, nodo)
             else:
-                self.get_Estructura(nodo, hijo)
+                self.get_Estructura(nodo, hijo, _daddies_full)
 
             lista_descendencia.append(nodo)
 
         return lista_descendencia
 
-    def get_Json(self, _daddies):
+    def get_Json(self, _daddies, _daddies_full):
 
         sys.setrecursionlimit(1500)
 
@@ -517,16 +518,17 @@ class VIEW_ORGANIGRAMA_EMP_SERIALIZADO(object):
                 hijos.append(persona)
 
         if len(hijos):
-            self.get_Estructura(nodo, padre)
-            nodo["children"] = self.get_Descendencia(_daddies, hijos, nodo)
+            self.get_Estructura(nodo, padre, _daddies_full)
+            nodo["children"] = self.get_Descendencia(
+                _daddies, _daddies_full, hijos, nodo)
         else:
-            self.get_Estructura(nodo, padre)
+            self.get_Estructura(nodo, padre, _daddies_full)
 
         lista_json = json.dumps(nodo)
 
         return lista_json
 
-    def get_Estructura(self, _nodo, _datos):
+    def get_Estructura(self, _nodo, _datos, _daddies_full):
         _nodo["nombre"] = "%s" % (_datos.pers_nombre_completo)
         _nodo["num_empleado"] = "%s" % (_datos.pers_empleado_numero)
         _nodo["compania"] = "%s" % (_datos.grup_compania_jde)
@@ -535,10 +537,10 @@ class VIEW_ORGANIGRAMA_EMP_SERIALIZADO(object):
         _nodo["centro_costos"] = "%s" % (_datos.grup_fase_jde)
         _nodo["ubicacion"] = "%s" % (_datos.asig_ubicacion_desc)
         self.get_ColorNivel(_nodo, _datos)
-        self.buscar_Foto(_nodo, _datos)
+        self.buscar_Foto(_nodo, _datos, _daddies_full)
 
-    def buscar_Foto(self, _nodo, _datos):
-        persona = VIEW_EMPLEADOS_FULL.objects.using('ebs_p').get(
+    def buscar_Foto(self, _nodo, _datos, _daddies_full):
+        persona = _daddies_full.get(
             pers_empleado_numero=_datos.pers_empleado_numero)
         ruta = os.path.join('capitalhumano', 'fotos', "%s.jpg" %
                             (persona.nombre_foto),)
