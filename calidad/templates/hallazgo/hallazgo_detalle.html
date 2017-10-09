@@ -171,16 +171,20 @@
                         <div class="nova-slider-title pull-left">Análisis de causas
                         </div>
 
-                        <a class="btn nova-btn btn-rounded btn-sm btn-default nova-btn-space pull-right" id="id_boton_analisis">
-                           <i class="icon icon-left mdi mdi-plus-circle nova-black"></i>Nuevo
-                        </a>
+                        {% if cerrado == 'No' %}
+                           <a class="btn nova-btn btn-rounded btn-sm btn-default nova-btn-space pull-right" id="id_boton_analisis">
+                              <i class="icon icon-left mdi mdi-plus-circle nova-black"></i>Nuevo
+                           </a>
+                        {% endif %}
                      </div>
 
                      <div class="nova-div-overflow">
                         <table id="id_grid_analisis_causa" class="table table-bordered table-hover">
                            <thead>
                               <tr>
-                                 <th class="nova-columna-acciones"></th>
+                                 {% if cerrado == 'No' %}
+                                    <th class="nova-columna-acciones"></th>
+                                 {% endif %}
                                  <th>Título</th>
                                  <th>Metodología</th>
                                  <th>Causas probables</th>
@@ -200,10 +204,11 @@
 
                         <div class="nova-slider-title pull-left">Plan de Acción
                         </div>
-
-                        <a class="btn nova-btn btn-rounded btn-sm btn-default nova-btn-space pull-right" id="id_boton_plan">
-                           <i class="icon icon-left mdi mdi-plus-circle nova-black"></i>Nuevo
-                        </a>
+                        {% if cerrado == 'No' %}
+                           <a class="btn nova-btn btn-rounded btn-sm btn-default nova-btn-space pull-right" id="id_boton_plan">
+                              <i class="icon icon-left mdi mdi-plus-circle nova-black"></i>Nuevo
+                           </a>
+                        {% endif %}
                      </div>
 
                      <div class="nova-div-overflow">
@@ -234,17 +239,20 @@
 
                         <div class="nova-slider-title pull-left">Evidencias
                         </div>
-
-                        <a class="btn nova-btn btn-rounded btn-sm btn-default nova-btn-space pull-right" data-toggle="modal" id="id_boton_evidencia">
-                           <i class="icon icon-left mdi mdi-plus-circle nova-black"></i>Nuevo
-                        </a>
+                        {% if cerrado == 'No' %}
+                           <a class="btn nova-btn btn-rounded btn-sm btn-default nova-btn-space pull-right" data-toggle="modal" id="id_boton_evidencia">
+                              <i class="icon icon-left mdi mdi-plus-circle nova-black"></i>Nuevo
+                           </a>
+                        {% endif %}
                      </div>
 
                      <div class="nova-div-overflow">
                         <table id="id_grid_evidencia" class="table table-bordered table-hover">
                            <thead>
                               <tr>
-                                 <th class="nova-columna-acciones"></th>
+                                 {% if cerrado == 'No' %}
+                                    <th class="nova-columna-acciones"></th>
+                                 {% endif %}
                                  <th>Título</th>
                                  <th>Observación</th>
                               </tr>
@@ -329,9 +337,11 @@
                   <a class="btn nova-btn btn-space btn-default btn-lg" id="id_boton_evaluacion_eficacia">
                      <i class="icon icon-left mdi mdi-assignment-check nova-black"></i> Evaluación <!-- De Eficacia A Acciones-->
                   </a>
-                  <a class="btn nova-btn btn-space nova-btn-delete btn-lg" id="id_boton_eliminar_actividad">
-                     <i class="icon icon-left icon mdi mdi-delete nova-white"></i>
-                  </a>
+                  {% if cerrado == 'No' %}
+                     <a class="btn nova-btn btn-space nova-btn-delete btn-lg" id="id_boton_eliminar_actividad">
+                        <i class="icon icon-left icon mdi mdi-delete nova-white"></i>
+                     </a>
+                  {% endif %}
                </div>
             </div>
           </div>
@@ -375,10 +385,12 @@
                      Cerrar
                   </button>
 
-                  <button type="button" id="id_boton_guardar_actividad" class="btn nova-btn btn-primary btn-lg pull-right">
-                     <i class="icon icon-left mdi mdi-floppy nova-white"></i>
-                     Guardar
-                  </button>
+                  {% if cerrado == 'No' %}
+                     <button type="button" id="id_boton_guardar_actividad" class="btn nova-btn btn-primary btn-lg pull-right">
+                        <i class="icon icon-left mdi mdi-floppy nova-white"></i>
+                        Guardar
+                     </button>
+                  {% endif %}
                </div>
             </div>
          </div> <!-- Modal content-->
@@ -394,35 +406,37 @@
                <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
                <h3 class="modal-title">Seguimiento al Plan de Acción</h3>
             </div>
-            <div class="nova-overflow-hidden xs-p-20 xs-pb-0">
-               <button type="button" id="id_boton_nuevo_seguimiento" class="btn nova-btn btn-rounded btn-default pull-right">
-                  <i class="icon icon-left mdi mdi-plus-circle nova-black"></i>
-                  Nuevo
-               </button>
-            </div>
-            <form id="id_formulario_seguimiento_plan" class="modal-body form-horizontal xs-pt-0">
-
-               <div class="nova-modal-content nova-overflow-hidden">
-
-                  <span id="id_mensaje_error_serguimiento"></span>
-
-                  <!-- resultado_seguimiento -->
-                  {% tag_field_popup formulario_seguimiento_plan.resultado_seguimiento 3 8 %}
-
-                  <!-- fecha_seguimiento -->
-                  {% tag_field_popup_datepicker formulario_seguimiento_plan.fecha_seguimiento 3 8 %}
-
-                  <!-- archivo -->
-                  <div class="form-group">
-                     {% tag_field_popup formulario_seguimiento_plan.archivo 3 8 %}
-                  </div>
-                  <button type="button" id="id_boton_guardar_seguimiento" class="btn nova-btn btn-primary btn-lg pull-right">
-                     <i class="icon icon-left mdi mdi-floppy nova-white"></i>
-                     Guardar
+            {% if cerrado == 'No' %}
+               <div class="nova-overflow-hidden xs-p-20 xs-pb-0">
+                  <button type="button" id="id_boton_nuevo_seguimiento" class="btn nova-btn btn-rounded btn-default pull-right">
+                     <i class="icon icon-left mdi mdi-plus-circle nova-black"></i>
+                     Nuevo
                   </button>
                </div>
+               <form id="id_formulario_seguimiento_plan" class="modal-body form-horizontal xs-pt-0">
 
-            </form><!-- Modal body-->
+                  <div class="nova-modal-content nova-overflow-hidden">
+
+                     <span id="id_mensaje_error_serguimiento"></span>
+
+                     <!-- resultado_seguimiento -->
+                     {% tag_field_popup formulario_seguimiento_plan.resultado_seguimiento 3 8 %}
+
+                     <!-- fecha_seguimiento -->
+                     {% tag_field_popup_datepicker formulario_seguimiento_plan.fecha_seguimiento 3 8 %}
+
+                     <!-- archivo -->
+                     <div class="form-group">
+                        {% tag_field_popup formulario_seguimiento_plan.archivo 3 8 %}
+                     </div>
+                     <button type="button" id="id_boton_guardar_seguimiento" class="btn nova-btn btn-primary btn-lg pull-right">
+                        <i class="icon icon-left mdi mdi-floppy nova-white"></i>
+                        Guardar
+                     </button>
+                  </div>
+
+               </form><!-- Modal body-->
+            {% endif %}
             <div id="id_contenedor_seguimientos">
 
             </div>
@@ -477,10 +491,12 @@
                      Cerrar
                   </button>
 
-                  <button type="button" id="id_boton_guardar_evaluacion" class="btn nova-btn btn-primary btn-lg pull-right">
-                     <i class="icon icon-left mdi mdi-floppy nova-white"></i>
-                     Guardar
-                  </button>
+                  {% if cerrado == 'No' %}
+                     <button type="button" id="id_boton_guardar_evaluacion" class="btn nova-btn btn-primary btn-lg pull-right">
+                        <i class="icon icon-left mdi mdi-floppy nova-white"></i>
+                        Guardar
+                     </button>
+                  {% endif %}
                </div>
             </div>
          </div> <!-- Modal content-->
@@ -518,10 +534,12 @@
                      Cerrar
                   </button>
 
-                  <button type="button" id="id_boton_guardar_evidencia" class="btn nova-btn btn-primary btn-lg pull-right">
-                     <i class="icon icon-left mdi mdi-floppy nova-white"></i>
-                     Guardar
-                  </button>
+                  {% if cerrado == 'No' %}
+                     <button type="button" id="id_boton_guardar_evidencia" class="btn nova-btn btn-primary btn-lg pull-right">
+                        <i class="icon icon-left mdi mdi-floppy nova-white"></i>
+                        Guardar
+                     </button>
+                  {% endif %}
                </div>
             </div>
          </div> <!-- Modal content-->

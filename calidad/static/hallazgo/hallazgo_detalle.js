@@ -234,24 +234,44 @@ GridAnalisis.prototype.refresh_Data = function (_response) {
    var datos = ''
    if (_response.length) {
 
-      for (var i = 0; i < _response.length; i++) {
+      if (tarjeta_detalle_hallazgo.$cerrado == "Si") {
 
-          datos += '<tr class="clickable-row">' +
-                      '<td>' +
-                         '<button class="btn nova-btn btn-default nova-btn-delete" data-id="' + _response[i].pk + '" data-event="eliminarAnalisis">' +
-                            '<i class="icon icon-left icon mdi mdi-delete nova-white"></i>' +
-                         '</button>' +
-                      '</td>' +
-                      '<td>' +
-                         '<button class="btn btn-default nova-url" data-event="editarAnalisis" data-id="' + _response[i].pk + '">' + _response[i].titulo + '</button>' +
-                      '</td>' +
-                      '<td>' +
-                         _response[i].metodologia_nombre +
-                      '</td>' +
-                      '<td>' +
-                         _response[i].causa +
-                      '</td>' +
-                   '</tr>'
+         for (var i = 0; i < _response.length; i++) {
+
+             datos += '<tr class="clickable-row">' +
+                         '<td>' +
+                            '<button class="btn btn-default nova-url" data-event="editarAnalisis" data-id="' + _response[i].pk + '">' + _response[i].titulo + '</button>' +
+                         '</td>' +
+                         '<td>' +
+                            _response[i].metodologia_nombre +
+                         '</td>' +
+                         '<td>' +
+                            _response[i].causa +
+                         '</td>' +
+                      '</tr>'
+         }
+      }
+      else {
+
+         for (var i = 0; i < _response.length; i++) {
+
+             datos += '<tr class="clickable-row">' +
+                         '<td>' +
+                            '<button class="btn nova-btn btn-default nova-btn-delete" data-id="' + _response[i].pk + '" data-event="eliminarAnalisis">' +
+                               '<i class="icon icon-left icon mdi mdi-delete nova-white"></i>' +
+                            '</button>' +
+                         '</td>' +
+                         '<td>' +
+                            '<button class="btn btn-default nova-url" data-event="editarAnalisis" data-id="' + _response[i].pk + '">' + _response[i].titulo + '</button>' +
+                         '</td>' +
+                         '<td>' +
+                            _response[i].metodologia_nombre +
+                         '</td>' +
+                         '<td>' +
+                            _response[i].causa +
+                         '</td>' +
+                      '</tr>'
+         }
       }
    }
    else {
@@ -311,7 +331,7 @@ function PopupAnalisis() {
 PopupAnalisis.prototype.init_Components = function () {
 
    this.$id_metodologia.select2(appnova.get_ConfigSelect2())
-   this.$id_archivo.fileinput(this.get_ConfigFileInput(false, [], []))
+   this.$id_archivo.fileinput(this.get_ConfigFileInput(true, false, [], []))
 }
 PopupAnalisis.prototype.init_Events = function () {
 
@@ -320,7 +340,7 @@ PopupAnalisis.prototype.init_Events = function () {
    this.$id_archivo.on('filezoomhidden', this, this.hidden_FileZoom)
    this.$id.on("hidden.bs.modal", this, this.hidden_Modal)
 }
-PopupAnalisis.prototype.get_ConfigFileInput = function (_show_upload_button, _initial_preview, _initial_preview_config ) {
+PopupAnalisis.prototype.get_ConfigFileInput = function (_show_delete, _show_upload_button, _initial_preview, _initial_preview_config ) {
 
    return {
 
@@ -335,6 +355,7 @@ PopupAnalisis.prototype.get_ConfigFileInput = function (_show_upload_button, _in
           showClose: false,
           maxFileSize: 2048,
           showUpload: _show_upload_button,
+          initialPreviewShowDelete: _show_delete,
           showCaption: false,
           showBrowse: false,
           browseOnZoneClick: true,
@@ -413,7 +434,7 @@ PopupAnalisis.prototype.clear_Formulario = function (e) {
    e.data.$id_metodologia.val("").trigger("change")
    e.data.$id_causas.val("")
    e.data.$id_archivo.fileinput('destroy')
-   e.data.$id_archivo.fileinput(this.get_ConfigFileInput(false, [], [] ))
+   e.data.$id_archivo.fileinput(this.get_ConfigFileInput(true, false, [], [] ))
 }
 PopupAnalisis.prototype.mostrar = function (_pk, _accion) {
 
@@ -583,8 +604,15 @@ PopupAnalisis.prototype.cargar_Archivos = function (_response) {
          )
       }
    }
+
    this.$id_archivo.fileinput('destroy')
-   this.$id_archivo.fileinput(this.get_ConfigFileInput(true, initial_preview, initial_preview_config))
+   if (tarjeta_detalle_hallazgo.$cerrado == "Si") {
+      this.$id_archivo.fileinput(this.get_ConfigFileInput(false, false, initial_preview, initial_preview_config))
+   }
+   else {
+      this.$id_archivo.fileinput(this.get_ConfigFileInput(true, true, initial_preview, initial_preview_config))
+   }
+
 }
 
 /*-----------------------------------------------*\
@@ -1041,7 +1069,7 @@ PopupSeguimientoPlan.prototype.init_Events = function () {
    this.$id_contenedor.on("click", '[data-event=\'editar\']', this.click_EditarSeguimiento)
    this.$id_contenedor.on("click", '[data-event=\'eliminar\']', this.click_EliminarSeguimiento)
 }
-PopupSeguimientoPlan.prototype.get_ConfigFileInput = function (_initial_preview, _initial_preview_config ) {
+PopupSeguimientoPlan.prototype.get_ConfigFileInput = function (_show_delete, _initial_preview, _initial_preview_config ) {
 
    return {
 
@@ -1056,6 +1084,7 @@ PopupSeguimientoPlan.prototype.get_ConfigFileInput = function (_initial_preview,
           showUpload: false,
           showClose: false,
           maxFileSize: 2048,
+          initialPreviewShowDelete: _show_delete,
           showCaption: false,
           showBrowse: false,
           browseOnZoneClick: true,
@@ -1135,33 +1164,69 @@ PopupSeguimientoPlan.prototype.refresh_Data = function (_response) {
 
    if (_response.length) {
 
-      for (var i = 0; i < _response.length; i++) {
+      if(tarjeta_detalle_hallazgo.$cerrado == "Si") {
 
-         var archivos = ''
+         for (var i = 0; i < _response.length; i++) {
 
-         for (var j = 0; j < _response[i].relacion_archivo.length; j++) {
-            var archivo = _response[i].relacion_archivo[j]['archivo'].split('/')
-            archivos += '<a href="' + _response[i].relacion_archivo[j]['archivo'] + '" target="_blank">' + archivo[archivo.length-1] + '</a>' + '<br/>'
+            var header = '<div class="panel panel-border-color panel-border-color-primary nova-modal-margin-contents">'
+            if ( !i ) {
+               header = '<div class="panel nova-modal-margin-contents">'
+            }
+            var archivos = ''
+
+            for (var j = 0; j < _response[i].relacion_archivo.length; j++) {
+               var archivo = _response[i].relacion_archivo[j]['archivo'].split('/')
+               archivos += '<a href="' + _response[i].relacion_archivo[j]['archivo'] + '" target="_blank">' + archivo[archivo.length-1] + '</a>' + '<br/>'
+            }
+            datos +=  header +
+                        '<div class="panel-heading panel-heading-default nova-border-bottom nova-overflow-hidden">' +
+                           '<div class="pull-left nova-modal-title-seguimientos">' +
+                              'Evaluador: <strong>' + _response[i].evaluador + '</strong>. <br/>Fecha Seguimiento: <strong>' + appnova.get_FechaDisplay(_response[i].fecha_seguimiento) + '</strong>' +
+                           '</div>' +
+                        '</div>' +
+                        '<div class="panel-body">' +
+                           '<div class="row">' +
+                              '<div class="col-sm-12 nova-modal-informacion">' +
+                                 '<textarea class="form-control" readonly="">' + _response[i].resultado_seguimiento+ '</textarea>' +
+                              '</div>' +
+                              '<div class="col-sm-12 nova-modal-informacion">' +
+                                 archivos +
+                              '</div>' +
+                           '</div>' +
+                        '</div>' +
+                     '</div>'
          }
-          datos += '<div class="panel panel-border-color panel-border-color-primary nova-modal-margin-contents">' +
-                      '<div class="panel-heading panel-heading-default nova-border-bottom nova-overflow-hidden">' +
-                         '<div class="pull-left nova-modal-title-seguimientos">' +
-                            'Evaluador: <strong>' + _response[i].evaluador + '</strong>. <br/>Fecha Seguimiento: <strong>' + appnova.get_FechaDisplay(_response[i].fecha_seguimiento) + '</strong>' +
-                         '</div>' +
-                         '<button type="button" class="btn btn-space btn-social nova-btn-delete pull-right" data-id="' + _response[i].pk + '" data-event="eliminar"><i class="icon mdi mdi-delete nova-white"></i></button>' +
-                         '<button type="button" class="btn btn-space btn-social nova-btn-edit pull-right" data-id="' + _response[i].pk + '" data-event="editar"><i class="icon mdi mdi-edit nova-white"></i></button>' +
-                      '</div>' +
-                      '<div class="panel-body">' +
-                         '<div class="row">' +
-                            '<div class="col-sm-12 nova-modal-informacion">' +
-                               '<textarea class="form-control" readonly="">' + _response[i].resultado_seguimiento+ '</textarea>' +
-                            '</div>' +
-                            '<div class="col-sm-12 nova-modal-informacion">' +
-                              archivos +
-                            '</div>' +
-                         '</div>' +
-                      '</div>' +
-                   '</div>'
+      }
+      else {
+
+         for (var i = 0; i < _response.length; i++) {
+
+            var archivos = ''
+
+            for (var j = 0; j < _response[i].relacion_archivo.length; j++) {
+               var archivo = _response[i].relacion_archivo[j]['archivo'].split('/')
+               archivos += '<a href="' + _response[i].relacion_archivo[j]['archivo'] + '" target="_blank">' + archivo[archivo.length-1] + '</a>' + '<br/>'
+            }
+            datos += '<div class="panel panel-border-color panel-border-color-primary nova-modal-margin-contents">' +
+                        '<div class="panel-heading panel-heading-default nova-border-bottom nova-overflow-hidden">' +
+                           '<div class="pull-left nova-modal-title-seguimientos">' +
+                              'Evaluador: <strong>' + _response[i].evaluador + '</strong>. <br/>Fecha Seguimiento: <strong>' + appnova.get_FechaDisplay(_response[i].fecha_seguimiento) + '</strong>' +
+                           '</div>' +
+                           '<button type="button" class="btn btn-space btn-social nova-btn-delete pull-right" data-id="' + _response[i].pk + '" data-event="eliminar"><i class="icon mdi mdi-delete nova-white"></i></button>' +
+                           '<button type="button" class="btn btn-space btn-social nova-btn-edit pull-right" data-id="' + _response[i].pk + '" data-event="editar"><i class="icon mdi mdi-edit nova-white"></i></button>' +
+                        '</div>' +
+                        '<div class="panel-body">' +
+                           '<div class="row">' +
+                              '<div class="col-sm-12 nova-modal-informacion">' +
+                                 '<textarea class="form-control" readonly="">' + _response[i].resultado_seguimiento+ '</textarea>' +
+                              '</div>' +
+                              '<div class="col-sm-12 nova-modal-informacion">' +
+                                 archivos +
+                              '</div>' +
+                           '</div>' +
+                        '</div>' +
+                     '</div>'
+         }
       }
    }
    else {
@@ -1232,7 +1297,7 @@ PopupSeguimientoPlan.prototype.clear_Formulario = function (e) {
    e.data.$id_resultado_seguimiento.val("")
    e.data.$id_fecha_seguimiento.datepicker("clearDates")
    e.data.$id_archivo.fileinput('destroy')
-   e.data.$id_archivo.fileinput(this.get_ConfigFileInput([], [] ))
+   e.data.$id_archivo.fileinput(this.get_ConfigFileInput(true, [], [] ))
 }
 PopupSeguimientoPlan.prototype.validar = function () {
 
@@ -1377,7 +1442,7 @@ PopupSeguimientoPlan.prototype.cargar_Archivos = function (_response) {
       }
    }
    this.$id_archivo.fileinput('destroy')
-   this.$id_archivo.fileinput(this.get_ConfigFileInput(initial_preview, initial_preview_config))
+   this.$id_archivo.fileinput(this.get_ConfigFileInput(true, initial_preview, initial_preview_config))
 }
 PopupSeguimientoPlan.prototype.hidden_Modal = function (e) {
 
@@ -1439,7 +1504,7 @@ function PopupEvaluacionPlan () {
 PopupEvaluacionPlan.prototype.init_Components = function () {
 
    this.$id_fecha_evaluacion.datepicker(appnova.get_ConfDatePicker())
-   this.$id_archivo.fileinput(this.get_ConfigFileInput(false, [], []))
+   this.$id_archivo.fileinput(this.get_ConfigFileInput(true, false, [], []))
 }
 PopupEvaluacionPlan.prototype.init_Events = function () {
 
@@ -1449,7 +1514,7 @@ PopupEvaluacionPlan.prototype.init_Events = function () {
    this.$id.on("hidden.bs.modal", this, this.hidden_Modal)
    this.$id.on("shown.bs.modal", this, this.shown_Modal)
 }
-PopupEvaluacionPlan.prototype.get_ConfigFileInput = function (_show_upload_button, _initial_preview, _initial_preview_config ) {
+PopupEvaluacionPlan.prototype.get_ConfigFileInput = function (_show_delete, _show_upload_button, _initial_preview, _initial_preview_config ) {
 
    return {
 
@@ -1464,6 +1529,7 @@ PopupEvaluacionPlan.prototype.get_ConfigFileInput = function (_show_upload_butto
           showClose: false,
           maxFileSize: 2048,
           showUpload: _show_upload_button,
+          initialPreviewShowDelete: _show_delete,
           showCaption: false,
           showBrowse: false,
           browseOnZoneClick: true,
@@ -1498,7 +1564,7 @@ PopupEvaluacionPlan.prototype.uploadcomplete_Filebatch = function (e, files) {
 
    if(e.data.$ocultar) {
 
-      // e.data.$id.modal('hide')
+      e.data.$id.modal('hide')
       tarjeta_plan_accion.grid.load_Data()
       e.data.$ocultar = false
    }
@@ -1548,7 +1614,7 @@ PopupEvaluacionPlan.prototype.clear_Formulario = function (e) {
    e.data.$id_criterio_decision.val("")
    e.data.$id_observacion_evaluacion.val("")
    e.data.$id_archivo.fileinput('destroy')
-   e.data.$id_archivo.fileinput(this.get_ConfigFileInput(false, [], [] ))
+   e.data.$id_archivo.fileinput(this.get_ConfigFileInput(true, false, [], [] ))
 }
 PopupEvaluacionPlan.prototype.mostrar = function (_pk) {
 
@@ -1716,7 +1782,12 @@ PopupEvaluacionPlan.prototype.cargar_Archivos = function (_response) {
       }
    }
    this.$id_archivo.fileinput('destroy')
-   this.$id_archivo.fileinput(this.get_ConfigFileInput(true, initial_preview, initial_preview_config))
+   if (tarjeta_detalle_hallazgo.$cerrado == "Si") {
+      this.$id_archivo.fileinput(this.get_ConfigFileInput(false, false, initial_preview, initial_preview_config))
+   }
+   else {
+      this.$id_archivo.fileinput(this.get_ConfigFileInput(true, true, initial_preview, initial_preview_config))
+   }
 }
 PopupEvaluacionPlan.prototype.set_ValResultado = function (_resultado) {
 
@@ -1887,19 +1958,32 @@ GridEvidencia.prototype.refresh_Data = function (_response) {
    var datos = ''
    if (_response.length) {
 
-      for (var i = 0; i < _response.length; i++) {
+      if (tarjeta_detalle_hallazgo.$cerrado == "Si") {
+         for (var i = 0; i < _response.length; i++) {
 
-          datos += '<tr class="clickable-row">'+
-                      '<td>' +
-                         '<button class="btn nova-btn nova-btn-delete" data-id="' + _response[i].pk + '" data-event="eliminarEvidencia">' +
-                            '<i class="icon icon-left icon mdi mdi-delete nova-white"></i>' +
-                         '</button>' +
-                      '</td>' +
-                      '<td>' +
-                         '<a href="#id_tarjeta_evidencia" class="btn btn-default nova-url" data-event="editarEvidencia" data-id="'+ _response[i].pk +'">' + _response[i].titulo + '</a>' +
-                      '</td>' +
-                      '<td>' +  _response[i].observacion + '</td>' +
-                   '</tr>'
+             datos += '<tr class="clickable-row">'+
+                         '<td>' +
+                            '<a href="#id_tarjeta_evidencia" class="btn btn-default nova-url" data-event="editarEvidencia" data-id="'+ _response[i].pk +'">' + _response[i].titulo + '</a>' +
+                         '</td>' +
+                         '<td>' +  _response[i].observacion + '</td>' +
+                      '</tr>'
+         }
+      }
+      else {
+         for (var i = 0; i < _response.length; i++) {
+
+             datos += '<tr class="clickable-row">'+
+                         '<td>' +
+                            '<button class="btn nova-btn nova-btn-delete" data-id="' + _response[i].pk + '" data-event="eliminarEvidencia">' +
+                               '<i class="icon icon-left icon mdi mdi-delete nova-white"></i>' +
+                            '</button>' +
+                         '</td>' +
+                         '<td>' +
+                            '<a href="#id_tarjeta_evidencia" class="btn btn-default nova-url" data-event="editarEvidencia" data-id="'+ _response[i].pk +'">' + _response[i].titulo + '</a>' +
+                         '</td>' +
+                         '<td>' +  _response[i].observacion + '</td>' +
+                      '</tr>'
+         }
       }
    }
    else {
@@ -1959,7 +2043,7 @@ function PopupEvidencia () {
 }
 PopupEvidencia.prototype.init_Components = function () {
 
-   this.$id_archivo.fileinput(this.get_ConfigFileInput(false, [], []))
+   this.$id_archivo.fileinput(this.get_ConfigFileInput(true, false, [], []))
 }
 PopupEvidencia.prototype.init_Events = function () {
 
@@ -1968,7 +2052,7 @@ PopupEvidencia.prototype.init_Events = function () {
    this.$id_archivo.on('filezoomhidden', this, this.hidden_FileZoom)
    this.$id.on("hidden.bs.modal", this, this.hidden_Modal)
 }
-PopupEvidencia.prototype.get_ConfigFileInput = function (_show_upload_button, _initial_preview, _initial_preview_config ) {
+PopupEvidencia.prototype.get_ConfigFileInput = function (_show_delete, _show_upload_button, _initial_preview, _initial_preview_config ) {
 
    return {
 
@@ -1983,6 +2067,7 @@ PopupEvidencia.prototype.get_ConfigFileInput = function (_show_upload_button, _i
           showClose: false,
           maxFileSize: 2048,
           showUpload: _show_upload_button,
+          initialPreviewShowDelete: _show_delete,
           showCaption: false,
           showBrowse: false,
           browseOnZoneClick: true,
@@ -2056,7 +2141,7 @@ PopupEvidencia.prototype.clear_Formulario = function (e) {
    e.data.$id_titulo.val("")
    e.data.$id_observacion.val("")
    e.data.$id_archivo.fileinput('destroy')
-   e.data.$id_archivo.fileinput(this.get_ConfigFileInput(false, [], [] ))
+   e.data.$id_archivo.fileinput(this.get_ConfigFileInput(true, false, [], [] ))
 }
 PopupEvidencia.prototype.mostrar = function (_pk, _accion) {
 
@@ -2219,5 +2304,10 @@ PopupEvidencia.prototype.cargar_Archivos = function (_response) {
       }
    }
    this.$id_archivo.fileinput('destroy')
-   this.$id_archivo.fileinput(this.get_ConfigFileInput(true, initial_preview, initial_preview_config))
+   if (tarjeta_detalle_hallazgo.$cerrado == "Si") {
+      this.$id_archivo.fileinput(this.get_ConfigFileInput(false, false, initial_preview, initial_preview_config))
+   }
+   else {
+      this.$id_archivo.fileinput(this.get_ConfigFileInput(true, true, initial_preview, initial_preview_config))
+   }
 }
