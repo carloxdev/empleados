@@ -93,8 +93,8 @@ PopupFiltros.prototype.ocultar_Popup = function (){
 /* -------------------- OBJETO: Tarjeta Resultados -------------------- */
 
 function TarjetaResultados(){
+
     this.grid = new Grid()
-    // this.tarjeta_grafica = new Grafica()
 }
 
 
@@ -233,7 +233,6 @@ Grid.prototype.get_Campos = function () {
 Grid.prototype.get_Configuracion = function () {
 
    return {
-      // autoBind: false,
       dataSource: this.kfuente_datos,
       columnMenu: false,
       groupable: false,

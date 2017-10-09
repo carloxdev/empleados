@@ -261,6 +261,7 @@ class OrganigramaOrgAPI(View):
 class OrganigramaEmpAPI(View):
 
     def get(self, request, pk):
+
         daddies = VIEW_ORGANIGRAMA.objects.using(
             'ebs_p').filter(grup_compania_jde=pk)
 

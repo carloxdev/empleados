@@ -41,49 +41,54 @@ TarjetaFiltros.prototype.init_Components = function () {
    this.$empresas.select2(appnova.get_ConfigSelect2())
 }
 TarjetaFiltros.prototype.init_Events = function () {
-   this.$organizaciones.on("change", this, organigrama.empleados_Organizacion)
-   this.$empresas.on("change", this, organigrama.empleados_Empresa)
+   this.$organizaciones.on("change", this, organigrama.obtener_Organizacion)
+   this.$empresas.on("change", this, organigrama.obtener_Empresa)
 }
 
 
 /*-----------------------------------------------*\
                OBJETO: ORGANIGRAMA
 \*-----------------------------------------------*/
-
-
 function Organigrama(){
 }
-Organigrama.prototype.empleados_Organizacion = function(e){
-  organizacion = e.data.$organizaciones.val()
+Organigrama.prototype.obtener_Organizacion = function(e){
+
+  var organizacion = e.data.$organizaciones.val()
+  var url = url_datos_org + organizacion + "/"
+  organigrama.obtener_Informacion(organizacion, '', url)
+}
+Organigrama.prototype.obtener_Empresa = function(e){
+  var empresa = e.data.$empresas.val()
+  var url = url_datos_emp + empresa + "/"
+  organigrama.obtener_Informacion('', empresa, url)
+}
+Organigrama.prototype.obtener_Informacion = function(_organizacion, _empresa, _url){
+
   tarjeta_filtros.$contenedor.removeClass("nova-contenido-borde")
 
-  if(organizacion != ''){
+  if((_organizacion != '') || (_empresa != '') ){
     tarjeta_filtros.$contenedor.empty()
-
-    var url = url_datos_org + organizacion + "/"
 
     $.ajax({
           url: url_organigrama,
           data: {
-            asig_organizacion_clave:organizacion
+            asig_organizacion_clave:_organizacion,
+            grup_compania_jde:_empresa
           },
           dataType: "json",
           type: "GET",
           contentType: "application/json; charset=utf-8",
           context: this,
           success: function (response) {
-            // console.log(JSON.stringify(response))
-            cont = 0
-            for (var i = 0; i < response.length; i++) {
-              cont+=1
-            }
+
+            cont = response.length
 
             if (cont == 0){
               organigrama.mostrar_Mensaje(cont)
             }
             else{
               organigrama.mostrar_Mensaje(cont)
-              organigrama.crear_Diagrama(url)
+              organigrama.crear_Diagrama(_url)
             }
           },
           error: function (response) {
@@ -91,48 +96,6 @@ Organigrama.prototype.empleados_Organizacion = function(e){
                alertify.error("Ocurrio error al consultar ")
         }
     })
-  }
-  else{
-    tarjeta_filtros.$contenedor.empty()
-    organigrama.mostrar_Mensaje(1)
-  }
-}
-Organigrama.prototype.empleados_Empresa = function(e){
-  empresa = e.data.$empresas.val()
-  tarjeta_filtros.$contenedor.removeClass("nova-contenido-borde")
-
-  if(empresa != ''){
-
-    tarjeta_filtros.$contenedor.empty()
-    var url = url_datos_emp + empresa + "/"
-
-     $.ajax({
-              url: url_organigrama,
-              data: {
-                grup_compania_jde:empresa
-              },
-              dataType: "json",
-              type: "GET",
-              contentType: "application/json; charset=utf-8",
-              context: this,
-              success: function (response) {
-
-                if (response.length == 0){
-                  organigrama.mostrar_Mensaje(0)
-
-                }
-                else{
-                  organigrama.mostrar_Mensaje(1)
-                  organigrama.crear_Diagrama(url)
-
-                }
-              },
-              error: function (response) {
-
-                alertify.error("Ocurrio error al consultar ")
-            }
-
-      })
   }
   else{
     tarjeta_filtros.$contenedor.empty()
