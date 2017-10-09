@@ -28,6 +28,7 @@ $(document).ready(function () {
 
 function TarjetaResultados() {
 
+   this.$id_actual_user = $('#id_actual_user').val()
    this.toolbar = new ToolBar()
    this.grid = new Grid()
 }
@@ -91,45 +92,31 @@ Grid.prototype.click_BotonAcciones = function (e) {
 Grid.prototype.click_BotonCerrar = function (e) {
 
    pk = this.getAttribute("data-primaryKey")
-   tarjeta_resultados.grid.get_Data(pk)
-}
-Grid.prototype.get_Data = function (_pk) {
+   alertify.confirm(
 
-   $.ajax({
-
-      url: url_hallazgo + _pk +"/",
-      method: "GET",
-      context: this,
-      success: function (_response) {
-
-         this.cerrar_hallazgo(_pk, _response)
+      'Cerrar Hallazgo',
+      '¿Desea Cerrar este hallazgo?',
+      function (e) {
+         tarjeta_resultados.grid.cerrar_hallazgo(pk)
       },
-      error: function (_response) {
-
-         alertify.error("Ocurrio error al cargar datos")
-      }
-   })
+      null
+   )
 }
-Grid.prototype.cerrar_hallazgo = function (_pk, _response) {
+Grid.prototype.cerrar_hallazgo = function (_pk) {
 
    $.ajax({
+
       url: url_hallazgo + _pk + "/",
-      method: "PUT",
+      method: "PATCH",
       headers: { "X-CSRFToken": appnova.galletita },
       data: {
 
-         "titulo": _response.titulo,
-         "proceso": _response.proceso,
-         "estado": _response.estado,
-         "tipo_hallazgo": _response.tipo_hallazgo,
-         "observacion": _response.observacion,
          "cerrado": "Si",
-         "update_by": url_profile + appnova.$user + "/",
+         "update_by": url_profile + tarjeta_resultados.$id_actual_user + "/",
       },
       success: function (_response) {
 
-         //Recargar
-         alertify.success("Hallazgo cerrado con éxito.")
+         window.location.href = window.location.href
       },
       error: function (_response) {
 
@@ -142,7 +129,7 @@ Grid.prototype.cerrar_hallazgo = function (_pk, _response) {
          OBJETO: PopupHallazgo
 \*-----------------------------------------------*/
 
-function PopupHallazgo(){
+function PopupHallazgo() {
 
    this.$id = $('#id_tarjeta_hallazgo')
    this.$id_titulo = $('#id_titulo')

@@ -286,9 +286,9 @@ PopupRol.prototype.crear = function (e) {
          e.data.$id.modal('hide')
          window.location.href = url_rol
       },
-      error: function (_response) {
+      error: function (jqXHR) {
 
-         alertify.error("Ocurrio error al insertar rol")
+         alertify.warning(jqXHR.responseJSON.rol[0])
       }
    })
 }
@@ -315,9 +315,9 @@ PopupRol.prototype.editar = function (e, _pk) {
          e.data.$id.modal('hide')
          window.location.href = url_rol
       },
-      error: function (_response) {
+      error: function (jqXHR) {
 
-         alertify.error("Ocurrio error al modificar rol")
+         alertify.warning(jqXHR.responseJSON.rol[0])
       }
    })
 }
@@ -499,7 +499,7 @@ PopupCompania.prototype.guardar_Seleccion = function (_pk) {
          this.$id_tbody.empty()
          popup_compania.cargarSeleccionados()
       },
-      error: function( jqXHR) {
+      error: function(jqXHR) {
          alertify.warning(jqXHR.responseJSON.non_field_errors[0])
       }
    })

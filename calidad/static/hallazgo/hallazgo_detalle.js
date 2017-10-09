@@ -118,6 +118,7 @@ function TarjetaDetalleHallazgo(){
    this.$id_observaciones = $('#id_observaciones')
    this.$id_actual_user = $('#id_actual_user')
    this.$id_pk_hal = $('#id_pk_hal')
+   this.$cerrado = $('#cerrado').val()
    this.init_Components()
 }
 TarjetaDetalleHallazgo.prototype.init_Components = function () {
@@ -362,7 +363,10 @@ PopupAnalisis.prototype.get_ConfigFileInput = function (_show_upload_button, _in
 PopupAnalisis.prototype.click_BotonGuardar = function (e) {
 
    e.data.$ocultar = true
-   e.data.guardar_Analisis(e)
+   if (tarjeta_detalle_hallazgo.$cerrado == "No") {
+      e.data.guardar_Analisis(e)
+   }
+
 }
 PopupAnalisis.prototype.uploadcomplete_Filebatch = function (e, files) {
 

@@ -11,7 +11,6 @@
 {% block css %}
 
    <!-- Beagle Theme -->
-   <link rel="stylesheet" href="{% static 'theme/lib/daterangepicker/css/daterangepicker.css' %}"/>
    <link rel="stylesheet" href="{% static 'theme/lib/bootstrap-multiselect/css/bootstrap-multiselect.css' %}"/>
    <link rel="stylesheet" href="{% static 'theme/lib/multiselect/css/multi-select.css' %}"/>
 
@@ -142,7 +141,7 @@
                      </tbody>
                   </table>
                </div>
-
+               <input type="hide" class="hide" value="{{ request.user.id }}" id="id_actual_user">
             </div> <!-- Panel -->
 
          </div> <!-- col sm 12-->
@@ -277,7 +276,6 @@
 {% block scripts %}
 
    <!-- Beagle Theme -->
-   <script src="{% static 'theme/lib/daterangepicker/js/daterangepicker.js' %}"></script>
    <script src="{% static 'theme/lib/bootstrap-multiselect/js/bootstrap-multiselect.js' %}"></script>
    <script src="{% static 'theme/lib/multiselect/js/jquery.multi-select.js' %}"></script>
    <script src="{% static 'theme/lib/quicksearch/jquery.quicksearch.min.js' %}"></script>

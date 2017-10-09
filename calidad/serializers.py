@@ -215,7 +215,7 @@ class ResponsableSerializer(serializers.HyperlinkedModelSerializer):
             UniqueTogetherValidator(
                 queryset=Responsable.objects.all(),
                 fields=('numero_empleado', 'proceso'),
-                message="Este empleado ya está incluido"
+                message="Este empleado ya está incluido."
             )
         ]
 
@@ -229,6 +229,7 @@ class ResponsableSerializer(serializers.HyperlinkedModelSerializer):
 
 class RolSerializer(serializers.HyperlinkedModelSerializer):
 
+    rol = serializers.CharField(validators=[UniqueValidator(queryset=Rol.objects.filter(rol="Autorizador"), message="Ya existe un autorizador.")])
     class Meta:
         model = Rol
         fields = (
@@ -267,7 +268,7 @@ class CompaniaAccionSerializer(serializers.HyperlinkedModelSerializer):
             UniqueTogetherValidator(
                 queryset=CompaniaAccion.objects.all(),
                 fields=('compania_codigo', 'personal_rol'),
-                message="Esta compañia ya está incluida"
+                message="Esta compañia ya está incluida."
             )
         ]
 
@@ -284,6 +285,32 @@ class CompaniaAccionSerializer(serializers.HyperlinkedModelSerializer):
             return obj.personal_rol.rol
         except:
             return ""
+
+    def validate(self, data):
+
+        rol = data['personal_rol'].rol
+
+        if rol == "Auditor Lider":
+
+            hay_aud_lider = CompaniaAccion.objects.filter(
+                compania_codigo=data['compania_codigo'],
+                personal_rol__rol="Auditor Lider"
+            )
+
+            if len(hay_aud_lider):
+                raise serializers.ValidationError('Esta compañia ya tiene auditor lider.')
+
+        elif rol == "Aprobador":
+
+            hay_aprobador = CompaniaAccion.objects.filter(
+                compania_codigo=data['compania_codigo'],
+                personal_rol__rol="Aprobador"
+            )
+
+            if len(hay_aprobador):
+                raise serializers.ValidationError('Esta compañia ya tiene un aprobador.')
+
+        return data
 
 
 class SitioSerializer(serializers.HyperlinkedModelSerializer):

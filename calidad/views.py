@@ -882,6 +882,7 @@ class HallazgoDetalle(View):
             'proceso': proceso.proceso,
             'subproceso': proceso.subproceso,
             'titulo': hallazgo.titulo,
+            'cerrado': hallazgo.cerrado,
             'form': formulario_hallazgo,
             'formulario_analisis_causa': formulario_analisis_causa,
             'formulario_plan_accion_hallazgo': formulario_plan_accion_hallazgo,
@@ -900,48 +901,55 @@ class HallazgoDetalle(View):
 
         formulario_hallazgo = HallazgoProcesoDetalleForm(request.POST)
         formulario_analisis_causa = AnalisisHallazgoForm()
+        formulario_plan_accion_hallazgo = PlanAccionHallazgoForm()
+        formulario_seguimiento_plan = SeguimientoPlanAccionForm()
+        formulario_seguimiento_plan_evaluacion = SeguimeintoPlanAccionEvaluacionForm()
+        formulario_evidencia_hallazgo = EvidenciaHallazgoForm()
 
-        if formulario_hallazgo.is_valid():
-            datos_formulario = formulario_hallazgo.cleaned_data
+        if hallazgo.cerrado == "No":
+            if formulario_hallazgo.is_valid():
+                datos_formulario = formulario_hallazgo.cleaned_data
 
-            hallazgo.titulo = datos_formulario.get('titulo')
-            hallazgo.tipo_hallazgo = datos_formulario.get('tipo_hallazgo')
-            hallazgo.observacion = datos_formulario.get('observaciones')
-            hallazgo.update_by = CalidadMethods.get_Usuario(request.user.id)
-            hallazgo.save()
+                hallazgo.titulo = datos_formulario.get('titulo')
+                hallazgo.tipo_hallazgo = datos_formulario.get('tipo_hallazgo')
+                hallazgo.observacion = datos_formulario.get('observaciones')
+                hallazgo.update_by = CalidadMethods.get_Usuario(request.user.id)
+                hallazgo.save()
 
-            requisito_hallazgo_list_db = []
-            descripcion_hallazgo_list_db = []
+                requisito_hallazgo_list_db = []
+                descripcion_hallazgo_list_db = []
 
-            for requistio in hallazgo.requisito_referencia.all():
-                requisito_hallazgo_list_db.append(requistio.id)
+                for requistio in hallazgo.requisito_referencia.all():
+                    requisito_hallazgo_list_db.append(requistio.id)
 
-            for requisito_choice in datos_formulario.get('requisito_referencia'):
-                requisito = Requisito.objects.get(pk=requisito_choice)
+                for requisito_choice in datos_formulario.get('requisito_referencia'):
+                    requisito = Requisito.objects.get(pk=requisito_choice)
 
-                if requisito.pk in requisito_hallazgo_list_db:
-                    requisito_hallazgo_list_db.remove(requisito.pk)
-                else:
-                    hallazgo.requisito_referencia.add(requisito)
+                    if requisito.pk in requisito_hallazgo_list_db:
+                        requisito_hallazgo_list_db.remove(requisito.pk)
+                    else:
+                        hallazgo.requisito_referencia.add(requisito)
 
-            for list_requisito_db in requisito_hallazgo_list_db:
-                hallazgo.requisito_referencia.remove(Requisito.objects.get(pk=list_requisito_db))
+                for list_requisito_db in requisito_hallazgo_list_db:
+                    hallazgo.requisito_referencia.remove(Requisito.objects.get(pk=list_requisito_db))
 
 
-            for descripcion in hallazgo.falla.all():
-                descripcion_hallazgo_list_db.append(descripcion.id)
+                for descripcion in hallazgo.falla.all():
+                    descripcion_hallazgo_list_db.append(descripcion.id)
 
-            for descripcion_choice in datos_formulario.get('descripciones'):
-                descripcion = Falla.objects.get(pk=descripcion_choice)
+                for descripcion_choice in datos_formulario.get('descripciones'):
+                    descripcion = Falla.objects.get(pk=descripcion_choice)
 
-                if descripcion.pk in descripcion_hallazgo_list_db:
-                    descripcion_hallazgo_list_db.remove(descripcion.pk)
-                else:
-                    hallazgo.requisito_referencia.add(requisito)
+                    if descripcion.pk in descripcion_hallazgo_list_db:
+                        descripcion_hallazgo_list_db.remove(descripcion.pk)
+                    else:
+                        hallazgo.falla.add(descripcion)
 
-            for list_descripcion_db in descripcion_hallazgo_list_db:
-                hallazgo.falla.remove(Falla.objects.get(pk=list_descripcion_db))
+                for list_descripcion_db in descripcion_hallazgo_list_db:
+                    hallazgo.falla.remove(Falla.objects.get(pk=list_descripcion_db))
 
+                return redirect(reverse('calidad:hallazgo_detalle', kwargs={ 'pk': pk, 'pk_pro': pk_pro, 'pk_hal': pk_hal }))
+        else:
             return redirect(reverse('calidad:hallazgo_detalle', kwargs={ 'pk': pk, 'pk_pro': pk_pro, 'pk_hal': pk_hal }))
 
         contexto = {
@@ -955,6 +963,8 @@ class HallazgoDetalle(View):
             'pk_pro': pk_pro,
             'proceso': proceso.proceso,
             'subproceso': proceso.subproceso,
+            'titulo': hallazgo.titulo,
+            'cerrado': hallazgo.cerrado,
             'folio': auditoria.folio,
         }
         return render(request, self.template_name, contexto)

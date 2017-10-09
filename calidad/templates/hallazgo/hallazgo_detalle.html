@@ -145,18 +145,19 @@
                              <!-- observaciones -->
                              {% tag_field form.observaciones 3 8 %}
 
-                             <input type="hide" class="hide" value="{{ request.user.profile.pk }}" id="id_actual_user">
+                             <input type="hide" class="hide" value="{{ request.user.id }}" id="id_actual_user">
                              <input type="hide" class="hide" value="{{ pk_hal }}" id="id_pk_hal">
+                             <input type="hide" class="hide" value="{{ cerrado }}" id="cerrado">
 
                            </div> <!-- nova-slider-panel-content -->
+                           {% if cerrado == 'No' %}
                            <div class="nova-slider-panel-footer">
-
-                              <button type="submit" id="id_boton_guardar_hallazgo" class="btn nova-btn btn-primary btn-lg pull-right">
-                                 <i class="icon icon-left mdi mdi-floppy nova-white"></i>
-                                 Guardar
-                              </button>
-
+                                 <button type="submit" id="id_boton_guardar_hallazgo" class="btn nova-btn btn-primary btn-lg pull-right">
+                                    <i class="icon icon-left mdi mdi-floppy nova-white"></i>
+                                    Guardar
+                                 </button>
                            </div>
+                           {% endif %}
 
                         </div> <!--panel-->
                      </form><!-- Modal body-->
@@ -299,11 +300,12 @@
                   <button type="button" data-dismiss="modal" class="btn btn-default pull-left">
                      Cerrar
                   </button>
-
-                  <button type="button" id="id_boton_guardar_analisis" class="btn nova-btn btn-primary btn-lg pull-right">
-                     <i class="icon icon-left mdi mdi-floppy nova-white"></i>
-                     Guardar
-                  </button>
+                  {% if cerrado == 'No' %}
+                     <button type="button" id="id_boton_guardar_analisis" class="btn nova-btn btn-primary btn-lg pull-right">
+                        <i class="icon icon-left mdi mdi-floppy nova-white"></i>
+                        Guardar
+                     </button>
+                  {% endif %}
                </div>
             </div>
          </div> <!-- Modal content-->
