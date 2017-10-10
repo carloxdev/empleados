@@ -81,36 +81,27 @@
                               </div>
 
                               <!-- puesto de empleado-->
-                              <div class="form-group">
-                                 <label class="col-sm-3 control-label">Puesto</label>
-                                 <div class="col-sm-6 xs-pt-5">
-                                    <div class="{% if form.desc_puesto.field.required %} has-warning {% endif %} {% if form.desc_puesto.errors %} has-error {% endif %}">
-                                       <p>
-                                          {{ form.desc_puesto}}
-                                       </p>
-                                       {% for error in form.desc_puesto.errors %}
-                                       <span class="help-block">{{ error }}</span>
-                                       {% endfor %}
-                                    </div>
-                                 </div>
-                              </div>
+ 
+                              {% tag_filter form.desc_puesto %}
 
-                              <!-- puesto de empleado-->
-                              <div class="form-group">
+                              <!-- reporta-->
+                              {% tag_filter form.reporta %}
+                              <!--<div class="form-group">
                                  <label class="col-sm-3 control-label">Reporta a:</label>
                                  <div class="col-sm-6 xs-pt-5">
                                     <div class="{% if form.reporta.field.required %} has-warning {% endif %} {% if form.reporta.errors %} has-error {% endif %}">
-                                       <p>
-                                          {{ form.reporta}}
-                                       </p>
-                                       {% for error in form.reporta.errors %}
-                                       <span class="help-block">{{ error }}</span>
-                                       {% endfor %}
-                                    </div>
+                                       <p>-->
+                                          {# {{ form.reporta}} #}
+                                       <!--</p>-->
+                                       {# {% for error in form.reporta.errors %} #}
+                                       <!--<span class="help-block">{{ error }}</span>-->
+                                       {# {% endfor %} #}
+                                  <!--  </div>
                                  </div>
-                              </div>
+                              </div> -->
 
                               <!-- objetivo -->
+
                               <div class="form-group">
                                  <label class="col-sm-3 control-label" for="{{ form.objetivo.id_for_label }}">
                                     <i class="fa {% if form.objetivo.field.required %} fa-asterisk {% endif %} {% if form.objetivo.errors %} fa-asterisk {% endif %}"></i>
@@ -236,26 +227,7 @@
                                  </div>
                               </div>
 
-                              <div class="form-group">
-                                 <!--<div class="col-sm-3 xs-pt-15">-->
-                                 <label class="col-sm-3 control-label">Edad Minima</label>
-                                 <div class="col-sm-2 xs-pt-5">
-
-                                    {{ form.edad_minima }}
-
-                                    {% for error in form.edad_minima.errors %}
-                                    <span class="help-block">{{ error }}</span>
-                                    {% endfor %}
-                                    <!--<input type="text" placeholder="edad minima" class="form-control">-->
-                                 </div>
-                                 <label class="col-sm-2 control-label">Edad Maxima</label>
-                                 <div class="col-sm-2 xs-pt-5">
-
-                                    <!--<input type="text" placeholder="edad maxima" class="form-control">-->
-                                    {{ form.edad_maxima }}
-                                 </div>
-
-                              </div>
+                              
 
                               <div class="form-group">
                                  <label class="col-sm-3 control-label">Nivel de Estudios</label>
@@ -264,14 +236,7 @@
                                  </div>
                               </div>
 
-                              <div class="form-group">
-                                 <label class="col-sm-3 control-label">Estado Civil</label>
-                                 <div class="col-sm-6 xs-pt-5">
-                                    {{ form.estado_civil }}
-                                 </div>
-                              </div>
-
-                              {% tag_field_radio form.genero 3 6 %}
+                              {# {% tag_field_radio form.genero 3 6 %} #}
 
 
                               <div class="form-group">
@@ -366,7 +331,7 @@
                                         <div class="panel-body">
 
                                            <div class="panel-heading nova-panel-borde-contenido nova-panel-tools">
-                                              <a href="#modal_nuevo_competencia" class="btn nova-btn btn-rounded btn-sm btn-space btn-default pull-right " data-toggle="modal" id="boton_nuevo_per">
+                                              <a href="#modal_nuevo_indicadores" class="btn nova-btn btn-rounded btn-sm btn-space btn-default pull-right " data-toggle="modal" id="boton_nuevo_per">
                                                  <i class="icon icon-left mdi mdi-plus-circle nova-black"></i> Agregar Indicadores
                                               </a>
                                            </div><!-- Panel Heading -->
@@ -481,7 +446,6 @@
                   <div class="col-sm-8 xs-pt-5">
                      {{ formc.tipo_competencia }}
                   </div>
-
                </div>
             </div>
 
@@ -515,6 +479,136 @@
       </div> <!-- Modal content-->
    </div> <!-- Modal dialog -->
 </div><!-- Modal puestos a cargo-->
+
+
+<!-- Modal Indicadores-->
+<div id="modal_nuevo_indicadores" role="dialog" class="modal fade colored-header colored-header-primary">
+   <div class="modal-dialog custom-width">
+      <div class="modal-content">
+
+         <div class="modal-header nova-modal-header">
+            <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
+            <h3 class="modal-title">Agregar Indicadores</h3>
+         </div>
+         <form action="" method="POST" enctype="multipart/form-data" id="formulario_indicadores"> {% csrf_token %}
+            <!-- plantilla -->
+            <div class="modal-body form-horizontal">
+               <div class="form-group">
+                  <label class="col-sm-3 nova-col-filter control-label">Plantilla</label>
+                  <div class="col-sm-8 xs-pt-5">
+                     {{ formi.plantilla }}
+                  </div>
+               </div>
+            </div>
+
+            <!-- departamento -->
+            <div class="modal-body form-horizontal">
+               <div class="form-group">
+                  <label class="col-sm-3 nova-col-filter control-label">Departamento</label>
+                  <div class="col-sm-8 xs-pt-5">
+                     {{ formi.departamento }}
+                  </div>
+               </div>
+            </div>
+
+            <!-- puesto -->
+            <div class="modal-body form-horizontal">
+               <div class="form-group">
+                  <label class="col-sm-3 nova-col-filter control-label">Puesto</label>
+                  <div class="col-sm-8 xs-pt-5">
+                     {{ formi.puesto }}
+                  </div>
+               </div>
+            </div>
+
+
+            <!-- objetivo -->
+            <div class="modal-body form-horizontal">
+               <div class="form-group">
+                  <label class="col-sm-3 nova-col-filter control-label">Objetivo</label>
+                  <div class="col-sm-8 xs-pt-5">
+                     {{ formi.objetivo_ind }}
+                  </div>
+               </div>
+            </div>
+
+            <!-- unidad_medida -->
+            <div class="modal-body form-horizontal">
+               <div class="form-group">
+                  <label class="col-sm-3 nova-col-filter control-label">Unidad de Medida</label>
+                  <div class="col-sm-8 xs-pt-5">
+                     {{ formi.unidad_medida }}
+                  </div>
+               </div>
+            </div>
+
+            <!-- descripcion kpi -->
+            <div class="modal-body form-horizontal">
+               <div class="form-group">
+                  <label class="col-sm-3 nova-col-filter control-label">Descripcion Kpi</label>
+                  <div class="col-sm-8 xs-pt-5">
+                     {{ formi.descripcion_kpi }}
+                  </div>
+               </div>
+            </div>
+
+            <!-- porcentaje -->
+            <div class="modal-body form-horizontal">
+               <div class="form-group">
+                  <label class="col-sm-3 nova-col-filter control-label">Porcentaje</label>
+                  <div class="col-sm-8 xs-pt-5">
+                     {{ formi.porcentaje_ind }}
+                  </div>
+               </div>
+            </div>
+
+            <!-- meta minima -->
+            <div class="modal-body form-horizontal">
+               <div class="form-group">
+                  <label class="col-sm-3 nova-col-filter control-label">Meta Minima</label>
+                  <div class="col-sm-8 xs-pt-5">
+                     {{ formi.meta_minima }}
+                  </div>
+               </div>
+            </div>
+
+            <!-- meta satisfactoria -->
+            <div class="modal-body form-horizontal">
+               <div class="form-group">
+                  <label class="col-sm-3 nova-col-filter control-label">Meta Satisfactoria</label>
+                  <div class="col-sm-8 xs-pt-5">
+                     {{ formi.meta_satisfactoria }}
+                  </div>
+               </div>
+            </div>
+
+            <!-- meta excelente -->
+            <div class="modal-body form-horizontal">
+               <div class="form-group">
+                  <label class="col-sm-3 nova-col-filter control-label">Meta Excelente</label>
+                  <div class="col-sm-8 xs-pt-5">
+                     {{ formi.meta_excelente }}
+                  </div>
+               </div>
+            </div>
+
+            {% for error in formi.plantilla.errors %}
+            <span class="help-block">{{ error }}</span>
+            {% endfor %}
+
+            <!-- Botones de acción -->
+            <div class="modal-footer nova-modal-footer">
+               <div class="row col-sm-12">
+                  <button type="button" data-dismiss="modal" class="btn btn-default pull-left">
+                     Cancelar
+                  </button>
+                  <button type="button" class="btn btn-primary" id="boton_guardar_indicadores" >Guardar</button>
+               </div>
+            </div>
+         </form>
+      </div> <!-- Modal content-->
+   </div> <!-- Modal dialog -->
+</div><!-- Modal Indicadores-->
 
 {% endblock contenido %}
 

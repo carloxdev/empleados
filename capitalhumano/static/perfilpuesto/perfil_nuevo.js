@@ -11,6 +11,9 @@ var url_perfil_puestodoc_bypage = window.location.origin + "/api-capitalhumano/p
 var url_perfil_competencia = window.location.origin + "/api-ebs/viewcompetencias/"
 var url_perfil_competencia_doc = window.location.origin + "/api-capitalhumano/perfilcompetencias/"
 var url_perfil_competencia_doc_bypage = window.location.origin + "/api-capitalhumano/perfilcompetencias_bypage/"
+var url_perfil_indicadores= window.location.origin + "/api-capitalhumano/perfilindicadores/"
+var url_perfil_indicadores_bypage = window.location.origin + "/api-capitalhumano/perfilindicadores_bypage/"
+
 
 // OBJS
 var formulario = null
@@ -19,6 +22,8 @@ var select_componente = null
 var popup = null
 var popup_com = null
 var resultados_competencia = null
+var resultados_indicadores = null
+var popup_ind = null
 
 
 /*-----------------------------------------------*\
@@ -33,6 +38,7 @@ $(document).ready(function () {
     popup = new PopupPerfil()
     resultados_competencia = new TargetaResultadosCompetencias()
     popup_com = new PopupPerfilCompetencia()
+    popup_ind = new PopupPerfilIndicador()
 
 })
 
@@ -132,6 +138,7 @@ Componente.prototype.click_BotonGuardar = function (e) {
           // alert(id_doc_perfilvar)
           // alert(id_doc_perfil)
           // console.log("primero_doc_perfil input")
+           alert(numero_puesto)
           console.log(id_doc_perfil)
           console.log(numero_puesto)
 
@@ -382,8 +389,13 @@ function Grid() {
     this.kfuente_datos2 = null
     this.kgrid2 = null
 
+    this.$id_grid_indicadores = $('#grid_resultados_indicadores')
+    this.kfuente_datos3 = null
+    this.kgrid2_indicadores = null
+
     this.init_Components()
     this.init_Components2()
+    this.init_Components3()
 
 }
 
@@ -398,6 +410,12 @@ Grid.prototype.init_Components2 = function () {
     this.kfuente_datos2 = new kendo.data.DataSource(this.get_DataSourceConfig2())
     // Se inicializa y configura el grid:
     this.kgrid2 = this.$id2.kendoGrid(this.get_Configuracion2())    
+}
+Grid.prototype.init_Components3 = function () {
+    // Se inicializa la fuente da datos (datasource)
+    this.kfuente_datos3 = new kendo.data.DataSource(this.get_DataSourceConfig2())
+    // Se inicializa y configura el grid:
+    this.kgrid3 = this.$id_grid_indicadores.kendoGrid(this.get_Configuracion2())    
 }
 
 Grid.prototype.get_DataSourceConfig = function () {
@@ -436,6 +454,38 @@ console.log("paso grid 1")
 Grid.prototype.get_DataSourceConfig2 = function () {
 
 console.log("paso grid 122")
+    return {
+        serverPaging: true,
+        pageSize: 10,
+        transport: {
+            read: {
+
+                url: url_perfil_competencia_doc_bypage,
+                type: "GET",
+                dataType: "json",
+            },
+            parameterMap: function (data, action) {
+                if (action === "read"){
+                    return select_componente.get_Values(data.page)
+                }
+            }
+        },
+        schema: {
+            data: "results",
+            total: "count",
+            model: {
+                fields: this.get_Campos2()
+            }
+        },
+        error: function (e) {
+            alertify.error("Status: " + e.status + "; Error message: " + e.errorThrown)
+        },
+    } 
+}
+
+Grid.prototype.get_DataSourceConfig3 = function () {
+
+console.log("paso grid indicadores")
     return {
         serverPaging: true,
         pageSize: 10,
@@ -921,7 +971,12 @@ PopupPerfilCompetencia.prototype.click_BotonGuardar = function (e) {
                  // popup.actualizar_Grid()
          },
          error: function (_response) {
+          if (_response[id_puesto]==null){
+            alertify.error("Debes seleccionar el Puesto en General")
+          }
+          else {
             alertify.error("Ocurrio error al guardar")
+          }
          }
       })
 }
@@ -936,6 +991,109 @@ PopupPerfilCompetencia.prototype.actualizar_Grid = function () {
         resultados.grid.init()
 }
 
+
+/*-----------------------------------------------*\
+            OBJETO: Pop up Indicadores
+\*-----------------------------------------------*/
+
+function PopupPerfilIndicador() {
+
+    this.$modal_indicadores = $('#modal_nuevo_indicadores')
+    this.$id_puesto = $('#numero_puesto')
+    this.$numero_puesto = $('#numero_puesto')
+    this.$boton_guardar_indicadores = $('#boton_guardar_indicadores')
+    this.$plantilla = $('#id_plantilla')
+    this.$departamento = $('#id_departamento')
+    this.$puesto = $('#id_puesto')
+    this.$objetivo = $('#id_objetivo_ind')
+    this.$unidad_medida = $('#id_unidad_medida')
+    this.$descripcion_kpi = $('#id_descripcion_kpi')
+    this.$porcentaje = $('#id_porcentaje_ind')
+    this.$meta_minima = $('#id_meta_minima')
+    this.$meta_satisfactoria = $('#id_meta_satisfactoria')
+    this.$meta_excelente = $('#id_meta_excelente')
+
+    this.$created_by = $('#created_by')
+
+    console.log("paso por Indicadores")
+    this.init_Components()
+    this.init_Events()
+}
+PopupPerfilIndicador.prototype.init_Components = function () {
+
+    this.$plantilla.select2(appnova.get_ConfigSelect2())
+
+}
+
+PopupPerfilIndicador.prototype.init_Events = function () {
+
+   this.$boton_guardar_indicadores.on('click', this, this.click_BotonGuardar)
+}
+
+PopupPerfilIndicador.prototype.click_BotonGuardar = function (e) {
+
+ var id_puesto = e.data.$id_puesto.val()
+ var plantilla = e.data.$plantilla.val()
+ var departamento  = e.data.$departamento.val()
+ var puesto = e.data.$id_puesto.val()
+ var objetivo = e.data.$objetivo.val()
+ var unidad_medida = e.data.$unidad_medida.val()
+ var descripcion_kpi = e.data.$descripcion_kpi.val()
+ var porcentaje = e.data.$porcentaje.val()
+ var meta_minima = e.data.$meta_minima.val()
+ var meta_satisfactoria = e.data.$meta_satisfactoria.val()
+ var meta_excelente = e.data.$meta_excelente.val()
+
+ console.log("paso por indicadores")
+ console.log(id_puesto)
+
+ var promesa = $.ajax({
+         url: url_perfil_indicadores_bypage,
+         method: "POST",
+         headers: { "X-CSRFToken": appnova.galletita },
+         data: {
+            'plantilla_id' : plantilla,
+            'cvepuesto' : id_puesto,
+            'linea' : '1',
+            'departamento' : departamento,
+            'puesto' : puesto, 
+            'objetivo' : objetivo,
+            'unidad_medida' : unidad_medida,
+            'descripcion_kpi' : descripcion_kpi,
+            'porcentaje' : porcentaje,
+            'meta_minima' : meta_minima,
+            'meta_satisfactoria' : meta_satisfactoria,
+            'meta_excelente' : meta_excelente,
+            'created_by' :  url_profile + e.data.$created_by.val() + "/",
+            'created_by_id' :  url_profile + e.data.$created_by.val() + "/",
+            'created_date' :  '2017-07-07 16:25:22.000000',
+         },
+         success: function (_response) {
+          alertify.success("Se ha guardado el Indicador al puesto")
+                  popup_ind.hidden_Modal()
+                  popup.actualizar_Grid()
+                 // popup.actualizar_Grid()
+         },
+         error: function (_response) {
+          if (_response[id_puesto]==null){
+            alertify.error("Debes seleccionar el Puesto en General")
+          }
+          else {
+            alertify.error("Ocurrio error al guardar")
+          }
+         }
+      })
+}
+
+PopupPerfilIndicador.prototype.hidden_Modal = function () {
+
+     this.$modal_indicadores.modal('hide')
+}
+
+PopupPerfilIndicador.prototype.actualizar_Grid = function () {
+        //$("#grid_resultados").empty()
+        resultados.grid.init()
+}
 
 
 

@@ -11,6 +11,8 @@ from .models import DocumentoCapacitacion
 from .models import PerfilPuestosCargo
 from .models import PerfilCompetencias
 from .models import PerfilExperencia
+from .models import PerfilIndicadores
+from .models import EvaluacionPlantillas
 
 
 @admin.register(PerfilPuestoDocumento)
@@ -93,6 +95,39 @@ class TipoDocumentoAdmin(admin.ModelAdmin):
         'updated_date',
     )
 
+@admin.register(EvaluacionPlantillas)
+class EvaluacionPlantillaAdmin(admin.ModelAdmin):
+    list_display = (
+        'pk',
+        'descripcion',
+        'vigencia',
+        'created_by',
+        'created_date',
+        'updated_by',
+        'updated_date',
+    )    
+
+@admin.register(PerfilIndicadores)
+class PerfilIndicadoresAdmin(admin.ModelAdmin):
+    list_display = (
+        'pk',
+        'plantilla',
+        'cvepuesto',
+        'departamento',
+        'puesto',
+        'linea',
+        'objetivo',
+        'unidad_medida',
+        'descripcion_kpi',
+        'porcentaje',
+        'meta_minima',
+        'meta_satisfactoria',
+        'meta_excelente',
+        'created_by',
+        'created_date',
+        'updated_by',
+        'updated_date',
+    )
 
 class ArchivoInline(GenericTabularInline):
     model = Archivo

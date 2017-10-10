@@ -28,6 +28,9 @@ from administracion.models import Asunto
 from capitalhumano.models import PerfilPuestoDocumento
 from ebs.models import VIEW_COMPANIAS
 from ebs.models import VIEW_EMPLEADOS_FULL
+from capitalhumano.models import PerfilIndicadores
+from capitalhumano.models import EvaluacionPlantillas
+
 
 
 # Business
@@ -355,9 +358,11 @@ class PerfilPuestoDocumentoForm(Form):
     reporta = ChoiceField(label='Reporta', widget=Select(
         attrs={'class': 'select2 nova-select2'}))
 
-    nivel_estudio = ChoiceField(widget=Select())
+    nivel_estudio = ChoiceField(widget=Select(
+        attrs={'class': 'select2 nova-select2'}))
 
-    estado_civil = ChoiceField(widget=Select())
+    estado_civil = ChoiceField(widget=Select(
+        attrs={'class': 'select2 nova-select2'}))
 
     genero = ChoiceField(
         label='Género',
@@ -392,7 +397,7 @@ class PerfilPuestoDocumentoForm(Form):
 
         valores = [('', '-------')]
 
-        niveles = VIEW_GRADO_ACADEMICO.objects.using('ebs_p').all()
+        niveles = VIEW_GRADO_ACADEMICO.objects.using('ebs_p').all().order_by('clave_grado')
 
         for nivel in niveles:
 
@@ -406,7 +411,7 @@ class PerfilPuestoDocumentoForm(Form):
 
     def get_EstadoCivil(self):
 
-        valores = [('ind', 'Indistinto'), ('sol', 'Soltero'), ('cas', 'Casado'),
+        valores = [('', '-------'), ('ind', 'Indistinto'), ('sol', 'Soltero'), ('cas', 'Casado'),
                    ('uni', 'Union Libre'), ('viu', 'Viudo'), ('div', 'Divorciado')]
 
         return valores
@@ -890,10 +895,13 @@ class PerfilAgregarPuestoCargoForm(Form):
     desc_puesto2 = ChoiceField(label='Puesto', widget=Select(
         attrs={'class': 'select2 nova-select2'}))
 
+    nivel_estudio = ChoiceField(widget=Select())
+
     def __init__(self, *args, **kwargs):
         super(PerfilAgregarPuestoCargoForm, self).__init__(
             *args, **kwargs)
         self.fields['desc_puesto2'].choices = self.get_Puestos()
+        self.fields['nivel_estudio'].choices = self.get_Nivel()
         # self.fields['zona'].choices = self.get_Zonas()
 
     def get_Puestos(self):
@@ -912,6 +920,22 @@ class PerfilAgregarPuestoCargoForm(Form):
                 )
             )
         return valores
+
+    def get_Nivel(self):
+
+        valores = [('', '-------')]
+
+        niveles = VIEW_GRADO_ACADEMICO.objects.using('ebs_d').all()
+
+        for nivel in niveles:
+
+            valores.append(
+                (
+                    nivel.clave_grado,
+                    str(int(nivel.clave_grado)) + ' - ' + nivel.desc_grado,
+                )
+            )
+        return valores    
 
 
 class PerfilPuestoListaForm(Form):
@@ -1108,3 +1132,95 @@ class PerfilAgregarCompetenciaForm(Form):
                 )
             )
         return valores
+
+
+class PerfilAgregarIndicadorForm(Form):
+
+
+    plantilla = ChoiceField(label='idplantilla', widget=Select(
+    attrs={'class': 'select2 nova-select2'}))
+
+    departamento = CharField(
+        label="Departamento",
+        widget=TextInput(
+            attrs={'class': 'form-control input-xs'}
+        )
+    )
+
+    puesto = CharField(
+        label="Puesto",
+        widget=TextInput(
+            attrs={'class': 'form-control input-xs'}
+        )
+    )
+
+    objetivo_ind = CharField(
+        label="Objetivo",
+        widget=TextInput(
+            attrs={'class': 'form-control input-xs'}
+        )
+    )
+
+    unidad_medida = CharField(
+        label="Unidad Medida",
+        widget=TextInput(
+            attrs={'class': 'form-control input-xs'}
+        )
+    )
+
+    descripcion_kpi = CharField(
+        label="Descripcion KPI",
+        widget=TextInput(
+            attrs={'class': 'form-control input-xs'}
+        )
+    )
+
+
+    porcentaje_ind = CharField(
+        label="Porcentaje",
+        widget=TextInput(
+            attrs={'class': 'form-control input-xs'}
+        )
+    )
+
+    meta_minima = CharField(
+        label="Meta Minima",
+        widget=TextInput(
+            attrs={'class': 'form-control input-xs'}
+        )
+    )
+
+    meta_satisfactoria = CharField(
+        label="Meta Satisfactoria",
+        widget=TextInput(
+            attrs={'class': 'form-control input-xs'}
+        )
+    )
+
+    meta_excelente = CharField(
+        label="Meta Excelente",
+        widget=TextInput(
+            attrs={'class': 'form-control input-xs'}
+        )
+    )
+
+    def __init__(self, *args, **kwargs):
+        super(PerfilAgregarIndicadorForm, self).__init__(
+            *args, **kwargs)
+        self.fields['plantilla'].choices = self.get_Plantillas()
+
+        #--aqui se debe filtrar solo las plantillas que este activa
+    def get_Plantillas(self):
+        valores = [('', '------------')]
+
+        plantillas = EvaluacionPlantillas.objects.all()
+        for plantilla in plantillas:
+
+            valores.append(
+                (
+                    plantilla.pk,
+                    str(int(plantilla.pk)) + ' - ' + plantilla.descripcion,
+                )
+            )
+        return valores
+

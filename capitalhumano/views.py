@@ -32,6 +32,7 @@ from .forms import PerfilPuestoListaForm
 from .forms import PerfilAgregarCompetenciaForm
 from .forms import SolicitudesFilterForm
 from .forms import SolicitudesEditarForm
+from .forms import PerfilAgregarIndicadorForm
 
 
 # Serializer crear organigrama
@@ -465,11 +466,13 @@ class PerfilPuestoNuevo(View):
         formulario = PerfilPuestoDocumentoForm()
         form_puesto_cargo = PerfilAgregarPuestoCargoForm()
         form_competencias = PerfilAgregarCompetenciaForm()
+        form_indicadores = PerfilAgregarIndicadorForm()
 
         contexto = {
             'form': formulario,
             'form2': form_puesto_cargo,
-            'formc': form_competencias
+            'formc': form_competencias,
+            'formi': form_indicadores
         }
 
         return render(request, self.template_name, contexto)

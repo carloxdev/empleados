@@ -20,6 +20,7 @@ from .models import TipoDocumento
 
 from .models import PerfilPuestosCargo
 from .models import PerfilCompetencias
+from .models import PerfilIndicadores
 
 
 class PerfilPuestoDocumentoFilter(filters.FilterSet):
@@ -271,4 +272,17 @@ class TipoDocumentoFilter(filters.FilterSet):
             'pk',
             'tipo_documento',
             'agrupador',
+        ]
+
+class PerfilIndicadorFilter(filters.FilterSet):
+
+    pk = CharFilter(
+        name="pk",
+        lookup_expr="icontains")
+
+    class Meta:
+        model = PerfilIndicadores
+        fields = [
+            'pk',
+            'plantilla',
         ]

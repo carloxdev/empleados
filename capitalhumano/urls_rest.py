@@ -15,6 +15,8 @@ from capitalhumano.view_rest import PerfilPuestosDocumentoAPI
 from capitalhumano.view_rest import PerfilPuestosDocumentoByPageAPI
 from capitalhumano.view_rest import PerfilCompetenciasAPI
 from capitalhumano.view_rest import PerfilCompetenciasByPageAPI
+from capitalhumano.view_rest import PerfilIndicadoresAPI
+from capitalhumano.view_rest import PerfilIndicadoresByPageAPI
 
 
 router_capitalhumano = routers.DefaultRouter()
@@ -87,4 +89,16 @@ router_capitalhumano.register(
     r'perfilcompetencias_bypage',
     PerfilCompetenciasByPageAPI,
     'perfilcompetencias_bypage'
+)
+
+router_capitalhumano.register(
+    r'perfilindicadores',
+    PerfilIndicadoresAPI,
+    'perfilindicadores'
+)
+
+router_capitalhumano.register(
+    r'perfilindicadores_bypage',
+    PerfilIndicadoresByPageAPI,
+    'perfilindicadores_bypage'
 )

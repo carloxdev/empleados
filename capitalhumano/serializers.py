@@ -17,6 +17,9 @@ from .models import DocumentoCapacitacion
 from .models import Curso
 from .models import PerfilPuestosCargo
 from .models import PerfilCompetencias
+from .models import PerfilIndicadores
+from .models import EvaluacionPlantillas
+
 
 # Otros Modelos
 from ebs.models import VIEW_EMPLEADOS_FULL
@@ -602,3 +605,49 @@ class PerfilCompetenciaSerializer(serializers.HyperlinkedModelSerializer):
             'updated_by',
             'updated_date',
         )
+
+class EvaluacionPlantillasSerializer(serializers.HyperlinkedModelSerializer):
+
+    class Meta:
+        model = EvaluacionPlantillas
+        fields = (
+            'pk',
+            'descripcion',
+            'vigencia',
+            'created_by',
+            'created_date',
+            'updated_by',
+            'updated_date',
+        )
+
+class PerfilIndicadorSerializer(serializers.HyperlinkedModelSerializer):
+
+    plantilla = serializers.SerializerMethodField()
+
+    class Meta:
+        model = PerfilIndicadores
+        fields = (
+            'pk',
+            'plantilla',
+            'cvepuesto',
+            'departamento',
+            'puesto',
+            'linea',
+            'objetivo',
+            'unidad_medida',
+            'descripcion_kpi',
+            'porcentaje',
+            'meta_minima',
+            'meta_satisfactoria',
+            'meta_excelente',
+            'created_by',
+            'created_date',
+            'updated_by',
+            'updated_date',
+        )    
+
+    def get_plantilla(self, obj):
+        try:
+            return obj.plantilla.descripcion
+        except Exception as e:
+            return " "          

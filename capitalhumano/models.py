@@ -17,6 +17,79 @@ from seguridad.models import Profile
 from ebs.models import VIEW_EMPLEADOS_FULL
 
 
+class EvaluacionPlantillas(models.Model):
+
+    descripcion = models.CharField(max_length=255)
+    vigencia = models.BooleanField(default=False, blank=True)
+    created_by = models.ForeignKey(
+        Profile, related_name='evapla_created_by')
+    created_date = models.DateTimeField(
+        auto_now=False,
+        auto_now_add=True
+    )
+    updated_by = models.ForeignKey(
+        Profile, related_name='evapla_updated_by', null=True, blank=True)
+    updated_date = models.DateTimeField(
+        auto_now=True,
+        auto_now_add=False,
+        null=True,
+        blank=True
+    )
+
+    def __unicode__(self):
+        cadena = "%s - %s" % (self.id, self.descripcion)
+        return cadena
+
+    def __str__(self):
+        cadena = "%s - %s" % (self.id, self.descripcion)
+        return cadena
+
+    class Meta:
+        verbose_name_plural = "Plantilla para Evaluacion Desempeño"
+
+class PerfilIndicadores(models.Model):
+
+    plantilla = models.ForeignKey(EvaluacionPlantillas, blank=True, null=True)
+    cvepuesto = models.IntegerField(default=0)
+    departamento = models.CharField(max_length=10)
+    puesto = models.CharField(max_length=10)
+    linea = models.IntegerField(default=1)
+    objetivo = models.CharField(max_length=500, null=True, blank=True)
+    unidad_medida = models.CharField(max_length=255, null=True, blank=True)
+    descripcion_kpi = models.CharField(max_length=500, null=True, blank=True)
+    porcentaje = models.IntegerField(default=0)
+    meta_minima = models.IntegerField(default=0)
+    meta_satisfactoria = models.IntegerField(default=0)
+    meta_excelente = models.IntegerField(default=0)
+
+    created_by = models.ForeignKey(Profile, related_name='perind_created_by')
+    created_date = models.DateTimeField(
+        auto_now=False,
+        auto_now_add=True,
+    )
+    updated_by = models.ForeignKey(
+        Profile, related_name='perind_updated_by', null=True, blank=True)
+    updated_date = models.DateTimeField(
+        auto_now=True,
+        auto_now_add=False,
+        null=True,
+        blank=True
+    )
+    history = HistoricalRecords()
+
+    def __unicode__(self):
+        cadena = "%s" % (self.id)
+        return cadena
+
+    def __str__(self):
+        cadena = "%s" % (self.id)
+        return cadena
+
+    class Meta:
+        verbose_name_plural = "Perfil Indicadores"
+
+
+
 class PerfilPuestosCargo(models.Model):
 
     id_puesto = models.CharField(max_length=144, null=True, blank=True)

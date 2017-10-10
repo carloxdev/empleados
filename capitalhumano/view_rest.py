@@ -15,6 +15,7 @@ from .models import DocumentoCapacitacion
 from .models import PerfilPuestoDocumento
 from .models import PerfilPuestosCargo
 from .models import PerfilCompetencias
+from .models import PerfilIndicadores
 
 # Serializadores:
 from .serializers import PersonalSerializer
@@ -25,6 +26,7 @@ from .serializers import DocumentoCapacitacionSerializers
 from .serializers import PerfilPuestoDocumentoSerializer
 from .serializers import PerfilPuestosCargoSerializer
 from .serializers import PerfilCompetenciaSerializer
+from .serializers import PerfilIndicadorSerializer
 
 # Paginadores:
 from .pagination import GenericPagination
@@ -36,6 +38,7 @@ from .filters import TipoDocumentoFilter
 from .filters import PerfilPuestoDocumentoFilter
 from .filters import PerfilpuestosCargoFilter
 from .filters import PerfilCompetenciaFilter
+from .filters import PerfilIndicadorFilter
 
 
 # -------------- DOCUMENTOS CAPITAL HUMANO -------------- #
@@ -138,3 +141,17 @@ class PerfilCompetenciasByPageAPI(viewsets.ModelViewSet):
     filter_class = PerfilCompetenciaFilter
     pagination_class = GenericPagination
     permission_classes = (IsAuthenticated,)
+
+class PerfilIndicadoresAPI(viewsets.ModelViewSet):
+    queryset = PerfilIndicadores.objects.all()
+    serializer_class = PerfilIndicadorSerializer
+
+
+class PerfilIndicadoresByPageAPI(viewsets.ModelViewSet):
+    queryset = PerfilIndicadores.objects.all()
+    serializer_class = PerfilIndicadorSerializer
+    filter_backends = (DjangoFilterBackend,)
+    filter_class = PerfilIndicadorFilter
+    pagination_class = GenericPagination
+    permission_classes = (IsAuthenticated,)
+
