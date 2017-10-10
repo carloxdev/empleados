@@ -116,8 +116,7 @@ function PopupFormato(){
    this.$id_compania = $('#id_compania')
    this.$id_no_revision = $('#id_no_revision')
    this.$id_titulo = $('#id_titulo')
-   this.$id_vigencia_group = $('#id_vigencia_group')
-   this.$id_vigencia = $('#id_vigencia')
+   this.$id_vigencia = $('#id_vigencia_group')
    this.$id_codigo = $('#id_codigo')
    this.$id_descripcion = $('#id_descripcion')
    this.$id_boton_guardar = $('#id_boton_guardar')
@@ -130,23 +129,7 @@ function PopupFormato(){
 PopupFormato.prototype.init_Components = function () {
 
    this.$id_compania.select2(appnova.get_ConfigSelect2())
-   this.$id_vigencia_group.datetimepicker(this.get_DateTimePickerConfig())
-   this.$id_vigencia.mask(
-            "9999-99-99",
-            {
-                  placeholder:"aaaa/mm/dd"
-            }
-         )
-}
-PopupFormato.prototype.get_DateTimePickerConfig = function () {
-
-   return {
-
-      autoclose: true,
-      orientation: "bottom left",
-      minViewMode: 2,
-      format: "yyyy-mm-dd",
-   }
+   this.$id_vigencia.datepicker(appnova.get_ConfDatePicker())
 }
 PopupFormato.prototype.init_Events = function () {
 
@@ -205,7 +188,7 @@ PopupFormato.prototype.set_Data = function (_pk) {
             this.$id_compania.val(_response.compania_codigo + ":" + _response.compania).trigger("change")
             this.$id_titulo.val(_response.titulo)
             this.$id_no_revision.val(_response.no_revision)
-            this.$id_vigencia.val(_response.vigencia_inicio)
+            appnova.set_FechaConFormato('#id_vigencia_group', _response.vigencia_inicio)
             this.$id_codigo.val(_response.codigo)
             this.$id_descripcion.val(_response.descripcion)
          },
@@ -237,7 +220,7 @@ PopupFormato.prototype.validar = function () {
       bandera = false
    }
 
-   if ( this.$id_vigencia.val() == "") {
+   if ( appnova.get_FechaConFormato("#id_vigencia_group") == "" ) {
 
       this.$id_vigencia.addClass("nova-has-error")
       bandera = false
@@ -281,7 +264,7 @@ PopupFormato.prototype.clear_Formulario = function (e) {
    e.data.$id_compania.val("").trigger("change")
    e.data.$id_titulo.val("")
    e.data.$id_no_revision.val("")
-   e.data.$id_vigencia.val("")
+   e.data.$id_vigencia.datepicker("clearDates")
    e.data.$id_codigo.val("")
    e.data.$id_descripcion.val("")
 }
@@ -302,7 +285,7 @@ PopupFormato.prototype.crear = function (e) {
          "compania" : compania,
          "titulo": e.data.$id_titulo.val(),
          "no_revision": e.data.$id_no_revision.val(),
-         "vigencia_inicio": e.data.$id_vigencia.val(),
+         "vigencia_inicio": appnova.get_FechaConFormato("#id_vigencia_group"),
          "codigo": e.data.$id_codigo.val(),
          "descripcion": e.data.$id_descripcion.val(),
       },
@@ -334,7 +317,7 @@ PopupFormato.prototype.editar = function (e, _pk) {
          "compania" : compania,
          "titulo": e.data.$id_titulo.val(),
          "no_revision": e.data.$id_no_revision.val(),
-         "vigencia_inicio": e.data.$id_vigencia.val(),
+         "vigencia_inicio": appnova.get_FechaConFormato("#id_vigencia_group"),
          "codigo": e.data.$id_codigo.val(),
          "descripcion": e.data.$id_descripcion.val(),
       },
