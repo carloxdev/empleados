@@ -738,6 +738,13 @@ class DocCapacitacionFilterForm(Form):
             'numero_empleado'].choices = EmpleadoBusiness.get_Empleados()
 
 
+class NuevoPerfilForm(Form):
+
+    archivo = FileField(
+        label="Foto de perfil",
+        widget=ClearableFileInput(attrs={'class': 'dropzone dz-clickable dz-started', 'type': 'file'}))
+
+
 class NuevoDocumentoPersonalForm(Form):
 
     AGRUPADOR = (

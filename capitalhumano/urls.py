@@ -42,7 +42,7 @@ urlpatterns = [
         name='organigrama_json_org'
     ),
     url(
-        r'^organigrama/json-emp/(?P<pk>[\w\s*]+)/$',
+        r'^organigrama/json-emp/(?P<pk>[\w\s\x26*]+)/$',
         OrganigramaEmpAPI.as_view(),
         name='organigrama_json_emp'
     ),
