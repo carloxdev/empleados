@@ -586,18 +586,14 @@ class ProcesoAuditoriaEdicionForm(Form):
 
 class RequisitoProcesoForm(Form):
 
-    criterio = ChoiceField(
-        widget=Select(attrs={'class': 'select2'}),
-    )
-
-    requisito = CharField(
-        widget=Select(attrs={'class': 'select2'}),
+    requisito = ChoiceField(
+        widget=SelectMultiple(attrs={'class': 'select2', 'multiple': 'multiple'}),
         required=False
     )
 
-    def __init__(self, _criterios_auditoria, *args, **kwargs):
+    def __init__(self, _requisitos_criterio, *args, **kwargs):
         super(RequisitoProcesoForm, self).__init__(*args, **kwargs)
-        self.fields['criterio'].choices = _criterios_auditoria
+        self.fields['requisito'].choices = _requisitos_criterio
 
 
 class HallazgoProcesoForm(Form):

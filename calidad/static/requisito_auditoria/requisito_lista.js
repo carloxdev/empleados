@@ -131,7 +131,8 @@ function PopupRequisito() {
 PopupRequisito.prototype.init_Components = function () {
 
    this.$id_criterio.select2(appnova.get_ConfigSelect2())
-   this.$id_requisito.select2(appnova.get_ConfigSelect2())
+   this.$id_requisito.multiselect(this.get_ConfMultiSelect())
+   this.$id_requisito.siblings("div.btn-group").find("ul.multiselect-container").addClass('nova-bootstrap-multiselect-width-ul')
 }
 PopupRequisito.prototype.init_Events = function () {
 
@@ -145,6 +146,21 @@ PopupRequisito.prototype.init_Events = function () {
    this.$id_requisito.on('select2:close',function () {
        $(this).focus();
    });
+}
+PopupRequisito.prototype.get_ConfMultiSelect = function () {
+
+   return {
+
+      enableFiltering: true,
+      buttonWidth: '100%',
+      numberDisplayed: 2,
+      maxHeight: 150,
+      nonSelectedText: "Sin Selección",
+      allSelectedText: "Todo Seleccionado",
+      nSelectedText: "Seleccionados",
+      filterPlaceholder: "Buscar",
+      disableIfEmpty: true,
+   }
 }
 PopupRequisito.prototype.init_ErrorEvents = function () {
 
@@ -171,11 +187,15 @@ PopupRequisito.prototype.set_Requisitos = function (e) {
 
           var data = []
           for (var i = 0; i < _response.length; i++) {
-            data.push({id:_response[i].pk, text:_response[i].requisito })
+            data.push($('<option>',{
+                  value:_response[i].pk,
+                  text:_response[i].requisito
+               }
+            ))
           }
 
-          this.$id_requisito.select2('destroy').empty().select2({data:data})
-          this.$id_requisito.val(this.$pk_requisito).trigger("change")
+         this.$id_requisito.empty()
+         this.$id_requisito.append(data).multiselect('rebuild')
        },
        error: function (_response) {
 
@@ -191,8 +211,7 @@ PopupRequisito.prototype.hide_Modal = function (e) {
 
    e.data.$pk_requisito = undefined
    e.data.$id_criterio.val("0").trigger("change")
-   e.data.$id_requisito.select2('destroy').empty().select2({data:[{}]})
-   e.data.$id_requisito.val("").trigger("change")
+   e.data.$id_requisito.empty()
 }
 PopupRequisito.prototype.mostrar = function (_pk, _accion) {
 

@@ -709,6 +709,9 @@ div.nova-panel-arbol li.list-group-item {
    /*margin: 20px;*/
    margin: 0px 20px 20px 20px;
 }
+.nova-overflow-dropdown {
+   overflow-y: -webkit-paged-y;
+}
 /* modales */
 
 /* bootstrap tables */

@@ -677,8 +677,8 @@ class RequisitoLista(View):
 
         auditoria = Auditoria.objects.get(pk = pk)
         proceso = get_object_or_404(ProcesoAuditoria, pk = pk_pro, auditoria = pk)
-        criterios_auditoria = self.get_criterio(auditoria)
-        formulario = RequisitoProcesoForm(criterios_auditoria)
+        requisito_criterio = self.get_requisto(auditoria)
+        formulario = RequisitoProcesoForm(requisito_criterio)
         requisitos = RequisitoProceso.objects.filter(proceso_auditoria = pk_pro)
 
         contexto = {
@@ -696,19 +696,22 @@ class RequisitoLista(View):
 
         auditoria = Auditoria.objects.get(pk = pk)
         proceso = ProcesoAuditoria.objects.get(pk = pk_pro)
-        criterios_auditoria = self.get_criterio(auditoria)
-        formulario = RequisitoProcesoForm(criterios_auditoria, request.POST)
+        requisito_criterio = self.get_requisto(auditoria)
+        formulario = RequisitoProcesoForm(requisito_criterio)
 
         if formulario.is_valid():
 
             try:
-
-                req_pro = RequisitoProceso()
                 datos_formulario = formulario.cleaned_data
-                req_pro.proceso_auditoria = ProcesoAuditoria.objects.get(pk = pk_pro )
-                req_pro.requisito = Requisito.objects.get(pk = datos_formulario.get('requisito'))
-                req_pro.create_by = CalidadMethods.get_Usuario(request.user.id)
-                req_pro.save()
+
+                for requisito in datos_formulario.get('requisito'):
+                    # [index for index, v in enumerate(l) if v == 'bar']
+                    datos_formulario.get('requisito')
+                    req_pro = RequisitoProceso()
+                    req_pro.proceso_auditoria = ProcesoAuditoria.objects.get(pk = pk_pro )
+                    req_pro.requisito = Requisito.objects.get(pk = requisito)
+                    req_pro.create_by = CalidadMethods.get_Usuario(request.user.id)
+                    req_pro.save()
             except IntegrityError as e:
 
                 messages.add_message(request, messages.WARNING, "Este requisito ya existe para el proceso.", extra_tags='requisito_existe')
@@ -727,19 +730,68 @@ class RequisitoLista(View):
 
         return render(request, self.template_name, contexto)
 
-    def get_criterio(self, auditoria):
 
-        valores = [('0', '-------')]
+    def get_requisto(self, auditoria):
+
+        mas = ()
+        valores = ()
+        opciones = ()
 
         for criterio in auditoria.criterio.all():
+            valores += criterio.criterio,
+            for requisito in Requisito.objects.filter(criterio=criterio.pk):
+                opciones += ((requisito.pk, requisito.requisito),)
 
-            valores.append(
-                (
-                    criterio.pk,
-                    criterio.criterio
-                )
-            )
-        return valores
+            valores += ((opciones),)
+
+        mas += (valores,)
+        import ipdb; ipdb.set_trace()
+        return mas
+
+        #     = (
+        #     ('p1', 'Seleccione'),
+        #     ('Corporativo',
+        #         (
+        #             ('p1', 'Capital Humano'),
+        #             ('p2', 'Juridico'),
+        #             ('p3', 'Tecnologias de Informacion'),
+        #             ('p4', 'Gestion de Calidad'),
+        #             ('p5', 'Licitaciones')
+        #         )
+        #     ),
+        # )
+
+
+
+
+                # valores = []
+                # opciones = []
+                # for criterio in auditoria.criterio.all():
+                #     valores.append(criterio.criterio)
+                #     for requisito in Requisito.objects.filter(criterio=criterio.pk):
+                #         opciones.append(
+                #             (
+                #                 requisito.pk,
+                #                 requisito.requisito
+                #             )
+                #         )
+                #     valores.append(opciones)
+                # return valores
+
+
+            #     = (
+            #     ('p1', 'Seleccione'),
+            #     ('Corporativo',
+            #         (
+            #             ('p1', 'Capital Humano'),
+            #             ('p2', 'Juridico'),
+            #             ('p3', 'Tecnologias de Informacion'),
+            #             ('p4', 'Gestion de Calidad'),
+            #             ('p5', 'Licitaciones')
+            #         )
+            #     ),
+            # )
+
 
 
 class HallazgoLista(View):

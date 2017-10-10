@@ -10,6 +10,10 @@
 
 {% block css %}
 
+   <!-- Beagle Theme -->
+   <link rel="stylesheet" href="{% static 'theme/lib/bootstrap-multiselect/css/bootstrap-multiselect.css' %}"/>
+   <link rel="stylesheet" href="{% static 'theme/lib/multiselect/css/multi-select.css' %}"/>
+
 {% endblock css %}
 
 {% block contenido %}
@@ -147,9 +151,7 @@
             </div>
             <form id="formulario_proceso"  method="POST"> {% csrf_token %}
 
-                <div class="modal-body form-horizontal">
-
-                      {% tag_field_popup form.criterio 3 8 %}
+                <div class="modal-body form-horizontal nova-overflow-dropdown">
 
                       {% tag_field_popup form.requisito 3 8 %}
 
@@ -179,7 +181,9 @@
 {% block scripts %}
 
    <!-- Beagle Theme -->
-   <script src="{% static 'theme/lib/daterangepicker/js/daterangepicker.js' %}"></script>
+   <script src="{% static 'theme/lib/bootstrap-multiselect/js/bootstrap-multiselect.js' %}"></script>
+   <script src="{% static 'theme/lib/multiselect/js/jquery.multi-select.js' %}"></script>
+   <script src="{% static 'theme/lib/quicksearch/jquery.quicksearch.min.js' %}"></script>
 
    <!-- JS Template -->
    <script src="{% static 'requisito_auditoria/requisito_lista.js' %}"></script>
