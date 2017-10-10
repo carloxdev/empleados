@@ -28,12 +28,14 @@ def get_FilePath_Archivo(instance, filename):
             filename = "C-%s_%s_%s.pdf" % (instance.content_object.curso.id, nombre, numero_empleado)
         elif instance.tipo_archivo == 'sol':
             fecha = '%s-%s-%s' % (fecha_hoy.day, fecha_hoy.month, fecha_hoy.year)
-            filename = "%s_%s_%s.pdf" % (fecha, nombre, numero_empleado)
-            return os.path.join('capitalhumano', 'solicitudes', filename)
+            extension = os.path.splitext(filename)
+            nombre = "%s_%s_%s%s" % (fecha, nombre, numero_empleado, extension[1])
+            return os.path.join('capitalhumano', 'solicitudes', nombre)
         elif instance.tipo_archivo == 'res':
             fecha = '%s-%s-%s' % (fecha_hoy.day, fecha_hoy.month, fecha_hoy.year)
-            filename = "R-%s_%s_%s.pdf" % (fecha, nombre, numero_empleado)
-            return os.path.join('capitalhumano', 'solicitudes', filename)
+            extension = os.path.splitext(filename)
+            nombre = "R-%s_%s_%s%s" % (fecha, nombre, numero_empleado, extension[1])
+            return os.path.join('capitalhumano', 'solicitudes', nombre)
         return os.path.join(upload_dir, filename)
 
     elif instance.tipo_archivo in ('cal_anali', 'cal_evid', 'cal_eval'):

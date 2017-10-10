@@ -382,17 +382,13 @@ PopupEditar.prototype.guardar_Cambios = function (e) {
     var id = e.data.$id
     informacion = {
         'status': e.data.$status.val(),
-        'asunto': e.data.$datos.asunto,
-        'descripcion': e.data.$datos.descripcion,
-        'numero_empleado': e.data.$datos.numero_empleado,
         'observaciones': e.data.$observaciones.val(),
-        'created_by': e.data.$datos.created_by,
         'updated_by': url_profile+e.data.$updated_by.val()+"/",
     }
    $.ajax({
       url: url_solicitud + id +"/",
       data : JSON.stringify(informacion),
-      type: "PUT",
+      type: "PATCH",
       headers: { "X-CSRFToken": appnova.galletita },
       contentType: "application/json; charset=utf-8",
       success: function (_response) {
