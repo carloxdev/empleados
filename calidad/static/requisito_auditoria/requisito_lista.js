@@ -113,7 +113,6 @@ function PopupRequisito() {
    this.$id_requisito_existe = $('#id_requisito_existe')
 
    this.init_Components()
-   this.init_Events()
    this.init_ErrorEvents()
 }
 PopupRequisito.prototype.init_Components = function () {
