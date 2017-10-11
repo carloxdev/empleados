@@ -22,6 +22,7 @@ from .models import VM_PORF_CXP
 from .models import VM_PORF_NOMINA
 from .models import VIEW_PROVEEDORES
 from .models import VIEW_FLUJO_EGRESOS
+from .models import VIEW_FLUJO_INGRESOS
 
 
 # ----------------- VIEW_INVENTARIO ----------------- #
@@ -550,6 +551,34 @@ class VIEW_FLUJO_EGRESOS_Filter(filters.FilterSet):
 
     class Meta:
         model = VIEW_FLUJO_EGRESOS
+        fields = [
+            'compania',
+            'anio',
+            'tipo_un',
+            'descripcion_un',
+            'cuenta_clase_desc',
+        ]
+
+# ----------------- VIEW_FLUJO_INGRESOS ----------------- #
+
+
+class VIEW_FLUJO_INGRESOS_Filter(filters.FilterSet):
+
+    compania = CharFilter(
+        name="compania",
+        lookup_expr="exact"
+    )
+    anio = NumberFilter(
+        name="anio",
+        lookup_expr="exact"
+    )
+    descripcion_un = CharFilter(
+        name="descripcion_un",
+        lookup_expr="exact"
+    )
+
+    class Meta:
+        model = VIEW_FLUJO_INGRESOS
         fields = [
             'compania',
             'anio',

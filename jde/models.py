@@ -1012,6 +1012,7 @@ class VIEW_FLUJO_EGRESOS(models.Model):
     octubre = models.DecimalField(max_digits=19, decimal_places=2)
     noviembre = models.DecimalField(max_digits=19, decimal_places=2)
     diciembre = models.DecimalField(max_digits=19, decimal_places=2)
+    cxp = models.DecimalField(max_digits=19, decimal_places=2)
 
     def _get_total(self):
         try:
@@ -1027,3 +1028,38 @@ class VIEW_FLUJO_EGRESOS(models.Model):
     class Meta:
         managed = False
         db_table = u'"NUVPD"."VIEW_FLUJO_EGRESOS"'
+
+
+class VIEW_FLUJO_INGRESOS(models.Model):
+    compania = models.CharField(primary_key=True, max_length=5)
+    anio = models.IntegerField()
+    tipo_un = models.CharField(max_length=8)
+    descripcion_un = models.CharField(max_length=30)
+    cuenta_clase_desc = models.CharField(max_length=30)
+    enero = models.DecimalField(max_digits=19, decimal_places=2)
+    febrero = models.DecimalField(max_digits=19, decimal_places=2)
+    marzo = models.DecimalField(max_digits=19, decimal_places=2)
+    abril = models.DecimalField(max_digits=19, decimal_places=2)
+    mayo = models.DecimalField(max_digits=19, decimal_places=2)
+    junio = models.DecimalField(max_digits=19, decimal_places=2)
+    julio = models.DecimalField(max_digits=19, decimal_places=2)
+    agosto = models.DecimalField(max_digits=19, decimal_places=2)
+    septiembre = models.DecimalField(max_digits=19, decimal_places=2)
+    octubre = models.DecimalField(max_digits=19, decimal_places=2)
+    noviembre = models.DecimalField(max_digits=19, decimal_places=2)
+    diciembre = models.DecimalField(max_digits=19, decimal_places=2)
+
+    def _get_total(self):
+        try:
+            total = self.enero + self.febrero + self.marzo + \
+                self.abril + self.mayo + self.junio + \
+                self.julio + self.agosto + self.septiembre + \
+                self.octubre + self.noviembre + self.diciembre
+            return total
+        except Exception:
+            return 0.0
+    total = property(_get_total)
+
+    class Meta:
+        managed = False
+        db_table = u'"NUVPD"."VIEW_FLUJO_INGRESOS"'

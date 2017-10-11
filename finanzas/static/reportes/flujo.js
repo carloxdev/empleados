@@ -2,7 +2,7 @@
 
 // URLS:
 var url_viewflujoegresos = window.location.origin + "/api-jde/viewflujoegresos/"
-var url_viewflujoegresos_bypage = window.location.origin + "/api-jde/viewflujoegresos_bypage/"
+var url_viewflujoingresos = window.location.origin + "/api-jde/viewflujoingresos/"
 
 // OBJS
 var tarjeta_filtros = null
@@ -70,6 +70,7 @@ PopupFiltros.prototype.click_BotonBuscar = function (e) {
     e.preventDefault()
 
     tarjeta_resultados.grid_egresos.agrupar_Informacion()
+    tarjeta_resultados.grid_ingresos.agrupar_Informacion()
     tarjeta_filtros.ocultar_Popup()
 }
 PopupFiltros.prototype.click_BloquearCentroCosotos = function (e){
@@ -104,7 +105,7 @@ PopupFiltros.prototype.ocultar_Popup = function (){
 function TarjetaResultados(){
 
     this.grid_egresos = new GridEgresos()
-    // this.grid_ingresos = new GridIngresos()
+    this.grid_ingresos = new GridIngresos()
 }
 
 
@@ -164,6 +165,7 @@ GridEgresos.prototype.agrupar_Informacion = function (){
                                     noviembre: g.sum("$.noviembre"),
                                     diciembre: g.sum("$.diciembre"),
                                     total: g.sum("$.total"),
+                                    cxp: g.sum("$.cxp"),
                                 }
                                 return result;
                             })
@@ -217,6 +219,7 @@ GridEgresos.prototype.get_Aggregate = function () {
           { field: "noviembre", aggregate: "sum" },
           { field: "diciembre", aggregate: "sum" },
           { field: "total", aggregate: "sum" },
+          { field: "cxp", aggregate: "sum" },
     ]
 }
 GridEgresos.prototype.get_Campos = function () {
@@ -236,6 +239,7 @@ GridEgresos.prototype.get_Campos = function () {
         noviembre : { type: "integer" },
         diciembre : { type: "integer" },
         total : { type: "integer" },
+        cxp : { type: "integer" },
     }
 }
 GridEgresos.prototype.get_Configuracion = function () {
@@ -359,7 +363,13 @@ GridEgresos.prototype.get_Columnas = function () {
             aggregates: ["sum"],
             footerTemplate: "$#: kendo.toString(sum, '\\#\\#,\\#.\\#\\#') #",
         },
-        {   title: "CXP",width:"150px" },
+        {   field: "cxp",
+            title: "CXP",
+            width:"150px",
+            format: "{0:c}",
+            aggregates: ["sum"],
+            footerTemplate: "$#: kendo.toString(sum, '\\#\\#,\\#.\\#\\#') #",
+        },
     ]
 }
 GridEgresos.prototype.aplicar_Estilos = function (e) {
@@ -373,14 +383,14 @@ GridEgresos.prototype.aplicar_Estilos = function (e) {
 
 function GridIngresos() {
 
-   this.$id = $("#grid_resultados")
+   this.$id = $("#grid_resultados_ingresos")
    this.kfuente_datos = null
    this.kgrid = null
    this.agrupar_Informacion()
    // this.init()
 }
 GridIngresos.prototype.init = function (_resultado) {
-   $("#grid_resultados").empty()
+   $("#grid_resultados_ingresos").empty()
    kendo.culture("es-MX")
    this.kfuente_datos = new kendo.data.DataSource(this.get_DataSourceConfig(_resultado))
    this.kgrid = this.$id.kendoGrid(this.get_Configuracion())
@@ -395,7 +405,7 @@ GridIngresos.prototype.agrupar_Informacion = function (){
         valor = tarjeta_filtros.$centro_costos.val()
     }
     var promesa = $.ajax({
-         url: url_viewflujoegresos,
+         url: url_viewflujoingresos,
          method: "GET",
          dataType: "json",
          data: {
@@ -434,11 +444,11 @@ GridIngresos.prototype.agrupar_Informacion = function (){
    })
     promesa.then(function(){
         if(resultado.length != 0){
-            $('#container-flujo').removeClass('hide')
+            $('#container-flujo-ingresos').removeClass('hide')
             tarjeta_resultados.grid_ingresos.init(resultado)
             grafica_ingresos = new GraficaIngresos(resultado)
         }else{
-            $('#container-flujo').addClass('hide')
+            $('#container-flujo-ingresos').addClass('hide')
             tarjeta_resultados.grid_ingresos.init(resultado)
 
         }
@@ -618,7 +628,6 @@ GridIngresos.prototype.get_Columnas = function () {
             aggregates: ["sum"],
             footerTemplate: "$#: kendo.toString(sum, '\\#\\#,\\#.\\#\\#') #",
         },
-        {   title: "CXP",width:"150px" },
     ]
 }
 GridIngresos.prototype.aplicar_Estilos = function (e) {
@@ -692,7 +701,7 @@ Grafica.prototype.get_DataConfig = function (_response) {
 
 function GraficaIngresos(_response){
 
-    Highcharts.chart('container-flujo',this.get_IndicadorConfig(_response))
+    Highcharts.chart('container-flujo-ingresos',this.get_IndicadorConfig(_response))
 }
 GraficaIngresos.prototype.get_IndicadorConfig = function (_response) {
 
@@ -703,7 +712,7 @@ GraficaIngresos.prototype.get_IndicadorConfig = function (_response) {
         type: 'column'
       },
       title: {
-         text: 'Flujo de egresos'
+         text: 'Flujo de ingresos'
       },
       xAxis: {
         categories: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
