@@ -85,8 +85,8 @@
             <div class="panel panel-default panel-table">
 
                <div class="panel-heading nova-panel-borde-contenido nova-panel-tools">
-                  <a class="btn nova-btn btn-rounded btn-sm btn-space btn-default pull-right" data-toggle="modal" id="id_boton_nuevo_requisito">
-                     <i class="icon icon-left mdi mdi-plus-circle nova-black"></i>Nuevo
+                  <a class="btn nova-btn btn-rounded btn-sm btn-space btn-default pull-right" data-toggle="modal" id="id_boton_requisito">
+                     <i class="icon icon-left mdi mdi-plus-circle nova-black"></i>Requisitos
                   </a>
                </div><!-- Panel Heading -->
 
@@ -131,7 +131,6 @@
             </div> <!-- Panel -->
          </div> <!-- col sm 12 fuelux-->
       </div> <!-- wizzard row -->
-      <input type="hide" class="hide" value="{{ request.user.profile.pk }}" id="id_actual_user">
       <input type="hide" class="hide" value="{{ pk_pro }}" id="id_pk_pro">
       {% if messages %}
           {% for message in messages %}
@@ -140,14 +139,14 @@
       {% endif %}
    </div> <!-- main content -->
 
-   <!-- Nuevo Requisito -->
+   <!-- Requisito -->
    <div id="id_tarjeta_requisito" data-primaryKey="" role="dialog" class="modal fade colored-header colored-header-primary">
       <div class="modal-dialog custom-width">
          <div class="modal-content">
 
             <div class="modal-header nova-modal-header">
                <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
-               <h3 class="modal-title" id="id_popup_requisito_titulo"></h3>
+               <h3 class="modal-title">Requisitos</h3>
             </div>
             <form id="formulario_proceso"  method="POST"> {% csrf_token %}
 

@@ -697,7 +697,7 @@ class RequisitoLista(View):
         auditoria = Auditoria.objects.get(pk = pk)
         proceso = ProcesoAuditoria.objects.get(pk = pk_pro)
         requisito_criterio = self.get_requisto(auditoria)
-        formulario = RequisitoProcesoForm(requisito_criterio)
+        formulario = RequisitoProcesoForm(requisito_criterio, request.POST)
 
         if formulario.is_valid():
 
@@ -705,13 +705,16 @@ class RequisitoLista(View):
                 datos_formulario = formulario.cleaned_data
 
                 for requisito in datos_formulario.get('requisito'):
-                    # [index for index, v in enumerate(l) if v == 'bar']
-                    datos_formulario.get('requisito')
-                    req_pro = RequisitoProceso()
-                    req_pro.proceso_auditoria = ProcesoAuditoria.objects.get(pk = pk_pro )
-                    req_pro.requisito = Requisito.objects.get(pk = requisito)
-                    req_pro.create_by = CalidadMethods.get_Usuario(request.user.id)
-                    req_pro.save()
+
+                    try:
+                        requisito_existe = RequisitoProceso.objects.get(proceso_auditoria=pk_pro, requisito=requisito)
+                    except RequisitoProceso.DoesNotExist as e:
+                        req_pro = RequisitoProceso()
+                        req_pro.proceso_auditoria = ProcesoAuditoria.objects.get(pk = pk_pro )
+                        req_pro.requisito = Requisito.objects.get(pk = requisito)
+                        req_pro.create_by = CalidadMethods.get_Usuario(request.user.id)
+                        req_pro.save()
+
             except IntegrityError as e:
 
                 messages.add_message(request, messages.WARNING, "Este requisito ya existe para el proceso.", extra_tags='requisito_existe')
@@ -733,65 +736,17 @@ class RequisitoLista(View):
 
     def get_requisto(self, auditoria):
 
-        mas = ()
-        valores = ()
+        segmentos = ()
         opciones = ()
 
         for criterio in auditoria.criterio.all():
-            valores += criterio.criterio,
+
             for requisito in Requisito.objects.filter(criterio=criterio.pk):
-                opciones += ((requisito.pk, requisito.requisito),)
+                opciones += (requisito.pk, requisito.requisito),
 
-            valores += ((opciones),)
-
-        mas += (valores,)
-        import ipdb; ipdb.set_trace()
-        return mas
-
-        #     = (
-        #     ('p1', 'Seleccione'),
-        #     ('Corporativo',
-        #         (
-        #             ('p1', 'Capital Humano'),
-        #             ('p2', 'Juridico'),
-        #             ('p3', 'Tecnologias de Informacion'),
-        #             ('p4', 'Gestion de Calidad'),
-        #             ('p5', 'Licitaciones')
-        #         )
-        #     ),
-        # )
-
-
-
-
-                # valores = []
-                # opciones = []
-                # for criterio in auditoria.criterio.all():
-                #     valores.append(criterio.criterio)
-                #     for requisito in Requisito.objects.filter(criterio=criterio.pk):
-                #         opciones.append(
-                #             (
-                #                 requisito.pk,
-                #                 requisito.requisito
-                #             )
-                #         )
-                #     valores.append(opciones)
-                # return valores
-
-
-            #     = (
-            #     ('p1', 'Seleccione'),
-            #     ('Corporativo',
-            #         (
-            #             ('p1', 'Capital Humano'),
-            #             ('p2', 'Juridico'),
-            #             ('p3', 'Tecnologias de Informacion'),
-            #             ('p4', 'Gestion de Calidad'),
-            #             ('p5', 'Licitaciones')
-            #         )
-            #     ),
-            # )
-
+            segmentos +=(criterio.criterio, (opciones)),
+            opciones = ()
+        return segmentos
 
 
 class HallazgoLista(View):

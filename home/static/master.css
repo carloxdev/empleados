@@ -790,6 +790,7 @@ div.nova-panel-arbol li.list-group-item {
 .nova-bootstrap-multiselect-width-ul {
    overflow-x: scroll !important;
    max-width: 100% !important;
+   max-height: 350px !important;
 }
 /* bootstrap multiselect */
 

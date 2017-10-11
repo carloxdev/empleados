@@ -586,7 +586,7 @@ class ProcesoAuditoriaEdicionForm(Form):
 
 class RequisitoProcesoForm(Form):
 
-    requisito = ChoiceField(
+    requisito = MultipleChoiceField(
         widget=SelectMultiple(attrs={'class': 'select2', 'multiple': 'multiple'}),
         required=False
     )
