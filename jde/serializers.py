@@ -18,6 +18,7 @@ from .models import VIEW_AUTORIZACIONES
 from .models import VIEW_RECEPCIONES
 from .models import VIEW_PROVEEDORES
 from .models import VIEW_FLUJO_EGRESOS
+from .models import VIEW_FLUJO_INGRESOS
 
 
 class VIEW_INVENTARIO_UN_Serializer(serializers.HyperlinkedModelSerializer):
@@ -528,6 +529,33 @@ class VIEW_FLUJO_EGRESOS_Serializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = VIEW_FLUJO_EGRESOS
+        fields = (
+            'compania',
+            'anio',
+            'tipo_un',
+            'descripcion_un',
+            'cuenta_clase_desc',
+            'enero',
+            'febrero',
+            'marzo',
+            'abril',
+            'mayo',
+            'junio',
+            'julio',
+            'agosto',
+            'septiembre',
+            'octubre',
+            'noviembre',
+            'diciembre',
+            'total',
+            'cxp',
+        )
+
+
+class VIEW_FLUJO_INGRESOS_Serializer(serializers.HyperlinkedModelSerializer):
+
+    class Meta:
+        model = VIEW_FLUJO_INGRESOS
         fields = (
             'compania',
             'anio',

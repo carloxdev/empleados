@@ -14,6 +14,8 @@ from jde.views_rest import VIEW_PROVEEDORES_API
 from jde.views_rest import VIEW_PROVEEDORES_ByPageAPI
 from jde.views_rest import VIEW_FLUJO_EGRESOS_API
 from jde.views_rest import VIEW_FLUJO_EGRESOS_ByPageAPI
+from jde.views_rest import VIEW_FLUJO_INGRESOS_API
+from jde.views_rest import VIEW_FLUJO_INGRESOS_ByPageAPI
 
 
 router_jde = routers.DefaultRouter()
@@ -95,4 +97,16 @@ router_jde.register(
     r'viewflujoegresos_bypage',
     VIEW_FLUJO_EGRESOS_ByPageAPI,
     'viewflujoegresos_bypage',
+)
+
+router_jde.register(
+    r'viewflujoingresos',
+    VIEW_FLUJO_INGRESOS_API,
+    'viewflujoingresos',
+)
+
+router_jde.register(
+    r'viewflujoingresos_bypage',
+    VIEW_FLUJO_INGRESOS_ByPageAPI,
+    'viewflujoingresos_bypage',
 )

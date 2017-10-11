@@ -25,6 +25,7 @@ from .models import VIEW_AUTORIZACIONES
 from .models import VIEW_RECEPCIONES
 from .models import VIEW_PROVEEDORES
 from .models import VIEW_FLUJO_EGRESOS
+from .models import VIEW_FLUJO_INGRESOS
 
 # Serializadores:
 from .serializers import VIEW_SCOMPRAS_Serializer
@@ -42,6 +43,7 @@ from .serializers import VM_PORF_CXP_Serializer
 from .serializers import VM_PORF_NOMINA_Serializer
 from .serializers import VIEW_PROVEEDORES_Serializer
 from .serializers import VIEW_FLUJO_EGRESOS_Serializer
+from .serializers import VIEW_FLUJO_INGRESOS_Serializer
 
 # Paginadores:
 from .pagination import GenericPagination
@@ -61,6 +63,7 @@ from .filters import VM_PORF_CXP_Filter
 from .filters import VM_PORF_NOMINA_Filter
 from .filters import VIEW_PROVEEDORES_Filter
 from .filters import VIEW_FLUJO_EGRESOS_Filter
+from .filters import VIEW_FLUJO_INGRESOS_Filter
 
 
 # ----------------- VIEW_SCOMPRAS ----------------- #
@@ -288,4 +291,21 @@ class VIEW_FLUJO_EGRESOS_ByPageAPI(viewsets.ModelViewSet):
     pagination_class = GenericPagination
     filter_backends = (DjangoFilterBackend,)
     filter_class = VIEW_FLUJO_EGRESOS_Filter
+    permission_classes = (IsAuthenticated,)
+
+
+class VIEW_FLUJO_INGRESOS_API(viewsets.ModelViewSet):
+    queryset = VIEW_FLUJO_INGRESOS.objects.using('jde_p').all()
+    serializer_class = VIEW_FLUJO_INGRESOS_Serializer
+    filter_backends = (DjangoFilterBackend,)
+    filter_class = VIEW_FLUJO_INGRESOS_Filter
+    permission_classes = (IsAuthenticated,)
+
+
+class VIEW_FLUJO_INGRESOS_ByPageAPI(viewsets.ModelViewSet):
+    queryset = VIEW_FLUJO_INGRESOS.objects.using('jde_p').all()
+    serializer_class = VIEW_FLUJO_INGRESOS_Serializer
+    pagination_class = GenericPagination
+    filter_backends = (DjangoFilterBackend,)
+    filter_class = VIEW_FLUJO_INGRESOS_Filter
     permission_classes = (IsAuthenticated,)
