@@ -276,13 +276,13 @@ class TipoDocumentoFilter(filters.FilterSet):
 
 class PerfilIndicadorFilter(filters.FilterSet):
 
-    pk = CharFilter(
-        name="pk",
+    cvepuesto = CharFilter(
+        name="cvepuesto",
         lookup_expr="icontains")
 
     class Meta:
         model = PerfilIndicadores
         fields = [
-            'pk',
+            'cvepuesto',
             'plantilla',
         ]

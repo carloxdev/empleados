@@ -49,11 +49,12 @@ class EvaluacionPlantillas(models.Model):
 
 class PerfilIndicadores(models.Model):
 
+    slug = models.SlugField(max_length=100, null=True, blank=True)
     plantilla = models.ForeignKey(EvaluacionPlantillas, blank=True, null=True)
     cvepuesto = models.IntegerField(default=0)
     departamento = models.CharField(max_length=10)
     puesto = models.CharField(max_length=10)
-    linea = models.IntegerField(default=1)
+    #linea = models.IntegerField(default=1)
     objetivo = models.CharField(max_length=500, null=True, blank=True)
     unidad_medida = models.CharField(max_length=255, null=True, blank=True)
     descripcion_kpi = models.CharField(max_length=500, null=True, blank=True)
@@ -76,6 +77,17 @@ class PerfilIndicadores(models.Model):
         blank=True
     )
     history = HistoricalRecords()
+
+    def save(self, *args, **kwargs):
+
+        if self.pk is None:
+            if PerfilIndicadores.objects.filter(cvepuesto=self.cvepuesto).count():
+                last_line = PerfilIndicadores.objects.filter(cvepuesto=self.cvepuesto).order_by('-id')[0]
+                self.slug = int(last_line.slug) + 1
+            else:
+                self.slug = 1
+
+        super(PerfilIndicadores, self).save(*args, **kwargs)
 
     def __unicode__(self):
         cadena = "%s" % (self.id)

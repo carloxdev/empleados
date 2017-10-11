@@ -37,6 +37,7 @@ $(document).ready(function () {
     resultados = new TargetaResultados()
     popup = new PopupPerfil()
     resultados_competencia = new TargetaResultadosCompetencias()
+    resultados_indicadores = new TargetaResultadosIndicadores()
     popup_com = new PopupPerfilCompetencia()
     popup_ind = new PopupPerfilIndicador()
 
@@ -90,6 +91,13 @@ Componente.prototype.get_Values = function (_page) {
     return {
         page: _page,
         id_puesto: this.$puesto.val(),
+    }
+}
+
+Componente.prototype.get_Values3 = function (_page) {
+    return {
+        page: _page,
+        cvepuesto: this.$puesto.val(),
     }
 }
 
@@ -237,6 +245,7 @@ function Formulario() {
     //this.$created_by = $('#created_by')
     this.grid = new Grid()
     this.gri2 = new Grid2()
+    this.gri3 = new Grid3()
     this.init_Components()
     this.init_Events()
 }
@@ -363,6 +372,37 @@ Formulario.prototype.escoger_puestosacargo = function (e) {
                         // alert("Ocurrio error al consultar competencias")
                   }
     })
+
+    $.ajax({
+            url: url_perfil_indicadores_bypage,
+            data: {
+              puesto : num_empleado
+            },
+            dataType: "json",
+            type: "GET",
+            contentType: "application/json; charset=utf-8",
+            context: this,
+            success: function (response) {
+              cont = 0
+              for (var i = 0; i < response.length; i++) {
+                cont+=1
+              }
+
+              if (cont == 0 && no_puesto != ''){
+                //$("#grid_resultados").empty()
+                //grid = new Grid()
+                resultados_indicadores.grid3.buscar()
+              }
+              else{
+                 alertify.error("No se ha seleccionado el puesto en general")
+              }
+              
+            },
+            error: function (response) {
+                         alertify.error("Ocurrio error al consultar competencias")
+                        // alert("Ocurrio error al consultar competencias")
+                  }
+    })
 }
 
 /*-----------------------------------------------*\
@@ -389,9 +429,9 @@ function Grid() {
     this.kfuente_datos2 = null
     this.kgrid2 = null
 
-    this.$id_grid_indicadores = $('#grid_resultados_indicadores')
+    this.$id3 = $('#grid_resultados_indicadores')
     this.kfuente_datos3 = null
-    this.kgrid2_indicadores = null
+    this.kgrid3 = null
 
     this.init_Components()
     this.init_Components2()
@@ -413,9 +453,9 @@ Grid.prototype.init_Components2 = function () {
 }
 Grid.prototype.init_Components3 = function () {
     // Se inicializa la fuente da datos (datasource)
-    this.kfuente_datos3 = new kendo.data.DataSource(this.get_DataSourceConfig2())
+    this.kfuente_datos3 = new kendo.data.DataSource(this.get_DataSourceConfig3())
     // Se inicializa y configura el grid:
-    this.kgrid3 = this.$id_grid_indicadores.kendoGrid(this.get_Configuracion2())    
+    this.kgrid3 = this.$id3.kendoGrid(this.get_Configuracion3())    
 }
 
 Grid.prototype.get_DataSourceConfig = function () {
@@ -491,14 +531,13 @@ console.log("paso grid indicadores")
         pageSize: 10,
         transport: {
             read: {
-
-                url: url_perfil_competencia_doc_bypage,
+                url: url_perfil_indicadores_bypage,
                 type: "GET",
                 dataType: "json",
             },
             parameterMap: function (data, action) {
                 if (action === "read"){
-                    return select_componente.get_Values(data.page)
+                    return select_componente.get_Values3(data.page)
                 }
             }
         },
@@ -506,7 +545,7 @@ console.log("paso grid indicadores")
             data: "results",
             total: "count",
             model: {
-                fields: this.get_Campos2()
+                fields: this.get_Campos3()
             }
         },
         error: function (e) {
@@ -561,6 +600,7 @@ Grid.prototype.buscar = function() {
     
     this.kfuente_datos.page(1)
     this.kfuente_datos2.page(1)
+    this.kfuente_datos3.page(1)
 }
 
 /*++++++++++++++++++++++++++++++++++++++++++++++++*/
@@ -606,6 +646,70 @@ Grid.prototype.get_Columnas2 = function () {
         { field: "id_puesto", title: "Puesto", width:"80px" },
         { field: "descripcion", title: "Descripcion", width:"70px" },
         { field: "porcentaje", title: "Porcentaje", width:"300px" },
+        
+    ]
+}
+
+
+/*============================================*/
+
+/*++++++++++++++++++++++++++++++++++++++++++++++++*/
+Grid.prototype.get_Campos3 = function () {
+
+    return {
+        pk : { type: "number" },
+        cvepuesto : { type: "string" },
+        departamento : { type: "string" },
+        puesto : { type: "string" },
+        //linea : { type: "number" },
+        objetivo : { type: "string" },
+        unidad_medida : { type: "string" },
+        descripcion_kpi : { type: "string" },
+        porcentaje : { type: "number" },
+        meta_minima : { type: "number" },
+        meta_satisfactoria : { type: "number" },
+        meta_excelente : { type: "number" },
+    }
+}
+Grid.prototype.get_Configuracion3 = function () {
+    return {
+        autoBind: false,
+        dataSource: this.kfuente_datos3,
+        columnMenu: true,
+        groupable: false,
+        sortable: false,
+        editable: false,
+        resizable: true,
+        selectable: true,
+        columns: this.get_Columnas3(),
+        scrollable: true,
+        pageable: true,
+        noRecords: {
+            template: "<div class='grid-empy'> No se encontraron registros </div>"
+        },
+        dataBound: this.set_Icons,
+    }    
+}
+
+Grid.prototype.get_Columnas3 = function () {
+
+    return [
+        { 
+            field: "pk", 
+            title: "Id", 
+            width:"70px",
+        },
+        { field: "cvepuesto", title: "Clave Puesto", width:"70px" },
+        { field: "departamento", title: "Departamento", width:"80px" },
+        { field: "puesto", title: "Puesto", width:"70px" },
+        //{ field: "linea", title: "Linea", width:"300px" },
+        { field: "objetivo", title: "Objetivo", width:"70px" },
+        { field: "unidad_medida", title: "Unidad Medida", width:"80px" },
+        { field: "descripcion_kpi", title: "Descripcion", width:"70px" },
+        { field: "porcentaje", title: "porcentaje", width:"70px" },
+        { field: "meta_minima", title: "Meta Minima", width:"70px" },
+        { field: "meta_satisfactoria", title: "Meta Satisfactoria", width:"70px" },
+        { field: "meta_excelente", title: "Meta Excelente", width:"70px" },
         
     ]
 }
@@ -1054,7 +1158,7 @@ PopupPerfilIndicador.prototype.click_BotonGuardar = function (e) {
          data: {
             'plantilla_id' : plantilla,
             'cvepuesto' : id_puesto,
-            'linea' : '1',
+            //'linea' : '1',
             'departamento' : departamento,
             'puesto' : puesto, 
             'objetivo' : objetivo,
@@ -1093,6 +1197,120 @@ PopupPerfilIndicador.prototype.hidden_Modal = function () {
 PopupPerfilIndicador.prototype.actualizar_Grid = function () {
         //$("#grid_resultados").empty()
         resultados.grid.init()
+}
+
+
+/*-----------------------------------------------*\
+            OBJETO: Targeta Resultados
+\*-----------------------------------------------*/
+
+function TargetaResultadosIndicadores () {
+
+    this.grid3 = new Grid3()
+    //this.toolbar = new Toolbar()
+}
+
+/*-----------------------------------------------*\
+            OBJETO: Grid
+\*-----------------------------------------------*/
+
+function Grid3() {
+
+    this.$id3 = $('#grid_resultados_indicadores')
+    this.kfuente_datos3 = null
+    this.kgrid3 = null
+    this.init_Components()
+
+}
+
+Grid3.prototype.init_Components = function () {
+    // Definicion del pais, formato modena, etc..
+    kendo.culture("es-MX")
+
+    // Se inicializa la fuente da datos (datasource)
+    this.kfuente_datos3 = new kendo.data.DataSource(this.get_DataSourceConfig())
+    //this.kfuente_datos_excel = new kendo.data.DataSource(this.get_FuenteDatosExcel())
+   
+    // Se inicializa y configura el grid:
+    this.kgrid3 = this.$id3.kendoGrid(this.get_Configuracion())    
+}
+
+Grid3.prototype.get_DataSourceConfig = function () {
+
+   console.log("paso por grid33")
+}
+
+Grid3.prototype.get_Campos = function () {
+
+    return {
+        pk : { type: "number" },
+        cvepuesto : { type: "string" },
+        departamento : { type: "string" },
+        puesto : { type: "string" },
+        //linea : { type: "number" },
+        objetivo : { type: "string" },
+        unidad_medida : { type: "string" },
+        descripcion_kpi : { type: "string" },
+        porcentaje : { type: "number" },
+        meta_minima : { type: "number" },
+        meta_satisfactoria : { type: "number" },
+        meta_excelente : { type: "number" },
+    }
+}
+Grid3.prototype.get_Configuracion = function () {
+    return {
+        //autoBind: false,
+        dataSource: this.kfuente_datos3,
+        columnMenu: true,
+        groupable: false,
+        sortable: false,
+        editable: false,
+        resizable: true,
+        selectable: true,
+        columns: this.get_Columnas(),
+        scrollable: true,
+        pageable: true,
+        noRecords: {
+            template: "<div class='grid-empy'> No se encontraron registros </div>"
+        },
+        dataBound: this.set_Icons,
+    }    
+}
+
+Grid3.prototype.get_Columnas = function () {
+
+    return [
+        { 
+            field: "pk", 
+            title: "Id", 
+            width:"70px",
+        },
+        { field: "cvepuesto", title: "TipoCompetencia", width:"70px" },
+        { field: "departamento", title: "Puesto", width:"80px" },
+        { field: "puesto", title: "Descripcion", width:"70px" },
+        //{ field: "linea", title: "Porcentaje", width:"300px" },
+        { field: "objetivo", title: "Tipo Competencia", width:"70px" },
+        { field: "unidad_medida", title: "Puesto", width:"80px" },
+        { field: "descripcion_kpi", title: "Descripcion", width:"70px" },
+        { field: "porcentaje", title: "Porcentaje", width:"70px" },
+        { field: "meta_minima", title: "Meta Minima", width:"70px" },
+        { field: "meta_satisfactoria", title: "Meta Satisfactoria", width:"70px" },
+        { field: "meta_excelente", title: "Meta Excelente", width:"70px" },
+        
+    ]
+}
+
+Grid3.prototype.buscar = function() {
+    
+    this.kfuente_datos3.page(1)
+}
+
+
+Grid3.prototype.set_Icons = function (e) {
+
+        e.sender.tbody.find(".k-button.fa.fa-pencil").each(function(idx, element){
+        $(element).removeClass("fa fa-pencil").find("span").addClass("fa fa-pencil")
+    })   
 }
 
 

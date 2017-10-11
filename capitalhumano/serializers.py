@@ -632,7 +632,6 @@ class PerfilIndicadorSerializer(serializers.HyperlinkedModelSerializer):
             'cvepuesto',
             'departamento',
             'puesto',
-            'linea',
             'objetivo',
             'unidad_medida',
             'descripcion_kpi',

@@ -115,7 +115,6 @@ class PerfilIndicadoresAdmin(admin.ModelAdmin):
         'cvepuesto',
         'departamento',
         'puesto',
-        'linea',
         'objetivo',
         'unidad_medida',
         'descripcion_kpi',
