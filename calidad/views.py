@@ -668,6 +668,104 @@ class ProcesoFormularioUpdate(View):
         return valores
 
 
+class ProcesoCheckListPreview(View):
+
+    def __init__(self):
+        self.template_name = 'proceso/proceso_checklist_preview.html'
+
+    def get(self, request, pk, pk_pro):
+
+        auditoria = Auditoria.objects.get(pk = pk)
+        procesos = ProcesoAuditoria.objects.filter(auditoria = pk)
+        proceso = get_object_or_404(ProcesoAuditoria, pk = pk_pro, auditoria = pk)
+        requisitos = Requisito.objects.all()
+        formulario = HallazgoProcesoForm()
+        formulario_filtro = HallazgoProcesoFilterForm( request.GET )
+
+        argumentos = {}
+
+        if request.GET:
+            campos_formulario = []
+
+            for campos in HallazgoProcesoFilterForm():
+                campos_formulario.append(campos.name)
+
+            for campoGet in request.GET:
+                if campoGet in campos_formulario:
+                    if request.GET[campoGet] != '':
+                        if campoGet == 'titulo':
+                            argumentos['titulo__icontains'] = request.GET[campoGet]
+
+                        if campoGet == 'estado':
+                            argumentos['estado__exact'] = request.GET[campoGet]
+
+                        if campoGet == 'tipo_hallazgo':
+                            argumentos['tipo_hallazgo__exact'] = request.GET[campoGet]
+
+                        if campoGet == 'cerrado':
+                            argumentos['cerrado__exact'] = request.GET[campoGet]
+
+        hallazgos = HallazgoProceso.objects.filter(proceso = pk_pro, proceso__auditoria = pk, **argumentos)
+
+        contexto = {
+            'form': formulario,
+            'form_filter': formulario_filtro,
+            'pk': pk,
+            'pk_pro': pk_pro,
+            'proceso': proceso.proceso,
+            'subproceso': proceso.subproceso,
+            'hallazgos': hallazgos,
+            'folio': auditoria.folio
+        }
+
+        return render(request, self.template_name, contexto)
+
+    def post(self, request, pk, pk_pro):
+
+        auditoria = Auditoria.objects.get(pk = pk)
+        procesos = ProcesoAuditoria.objects.filter(auditoria = pk)
+        proceso = ProcesoAuditoria.objects.get(pk = pk_pro)
+        requisitos = Requisito.objects.all()
+        hallazgos = HallazgoProceso.objects.filter(proceso = pk_pro)
+
+        formulario = HallazgoProcesoForm(request.POST)
+        formulario_filtro = HallazgoProcesoFilterForm()
+
+        if formulario.is_valid():
+            datos_formulario = formulario.cleaned_data
+            hallazgo = HallazgoProceso()
+
+            hallazgo.titulo = datos_formulario.get('titulo')
+            hallazgo.proceso = proceso
+            hallazgo.tipo_hallazgo = datos_formulario.get('tipo_hallazgo')
+            hallazgo.observacion = datos_formulario.get('observaciones')
+            hallazgo.cerrado = "No"
+            hallazgo.create_by = CalidadMethods.get_Usuario(request.user.id)
+            hallazgo.save()
+
+            for requisito_choice in datos_formulario.get('requisito_referencia'):
+                requisito = Requisito.objects.get(pk=requisito_choice)
+                hallazgo.requisito_referencia.add(requisito)
+
+            for descripcion_choice in datos_formulario.get('descripciones'):
+                descripcion = Falla.objects.get(pk=descripcion_choice)
+                hallazgo.falla.add(descripcion)
+
+            return redirect(reverse('calidad:hallazgo_lista', kwargs={ 'pk': pk, 'pk_pro': proceso.pk }))
+
+        contexto = {
+            'form': formulario,
+            'form_filter': formulario_filtro,
+            'pk': pk,
+            'pk_pro': pk_pro,
+            'proceso': proceso.proceso,
+            'subproceso': proceso.subproceso,
+            'hallazgos': hallazgos,
+            'folio': auditoria.folio
+        }
+        return render(request, self.template_name, contexto)
+
+
 class RequisitoLista(View):
 
     def __init__(self):

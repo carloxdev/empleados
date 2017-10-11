@@ -9,8 +9,9 @@ from .views import GeneralFormularioCreate
 from .views import GeneralFormularioUpdate
 from .views import AuditorFormularioUpdate
 from .views import ProcesoLista
-from .views import RequisitoLista
 from .views import ProcesoFormularioUpdate
+from .views import ProcesoCheckListPreview
+from .views import RequisitoLista
 from .views import HallazgoLista
 from .views import HallazgoDetalle
 # from .views import EvidenciaFormulario
@@ -76,6 +77,11 @@ urlpatterns = [
         name="proceso_formulario_update"
     ),
     url(
+        r'^auditorias/(?P<pk>\d+)/procesos/(?P<pk_pro>\d+)/check_list/$',
+        ProcesoCheckListPreview.as_view(),
+        name="proceso_checklist_preview"
+    ),
+    url(
         r'^auditorias/(?P<pk>\d+)/procesos/(?P<pk_pro>\d+)/requisitos/$',
         RequisitoLista.as_view(),
         name="requisito_lista"
@@ -90,11 +96,6 @@ urlpatterns = [
         HallazgoDetalle.as_view(),
         name="hallazgo_detalle"
     ),
-    # url(
-    #     r'^auditorias/nuevo/hallazgos/evidencia/$',
-    #     EvidenciaFormulario.as_view(),
-    #     name="evidencia_formulario"
-    # ),
     # url(
     #     r'^auditorias/nuevo/hallazgos/planes_accion/$',
     #     PlanAccionLista.as_view(),

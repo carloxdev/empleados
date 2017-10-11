@@ -83,12 +83,12 @@
                             {% for proceso in procesos %}
                               <tr class="clickable-row">
                                  <td>
-                                    <a href="#id_tarjeta_acciones" data-toggle="modal" class="btn nova-btn btn-default" id="id_boton_accion">
+                                    <a href="#id_tarjeta_acciones" data-toggle="modal" data-event="acciones" class="btn nova-btn btn-default" id="id_boton_accion" data-id="{{ pk }}" data-id-pro="{{ proceso.pk }}">
                                        <i class="icon icon-left icon mdi mdi-settings nova-black"></i>
                                     </a>
                                  </td>
                                  <td>
-                                    <a href="{% url 'calidad:proceso_formulario_update' pk proceso.pk %}" class="btn btn-default nova-url" data-toggle="modal">{{ proceso.subproceso }}</a>
+                                    <a href="{% url 'calidad:proceso_formulario_update' pk proceso.pk %}" class="btn btn-default nova-url">{{ proceso.subproceso }}</a>
                                  </td>
                                  <td>{{ proceso.proceso }}</td>
                                  <td>{{ proceso.rep_subpro_nombre_completo }}</td>
@@ -181,7 +181,7 @@
                <div class="text-center">
                   <div role="group" class="btn-group-vertical btn-space">
 
-                     <a href="{% url 'calidad:general_formulario_create' %}" class="btn nova-btn btn-space btn-success btn-lg" id="id_boton_check_list">
+                     <a class="btn nova-btn btn-space btn-success btn-lg" id="id_boton_check_list">
                         <i class="icon icon-left mdi mdi-collection-pdf nova-white"></i> Reporte De Check-list
                      </a>
                      <a href="{% url 'calidad:general_formulario_create' %}" class="btn nova-btn btn-space btn-success btn-lg" id="id_boton_reporta_auditoria">

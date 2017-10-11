@@ -48,16 +48,24 @@ function ToolBar() {
 function Grid() {
 
    popup_acciones = new PopupAcciones()
-   this.$id_grid_proceso = $('#id_grid_proceso')
+   this.$id = $('#id_grid_proceso')
+   this.$pk
+   this.$pk_pro
    this.init_Events()
 }
 Grid.prototype.init_Events = function () {
 
-   this.$id_grid_proceso.on("click", '.clickable-row', this.click_FilaGrid)
+   this.$id.on("click", '.clickable-row', this.click_FilaGrid)
+   this.$id.on("click", '[data-event=\'acciones\']', this.click_BotonAcciones )
 }
 Grid.prototype.click_FilaGrid = function (e) {
 
    $(this).addClass('nova-active-row').siblings().removeClass('nova-active-row')
+}
+Grid.prototype.click_BotonAcciones = function (e) {
+
+   tarjeta_resultados.grid.$pk = $(this).attr("data-id")
+   tarjeta_resultados.grid.$pk_pro = $(this).attr("data-id-pro")
 }
 
 /*-----------------------------------------------*\
@@ -186,7 +194,7 @@ PopupProceso.prototype.show_Modal = function (e) {
 
 function PopupAcciones () {
 
-   this.$id_tarjeta_acciones = $('#id_tarjeta_acciones')
+   this.$id = $('#id_tarjeta_acciones')
    this.$id_boton_check_list = $('#id_boton_check_list')
    this.$id_boton_reporta_auditoria = $('#id_boton_reporta_auditoria')
    this.$id_boton_editar = $('#id_boton_editar')
@@ -199,7 +207,7 @@ PopupAcciones.prototype.init_Events = function () {
 }
 PopupAcciones.prototype.click_BotonCheckList = function (e) {
 
-   e.preventDeafult()
+   window.location.href = window.location.origin + "/auditorias/" + tarjeta_resultados.grid.$pk + "/procesos/" + tarjeta_resultados.grid.$pk_pro + "/check_list/"
 }
 PopupAcciones.prototype.click_BotonReporteAuditoria = function (e) {
 

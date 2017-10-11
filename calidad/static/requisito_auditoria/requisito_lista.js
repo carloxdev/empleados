@@ -118,7 +118,7 @@ function PopupRequisito() {
 PopupRequisito.prototype.init_Components = function () {
 
    this.$id_requisito.multiselect(this.get_ConfMultiSelect())
-   this.$id_requisito.siblings("div.btn-group").find("ul.multiselect-container").addClass('nova-bootstrap-multiselect-width-ul')
+   this.$id_requisito.siblings("div.btn-group").find("ul.multiselect-container").addClass('nova-bootstrap-multiselect-req')
    this.get_Requisitos()
 }
 PopupRequisito.prototype.get_ConfMultiSelect = function () {
@@ -128,7 +128,7 @@ PopupRequisito.prototype.get_ConfMultiSelect = function () {
       enableFiltering: true,
       buttonWidth: '100%',
       numberDisplayed: 2,
-      maxHeight: 150,
+      maxHeight: 250,
       nonSelectedText: "Sin Selección",
       allSelectedText: "Todo Seleccionado",
       nSelectedText: "Seleccionados",

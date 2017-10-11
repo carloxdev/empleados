@@ -136,7 +136,7 @@ TarjetaDetalleHallazgo.prototype.get_ConfMultiSelect = function () {
       enableFiltering: true,
       buttonWidth: '100%',
       numberDisplayed: 2,
-      maxHeight: 150,
+      maxHeight: 250,
       nonSelectedText: "Sin Selección",
       allSelectedText: "Todo Seleccionado",
       nSelectedText: "Seleccionados",
