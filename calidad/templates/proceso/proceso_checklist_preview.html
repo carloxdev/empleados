@@ -1,286 +1,118 @@
-{% extends 'master.html' %}
-
 {% load static from staticfiles %}
 
-{% load custom_tags %}
+<html>
+   <head>
+     <meta charset="utf-8">
+     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+     <title>Check List</title>
+     <!-- Tell the browser to be responsive to screen width -->
+     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 
-{% block titulo %} Hallazgos {% endblock titulo %}
+     <!-- Bootstrap -->
+     <link rel="stylesheet" href="{% static 'libs/alertifyjs/1.10.0/css/themes/bootstrap.min.css' %}" type="text/css"/>
 
-{% block title-page %} Hallazgos  {% endblock title-page %}
+     <!-- Main Theme CSS -->
+     <link rel="stylesheet" href="{% static 'theme/css/style.css' %}" type="text/css"/>
 
-{% block css %}
+     <!-- Calidad CSS -->
+     <link rel="stylesheet" href="{% static 'css/calidad.css' %}"/>
 
-   <!-- Beagle Theme -->
-   <link rel="stylesheet" href="{% static 'theme/lib/bootstrap-multiselect/css/bootstrap-multiselect.css' %}"/>
-   <link rel="stylesheet" href="{% static 'theme/lib/multiselect/css/multi-select.css' %}"/>
+     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+     <!--[if lt IE 9]>
+     <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+     <![endif] -->
 
-{% endblock css %}
+     <style type="text/css" media="print">
+       @page
+       {
+           size:  auto;   /* auto is the initial value */
+           margin: 0mm;  /* this affects the margin in the printer settings */
+       }
 
-{% block contenido %}
+       html
+       {
+           background-color: #FFFFFF;
+           margin: 0px;  /* this affects the margin on the html before sending to printer */
+       }
 
-<div class="be-content">
+       body
+       {
+           margin: 34mm 25mm 30mm 20mm; /* margin you want for the content */
+       }
+     </style>
+     <!-- <style type="text/css" media="print">
+     @page { size: landscape; }
+     </style> -->
 
-   <div class="page-head nova-page-head">
-      <h2 class="page-head-title nova-title">Hallazgos</h2>
-      <ol class="breadcrumb page-head-nav pull-right">
-         <li><a href="{% url 'home:inicio' %}">Inicio</a></li>
-         <li id="menu" data-opcion="auditorias_lista"><a href="{% url 'calidad:auditoria_lista' %}">Procesos de Auditoría</a></li>
-         <li><a href="{% url 'calidad:proceso_lista' pk %}">Procesos</a></li>
-         <li class="active">Hallazgos</li>
-      </ol>
-   </div>
+   </head>
+      <body class="nova-bg-white nova-pdf-margins nova-font-f-arial"> <!-- onload="window.print();" -->
+      <div class="wrapper">
 
-   <div class="main-content container-fluid nova-main-content">
 
-      <div class="row wizard-row">
 
-         <div class="col-md-12 fuelux">
-            <div id="wizard1" class="wizard wizard-ux nova-panel-borde-header nova-overflow-visible">
-               <div class="nova-wizard-header">
-
-                    <span class="nova-wizard-title">Auditoría No: <strong>{{folio}}</strong></span>
-                    <div class="nova-wizard-tools visible-xs-inline-block dropdown"><span data-toggle="dropdown" class="icon mdi mdi-more-vert dropdown-toggle" aria-expanded="false"></span>
-                        <ul role="menu" class="dropdown-menu">
-                          <li>
-                            <a href="{% url 'calidad:general_formulario_update' pk %}">Generales</a>
-                          </li>
-                          <li>
-                            <a href="{% url 'calidad:auditor_formulario_update' pk %}">Equipo Auditor</a>
-                          </li>
-                          <li class="active">
-                            <a href="{% url 'calidad:proceso_lista' pk %}">Procesos</a>
-                          </li>
-                        </ul>
-                    </div>
-
+         <div>
+            <div class="nova-font-s-16 nova-bold nova-aling-center">CHECK LIST AUDITORIA INTERNA</div>
+            </br>
+            <div class="row">
+               <div class="col-xs-6">
+                  <label class="nova-font-s-16 nova-bold nova-color-black">Auditor: {{ auditor }}</label></br>
+                  <label class="nova-font-s-16 nova-bold nova-color-black">Proceso: {{ proceso }}</label></br>
+                  <label class="nova-font-s-16 nova-bold nova-color-black">Auditoría No. {{ folio }}</label>
                </div>
-               <div class="actions hidden-xs">
-                  <a href="{% url 'calidad:general_formulario_update' pk %}" class="btn btn-xs btn-prev btn-default nova-a-tab">Generales</a>
-                  <a href="{% url 'calidad:auditor_formulario_update' pk %}" class="btn btn-xs btn-next btn-default nova-a-tab">Equipo Auditor</a>
-                  <a href="{% url 'calidad:proceso_lista' pk %}" class="btn btn-xs btn-next btn-default nova-a-tab-border nova-a-tab nova-active-tab">Procesos</a>
-               </div>
-               <div class="nova-content-nav">
 
-                  <div class="nova-breadcrumb-nav">
-                     <ol class="breadcrumb">
-                        <li id="menu" data-opcion="auditorias_lista"><a href="{% url 'calidad:proceso_lista' pk %}"><span class="badge">Lista de Procesos</span></a></li>
-                        <li><a><span class="badge">Proceso: {{ proceso }} </span></a></li>
-                        <li class="active"><a><span class="badge">Subproceso: {{ subproceso }} </span></a></li>
-                     </ol>
+               <div class="col-xs-6">
+                  <div class="nova-aling-right">
+                     <label class="nova-font-s-16 nova-bold nova-color-black">Fecha: {% now "SHORT_DATE_FORMAT" %} </label></br>
+                     <label class="nova-font-s-16 nova-bold nova-color-black">Área: {{ subproceso }}</label>
                   </div>
-
-                  <div role="group" class="btn-group btn-group-justified nova-nav-tab">
-                     <a href="{% url 'calidad:proceso_formulario_update' pk pk_pro %}" class="btn btn-default">Información</a>
-                     <a href="{% url 'calidad:requisito_lista' pk pk_pro %}" class="btn btn-default">Requisitos</a>
-                     <a class="btn btn-primary">Hallazgos</a>
-                  </div>
-
                </div>
             </div>
+         </div>
+         </br>
+         <section>
 
-            <div class="panel panel-default panel-table">
-
-               <div class="panel-heading nova-panel-borde-contenido nova-panel-tools">
-                  <a href="#id_tarjeta_filtros"
-                     class="btn nova-btn btn-rounded btn-sm btn-primary btn-space pull-right" data-toggle="modal" id="id_boton_filtros">
-                     <i class="icon icon-left mdi mdi-search nova-white"></i> Filtros
-                  </a>
-                  <a class="btn nova-btn btn-rounded btn-sm btn-default btn-space pull-right" data-toggle="modal" id="id_boton_nuevo">
-                     <i class="icon icon-left mdi mdi-plus-circle nova-black"></i> Hallazgo
-                  </a>
-               </div><!-- Panel Heading -->
-
-               <div id="grid_resultados" class="nova-div-overflow">
-                  <table class="table table-bordered table-hover" id="id_grid_hallazgo">
-                     <thead>
-                        <tr>
-                           <th class="nova-columna-acciones"></th>
-                           <th>Título</th>
-                           <th>Estado</th>
-                           <th>Tipo</th>
-                           <th>Observaciones</th>
-                           <th>Cerrado</th>
+            <div id="grid_resultados" class="nova-aling-center">
+               <table class="table table-bordered nova-grid-calidad" id="id_grid_hallazgo">
+                  <tbody id="id_tbody_hallazgo_proceso nova-grid-calidad">
+                    {% if requisitos %}
+                        {% for requisito in requisitos %}
+                           {% if requisito.encabezado %}
+                              <tr>
+                                 <td class="nova-grid-calidad"><strong>{{ requisito.no }}</strong></td>
+                                 <td class="nova-grid-calidad"><strong>{{ requisito.requisito }}</strong></td>
+                                 <td class="nova-grid-calidad"><strong>{{ requisito.hallazgos }}</strong></td>
+                              </tr>
+                           {% else %}
+                              <tr>
+                                 <td class="nova-grid-calidad">{{ requisito.no }}</td>
+                                 <td class="nova-grid-calidad">{{ requisito.requisito }}</td>
+                                 <td class="nova-grid-calidad">{{ requisito.hallazgos }}</td>
+                              </tr>
+                           {% endif %}
+                        {% endfor %}
+                        <tr rowspan="3">
+                           <td colspan="3" rowspan="3" class="">
+                             Requisitos del cliente:
+                           </td>
                         </tr>
-                     </thead>
-                     <tbody id="id_tbody_hallazgo_proceso">
-                       {% if hallazgos %}
-                           {% for hallazgo in hallazgos %}
-                               <tr class="clickable-row">
-                                  <td>
-                                     <a data-primaryKey="{{ hallazgo.pk }}" data-event="acciones" class="btn nova-btn btn-default">
-                                        <i class="icon icon-left icon mdi mdi-settings nova-black"></i>
-                                     </a>
-                                  </td>
-                                  <td>
-                                     <a href="{% url 'calidad:hallazgo_detalle' pk pk_pro hallazgo.pk %}" class="btn btn-default nova-url">{{ hallazgo.titulo }}</a>
-                                  </td>
-                                  <td class="nova-aling-center
-                                  {% if auditoria.estado == 'Aprobado' %}
-                                     nova-status-aprobado
-                                  {% endif %}"
-                                  >{{ hallazgo.estado }}</td>
-                                  <td>{{ hallazgo.tipo_hallazgo }}</td>
-                                  <td>{{ hallazgo.observacion }}</td>
-                                  <td>
-                                    <button class="btn btn-space btn-warning"
-                                       {% if hallazgo.cerrado == "Si" %}
-                                          disabled
-                                       {% endif %}
-                                    data-primaryKey="{{ hallazgo.pk }}" data-event="cerrar">{{ hallazgo.cerrado }}
-                                    </button>
-                                  </td>
-                               </tr>
-                           {% endfor %}
-                       {% else %}
-                           <tr class="clickable-row">
-                             <td colspan="6" class="nova-aling-center nova-sin-resultados">
-                               Sin Hallazgos para el Proceso.
-                             </td>
-                           </tr>
-                       {% endif %}
-                     </tbody>
-                  </table>
-               </div>
-               <input type="hide" class="hide" value="{{ request.user.id }}" id="id_actual_user">
-            </div> <!-- Panel -->
-
-         </div> <!-- col sm 12-->
-
-      </div> <!-- row wizzard row -->
-
-   </div> <!-- main content -->
-
-   <!-- tarjeta_acciones-->
-   <div id="id_tarjeta_acciones" data-primaryKey="" tabindex="-1" role="dialog" class="modal fade colored-header colored-header-primary">
-      <div class="modal-dialog nova-modal-acciones">
-        <div class="modal-content">
-          <div class="modal-header nova-modal-header">
-            <button type="button" data-dismiss="modal" aria-hidden="true" class="close"><span class="mdi mdi-close"></span></button>
-            <h3 class="modal-title">Acciones Del Hallazgo</h3>
-          </div>
-          <div class="modal-body">
-            <div class="text-center">
-               <div role="group" class="btn-group-vertical btn-space">
-                  <a class="btn nova-btn btn-space btn-danger btn-lg" id="id_boton_eliminar">
-                     <i class="icon icon-left mdi mdi-delete nova-white"></i> Eliminar
-                  </a>
-                  <button class="btn nova-btn btn-space btn-success btn-lg" id="id_boton_no_conformidad">
-                     <i class="icon icon-left mdi mdi-collection-pdf nova-white"></i> Reporte de No Conformidad
-                  </button>
-               </div>
+                    {% else %}
+                        <tr>
+                          <td colspan="3" class="nova-aling-center nova-sin-resultados">
+                            Sin Requisitos Capturados.
+                          </td>
+                        </tr>
+                    {% endif %}
+                  </tbody>
+               </table>
             </div>
-          </div>
-        </div>
+
+         </section>
+         <!-- section -->
+
+
       </div>
-    </div>
-
-   <!-- id_tarjeta_filtros-->
-   <div id="id_tarjeta_filtros" role="dialog" class="modal fade colored-header colored-header-primary">
-      <div class="modal-dialog custom-width">
-         <div class="modal-content">
-
-            <div class="modal-header nova-modal-header">
-               <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
-               <h3 class="modal-title">Filtros</h3>
-            </div>
-
-            <form id="id_formulario_filtro" method="GET">
-              <div class="modal-body form-horizontal">
-
-                <!-- titulo -->
-                {% tag_filter form_filter.titulo %}
-
-                <!-- tipo_hallazgo -->
-                {% tag_filter form_filter.tipo_hallazgo %}
-
-                <!-- estado -->
-                {% tag_filter form_filter.estado %}
-
-                <!-- cerrado -->
-                {% tag_filter_radio form_filter.cerrado %}
-
-              </div><!-- Modal body-->
-              <div class="modal-footer nova-modal-footer">
-                 <div class="row col-sm-12">
-                    <button type="button" data-dismiss="modal" class="btn btn-default pull-left">
-                       Cancelar
-                    </button>
-
-                    <button type="button" id="id_boton_limpiar" class="btn btn-default nova-btn">
-                       <i class="fa fa-eraser"></i>
-                       Limpiar
-                    </button>
-
-                    <button type="submit" id="id_boton_buscar" class="btn nova-btn btn-primary btn-lg pull-right">
-                       <i class="icon icon-left mdi mdi-search nova-white"></i>
-                       Buscar
-                    </button>
-                 </div>
-              </div>
-            </form>
-         </div> <!-- Modal content-->
-      </div> <!-- Modal dialog -->
-   </div><!-- Modal -->
-
-   <!-- id_tarjeta_nuevo_hallazgo -->
-   <div id="id_tarjeta_hallazgo" data-primaryKey="" role="dialog" class="modal fade colored-header colored-header-primary">
-      <div class="modal-dialog custom-width">
-         <div class="modal-content">
-
-            <div class="modal-header nova-modal-header">
-               <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
-               <h3 class="modal-title" id="id_popup_hallazgo_titulo"></h3>
-            </div>
-
-            <form id="id_formulario_hallazgo" method="POST"> {% csrf_token %}
-
-               <div class="modal-body form-horizontal">
-
-                  <!-- titulo -->
-                  {% tag_field_popup form.titulo 3 8 %}
-
-                  <!-- requisito_referencia -->
-                  {% tag_field_popup form.requisito_referencia 3 8 %}
-
-                  <!-- descripciones -->
-                  {% tag_field_popup form.descripciones 3 8 %}
-
-                  <!-- tipo_hallazgo -->
-                  {% tag_field_popup form.tipo_hallazgo 3 8 %}
-
-                  <!-- observaciones -->
-                  {% tag_field_popup form.observaciones 3 8 %}
-
-                </div><!-- Modal body-->
-                <div class="modal-footer nova-modal-footer">
-                   <div class="row col-sm-12">
-                      <button type="button" data-dismiss="modal" class="btn btn-default pull-left">
-                         Cerrar
-                      </button>
-
-                      <button type="submit" id="boton_modal_guardar" class="btn nova-btn btn-primary btn-lg pull-right">
-                         <i class="icon icon-left mdi mdi-floppy nova-white"></i>
-                         Guardar
-                      </button>
-                   </div>
-                </div>
-
-            </form>
-         </div> <!-- Modal content-->
-      </div> <!-- Modal dialog -->
-   </div><!-- Modal -->
-</div> <!-- be-content -->
-
-{% endblock contenido %}
-
-{% block scripts %}
-
-   <!-- Beagle Theme -->
-   <script src="{% static 'theme/lib/bootstrap-multiselect/js/bootstrap-multiselect.js' %}"></script>
-   <script src="{% static 'theme/lib/multiselect/js/jquery.multi-select.js' %}"></script>
-   <script src="{% static 'theme/lib/quicksearch/jquery.quicksearch.min.js' %}"></script>
-
-   <!-- JS Template -->
-   <script src="{% static 'proceso/proceso_checklist_preview.js' %}"></script>
-
-{% endblock scripts %}
+      <!-- div.wrapper -->
+      </body>
+</html>

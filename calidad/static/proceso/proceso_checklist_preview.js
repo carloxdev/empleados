@@ -20,6 +20,7 @@ $(document).ready(function () {
 
    tarjeta_resultados = new TarjetaResultados()
    popup_filtros.apply_Filters()
+
 })
 
 /*-----------------------------------------------*\
@@ -102,28 +103,6 @@ Grid.prototype.click_BotonCerrar = function (e) {
       null
    )
 }
-Grid.prototype.cerrar_hallazgo = function (_pk) {
-
-   $.ajax({
-
-      url: url_hallazgo + _pk + "/",
-      method: "PATCH",
-      headers: { "X-CSRFToken": appnova.galletita },
-      data: {
-
-         "cerrado": "Si",
-         "update_by": url_profile + tarjeta_resultados.$id_actual_user + "/",
-      },
-      success: function (_response) {
-
-         window.location.href = window.location.href
-      },
-      error: function (_response) {
-
-         alertify.error("Ocurrio error al cerrar hallazgo")
-      }
-   })
-}
 
 /*-----------------------------------------------*\
          OBJETO: PopupHallazgo
@@ -140,7 +119,6 @@ function PopupHallazgo() {
    this.$id_observaciones = $('#id_observaciones')
    this.$id_titulo = $('#id_popup_hallazgo_titulo')
    this.$accion
-   this.init_Components()
 }
 PopupHallazgo.prototype.init_Components = function () {
 
