@@ -445,12 +445,12 @@ Toolbar.prototype.Inicializar_CeldasExcel = function (e) {
     this.kRows = [{
         cells: [
             { value: 'Curso' },
-            { value: 'vencimiento' },
+            { value: 'Vencimiento(años)' },
         ]
     }];
 }
 Toolbar.prototype.click_BotonExportar = function (e) {
-    alert(tarjeta_filtro.$vencimiento.val())
+
     tarjeta_resultados.grid.leer_Datos()
     e.data.Inicializar_CeldasExcel()
 

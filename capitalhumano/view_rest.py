@@ -49,6 +49,8 @@ from .filters import CursoFilter
 class CursoAPI(viewsets.ModelViewSet):
     queryset = Curso.objects.all().order_by('-created_date')
     serializer_class = CursoNuevoSerializer
+    filter_backends = (DjangoFilterBackend,)
+    filter_class = CursoFilter
     permission_classes = (IsAuthenticated,)
 
 
