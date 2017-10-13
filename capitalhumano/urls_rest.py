@@ -8,6 +8,8 @@ from .view_rest import CapacitacionByPageAPI
 from .view_rest import TipoDocumentoAPI
 from .view_rest import DocumentoPersonalAPI
 from .view_rest import DocumentoCapacitacionAPI
+from .view_rest import CursoAPI
+from .view_rest import CursoByPageAPI
 
 from capitalhumano.view_rest import PerfilPuestosCargoAPI
 from capitalhumano.view_rest import PerfilPuestosCargoByPageAPI
@@ -22,6 +24,16 @@ from capitalhumano.view_rest import PerfilIndicadoresByPageAPI
 router_capitalhumano = routers.DefaultRouter()
 
 # --------------------DOCUMENTOS--------------------
+router_capitalhumano.register(
+    r'curso',
+    CursoAPI,
+    'curso'
+)
+router_capitalhumano.register(
+    r'curso_bypage',
+    CursoByPageAPI,
+    'curso_bypage'
+)
 router_capitalhumano.register(
     r'tipo_documento',
     TipoDocumentoAPI,

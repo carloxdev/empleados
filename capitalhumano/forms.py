@@ -30,6 +30,7 @@ from ebs.models import VIEW_COMPANIAS
 from ebs.models import VIEW_EMPLEADOS_FULL
 from capitalhumano.models import PerfilIndicadores
 from capitalhumano.models import EvaluacionPlantillas
+from capitalhumano.models import Curso
 
 
 
@@ -1220,6 +1221,72 @@ class PerfilAgregarIndicadorForm(Form):
                 (
                     plantilla.pk,
                     str(int(plantilla.pk)) + ' - ' + plantilla.descripcion,
+                )
+            )
+        return valores
+
+
+# ---------------------CONFIGURACION------------------------------ 
+
+
+class NuevoCursoForm(Form):
+
+    VIGENCIA = (
+        ('1', '1 año'),
+        ('2', '2 años'),
+        ('3', '3 años'),
+        ('10', '10 años'),
+        ('ind', 'Indefinido'),
+    )
+
+    nombre_curso = CharField(
+        label="Nombre curso",
+        widget=TextInput(attrs={'class': 'form-control input-xs'})
+    )
+
+    vencimiento = ChoiceField(
+        label="Vigencia",
+        choices=VIGENCIA,
+        widget=Select(attrs={'class': 'select2 nova-select2'})
+    )
+
+
+class CursoFilterForm(Form):
+
+    VIGENCIA = (
+        ('','------------'),
+        ('1', '1 año'),
+        ('2', '2 años'),
+        ('3', '3 años'),
+        ('10', '10 años'),
+        ('ind', 'Indefinido'),
+    )
+
+    nombre_curso_filter = ChoiceField(
+        label="Curso",
+        widget=Select(attrs={'class': 'select2 nova-select2'})
+    )
+
+    vencimiento_filter = ChoiceField(
+        label="Vigencia",
+        choices=VIGENCIA,
+        widget=Select(attrs={'class': 'select2 nova-select2'})
+    )
+
+    def __init__(self, *args, **kwargs):
+        super(CursoFilterForm, self).__init__(*args, **kwargs)
+        self.fields['nombre_curso_filter'].choices = self.get_NombreCurso()
+
+    def get_NombreCurso(self):
+        valores = [('', '------------')]
+
+        cursos = Curso.objects.all()
+        for curso in cursos:
+
+            valores.append(
+                (
+                    curso.pk,
+                    curso.nombre_curso
                 )
             )
         return valores

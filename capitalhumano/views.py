@@ -33,6 +33,8 @@ from .forms import PerfilAgregarCompetenciaForm
 from .forms import SolicitudesFilterForm
 from .forms import SolicitudesEditarForm
 from .forms import PerfilAgregarIndicadorForm
+from .forms import NuevoCursoForm
+from .forms import CursoFilterForm
 
 
 # Serializer crear organigrama
@@ -506,3 +508,21 @@ class PerfilPuestoConfiguraciones(View):
     def get(self, request):
 
         return render(request, 'perfilpuesto/perfil_configuracion.html')
+
+
+@method_decorator(group_required('CH_ADMIN, CH_CONFIGURACION'), name='dispatch')
+class ConfiguracionCurso(View):
+
+    def __init__(self):
+        self.template_name = 'configuracion/configuracion_curso.html'
+
+    def get(self, request):
+
+        form = NuevoCursoForm()
+        form2 = CursoFilterForm()
+
+        contexto = {
+            'form': form,
+            'form2': form2,
+        }
+        return render(request, self.template_name, contexto)

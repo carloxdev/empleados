@@ -88,12 +88,12 @@
                         </a>
                     </li>
                 {% endif%}
-                {%  if user|tag_validate_has_group:"CH_ADMIN" %}
-                <!-- <li id="capitalhumano_perfil_configuracion">
-                    <a href="{% url 'capitalhumano:perfil_configuracion' %}">
-                        <span>Configuración</span>
-                    </a>
-                </li> -->
+                {%  if user|tag_validate_has_group:"CH_ADMIN, CH-CONFIGURACION" %}
+                    <li id="capitalhumano_configuracion">
+                        <a href="{% url 'capitalhumano:configuracion_curso' %}">
+                            <span>Configuración</span>
+                        </a>
+                    </li>
                 {% endif %}
             </ul>
         </li>

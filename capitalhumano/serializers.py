@@ -119,9 +119,63 @@ class DocumentoCapacitacionSerializers(serializers.HyperlinkedModelSerializer):
             'nombre_completo',
         )
 
+
+class CursoNuevoSerializer(serializers.HyperlinkedModelSerializer):
+
+    class Meta:
+        model = Curso
+        fields = (
+            'pk',
+            'nombre_curso',
+            'vencimiento',
+            'created_by',
+            'created_date',
+            'updated_by',
+            'updated_date',
+        )
+
 # ---------- FIN Serializers para insertar registros------------------
 
 # ----------Serializers de consulta------------------
+
+
+class CursoSerializer(serializers.HyperlinkedModelSerializer):
+    vencimiento = serializers.SerializerMethodField()
+    created_by = serializers.SerializerMethodField()
+    updated_by = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Curso
+        fields = (
+            'pk',
+            'nombre_curso',
+            'vencimiento',
+            'created_by',
+            'created_date',
+            'updated_by',
+            'updated_date',
+        )
+
+    def get_created_by(self, obj):
+        try:
+            return obj.created_by.usuario.get_full_name()
+        except Exception as e:
+            return " "
+
+    def get_updated_by(self, obj):
+        try:
+            return obj.updated_by.usuario.get_full_name()
+        except Exception as e:
+            return " "
+
+    def get_vencimiento(self, obj):
+        try:
+            if obj.vencimiento == 'ind':
+                return 'Indefinido'
+            else:
+                return obj.vencimiento
+        except Exception as e:
+            return " "
 
 
 class TipoDocumentoSerializer(serializers.HyperlinkedModelSerializer):
@@ -606,6 +660,7 @@ class PerfilCompetenciaSerializer(serializers.HyperlinkedModelSerializer):
             'updated_date',
         )
 
+
 class EvaluacionPlantillasSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
@@ -619,6 +674,7 @@ class EvaluacionPlantillasSerializer(serializers.HyperlinkedModelSerializer):
             'updated_by',
             'updated_date',
         )
+
 
 class PerfilIndicadorSerializer(serializers.HyperlinkedModelSerializer):
 
@@ -643,10 +699,10 @@ class PerfilIndicadorSerializer(serializers.HyperlinkedModelSerializer):
             'created_date',
             'updated_by',
             'updated_date',
-        )    
+        )
 
     def get_plantilla(self, obj):
         try:
             return obj.plantilla.descripcion
         except Exception as e:
-            return " "          
+            return " "

@@ -19,6 +19,7 @@ from .views import ExpedientesGrado
 from .views import ExpedientesDocPersonal
 from .views import ExpedientesDocCapacitacion
 from .views import Solicitudes
+from .views import ConfiguracionCurso
 
 urlpatterns = [
     url(
@@ -76,7 +77,11 @@ urlpatterns = [
         EmpleadoExpediente.as_view(),
         name='empleado_expediente'
     ),
-
+    url(
+        r'^configuracion/curso/$',
+        ConfiguracionCurso.as_view(),
+        name='configuracion_curso'
+    ),
     # ------------------
 
     url(

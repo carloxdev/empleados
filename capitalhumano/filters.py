@@ -17,6 +17,7 @@ from ebs.models import VIEW_EMPLEADOS_FULL
 from .models import DocumentoPersonal
 from .models import DocumentoCapacitacion
 from .models import TipoDocumento
+from .models import Curso
 
 from .models import PerfilPuestosCargo
 from .models import PerfilCompetencias
@@ -250,6 +251,21 @@ class DocumentoCapacitacionFilter(filters.FilterSet):
         else:
             proveedor = queryset.filter(proveedor=value)
             return proveedor
+
+
+class CursoFilter(filters.FilterSet):
+
+    pk = CharFilter(
+        name="pk",
+        lookup_expr="exact")
+
+    class Meta:
+        model = Curso
+        fields = [
+            'pk',
+            'nombre_curso',
+            'vencimiento',
+        ]
 
 
 class TipoDocumentoFilter(filters.FilterSet):

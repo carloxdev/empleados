@@ -16,6 +16,7 @@ from .models import PerfilPuestoDocumento
 from .models import PerfilPuestosCargo
 from .models import PerfilCompetencias
 from .models import PerfilIndicadores
+from .models import Curso
 
 # Serializadores:
 from .serializers import PersonalSerializer
@@ -27,6 +28,8 @@ from .serializers import PerfilPuestoDocumentoSerializer
 from .serializers import PerfilPuestosCargoSerializer
 from .serializers import PerfilCompetenciaSerializer
 from .serializers import PerfilIndicadorSerializer
+from .serializers import CursoNuevoSerializer
+from .serializers import CursoSerializer
 
 # Paginadores:
 from .pagination import GenericPagination
@@ -39,9 +42,24 @@ from .filters import PerfilPuestoDocumentoFilter
 from .filters import PerfilpuestosCargoFilter
 from .filters import PerfilCompetenciaFilter
 from .filters import PerfilIndicadorFilter
+from .filters import CursoFilter
 
 
 # -------------- DOCUMENTOS CAPITAL HUMANO -------------- #
+class CursoAPI(viewsets.ModelViewSet):
+    queryset = Curso.objects.all().order_by('-created_date')
+    serializer_class = CursoNuevoSerializer
+    permission_classes = (IsAuthenticated,)
+
+
+class CursoByPageAPI(viewsets.ModelViewSet):
+    queryset = Curso.objects.all().order_by('-created_date')
+    serializer_class = CursoSerializer
+    filter_backends = (DjangoFilterBackend,)
+    filter_class = CursoFilter
+    pagination_class = GenericPagination
+    permission_classes = (IsAuthenticated,)
+
 
 class TipoDocumentoAPI(viewsets.ModelViewSet):
     queryset = TipoDocumento.objects.all().order_by('-created_date')
