@@ -510,7 +510,7 @@ class PerfilPuestoConfiguraciones(View):
         return render(request, 'perfilpuesto/perfil_configuracion.html')
 
 
-@method_decorator(group_required('CH_ADMIN, CH_CONFIGURACION'), name='dispatch')
+@method_decorator(group_required('CH_ADMIN','CH_CONFIGURACION_CURSO'), name='dispatch')
 class ConfiguracionCurso(View):
 
     def __init__(self):

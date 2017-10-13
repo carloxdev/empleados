@@ -88,7 +88,7 @@
                         </a>
                     </li>
                 {% endif%}
-                {%  if user|tag_validate_has_group:"CH_ADMIN, CH-CONFIGURACION" %}
+                {%  if user|tag_validate_has_group:"CH_ADMIN,CH_CONFIGURACION_CURSO" %}
                     <li id="capitalhumano_configuracion">
                         <a href="{% url 'capitalhumano:configuracion_curso' %}">
                             <span>Configuración</span>
