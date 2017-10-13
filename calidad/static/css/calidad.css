@@ -28,7 +28,6 @@
 .nova-font-s-19 {
    font-size: 19px;
 }
-
 .nova-bold {
    font-weight: bold;
 }
@@ -43,7 +42,7 @@
    text-align: right;
 }
 
-.nova-grid-calidad {
+.nova-grid-calidad > tbody > tr > td{
    border: 1px solid #000 !important;
    font-size: 14.6px !important;
 }
