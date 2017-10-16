@@ -207,7 +207,7 @@ PopupAcciones.prototype.init_Events = function () {
 }
 PopupAcciones.prototype.click_BotonCheckList = function (e) {
 
-   window.open(window.location.origin + "/auditorias/" + tarjeta_resultados.grid.$pk + "/procesos/" + tarjeta_resultados.grid.$pk_pro + "/check_list/")
+   window.open(window.location.origin + "/auditorias/" + tarjeta_resultados.grid.$pk + "/procesos/" + tarjeta_resultados.grid.$pk_pro + "/check_list_preview/")
 }
 PopupAcciones.prototype.click_BotonReporteAuditoria = function (e) {
 

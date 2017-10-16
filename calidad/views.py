@@ -116,6 +116,51 @@ class AuditoriaLista(View):
         return render(request, self.template_name, contexto)
 
 
+class AuditoriaPlanPreview(View):
+
+    def __init__(self):
+        self.template_name = 'auditoria/plan_preview.html'
+
+    def get(self, request, pk):
+
+        auditoria_plan = get_object_or_404(Auditoria, pk=pk)
+        contratos_auditoria = AuditoriaContrato.objects.filter(id_auditoria=pk)
+        criterios = ""
+        auditores = ""
+        auditores_colaboradores = ""
+        contratos = ""
+
+        for criterio in auditoria_plan.criterio.all():
+            criterios+=criterio.criterio +'\n'
+
+        for auditor in auditoria_plan.auditores_designados.all():
+            auditores+=auditor.nombre_completo +'\n'
+
+        for auditor_colaborador in auditoria_plan.auditores_colaboradores.all():
+            auditores_colaboradores+=auditor_colaborador.nombre_completo +'\n'
+
+        for contrato in contratos_auditoria:
+            contratos+=contrato.proyecto_desc +'\n'
+
+
+
+        auditoria = {}
+        auditoria["objetivo"] = auditoria_plan.objetivo
+        auditoria["alcance"] = auditoria_plan.alcance
+        auditoria["criterios"] = criterios
+        auditoria["auditores"] = auditores
+        auditoria["colaboradores"] = auditores_colaboradores
+        auditoria["contratos"] = contratos
+        auditoria["fecha"] = CalidadMethods.set_FechaConFormato(auditoria_plan.fecha_programada_inicial) + " al " +  CalidadMethods.set_FechaConFormato(auditoria_plan.fecha_programada_final)
+        auditoria["recursos_necesarios"] = auditoria_plan.recurso_necesario
+
+        contexto = {
+            'auditoria' : auditoria
+        }
+
+        return render(request, self.template_name, contexto)
+
+
 class GeneralFormularioCreate(View):
 
     def __init__(self):
@@ -196,8 +241,9 @@ class GeneralFormularioCreate(View):
 
             for contrato in datos_formulario.get('contratos'):
                 contratos = AuditoriaContrato()
-                contratos.id_auditoria = Auditoria.objects.get(pk =  auditoria.pk)
+                contratos.id_auditoria = Auditoria.objects.get(pk= auditoria.pk)
                 contratos.id_contrato = contrato
+                contratos.proyecto_desc = VIEW_CONTRATO.objects.using('jde_p').get(proyecto=contrato).proyecto_desc
                 contratos.save()
 
             return redirect(reverse('calidad:auditor_formulario_update', kwargs={'pk': auditoria.pk}))
@@ -352,6 +398,7 @@ class GeneralFormularioUpdate(View):
                     con = AuditoriaContrato()
                     con.id_contrato = contrato
                     con.id_auditoria = Auditoria.objects.get(pk = pk)
+                    con.proyecto_desc = VIEW_CONTRATO.objects.using('jde_p').get(proyecto=contrato).proyecto_desc
                     con.save()
 
             for lista in aud_con_list_db:
@@ -686,12 +733,12 @@ class ProcesoCheckListPreview(View):
 
         requisitos_JSON = []
         encabezado_criterio = ""
+        no = 0
         # import ipdb; ipdb.set_trace()
 
         for requisito in requisitos:
             criterio = requisito.requisito.criterio
-
-
+            no +=1
 
             if criterio != encabezado_criterio:
                 encabezado_criterio = criterio
@@ -703,7 +750,7 @@ class ProcesoCheckListPreview(View):
                 requisitos_JSON.append(nodo)
 
             nodo = {}
-            nodo["no"]=""
+            nodo["no"]= no
             nodo["requisito"]=requisito.requisito
             nodo["hallazgos"]=""
 

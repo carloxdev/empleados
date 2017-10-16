@@ -927,7 +927,7 @@ class VIEW_PROVEEDORES(models.Model):
 
 class VIEW_CONTRATO(models.Model):
     proyecto = models.CharField(max_length=3, primary_key=True)
-    proyecto_desc = models.CharField(max_length=30)
+    proyecto_desc = models.CharField(max_length=140)
 
     class Meta:
         managed = False

@@ -22,7 +22,6 @@ class CalidadMethods(object):
             fecha = _fecha.split("/")
             return fecha[2] + "-" + fecha[1] + "-" + fecha[0]
         except Exception as e:
-            raise ValueError("Fecha invalida")
             return ""
 
 
@@ -32,8 +31,7 @@ class CalidadMethods(object):
         try:
             return _fecha.strftime("%d/%m/%Y")
         except Exception as e:
-            raise ValueError("Fecha invalida")
-            return _fecha
+            return ""
 
 
     @classmethod

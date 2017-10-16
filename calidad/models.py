@@ -275,9 +275,18 @@ class Falla(models.Model):
 
 
 class Formato(models.Model):
+
+    TIPO = (
+        ('check', 'Check List'),
+        ('plan', 'Plan de Auditoria'),
+        ('rep', 'Reporte de auditorias internas'),
+        ('nocon', 'Reporte de no conformidad'),
+    )
+
     compania_codigo = models.CharField(max_length=5)
     compania = models.CharField(max_length=160)
     titulo = models.CharField(max_length=120)
+    tipo = models.CharField(max_length=140, choices=TIPO, default="check")
     no_revision = models.CharField(max_length=6)
     vigencia_inicio = models.DateField()
     codigo = models.CharField(max_length=16)
@@ -361,6 +370,7 @@ class Auditoria(models.Model):
 class AuditoriaContrato(models.Model):
     id_auditoria = models.ForeignKey(Auditoria)
     id_contrato = models.CharField(max_length=10)
+    proyecto_desc = models.CharField(max_length=140, default="")
     create_by = models.ForeignKey(Profile, related_name='aud_con_created_by', null=True)
     create_date = models.DateTimeField(
         auto_now=False,

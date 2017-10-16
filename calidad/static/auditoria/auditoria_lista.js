@@ -8,8 +8,6 @@
 // OBJS
 var tarjeta_filtros = null
 var tarjeta_resultados = null
-var toolbar = null
-var grid = null
 var popup_acciones = null
 
 /*-----------------------------------------------*\
@@ -17,7 +15,7 @@ var popup_acciones = null
 \*-----------------------------------------------*/
 
 $(document).ready(function () {
-   
+
    tarjeta_resultados = new TarjetaResultados()
 })
 
@@ -27,8 +25,8 @@ $(document).ready(function () {
 
 function TarjetaResultados() {
 
-   toolbar = new ToolBar()
-   grid = new Grid()
+   this.toolbar = new ToolBar()
+   this.grid = new Grid()
 }
 
 /*-----------------------------------------------*\
@@ -36,7 +34,7 @@ function TarjetaResultados() {
 \*-----------------------------------------------*/
 
 function ToolBar() {
-   
+
    tarjeta_filtros = new TarjetaFiltros()
 }
 
@@ -102,10 +100,10 @@ TarjetaFiltros.prototype.get_ConfDateRangePicker = function () {
             "Octubre",
             "Noviembre",
             "Diciembre"
-         ],          
+         ],
       },
       startDate: '2017-01-01'
-   }    
+   }
 }
 TarjetaFiltros.prototype.init_Events = function () {
 
@@ -118,16 +116,16 @@ TarjetaFiltros.prototype.get_Values = function (_page, _pageSize) {
    }
 }
 TarjetaFiltros.prototype.get_FiltrosExcel = function () {
-      
+
    return {
    }
 }
 TarjetaFiltros.prototype.click_BotonBuscar = function (e) {
-   
+
    e.preventDefault()
 }
 TarjetaFiltros.prototype.click_BotonLimpiar = function (e) {
-   
+
    e.preventDefault()
 }
 
@@ -136,18 +134,24 @@ TarjetaFiltros.prototype.click_BotonLimpiar = function (e) {
 \*-----------------------------------------------*/
 
 function Grid() {
-   
+
    popup_acciones = new PopupAcciones()
-   this.$id_grid_auditoria_lista = $('#id_grid_auditoria_lista')
+   this.$id = $('#id_grid_auditoria_lista')
+   this.$pk
    this.init_Events()
 }
 Grid.prototype.init_Events = function () {
 
-   this.$id_grid_auditoria_lista.on("click", '.clickable-row', this.click_FilaGrid)
+   this.$id.on("click", '.clickable-row', this.click_FilaGrid)
+   this.$id.on("click", '[data-event=\'acciones\']', this.click_BotonAcciones )
 }
 Grid.prototype.click_FilaGrid = function (e) {
 
    $(this).addClass('nova-active-row').siblings().removeClass('nova-active-row')
+}
+Grid.prototype.click_BotonAcciones = function (e) {
+
+   tarjeta_resultados.grid.$pk = $(this).attr("data-id")
 }
 
 /*-----------------------------------------------*\
@@ -162,9 +166,14 @@ function PopupAcciones() {
 }
 PopupAcciones.prototype.init_Events = function () {
 
+   this.$id_boton_checklist.on("click", this, this.click_BotonCheckList)
    this.$id_boton_plan_auditoria.on("click", this, this.click_BotonPlanAuditoria)
+}
+PopupAcciones.prototype.click_BotonCheckList = function (e) {
+
+   window.location.href = window.location.origin + "/auditorias/" + tarjeta_resultados.grid.$pk + "/procesos/"
 }
 PopupAcciones.prototype.click_BotonPlanAuditoria = function (e) {
 
-   e.preventDefault()
+   window.open(window.location.origin + "/auditorias/" + tarjeta_resultados.grid.$pk + "/plan_auditoria_preview/")
 }

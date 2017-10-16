@@ -65,7 +65,7 @@
                       {% for auditoria in auditorias %}
                         <tr class="clickable-row">
                            <td>
-                              <a href="#id_tarjeta_acciones" data-toggle="modal" class="btn nova-btn btn-default">
+                              <a href="#id_tarjeta_acciones" data-toggle="modal" data-event="acciones" class="btn nova-btn btn-default"  data-id="{{ auditoria.pk }}">
                                  <i class="icon icon-left icon mdi mdi-settings nova-black"></i>
                               </a>
                            </td>
@@ -241,9 +241,9 @@
           <div class="modal-body">
             <div class="text-center">
                <div role="group" class="btn-group-vertical btn-space">
-                  <a href="" class="btn nova-btn btn-space btn-primary btn-lg" id="id_boton_checklist">
+                  <button class="btn nova-btn btn-space btn-primary btn-lg" id="id_boton_checklist">
                      <i class="icon icon-left mdi mdi-arrow-right nova-white"></i> Ir a Check List
-                  </a>
+                  </button>
                   <button class="btn nova-btn btn-space btn-success btn-lg" id="id_boton_plan_auditoria">
                      <i class="icon icon-left mdi mdi-collection-pdf nova-white"></i> Plan de auditoria
                   </button>
