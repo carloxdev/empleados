@@ -432,6 +432,7 @@ GridIngresos.prototype.agrupar_Informacion = function (){
                                     octubre: g.sum("$.octubre"),
                                     noviembre: g.sum("$.noviembre"),
                                     diciembre: g.sum("$.diciembre"),
+                                    cxc: g.sum("$.cxc"),
                                     total: g.sum("$.total"),
                                 }
                                 return result;
@@ -485,6 +486,7 @@ GridIngresos.prototype.get_Aggregate = function () {
           { field: "octubre", aggregate: "sum" },
           { field: "noviembre", aggregate: "sum" },
           { field: "diciembre", aggregate: "sum" },
+          { field: "cxc", aggregate: "sum" },
           { field: "total", aggregate: "sum" },
     ]
 }
@@ -504,6 +506,7 @@ GridIngresos.prototype.get_Campos = function () {
         octubre : { type: "integer" },
         noviembre : { type: "integer" },
         diciembre : { type: "integer" },
+        cxc : { type: "integer" },
         total : { type: "integer" },
     }
 }
@@ -623,6 +626,13 @@ GridIngresos.prototype.get_Columnas = function () {
         },
         {   field: "total",
             title: "Total",
+            width:"150px",
+            format: "{0:c}",
+            aggregates: ["sum"],
+            footerTemplate: "$#: kendo.toString(sum, '\\#\\#,\\#.\\#\\#') #",
+        },
+        {   field: "cxc",
+            title: "CXC",
             width:"150px",
             format: "{0:c}",
             aggregates: ["sum"],

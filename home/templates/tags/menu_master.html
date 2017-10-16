@@ -8,19 +8,23 @@
             <span>Inicio</span>
         </a>
     </li>
-    {%  if user|tag_validate_has_group:"FINANZAS_ADMIN" %}
+    {%  if user|tag_validate_has_group:"FINANZAS_ADMIN,FINANZAS_REPORTES" %}
         <li class="parent"><a href="#"><i class="icon mdi mdi-money"></i><span>Finanzas</span></a>
             <ul class="sub-menu">
+                {%  if user|tag_validate_has_group:"FINANZAS_ADMIN" %}
                     <li id="viaticos_lista">
                         <a href="{% url 'finanzas:viatico_lista' %}">
                             <span>Viaticos</span>
                         </a>
                     </li>
+                {% endif %}
+                {%  if user|tag_validate_has_group:"FINANZAS_ADMIN,FINANZAS_REPORTES" %}
                     <li id="viaticos_flujo">
                         <a href="{% url 'finanzas:flujo' %}">
-                            <span>Flujo</span>
+                            <span>Flujo por UN</span>
                         </a>
                     </li>
+                {% endif %}
                     <!--<li id="">
                         <a href="#">
                             <span>Configuración</span>

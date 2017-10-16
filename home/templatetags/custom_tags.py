@@ -126,6 +126,19 @@ def tag_field_popup(_field, _size_label, _size_field):
 
 
 @register.inclusion_tag(
+    'tags/field_popup_button.html',
+    takes_context=False)
+def tag_field_popup_button(_field, _size_label, _size_field):
+
+    contexto = {
+        'campo': _field,
+        'size_label': _size_label,
+        'size_field': _size_field,
+    }
+    return contexto
+
+
+@register.inclusion_tag(
     'tags/field_popup_datepicker.html',
     takes_context=False)
 def tag_field_popup_datepicker(_field, _size_label, _size_field):

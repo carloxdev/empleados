@@ -20,6 +20,7 @@ from .views import ExpedientesDocPersonal
 from .views import ExpedientesDocCapacitacion
 from .views import Solicitudes
 from .views import ConfiguracionCurso
+from .views import EmpleadoExpedienteCapacitacion
 
 urlpatterns = [
     url(
@@ -76,6 +77,11 @@ urlpatterns = [
         r'^expedientes/(?P<_numero_empleado>\d+)/expediente/$',
         EmpleadoExpediente.as_view(),
         name='empleado_expediente'
+    ),
+    url(
+        r'^expedientes/(?P<_numero_empleado>\d+)/expediente/capacitacion/$',
+        EmpleadoExpedienteCapacitacion.as_view(),
+        name='empleado_expediente_capacitacion'
     ),
     url(
         r'^configuracion/curso/$',

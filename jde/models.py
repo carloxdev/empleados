@@ -1048,6 +1048,7 @@ class VIEW_FLUJO_INGRESOS(models.Model):
     octubre = models.DecimalField(max_digits=19, decimal_places=2)
     noviembre = models.DecimalField(max_digits=19, decimal_places=2)
     diciembre = models.DecimalField(max_digits=19, decimal_places=2)
+    cxc = models.DecimalField(max_digits=19, decimal_places=2)
 
     def _get_total(self):
         try:

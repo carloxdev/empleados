@@ -6,9 +6,11 @@ from django.shortcuts import redirect
 from django.core.urlresolvers import reverse
 from django.views.generic.base import View
 from django.contrib import messages
+from django.utils.decorators import method_decorator
 
 # Own's Libraries
 from .business import ViaticoBusiness
+from home.decorators import group_required
 
 from .forms import ViaticoCabeceraForm
 from .forms import ViaticoFilterForm
@@ -218,6 +220,7 @@ class AnticipoLista(View):
         return render(_request, self.template_name, contexto)
 
 
+@method_decorator(group_required('FINANZAS_ADMIN', 'FINANZAS_REPORTES'), name='dispatch')
 class Flujo(View):
     template_name = 'reportes/flujo.html'
 

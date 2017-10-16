@@ -440,6 +440,25 @@ class EmpleadoExpediente(View):
         return fecha
 
 
+@method_decorator(group_required('CH_ADMIN', 'CH_OPERA'), name='dispatch')
+class EmpleadoExpedienteCapacitacion(View):
+
+    def __init__(self):
+        self.template_name = 'documento_capacitacion/empleado_expediente_capacitacion.html'
+
+    def get(self, request, _numero_empleado):
+        form_cap = NuevoDocumentoCapacitacionForm()
+        empleado = VIEW_EMPLEADOS_FULL.objects.using(
+            "ebs_p").filter(pers_empleado_numero=_numero_empleado)
+
+        contexto = {
+            'empleado': empleado,
+            'form2': form_cap,
+        }
+
+        return render(request, self.template_name, contexto)
+
+
 # -------------- PERFILES DE PUESTOS DOCUMENTO  -------------- #
 
 

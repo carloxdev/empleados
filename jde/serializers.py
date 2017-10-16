@@ -575,4 +575,5 @@ class VIEW_FLUJO_INGRESOS_Serializer(serializers.HyperlinkedModelSerializer):
             'noviembre',
             'diciembre',
             'total',
+            'cxc',
         )

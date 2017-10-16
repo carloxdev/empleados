@@ -788,6 +788,7 @@ Personalizacion.prototype.mostrar_Capacitaciones = function(e){
     grid_capacitacion = new GridCapacitacion()
 }
 
+
 /*-----------------------------------------------*\
                         OBJETO: Grid personal
 \*-----------------------------------------------*/
