@@ -125,34 +125,24 @@ class AuditoriaPlanPreview(View):
 
         auditoria_plan = get_object_or_404(Auditoria, pk=pk)
         contratos_auditoria = AuditoriaContrato.objects.filter(id_auditoria=pk)
-        criterios = ""
-        auditores = ""
-        auditores_colaboradores = ""
-        contratos = ""
 
-        for criterio in auditoria_plan.criterio.all():
-            criterios+=criterio.criterio +'\n'
-
-        for auditor in auditoria_plan.auditores_designados.all():
-            auditores+=auditor.nombre_completo +'\n'
-
-        for auditor_colaborador in auditoria_plan.auditores_colaboradores.all():
-            auditores_colaboradores+=auditor_colaborador.nombre_completo +'\n'
-
-        for contrato in contratos_auditoria:
-            contratos+=contrato.proyecto_desc +'\n'
-
-
+        criterios = CalidadMethods.get_FormatoDataList(auditoria_plan.criterio.all(), "criterios", "Sin Seleccionar")
+        auditores = CalidadMethods.get_FormatoDataList(auditoria_plan.auditores_designados.all(), "auditores", "Sin Seleccionar")
+        auditores_colaboradores = CalidadMethods.get_FormatoDataList(auditoria_plan.auditores_colaboradores.all(), "auditores_colaboradores", "N/A")
+        contratos = CalidadMethods.get_FormatoDataList(contratos_auditoria, "contratos", "N/A")
+        auditor_lider = CalidadMethods.get_FormatoDataList([auditoria_plan.auditor_lider], "auditor_lider", "Sin Seleccionar")
 
         auditoria = {}
-        auditoria["objetivo"] = auditoria_plan.objetivo
-        auditoria["alcance"] = auditoria_plan.alcance
+        auditoria["objetivo"] = CalidadMethods.get_Punto(auditoria_plan.objetivo)
+        auditoria["alcance"] = CalidadMethods.get_Punto(auditoria_plan.alcance)
         auditoria["criterios"] = criterios
         auditoria["auditores"] = auditores
         auditoria["colaboradores"] = auditores_colaboradores
         auditoria["contratos"] = contratos
-        auditoria["fecha"] = CalidadMethods.set_FechaConFormato(auditoria_plan.fecha_programada_inicial) + " al " +  CalidadMethods.set_FechaConFormato(auditoria_plan.fecha_programada_final)
-        auditoria["recursos_necesarios"] = auditoria_plan.recurso_necesario
+        auditoria["fecha"] = "Del " + CalidadMethods.set_FechaConFormato(auditoria_plan.fecha_programada_inicial) + " al " +  CalidadMethods.set_FechaConFormato(auditoria_plan.fecha_programada_final) + "."
+        auditoria["folio"] = auditoria_plan.folio + "."
+        auditoria["lider"] = auditor_lider
+        auditoria["recursos_necesarios"] = CalidadMethods.get_Punto(auditoria_plan.recurso_necesario)
 
         contexto = {
             'auditoria' : auditoria
@@ -734,7 +724,6 @@ class ProcesoCheckListPreview(View):
         requisitos_JSON = []
         encabezado_criterio = ""
         no = 0
-        # import ipdb; ipdb.set_trace()
 
         for requisito in requisitos:
             criterio = requisito.requisito.criterio

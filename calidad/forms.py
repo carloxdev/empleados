@@ -305,7 +305,7 @@ class GeneralAuditoriaForm(Form):
     )
 
     contratos = MultipleChoiceField(
-        widget=SelectMultiple(attrs={'class': 'select2', 'multiple': 'multiple', 'required': 'required'}),
+        widget=SelectMultiple(attrs={'class': 'select2', 'multiple': 'multiple'}),
         required=False
     )
 

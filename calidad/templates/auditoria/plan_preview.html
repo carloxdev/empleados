@@ -49,53 +49,56 @@
    </head>
       <body class="nova-bg-white nova-pdf-margins nova-font-f-arial" id="contenido"> <!-- onload="window.print();" -->
       <div class="wrapper">
-
          <div>
             <div class="nova-font-s-16 nova-bold nova-aling-center">PLAN DE AUDITORIA INTERNA</div>
             </br>
          </div>
          </br>
          <section>
+            <strong>Objetivo de la Auditoría:</strong>
+            <p>{{ auditoria.objetivo }}</p>
 
-            <div id="grid_resultados" class="nova-aling-center">
-               <table class="table table-bordered nova-grid-calidad" id="id_grid_plan">
+            <strong>Alcance de la Auditoría:</strong>
+            <p>{{ auditoria.alcance }}</p>
+
+            <strong>Contratos:</strong>
+            <p>{{ auditoria.contratos|safe }}</p>
+
+            <strong>Fecha:</strong>
+            <p>{{ auditoria.fecha }}</p>
+
+            <strong>Auditoría:</strong>
+            <p>{{ auditoria.folio }}</p>
+
+            <strong>Criterios de la auditoría:</strong>
+            <p>{{ auditoria.criterios|safe }}</p>
+
+            <strong>Líder del Equipo Auditor:</strong>
+            <p>{{ auditoria.lider|safe }}</p>
+
+            <strong>Auditor (es) Asignados:</strong>
+            <p>{{ auditoria.auditores|safe }}</p>
+
+            <strong>Auditores Colaboradores y/o en Entrenamiento:</strong>
+            <p>{{ auditoria.colaboradores|safe }}</p>
+
+            <strong>Recursos necesarios:</strong>
+            <p>{{ auditoria.recursos_necesarios }}</p>
+         </section>
+         <!-- section -->
+
+         <section>
+            <div id="grid_firmas" class="nova-aling-center">
+               <table class="table table-bordered nova-grid-calidad" id="id_grid_hallazgo">
                   <tbody id="id_tbody_hallazgo_proceso">
                      <tr>
-                        <td class="nova-td-width-30 nova-ptb-5"><strong>OBJETIVO DE LA AUDITORIA</strong></td>
-                        <td class="nova-td-width-70 nova-ptb-5"><strong>{{ auditoria.objetivo }}</strong></td>
-                     </tr>
-                     <tr>
-                        <td class="nova-td-width-30 nova-ptb-5"><strong>ALCANCE DE LA AUDITORIA</strong></td>
-                        <td class="nova-td-width-70 nova-ptb-5"><strong>{{ auditoria.alcance }}</strong></td>
-                     </tr>
-                     <tr>
-                        <td class="nova-td-width-30 nova-ptb-5"><strong>CRITERIOS DE LA AUDITORIA</strong></td>
-                        <td class="nova-td-width-70 nova-ptb-5"><strong>{{ auditoria.criterios }}</strong></td>
-                     </tr>
-                     <tr>
-                        <td class="nova-td-width-30 nova-ptb-5"><strong>AUDITOR (ES)</strong></td>
-                        <td class="nova-td-width-70 nova-ptb-5"><strong>{{ auditoria.auditores }}</strong></td>
-                     </tr>
-                     <tr>
-                        <td class="nova-td-width-30 nova-ptb-5"><strong>AUDITOR (ES) COLABORADORES Y/O ENTRENAMIENTO</strong></td>
-                        <td class="nova-td-width-70 nova-ptb-5"><strong>{{ auditoria.colaboradores }}</strong></td>
-                     </tr>
-                     <tr>
-                        <td class="nova-td-width-30 nova-ptb-5"><strong>CONTRATOS</strong></td>
-                        <td class="nova-td-width-70 nova-ptb-5"><strong>{{ auditoria.contratos }}</strong></td>
-                     </tr>
-                     <tr>
-                        <td class="nova-td-width-30 nova-ptb-5"><strong>FECHA</strong></td>
-                        <td class="nova-td-width-70 nova-ptb-5"><strong>{{ auditoria.fecha }}</strong></td>
-                     </tr>
-                     <tr>
-                        <td class="nova-td-width-30 nova-ptb-5"><strong>RECURSOS NECESARIOS</strong></td>
-                        <td class="nova-td-width-70 nova-ptb-5"><strong>{{ auditoria.recursos_necesarios }}</strong></td>
+                        <td class="nova-td-width-5 nova-ptb-5"><strong>{{ requisito.no }}</strong></td>
+                        <td class="nova-td-width-40 nova-ptb-5"><strong>{{ requisito.requisito }}</strong></td>
+
                      </tr>
                   </tbody>
                </table>
             </div>
-
          </section>
          <!-- section -->
       </div>
