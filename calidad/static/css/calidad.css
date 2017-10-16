@@ -67,3 +67,35 @@
    border: 1px solid #000 !important;
    font-size: 14.6px !important;
 }
+.nova-color-gray {
+   background-color: #d6d2d2;
+}
+
+@media print {
+   .nova-header-formato {
+      position: fixed;
+      top: 30;
+      left: 26%;
+      width: 97mm;
+      height: 19mm;
+   }
+   .nova-header-nuvoil {
+      position: fixed;
+      top: 15;
+      left: 70%;
+   }
+}
+@media screen {
+   .nova-header-formato {
+      position: absolute;
+      top: 30;
+      left: 40%;
+      width: 97mm;
+      height: 19mm;
+   }
+   .nova-header-nuvoil {
+      position: absolute;
+      top: -30;
+      left: 76%;
+   }
+}

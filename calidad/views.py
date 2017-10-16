@@ -145,7 +145,10 @@ class AuditoriaPlanPreview(View):
         auditoria["recursos_necesarios"] = CalidadMethods.get_Punto(auditoria_plan.recurso_necesario)
 
         contexto = {
-            'auditoria' : auditoria
+            'auditoria' : auditoria,
+            'elaboro': auditoria_plan.auditor_lider,
+            'aprobo': auditoria_plan.aprobador,
+            'compania': auditoria_plan.compania.split(":")[1],
         }
 
         return render(request, self.template_name, contexto)

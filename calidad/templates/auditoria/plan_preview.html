@@ -29,6 +29,7 @@
        {
            size:  auto;   /* auto is the initial value */
            margin: 0mm;  /* this affects the margin in the printer settings */
+
        }
 
        html
@@ -47,7 +48,11 @@
      </style> -->
 
    </head>
-      <body class="nova-bg-white nova-pdf-margins nova-font-f-arial" id="contenido"> <!-- onload="window.print();" -->
+      <body class="nova-bg-white nova-pdf-margins nova-font-f-arial" id="contenido">
+      <div>
+         <img class="nova-header-formato" src="{% static 'images/formato/cabecera_formato.png' %}">
+         <img class="nova-header-nuvoil" src="{% static 'images/logos/nuvoil.png' %}">
+      </div>
       <div class="wrapper">
          <div>
             <div class="nova-font-s-16 nova-bold nova-aling-center">PLAN DE AUDITORIA INTERNA</div>
@@ -88,21 +93,29 @@
          <!-- section -->
 
          <section>
-            <div id="grid_firmas" class="nova-aling-center">
-               <table class="table table-bordered nova-grid-calidad" id="id_grid_hallazgo">
-                  <tbody id="id_tbody_hallazgo_proceso">
-                     <tr>
-                        <td class="nova-td-width-5 nova-ptb-5"><strong>{{ requisito.no }}</strong></td>
-                        <td class="nova-td-width-40 nova-ptb-5"><strong>{{ requisito.requisito }}</strong></td>
-
-                     </tr>
-                  </tbody>
-               </table>
-            </div>
+            <table class="table table-bordered nova-grid-calidad nova-aling-center" id="id_grid_firmas">
+               <tbody>
+                  <tr>
+                     <td class="nova-td-width-50 nova-ptb-5 nova-color-gray"><strong>Elaboró</strong></td>
+                     <td class="nova-td-width-50 nova-ptb-5 nova-color-gray"><strong>Aprobó</strong></td>
+                  </tr>
+                  <tr>
+                     <td class="nova-td-width-50 nova-ptb-5"></br></br>{{ elaboro }}</td>
+                     <td class="nova-td-width-50 nova-ptb-5"></br></br>{{ aprobo }}</td>
+                  </tr>
+                  <tr>
+                     <td class="nova-td-width-50 nova-ptb-5"><strong>Coordinador de SGI</strong></td>
+                     <td class="nova-td-width-50 nova-ptb-5"><strong>{{ compania }}</strong></td>
+                  </tr>
+               </tbody>
+            </table>
          </section>
          <!-- section -->
       </div>
       <!-- div.wrapper -->
+      <div class="footer">
+
+      </div>
       </body>
 
       <!-- jQuery -->
