@@ -45,3 +45,46 @@ class CalidadMethods(object):
             return _texto1 + ','
 
         return _texto1
+
+
+    @classmethod
+    def get_FormatoDataList(self, _datos, _opcion, _no_data):
+
+        lista = ""
+
+        for index, dato in enumerate(_datos):
+            if index == 0:
+                lista += "<ul>"
+
+            if _opcion == "criterios":
+                lista += "<li>" + dato.criterio  + ".</li>"
+
+            elif _opcion == "auditores" or _opcion == "auditores_colaboradores":
+                lista += "<li>" + dato.nombre_completo  + ".</li>"
+
+            elif _opcion == "contratos":
+                lista += "<li>" + dato.proyecto_desc  + ".</li>"
+
+            elif _opcion == "auditor_lider":
+                lista += "<li>" + dato + ".</li>"
+
+            if index == len(_datos)-1:
+                lista += "</ul>"
+
+        if not len(lista):
+            lista=_no_data
+
+        return lista
+
+
+    @classmethod
+    def get_Punto(self, _texto):
+
+        if len(_texto):
+
+            if _texto[-1:] == '.':
+                return _texto
+            else:
+                return _texto + '.'
+
+        return _texto
