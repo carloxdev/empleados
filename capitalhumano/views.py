@@ -3,11 +3,15 @@
 # Django Atajos:
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.core.urlresolvers import reverse
+from django.shortcuts import redirect
 
 # Librerias de Django
 from django.views.generic.base import View
 from django.core.files.storage import default_storage
 from django.utils.decorators import method_decorator
+from django.contrib import messages
+from django.contrib.contenttypes.models import ContentType
 
 # Otras librerias
 import xlwt
@@ -44,6 +48,9 @@ from serializers import VIEW_ORGANIGRAMA_EMP_SERIALIZADO
 # Modelos
 from ebs.models import VIEW_ORGANIGRAMA
 from ebs.models import VIEW_EMPLEADOS_FULL
+from home.models import Archivo
+from .models import DocumentoCapacitacion
+from .models import Curso
 
 
 # -------------- EMPLEADOS -------------- #
@@ -447,15 +454,75 @@ class EmpleadoExpedienteCapacitacion(View):
         self.template_name = 'documento_capacitacion/empleado_expediente_capacitacion.html'
 
     def get(self, request, _numero_empleado):
-        form_cap = NuevoDocumentoCapacitacionForm()
+        form = NuevoDocumentoCapacitacionForm()
+        form_curso = NuevoCursoForm()
         empleado = VIEW_EMPLEADOS_FULL.objects.using(
-            "ebs_p").filter(pers_empleado_numero=_numero_empleado)
+            "ebs_p").get(pers_empleado_numero=_numero_empleado)
+        grupos = ['CH_CONFIGURACION_CURSO', 'CH_ADMIN']
+        permiso = request.user.groups.filter(name__in=grupos).exists()
 
         contexto = {
             'empleado': empleado,
-            'form2': form_cap,
+            'permiso': permiso,
+            'form': form,
+            'form_curso': form_curso,
         }
 
+        return render(request, self.template_name, contexto)
+
+    def post(self, request, _numero_empleado):
+
+        form = NuevoDocumentoCapacitacionForm(request.POST, request.FILES)
+
+        empleado = VIEW_EMPLEADOS_FULL.objects.using(
+            "ebs_p").get(pers_empleado_numero=_numero_empleado)
+
+        if form.is_valid():
+            datos_formulario = form.cleaned_data
+            content_type = ContentType.objects.get_for_model(
+                DocumentoCapacitacion)
+
+            capacitacion = DocumentoCapacitacion()
+
+            try:
+                capacitacion.numero_empleado = empleado.pers_empleado_numero
+                capacitacion.curso = Curso.objects.get(
+                    id=datos_formulario.get('curso'))
+                capacitacion.proveedor = datos_formulario.get('proveedor')
+                capacitacion.modalidad = datos_formulario.get('modalidad')
+                capacitacion.lugar = datos_formulario.get('lugar')
+                capacitacion.costo = datos_formulario.get('costo')
+                capacitacion.moneda = datos_formulario.get('moneda')
+                capacitacion.departamento = empleado.asig_organizacion_clave
+                capacitacion.fecha_inicio = datos_formulario.get(
+                    'fecha_inicio')
+                capacitacion.fecha_fin = datos_formulario.get('fecha_fin')
+                capacitacion.duracion = datos_formulario.get('duracion')
+                capacitacion.observaciones = datos_formulario.get(
+                    'observaciones')
+                capacitacion.agrupador = datos_formulario.get('agrupadorcap')
+                capacitacion.area = datos_formulario.get('area')
+                capacitacion.created_by = request.user.profile
+                capacitacion.save()
+
+                archivo = Archivo()
+                archivo.tipo_archivo = 'cap'
+                archivo.archivo = datos_formulario.get('archivocap')
+                archivo.content_type = content_type
+                archivo.object_id = capacitacion.id
+                archivo.created_by = request.user.profile
+                archivo.save()
+
+                return redirect(reverse('capitalhumano:empleado_expediente',
+                                        kwargs={'_numero_empleado': _numero_empleado})
+                                )
+
+            except Exception as e:
+                messages.error(request, str(e))
+
+        contexto = {
+            'form': form
+        }
         return render(request, self.template_name, contexto)
 
 
@@ -529,7 +596,7 @@ class PerfilPuestoConfiguraciones(View):
         return render(request, 'perfilpuesto/perfil_configuracion.html')
 
 
-@method_decorator(group_required('CH_ADMIN','CH_CONFIGURACION_CURSO'), name='dispatch')
+@method_decorator(group_required('CH_ADMIN', 'CH_CONFIGURACION_CURSO'), name='dispatch')
 class ConfiguracionCurso(View):
 
     def __init__(self):

@@ -1,0 +1,30 @@
+
+<div class="form-group {% if campo.errors %} has-error {% endif %}">
+
+    <label class="col-sm-{{size_label}} control-label">
+      {{ campo.label }}
+
+      {% if campo.field.required is False %}
+      <span>(Opcional):</span>
+      {% endif %}
+    </label>
+
+    <div class="col-sm-{{size_field}} xs-pt-5">
+        {{ campo }}
+
+        {% if campo.errors %}
+        <ul class="parsley-errors-list filled">
+            {% for error in campo.errors %}
+            <li class="parsley-required">
+                {{ error }}
+            </li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+    </div>
+      <div class="col-sm-1 xs-pt-5">
+           <a class="btn nova-btn btn-space btn-default pull-right" href="{{ href }}" data-toggle="modal" id="id_boton">
+              <i class="icon icon-left mdi {{ icon }} nova-black"></i> Curso
+           </a>
+      </div>
+</div>

@@ -126,12 +126,14 @@ def tag_field_popup(_field, _size_label, _size_field):
 
 
 @register.inclusion_tag(
-    'tags/field_popup_button.html',
+    'tags/field_button.html',
     takes_context=False)
-def tag_field_popup_button(_field, _size_label, _size_field):
+def tag_field_button(_field, _href, _icon, _size_label, _size_field):
 
     contexto = {
         'campo': _field,
+        'href': _href,
+        'icon': _icon,
         'size_label': _size_label,
         'size_field': _size_field,
     }

@@ -1,0 +1,145 @@
+{% extends 'master.html' %}
+
+{% load static from staticfiles %}
+
+{% load custom_tags %}
+
+{% block titulo %} Capital humano {% endblock titulo %}
+
+{% block title-page %} Nueva Capacitación {% endblock title-page %}
+
+{% block css %}
+
+    <!-- DatePicker -->
+    <link rel="stylesheet" href="{% static 'libs/bootstrap-datepicker/2.0/dist/css/bootstrap-datepicker.min.css' %}"/>
+
+{% endblock css %}
+
+{% block contenido %}
+
+<div class="be-content">
+
+    <div class="page-head nova-page-head">
+        <h2 class="page-head-title nova-title">Nueva Capacitación</h2>
+        <ol class="breadcrumb page-head-nav pull-right">
+            <li><a href="{% url 'home:inicio' %}">Inicio</a></li>
+            <li id="menu" data-opcion="capitalhumano_expedientes"><a href="{% url 'capitalhumano:empleado_expediente' empleado.pers_empleado_numero %}">Expedientes</a></li>
+            <li class="active">Nueva capacitación</li>
+        </ol>
+    </div>
+
+	<!-- Targeta Formulario -->
+    <div class="main-content container-fluid nova-main-content">
+
+        <div class="row">
+            <div class="col-md-12">
+                <form class="panel panel-border panel-contrast" action="" method="POST" enctype="multipart/form-data"> {% csrf_token %}
+                    <div class="panel-heading panel-heading-default nova-border-bottom">
+                        Informacion de la capacitación:
+                    </div>
+                    <div class="panel-body form-horizontal">
+
+                        {% if form.non_field_errors %}
+
+                            {% for error in form.non_field_errors %}
+                                {% tag_mensaje 'error' error %}
+                            {% endfor %}
+
+                        {% endif %}
+
+                        {% include 'tags/message.html' %}
+
+                        {% tag_field_registro form.agrupadorcap 3 6 %}
+
+                        {% tag_field_registro form.area 3 6 %}
+                        
+                        {% tag_field_button form.curso  '#modal_nuevo' 'mdi-plus-circle' 3 5 %}
+
+                        {% tag_field_registro form.proveedor 3 6 %}
+
+                        {% tag_field_registro form.modalidad 3 6 %}
+
+                        {% tag_field_registro form.lugar 3 6 %}
+
+                        {% tag_field_registro form.costo 3 6 %}
+
+                        {% tag_field_registro form.moneda 3 6 %}
+
+                        {% tag_field_registro form.duracion 3 6 %}
+
+                        {% tag_field_registro_dates 'Fecha inicio/fin' form.fecha_inicio form.fecha_fin 3 3 3 %}
+
+                        {% tag_field_registro form.observaciones 3 6 %}
+
+                        {% tag_field_registro form.archivocap 3 6 %}
+
+
+                    </div>
+                    <div class="modal-footer nova-modal-footer">
+                        <button type="submit"  class="btn nova-btn nova-btn-orange btn-lg">
+                            Guardar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Oculto -->
+    <input type="text" class="hide" value="{{ permiso }}" id="id_permiso">
+
+</div>
+
+
+<!-- Modal nuevo-->
+<div id="modal_nuevo" role="dialog" class="modal fade colored-header colored-header-primary">
+    <div class="modal-dialog custom-width nova-modal-responsive">
+        <div class="modal-content nova-modal-content-responsive">
+
+            <div class="modal-header nova-modal-header">
+                <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close nova-white"></span></button>
+                <h3 class="modal-title"> Nuevo curso</h3>
+            </div>
+                <form action="" method="POST" id="formulario_curso"> {% csrf_token %}
+
+                    <div class="modal-body form-horizontal">
+                        <!-- Nombre curso -->
+                        {% tag_field_popup form_curso.nombre_curso 3 8 %}
+
+                        <!-- Vencimiento -->
+                        {% tag_field_popup form_curso.vencimiento 3 8 %}
+                        
+                        <!-- Oculto -->
+                        <input class="hide" type="text" id="id_usuario" value="{{ user.id }}">
+                    </div>
+                </form>
+
+                <!-- Botones de acción -->
+                <div class="modal-footer nova-modal-footer">
+                     <div class="row col-sm-12">
+                        <button type="button" data-dismiss="modal" class="btn btn-default pull-left" id="id_boton_cancelar">
+                            Cancelar
+                        </button>
+                        <button type="button" class="btn btn-primary pull-right" id="id_boton_guardar" ><i class="icon icon-left mdi mdi-save nova-white"></i> Guardar</button>
+                    </div>
+                </div>
+        </div> <!-- Modal content-->
+    </div> <!-- Modal dialog -->
+</div><!-- Modal nuevo-->
+
+{% endblock contenido %}
+
+{% block scripts %}
+
+    <!-- Theme -->
+    <script src="{% static 'theme/lib/jquery-ui/jquery-ui.min.js' %}"></script>
+
+    <!-- DatePicker -->
+    <script src="{% static 'libs/bootstrap-datepicker/2.0/dist/js/bootstrap-datepicker.min.js' %}"></script>
+    <script src="{% static 'libs/bootstrap-datepicker/2.0/dist/locales/bootstrap-datepicker.es.min.js' %}"></script>
+
+	<!-- Nova -->
+    <script src="{% static 'tools.js' %}"></script>
+	<script src="{% static 'documento_capacitacion/empleado_expediente_capacitacion.js' %}"></script>
+
+{% endblock scripts %}

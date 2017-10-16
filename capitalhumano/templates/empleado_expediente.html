@@ -188,7 +188,7 @@
 	                     <a href="#modal_nuevo" class="btn nova-btn btn-rounded btn-sm btn-space btn-default pull-right " data-toggle="modal" id="boton_nuevo_per">
 	                        <i class="icon icon-left mdi mdi-plus-circle nova-black"></i> Nuevo documento
 	                     </a>
-	                     <a href="#modal_nuevo_cap" class="btn nova-btn btn-rounded btn-sm btn-space btn-default pull-right hidden" data-toggle="modal" id="boton_nuevo_cap">
+	                     <a href="{% url 'capitalhumano:empleado_expediente_capacitacion' dato.pers_empleado_numero %}" class="btn nova-btn btn-rounded btn-sm btn-space btn-default pull-right hidden" id="boton_nuevo_cap">
 	                        <i class="icon icon-left mdi mdi-plus-circle nova-black"></i> Nueva capacitación
 	                     </a>
 	                  </div><!-- Panel Heading -->
