@@ -5,7 +5,7 @@
    color: #000000;
 }
 .nova-pdf-margins {
-   margin: 34mm 25mm 30mm 20mm;
+   padding: 34mm 25mm 30mm 20mm;
 }
 .nova-font-f-arial {
    font-family:Arial
@@ -71,18 +71,55 @@
    background-color: #d6d2d2;
 }
 
+
+/* metodo de paginado en jsfidle */
+h3.pag {
+  display: none;
+  position: absolute;
+  page-break-before: always;
+  page-break-after: always;
+  bottom: 0;
+  right: 0;
+}
+
+h3::before {
+  position: relative;
+  bottom: -15px;
+}
+/* metodo de paginado en jsfidle */
 @media print {
+
+   @page {
+      margin: 0px;
+   }
+   /* metodo de paginado en jsfidle */
+   h3.pag {
+     display: initial;
+   }
+   .print {
+     display: none;
+   }
+   /* metodo de paginado en jsfidle */
    .nova-header-formato {
       position: fixed;
-      top: 30;
+      top: 8mm;
       left: 26%;
       width: 97mm;
       height: 19mm;
    }
    .nova-header-nuvoil {
       position: fixed;
-      top: 15;
+      top: 2mm;
       left: 70%;
+   }
+   .paginado {
+      position: fixed;
+
+   }
+   .paginado::before {
+      content: counter(pagina, decimal);
+      counter-increment: pagina;
+
    }
 }
 @media screen {
@@ -95,7 +132,17 @@
    }
    .nova-header-nuvoil {
       position: absolute;
-      top: -30;
+      top: -30px;
       left: 76%;
+   }
+   .paginado {
+      position: relative;
+      top: -52px;
+      left: 42%;
+   }
+   .paginado::before {
+      content: counter(pagina, decimal);
+      counter-increment: pagina;
+
    }
 }

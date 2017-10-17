@@ -17,40 +17,13 @@
      <!-- Calidad CSS -->
      <link rel="stylesheet" href="{% static 'css/calidad.css' %}"/>
 
-     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-     <!--[if lt IE 9]>
-     <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-     <![endif] -->
-
-     <style type="text/css" media="print">
-       @page
-       {
-           size:  auto;   /* auto is the initial value */
-           margin: 0mm;  /* this affects the margin in the printer settings */
-
-       }
-
-       html
-       {
-           background-color: #FFFFFF;
-           margin: 0px;  /* this affects the margin on the html before sending to printer */
-       }
-
-       body
-       {
-           margin: 34mm 25mm 30mm 20mm; /* margin you want for the content */
-       }
-     </style>
-     <!-- <style type="text/css" media="print">
-     @page { size: landscape; }
-     </style> -->
-
    </head>
       <body class="nova-bg-white nova-pdf-margins nova-font-f-arial" id="contenido">
       <div>
+
          <img class="nova-header-formato" src="{% static 'images/formato/cabecera_formato.png' %}">
+         <div class="paginado"> de </div>
+         </img>
          <img class="nova-header-nuvoil" src="{% static 'images/logos/nuvoil.png' %}">
       </div>
       <div class="wrapper">
@@ -89,6 +62,7 @@
 
             <strong>Recursos necesarios:</strong>
             <p>{{ auditoria.recursos_necesarios }}</p>
+
          </section>
          <!-- section -->
 
@@ -111,11 +85,11 @@
             </table>
          </section>
          <!-- section -->
+         <h3 class="pag pag1"></h3>
+         <div class="insert"></div>
       </div>
       <!-- div.wrapper -->
-      <div class="footer">
 
-      </div>
       </body>
 
       <!-- jQuery -->
