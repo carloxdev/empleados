@@ -9,6 +9,7 @@ from .views import ViaticoCabeceraCancelar
 
 from .views import AnticipoLista
 from .views import Flujo
+from .views import FlujoPreview
 
 urlpatterns = [
 
@@ -23,4 +24,5 @@ urlpatterns = [
 
     # Flujo
     url(r'^reportes/flujo/$', Flujo.as_view(), name="flujo"),
+    url(r'^reportes/flujo/preview/$', FlujoPreview.as_view(), name="flujo_preview"),
 ]

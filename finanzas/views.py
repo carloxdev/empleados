@@ -224,7 +224,7 @@ class AnticipoLista(View):
 class Flujo(View):
     template_name = 'reportes/flujo.html'
 
-    def get(self, _request):
+    def get(self, request):
 
         form = FLujoFilterForm()
 
@@ -232,4 +232,42 @@ class Flujo(View):
             'form': form,
         }
 
-        return render(_request, self.template_name, contexto)
+        return render(request, self.template_name, contexto)
+
+    def post(self, request):
+
+        form = FLujoFilterForm(request.POST)
+        try:
+            if form.is_valid():
+                datos_formulario = form.cleaned_data
+                datos = {
+                    'anio': datos_formulario.get('anio'),
+                    'compania': datos_formulario.get('compania'),
+                    'centro_costos': datos_formulario.get('centro_costos'),
+                    'proyecto': datos_formulario.get('proyecto'),
+                }
+                request.session['datos'] = datos
+
+                return redirect(reverse('finanzas:flujo_preview'))
+
+        except Exception as e:
+            messages.error(request, str(e))
+
+        contexto = {
+            'form': form,
+        }
+
+        return render(request, self.template_name, contexto)
+
+
+@method_decorator(group_required('FINANZAS_ADMIN', 'FINANZAS_REPORTES'), name='dispatch')
+class FlujoPreview(View):
+    template_name = 'reportes/flujo_preview.html'
+
+    def get(self, request):
+        datos = request.session['datos']
+        contexto = {
+            'dato': datos,
+        }
+
+        return render(request, self.template_name, contexto)

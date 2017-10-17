@@ -14,14 +14,14 @@
     <link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.rtl.min.css' %}"/>
     <link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.common-bootstrap.min.css' %}"/>
     <link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.bootstrap.min.css' %}"/>
-
+    
     <!-- Nova -->
     <link rel="stylesheet" href="{% static 'grid.css' %}"/>
 
 {% endblock css %}
 
 {% block contenido %}
-
+<form action="" method="POST"> {% csrf_token %}
 <div class="be-content">
 
 	<div class="page-head nova-page-head">
@@ -35,16 +35,22 @@
     <!-- Targeta Resultados -->
     <div class="main-content container-fluid nova-main-content">
     
-        <div class="row wizard-row">
+        <div class="row print-hidden">
             <div class="col-xs-12 nova-col">
                     <div class="panel panel-default panel-table nova-panel-table">
                         <div class="panel-heading nova-contenido-borde nova-panel-heading">
                             <div class="widget-head nova-widget-head">
                                 <div class="button-toolbar">
+
                                     <a href="#tarjeta_filtros"
                                         class="btn nova-btn btn-rounded btn-space btn-primary" data-toggle="modal" id="boton_filtros">
                                         <i class="icon icon-left mdi mdi-search nova-white"></i> Filtros
                                     </a>
+                                    
+                                    <!--<button type="submit" class="btn nova-btn btn-rounded btn-space btn-success" id="boton_preview">
+                                       <i class="icon icon-left mdi mdi-collection-pdf nova-white"></i> Preview
+                                   </button>-->
+                                    
                                 </div>
                             </div>
                         </div>
@@ -54,7 +60,7 @@
         </div>
 
         <!-- INGRESOS -->
-        <div class="row wizard-row">
+        <div class="row">
             <div class="col-xs-12 nova-col">
                     <div class="panel panel-default panel-table nova-panel-table">
                         <div class="panel-heading panel-border nova-panel-heading">
@@ -71,7 +77,7 @@
         </div>
 
         <!-- EGRESOS -->
-        <div class="row wizard-row">
+        <div class="row">
             <div class="col-xs-12 nova-col">
                     <div class="panel panel-default panel-table nova-panel-table">
                         <div class="panel-heading panel-border nova-panel-heading">
@@ -102,7 +108,7 @@
                 <h3 class="modal-title">Filtros</h3>
             </div>
 
-            <form id="formulario_filtro" class="modal-body form-horizontal">
+            <div class="modal-body form-horizontal">
 
                 {% tag_field_popup form.anio 4 6 %}
 
@@ -112,7 +118,7 @@
 
                 {% tag_field_popup form.centro_costos 4 6 %}
 
-            </form>
+            </div>
             <div class="modal-footer nova-modal-footer">
                  <div class="row col-sm-12">
                         <button type="button" data-dismiss="modal" class="btn btn-default pull-left">
@@ -133,6 +139,8 @@
         </div> <!-- Modal content-->
     </div> <!-- Modal dialog -->
 </div><!-- Modal -->
+
+</form>
 
 
 {% endblock contenido %}

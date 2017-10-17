@@ -1,0 +1,92 @@
+
+{% load static from staticfiles %}
+
+<html>
+   <head>
+     <meta charset="utf-8">
+     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+     <title>Reporte</title>
+     <!-- Tell the browser to be responsive to screen width -->
+     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+
+     <!-- Bootstrap -->
+     <link rel="stylesheet" href="{% static 'libs/alertifyjs/1.10.0/css/themes/bootstrap.min.css' %}" type="text/css"/>
+
+     <!-- Main Theme CSS -->
+     <link rel="stylesheet" href="{% static 'theme/css/style.css' %}" type="text/css"/>
+    
+    <!-- Kendo -->
+    <link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.rtl.min.css' %}"/>
+    <link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.common-bootstrap.min.css' %}"/>
+    <link rel="stylesheet" href="{% static 'libs/kendo/2015.2.624/styles/kendo.bootstrap.min.css' %}"/>
+    
+    <!-- Nova -->
+    <link rel="stylesheet" href="{% static 'master.css' %}"/>
+    <link rel="stylesheet" href="{% static 'grid.css' %}"/>
+    <link rel="stylesheet" href="{% static 'css/flujo_preview.css' %}" type="text/css"  media="print"/>
+
+   </head>
+    <body class="nova-bg-white nova-pdf-margins nova-font-f-arial" id="contenido"> <!-- onload="window.print();" -->
+
+        <!-- Ocultos -->
+        <input class="hide" type="text" id="id_anio" value="{{ dato.anio }}">
+        <input class="hide" type="text" id="id_proyecto" value="{{ dato.proyecto }}">
+        <input class="hide" type="text" id="id_centro_costos" value="{{ dato.centro_costos }}">
+        <input class="hide" type="text" id="id_compania" value="{{ dato.compania }}">
+
+        <!-- Targeta Resultados -->
+        <div class="main-content container-fluid nova-main-content">
+
+            <!-- INGRESOS -->
+            <div class="row">
+                <div class="col-xs-12 nova-col">
+                    <div class="panel panel-default panel-table nova-panel-table">
+                        <div class="nova-contenido-borde" id="container-flujo-ingresos"></div>
+                        <div id="grid_resultados_ingresos"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- EGRESOS -->
+            <div class="row nova-break-page">
+                <div class="col-xs-12 nova-col">
+                    <div class="panel panel-default panel-table nova-panel-table">  
+                        <div class="nova-contenido-borde" id="container-flujo"></div>
+                        <div id="grid_resultados"></div> 
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Javascript -->
+
+        <!-- jQuery -->
+        <script src="{% static 'theme/lib/jquery/jquery.min.js' %}" type="text/javascript"></script>
+
+        <!-- jQuery-Cookie -->
+        <script src="{% static 'libs/jquery-cookie/1.4.1/jquery.cookie.js' %}"></script>
+
+        <!-- Theme -->
+        <script src="{% static 'theme/lib/jquery-ui/jquery-ui.min.js' %}"></script>
+
+        <!-- Linq -->
+        <script src="{% static 'libs/linq/3.0.4/linq.js' %}"></script>
+        <script src="{% static 'libs/linq/3.0.4/extensions/linq.jquery.js' %}"></script>
+
+        <!-- Kendo Js -->
+        <script src="{% static 'libs/kendo/2015.2.624/js/cultures/kendo.culture.es-MX.min.js' %}"></script>
+        <script src="{% static 'libs/kendo/2015.2.624/js/kendo.web.min.js' %}"></script>
+
+        <!-- Highcharts -->
+        <script src="{% static 'libs/highcharts/5.0.11/js/highcharts.js' %}"></script>
+        <script src="{% static 'libs/highcharts/5.0.11/js/highcharts-3d.js' %}"></script>
+        <script src="{% static 'libs/highcharts/5.0.11/js/highcharts-more.js' %}"></script>
+
+        <!-- Nova -->
+        <script src="{% static 'reportes/flujo_preview.js' %}"></script>
+
+        <script type="text/javascript"></script>
+
+    </body>
+</html>

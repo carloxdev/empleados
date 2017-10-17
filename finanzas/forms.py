@@ -258,30 +258,34 @@ class FLujoFilterForm(Form):
 
     compania = ChoiceField(
         label="Compañia",
-        widget=Select(attrs={'class': 'form-control input-xs'}))
+        widget=Select(attrs={'class': 'select2 nova-select2'}))
+
     anio = ChoiceField(
         label="Año",
         choices=ANIOS,
-        widget=Select(attrs={'class': 'form-control input-xs'})
+        widget=Select(attrs={'class': 'select2 nova-select2'})
     )
 
     proyecto = ChoiceField(
         label="Proyecto",
-        widget=Select(attrs={'class': 'form-control input-xs'})
+        widget=Select(attrs={'class': 'select2 nova-select2'})
     )
 
     centro_costos = ChoiceField(
         label="Centro de costos",
-        widget=Select(attrs={'class': 'form-control input-xs'})
+        widget=Select(attrs={'class': 'fselect2 nova-select2'})
     )
 
     def __init__(self, *args, **kwargs):
         super(FLujoFilterForm, self).__init__(*args, **kwargs)
         self.fields['compania'].choices = self.get_Compania()
+        self.fields['compania'].required = False
         self.fields[
             'proyecto'].choices = self.get_Proyecto()
+        self.fields['proyecto'].required = False
         self.fields[
             'centro_costos'].choices = self.get_CC()
+        self.fields['centro_costos'].required = False
 
     def get_Proyecto(self):
         valores = [('', '------')]
