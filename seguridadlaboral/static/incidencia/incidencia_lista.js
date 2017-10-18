@@ -159,7 +159,6 @@ TargetaFiltros.prototype.click_BotonLimpiar = function (e) {
    e.data.$fecha_menorque.datepicker("clearDates")
    e.data.$es_registrable.prop('checked', false)
    //$("input[name='es_registrable']:checked", false).val()
-   
 
 }
 TargetaFiltros.prototype.get_Values = function (_page) {
@@ -183,7 +182,7 @@ TargetaFiltros.prototype.get_FiltrosExcel = function () {
         id: this.$numero.val(),
         tipo: this.$tipo.val(),
         fecha_creacion: this.$fecha_creacion.val(),
-        es_registrable: this.$es_registrable.val(),
+        es_registrable: $("input[name='es_registrable']:checked").val(),
         zona: this.$empleado_zona.val(),
     }
 }
