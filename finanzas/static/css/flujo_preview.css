@@ -1,24 +1,68 @@
-@page
-{
-   size:  auto;   /* auto is the initial value */
-   margin: 0mm;  /* this affects the margin in the printer settings */
+
+@media print{
+	@page
+	{
+	   size:  auto;   /* auto is the initial value */
+	   /*margin: 0mm;  /* this affects the margin in the printer settings */
+	   margin: 10mm 5mm 10mm 5mm;
+	}
+
+	html
+	{
+	   background-color: #FFFFFF;
+	   /*margin: 10px;  /* this affects the margin on the html before sending to printer */
+	}
+	.print-hidden{
+	  display: none !important;
+	}
+	.page-break { 
+		page-break-before:always;
+	}
+	.nova-borde{
+		border: 1px solid black;
+	}
+	.nova-titulo{
+		text-align: center !important;
+		font-weight: bold;
+		left: 32%;
+		position: fixed;	
+	}
+	.nova-informacion{
+		text-align: center !important;
+		top: 60px;
+		left: 35%;
+		position: fixed;
+	}
+	.nova-espacio{
+		height:130px;
+	}
+	.nova-grid-cortar{
+		display: -webkit-flex; /* Safari */
+	    -webkit-flex-wrap: wrap; /* Safari 6.1+ */
+	    display: flex;   
+	    flex-wrap: wrap;
+	}
 }
 
-html
-{
-   background-color: #FFFFFF;
-   margin: 0px;  /* this affects the margin on the html before sending to printer */
-}
 
-body
-{  
-   margin: 15mm 10mm 15mm 10mm;
-}
-.print-hidden{
+@media screen{
 
-  display: none !important;
-}
-.nova-break-page{
-	page-break-before: always;
-}
+	.nova-borde{
+		border: 1px solid black;
+	}
+	.nova-titulo{
+		text-align: center !important;
+		font-weight: bold;
+	}
+	.nova-informacion{
+		text-align: center !important;
+	}
+	/* .nova-grid-cortar{
+		display: -webkit-flex; 
+	    -webkit-flex-wrap: wrap; 
+	    display: flex;   
+	    flex-wrap: wrap;
+	} */
 
+
+}

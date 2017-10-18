@@ -23,40 +23,52 @@
     <!-- Nova -->
     <link rel="stylesheet" href="{% static 'master.css' %}"/>
     <link rel="stylesheet" href="{% static 'grid.css' %}"/>
-    <link rel="stylesheet" href="{% static 'css/flujo_preview.css' %}" type="text/css"  media="print"/>
+    <link rel="stylesheet" href="{% static 'css/flujo_preview.css' %}" type="text/css"/>
 
    </head>
-    <body class="nova-bg-white nova-pdf-margins nova-font-f-arial" id="contenido"> <!-- onload="window.print();" -->
+    <body id="contenido"> <!-- onload="window.print();" -->
 
         <!-- Ocultos -->
         <input class="hide" type="text" id="id_anio" value="{{ dato.anio }}">
         <input class="hide" type="text" id="id_proyecto" value="{{ dato.proyecto }}">
         <input class="hide" type="text" id="id_centro_costos" value="{{ dato.centro_costos }}">
         <input class="hide" type="text" id="id_compania" value="{{ dato.compania }}">
+        
+        <h1 class="nova-titulo"> FLUJO DE UNIDAD DE NEGOCIOS </h1>
+        <h5 class="nova-informacion">
+            <b>AÑO:</b>"20{{ dato.anio }}",
+            <b>COMPAÑIA:</b>"{{ dato.compania }}",
+            <b>PROYECTO:</b>"{{ dato.proyecto }}",
+            <b>CENTRO DE COSTOS:</b>"{{ dato.centro_costos }}".
+        </h5>
 
+        <div class="nova-espacio"></div>
         <!-- Targeta Resultados -->
-        <div class="main-content container-fluid nova-main-content">
+        <div class="container-fluid nova-contenido">
 
             <!-- INGRESOS -->
-            <div class="row">
-                <div class="col-xs-12 nova-col">
-                    <div class="panel panel-default panel-table nova-panel-table">
-                        <div class="nova-contenido-borde" id="container-flujo-ingresos"></div>
-                        <div id="grid_resultados_ingresos"></div>
-                    </div>
+            <div class="row ">
+                <div class="col-md-10">
+                        <div class="panel panel-default panel-table nova-panel-table panel-border">
+                            <div class="" id="container-flujo-ingresos"></div>
+                            <div class="nova-grid-cortar" id="grid_resultados_ingresos"></div>
+                        </div>
                 </div>
             </div>
+            
+            <div class="page-break"></div>
+
+            <div class="nova-espacio"></div>
 
             <!-- EGRESOS -->
-            <div class="row nova-break-page">
-                <div class="col-xs-12 nova-col">
-                    <div class="panel panel-default panel-table nova-panel-table">  
-                        <div class="nova-contenido-borde" id="container-flujo"></div>
-                        <div id="grid_resultados"></div> 
-                    </div>
+            <div class="row ">
+                <div class="col-md-10">
+                        <div class="panel panel-default panel-table nova-panel-table panel-border">
+                            <div class="" id="container-flujo"></div>
+                            <div class="" id="grid_resultados"></div>
+                        </div>
                 </div>
             </div>
-
         </div>
 
         <!-- Javascript -->

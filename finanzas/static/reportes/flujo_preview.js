@@ -458,7 +458,6 @@ GridIngresos.prototype.get_Configuracion = function () {
       sortable: false,
       resizable: true,
       selectable: true,
-      scrollable: true,
       columns: this.get_Columnas(),
       scrollable: true,
       editable: false,
