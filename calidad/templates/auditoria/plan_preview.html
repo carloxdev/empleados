@@ -19,76 +19,117 @@
 
    </head>
       <body class="nova-bg-white nova-pdf-margins nova-font-f-arial" id="contenido">
-      <div>
 
-         <img class="nova-header-formato" src="{% static 'images/formato/cabecera_formato.png' %}">
-         <div class="paginado"> de </div>
-         </img>
-         <img class="nova-header-nuvoil" src="{% static 'images/logos/nuvoil.png' %}">
-      </div>
-      <div class="wrapper">
-         <div>
-            <div class="nova-font-s-16 nova-bold nova-aling-center">PLAN DE AUDITORIA INTERNA</div>
-            </br>
+         <div class="nova-pdf-header">
+
+            <img class="nova-header-formato" src="{% static 'images/formato/cabecera_formato.png' %}">
+               <div class="paginado"> de </div>
+            </img>
+            <img class="nova-header-nuvoil" src="{% static 'images/logos/nuvoil.png' %}">
          </div>
-         </br>
-         <section>
-            <strong>Objetivo de la Auditoría:</strong>
-            <p>{{ auditoria.objetivo }}</p>
 
-            <strong>Alcance de la Auditoría:</strong>
-            <p>{{ auditoria.alcance }}</p>
+         <div class="wrapper">
 
-            <strong>Contratos:</strong>
-            <p>{{ auditoria.contratos|safe }}</p>
+            <section id="texto-dinamico">
 
-            <strong>Fecha:</strong>
-            <p>{{ auditoria.fecha }}</p>
+               <div class="nova-dinamic">
+                  <div class="nova-font-s-16 nova-bold nova-aling-center">PLAN DE AUDITORIA INTERNA</div>
+                  </br>
+                  </br>
+               </div>
 
-            <strong>Auditoría:</strong>
-            <p>{{ auditoria.folio }}</p>
+               <div class="nova-dinamic">
+                  <strong>Objetivo de la Auditoría:</strong>
+                  <p>{{ auditoria.objetivo }}</p>
+               </div>
 
-            <strong>Criterios de la auditoría:</strong>
-            <p>{{ auditoria.criterios|safe }}</p>
+               <div class="nova-dinamic">
+                  <strong>Alcance de la Auditoría:</strong>
+                  <p>{{ auditoria.alcance }}</p>
+               </div>
 
-            <strong>Líder del Equipo Auditor:</strong>
-            <p>{{ auditoria.lider|safe }}</p>
+               <div class="nova-dinamic">
+                  <strong>Contratos:</strong>
+                  {{ auditoria.contratos|safe }}
+               </div>
 
-            <strong>Auditor (es) Asignados:</strong>
-            <p>{{ auditoria.auditores|safe }}</p>
+               <div class="nova-dinamic">
+                  <strong>Fecha:</strong>
+                  <p>{{ auditoria.fecha }}</p>
+               </div>
 
-            <strong>Auditores Colaboradores y/o en Entrenamiento:</strong>
-            <p>{{ auditoria.colaboradores|safe }}</p>
+               <div class="nova-dinamic">
+                  <strong>Auditoría:</strong>
+                  <p>{{ auditoria.folio }}</p>
+               </div>
 
-            <strong>Recursos necesarios:</strong>
-            <p>{{ auditoria.recursos_necesarios }}</p>
+               <div class="nova-dinamic">
+                  <strong>Criterios de la auditoría:</strong>
+                  {{ auditoria.criterios|safe }}
+               </div>
 
-         </section>
-         <!-- section -->
+               <div class="nova-dinamic">
+                  <strong>Líder del Equipo Auditor:</strong>
+                  {{ auditoria.lider|safe }}
+               </div>
 
-         <section>
-            <table class="table table-bordered nova-grid-calidad nova-aling-center" id="id_grid_firmas">
-               <tbody>
-                  <tr>
-                     <td class="nova-td-width-50 nova-ptb-5 nova-color-gray"><strong>Elaboró</strong></td>
-                     <td class="nova-td-width-50 nova-ptb-5 nova-color-gray"><strong>Aprobó</strong></td>
-                  </tr>
-                  <tr>
-                     <td class="nova-td-width-50 nova-ptb-5"></br></br>{{ elaboro }}</td>
-                     <td class="nova-td-width-50 nova-ptb-5"></br></br>{{ aprobo }}</td>
-                  </tr>
-                  <tr>
-                     <td class="nova-td-width-50 nova-ptb-5"><strong>Coordinador de SGI</strong></td>
-                     <td class="nova-td-width-50 nova-ptb-5"><strong>{{ compania }}</strong></td>
-                  </tr>
-               </tbody>
-            </table>
-         </section>
-         <!-- section -->
-         <h3 class="pag pag1"></h3>
-         <div class="insert"></div>
-      </div>
-      <!-- div.wrapper -->
+               <div class="nova-dinamic">
+                  <strong>Auditor (es) Asignados:</strong>
+                  {{ auditoria.auditores|safe }}
+               </div>
+
+               <div class="nova-dinamic">
+                  <strong>Auditores Colaboradores y/o en Entrenamiento:</strong>
+                  {{ auditoria.colaboradores|safe }}
+               </div>
+
+               <div class="nova-dinamic">
+                  <strong>Recursos necesarios:</strong>
+                  <p>{{ auditoria.recursos_necesarios }}</p>
+               </div>
+
+               <!-- limite -->
+                  <!-- <div class="nova-dinamic">
+                     <strong>Recursos necesarios:</strong>
+                     <p>{{ auditoria.recursos_necesarios }}</p>
+                  </div>
+                  <div class="nova-dinamic">
+                     <strong>Recursos necesarios:</strong>
+                     <p>{{ auditoria.recursos_necesarios }}</p>
+                  </div>
+                  <div class="nova-dinamic">
+                     <strong>Recursos necesarios:</strong>
+                     <p>{{ auditoria.recursos_necesarios }}</p>
+                  </div> -->
+               <!-- limite -->
+
+               <div class="nova-dinamic">
+                  <table class="table table-bordered nova-grid-calidad nova-aling-center" id="id_grid_firmas">
+                     <tbody>
+                        <tr>
+                           <td class="nova-td-width-50 nova-ptb-5 nova-color-gray"><strong>Elaboró</strong></td>
+                           <td class="nova-td-width-50 nova-ptb-5 nova-color-gray"><strong>Aprobó</strong></td>
+                        </tr>
+                        <tr>
+                           <td class="nova-td-width-50 nova-ptb-5"></br></br>{{ elaboro }}</td>
+                           <td class="nova-td-width-50 nova-ptb-5"></br></br>{{ aprobo }}</td>
+                        </tr>
+                        <tr>
+                           <td class="nova-td-width-50 nova-ptb-5"><strong>Coordinador de SGI</strong></td>
+                           <td class="nova-td-width-50 nova-ptb-5"><strong>{{ compania }}</strong></td>
+                        </tr>
+                     </tbody>
+                  </table>
+               </div>
+            </section>
+            <!-- section -->
+            <!-- section -->
+            <!-- <h3 class="pag pag1"></h3>
+            <div class="insert"></div> -->
+         </div><!-- div.wrapper -->
+         <div>
+            <img class="nova-footer-sgi" src="{% static 'images/logos/sgi.jpg' %}">
+         </div>
 
       </body>
 

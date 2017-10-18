@@ -130,7 +130,10 @@ class AuditoriaPlanPreview(View):
         auditores = CalidadMethods.get_FormatoDataList(auditoria_plan.auditores_designados.all(), "auditores", "Sin Seleccionar")
         auditores_colaboradores = CalidadMethods.get_FormatoDataList(auditoria_plan.auditores_colaboradores.all(), "auditores_colaboradores", "N/A")
         contratos = CalidadMethods.get_FormatoDataList(contratos_auditoria, "contratos", "N/A")
-        auditor_lider = CalidadMethods.get_FormatoDataList([auditoria_plan.auditor_lider], "auditor_lider", "Sin Seleccionar")
+        if len(auditoria_plan.auditor_lider):
+            auditor_lider = CalidadMethods.get_FormatoDataList([auditoria_plan.auditor_lider], "auditor_lider", "Sin Seleccionar")
+        else:
+            auditor_lider = "<p> Sin Seleccionar </p>"
 
         auditoria = {}
         auditoria["objetivo"] = CalidadMethods.get_Punto(auditoria_plan.objetivo)

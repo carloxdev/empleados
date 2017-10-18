@@ -54,25 +54,25 @@ class CalidadMethods(object):
 
         for index, dato in enumerate(_datos):
             if index == 0:
-                lista += "<ul>"
+                lista += '<ul class="dinamic">'
 
-            if _opcion == "criterios":
-                lista += "<li>" + dato.criterio  + ".</li>"
+            if _opcion == 'criterios':
+                lista += '<li>' + dato.criterio  + '.</li>'
 
-            elif _opcion == "auditores" or _opcion == "auditores_colaboradores":
-                lista += "<li>" + dato.nombre_completo  + ".</li>"
+            elif _opcion == 'auditores' or _opcion == 'auditores_colaboradores':
+                lista += '<li>' + dato.nombre_completo  + '.</li>'
 
-            elif _opcion == "contratos":
-                lista += "<li>" + dato.proyecto_desc  + ".</li>"
+            elif _opcion == 'contratos':
+                lista += '<li>' + dato.proyecto_desc  + '.</li>'
 
-            elif _opcion == "auditor_lider":
-                lista += "<li>" + dato + ".</li>"
+            elif _opcion == 'auditor_lider':
+                lista += '<li>' + dato + '.</li>'
 
             if index == len(_datos)-1:
-                lista += "</ul>"
+                lista += '</ul>'
 
         if not len(lista):
-            lista=_no_data
+            lista='<p>' + _no_data + '</p>'
 
         return lista
 
