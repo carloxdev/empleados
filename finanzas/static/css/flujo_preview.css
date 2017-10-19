@@ -4,13 +4,16 @@
 	{
 	   size:  auto;   /* auto is the initial value */
 	   /*margin: 0mm;  /* this affects the margin in the printer settings */
-	   margin: 10mm 5mm 10mm 5mm;
+	   margin: 10mm 2mm 10mm 2mm;
 	}
 
 	html
 	{
 	   background-color: #FFFFFF;
 	   /*margin: 10px;  /* this affects the margin on the html before sending to printer */
+	}
+	header{
+		position: fixed
 	}
 	.print-hidden{
 	  display: none !important;
@@ -24,24 +27,38 @@
 	.nova-titulo{
 		text-align: center !important;
 		font-weight: bold;
-		left: 32%;
+		left: 25%;
 		position: fixed;	
 	}
 	.nova-informacion{
 		text-align: center !important;
 		top: 60px;
-		left: 35%;
+		left: 25%;
 		position: fixed;
 	}
 	.nova-espacio{
 		height:130px;
 	}
-	.nova-grid-cortar{
-		display: -webkit-flex; /* Safari */
-	    -webkit-flex-wrap: wrap; /* Safari 6.1+ */
+	.nova-grid-width-fix{
+		width: 100% !important;
+	}
+	.nova-centrar-grafica{
+		width:100% !important;
+	}
+	/* table tr th:nth-child(n+9) {
+		border: 1px solid #d4d4d4;
+    	transform: translate(-1200px,20%);
+	}
+	table tr td:nth-child(n+9) {
+		border: 1px solid #d4d4d4;
+    	transform: translate(-1200px,10%);
+	} */
+/* 	.nova-grid-cortar{
+		display: -webkit-flex; 
+	    -webkit-flex-wrap: wrap; 
 	    display: flex;   
 	    flex-wrap: wrap;
-	}
+	} */
 }
 
 
@@ -56,6 +73,29 @@
 	}
 	.nova-informacion{
 		text-align: center !important;
+	}
+	.nova-border-buttons{
+		border-top: 1px solid #d4d4d4 !important;
+		padding-top: 5px !important;
+		padding-left: 5px !important;
+	}
+	.nova-grid-width-fix{
+		width: 100% !important;
+	}
+	.nova-contenido-padding{
+		padding-left: 20% !important;
+	}
+	.nova-centrar{
+		text-align: center;
+	}
+	table {
+	    table-layout: fixed;
+	    width: 100%;
+	}
+
+	table td {
+	    word-wrap: break-word;         /* All browsers since IE 5.5+ */
+	    overflow-wrap: break-word;     /* Renamed property in CSS3 draft spec */
 	}
 	/* .nova-grid-cortar{
 		display: -webkit-flex; 

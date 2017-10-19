@@ -34,6 +34,14 @@ function PopupFiltros() {
     this.$proyecto = $('#id_proyecto')
     this.$centro_costos = $('#id_centro_costos')
     this.$compania = $('#id_compania')
+    this.$boton_imprimir = $('#boton_imprimir')
+    this.init_Events()
+}
+PopupFiltros.prototype.init_Events = function (){
+    this.$boton_imprimir.on('click', this, this.click_Imprimir)
+}
+PopupFiltros.prototype.click_Imprimir = function (){
+    window.print()
 }
 
 
@@ -42,7 +50,6 @@ function PopupFiltros() {
 \*-----------------------------------------------*/
 
 function TarjetaResultados(){
-    // window.print()
     this.grid_egresos = new GridEgresos()
     this.grid_ingresos = new GridIngresos()
 }
@@ -55,9 +62,12 @@ function TarjetaResultados(){
 function GridEgresos() {
 
    this.$id = $("#grid_resultados")
+   this.$boton_mostrar_egresos= $("#boton_mostrar_egresos")
+   this.$boton_ocultar_egresos = $("#boton_ocultar_egresos")
    this.kfuente_datos = null
    this.kgrid = null
    this.agrupar_Informacion()
+   this.init_Events()
    // this.init()
 }
 GridEgresos.prototype.init = function (_resultado) {
@@ -65,6 +75,10 @@ GridEgresos.prototype.init = function (_resultado) {
    kendo.culture("es-MX")
    this.kfuente_datos = new kendo.data.DataSource(this.get_DataSourceConfig(_resultado))
    this.kgrid = this.$id.kendoGrid(this.get_Configuracion())
+}
+GridEgresos.prototype.init_Events = function (){
+  this.$boton_mostrar_egresos.on('click', this, this.click_BotonMeses)
+  this.$boton_ocultar_egresos.on('click', this, this.click_BotonOcultar)
 }
 GridEgresos.prototype.agrupar_Informacion = function (){
     var valor= ''
@@ -311,9 +325,55 @@ GridEgresos.prototype.get_Columnas = function () {
         
     ]
 }
+GridEgresos.prototype.click_BotonMeses = function (e){
+    var grid = $("#grid_resultados").data("kendoGrid");
+    grid.showColumn(3)
+    grid.showColumn(4)
+    grid.showColumn(5)
+    grid.showColumn(6)
+    grid.showColumn(7)
+    grid.showColumn(8)
+    grid.showColumn(9)
+    grid.showColumn(10)
+    grid.showColumn(11)
+    grid.showColumn(12)
+    grid.showColumn(13)
+    grid.showColumn(14)
+    e.data.$boton_mostrar_egresos.addClass('hide')
+    e.data.$boton_ocultar_egresos.removeClass('hide')
+}
+GridEgresos.prototype.click_BotonOcultar = function (e){
+    var grid = $("#grid_resultados").data("kendoGrid");
+    grid.hideColumn(3)
+    grid.hideColumn(4)
+    grid.hideColumn(5)
+    grid.hideColumn(6)
+    grid.hideColumn(7)
+    grid.hideColumn(8)
+    grid.hideColumn(9)
+    grid.hideColumn(10)
+    grid.hideColumn(11)
+    grid.hideColumn(12)
+    grid.hideColumn(13)
+    grid.hideColumn(14)
+    e.data.$boton_mostrar_egresos.removeClass('hide')
+    e.data.$boton_ocultar_egresos.addClass('hide')
+}
 GridEgresos.prototype.aplicar_Estilos = function (e) {
-
-    $('.k-grid-content-locked').addClass("nova-grid-fix-static")
+    $('.k-grid table').addClass("nova-grid-width-fix")
+    var grid = $("#grid_resultados").data("kendoGrid");
+    grid.hideColumn(3)
+    grid.hideColumn(4)
+    grid.hideColumn(5)
+    grid.hideColumn(6)
+    grid.hideColumn(7)
+    grid.hideColumn(8)
+    grid.hideColumn(9)
+    grid.hideColumn(10)
+    grid.hideColumn(11)
+    grid.hideColumn(12)
+    grid.hideColumn(13)
+    grid.hideColumn(14)
 }
 
 /*-----------------------------------------------*\
@@ -323,16 +383,21 @@ GridEgresos.prototype.aplicar_Estilos = function (e) {
 function GridIngresos() {
 
    this.$id = $("#grid_resultados_ingresos")
+   this.$boton_meses = $("#boton_mostrar")
+   this.$boton_ocultar = $("#boton_ocultar")
    this.kfuente_datos = null
    this.kgrid = null
    this.agrupar_Informacion()
-   // this.init()
+   this.init_Events()
 }
 GridIngresos.prototype.init = function (_resultado) {
-   $("#grid_resultados_ingresos").empty()
    kendo.culture("es-MX")
    this.kfuente_datos = new kendo.data.DataSource(this.get_DataSourceConfig(_resultado))
    this.kgrid = this.$id.kendoGrid(this.get_Configuracion())
+}
+GridIngresos.prototype.init_Events = function (){
+  this.$boton_meses.on('click', this, this.click_BotonMeses)
+  this.$boton_ocultar.on('click', this, this.click_BotonOcultar)
 }
 GridIngresos.prototype.agrupar_Informacion = function (){
     var valor= ''
@@ -577,9 +642,56 @@ GridIngresos.prototype.get_Columnas = function () {
         },
     ]
 }
+GridIngresos.prototype.click_BotonMeses = function (e){
+    var grid = $("#grid_resultados_ingresos").data("kendoGrid");
+    grid.showColumn(3)
+    grid.showColumn(4)
+    grid.showColumn(5)
+    grid.showColumn(6)
+    grid.showColumn(7)
+    grid.showColumn(8)
+    grid.showColumn(9)
+    grid.showColumn(10)
+    grid.showColumn(11)
+    grid.showColumn(12)
+    grid.showColumn(13)
+    grid.showColumn(14)
+    e.data.$boton_meses.addClass('hide')
+    e.data.$boton_ocultar.removeClass('hide')
+}
+GridIngresos.prototype.click_BotonOcultar = function (e){
+    var grid = $("#grid_resultados_ingresos").data("kendoGrid");
+    grid.hideColumn(3)
+    grid.hideColumn(4)
+    grid.hideColumn(5)
+    grid.hideColumn(6)
+    grid.hideColumn(7)
+    grid.hideColumn(8)
+    grid.hideColumn(9)
+    grid.hideColumn(10)
+    grid.hideColumn(11)
+    grid.hideColumn(12)
+    grid.hideColumn(13)
+    grid.hideColumn(14)
+    e.data.$boton_meses.removeClass('hide')
+    e.data.$boton_ocultar.addClass('hide')
+}
 GridIngresos.prototype.aplicar_Estilos = function (e) {
 
-    $('.k-grid-content-locked').addClass("nova-grid-fix-static")
+  $('.k-grid table').addClass("nova-grid-width-fix")
+    var grid = $("#grid_resultados_ingresos").data("kendoGrid");
+    grid.hideColumn(3)
+    grid.hideColumn(4)
+    grid.hideColumn(5)
+    grid.hideColumn(6)
+    grid.hideColumn(7)
+    grid.hideColumn(8)
+    grid.hideColumn(9)
+    grid.hideColumn(10)
+    grid.hideColumn(11)
+    grid.hideColumn(12)
+    grid.hideColumn(13)
+    grid.hideColumn(14)
 }
 
 /*-----------------------------------------------*\

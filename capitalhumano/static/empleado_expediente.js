@@ -353,8 +353,7 @@ PopupInformacionPersonal.prototype.consultar_Archivo = function (_numero, _url_a
        })
 }
 PopupInformacionPersonal.prototype.cargar_Archivos = function (_numero,_url_archivo,_nombre_documento){
-    this.$contenido.append("<a href='"+ _url_archivo +"' target='_blank'><img src='/static/images/decoradores/PDF.jpg' width='30px' height='30px'></img> Archivo No."+_numero+" : "+_nombre_documento+" </a><br>")
-
+    this.$contenido.append('<b>AÑO:</b>"20", <b>COMPAÑIA:</b>"",<b>PROYECTO:</b>"",<b>CENTRO DE COSTOS:</b>"""')
 }
 PopupInformacionPersonal.prototype.hidden_Modal = function (e) {
 

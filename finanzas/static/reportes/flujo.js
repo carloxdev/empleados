@@ -40,6 +40,7 @@ $(document).ready(function () {
 function PopupFiltros() {
 
     this.$id = $('#tarjeta_filtros')
+    this.$titulo = $('#id_titulo')
     this.$anio = $('#id_anio')
     this.$proyecto = $('#id_proyecto')
     this.$centro_costos = $('#id_centro_costos')
@@ -49,6 +50,7 @@ function PopupFiltros() {
     this.$boton_limpiar = $('#boton_limpiar')
 
     this.init()
+    this.llenar_Titulo()
     this.set_Events()
 }
 PopupFiltros.prototype.init = function () {
@@ -65,10 +67,30 @@ PopupFiltros.prototype.set_Events = function () {
     this.$centro_costos.on("change", this, this.click_BloquearProyecto)
     this.$boton_limpiar.on("click", this, this.click_BotonLimpiar)
 }
+PopupFiltros.prototype.llenar_Titulo = function (e) {
+    var compania,proyecto,centro_costos
+  
+    if (e){
+        e.data.$titulo.empty()
+        var anio = e.data.$anio.val()
+        if(e.data.$compania.val()==''){ compania = 'TODOS' }else{ compania = e.data.$compania.val() }
+        if(e.data.$proyecto.val()==''){ proyecto = 'TODOS' }else{ proyecto = e.data.$proyecto.val() }
+        if(e.data.$centro_costos.val()==''){ centro_costos = 'TODOS' }else{ centro_costos = e.data.$centro_costos.val() }
+        e.data.$titulo.append('<b>AÑO:</b>"20'+anio+'", <b>COMPAÑIA:</b>"'+compania+'",<b>PROYECTO:</b>"'+proyecto+'",<b>CENTRO DE COSTOS:</b>"'+centro_costos+'"')
+    }else{
+        this.$titulo.empty()
+        var anio = this.$anio.val()
+        if(this.$compania.val()==''){ compania = 'TODOS' }else{ compania = this.$compania.val() }
+        if(this.$proyecto.val()==''){ proyecto = 'TODOS' }else{ proyecto = this.$proyecto.val() }
+        if(this.$centro_costos.val()==''){ centro_costos = 'TODOS' }else{ centro_costos = this.$centro_costos.val() }
+        this.$titulo.append('<b>AÑO:</b>"20'+anio+'", <b>COMPAÑIA:</b>"'+compania+'",<b>PROYECTO:</b>"'+proyecto+'",<b>CENTRO DE COSTOS:</b>"'+centro_costos+'"')
+    }
+    
+}
 PopupFiltros.prototype.click_BotonBuscar = function (e) {
 
     e.preventDefault()
-
+    tarjeta_filtros.llenar_Titulo(e)
     tarjeta_resultados.grid_egresos.agrupar_Informacion()
     tarjeta_resultados.grid_ingresos.agrupar_Informacion()
     tarjeta_filtros.ocultar_Popup()
@@ -103,7 +125,7 @@ PopupFiltros.prototype.ocultar_Popup = function (){
 \*-----------------------------------------------*/
 
 function TarjetaResultados(){
-    // window.print()
+
     this.grid_egresos = new GridEgresos()
     this.grid_ingresos = new GridIngresos()
 }

@@ -1,0 +1,15 @@
+.nova-grid-width-fix{
+	width: 100% !important;
+}
+.nova-border-buttons{
+	border-left: 1px solid #d4d4d4 !important;
+	border-right: 1px solid #d4d4d4 !important;
+	padding-top: 5px !important;
+	padding-left: 5px !important;
+}
+.nova-grid-fix-static{
+	height: auto !important;
+}
+.nova-informacion{
+	text-align: center !important;
+}
