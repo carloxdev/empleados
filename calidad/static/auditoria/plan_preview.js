@@ -44,7 +44,7 @@ TarjetaResultados.prototype.get_TextoDinamico = function () {
 
       if ((espacio_ocupado + $(element).outerHeight( true )) > espacio_disponible) {
          //antes del elemento actual, inserta un salto de linea. Porque el elemento actual es el que sobresalta espacio disponible
-         $(element).before('<div class="page-break"></div><div class="nova-pdf-header-fix"></div><div class="paginado"> de </div>'); // insertar un div con el alto del footer
+         $(element).before('<div class="page-break"></div><div class="nova-pdf-header-fix"></div><div class="calidad-paginado"> de </div>'); // insertar un div con el alto del footer
          espacio_ocupado = 0  //Despues de un salto de pagina reestablece la altura del espacio ocupado
       }
 
@@ -57,9 +57,9 @@ TarjetaResultados.prototype.get_TextoDinamico = function () {
 }
 TarjetaResultados.prototype.set_NumeroPaginas = function () {
 
-   var total_paginas = this.$contenido.find('.paginado').size()
+   var total_paginas = this.$contenido.find('.calidad-paginado').size()
 
-   this.$contenido.find('.paginado').each(function(index, element) {
+   this.$contenido.find('.calidad-paginado').each(function(index, element) {
       var pagina = index + 1
       $(element).html( pagina + " de " + total_paginas)
    })
