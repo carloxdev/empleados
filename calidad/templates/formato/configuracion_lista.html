@@ -88,11 +88,11 @@
                      <thead>
                         <tr>
                            <th class="nova-columna-acciones"></th>
-                           <th>Título</th>
+                           <th>Codigo</th>
+                           <th>Activo</th>
                            <th>No. de revision</th>
                            <th>Vigencia a partir de</th>
-                           <th>Codigo</th>
-                           <th>Descripcion</th>
+                           <th>Descripción</th>
                            <th>Compañia</th>
                         </tr>
                      </thead>
@@ -109,11 +109,11 @@
                                     </a>
                                  </td>
                                  <td>
-                                    <a class="btn btn-default nova-url" data-event="editarFormato" data-id="{{formato.pk}}">{{formato.titulo}}</a>
+                                    <a class="btn btn-default nova-url" data-event="editarFormato" data-id="{{formato.pk}}">{{formato.codigo}}</a>
                                  </td>
+                                 <td>{{formato.get_activo_display}}</td>
                                  <td>{{formato.no_revision}}</td>
                                  <td>{{formato.vigencia_inicio}}</td>
-                                 <td>{{formato.codigo}}</td>
                                  <td>{{formato.descripcion}}</td>
                                  <td>{{formato.compania}}</td>
                               </tr>
@@ -153,13 +153,15 @@
 
                   {% tag_field_popup form.compania 3 8 %}
 
-                  {% tag_field_popup form.titulo 3 8 %}
+                  {% tag_field_popup form.tipo 3 8 %}
+
+                  {% tag_field_popup form.codigo 3 8 %}
+
+                  <!-- {% tag_field_popup_checkbox form.activo 3 8 %} -->
 
                   {% tag_field_popup form.no_revision 3 8 %}
 
                   {% tag_field_popup_datepicker form.vigencia 3 8 %}
-
-                  {% tag_field_popup form.codigo 3 8 %}
 
                   {% tag_field_popup form.descripcion 3 8 %}
 

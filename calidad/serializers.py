@@ -364,7 +364,7 @@ class FormatoSerializer(serializers.HyperlinkedModelSerializer):
             'pk',
             'compania_codigo',
             'compania',
-            'titulo',
+            'tipo',
             'no_revision',
             'vigencia_inicio',
             'codigo',

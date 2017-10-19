@@ -24,80 +24,73 @@
      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
      <![endif] -->
 
-     <style type="text/css" media="print">
-       @page
-       {
-           size:  auto;   /* auto is the initial value */
-           margin: 0mm;  /* this affects the margin in the printer settings */
-       }
-
-       html
-       {
-           background-color: #FFFFFF;
-           margin: 0px;  /* this affects the margin on the html before sending to printer */
-       }
-
-       body
-       {
-           margin: 34mm 25mm 30mm 20mm; /* margin you want for the content */
-       }
-     </style>
      <!-- <style type="text/css" media="print">
      @page { size: landscape; }
      </style> -->
 
    </head>
       <body class="nova-bg-white nova-pdf-margins nova-font-f-arial" id="contenido">
-      <div class="wrapper">
 
-         <div>
-            <div class="nova-font-s-16 nova-bold nova-aling-center">CHECK LIST AUDITORIA INTERNA</div>
-            </br>
-            <div class="row">
-               <div class="col-xs-6">
-                  <label class="nova-font-s-16 nova-bold nova-color-black">Auditor: {{ auditor }}</label></br>
-                  <label class="nova-font-s-16 nova-bold nova-color-black">Proceso: {{ proceso }}</label></br>
-                  <label class="nova-font-s-16 nova-bold nova-color-black">Auditoría No. {{ folio }}</label>
-               </div>
+         <div class="nova-pdf-header">
 
-               <div class="col-xs-6">
-                  <div class="nova-aling-right">
-                     <label class="nova-font-s-16 nova-bold nova-color-black">Fecha: {% now "SHORT_DATE_FORMAT" %} </label></br>
-                     <label class="nova-font-s-16 nova-bold nova-color-black">Área: {{ subproceso }}</label>
-                  </div>
-               </div>
-            </div>
+            <img class="nova-header-formato" src="{% static 'images/formato/cabecera_formato.png' %}">
+               <div class="calidad-no-revision"></div>
+               <div class="calidad-vigente"></div>
+               <div class="calidad-paginado"></div>
+               <div class="calidad-codigo"></div>
+            </img>
+            <img class="nova-header-nuvoil" src="{% static 'images/logos/nuvoil.png' %}">
+            <div class="color-pruebaHeader"></div>
+            <div class="color-pruebaCont"></div>
          </div>
-         </br>
-         <section>
+         <div class="wrapper">
 
-            <div id="grid_resultados" class="nova-aling-center">
+            <section id="texto-dinamico">
+               <div class="nova-dinamic prueba">
+                  <div class="nova-font-s-16 nova-bold nova-aling-center">CHECK LIST AUDITORIA INTERNA</div>
+                  </br>
+               </div>
+
+               <div class="nova-dinamic prueba">
+                  <div class="row">
+                     <div class="col-xs-6">
+                        <label class="nova-font-s-16 nova-bold nova-color-black">Auditor: {{ auditor }}</label></br>
+                        <label class="nova-font-s-16 nova-bold nova-color-black">Proceso: {{ proceso }}</label></br>
+                        <label class="nova-font-s-16 nova-bold nova-color-black">Auditoría No. {{ folio }}</label>
+                     </div>
+
+                     <div class="col-xs-6">
+                        <div class="nova-aling-right">
+                           <label class="nova-font-s-16 nova-bold nova-color-black">Fecha: {% now "SHORT_DATE_FORMAT" %} </label></br>
+                           <label class="nova-font-s-16 nova-bold nova-color-black">Área: {{ subproceso }}</label>
+                        </div>
+                     </div>
+                  </div>
+                  </br>
+               </div>
+
                <table class="table table-bordered nova-grid-calidad" id="id_grid_hallazgo">
                   <tbody id="id_tbody_hallazgo_proceso">
                     {% if requisitos %}
                         {% for requisito in requisitos %}
                            {% if requisito.encabezado %}
-                              <tr>
-                                 <td class="nova-td-width-5 nova-ptb-5"><strong>{{ requisito.no }}</strong></td>
-                                 <td class="nova-td-width-40 nova-ptb-5"><strong>{{ requisito.requisito }}</strong></td>
-                                 <td class="nova-td-width-55 nova-ptb-5"><strong>{{ requisito.hallazgos }}</strong></td>
-                              </tr>
+                              <!-- <div class="nova-dinamic prueba"> -->
+                                 <tr class="nova-dinamic prueba">
+                                    <td class="nova-td-width-5 nova-ptb-5"><strong>{{ requisito.no }}</strong></td>
+                                    <td class="nova-td-width-40 nova-ptb-5"><strong>{{ requisito.requisito }}</strong></td>
+                                    <td class="nova-td-width-55 nova-ptb-5"><strong>{{ requisito.hallazgos }}</strong></td>
+                                 </tr>
+                              <!-- </div> -->
                            {% else %}
-                              <tr>
-                                 <td class="nova-td-width-5 nova-ptb-5">{{ requisito.no }}</td>
-                                 <td class="nova-td-width-40 nova-ptb-5">{{ requisito.requisito }}</td>
-                                 <td class="nova-td-width-55 nova-ptb-5">{{ requisito.hallazgos }}</td>
-                              </tr>
+                              <!-- <div class="nova-dinamic prueba"> -->
+                                 <tr class="nova-dinamic prueba">
+                                    <td class="nova-td-width-5 nova-ptb-5">{{ requisito.no }}</td>
+                                    <td class="nova-td-width-40 nova-ptb-5">{{ requisito.requisito }}</td>
+                                    <td class="nova-td-width-55 nova-ptb-5">{{ requisito.hallazgos }}</td>
+                                 </tr>
+                              <!-- </div> -->
                            {% endif %}
                         {% endfor %}
-                        <tr rowspan="3">
-                           <td colspan="3">
-                             Requisitos del cliente:
-                             <br>
-                             <br>
-                             <br>
-                           </td>
-                        </tr>
                     {% else %}
                         <tr>
                           <td colspan="3" class="nova-aling-center nova-sin-resultados">
@@ -107,13 +100,14 @@
                     {% endif %}
                   </tbody>
                </table>
-            </div>
+            </section>
+            <!-- section -->
 
-         </section>
-         <!-- section -->
-
-
-      </div>
+         </div>
+         <div>
+            <img class="nova-footer-sgi" src="{% static 'images/logos/sgi.jpg' %}">
+            <div class="color-pruebaFooter"></div>
+         </div>
       <!-- div.wrapper -->
       </body>
 

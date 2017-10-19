@@ -21,7 +21,8 @@
       <body class="nova-bg-white nova-pdf-margins nova-font-f-arial" id="contenido">
 
          <div class="nova-pdf-header">
-
+            <div class="color-pruebaHeader"></div>
+            <div class="color-pruebaCont"></div>
             <img class="nova-header-formato" src="{% static 'images/formato/cabecera_formato.png' %}">
                <div class="calidad-no-revision"></div>
                <div class="calidad-vigente"></div>
@@ -35,64 +36,64 @@
 
             <section id="texto-dinamico">
 
-               <div class="nova-dinamic">
+               <div class="nova-dinamic prueba">
                   <div class="nova-font-s-16 nova-bold nova-aling-center">PLAN DE AUDITORIA INTERNA</div>
                   </br>
                   </br>
                </div>
 
-               <div class="nova-dinamic">
+               <div class="nova-dinamic prueba">
                   <strong>Objetivo de la Auditoría:</strong>
                   <p>{{ auditoria.objetivo }}</p>
                </div>
 
-               <div class="nova-dinamic">
+               <div class="nova-dinamic prueba">
                   <strong>Alcance de la Auditoría:</strong>
                   <p>{{ auditoria.alcance }}</p>
                </div>
 
-               <div class="nova-dinamic">
+               <div class="nova-dinamic prueba">
                   <strong>Contratos:</strong>
                   {{ auditoria.contratos|safe }}
                </div>
 
-               <div class="nova-dinamic">
+               <div class="nova-dinamic prueba">
                   <strong>Fecha:</strong>
                   <p>{{ auditoria.fecha }}</p>
                </div>
 
-               <div class="nova-dinamic">
+               <div class="nova-dinamic prueba">
                   <strong>Auditoría:</strong>
                   <p>{{ auditoria.folio }}</p>
                </div>
 
-               <div class="nova-dinamic">
+               <div class="nova-dinamic prueba">
                   <strong>Criterios de la auditoría:</strong>
                   {{ auditoria.criterios|safe }}
                </div>
 
-               <div class="nova-dinamic">
+               <div class="nova-dinamic prueba">
                   <strong>Líder del Equipo Auditor:</strong>
                   {{ auditoria.lider|safe }}
                </div>
 
-               <div class="nova-dinamic">
+               <div class="nova-dinamic prueba">
                   <strong>Auditor (es) Asignados:</strong>
                   {{ auditoria.auditores|safe }}
                </div>
 
-               <div class="nova-dinamic">
+               <div class="nova-dinamic prueba">
                   <strong>Auditores Colaboradores y/o en Entrenamiento:</strong>
                   {{ auditoria.colaboradores|safe }}
                </div>
 
-               <div class="nova-dinamic">
+               <div class="nova-dinamic prueba">
                   <strong>Recursos necesarios:</strong>
                   <p>{{ auditoria.recursos_necesarios }}</p>
                </div>
 
                <!-- limite -->
-                  <!-- <div class="nova-dinamic">
+                  <!-- <div class="nova-dinamic prueba">
                      <strong>Recursos necesarios:</strong>
                      <p>{{ auditoria.recursos_necesarios }}</p>
                   </div>
@@ -106,7 +107,7 @@
                   </div> -->
                <!-- limite -->
 
-               <div class="nova-dinamic">
+               <div class="nova-dinamic prueba">
                   <table class="table table-bordered nova-grid-calidad nova-aling-center" id="id_grid_firmas">
                      <tbody>
                         <tr>
@@ -132,6 +133,7 @@
          </div><!-- div.wrapper -->
          <div>
             <img class="nova-footer-sgi" src="{% static 'images/logos/sgi.jpg' %}">
+            <div class="color-pruebaFooter"></div>
          </div>
 
       </body>

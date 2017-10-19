@@ -195,7 +195,7 @@ TarjetaFiltros.prototype.limpiar_CampoNoAplicado = function () {
       }
       if (_campo == "id_requisicion_canceladas") {
 
-         tarjeta_filtros.$id_requisicion_canceladas.data('select2').val(0)
+         tarjeta_filtros.$id_requisicion_canceladas.val('-980').trigger("change")
       }
       if (_campo == "id_cotizacion") {
 
@@ -211,7 +211,7 @@ TarjetaFiltros.prototype.limpiar_CampoNoAplicado = function () {
       }
       if (_campo == "id_cotizacion_canceladas") {
 
-         tarjeta_filtros.$id_cotizacion_canceladas.data('select2').val(0)
+         tarjeta_filtros.$id_cotizacion_canceladas.val('-980').trigger("change")
       }
       if (_campo == "id_oc") {
 
@@ -227,7 +227,7 @@ TarjetaFiltros.prototype.limpiar_CampoNoAplicado = function () {
       }
       if (_campo == "id_oc_canceladas") {
 
-         tarjeta_filtros.$id_oc_canceladas.data('select2').val(0)
+         tarjeta_filtros.$id_oc_canceladas.val('-980').trigger("change")
       }
       if (_campo == "id_proveedor") {
 
@@ -327,15 +327,15 @@ TarjetaFiltros.prototype.click_BotonLimpiar = function (e) {
    e.data.$id_requisicion.val("")
    e.data.$id_requisicion_tipo.data('select2').val(0)
    e.data.$id_requisicion_originador.data('select2').val(0)
-   e.data.$id_requisicion_canceladas.data('select2').val(0)
+   e.data.$id_requisicion_canceladas.data('select2').val('-980').trigger("change")
    e.data.$id_cotizacion.val("")
    e.data.$id_cotizacion_tipo.data('select2').val(0)
    e.data.$id_cotizacion_originador.data('select2').val(0)
-   e.data.$id_cotizacion_canceladas.data('select2').val(0)
+   e.data.$id_cotizacion_canceladas.data('select2').val('-980').trigger("change")
    e.data.$id_oc.val("")
    e.data.$id_oc_tipo.data('select2').val(0)
    e.data.$id_oc_originador.data('select2').val(0)
-   e.data.$id_oc_canceladas.data('select2').val(0)
+   e.data.$id_oc_canceladas.data('select2').val('-980').trigger("change")
    e.data.$id_proveedor.val("")
    e.data.$id_item.val("")
    e.data.$id_recepcion.data('select2').val(0)

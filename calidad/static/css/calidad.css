@@ -68,6 +68,7 @@
 }
 .nova-grid-calidad > tbody > tr > td{
    border: 1px solid #000 !important;
+   /*font-size: 14.6px !important;*/
    font-size: 14.6px !important;
 }
 .nova-color-gray {
@@ -75,6 +76,41 @@
 }
 
 @media print {
+   body {
+      -webkit-print-color-adjust: exact;
+   }
+   .prueba {
+      background-color: rgba(95, 153, 245, 0.53) !important;
+      border-bottom: 0.5px solid #000000;
+   }
+   .color-pruebaHeader {
+      background-color: rgba(55, 179, 88, 0.39) !important;
+      height: 34mm;
+      width: 100%;
+      position: fixed;
+      top: 0mm;
+      left: 0mm;
+      border: 1px solid #000000;
+
+   }
+   .color-pruebaFooter {
+      background-color: rgba(253, 52, 221, 0.33) !important;
+      height: 30mm;
+      width: 100%;
+      position: fixed;
+      bottom: 0mm;
+      left: 0mm;
+      border: 1px solid #000000;
+   }
+   .color-pruebaCont {
+      background-color: rgba(95, 153, 245, 0.53) !important;
+      height: 4.5mm;
+      width: 100%;
+      position: fixed;
+      top: 34mm;
+      left: 0mm;
+      /*border: 1px solid #000000;*/
+   }
 
    @page {
       margin: 0px;
@@ -102,7 +138,7 @@
    }
    .nova-footer-sgi {
       position: fixed;
-      bottom: 12.5mm;
+      bottom: 11mm;
       left: 71%;
       width: 35mm;
       height: 19mm;
@@ -113,6 +149,41 @@
    }
 }
 @media screen {
+
+   .prueba {
+      background-color: rgba(95, 153, 245, 0.53) !important;
+      border-bottom: 0.5px solid #000000;
+   }
+
+   .color-pruebaHeader {
+      background-color: rgba(55, 179, 88, 0.39) !important;
+      height: 34mm;
+      width: 100%;
+      position: fixed;
+      top: 0mm;
+      left: 0mm;
+      border: 1px solid #000000;
+
+   }
+   .color-pruebaFooter {
+      background-color: rgba(253, 52, 221, 0.33) !important;
+      height: 30mm;
+      width: 100%;
+      position: fixed;
+      bottom: 0mm;
+      left: 0mm;
+      border: 1px solid #000000;
+   }
+   .color-pruebaCont {
+      background-color: rgba(95, 153, 245, 0.53) !important;
+      height: 0mm;
+      width: 100%;
+      position: fixed;
+      top: 34mm;
+      left: 0mm;
+      border: 1px solid #000000;
+   }
+
    .nova-pdf-header {
       height: 0px;
    }

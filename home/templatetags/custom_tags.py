@@ -355,10 +355,24 @@ def tag_field_message(_field, _size_label, _size_field, _message):
     }
     return contexto
 
+
 @register.inclusion_tag(
     'tags/field_radio.html',
     takes_context=False)
 def tag_field_radio(_field, _size_label, _size_field):
+
+    contexto = {
+        'campo': _field,
+        'size_label': _size_label,
+        'size_field': _size_field,
+    }
+    return contexto
+
+
+@register.inclusion_tag(
+    'tags/field_popup_checkbox.html',
+    takes_context=False)
+def tag_field_popup_checkbox(_field, _size_label, _size_field):
 
     contexto = {
         'campo': _field,

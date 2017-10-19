@@ -283,13 +283,18 @@ class Formato(models.Model):
         ('nocon', 'Reporte de no conformidad'),
     )
 
+    ESTADOS = (
+        (True, 'Si'),
+        (False, 'No')
+    )
+
     compania_codigo = models.CharField(max_length=5)
     compania = models.CharField(max_length=160)
-    titulo = models.CharField(max_length=120)
+    codigo = models.CharField(max_length=140)
     tipo = models.CharField(max_length=140, choices=TIPO, default="check")
     no_revision = models.CharField(max_length=6)
     vigencia_inicio = models.DateField()
-    codigo = models.CharField(max_length=16)
+    activo = models.BooleanField(choices=ESTADOS, default=True)
     descripcion = models.CharField(max_length=220)
     create_by = models.ForeignKey(Profile, related_name='format_created_by', null=True)
     create_date = models.DateTimeField(

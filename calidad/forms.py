@@ -4,6 +4,7 @@
 from django.forms import Form
 from django.forms import CharField
 from django.forms import ChoiceField
+from django.forms import BooleanField
 from django.forms import MultipleChoiceField
 from django.forms import TextInput
 from django.forms import Select
@@ -13,6 +14,7 @@ from django.forms import SelectMultiple
 from django.forms import RadioSelect
 from django.forms import ImageField
 from django.forms import FileInput
+from django.forms import CheckboxInput
 from django.core.exceptions import NON_FIELD_ERRORS
 
 # Librerias/Clases propias
@@ -241,8 +243,12 @@ class FallaForm(Form):
 
 class FormatoForm(Form):
 
-    titulo = CharField(
-        widget=TextInput(attrs={'class': 'form-control input-xs'})
+    TIPO = (
+        ('', '-------'),
+        ('check', 'Check List'),
+        ('plan', 'Plan de Auditoria'),
+        ('rep', 'Reporte de auditorias internas'),
+        ('nocon', 'Reporte de no conformidad'),
     )
 
     no_revision = CharField(
@@ -257,12 +263,21 @@ class FormatoForm(Form):
         widget=TextInput(attrs={'class': 'form-control input-xs'})
     )
 
+    activo = BooleanField(
+        widget=CheckboxInput()
+    )
+
     descripcion = CharField(
         widget=Textarea(attrs={'class': 'form-control input-xs'})
     )
 
     compania = ChoiceField(
         widget=Select(attrs={'class': 'select2'})
+    )
+
+    tipo = ChoiceField(
+        widget=Select(attrs={'class': 'select2'}),
+        choices=TIPO
     )
 
     def __init__(self, *args, **kargs):

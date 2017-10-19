@@ -36,12 +36,12 @@ TarjetaResultados.prototype.get_TextoDinamico = function () {
 
    var totalHeight = 0
    var espacio_ocupado = 0
-   var espacio_total = 1056   //Espacio total del pdf en pixeles
+   var espacio_total = this.get_Pixeles(309) //Espacio total del pdf en pixeles(1167.875449). Nota: En media print, por alguna razon el alto del pdf es de 309mm para tamaño carta de hoja
    var espacio_disponible = espacio_total - (this.$mt + this.$mb)
 
 
    this.$texto_dinamico.find('.nova-dinamic').each(function(index, element) {
-
+      
       if ((espacio_ocupado + $(element).outerHeight( true )) > espacio_disponible) {
          //antes del elemento actual, inserta un salto de linea. Porque el elemento actual es el que sobresalta espacio disponible
          $(element).before('<div class="page-break"></div><div class="nova-pdf-header-fix"></div><div class="calidad-paginado"> de </div>'); // insertar un div con el alto del footer
