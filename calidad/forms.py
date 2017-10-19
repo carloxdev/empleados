@@ -327,17 +327,17 @@ class GeneralAuditoriaForm(Form):
     )
 
     objetivo = CharField(
-        widget=Textarea(attrs={'class': 'form-control input-xs', 'rows': '6'}),
+        widget=Textarea(attrs={'class': 'form-control input-xs', 'rows': '6', 'maxlength': '400'}),
         required=False
     )
 
     alcance = CharField(
-        widget=Textarea(attrs={'class': 'form-control input-xs', 'rows': '6'}),
+        widget=Textarea(attrs={'class': 'form-control input-xs', 'rows': '6', 'maxlength': '400'}),
         required=False
     )
 
     recursos_necesarios = CharField(
-        widget=Textarea(attrs={'class': 'form-control input-xs', 'rows': '6'}),
+        widget=Textarea(attrs={'class': 'form-control input-xs', 'rows': '6', 'maxlength': '300'}),
         required=False
     )
 

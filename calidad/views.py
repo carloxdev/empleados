@@ -130,10 +130,20 @@ class AuditoriaPlanPreview(View):
         auditores = CalidadMethods.get_FormatoDataList(auditoria_plan.auditores_designados.all(), "auditores", "Sin Seleccionar")
         auditores_colaboradores = CalidadMethods.get_FormatoDataList(auditoria_plan.auditores_colaboradores.all(), "auditores_colaboradores", "N/A")
         contratos = CalidadMethods.get_FormatoDataList(contratos_auditoria, "contratos", "N/A")
+
+        auditor_lider = "<p> Sin Seleccionar </p>"
+        fecha = "Sin fechas disponibles"
+
         if len(auditoria_plan.auditor_lider):
             auditor_lider = CalidadMethods.get_FormatoDataList([auditoria_plan.auditor_lider], "auditor_lider", "Sin Seleccionar")
-        else:
-            auditor_lider = "<p> Sin Seleccionar </p>"
+
+        if len(CalidadMethods.set_FechaConFormato(auditoria_plan.fecha_programada_inicial)):
+            fecha="Del " + CalidadMethods.set_FechaConFormato(auditoria_plan.fecha_programada_inicial)
+
+            if len(CalidadMethods.set_FechaConFormato(auditoria_plan.fecha_programada_final)):
+                fecha += " al " +  CalidadMethods.set_FechaConFormato(auditoria_plan.fecha_programada_final) + "."
+            else:
+                fecha += " al (Sin establecer)."
 
         auditoria = {}
         auditoria["objetivo"] = CalidadMethods.get_Punto(auditoria_plan.objetivo)
@@ -142,7 +152,7 @@ class AuditoriaPlanPreview(View):
         auditoria["auditores"] = auditores
         auditoria["colaboradores"] = auditores_colaboradores
         auditoria["contratos"] = contratos
-        auditoria["fecha"] = "Del " + CalidadMethods.set_FechaConFormato(auditoria_plan.fecha_programada_inicial) + " al " +  CalidadMethods.set_FechaConFormato(auditoria_plan.fecha_programada_final) + "."
+        auditoria["fecha"] = fecha
         auditoria["folio"] = auditoria_plan.folio + "."
         auditoria["lider"] = auditor_lider
         auditoria["recursos_necesarios"] = CalidadMethods.get_Punto(auditoria_plan.recurso_necesario)
