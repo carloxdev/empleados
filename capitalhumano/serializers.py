@@ -678,13 +678,10 @@ class EvaluacionPlantillasSerializer(serializers.HyperlinkedModelSerializer):
 
 class PerfilIndicadorSerializer(serializers.HyperlinkedModelSerializer):
 
-    plantilla = serializers.SerializerMethodField()
-
     class Meta:
         model = PerfilIndicadores
         fields = (
             'pk',
-            'plantilla',
             'cvepuesto',
             'departamento',
             'puesto',
@@ -699,6 +696,7 @@ class PerfilIndicadorSerializer(serializers.HyperlinkedModelSerializer):
             'created_date',
             'updated_by',
             'updated_date',
+
         )
 
     def get_plantilla(self, obj):
@@ -706,3 +704,4 @@ class PerfilIndicadorSerializer(serializers.HyperlinkedModelSerializer):
             return obj.plantilla.descripcion
         except Exception as e:
             return " "
+

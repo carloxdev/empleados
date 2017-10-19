@@ -42,11 +42,15 @@ $(document).ready(function () {
 \*-----------------------------------------------*/
 
 function TarjetaFiltros(){
+
+    this.$id = $('#tarjeta_filtros')
     this.$puesto = $('#id_asig_puesto_clave')
     this.$departamento = $('#id_departamento')
     this.$nivel_estudios = $('#id_estudios')
     this.$experiencia = $('#id_experiencia')
+    this.$pertenece = $('#id_pertenece')
     this.$boton_buscar = $('#boton_buscar')
+    this.$boton_limpiar = $('#boton_limpiar')
 
     this.init_Components()
     this.init_Events()
@@ -62,6 +66,7 @@ TarjetaFiltros.prototype.init_Components= function(){
 TarjetaFiltros.prototype.init_Events = function () {
     // Asosciar Eventos
     this.$boton_buscar.on("click", this, this.click_BotonBuscar)
+    this.$boton_limpiar.on("click", this, this.click_BotonLimpiar)
 }
 
 TarjetaFiltros.prototype.get_Values = function (_page) {
@@ -82,6 +87,17 @@ TarjetaFiltros.prototype.click_BotonBuscar = function (e) {
 
     e.preventDefault()
     resultados.grid.buscar()
+    e.data.$id.modal('hide')
+}
+
+TarjetaFiltros.prototype.click_BotonLimpiar = function (e) {
+
+    e.preventDefault()
+    e.data.$pertenece.val("")
+    e.data.$puesto.val("").trigger("change")
+    e.data.$departamento.val("").trigger("change")
+    e.data.$nivel_estudios.val("").trigger("change")
+    e.data.$experiencia.val("").trigger("change")
 
 }
 
@@ -200,6 +216,11 @@ Grid.prototype.get_Configuracion = function () {
 Grid.prototype.get_Columnas = function () {
 
     return [
+        { field: "pk",
+                title: " ",
+                width: "50px",
+                template: '<a class="btn nova-btn btn-default nova-btn-delete" id="#=pk#" data-event="eliminar-personal"> <i class="icon icon-left icon mdi mdi-delete nova-white"></i></a>',
+        },
         {
             field: "pk",
             title: "Numero",
@@ -215,8 +236,8 @@ Grid.prototype.get_Columnas = function () {
         { field: "responsabilidades", title: "Responsabilidades", width:"100px" },
         { field: "reporte", title: "Reporte", width:"70px" },
         { field: "posicion", title: "Staf", width:"70px" },
-        { field: "edad_minima", title: "Edad Minima", width:"70px" },
-        { field: "edad_maxima", title: "Edad Maxima", width:"70px" },
+        //{ field: "edad_minima", title: "Edad Minima", width:"70px" },
+        //{ field: "edad_maxima", title: "Edad Maxima", width:"70px" },
         { field: "nivel_estudio", title: "Nivel Estudio", width:"90px" },
         { field: "estado_civil", title: "Estado Civil", width:"90px" },
         { field: "genero", title: "Genero", width:"70px" },

@@ -269,7 +269,7 @@ class EmpleadoFilterForm(Form):
 class PerfilPuestoDocumentoForm(Form):
 
     asig_puesto_clave = ChoiceField(widget=Select(
-        attrs={'class': 'select2 nova-select2'}))
+        attrs={'class': 'select2'}))
 
     GENERO = (
         ('muj', 'Femenino'),
@@ -277,43 +277,7 @@ class PerfilPuestoDocumentoForm(Form):
         ('ind', 'Indistinto'),
     )
 
-    class Meta:
-        model = PerfilPuestoDocumento
-
-        fields = [
-            'proposito',
-            'funciones',
-            'responsabilidades',
-            'reporte',
-            'edad_minima',
-            'edad_maxima',
-            'nivel_estudio',
-            'estado_civil',
-            'genero',
-            'disponibilidad_viajar',
-            'requerimentos',
-            'puesto_acargo',
-        ]
-        # 'created_by',
-        # 'created_date',
-        # 'updated_by',
-        # 'updated_date' ]
-
-        labels = {
-            'proposito': 'Proposito :',
-            'reporte': 'Reporte :',
-            'genero': 'Genero:',
-        }
-
-        widgets = {
-
-            'proposito': TextInput(attrs={'class': 'form-control input-xs'}),
-            'genero': TextInput(attrs={'class': 'form-control input-xs'}),
-            #'cambio_residencia': CheckboxInput(),
-            'disponibilidad_viajar': TextInput(attrs={'class': 'form-control input-xs'}),
-            #'requerimentos': TextInput(attrs={'class': 'form-control input-xs'}),
-        }
-
+   
     cambio_residencia = CharField(
         label="Disponibilidad para cambiar de residencia",
         widget=CheckboxInput()
@@ -321,7 +285,12 @@ class PerfilPuestoDocumentoForm(Form):
 
     disponibilidad_viajar = CharField(
         label="Disponibilidad para viajar",
-        widget=CheckboxInput()
+        widget=CheckboxInput(attrs={'class': 'form-checkbox inline'})
+    )
+
+    posicion = CharField(
+        label="Posicion Staff",
+        widget=CheckboxInput(attrs={'class': 'form-checkbox inline'})
     )
 
     edad_minima = CharField(
@@ -341,23 +310,24 @@ class PerfilPuestoDocumentoForm(Form):
     )
 
     requerimentos = CharField(
-        widget=Textarea(attrs={'class': 'form-control input-xs', 'rows': '5'}))
+        widget=Textarea(attrs={'class': 'form-control input-xs', 'rows': '6'}))
 
     objetivo = CharField(
         label="Proposito",
-        widget=Textarea(attrs={'class': 'form-control input-xs', 'rows': '5'}))
+        widget=Textarea(attrs={'class': 'form-control input-xs', 'rows': '6'}))
 
     funciones = CharField(
-        widget=Textarea(attrs={'class': 'form-control input-xs', 'rows': '5'}))
+        widget=Textarea(attrs={'class': 'form-control input-xs', 'rows': '6'}))
 
     responsabilidades = CharField(
-        widget=Textarea(attrs={'class': 'form-control input-xs', 'rows': '5'}))
+        widget=Textarea(attrs={'class': 'form-control input-xs', 'rows': '6'}),
+        required=False)
 
     desc_puesto = ChoiceField(label='Puesto', widget=Select(
-        attrs={'class': 'select2 nova-select2'}))
+        attrs={'class': 'select2'}))
 
     reporta = ChoiceField(label='Reporta', widget=Select(
-        attrs={'class': 'select2 nova-select2'}))
+        attrs={'class': 'select2'}))
 
     nivel_estudio = ChoiceField(widget=Select(
         attrs={'class': 'select2 nova-select2'}))
@@ -389,7 +359,8 @@ class PerfilPuestoDocumentoForm(Form):
             valores.append(
                 (
                     puesto.clave_puesto,
-                    str(int(puesto.clave_puesto)) + ' - ' + puesto.desc_puesto,
+                    puesto.desc_puesto,
+                    #str(int(puesto.clave_puesto)) + ' - ' + puesto.desc_puesto,
                 )
             )
         return valores
@@ -1102,10 +1073,8 @@ class PerfilAgregarCompetenciaForm(Form):
     )
 
     porcentaje = CharField(
-        label="Numero de porcentaje",
-        widget=TextInput(
-            attrs={'class': 'form-control input-xs'}
-        )
+        label="Porcentaje",
+        widget=NumberInput(attrs={'class': 'form-control input-xs', 'min': '1'})
     )
 
     descripcion = ChoiceField(label='idcompetencia', widget=Select(
@@ -1138,8 +1107,6 @@ class PerfilAgregarCompetenciaForm(Form):
 class PerfilAgregarIndicadorForm(Form):
 
 
-    plantilla = ChoiceField(label='idplantilla', widget=Select(
-    attrs={'class': 'select2 nova-select2'}))
 
     departamento = CharField(
         label="Departamento",
@@ -1158,72 +1125,44 @@ class PerfilAgregarIndicadorForm(Form):
     objetivo_ind = CharField(
         label="Objetivo",
         widget=TextInput(
-            attrs={'class': 'form-control input-xs'}
+            attrs={'class': 'form-control input-xs', 'placeholder': 'Escribe Brevemente'}
         )
     )
 
     unidad_medida = CharField(
         label="Unidad Medida",
         widget=TextInput(
-            attrs={'class': 'form-control input-xs'}
+            attrs={'class': 'form-control input-xs', 'placeholder': 'Ejemplo: Porcentaje'}
         )
     )
 
     descripcion_kpi = CharField(
         label="Descripcion KPI",
         widget=TextInput(
-            attrs={'class': 'form-control input-xs'}
+            attrs={'class': 'form-control input-xs', 'placeholder': 'Escribe brevemente'}
         )
     )
 
-
     porcentaje_ind = CharField(
         label="Porcentaje",
-        widget=TextInput(
-            attrs={'class': 'form-control input-xs'}
-        )
+        widget=NumberInput(attrs={'class': 'form-control input-xs', 'min': '1'})
     )
 
     meta_minima = CharField(
         label="Meta Minima",
-        widget=TextInput(
-            attrs={'class': 'form-control input-xs'}
-        )
+        widget=NumberInput(attrs={'class': 'form-control input-xs', 'min': '1'})
     )
 
     meta_satisfactoria = CharField(
         label="Meta Satisfactoria",
-        widget=TextInput(
-            attrs={'class': 'form-control input-xs'}
-        )
+        widget=NumberInput(attrs={'class': 'form-control input-xs', 'min': '1'})
     )
 
     meta_excelente = CharField(
         label="Meta Excelente",
-        widget=TextInput(
-            attrs={'class': 'form-control input-xs'}
-        )
+        widget=NumberInput(attrs={'class': 'form-control input-xs', 'min': '1'})
     )
 
-    def __init__(self, *args, **kwargs):
-        super(PerfilAgregarIndicadorForm, self).__init__(
-            *args, **kwargs)
-        self.fields['plantilla'].choices = self.get_Plantillas()
-
-        #--aqui se debe filtrar solo las plantillas que este activa
-    def get_Plantillas(self):
-        valores = [('', '------------')]
-
-        plantillas = EvaluacionPlantillas.objects.all()
-        for plantilla in plantillas:
-
-            valores.append(
-                (
-                    plantilla.pk,
-                    str(int(plantilla.pk)) + ' - ' + plantilla.descripcion,
-                )
-            )
-        return valores
 
 
 # ---------------------CONFIGURACION------------------------------ 

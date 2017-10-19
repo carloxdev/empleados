@@ -55,7 +55,7 @@
                   <div id="wizard1" class="wizard wizard-ux">
                      <ul class="steps">
                         <li data-step="1" class="active">General<span class="chevron"></span></li>
-                        <li data-step="2">Organigrama<span class="chevron"></span></li>
+                        <!-- <li data-step="2">Organigrama<span class="chevron"></span></li> -->
                         <li data-step="3">Requerimiento<span class="chevron"></span></li>
                         <li data-step="4">Competencias<span class="chevron"></span></li>
                      </ul>
@@ -72,7 +72,7 @@
                         <div data-step="1" class="step-pane active">
                            <!--<form action="" method="POST" enctype="multipart/form-data" data-parsley-namespace="data-parsley-"  class="form-horizontal group-border-dashed" id="id_puestos">  {% csrf_token %}
                            <form action="#" data-parsley-namespace="data-parsley-" data-parsley-validate="" novalidate="" class="form-horizontal group-border-dashed"> -->
-                           <form action="" method="POST" data-parsley-namespace="data-parsley-" data-parsley-validate="" novalidate="" class="form-horizontal group-border-dashed"> {% csrf_token %}
+                           <form action="" method="POST" data-parsley-namespace="data-parsley-" data-parsley-validate="" novalidate="" class="form-horizontal group-border-dashed" id="formulario_perfil"> {% csrf_token %}
 
                               <div class="form-group no-padding">
                                  <div class="col-sm-7">
@@ -80,12 +80,21 @@
                                  </div>
                               </div>
 
+                              {{ form.non_field_errors }}
+
                               <!-- puesto de empleado-->
  
-                              {% tag_filter form.desc_puesto %}
+                              {% tag_field form.desc_puesto 3 6 %}
 
                               <!-- reporta-->
-                              {% tag_filter form.reporta %}
+
+                              {% tag_field form.reporta 3 6 %}
+                              
+                              <!-- objetivo -->
+
+                              {% tag_field form.objetivo 3 6 %}
+
+
                               <!--<div class="form-group">
                                  <label class="col-sm-3 control-label">Reporta a:</label>
                                  <div class="col-sm-6 xs-pt-5">
@@ -99,24 +108,6 @@
                                   <!--  </div>
                                  </div>
                               </div> -->
-
-                              <!-- objetivo -->
-
-                              <div class="form-group">
-                                 <label class="col-sm-3 control-label" for="{{ form.objetivo.id_for_label }}">
-                                    <i class="fa {% if form.objetivo.field.required %} fa-asterisk {% endif %} {% if form.objetivo.errors %} fa-asterisk {% endif %}"></i>
-                                    {{ form.objetivo.label }}
-                                 </label>
-
-                                 <div class="col-sm-6 xs-pt-5">
-                                    {{ form.objetivo }}
-                                    <!-- <textarea class="form-control input-sm" cols="40" id="id_objetivo" >
-                                    </textarea> -->
-                                 </div>
-                                 {% for error in form.objetivo.errors %}
-                                 <span class="help-block">{{ error }}</span>
-                                 {% endfor %}
-                              </div>
 
 
                               <div class="form-group">
@@ -146,15 +137,23 @@
                                  {% endfor %}
                               </div>
 
+                              
+
+                              <!-- Posicion Staff -->
                               <div class="form-group">
-                                 <label class="col-sm-3 control-label">Posicion Staff</label>
+                                 <label class="col-sm-3 control-label" for="{{ form.posicion.id_for_label }}">
+                                    {{ form.posicion.label }}
+                                 </label>
                                  <div class="col-sm-6 xs-pt-5">
-                                    <div class="switch-button switch-button-yesno">
-                                       <input type="checkbox"  name="posicion" id="posicion">
-                                       <span><label for="posicion"></label></span>
-                                    </div>
+                                    {{ form.posicion }}
+                                    <!--<textarea class="form-control input-sm" cols="40" id="responsabilidades" >
+                                    </textarea>-->
                                  </div>
+                                 {% for error in form.posicion.errors %}
+                                    <span class="help-block">{{ error }}</span>
+                                 {% endfor %}
                               </div>
+
 
                               {% if form.errors %}
                                  {% for field in form %}
@@ -173,22 +172,12 @@
                                  {% endfor %}
                               {% endif %}
 
-                              <div class="nova-wizard-grid">
-                                 <div class="panel-heading nova-panel-borde-contenido nova-panel-tools">
-                                    <a href="#modal_nuevo" class="btn nova-btn btn-rounded btn-sm btn-space btn-default pull-right " data-toggle="modal" id="boton_nuevo_per">
-                                       <i class="icon icon-left mdi mdi-plus-circle nova-black"></i> Agregar Puesto Cargo
-                                    </a>
-                                    <a href="#modal_nuevo_cap" class="btn nova-btn btn-rounded btn-sm btn-space btn-default pull-right hidden" data-toggle="modal" id="boton_nuevo_cap">
-                                       <i class="icon icon-left mdi mdi-plus-circle nova-black"></i> Nueva capacitación
-                                    </a>
-                                 </div><!-- Panel Heading -->
-                                 <div id="grid_resultados" class="nova-div-overflow"> </div>
-                              </div> <!-- Panel -->
+                             
 
                               <div class="nova-wizard-footer">
                                   <button type="button" class="btn btn-primary btn-lg pull-left" id="id_boton_guardar_perfil" >Guardar</button>
                                   <button data-wizard="#wizard1" class="btn btn-primary btn-space wizard-next pull-right">Siguiente Paso</button>
-                                  <button class="btn btn-default btn-space pull-right">Cancel</button>
+                                  <button type="button" class="btn btn-default btn-space pull-right" id="id_boton_cancelar_perfil">Cancelar</button>
                               </div>
 
                            </form>
@@ -274,6 +263,24 @@
                                  </div>
                               </div>
                               <br>
+
+                              <div class="form-group no-padding">
+                                 <div class="col-sm-7">
+                                    <h3 class="wizard-title">Puestos a Cargo</h3>
+                                 </div>
+                              </div>
+
+                               <div class="nova-wizard-grid">
+                                 <div class="panel-heading nova-panel-borde-contenido nova-panel-tools">
+                                    <a href="#modal_nuevo" class="btn nova-btn btn-rounded btn-sm btn-space btn-default pull-right " data-toggle="modal" id="boton_nuevo_per">
+                                       <i class="icon icon-left mdi mdi-plus-circle nova-black"></i> Agregar Puesto Cargo
+                                    </a>
+                                    <a href="#modal_nuevo_cap" class="btn nova-btn btn-rounded btn-sm btn-space btn-default pull-right hidden" data-toggle="modal" id="boton_nuevo_cap">
+                                       <i class="icon icon-left mdi mdi-plus-circle nova-black"></i> Nueva capacitación
+                                    </a>
+                                 </div><!-- Panel Heading -->
+                                 <div id="grid_resultados" class="nova-div-overflow"> </div>
+                              </div> <!-- Panel -->
 
 
                               <div class="nova-wizard-footer nova-border-top">
@@ -492,104 +499,69 @@
          </div>
          <form action="" method="POST" enctype="multipart/form-data" id="formulario_indicadores"> {% csrf_token %}
             <!-- plantilla -->
-            <div class="modal-body form-horizontal">
+            <!--<div class="modal-body form-horizontal">
                <div class="form-group">
                   <label class="col-sm-3 nova-col-filter control-label">Plantilla</label>
-                  <div class="col-sm-8 xs-pt-5">
-                     {{ formi.plantilla }}
-                  </div>
+                  <div class="col-sm-8 xs-pt-5">-->
+                     {# {{ formi.plantilla }} #}
+                  <!--</div>
                </div>
-            </div>
+            </div>-->
 
             <!-- departamento -->
-            <div class="modal-body form-horizontal">
+            <!-- <div class="modal-body form-horizontal">
                <div class="form-group">
                   <label class="col-sm-3 nova-col-filter control-label">Departamento</label>
-                  <div class="col-sm-8 xs-pt-5">
-                     {{ formi.departamento }}
-                  </div>
+                  <div class="col-sm-8 xs-pt-5"> -->
+                     {# {{ formi.departamento }} #}
+                 <!--  </div>
                </div>
-            </div>
+            </div> -->
 
             <!-- puesto -->
-            <div class="modal-body form-horizontal">
+            <!-- <div class="modal-body form-horizontal">
                <div class="form-group">
                   <label class="col-sm-3 nova-col-filter control-label">Puesto</label>
-                  <div class="col-sm-8 xs-pt-5">
-                     {{ formi.puesto }}
-                  </div>
+                  <div class="col-sm-8 xs-pt-5"> -->
+                     {# {{ formi.puesto }} #}
+                 <!-- </div>
                </div>
-            </div>
-
+            </div> -->
+            {{ form.non_field_errors }}
 
             <!-- objetivo -->
             <div class="modal-body form-horizontal">
-               <div class="form-group">
-                  <label class="col-sm-3 nova-col-filter control-label">Objetivo</label>
-                  <div class="col-sm-8 xs-pt-5">
-                     {{ formi.objetivo_ind }}
-                  </div>
-               </div>
-            </div>
+
+                     {% tag_field_popup formi.objetivo_ind 3 6 %}
+
 
             <!-- unidad_medida -->
-            <div class="modal-body form-horizontal">
-               <div class="form-group">
-                  <label class="col-sm-3 nova-col-filter control-label">Unidad de Medida</label>
-                  <div class="col-sm-8 xs-pt-5">
-                     {{ formi.unidad_medida }}
-                  </div>
-               </div>
-            </div>
+
+                     {% tag_field_popup formi.unidad_medida 3 8 %}
+
 
             <!-- descripcion kpi -->
-            <div class="modal-body form-horizontal">
-               <div class="form-group">
-                  <label class="col-sm-3 nova-col-filter control-label">Descripcion Kpi</label>
-                  <div class="col-sm-8 xs-pt-5">
-                     {{ formi.descripcion_kpi }}
-                  </div>
-               </div>
-            </div>
+                     {% tag_field formi.descripcion_kpi 3 6 %}
+                  
 
             <!-- porcentaje -->
-            <div class="modal-body form-horizontal">
-               <div class="form-group">
-                  <label class="col-sm-3 nova-col-filter control-label">Porcentaje</label>
-                  <div class="col-sm-8 xs-pt-5">
-                     {{ formi.porcentaje_ind }}
-                  </div>
-               </div>
-            </div>
+                     {% tag_field  formi.porcentaje_ind 3 6 %}
+                  
 
             <!-- meta minima -->
-            <div class="modal-body form-horizontal">
-               <div class="form-group">
-                  <label class="col-sm-3 nova-col-filter control-label">Meta Minima</label>
-                  <div class="col-sm-8 xs-pt-5">
-                     {{ formi.meta_minima }}
-                  </div>
-               </div>
-            </div>
+            
+                     {% tag_field  formi.meta_minima 3 6 %}
+                  
 
             <!-- meta satisfactoria -->
-            <div class="modal-body form-horizontal">
-               <div class="form-group">
-                  <label class="col-sm-3 nova-col-filter control-label">Meta Satisfactoria</label>
-                  <div class="col-sm-8 xs-pt-5">
-                     {{ formi.meta_satisfactoria }}
-                  </div>
-               </div>
-            </div>
+            
+                     {% tag_field  formi.meta_satisfactoria 3 6 %}
+                 
 
             <!-- meta excelente -->
-            <div class="modal-body form-horizontal">
-               <div class="form-group">
-                  <label class="col-sm-3 nova-col-filter control-label">Meta Excelente</label>
-                  <div class="col-sm-8 xs-pt-5">
-                     {{ formi.meta_excelente }}
-                  </div>
-               </div>
+          
+                     {% tag_field  formi.meta_excelente 3 6 %}
+                  
             </div>
 
             {% for error in formi.plantilla.errors %}
@@ -599,7 +571,7 @@
             <!-- Botones de acción -->
             <div class="modal-footer nova-modal-footer">
                <div class="row col-sm-12">
-                  <button type="button" data-dismiss="modal" class="btn btn-default pull-left">
+                  <button type="button" data-dismiss="modal" class="btn btn-default pull-left" id="boton_cancelar_ind">
                      Cancelar
                   </button>
                   <button type="button" class="btn btn-primary" id="boton_guardar_indicadores" >Guardar</button>
@@ -622,6 +594,7 @@
 
 <!-- Theme -->
 <script src="{% static 'theme/lib/jquery-ui/jquery-ui.min.js' %}"></script>
+<script src="{% static 'theme/lib/moment.js/min/moment.min.js' %}"></script>
 <script src="{% static 'theme/lib/perfect-scrollbar/js/perfect-scrollbar.jquery.min.js' %}"></script>
 
 <!-- Wizard -->

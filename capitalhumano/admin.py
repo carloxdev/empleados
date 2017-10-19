@@ -111,7 +111,6 @@ class EvaluacionPlantillaAdmin(admin.ModelAdmin):
 class PerfilIndicadoresAdmin(admin.ModelAdmin):
     list_display = (
         'pk',
-        'plantilla',
         'cvepuesto',
         'departamento',
         'puesto',

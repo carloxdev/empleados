@@ -19,11 +19,13 @@ var url_perfil_indicadores_bypage = window.location.origin + "/api-capitalhumano
 var formulario = null
 var organigrama = null
 var select_componente = null
-var popup = null
-var popup_com = null
 var resultados_competencia = null
 var resultados_indicadores = null
+var popup = null
 var popup_ind = null
+var popup_com = null
+var tarjeta_resultados = null
+var resultados = null
 
 
 /*-----------------------------------------------*\
@@ -31,17 +33,35 @@ var popup_ind = null
 \*-----------------------------------------------*/
 
 $(document).ready(function () {
+
+    tarjeta_resultados = new TarjetaResultados()
     
-    formulario = new Formulario()
+    /*formulario = new Formulario()
     select_componente = new Componente()
     resultados = new TargetaResultados()
     popup = new PopupPerfil()
     resultados_competencia = new TargetaResultadosCompetencias()
     resultados_indicadores = new TargetaResultadosIndicadores()
     popup_com = new PopupPerfilCompetencia()
-    popup_ind = new PopupPerfilIndicador()
+    popup_ind = new PopupPerfilIndicador()*/
 
 })
+
+/*-----------------------------------------------*\
+                        OBJETO: Tarjeta Resultados
+\*-----------------------------------------------*/
+
+function TarjetaResultados(){
+
+    this.formulario = new Formulario()
+    this.select_componente = new Componente()
+    this.resultados = new TargetaResultados()
+    this.popup = new PopupPerfil()
+    this.resultados_competencia = new TargetaResultadosCompetencias()
+    this.resultados_indicadores = new TargetaResultadosIndicadores()
+    this.popup_com = new PopupPerfilCompetencia()
+    this.popup_ind = new PopupPerfilIndicador()
+}
 
 /*-----------------------------------------------*\
             OBJETO: Targeta filtros
@@ -53,9 +73,10 @@ function Componente(){
     this.$objetivo = $('#id_objetivo')
     this.$funciones = $('#id_funciones')
     this.$responsabilidades = $('#id_responsabilidades')
-    this.$posicion = $('#posicion')
+    this.$posicion = $('#id_posicion')
     this.$numero_puesto = $('#id_numero_puesto')
     this.$id_doc_perfil = $('#id_doc_perfil')
+    this.$formulario_perfil = $('#formulario_perfil')
   
     /*---------DETALLE-------*/
     this.$edad_minima = $('#id_edad_minima')
@@ -70,6 +91,8 @@ function Componente(){
     this.$reportar = $('#id_reporta')
     this.$boton_guardar_perfil = $('#id_boton_guardar_perfil')
     this.$boton_guardar_perfil_detalle = $('#id_btguardar_perfil_detalle')
+    this.$boton_cancelar_perfil = $('#id_boton_cancelar_perfil')
+
     this.init_Components()
     this.init_Events()
 
@@ -105,6 +128,7 @@ Componente.prototype.init_Events = function () {
 
    this.$boton_guardar_perfil.on('click', this, this.click_BotonGuardar)
    this.$boton_guardar_perfil_detalle.on('click', this, this.click_BotonGuardarDetalle)
+   this.$boton_cancelar_perfil.on('click', this, this.click_BotonCancelarPerfil)
 }
 
 Componente.prototype.click_BotonGuardar = function (e) {
@@ -112,6 +136,7 @@ Componente.prototype.click_BotonGuardar = function (e) {
  var id_puestocargo= e.data.$puesto.val()
  var asig_puesto_clave = e.data.$puesto.val()
 
+ if (tarjeta_resultados.select_componente.validar_Campos() != 'True'){
  var promesa = $.ajax({
          url: url_perfil_puesto,
          method: "POST",
@@ -146,18 +171,19 @@ Componente.prototype.click_BotonGuardar = function (e) {
           // alert(id_doc_perfilvar)
           // alert(id_doc_perfil)
           // console.log("primero_doc_perfil input")
-           alert(numero_puesto)
+           //alert(numero_puesto)
           console.log(id_doc_perfil)
           console.log(numero_puesto)
 
           alertify.success("Se ha guardado el Perfil general")
-                  popup.hidden_Modal()
-                  popup.actualizar_Grid()
+                  //popup.hidden_Modal()
+                  //popup.actualizar_Grid()
          },
          error: function (_response) {
             alertify.error("Ocurrio error al guardar el Perfil")
          }
       })
+ }
 }
 
 Componente.prototype.click_BotonGuardarDetalle = function (e) {
@@ -213,7 +239,6 @@ Componente.prototype.click_BotonGuardarDetalle = function (e) {
 }
 
 Componente.prototype.limpiar_Formulario= function (e) {
-
     //this.$puesto.data('select2').val(0)
     //this.$reporta.data('select2').val(0)
     this.$objetivo.val("")
@@ -229,6 +254,63 @@ Componente.prototype.limpiar_Formulario= function (e) {
     this.$cambio_residencia.val("")
     this.$disponibilidad_viajar.val("")
     this.$requerimentos.val("")
+}
+
+Componente.prototype.click_BotonCancelarPerfil= function (e) {
+    e.data.$puesto.data('select2').val(0)
+    e.data.$reporta.data('select2').val(0)
+    e.data.$objetivo.val("")
+    e.data.$funciones.val("")
+    e.data.$responsabilidades.val("")
+    tarjeta_resultados.select_componente.clear_Estilos()
+}
+
+Componente.prototype.validar_Campos = function () {
+    bandera = 'False'
+
+    if(this.$puesto.data('select2').val() == ""){
+        this.$puesto.data('select2').$selection.addClass("nova-has-error");
+        bandera = 'True'
+    }
+    else{
+        this.$puesto.data('select2').$selection.removeClass("nova-has-error");
+    }
+    if(this.$reporta.data('select2').val() == ""){
+        this.$reporta.data('select2').$selection.addClass("nova-has-error");
+        bandera = 'True'
+    }
+    else{
+        this.$reporta.data('select2').$selection.removeClass("nova-has-error");
+    }
+    if(this.$objetivo.val() == ""){
+        this.$objetivo.addClass("nova-has-error");
+        bandera = 'True'
+    }
+    else{
+        this.$objetivo.removeClass("nova-has-error");
+    }
+    if(this.$funciones.val() == ""){
+        this.$funciones.addClass("nova-has-error");
+        bandera = 'True'
+    }
+    else{
+        this.$funciones.removeClass("nova-has-error");
+    }
+    if (bandera == 'True' ){
+        alertify.error("Completa los campos correspondientes")
+    }
+    else{
+        $('#id_error1').detach()
+    }
+    return bandera
+}
+Componente.prototype.clear_Estilos = function () {
+
+   this.$puesto.data('select2').$selection.removeClass("nova-has-error");
+   this.$reporta.data('select2').$selection.removeClass("nova-has-error");
+   this.$objetivo.removeClass("nova-has-error");
+   this.$funciones.removeClass("nova-has-error");
+   $('#id_error').detach()
 }
 
 /*-----------------------------------------------*\
@@ -293,15 +375,15 @@ Formulario.prototype.init_Events = function () {
 }
 
 Formulario.prototype.escoger_puestosacargo = function (e) {
-    console.log(select_componente.$puesto.val())
+    console.log(tarjeta_resultados.select_componente.$puesto.val())
     // Consultar el API con el numero del empleado.
-    var id_puesto = e.data.$puesto.val()
-    var id_puesto2 = select_componente.$puesto.val()
+    //var id_puesto = e.data.$puesto.val()
+    var id_puesto2 = tarjeta_resultados.select_componente.$puesto.val()
 
     //$("#numero_puesto").val() = e.data.$puesto.val()
     //select_componente.$numero_puesto.val() = e.data.$puesto.val()
     //this.$numero_empleado = e.data.$puesto.val()
-    //alert(numero_empleado)
+    //alert(id_puesto)
     $('#numero_puesto').val(id_puesto2)
     var no_puesto = $('#numero_puesto').val(id_puesto2)
 
@@ -329,7 +411,7 @@ Formulario.prototype.escoger_puestosacargo = function (e) {
               if (cont == 0 && no_puesto != ''){
                 //$("#grid_resultados").empty()
                 //grid = new Grid()
-                resultados.grid.buscar()
+                tarjeta_resultados.resultados.grid.buscar()
               }
               else{
                  alertify.error("No se ha seleccionado el puesto")
@@ -360,7 +442,7 @@ Formulario.prototype.escoger_puestosacargo = function (e) {
               if (cont == 0 && no_puesto != ''){
                 //$("#grid_resultados").empty()
                 //grid = new Grid()
-                resultados_competencia.grid2.buscar()
+                tarjeta_resultados.resultados_competencia.grid2.buscar()
               }
               else{
                  alertify.error("No se ha seleccionado el puesto en general")
@@ -391,7 +473,7 @@ Formulario.prototype.escoger_puestosacargo = function (e) {
               if (cont == 0 && no_puesto != ''){
                 //$("#grid_resultados").empty()
                 //grid = new Grid()
-                resultados_indicadores.grid3.buscar()
+                tarjeta_resultados.resultados_indicadores.grid3.buscar()
               }
               else{
                  alertify.error("No se ha seleccionado el puesto en general")
@@ -474,7 +556,7 @@ console.log("paso grid 1")
             },
             parameterMap: function (data, action) {
                 if (action === "read"){
-                    return select_componente.get_Values(data.page)
+                    return tarjeta_resultados.select_componente.get_Values(data.page)
                 }
             }
         },
@@ -506,7 +588,7 @@ console.log("paso grid 122")
             },
             parameterMap: function (data, action) {
                 if (action === "read"){
-                    return select_componente.get_Values(data.page)
+                    return tarjeta_resultados.select_componente.get_Values(data.page)
                 }
             }
         },
@@ -537,7 +619,7 @@ console.log("paso grid indicadores")
             },
             parameterMap: function (data, action) {
                 if (action === "read"){
-                    return select_componente.get_Values3(data.page)
+                    return tarjeta_resultados.select_componente.get_Values3(data.page)
                 }
             }
         },
@@ -579,12 +661,18 @@ Grid.prototype.get_Configuracion = function () {
         noRecords: {
             template: "<div class='grid-empy'> No se encontraron registros </div>"
         },
-        dataBound: this.set_Icons,
+        dataBound: this.aplicar_Estilos,
+        //dataBound: this.set_Icons,
     }    
 }
 
 Grid.prototype.get_Columnas = function () {
     return [
+        {  field: "pk",
+           title: " ",
+           width: "50px",
+           template: '<a class="btn nova-btn btn-default nova-btn-delete" id="#=pk#" data-event="eliminar-puestocargo"> <i class="icon icon-left icon mdi mdi-delete nova-white"></i></a>',
+        },
         { 
             field: "pk", 
             title: "Id", 
@@ -601,6 +689,42 @@ Grid.prototype.buscar = function() {
     this.kfuente_datos.page(1)
     this.kfuente_datos2.page(1)
     this.kfuente_datos3.page(1)
+}
+
+Grid.prototype.aplicar_Estilos = function (e) {
+
+    e.sender.tbody.find("[data-event='eliminar-puestocargo']").each(function(idx, element){
+
+      $(this).on("click", function(){
+         tarjeta_resultados.resultados.grid.consultar_Registro(this.id)
+      })
+    })
+}
+
+Grid.prototype.consultar_Registro = function (_id_documento) {
+  alertify.confirm(
+      'Eliminar Registro',
+      '¿Desea Eliminar este registro?.',
+      function () {
+            $.ajax({
+                     url: url_perfil_puestocargo_bypage +_id_documento+"/",
+                     method: "DELETE",
+                     headers: { "X-CSRFToken": appnova.galletita },
+                     success: function (_response) {
+                            alertify.success('Se elimino el registro')
+                            tarjeta_resultados.resultados.grid.buscar()
+                            //$("#grid_resultados").empty()
+                            //tarjeta_resultados.resultados.grid.init()
+                            //tarjeta_resultados.formulario.escoger_puestosacargo()
+                            
+                     },
+                     error: function (_response) {
+                            alertify.error("No se ha podido eliminar el registro")
+                     }
+            })
+      },
+      null
+   )
 }
 
 /*++++++++++++++++++++++++++++++++++++++++++++++++*/
@@ -630,13 +754,18 @@ Grid.prototype.get_Configuracion2 = function () {
         noRecords: {
             template: "<div class='grid-empy'> No se encontraron registros </div>"
         },
-        dataBound: this.set_Icons,
+        dataBound: this.aplicar_Estilos2,
     }    
 }
 
 Grid.prototype.get_Columnas2 = function () {
 
     return [
+        {  field: "pk",
+           title: " ",
+           width: "50px",
+           template: '<a class="btn nova-btn btn-default nova-btn-delete" id="#=pk#" data-event="eliminar-competencias"> <i class="icon icon-left icon mdi mdi-delete nova-white"></i></a>',
+        },
         { 
             field: "pk", 
             title: "Id", 
@@ -646,9 +775,47 @@ Grid.prototype.get_Columnas2 = function () {
         { field: "id_puesto", title: "Puesto", width:"80px" },
         { field: "descripcion", title: "Descripcion", width:"70px" },
         { field: "porcentaje", title: "Porcentaje", width:"300px" },
+
         
     ]
 }
+
+Grid.prototype.aplicar_Estilos2 = function (e) {
+
+    e.sender.tbody.find("[data-event='eliminar-competencias']").each(function(idx, element){
+
+      $(this).on("click", function(){
+         tarjeta_resultados.resultados.grid.consultar_Registro2(this.id)
+      })
+    })
+}
+
+Grid.prototype.consultar_Registro2 = function (_id_documento) {
+  alertify.confirm(
+      'Eliminar Registro',
+      '¿Desea Eliminar este registro?.',
+      function () {
+            $.ajax({
+                     url: url_perfil_competencia_doc_bypage +_id_documento+"/",
+                     method: "DELETE",
+                     headers: { "X-CSRFToken": appnova.galletita },
+                     success: function (_response) {
+                            alertify.success('Se elimino el registro de Competencia.')
+                            tarjeta_resultados.resultados.grid.buscar()
+                            //$("#grid_resultados").empty()
+                            //tarjeta_resultados.resultados.grid.init()
+                            //tarjeta_resultados.formulario.escoger_puestosacargo()
+                            
+                     },
+                     error: function (_response) {
+                            alertify.error("No se ha podido eliminar el registro")
+                     }
+            })
+      },
+      null
+   )
+}
+
 
 
 /*============================================*/
@@ -687,13 +854,18 @@ Grid.prototype.get_Configuracion3 = function () {
         noRecords: {
             template: "<div class='grid-empy'> No se encontraron registros </div>"
         },
-        dataBound: this.set_Icons,
+        dataBound: this.aplicar_Estilos3,
     }    
 }
 
 Grid.prototype.get_Columnas3 = function () {
 
     return [
+        {  field: "pk",
+           title: " ",
+           width: "50px",
+           template: '<a class="btn nova-btn btn-default nova-btn-delete" id="#=pk#" data-event="eliminar-indicador"> <i class="icon icon-left icon mdi mdi-delete nova-white"></i></a>',
+        },
         { 
             field: "pk", 
             title: "Id", 
@@ -712,6 +884,42 @@ Grid.prototype.get_Columnas3 = function () {
         { field: "meta_excelente", title: "Meta Excelente", width:"70px" },
         
     ]
+}
+
+Grid.prototype.aplicar_Estilos3 = function (e) {
+
+    e.sender.tbody.find("[data-event='eliminar-indicador']").each(function(idx, element){
+
+      $(this).on("click", function(){
+         tarjeta_resultados.resultados.grid.consultar_Registro_Indicador(this.id)
+      })
+    })
+}
+
+Grid.prototype.consultar_Registro_Indicador = function (_id_documento) {
+  alertify.confirm(
+      'Eliminar Registro',
+      '¿Desea Eliminar este registro?.',
+      function () {
+            $.ajax({
+                     url: url_perfil_indicadores_bypage +_id_documento+"/",
+                     method: "DELETE",
+                     headers: { "X-CSRFToken": appnova.galletita },
+                     success: function (_response) {
+                            alertify.success('Se elimino el Indicador seleccionado')
+                            tarjeta_resultados.resultados.grid.buscar()
+                            //$("#grid_resultados").empty()
+                            //tarjeta_resultados.resultados.grid.init()
+                            //tarjeta_resultados.formulario.escoger_puestosacargo()
+                            
+                     },
+                     error: function (_response) {
+                            alertify.error("No se ha podido eliminar el registro")
+                     }
+            })
+      },
+      null
+   )
 }
 
 
@@ -806,12 +1014,12 @@ PopupPerfil.prototype.click_BotonGuardar = function (e) {
          },
          success: function (_response) {
                   alertify.success("Se ha guardado el Puesto a Cargo")
-                  popup.hidden_Modal()
-                  popup.actualizar_Grid()
+                  tarjeta_resultados.popup.hidden_Modal()
+                  tarjeta_resultados.popup.actualizar_Grid()
          },
          error: function (_response) {
                    alertify.error("Ocurrio error al guardar")
-                   popup.hidden_Modal()
+                   tarjeta_resultados.popup.hidden_Modal()
                    //popup.actualizar_Grid()
          }
       })
@@ -828,7 +1036,7 @@ PopupPerfil.prototype.hidden_Modal = function () {
 
 PopupPerfil.prototype.actualizar_Grid = function () {
         //$("#grid_resultados").empty()
-        resultados.grid.init()
+        tarjeta_resultados.resultados.grid.init()
 }
 
 PopupPerfil.prototype.buscar_UltimoRegistro = function () {
@@ -838,7 +1046,7 @@ PopupPerfil.prototype.buscar_UltimoRegistro = function () {
          success: function (_response) {
             posicion = _response.length - 1
             id_personal = _response[posicion].pk
-            popup.guardar_Archivo(id_personal)
+            tarjeta_resultados.popup.guardar_Archivo(id_personal)
          },
          error: function (_response) {
             alertify.error("Ocurrio error al consultar")
@@ -888,7 +1096,7 @@ PopupPerfil.prototype.hidden_Modal = function () {
 }
 PopupPerfil.prototype.actualizar_Grid = function () {
     //$("#grid_resultados").empty()
-    resultados.grid.buscar()
+    tarjeta_resultados.resultados.grid.buscar()
 }
 PopupPerfil.prototype.limpiar_Formulario = function () {
 
@@ -952,7 +1160,7 @@ Grid2.prototype.get_Campos = function () {
 }
 Grid2.prototype.get_Configuracion = function () {
     return {
-        //autoBind: false,
+        autoBind: false,
         dataSource: this.kfuente_datos,
         columnMenu: true,
         groupable: false,
@@ -966,13 +1174,18 @@ Grid2.prototype.get_Configuracion = function () {
         noRecords: {
             template: "<div class='grid-empy'> No se encontraron registros </div>"
         },
-        dataBound: this.set_Icons,
+        dataBound: this.aplicar_Estilos,
     }    
 }
 
 Grid2.prototype.get_Columnas = function () {
 
     return [
+        {  field: "pk",
+           title: " ",
+           width: "50px",
+           template: '<a class="btn nova-btn btn-default nova-btn-delete" id="#=pk#" data-event="eliminar-competencias"> <i class="icon icon-left icon mdi mdi-delete nova-white"></i></a>',
+        },
         { 
             field: "pk", 
             title: "Id", 
@@ -998,7 +1211,41 @@ Grid2.prototype.set_Icons = function (e) {
         $(element).removeClass("fa fa-pencil").find("span").addClass("fa fa-pencil")
     })   
 }
+Grid2.prototype.aplicar_Estilos = function (e) {
 
+    e.sender.tbody.find("[data-event='eliminar-competencias']").each(function(idx, element){
+
+      $(this).on("click", function(){
+         tarjeta_resultados.resultados.grid.consultar_Registro(this.id)
+      })
+    })
+}
+
+Grid2.prototype.consultar_Registro = function (_id_documento) {
+  alertify.confirm(
+      'Eliminar Registro',
+      '¿Desea Eliminar este registro?.',
+      function () {
+            $.ajax({
+                     url: url_perfil_puestocargo_bypage +_id_documento+"/",
+                     method: "DELETE",
+                     headers: { "X-CSRFToken": appnova.galletita },
+                     success: function (_response) {
+                            alertify.success('Se elimino el registro de Competencia')
+                            tarjeta_resultados.resultados_competencia.grid2.buscar()
+                            //$("#grid_resultados").empty()
+                            //tarjeta_resultados.resultados.grid.init()
+                            //tarjeta_resultados.formulario.escoger_puestosacargo()
+                            
+                     },
+                     error: function (_response) {
+                            alertify.error("No se ha podido eliminar el registro")
+                     }
+            })
+      },
+      null
+   )
+}
 
 
 
@@ -1045,7 +1292,7 @@ PopupPerfilCompetencia.prototype.click_BotonGuardar = function (e) {
     separador = "-", // un espacio en blanco
     arreglo_descripcion = descripcion.split(separador);
 
-    alert(descripcion)
+    //alert(descripcion)
     
     //arreglo1 = arreglo_puesto_cargo[0] + "." + arreglo_puesto_cargo[1]
     id_descripcion = arreglo_descripcion[1];
@@ -1070,8 +1317,8 @@ PopupPerfilCompetencia.prototype.click_BotonGuardar = function (e) {
          },
          success: function (_response) {
           alertify.success("Se ha guardado la Competencia Administrativa")
-                  popup_com.hidden_Modal()
-                  popup.actualizar_Grid()
+                  tarjeta_resultados.popup_com.hidden_Modal()
+                  tarjeta_resultados.popup.actualizar_Grid()
                  // popup.actualizar_Grid()
          },
          error: function (_response) {
@@ -1103,6 +1350,7 @@ PopupPerfilCompetencia.prototype.actualizar_Grid = function () {
 function PopupPerfilIndicador() {
 
     this.$modal_indicadores = $('#modal_nuevo_indicadores')
+    this.$formulario_ind = $('#formulario_indicadores')
     this.$id_puesto = $('#numero_puesto')
     this.$numero_puesto = $('#numero_puesto')
     this.$boton_guardar_indicadores = $('#boton_guardar_indicadores')
@@ -1118,6 +1366,7 @@ function PopupPerfilIndicador() {
     this.$meta_excelente = $('#id_meta_excelente')
 
     this.$created_by = $('#created_by')
+    this.$boton_cancelar = $('#boton_cancelar_ind')
 
     console.log("paso por Indicadores")
     this.init_Components()
@@ -1132,13 +1381,28 @@ PopupPerfilIndicador.prototype.init_Components = function () {
 PopupPerfilIndicador.prototype.init_Events = function () {
 
    this.$boton_guardar_indicadores.on('click', this, this.click_BotonGuardar)
+   this.$boton_cancelar.on('click', this, this.click_BotonCancelar)
+}
+
+PopupPerfilIndicador.prototype.click_BotonCancelar = function (e){
+        e.data.$objetivo.val("")
+        e.data.$unidad_medida.val("")
+        e.data.$descripcion_kpi.val("")
+        e.data.$porcentaje.val("")
+        e.data.$meta_minima.val("")
+        e.data.$meta_satisfactoria.val("")
+        e.data.$meta_excelente.val("")
+        tarjeta_resultados.popup_ind.clear_Estilos()
+
 }
 
 PopupPerfilIndicador.prototype.click_BotonGuardar = function (e) {
 
  var id_puesto = e.data.$id_puesto.val()
  var plantilla = e.data.$plantilla.val()
- var departamento  = e.data.$departamento.val()
+ // var departamento  = e.data.$departamento.val()
+ // var puesto = e.data.$id_puesto.val()
+ var departamento  = e.data.$id_puesto.val()
  var puesto = e.data.$id_puesto.val()
  var objetivo = e.data.$objetivo.val()
  var unidad_medida = e.data.$unidad_medida.val()
@@ -1151,42 +1415,46 @@ PopupPerfilIndicador.prototype.click_BotonGuardar = function (e) {
  console.log("paso por indicadores")
  console.log(id_puesto)
 
- var promesa = $.ajax({
-         url: url_perfil_indicadores_bypage,
-         method: "POST",
-         headers: { "X-CSRFToken": appnova.galletita },
-         data: {
-            'plantilla_id' : plantilla,
-            'cvepuesto' : id_puesto,
-            //'linea' : '1',
-            'departamento' : departamento,
-            'puesto' : puesto, 
-            'objetivo' : objetivo,
-            'unidad_medida' : unidad_medida,
-            'descripcion_kpi' : descripcion_kpi,
-            'porcentaje' : porcentaje,
-            'meta_minima' : meta_minima,
-            'meta_satisfactoria' : meta_satisfactoria,
-            'meta_excelente' : meta_excelente,
-            'created_by' :  url_profile + e.data.$created_by.val() + "/",
-            'created_by_id' :  url_profile + e.data.$created_by.val() + "/",
-            'created_date' :  '2017-07-07 16:25:22.000000',
-         },
-         success: function (_response) {
-          alertify.success("Se ha guardado el Indicador al puesto")
-                  popup_ind.hidden_Modal()
-                  popup.actualizar_Grid()
-                 // popup.actualizar_Grid()
-         },
-         error: function (_response) {
-          if (_response[id_puesto]==null){
-            alertify.error("Debes seleccionar el Puesto en General")
-          }
-          else {
-            alertify.error("Ocurrio error al guardar")
-          }
-         }
-      })
+if (tarjeta_resultados.popup_ind.validar_Campos() != 'True'){
+   var promesa = $.ajax({
+           url: url_perfil_indicadores_bypage,
+           method: "POST",
+           headers: { "X-CSRFToken": appnova.galletita },
+           data: {
+              'plantilla_id' : plantilla,
+              'cvepuesto' : id_puesto,
+              //'linea' : '1',
+              'departamento' : departamento,
+              'puesto' : puesto, 
+              'objetivo' : objetivo,
+              'unidad_medida' : unidad_medida,
+              'descripcion_kpi' : descripcion_kpi,
+              'porcentaje' : porcentaje,
+              'meta_minima' : meta_minima,
+              'meta_satisfactoria' : meta_satisfactoria,
+              'meta_excelente' : meta_excelente,
+              'created_by' :  url_profile + e.data.$created_by.val() + "/",
+              'created_by_id' :  url_profile + e.data.$created_by.val() + "/",
+              'created_date' :  '2017-07-07 16:25:22.000000',
+           },
+           success: function (_response) {
+            alertify.success("Se ha guardado el Indicador al puesto")
+                    tarjeta_resultados.popup_ind.hidden_Modal()
+                    tarjeta_resultados.popup.actualizar_Grid()
+                   // popup.actualizar_Grid()
+           },
+           error: function (_response) {
+            if (_response[id_puesto]==null){
+              alertify.error("Debes seleccionar el Puesto en General")
+            }
+            else {
+              alertify.error("Ocurrio error al guardar")
+            }
+           }
+        })
+     }
+   
+
 }
 
 PopupPerfilIndicador.prototype.hidden_Modal = function () {
@@ -1198,7 +1466,91 @@ PopupPerfilIndicador.prototype.actualizar_Grid = function () {
         //$("#grid_resultados").empty()
         resultados.grid.init()
 }
+PopupPerfilIndicador.prototype.validar_Campos = function () {
+    bandera = 'False'
 
+    if(this.$id_puesto.val() == ""){
+        this.$id_puesto.addClass("nova-has-error");
+        bandera = 'True'
+    }
+    else{
+        this.$id_puesto.removeClass("nova-has-error");
+    }
+    if(this.$departamento.val() == ""){
+        this.$departamento.addClass("nova-has-error");
+        bandera = 'True'
+    }
+    else{
+        this.$departamento.removeClass("nova-has-error");
+    }
+    if(this.$objetivo.val() == ""){
+        this.$objetivo.addClass("nova-has-error");
+        bandera = 'True'
+    }
+    else{
+        this.$objetivo.removeClass("nova-has-error");
+    }
+    if(this.$unidad_medida.val() == ""){
+        this.$unidad_medida.addClass("nova-has-error");
+        bandera = 'True'
+    }
+    else{
+        this.$unidad_medida.removeClass("nova-has-error");
+    }
+    if(this.$descripcion_kpi.val() == ""){
+        this.$descripcion_kpi.addClass("nova-has-error");
+        bandera = 'True'
+    }
+    else{
+        this.$descripcion_kpi.removeClass("nova-has-error");
+    }
+    if(this.$porcentaje.val() == ""){
+        this.$porcentaje.addClass("nova-has-error");
+        bandera = 'True'
+    }
+    else{
+        this.$porcentaje.removeClass("nova-has-error");
+    }
+    if(this.$meta_minima.val() == ""){
+        this.$meta_minima.addClass("nova-has-error");
+        bandera = 'True'
+    }
+    else{
+        this.$meta_minima.removeClass("nova-has-error");
+    }
+    if(this.$meta_satisfactoria.val() == ""){
+        this.$meta_satisfactoria.addClass("nova-has-error");
+        bandera = 'True'
+    }
+    else{
+        this.$meta_satisfactoria.removeClass("nova-has-error");
+    }
+    if(this.$meta_excelente.val() == ""){
+        this.$meta_excelente.addClass("nova-has-error");
+        bandera = 'True'
+    }
+    else{
+        this.$meta_excelente.removeClass("nova-has-error");
+    }
+    if (bandera == 'True' ){
+        this.$formulario_ind.append('<div class="alert alert-danger nova-margin" id="id_error"><span class="icon mdi mdi-close-circle-o"></span><strong>Completa los campos correspondientes</strong></div>')
+    }
+    else{
+        $('#id_error').detach()
+    }
+    return bandera
+}
+PopupPerfilIndicador.prototype.clear_Estilos = function () {
+
+   this.$objetivo.removeClass("nova-has-error");
+   this.$unidad_medida.removeClass("nova-has-error");
+   this.$descripcion_kpi.removeClass("nova-has-error");
+   this.$porcentaje.removeClass("nova-has-error");
+   this.$meta_minima.removeClass("nova-has-error");
+   this.$meta_satisfactoria.removeClass("nova-has-error");
+   this.$meta_excelente.removeClass("nova-has-error");
+   $('#id_error').detach()
+}
 
 /*-----------------------------------------------*\
             OBJETO: Targeta Resultados
@@ -1259,7 +1611,7 @@ Grid3.prototype.get_Campos = function () {
 }
 Grid3.prototype.get_Configuracion = function () {
     return {
-        //autoBind: false,
+        autoBind: false,
         dataSource: this.kfuente_datos3,
         columnMenu: true,
         groupable: false,
@@ -1280,6 +1632,11 @@ Grid3.prototype.get_Configuracion = function () {
 Grid3.prototype.get_Columnas = function () {
 
     return [
+        {  field: "pk",
+           title: " ",
+           width: "50px",
+           template: '<a class="btn nova-btn btn-default nova-btn-delete" id="#=pk#" data-event="eliminar-competencias"> <i class="icon icon-left icon mdi mdi-delete nova-white"></i></a>',
+        },
         { 
             field: "pk", 
             title: "Id", 
@@ -1312,6 +1669,45 @@ Grid3.prototype.set_Icons = function (e) {
         $(element).removeClass("fa fa-pencil").find("span").addClass("fa fa-pencil")
     })   
 }
+
+
+Grid23.prototype.aplicar_Estilos = function (e) {
+
+    e.sender.tbody.find("[data-event='eliminar-competencias']").each(function(idx, element){
+
+      $(this).on("click", function(){
+         tarjeta_resultados.resultados.grid.consultar_Registro_Indicador(this.id)
+      })
+    })
+}
+
+Grid3.prototype.consultar_Registro_Indicador = function (_id_documento) {
+  alertify.confirm(
+      'Eliminar Registro',
+      '¿Desea Eliminar este registro?.',
+      function () {
+            $.ajax({
+                     url: url_perfil_indicadores_bypage +_id_documento+"/",
+                     method: "DELETE",
+                     headers: { "X-CSRFToken": appnova.galletita },
+                     success: function (_response) {
+                            alertify.success('Se elimino el registro de Indicadores')
+                            tarjeta_resultados.resultados_indicadores.grid3.buscar()
+                            //$("#grid_resultados").empty()
+                            //tarjeta_resultados.resultados.grid.init()
+                            //tarjeta_resultados.formulario.escoger_puestosacargo()
+                            
+                     },
+                     error: function (_response) {
+                            alertify.error("No se ha podido eliminar el registro")
+                     }
+            })
+      },
+      null
+   )
+}
+
+
 
 
 

@@ -568,9 +568,11 @@ class PerfilPuestoNuevo(View):
     def post(self, request):
 
         formulario = PerfilPuestoDocumentoForm(request.POST)
-        datos_formulario = formulario.cleaned_data
+        #datos_formulario = formulario.cleaned_data
 
         if formulario.is_valid():
+
+            datos_formulario = formulario.cleaned_data
             perfilpuesto = formulario.save(commit=False)
 
             perfilpuesto.asig_puesto_clave = datos_formulario.get(

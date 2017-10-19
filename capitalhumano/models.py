@@ -50,7 +50,6 @@ class EvaluacionPlantillas(models.Model):
 class PerfilIndicadores(models.Model):
 
     slug = models.SlugField(max_length=100, null=True, blank=True)
-    plantilla = models.ForeignKey(EvaluacionPlantillas, blank=True, null=True)
     cvepuesto = models.IntegerField(default=0)
     departamento = models.CharField(max_length=10)
     puesto = models.CharField(max_length=10)

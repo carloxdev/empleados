@@ -42,6 +42,11 @@ class PerfilPuestoDocumentoFilter(filters.FilterSet):
 
 class PerfilpuestosCargoFilter(filters.FilterSet):
 
+    pk = CharFilter(
+        name="id",
+        lookup_expr="icontains"
+    )
+
     id_puesto = CharFilter(
         name="id_puesto",
         lookup_expr="icontains"
@@ -50,11 +55,16 @@ class PerfilpuestosCargoFilter(filters.FilterSet):
     class Meta:
         model = PerfilPuestosCargo
         fields = [
+            'pk',
             'id_puesto',
         ]
 
 
 class PerfilCompetenciaFilter(filters.FilterSet):
+
+    pk = CharFilter(
+        name="id",
+        lookup_expr="icontains")
 
     id_puesto = CharFilter(
         name="id_puesto",
@@ -63,6 +73,7 @@ class PerfilCompetenciaFilter(filters.FilterSet):
     class Meta:
         model = PerfilCompetencias
         fields = [
+            'pk',
             'id_puesto',
         ]
 
@@ -292,6 +303,10 @@ class TipoDocumentoFilter(filters.FilterSet):
 
 class PerfilIndicadorFilter(filters.FilterSet):
 
+    pk = CharFilter(
+        name="pk",
+        lookup_expr="icontains")
+
     cvepuesto = CharFilter(
         name="cvepuesto",
         lookup_expr="icontains")
@@ -299,6 +314,6 @@ class PerfilIndicadorFilter(filters.FilterSet):
     class Meta:
         model = PerfilIndicadores
         fields = [
+            'pk',
             'cvepuesto',
-            'plantilla',
         ]
