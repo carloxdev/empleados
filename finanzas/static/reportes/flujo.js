@@ -73,17 +73,14 @@ PopupFiltros.prototype.llenar_Titulo = function (e) {
     if (e){
         e.data.$titulo.empty()
         var anio = e.data.$anio.val()
-        if(e.data.$compania.val()==''){ compania = 'TODOS' }else{ compania = e.data.$compania.val() }
+        if(e.data.$compania.val()==''){ compania = 'TODOS' }else{ compania = e.data.$compania.select2('data')[0].text }
         if(e.data.$proyecto.val()==''){ proyecto = 'TODOS' }else{ proyecto = e.data.$proyecto.val() }
         if(e.data.$centro_costos.val()==''){ centro_costos = 'TODOS' }else{ centro_costos = e.data.$centro_costos.val() }
         e.data.$titulo.append('<b>AÑO:</b>"20'+anio+'", <b>COMPAÑIA:</b>"'+compania+'",<b>PROYECTO:</b>"'+proyecto+'",<b>CENTRO DE COSTOS:</b>"'+centro_costos+'"')
     }else{
         this.$titulo.empty()
         var anio = this.$anio.val()
-        if(this.$compania.val()==''){ compania = 'TODOS' }else{ compania = this.$compania.val() }
-        if(this.$proyecto.val()==''){ proyecto = 'TODOS' }else{ proyecto = this.$proyecto.val() }
-        if(this.$centro_costos.val()==''){ centro_costos = 'TODOS' }else{ centro_costos = this.$centro_costos.val() }
-        this.$titulo.append('<b>AÑO:</b>"20'+anio+'", <b>COMPAÑIA:</b>"'+compania+'",<b>PROYECTO:</b>"'+proyecto+'",<b>CENTRO DE COSTOS:</b>"'+centro_costos+'"')
+        this.$titulo.append('<b>AÑO:</b>"20'+anio+'", <b>COMPAÑIA:</b>"TODOS",<b>PROYECTO:</b>"TODOS",<b>CENTRO DE COSTOS:</b>"TODOS"')
     }
     
 }
