@@ -71,8 +71,20 @@ PopupCapacitacion.prototype.init_Components = function () {
     this.$curso.select2(appnova.get_ConfigSelect2())
     this.$modalidad.select2(appnova.get_ConfigSelect2())
     this.$moneda.select2(appnova.get_ConfigSelect2())
-    this.$fecha_inicio_input.datepicker(appnova.get_ConfDatePicker())
-    this.$fecha_fin_input.datepicker(appnova.get_ConfDatePicker())
+    this.$fecha_inicio_input.datepicker(this.get_ConfDatePicker())
+    this.$fecha_fin_input.datepicker(this.get_ConfDatePicker())
+}
+PopupCapacitacion.prototype.get_ConfDatePicker = function () {
+
+   return {
+
+      format: 'dd/mm/yyyy',
+      autoclose: true,
+      language: 'es',
+      useCurrent: false,
+      showOnFocus: false,
+      keyboardNavigation: false,
+   }
 }
 
 

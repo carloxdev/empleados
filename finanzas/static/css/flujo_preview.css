@@ -15,6 +15,7 @@
 	header{
 		position: fixed
 	}
+
 	.print-hidden{
 	  display: none !important;
 	}
@@ -45,14 +46,15 @@
 	.nova-centrar-grafica{
 		width:100% !important;
 	}
-	/* table tr th:nth-child(n+9) {
-		border: 1px solid #d4d4d4;
-    	transform: translate(-1200px,20%);
+	th:nth-child(n+9) {
+		transform: translate(8.5in, -100%) rotate(90deg);
+
+    	/* transform: translate(-1200px,100%); */
 	}
-	table tr td:nth-child(n+9) {
-		border: 1px solid #d4d4d4;
-    	transform: translate(-1200px,10%);
-	} */
+	td:nth-child(n+9) {
+		/* border: 1px solid #d4d4d4; */
+    	/* transform: translate(-1200px,100%); */
+	}
 /* 	.nova-grid-cortar{
 		display: -webkit-flex; 
 	    -webkit-flex-wrap: wrap; 
