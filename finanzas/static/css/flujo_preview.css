@@ -12,9 +12,6 @@
 	   background-color: #FFFFFF;
 	   /*margin: 10px;  /* this affects the margin on the html before sending to printer */
 	}
-	header{
-		position: fixed
-	}
 
 	.print-hidden{
 	  display: none !important;
@@ -29,13 +26,13 @@
 		text-align: center !important;
 		font-weight: bold;
 		left: 25%;
-		position: fixed;	
+		/* position: fixed;	 */
 	}
 	.nova-informacion{
 		text-align: center !important;
 		top: 60px;
 		left: 25%;
-		position: fixed;
+		/* position: fixed; */
 	}
 	.nova-espacio{
 		height:130px;
@@ -46,21 +43,25 @@
 	.nova-centrar-grafica{
 		width:100% !important;
 	}
-	th:nth-child(n+9) {
-		transform: translate(8.5in, -100%) rotate(90deg);
+	tbody, thead{
+		overflow: hidden;
+	}
+/* 	tr{
+		display: flex;   
+    	flex-flow:row wrap;
+	} */
+/*	th:nth-child(n+9) {
 
-    	/* transform: translate(-1200px,100%); */
 	}
 	td:nth-child(n+9) {
-		/* border: 1px solid #d4d4d4; */
-    	/* transform: translate(-1200px,100%); */
-	}
-/* 	.nova-grid-cortar{
-		display: -webkit-flex; 
+ 		display: -webkit-flex; 
 	    -webkit-flex-wrap: wrap; 
 	    display: flex;   
-	    flex-wrap: wrap;
-	} */
+	    flex-wrap: wrap; */
+		/* transform: translate(8.5in, -100%) rotate(90deg); */
+		/* border: 1px solid #d4d4d4; */
+    	/* transform: translate(-1200px,100%); 
+	}*/
 }
 
 
@@ -90,21 +91,5 @@
 	.nova-centrar{
 		text-align: center;
 	}
-	table {
-	    table-layout: fixed;
-	    width: 100%;
-	}
-
-	table td {
-	    word-wrap: break-word;         /* All browsers since IE 5.5+ */
-	    overflow-wrap: break-word;     /* Renamed property in CSS3 draft spec */
-	}
-	/* .nova-grid-cortar{
-		display: -webkit-flex; 
-	    -webkit-flex-wrap: wrap; 
-	    display: flex;   
-	    flex-wrap: wrap;
-	} */
-
 
 }
