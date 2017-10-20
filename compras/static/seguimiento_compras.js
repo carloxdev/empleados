@@ -20,17 +20,6 @@ var tarjeta_acciones = null
          LOAD
 \*-----------------------------------------------*/
 
-// window.paceOptions = {
-//     // Disable the 'elements' source
-//     elements: false,
-//     // Only show the progress on regular and ajax-y page navigation,
-//     // not every request
-//     restartOnRequestAfter: false,
-//     ajax: {
-//       trackMethods: ['GET', 'POST', 'DELETE', 'PUT', 'PATCH']
-//     }
-// }
-
 $(document).ready(function () {
 
    Pace.start()
@@ -87,17 +76,8 @@ function TarjetaFiltros() {
    this.$boton_limpiar = $('#boton_limpiar')
    this.$boton_cancelar = $('#boton_cancelar')
    this.$campos_usados = []
-   this.init_Responsive()
    this.init_Components()
    this.init_Events()
-}
-TarjetaFiltros.prototype.init_Responsive = function () {
-
-   if (window.matchMedia('(max-width: 768px)').matches) {
-      this.$boton_cancelar.addClass('btn-xs')
-      this.$boton_limpiar.addClass('btn-xs')
-      this.$boton_buscar.removeClass('btn-lg')
-   }
 }
 TarjetaFiltros.prototype.init_Components = function () {
 
@@ -326,7 +306,6 @@ TarjetaFiltros.prototype.get_Values = function (_page, _pageSize) {
 }
 TarjetaFiltros.prototype.click_BotonBuscar = function (e) {
 
-   // Pace.start()
    e.data.apply_Filters()
    e.data.$id.modal('hide')
 }
@@ -772,15 +751,7 @@ function PopupDetalles() {
    this.$id = $('#id_tarjeta_detalles')
    this.$id_titulo = $('#id_titulo_detalles')
    this.$boton_ok =  $('#boton_ok_detalle')
-   this.init_Responsive()
    this.init_Events()
-}
-PopupDetalles.prototype.init_Responsive = function () {
-
-   if (window.matchMedia('(max-width: 768px)').matches) {
-
-      this.$boton_ok.removeClass('btn-lg')
-   }
 }
 PopupDetalles.prototype.init_Events = function () {
 

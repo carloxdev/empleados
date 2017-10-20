@@ -263,8 +263,8 @@
 
 .nova-modal-footer {
    text-align: left !important;
-   border-top: 1px solid #d4d4d4;;
-   padding: 15px 0 15px 15px !important;
+   border-top: 1px solid #d4d4d4;
+   padding: 15px 15px 15px 15px !important;
 }
 .nova-modal-informacion {
    font-size: 14px;
@@ -1059,3 +1059,23 @@ div.nova-panel-arbol li.list-group-item {
 .nova-fix-user-profile {
    margin-bottom: 35px;
 }
+
+/* botones responsivos para los modales en moviles */
+@media (max-width: 767px) {
+   .nova-btn-xs {
+      padding: 0 6px;
+      font-size: 11px;
+      line-height: 18px;
+      border-radius: 1px;
+   }
+}
+@media (min-width: 768px) {
+   .nova-btn-lg {
+      font-size: 15px;
+      line-height: 38px;
+      font-weight: 500;
+      padding: 0px 12px;
+      border-radius: 3px;
+   }
+}
+/* botones responsivos para los modales en moviles */
