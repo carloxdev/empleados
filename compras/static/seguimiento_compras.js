@@ -20,9 +20,20 @@ var tarjeta_acciones = null
          LOAD
 \*-----------------------------------------------*/
 
+// window.paceOptions = {
+//     // Disable the 'elements' source
+//     elements: false,
+//     // Only show the progress on regular and ajax-y page navigation,
+//     // not every request
+//     restartOnRequestAfter: false,
+//     ajax: {
+//       trackMethods: ['GET', 'POST', 'DELETE', 'PUT', 'PATCH']
+//     }
+// }
+
 $(document).ready(function () {
 
-
+   Pace.start()
    tarjeta_resultados = new TarjetaResultados()
    tarjeta_filtros = new TarjetaFiltros()
 
@@ -315,6 +326,7 @@ TarjetaFiltros.prototype.get_Values = function (_page, _pageSize) {
 }
 TarjetaFiltros.prototype.click_BotonBuscar = function (e) {
 
+   // Pace.start()
    e.data.apply_Filters()
    e.data.$id.modal('hide')
 }
@@ -599,6 +611,9 @@ Grid.prototype.get_DataSourceConfig = function (e) {
       },
       error: function (e) {
          alertify.error("Status: " + e.status + " Error message: " + e.errorThrown)
+      },
+      success:function (e) {
+         console.log("Terminado")
       },
    }
 }
