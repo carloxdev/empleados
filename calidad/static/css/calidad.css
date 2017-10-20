@@ -1,4 +1,4 @@
-.nova-dinamic {
+/*.nova-dinamic {
    overflow: hidden;
 }
 .nova-bg-white {
@@ -7,9 +7,7 @@
 .nova-color-black {
    color: #000000;
 }
-.nova-pdf-margins {
-   padding: 34mm 25mm 30mm 20mm;
-}
+
 .nova-font-f-arial {
    font-family:Arial
 }
@@ -69,13 +67,22 @@
 .nova-grid-calidad > tbody > tr > td{
    border: 1px solid #000 !important;
    /*font-size: 14.6px !important;*/
-   font-size: 14.6px !important;
+   /*font-size: 14.6px !important;
 }
 .nova-color-gray {
    background-color: #d6d2d2;
-}
+}*/
 
-@media print {
+/*@media print {*/
+
+   /*.nova-ancho-pdf {
+      width: 224.4mm;
+   }*/
+
+   /*.nova-pdf-margins {
+      margin: 34mm 25mm 30mm 20mm;
+   }
+
    body {
       -webkit-print-color-adjust: exact;
    }
@@ -86,14 +93,14 @@
    .color-pruebaHeader {
       background-color: rgba(55, 179, 88, 0.39) !important;
       height: 34mm;
-      width: 100%;
+      width: 216mm;
       position: fixed;
       top: 0mm;
       left: 0mm;
       border: 1px solid #000000;
 
-   }
-   .color-pruebaFooter {
+   }*/
+   /*.color-pruebaFooter {
       background-color: rgba(253, 52, 221, 0.33) !important;
       height: 30mm;
       width: 100%;
@@ -101,18 +108,17 @@
       bottom: 0mm;
       left: 0mm;
       border: 1px solid #000000;
-   }
-   .color-pruebaCont {
+   }*/
+   /*.color-pruebaCont {
       background-color: rgba(95, 153, 245, 0.53) !important;
       height: 4.5mm;
       width: 100%;
       position: fixed;
       top: 34mm;
       left: 0mm;
-      /*border: 1px solid #000000;*/
-   }
+   }*/
 
-   @page {
+   /*@page {
       margin: 0px;
    }
    .nova-pdf-header-fix {
@@ -147,10 +153,18 @@
       display: block;
       page-break-before: always;
    }
-}
-@media screen {
+}*/
+/*@media screen {
 
-   .prueba {
+   .nova-pdf-margins {
+      padding: 34mm 25mm 30mm 20mm;
+   }
+
+   /*.nova-ancho-pdf {
+      width: 224.4mm;
+   }*/
+
+   /*.prueba {
       background-color: rgba(95, 153, 245, 0.53) !important;
       border-bottom: 0.5px solid #000000;
    }
@@ -158,14 +172,14 @@
    .color-pruebaHeader {
       background-color: rgba(55, 179, 88, 0.39) !important;
       height: 34mm;
-      width: 100%;
+      width: 216mm;
       position: fixed;
       top: 0mm;
       left: 0mm;
       border: 1px solid #000000;
 
-   }
-   .color-pruebaFooter {
+   }*/
+   /*.color-pruebaFooter {
       background-color: rgba(253, 52, 221, 0.33) !important;
       height: 30mm;
       width: 100%;
@@ -173,8 +187,8 @@
       bottom: 0mm;
       left: 0mm;
       border: 1px solid #000000;
-   }
-   .color-pruebaCont {
+   }*/
+   /*.color-pruebaCont {
       background-color: rgba(95, 153, 245, 0.53) !important;
       height: 0mm;
       width: 100%;
@@ -182,9 +196,9 @@
       top: 34mm;
       left: 0mm;
       border: 1px solid #000000;
-   }
+   }*/
 
-   .nova-pdf-header {
+   /*.nova-pdf-header {
       height: 0px;
    }
    .nova-header-formato {
@@ -212,4 +226,336 @@
       height: 19mm;
       margin-right: 40mm;
    }
+}*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*.nova-dinamic {
+   overflow: hidden;
+}
+.nova-bg-white {
+   background-color: #FFFFFF;
+}
+.nova-color-black {
+   color: #000000;
+}
+
+.nova-font-f-arial {
+   font-family:Arial
+}
+.nova-font-s-14 {
+   font-size: 14px;
+}
+.nova-font-s-15 {
+   font-size: 15px;
+}
+.nova-font-s-16 {
+   font-size: 16px;
+}
+.nova-font-s-17 {
+   font-size: 17px;
+}
+.nova-font-s-18 {
+   font-size: 18px;
+}
+.nova-font-s-19 {
+   font-size: 19px;
+}
+.nova-bold {
+   font-weight: bold;
+}
+.nova-aling-center {
+   text-align:center;
+}
+.nova-sin-resultados {
+   font-size: 32px;
+   background-color: #FFFFFF;
+}
+.nova-aling-right {
+   text-align: right;
+}
+.nova-td-width-5 {
+   width: 5% !important;
+}
+.nova-td-width-55 {
+   width: 55% !important;
+}
+.nova-td-width-50 {
+   width: 50% !important;
+}
+.nova-td-width-40 {
+   width: 40% !important;
+}
+.nova-td-width-30 {
+   width: 30% !important;
+}
+.nova-td-width-70 {
+   width: 70% !important;
+}
+.nova-ptb-5 {
+   padding-top: 5px !important;
+   padding-bottom: 5px !important;
+}
+.nova-grid-calidad > tbody > tr > td{
+   border: 1px solid #000 !important;
+   /*font-size: 14.6px !important;*/
+   /*font-size: 14.6px !important;
+}*/
+/*.nova-color-gray {
+   background-color: #d6d2d2;
+}*/
+
+@media print {
+
+   @page {
+      /*margin: 0mm;*/
+      size: letter;
+      margin: 0mm;
+
+   }
+   body {
+      -webkit-print-color-adjust: exact;
+   }
+   /*.nova-ancho-pdf {
+      width: 224.4mm;
+   }*/
+
+   .nova-pdf-margins {
+      margin: 34mm 25mm 30mm 20mm;
+   }
+   .margen-top {
+      background-color: rgba(55, 179, 88, 0.39) !important;
+      height: 34mm;  /* Alto del margen */
+      width: 220mm;  /* Ancho de la hoja pdf, deberia ser 216mm */
+      position: fixed;
+      top: 0mm;
+      left: 0mm;
+      border: 0.1mm solid #000000;
+   }
+   .margen-right {
+      background-color: rgba(55, 179, 88, 0.39) !important;
+      height: 283.8mm;   /* Alto de la hoja pdf, deberia ser 279.4mm */
+      width: 25mm;   /* Ancho margen derecho */
+      position: fixed;
+      top: 0mm;
+      right: 0mm; /* Alineacion a la derecha */
+      border: 0.1mm solid #000000;
+   }
+   .margen-bottom {
+      background-color: rgba(55, 179, 88, 0.39) !important;
+      height: 30mm;  /* Alto del margen */
+      width: 220mm;  /* Ancho de la hoja pdf, deberia ser 216mm */
+      position: fixed;
+      bottom: 0mm;   /* Alineacion hacia abajo*/
+      left: 0mm;
+      border: 0.1mm solid #000000;
+   }
+   .margen-left {
+      background-color: rgba(55, 179, 88, 0.39) !important;
+      height: 279.4mm;  /* Alto del margen, esta puesto exacto a una hoja carta*/
+      width: 20mm;   /* Ancho del margen*/
+      position: fixed;
+      top: 0mm;   /* Empieza arriba*/
+      left: 0mm;  /* A la izquierda */
+      border: 0.1mm solid #000000;
+   }
+
+   /*.prueba {
+      background-color: rgba(95, 153, 245, 0.53) !important;
+      border-bottom: 0.5px solid #000000;
+   }*/
+
+   /*.color-pruebaFooter {
+      background-color: rgba(253, 52, 221, 0.33) !important;
+      height: 30mm;
+      width: 100%;
+      position: fixed;
+      bottom: 0mm;
+      left: 0mm;
+      border: 1px solid #000000;
+   }*/
+   /*.color-pruebaCont {
+      background-color: rgba(95, 153, 245, 0.53) !important;
+      height: 4.5mm;
+      width: 100%;
+      position: fixed;
+      top: 34mm;
+      left: 0mm;
+   }*/
+
+   /*@page {
+      margin: 0px;
+   }
+   .nova-pdf-header-fix {
+      height: 34mm;
+   }
+
+   .nova-header-formato {
+      position: fixed;
+      top: 8mm;
+      left: 26%;
+      width: 97mm;
+      height: 19mm;
+   }
+   .nova-header-nuvoil {
+      position: fixed;
+      top: 2mm;
+      left: 70%;
+   }
+   .calidad-paginado {
+      position: relative;
+      top: -14mm;
+      left: 28%;
+   }
+   .nova-footer-sgi {
+      position: fixed;
+      bottom: 11mm;
+      left: 71%;
+      width: 35mm;
+      height: 19mm;
+   }
+   .page-break {
+      display: block;
+      page-break-before: always;
+   }*/
+}
+@media screen {
+
+   .nova-pdf-margins {
+      margin: 34mm 25mm 30mm 20mm;
+   }
+   .margen-top {
+      background-color: rgba(55, 179, 88, 0.39) !important;
+      height: 34mm;  /* Alto del margen */
+      width: 220mm;  /* Ancho de la hoja pdf, deberia ser 216mm */
+      position: fixed;
+      top: 0mm;
+      left: 0mm;
+      border: 0.1mm solid #000000;
+   }
+   .margen-right {
+      background-color: rgba(55, 179, 88, 0.39) !important;
+      height: 283.8mm;   /* Alto de la hoja pdf, deberia ser 279.4mm */
+      width: 25mm;   /* Ancho margen derecho */
+      position: fixed;
+      top: 0mm;
+      right: 0mm; /* Alineacion a la derecha */
+      border: 0.1mm solid #000000;
+   }
+   .margen-bottom {
+      background-color: rgba(55, 179, 88, 0.39) !important;
+      height: 30mm;  /* Alto del margen */
+      width: 220mm;  /* Ancho de la hoja pdf, deberia ser 216mm */
+      position: fixed;
+      bottom: 0mm;   /* Alineacion hacia abajo*/
+      left: 0mm;
+      border: 0.1mm solid #000000;
+   }
+   .margen-left {
+      background-color: rgba(55, 179, 88, 0.39) !important;
+      height: 279.4mm;  /* Alto del margen, esta puesto exacto a una hoja carta*/
+      width: 20mm;   /* Ancho del margen*/
+      position: fixed;
+      top: 0mm;   /* Empieza arriba*/
+      left: 0mm;  /* A la izquierda */
+      border: 0.1mm solid #000000;
+   }
+
+
+   /*.nova-ancho-pdf {
+      width: 224.4mm;
+   }*/
+
+   /*.prueba {
+      background-color: rgba(95, 153, 245, 0.53) !important;
+      border-bottom: 0.5px solid #000000;
+   }*/
+
+   /*.color-pruebaFooter {
+      background-color: rgba(253, 52, 221, 0.33) !important;
+      height: 30mm;
+      width: 100%;
+      position: fixed;
+      bottom: 0mm;
+      left: 0mm;
+      border: 1px solid #000000;
+   }*/
+   /*.color-pruebaCont {
+      background-color: rgba(95, 153, 245, 0.53) !important;
+      height: 0mm;
+      width: 100%;
+      position: fixed;
+      top: 34mm;
+      left: 0mm;
+      border: 1px solid #000000;
+   }*/
+
+   /*.nova-pdf-header {
+      height: 0px;
+   }
+   .nova-header-formato {
+      position: absolute;
+      top: 30;
+      left: 40%;
+      width: 97mm;
+      height: 19mm;
+   }
+   .nova-header-nuvoil {
+      position: absolute;
+      top: -30px;
+      left: 76%;
+   }
+   .calidad-paginado {
+      position: relative;
+      top: -52px;
+      left: 42%;
+      display: none;
+   }
+   .nova-footer-sgi {
+      float: right !important;
+      right: 80%;
+      width: 35mm;
+      height: 19mm;
+      margin-right: 40mm;
+   }*/
 }

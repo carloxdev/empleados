@@ -22,7 +22,8 @@ function TarjetaResultados() {
 
    this.$texto_dinamico = $('#texto-dinamico')
    this.$contenido = $('#contenido')
-   this.$mt = this.get_Pixeles(34) //Definir el espacio usado como margen para top en mm
+   var margen_top_pdf = 4.5
+   this.$mt = this.get_Pixeles(34+margen_top_pdf) //Definir el espacio usado como margen para top en mm
    this.$mb = this.get_Pixeles(30) //Definir el espacio usado como margen para bottom en mm
    console.log(this.get_TextoDinamico())
    this.set_NumeroPaginas()
@@ -41,7 +42,7 @@ TarjetaResultados.prototype.get_TextoDinamico = function () {
 
 
    this.$texto_dinamico.find('.nova-dinamic').each(function(index, element) {
-      
+
       if ((espacio_ocupado + $(element).outerHeight( true )) > espacio_disponible) {
          //antes del elemento actual, inserta un salto de linea. Porque el elemento actual es el que sobresalta espacio disponible
          $(element).before('<div class="page-break"></div><div class="nova-pdf-header-fix"></div><div class="calidad-paginado"> de </div>'); // insertar un div con el alto del footer
