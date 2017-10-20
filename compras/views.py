@@ -87,6 +87,9 @@ class SeguimientoComprasLista(View):
             ws.write(row_num, col_num, columns[col_num], titulo_style)
 
         argumentos = {}
+        arg_req_estado = {}
+        arg_ord_estado = {}
+        arg_cot_estado = {}
         campos_formulario = []
         for campos in SeguimientoComprasFilterForm():
             campos_formulario.append(campos.name)
@@ -114,7 +117,7 @@ class SeguimientoComprasLista(View):
 
                     if datosPost == 'requisicion_canceladas':
                         if request.POST[datosPost] == '-980':
-                            argumentos['req_estado_last__exact'] != '980'
+                            arg_req_estado['req_estado_last'] = '980'
                         else:
                             argumentos['req_estado_last__exact'] = request.POST[datosPost]
 
@@ -137,7 +140,7 @@ class SeguimientoComprasLista(View):
 
                     if datosPost == 'cotizacion_canceladas':
                         if request.POST[datosPost] == '-980':
-                            argumentos['cot_estado_last__exact'] != '980'
+                            arg_cot_estado['cot_estado_last'] = '980'
                         else:
                             argumentos['cot_estado_last__exact'] = request.POST[datosPost]
 
@@ -152,7 +155,7 @@ class SeguimientoComprasLista(View):
 
                     if datosPost == 'oc_canceladas':
                         if request.POST[datosPost] == '-980':
-                            argumentos['ord_estado_last__exact'] != '980'
+                            arg_ord_estado['ord_estado_last'] = '980'
                         else:
                             argumentos['ord_estado_last__exact'] = request.POST[datosPost]
 
@@ -173,7 +176,7 @@ class SeguimientoComprasLista(View):
                     if datosPost == 'recepcion':
                         argumentos['ord_recepcion__exact'] = request.POST[datosPost]
 
-        rows = VIEW_SCOMPRAS.objects.using('jde_p').filter(**argumentos).values_list(
+        rows = VIEW_SCOMPRAS.objects.using('jde_p').filter(**argumentos).exclude(**arg_req_estado).exclude(**arg_cot_estado).exclude(**arg_ord_estado).values_list(
             'req_compania', 'req_un', 'req', 'req_tipo', 'req_generador', 'req_fecha_creacion', 'req_fecha_necesidad',
             'req_linea', 'req_linea_tipo', 'req_estado_last', 'req_estado_next', 'req_comprador_desc',
             'req_item_numero', 'req_item_desc', 'req_cantidad_solicitada', 'req_udm', 'req_glclass', 'req_glclass_desc',
