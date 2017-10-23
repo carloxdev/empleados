@@ -46,6 +46,9 @@
 	tbody, thead{
 		overflow: hidden;
 	}
+	.nova-fix-no-records{
+		height: 40px !important;
+	}
 /* 	tr{
 		display: flex;   
     	flex-flow:row wrap;
@@ -90,6 +93,9 @@
 	}
 	.nova-centrar{
 		text-align: center;
+	}
+	.nova-fix-no-records{
+		height: 40px !important;
 	}
 
 }

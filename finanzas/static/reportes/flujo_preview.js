@@ -360,6 +360,7 @@ GridEgresos.prototype.click_BotonOcultar = function (e){
     e.data.$boton_ocultar_egresos.addClass('hide')
 }
 GridEgresos.prototype.aplicar_Estilos = function (e) {
+    $('.k-grid-norecords').addClass("nova-fix-no-records")
     $('.k-grid table').addClass("nova-grid-width-fix")
     var grid = $("#grid_resultados").data("kendoGrid");
     grid.hideColumn(3)
@@ -677,7 +678,7 @@ GridIngresos.prototype.click_BotonOcultar = function (e){
     e.data.$boton_ocultar.addClass('hide')
 }
 GridIngresos.prototype.aplicar_Estilos = function (e) {
-
+  $('.k-grid-norecords').addClass("nova-fix-no-records")
   $('.k-grid table').addClass("nova-grid-width-fix")
     var grid = $("#grid_resultados_ingresos").data("kendoGrid");
     grid.hideColumn(3)

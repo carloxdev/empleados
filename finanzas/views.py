@@ -69,7 +69,8 @@ class ViaticoCabeceraNuevo(View):
 
                 return redirect(
                     get_Url_With_Querystring(
-                        reverse('finanzas:viatico_editar', kwargs={'_pk': viatico_cabecera.pk}),
+                        reverse('finanzas:viatico_editar', kwargs={
+                                '_pk': viatico_cabecera.pk}),
                         new=True
                     )
                 )
@@ -135,7 +136,8 @@ class ViaticoCabeceraEditar(View):
 
                     new_data.updated_by = _request.user.profile
                     new_data.save()
-                    messages.success(_request, "Se modifico la solicitud exitosamente")
+                    messages.success(
+                        _request, "Se modifico la solicitud exitosamente")
 
                 except Exception as e:
                     messages.error(_request, str(e))
@@ -143,14 +145,15 @@ class ViaticoCabeceraEditar(View):
         elif 'fin_captura' in _request.POST:
 
             try:
-                ViaticoBusiness.set_FinalizarCaptura(viatico_cabecera, _request.user)
+                ViaticoBusiness.set_FinalizarCaptura(
+                    viatico_cabecera, _request.user)
                 ViaticoBusiness.send_Mail_ToFinish(
                     "APPS: Viatico V-%s de %s (%s) pendiente de autorizar por %s (%s)" % (
-                            viatico_cabecera.id,
-                            viatico_cabecera.empleado_descripcion,
-                            viatico_cabecera.empleado_clave,
-                            viatico_cabecera.autorizador_descripcion,
-                            viatico_cabecera.autorizador_clave,
+                        viatico_cabecera.id,
+                        viatico_cabecera.empleado_descripcion,
+                        viatico_cabecera.empleado_clave,
+                        viatico_cabecera.autorizador_descripcion,
+                        viatico_cabecera.autorizador_clave,
                     ),
                     "Se registro el viatico V-%s de %s (%s) por %s pesos. Y esta pendiente de autorizar por %s (%s)." % (
                         viatico_cabecera.id,
@@ -209,6 +212,7 @@ class ViaticoCabeceraCancelar(View):
 
 
 class AnticipoLista(View):
+
     def __init__(self):
         self.template_name = 'anticipo/anticipo_lista.html'
 
@@ -269,10 +273,16 @@ class FlujoPreview(View):
     def get(self, request):
         datos = request.session['datos']
         clave = datos['compania']
-        compania = VIEW_COMPANIAS.objects.using('jde_p').get(comp_code=clave)
-        contexto = {
-            'dato': datos,
-            'compania': compania,
-        }
+        if clave != '':
+            compania = VIEW_COMPANIAS.objects.using(
+                'jde_p').get(comp_code=clave)
+            contexto = {
+                'dato': datos,
+                'compania': compania,
+            }
+        else:
+            contexto = {
+                'dato': datos,
+            }
 
         return render(request, self.template_name, contexto)
