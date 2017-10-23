@@ -47,9 +47,9 @@
                                         <i class="icon icon-left mdi mdi-search nova-white"></i> Filtros
                                     </a>
                                     
-                                    <!--<button type="submit" class="btn nova-btn btn-rounded btn-space btn-success" id="boton_preview">
+                                    <button type="submit" class="btn nova-btn btn-rounded btn-space btn-success" id="boton_preview">
                                        <i class="icon icon-left mdi mdi-collection-pdf nova-white"></i> Preview
-                                   </button>-->
+                                   </button>
                                 </div>
                             </div>
                         </div>
@@ -80,6 +80,10 @@
                             </div>
                         </div>
                         <div class="nova-contenido-borde" id="container-flujo-ingresos"></div>
+                        <div class="nova-border-buttons print-hidden ">
+                            <a class="btn nova-btn btn-rounded btn-sm btn-space btn-default " id="boton_mostrar">Mostrar meses</a>
+                            <a class="btn nova-btn btn-rounded btn-sm btn-space btn-default hide" id="boton_ocultar">Ocultar meses</a>
+                        </div>
                         <div id="grid_resultados_ingresos"></div>
                   </div>
             </div>
@@ -91,11 +95,14 @@
                     <div class="panel panel-default panel-table nova-panel-table">
                         <div class="panel-heading panel-border nova-panel-heading">
                             <div class="widget-head nova-widget-head">
-
                                 <span class="title hidden-xs">Flujo de egresos</span>
                             </div>
                         </div>
                         <div class="nova-contenido-borde" id="container-flujo"></div>
+                        <div class="nova-border-buttons print-hidden ">
+                            <a class="btn nova-btn btn-rounded btn-sm btn-space btn-default " id="boton_mostrar_egresos"> Mostrar meses</a>
+                            <a class="btn nova-btn btn-rounded btn-sm btn-space btn-default hide" id="boton_ocultar_egresos"> Ocultar meses</a>
+                        </div>
                         <div id="grid_resultados"></div>
                   </div>
             </div>

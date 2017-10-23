@@ -76,11 +76,11 @@ PopupFiltros.prototype.llenar_Titulo = function (e) {
         if(e.data.$compania.val()==''){ compania = 'TODOS' }else{ compania = e.data.$compania.select2('data')[0].text }
         if(e.data.$proyecto.val()==''){ proyecto = 'TODOS' }else{ proyecto = e.data.$proyecto.val() }
         if(e.data.$centro_costos.val()==''){ centro_costos = 'TODOS' }else{ centro_costos = e.data.$centro_costos.val() }
-        e.data.$titulo.append('<b>AÑO:</b>"20'+anio+'", <b>COMPAÑIA:</b>"'+compania+'",<b>PROYECTO:</b>"'+proyecto+'",<b>CENTRO DE COSTOS:</b>"'+centro_costos+'"')
+        e.data.$titulo.append('<b>AÑO:</b>"20'+anio+'". <br> <b>COMPAÑIA:</b>"'+compania+'". <br> <b>PROYECTO:</b>"'+proyecto+'". <br> <b>CENTRO DE COSTOS:</b>"'+centro_costos+'".')
     }else{
         this.$titulo.empty()
         var anio = this.$anio.val()
-        this.$titulo.append('<b>AÑO:</b>"20'+anio+'", <b>COMPAÑIA:</b>"TODOS",<b>PROYECTO:</b>"TODOS",<b>CENTRO DE COSTOS:</b>"TODOS"')
+        this.$titulo.append('<b>AÑO:</b>"20'+anio+'".<br> <b>COMPAÑIA:</b>"TODOS". <br> <b>PROYECTO:</b>"TODOS". <br><b>CENTRO DE COSTOS:</b>"TODOS".')
     }
     
 }
@@ -127,7 +127,6 @@ function TarjetaResultados(){
     this.grid_ingresos = new GridIngresos()
 }
 
-
 /*-----------------------------------------------*\
          OBJETO: GridEgresos
 \*-----------------------------------------------*/
@@ -135,9 +134,12 @@ function TarjetaResultados(){
 function GridEgresos() {
 
    this.$id = $("#grid_resultados")
+   this.$boton_mostrar_egresos= $("#boton_mostrar_egresos")
+   this.$boton_ocultar_egresos = $("#boton_ocultar_egresos")
    this.kfuente_datos = null
    this.kgrid = null
    this.agrupar_Informacion()
+   this.init_Events()
    // this.init()
 }
 GridEgresos.prototype.init = function (_resultado) {
@@ -145,6 +147,10 @@ GridEgresos.prototype.init = function (_resultado) {
    kendo.culture("es-MX")
    this.kfuente_datos = new kendo.data.DataSource(this.get_DataSourceConfig(_resultado))
    this.kgrid = this.$id.kendoGrid(this.get_Configuracion())
+}
+GridEgresos.prototype.init_Events = function (){
+  this.$boton_mostrar_egresos.on('click', this, this.click_BotonMeses)
+  this.$boton_ocultar_egresos.on('click', this, this.click_BotonOcultar)
 }
 GridEgresos.prototype.agrupar_Informacion = function (){
     var valor= ''
@@ -286,14 +292,12 @@ GridEgresos.prototype.get_Columnas = function () {
     return [
         {   field: "cuenta_clase_desc",
             title: "Descripción",
-            locked: true,
             width: "150px",
             template:"<strong>#=cuenta_clase_desc#</strong>",
             footerTemplate: "TOTAL",
         },
         {   field: "total",
             title: "Total",
-            locked: true,
             width:"150px",
             format: "{0:c}",
             aggregates: ["sum"],
@@ -301,7 +305,6 @@ GridEgresos.prototype.get_Columnas = function () {
         },
         {   field: "cxp",
             title: "CXP",
-            locked: true,
             width:"150px",
             format: "{0:c}",
             aggregates: ["sum"],
@@ -310,7 +313,7 @@ GridEgresos.prototype.get_Columnas = function () {
         {   field: "enero",
             title: "Enero",
             format: "{0:c}",
-            width:"120px",
+            width:"150px",
             aggregates: ["sum"],
             footerTemplate: "$#: kendo.toString(sum, '\\#\\#,\\#.\\#\\#') #",
         },
@@ -319,84 +322,130 @@ GridEgresos.prototype.get_Columnas = function () {
             format: "{0:c}",
             aggregates: ["sum"],
             footerTemplate: "$#: kendo.toString(sum, '\\#\\#,\\#.\\#\\#') #",
-            width:"120px" 
+            width:"150px" 
         },
         {   field: "marzo",
             title: "Marzo",
             format: "{0:c}",
             aggregates: ["sum"],
             footerTemplate: "$#: kendo.toString(sum, '\\#\\#,\\#.\\#\\#') #",
-            width:"120px" 
+            width:"150px" 
         },
         {   field: "abril", 
             title: "Abril",
             format: "{0:c}",
             aggregates: ["sum"],
             footerTemplate: "$#: kendo.toString(sum, '\\#\\#,\\#.\\#\\#') #",
-            width:"120px" 
+            width:"150px" 
         },
         {   field: "mayo",
             title: "Mayo",
             format: "{0:c}",
             aggregates: ["sum"],
             footerTemplate: "$#: kendo.toString(sum, '\\#\\#,\\#.\\#\\#') #",
-            width:"120px"
+            width:"150px"
         },
         {   field: "junio",
             title: "Junio",
             format: "{0:c}",
             aggregates: ["sum"],
             footerTemplate: "$#: kendo.toString(sum, '\\#\\#,\\#.\\#\\#') #",
-            width:"120px" 
+            width:"150px" 
         },
         {   field: "julio",
             title: "Julio",
             format: "{0:c}",
             aggregates: ["sum"],
             footerTemplate: "$#: kendo.toString(sum, '\\#\\#,\\#.\\#\\#') #",
-            width:"120px"
+            width:"150px"
         },
         {   field: "agosto",
             title: "Agosto",
             format: "{0:c}",
             aggregates: ["sum"],
             footerTemplate: "$#: kendo.toString(sum, '\\#\\#,\\#.\\#\\#') #",
-            width:"120px"
+            width:"150px"
         },
         {   field: "septiembre",
             title: "Septiembre",
             format: "{0:c}",
             aggregates: ["sum"],
             footerTemplate: "$#: kendo.toString(sum, '\\#\\#,\\#.\\#\\#') #",
-            width:"120px"
+            width:"150px"
         },
         {   field: "octubre",
             title: "Octubre",
             format: "{0:c}",
             aggregates: ["sum"],
             footerTemplate: "$#: kendo.toString(sum, '\\#\\#,\\#.\\#\\#') #",
-            width:"120px"
+            width:"150px"
         },
         {   field: "noviembre",
             title: "Noviembre",
             format: "{0:c}",
             aggregates: ["sum"],
             footerTemplate: "$#: kendo.toString(sum, '\\#\\#,\\#.\\#\\#') #",
-            width:"120px"
+            width:"150px"
         },
         {   field: "diciembre",
             title: "Diciembre",
             format: "{0:c}",
             aggregates: ["sum"],
             footerTemplate: "$#: kendo.toString(sum, '\\#\\#,\\#.\\#\\#') #",
-            width:"120px"
+            width:"150px"
         },
         
     ]
 }
+GridEgresos.prototype.click_BotonMeses = function (e){
+    var grid = $("#grid_resultados").data("kendoGrid");
+    grid.showColumn(3)
+    grid.showColumn(4)
+    grid.showColumn(5)
+    grid.showColumn(6)
+    grid.showColumn(7)
+    grid.showColumn(8)
+    grid.showColumn(9)
+    grid.showColumn(10)
+    grid.showColumn(11)
+    grid.showColumn(12)
+    grid.showColumn(13)
+    grid.showColumn(14)
+    e.data.$boton_mostrar_egresos.addClass('hide')
+    e.data.$boton_ocultar_egresos.removeClass('hide')
+}
+GridEgresos.prototype.click_BotonOcultar = function (e){
+    var grid = $("#grid_resultados").data("kendoGrid");
+    grid.hideColumn(3)
+    grid.hideColumn(4)
+    grid.hideColumn(5)
+    grid.hideColumn(6)
+    grid.hideColumn(7)
+    grid.hideColumn(8)
+    grid.hideColumn(9)
+    grid.hideColumn(10)
+    grid.hideColumn(11)
+    grid.hideColumn(12)
+    grid.hideColumn(13)
+    grid.hideColumn(14)
+    e.data.$boton_mostrar_egresos.removeClass('hide')
+    e.data.$boton_ocultar_egresos.addClass('hide')
+}
 GridEgresos.prototype.aplicar_Estilos = function (e) {
-
-    $('.k-grid-content-locked').addClass("nova-grid-fix-static")
+    $('.k-grid table').addClass("nova-grid-width-fix")
+    var grid = $("#grid_resultados").data("kendoGrid");
+    grid.hideColumn(3)
+    grid.hideColumn(4)
+    grid.hideColumn(5)
+    grid.hideColumn(6)
+    grid.hideColumn(7)
+    grid.hideColumn(8)
+    grid.hideColumn(9)
+    grid.hideColumn(10)
+    grid.hideColumn(11)
+    grid.hideColumn(12)
+    grid.hideColumn(13)
+    grid.hideColumn(14)
 }
 
 /*-----------------------------------------------*\
@@ -406,16 +455,21 @@ GridEgresos.prototype.aplicar_Estilos = function (e) {
 function GridIngresos() {
 
    this.$id = $("#grid_resultados_ingresos")
+   this.$boton_meses = $("#boton_mostrar")
+   this.$boton_ocultar = $("#boton_ocultar")
    this.kfuente_datos = null
    this.kgrid = null
    this.agrupar_Informacion()
-   // this.init()
+   this.init_Events()
 }
 GridIngresos.prototype.init = function (_resultado) {
-   $("#grid_resultados_ingresos").empty()
    kendo.culture("es-MX")
    this.kfuente_datos = new kendo.data.DataSource(this.get_DataSourceConfig(_resultado))
    this.kgrid = this.$id.kendoGrid(this.get_Configuracion())
+}
+GridIngresos.prototype.init_Events = function (){
+  this.$boton_meses.on('click', this, this.click_BotonMeses)
+  this.$boton_ocultar.on('click', this, this.click_BotonOcultar)
 }
 GridIngresos.prototype.agrupar_Informacion = function (){
     var valor= ''
@@ -541,7 +595,6 @@ GridIngresos.prototype.get_Configuracion = function () {
       sortable: false,
       resizable: true,
       selectable: true,
-      scrollable: true,
       columns: this.get_Columnas(),
       scrollable: true,
       editable: false,
@@ -557,14 +610,12 @@ GridIngresos.prototype.get_Columnas = function () {
     return [
         {   field: "cuenta_clase_desc",
             title: "Descripción",
-            locked: true,
             width: "150px",
             template:"<strong>#=cuenta_clase_desc#</strong>",
             footerTemplate: "TOTAL",
         },
         {   field: "total",
             title: "Total",
-            locked: true,
             width:"150px",
             format: "{0:c}",
             aggregates: ["sum"],
@@ -572,7 +623,6 @@ GridIngresos.prototype.get_Columnas = function () {
         },
         {   field: "cxc",
             title: "CXC",
-            locked: true,
             width:"150px",
             format: "{0:c}",
             aggregates: ["sum"],
@@ -581,7 +631,7 @@ GridIngresos.prototype.get_Columnas = function () {
         {   field: "enero",
             title: "Enero",
             format: "{0:c}",
-            width:"120px",
+            width:"150px",
             aggregates: ["sum"],
             footerTemplate: "$#: kendo.toString(sum, '\\#\\#,\\#.\\#\\#') #",
         },
@@ -590,85 +640,131 @@ GridIngresos.prototype.get_Columnas = function () {
             format: "{0:c}",
             aggregates: ["sum"],
             footerTemplate: "$#: kendo.toString(sum, '\\#\\#,\\#.\\#\\#') #",
-            width:"120px" 
+            width:"150px" 
         },
         {   field: "marzo",
             title: "Marzo",
             format: "{0:c}",
             aggregates: ["sum"],
             footerTemplate: "$#: kendo.toString(sum, '\\#\\#,\\#.\\#\\#') #",
-            width:"120px" 
+            width:"150px" 
         },
         {   field: "abril", 
             title: "Abril",
             format: "{0:c}",
             aggregates: ["sum"],
             footerTemplate: "$#: kendo.toString(sum, '\\#\\#,\\#.\\#\\#') #",
-            width:"120px" 
+            width:"150px" 
         },
         {   field: "mayo",
             title: "Mayo",
             format: "{0:c}",
             aggregates: ["sum"],
             footerTemplate: "$#: kendo.toString(sum, '\\#\\#,\\#.\\#\\#') #",
-            width:"120px"
+            width:"150px"
         },
         {   field: "junio",
             title: "Junio",
             format: "{0:c}",
             aggregates: ["sum"],
             footerTemplate: "$#: kendo.toString(sum, '\\#\\#,\\#.\\#\\#') #",
-            width:"120px" 
+            width:"150px" 
         },
         {   field: "julio",
             title: "Julio",
             format: "{0:c}",
             aggregates: ["sum"],
             footerTemplate: "$#: kendo.toString(sum, '\\#\\#,\\#.\\#\\#') #",
-            width:"120px"
+            width:"150px"
         },
         {   field: "agosto",
             title: "Agosto",
             format: "{0:c}",
             aggregates: ["sum"],
             footerTemplate: "$#: kendo.toString(sum, '\\#\\#,\\#.\\#\\#') #",
-            width:"120px"
+            width:"150px"
         },
         {   field: "septiembre",
             title: "Septiembre",
             format: "{0:c}",
             aggregates: ["sum"],
             footerTemplate: "$#: kendo.toString(sum, '\\#\\#,\\#.\\#\\#') #",
-            width:"120px"
+            width:"150px"
         },
         {   field: "octubre",
             title: "Octubre",
             format: "{0:c}",
             aggregates: ["sum"],
             footerTemplate: "$#: kendo.toString(sum, '\\#\\#,\\#.\\#\\#') #",
-            width:"120px"
+            width:"150px"
         },
         {   field: "noviembre",
             title: "Noviembre",
             format: "{0:c}",
             aggregates: ["sum"],
             footerTemplate: "$#: kendo.toString(sum, '\\#\\#,\\#.\\#\\#') #",
-            width:"120px"
+            width:"150px"
         },
         {   field: "diciembre",
             title: "Diciembre",
             format: "{0:c}",
             aggregates: ["sum"],
             footerTemplate: "$#: kendo.toString(sum, '\\#\\#,\\#.\\#\\#') #",
-            width:"120px"
+            width:"150px"
         },
     ]
 }
+GridIngresos.prototype.click_BotonMeses = function (e){
+    var grid = $("#grid_resultados_ingresos").data("kendoGrid");
+    grid.showColumn(3)
+    grid.showColumn(4)
+    grid.showColumn(5)
+    grid.showColumn(6)
+    grid.showColumn(7)
+    grid.showColumn(8)
+    grid.showColumn(9)
+    grid.showColumn(10)
+    grid.showColumn(11)
+    grid.showColumn(12)
+    grid.showColumn(13)
+    grid.showColumn(14)
+    e.data.$boton_meses.addClass('hide')
+    e.data.$boton_ocultar.removeClass('hide')
+}
+GridIngresos.prototype.click_BotonOcultar = function (e){
+    var grid = $("#grid_resultados_ingresos").data("kendoGrid");
+    grid.hideColumn(3)
+    grid.hideColumn(4)
+    grid.hideColumn(5)
+    grid.hideColumn(6)
+    grid.hideColumn(7)
+    grid.hideColumn(8)
+    grid.hideColumn(9)
+    grid.hideColumn(10)
+    grid.hideColumn(11)
+    grid.hideColumn(12)
+    grid.hideColumn(13)
+    grid.hideColumn(14)
+    e.data.$boton_meses.removeClass('hide')
+    e.data.$boton_ocultar.addClass('hide')
+}
 GridIngresos.prototype.aplicar_Estilos = function (e) {
 
-    $('.k-grid-content-locked').addClass("nova-grid-fix-static")
+  $('.k-grid table').addClass("nova-grid-width-fix")
+    var grid = $("#grid_resultados_ingresos").data("kendoGrid");
+    grid.hideColumn(3)
+    grid.hideColumn(4)
+    grid.hideColumn(5)
+    grid.hideColumn(6)
+    grid.hideColumn(7)
+    grid.hideColumn(8)
+    grid.hideColumn(9)
+    grid.hideColumn(10)
+    grid.hideColumn(11)
+    grid.hideColumn(12)
+    grid.hideColumn(13)
+    grid.hideColumn(14)
 }
-
 /*-----------------------------------------------*\
          OBJETO: GraficaEgresos
 \*-----------------------------------------------*/
