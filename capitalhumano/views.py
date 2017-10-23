@@ -505,13 +505,16 @@ class EmpleadoExpedienteCapacitacion(View):
                 capacitacion.created_by = request.user.profile
                 capacitacion.save()
 
-                archivo = Archivo()
-                archivo.tipo_archivo = 'cap'
-                archivo.archivo = datos_formulario.get('archivocap')
-                archivo.content_type = content_type
-                archivo.object_id = capacitacion.id
-                archivo.created_by = request.user.profile
-                archivo.save()
+                files = request.FILES.getlist('archivocap')
+
+                for file in files:
+                    archivo = Archivo()
+                    archivo.tipo_archivo = 'cap'
+                    archivo.archivo = file
+                    archivo.content_type = content_type
+                    archivo.object_id = capacitacion.id
+                    archivo.created_by = request.user.profile
+                    archivo.save()
 
                 return redirect(reverse('capitalhumano:empleado_expediente',
                                         kwargs={'_numero_empleado': _numero_empleado})
@@ -521,7 +524,8 @@ class EmpleadoExpedienteCapacitacion(View):
                 messages.error(request, str(e))
 
         contexto = {
-            'form': form
+            'form': form,
+            'empleado': empleado,
         }
         return render(request, self.template_name, contexto)
 

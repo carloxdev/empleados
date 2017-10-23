@@ -61,9 +61,15 @@
         <div class="row">
             <div class="col-xs-12 nova-col">
                 <div class="panel panel-default panel-table nova-panel-table">
+                    <div class="panel-heading panel-border nova-panel-heading">
+                            <div class="widget-head nova-widget-head">
+                                <span class="title hidden-xs">Filtros aplicados</span>
+                            </div>
+                        </div>
                     <div class="panel-heading nova-contenido-borde nova-panel-heading">
                         <div class="widget-head nova-widget-head">
                             <span class="nova-informacion" id="id_titulo"></span>
+                            <br>
                         </div>
                     </div>
                 </div>
@@ -81,8 +87,10 @@
                         </div>
                         <div class="nova-contenido-borde" id="container-flujo-ingresos"></div>
                         <div class="nova-border-buttons print-hidden ">
-                            <a class="btn nova-btn btn-rounded btn-sm btn-space btn-default " id="boton_mostrar">Mostrar meses</a>
-                            <a class="btn nova-btn btn-rounded btn-sm btn-space btn-default hide" id="boton_ocultar">Ocultar meses</a>
+                            <div class="switch-button switch-button-sm">
+                              <input type="checkbox" checked="true" name="meses_ingresos" id="meses_ingresos"><span>
+                                <label for="meses_ingresos"></label></span>
+                            </div>
                         </div>
                         <div id="grid_resultados_ingresos"></div>
                   </div>
@@ -100,8 +108,10 @@
                         </div>
                         <div class="nova-contenido-borde" id="container-flujo"></div>
                         <div class="nova-border-buttons print-hidden ">
-                            <a class="btn nova-btn btn-rounded btn-sm btn-space btn-default " id="boton_mostrar_egresos"> Mostrar meses</a>
-                            <a class="btn nova-btn btn-rounded btn-sm btn-space btn-default hide" id="boton_ocultar_egresos"> Ocultar meses</a>
+                            <div class="switch-button switch-button-sm">
+                              <input type="checkbox" checked="true" name="meses_egresos" id="meses_egresos"><span>
+                                <label for="meses_egresos"></label></span>
+                            </div>
                         </div>
                         <div id="grid_resultados"></div>
                   </div>

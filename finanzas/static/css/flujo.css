@@ -6,10 +6,20 @@
 	border-right: 1px solid #d4d4d4 !important;
 	padding-top: 5px !important;
 	padding-left: 5px !important;
+	padding-bottom: 5px !important;
 }
 .nova-grid-fix-static{
 	height: auto !important;
 }
 .nova-informacion{
 	text-align: center !important;
+}
+.switch-button{
+	width: 85px !important;
+}
+.switch-button label:before{
+	content: "OCULTAR";
+}
+.switch-button input[type=checkbox]:checked+span label:before{
+	content: "MESES";
 }

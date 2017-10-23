@@ -134,8 +134,7 @@ function TarjetaResultados(){
 function GridEgresos() {
 
    this.$id = $("#grid_resultados")
-   this.$boton_mostrar_egresos= $("#boton_mostrar_egresos")
-   this.$boton_ocultar_egresos = $("#boton_ocultar_egresos")
+   this.$meses= $("#meses_egresos")
    this.kfuente_datos = null
    this.kgrid = null
    this.agrupar_Informacion()
@@ -149,8 +148,7 @@ GridEgresos.prototype.init = function (_resultado) {
    this.kgrid = this.$id.kendoGrid(this.get_Configuracion())
 }
 GridEgresos.prototype.init_Events = function (){
-  this.$boton_mostrar_egresos.on('click', this, this.click_BotonMeses)
-  this.$boton_ocultar_egresos.on('click', this, this.click_BotonOcultar)
+  this.$meses.on('change', this, this.click_BotonSwitch)
 }
 GridEgresos.prototype.agrupar_Informacion = function (){
     var valor= ''
@@ -411,8 +409,6 @@ GridEgresos.prototype.click_BotonMeses = function (e){
     grid.showColumn(12)
     grid.showColumn(13)
     grid.showColumn(14)
-    e.data.$boton_mostrar_egresos.addClass('hide')
-    e.data.$boton_ocultar_egresos.removeClass('hide')
 }
 GridEgresos.prototype.click_BotonOcultar = function (e){
     var grid = $("#grid_resultados").data("kendoGrid");
@@ -428,8 +424,14 @@ GridEgresos.prototype.click_BotonOcultar = function (e){
     grid.hideColumn(12)
     grid.hideColumn(13)
     grid.hideColumn(14)
-    e.data.$boton_mostrar_egresos.removeClass('hide')
-    e.data.$boton_ocultar_egresos.addClass('hide')
+}
+GridEgresos.prototype.click_BotonSwitch = function (e) {
+  estado = $(this).is(':checked')
+  if(estado == true){
+    tarjeta_resultados.grid_egresos.click_BotonOcultar(e)
+  }else if(estado == false){
+    tarjeta_resultados.grid_egresos.click_BotonMeses(e)
+  }
 }
 GridEgresos.prototype.aplicar_Estilos = function (e) {
     $('.k-grid table').addClass("nova-grid-width-fix")
@@ -455,8 +457,7 @@ GridEgresos.prototype.aplicar_Estilos = function (e) {
 function GridIngresos() {
 
    this.$id = $("#grid_resultados_ingresos")
-   this.$boton_meses = $("#boton_mostrar")
-   this.$boton_ocultar = $("#boton_ocultar")
+   this.$meses = $("#meses_ingresos")
    this.kfuente_datos = null
    this.kgrid = null
    this.agrupar_Informacion()
@@ -468,8 +469,7 @@ GridIngresos.prototype.init = function (_resultado) {
    this.kgrid = this.$id.kendoGrid(this.get_Configuracion())
 }
 GridIngresos.prototype.init_Events = function (){
-  this.$boton_meses.on('click', this, this.click_BotonMeses)
-  this.$boton_ocultar.on('click', this, this.click_BotonOcultar)
+  this.$meses.on('change', this, this.click_BotonSwitch)
 }
 GridIngresos.prototype.agrupar_Informacion = function (){
     var valor= ''
@@ -728,8 +728,6 @@ GridIngresos.prototype.click_BotonMeses = function (e){
     grid.showColumn(12)
     grid.showColumn(13)
     grid.showColumn(14)
-    e.data.$boton_meses.addClass('hide')
-    e.data.$boton_ocultar.removeClass('hide')
 }
 GridIngresos.prototype.click_BotonOcultar = function (e){
     var grid = $("#grid_resultados_ingresos").data("kendoGrid");
@@ -745,8 +743,14 @@ GridIngresos.prototype.click_BotonOcultar = function (e){
     grid.hideColumn(12)
     grid.hideColumn(13)
     grid.hideColumn(14)
-    e.data.$boton_meses.removeClass('hide')
-    e.data.$boton_ocultar.addClass('hide')
+}
+GridIngresos.prototype.click_BotonSwitch = function (e) {
+  estado = $(this).is(':checked')
+  if(estado == true){
+    tarjeta_resultados.grid_ingresos.click_BotonOcultar(e)
+  }else if(estado == false){
+    tarjeta_resultados.grid_ingresos.click_BotonMeses(e)
+  }
 }
 GridIngresos.prototype.aplicar_Estilos = function (e) {
 
