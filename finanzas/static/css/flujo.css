@@ -13,6 +13,10 @@
 }
 .nova-informacion{
 	text-align: center !important;
+	font-size: 15px !important;
+}
+.nova-centrar-texto{
+	text-align: center !important;
 }
 .switch-button{
 	width: 85px !important;

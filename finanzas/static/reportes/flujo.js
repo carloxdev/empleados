@@ -45,6 +45,7 @@ function PopupFiltros() {
     this.$proyecto = $('#id_proyecto')
     this.$centro_costos = $('#id_centro_costos')
     this.$compania = $('#id_compania')
+    this.$nombre_compania = $('#id_nombre_compania')
 
     this.$boton_buscar = $('#boton_buscar')
     this.$boton_limpiar = $('#boton_limpiar')
@@ -76,11 +77,11 @@ PopupFiltros.prototype.llenar_Titulo = function (e) {
         if(e.data.$compania.val()==''){ compania = 'TODOS' }else{ compania = e.data.$compania.select2('data')[0].text }
         if(e.data.$proyecto.val()==''){ proyecto = 'TODOS' }else{ proyecto = e.data.$proyecto.val() }
         if(e.data.$centro_costos.val()==''){ centro_costos = 'TODOS' }else{ centro_costos = e.data.$centro_costos.val() }
-        e.data.$titulo.append('<b>AÑO:</b>"20'+anio+'". <br> <b>COMPAÑIA:</b>"'+compania+'". <br> <b>PROYECTO:</b>"'+proyecto+'". <br> <b>CENTRO DE COSTOS:</b>"'+centro_costos+'".')
+        e.data.$titulo.append('<b>AÑO:</b>"20'+anio+'", <b>COMPAÑIA:</b>"'+compania+'", <b>PROYECTO:</b>"'+proyecto+'", <b>CENTRO DE COSTOS:</b>"'+centro_costos+'".')
     }else{
         this.$titulo.empty()
         var anio = this.$anio.val()
-        this.$titulo.append('<b>AÑO:</b>"20'+anio+'".<br> <b>COMPAÑIA:</b>"TODOS". <br> <b>PROYECTO:</b>"TODOS". <br><b>CENTRO DE COSTOS:</b>"TODOS".')
+        this.$titulo.append('<b>AÑO:</b>"20'+anio+'", <b>COMPAÑIA:</b>"TODOS", <b>PROYECTO:</b>"TODOS",<b>CENTRO DE COSTOS:</b>"TODOS".')
     }
     
 }
@@ -469,6 +470,7 @@ GridIngresos.prototype.init = function (_resultado) {
    this.kgrid = this.$id.kendoGrid(this.get_Configuracion())
 }
 GridIngresos.prototype.init_Events = function (){
+
   this.$meses.on('change', this, this.click_BotonSwitch)
 }
 GridIngresos.prototype.agrupar_Informacion = function (){

@@ -37,7 +37,7 @@
         <h1 class="nova-titulo"> FLUJO POR UNIDAD DE NEGOCIOS </h1>
         <h5 class="nova-informacion">
             <b>AÑO:</b>"20{{ dato.anio }}",
-            <b>COMPAÑIA:</b>"{% if dato.compania != '' %}{{ dato.compania }}{% else %} TODAS{% endif %}",
+            <b>COMPAÑIA:</b>"{% if dato.compania != '' %}{{ compania.book_desc }}{% else %} TODAS{% endif %}",
             <b>PROYECTO:</b>"{% if dato.proyecto != '' %}{{ dato.proyecto }}{% else %} TODOS{% endif %}",
             <b>CENTRO DE COSTOS:</b>"{% if dato.centro_costos != '' %}{{ dato.centro_costos }}{% else %} TODOS{% endif %}".
         </h5>

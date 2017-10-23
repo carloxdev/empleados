@@ -12,6 +12,8 @@ from django.utils.decorators import method_decorator
 from .business import ViaticoBusiness
 from home.decorators import group_required
 
+from jde.models import VIEW_COMPANIAS
+
 from .forms import ViaticoCabeceraForm
 from .forms import ViaticoFilterForm
 from .forms import ViaticoLineaForm
@@ -266,8 +268,11 @@ class FlujoPreview(View):
 
     def get(self, request):
         datos = request.session['datos']
+        clave = datos['compania']
+        compania = VIEW_COMPANIAS.objects.using('jde_p').get(comp_code=clave)
         contexto = {
             'dato': datos,
+            'compania': compania,
         }
 
         return render(request, self.template_name, contexto)
