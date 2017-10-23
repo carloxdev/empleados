@@ -18,11 +18,9 @@
      <link rel="stylesheet" href="{% static 'css/calidad.css' %}"/>
 
    </head>
-      <body class="nova-bg-white nova-pdf-margins nova-font-f-arial" id="contenido"> <!--Aplicar nova ancho pdf-->
+      <body class="nova-bg-white nova-pdf-dimensions nova-font-f-arial" id="contenido"> <!--Aplicar nova ancho pdf-->
 
          <div class="nova-pdf-header">
-            <div class="color-pruebaHeader"></div>
-            <div class="color-pruebaCont"></div>
             <img class="nova-header-formato" src="{% static 'images/formato/cabecera_formato.png' %}">
                <div class="calidad-no-revision"></div>
                <div class="calidad-vigente"></div>
@@ -30,76 +28,73 @@
                <div class="calidad-codigo"></div>
             </img>
             <img class="nova-header-nuvoil" src="{% static 'images/logos/nuvoil.png' %}">
+            <div class="margen-top"></div>
+            <div class="margen-left"></div>
+            <div class="margen-bottom"></div>
+            <div class="margen-right"></div>
          </div>
 
          <div class="wrapper">
 
             <section id="texto-dinamico">
-            
-               <div class="nova-dinamic prueba">
+
+               <div class="nova-dinamic">
                   <div class="nova-font-s-16 nova-bold nova-aling-center">PLAN DE AUDITORIA INTERNA</div>
                   </br>
                   </br>
                </div>
 
-               <div class="nova-dinamic prueba">
+               <div class="nova-dinamic">
                   <strong>Objetivo de la Auditoría:</strong>
                   <p>{{ auditoria.objetivo }}</p>
                </div>
 
-               <div class="nova-dinamic prueba">
+               <div class="nova-dinamic">
                   <strong>Alcance de la Auditoría:</strong>
                   <p>{{ auditoria.alcance }}</p>
                </div>
 
-               <div class="nova-dinamic prueba">
+               <div class="nova-dinamic">
                   <strong>Contratos:</strong>
                   {{ auditoria.contratos|safe }}
                </div>
 
-               <div class="nova-dinamic prueba">
+               <div class="nova-dinamic">
                   <strong>Fecha:</strong>
                   <p>{{ auditoria.fecha }}</p>
                </div>
 
-               <div class="nova-dinamic prueba">
+               <div class="nova-dinamic">
                   <strong>Auditoría:</strong>
                   <p>{{ auditoria.folio }}</p>
                </div>
 
-               <div class="nova-dinamic prueba">
+               <div class="nova-dinamic">
                   <strong>Criterios de la auditoría:</strong>
                   {{ auditoria.criterios|safe }}
                </div>
 
-               <div class="nova-dinamic prueba">
+               <div class="nova-dinamic">
                   <strong>Líder del Equipo Auditor:</strong>
                   {{ auditoria.lider|safe }}
                </div>
 
-               <div class="nova-dinamic prueba">
+               <div class="nova-dinamic">
                   <strong>Auditor (es) Asignados:</strong>
                   {{ auditoria.auditores|safe }}
                </div>
 
-               <div class="nova-dinamic prueba">
+               <div class="nova-dinamic">
                   <strong>Auditores Colaboradores y/o en Entrenamiento:</strong>
                   {{ auditoria.colaboradores|safe }}
                </div>
 
-               <div class="nova-dinamic prueba">
+               <div class="nova-dinamic">
                   <strong>Recursos necesarios:</strong>
                   <p>{{ auditoria.recursos_necesarios }}</p>
                </div>
 
-               <!-- limite -->
-                  <!-- <div class="nova-dinamic prueba">
-                     <strong>Recursos necesarios:</strong>
-                     <p>{{ auditoria.recursos_necesarios }}</p>
-                  </div> -->
-               <!-- limite -->
-
-               <div class="nova-dinamic prueba">
+               <div class="nova-dinamic">
                   <table class="table table-bordered nova-grid-calidad nova-aling-center" id="id_grid_firmas">
                      <tbody>
                         <tr>
@@ -118,16 +113,10 @@
                   </table>
                </div>
             </section>
-            <!-- section -->
-            <!-- section -->
-            <!-- <h3 class="pag pag1"></h3>
-            <div class="insert"></div> -->
          </div><!-- div.wrapper -->
          <div>
             <img class="nova-footer-sgi" src="{% static 'images/logos/sgi.jpg' %}">
-            <div class="color-pruebaFooter"></div>
          </div>
-
       </body>
 
       <!-- jQuery -->

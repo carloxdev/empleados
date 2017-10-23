@@ -29,10 +29,9 @@
      </style> -->
 
    </head>
-      <body class="nova-bg-white nova-pdf-margins nova-font-f-arial nova-ancho-pdf" id="contenido">
+      <body class="nova-bg-white nova-pdf-dimensions nova-font-f-arial" id="contenido">
 
          <div class="nova-pdf-header">
-
             <img class="nova-header-formato" src="{% static 'images/formato/cabecera_formato.png' %}">
                <div class="calidad-no-revision"></div>
                <div class="calidad-vigente"></div>
@@ -44,17 +43,16 @@
             <div class="margen-left"></div>
             <div class="margen-bottom"></div>
             <div class="margen-right"></div>
-            <div class="color-pruebaCont"></div>
          </div>
          <div class="wrapper">
 
             <section id="texto-dinamico">
-               <div class="nova-dinamic prueba">
+               <div class="nova-dinamic">
                   <div class="nova-font-s-16 nova-bold nova-aling-center">CHECK LIST AUDITORIA INTERNA</div>
                   </br>
                </div>
 
-               <div class="nova-dinamic prueba">
+               <div class="nova-dinamic">
                   <div class="row">
                      <div class="col-xs-6">
                         <label class="nova-font-s-16 nova-bold nova-color-black">Auditor: {{ auditor }}</label></br>
@@ -77,16 +75,16 @@
                     {% if requisitos %}
                         {% for requisito in requisitos %}
                            {% if requisito.encabezado %}
-                              <!-- <div class="nova-dinamic prueba"> -->
-                                 <tr class="nova-dinamic prueba">
+                              <!-- <div class="nova-dinamic"> -->
+                                 <tr class="nova-dinamic nova-be-tr">
                                     <td class="nova-td-width-5 nova-ptb-5"><strong>{{ requisito.no }}</strong></td>
                                     <td class="nova-td-width-40 nova-ptb-5"><strong>{{ requisito.requisito }}</strong></td>
                                     <td class="nova-td-width-55 nova-ptb-5"><strong>{{ requisito.hallazgos }}</strong></td>
                                  </tr>
                               <!-- </div> -->
                            {% else %}
-                              <!-- <div class="nova-dinamic prueba"> -->
-                                 <tr class="nova-dinamic prueba">
+                              <!-- <div class="nova-dinamic"> -->
+                                 <tr class="nova-dinamic nova-be-tr">
                                     <td class="nova-td-width-5 nova-ptb-5">{{ requisito.no }}</td>
                                     <td class="nova-td-width-40 nova-ptb-5">{{ requisito.requisito }}</td>
                                     <td class="nova-td-width-55 nova-ptb-5">{{ requisito.hallazgos }}</td>
@@ -105,11 +103,9 @@
                </table>
             </section>
             <!-- section -->
-
          </div>
          <div>
             <img class="nova-footer-sgi" src="{% static 'images/logos/sgi.jpg' %}">
-            <div class="color-pruebaFooter"></div>
          </div>
       <!-- div.wrapper -->
       </body>
