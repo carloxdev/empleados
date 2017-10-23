@@ -18,14 +18,14 @@
      <link rel="stylesheet" href="{% static 'css/calidad.css' %}"/>
 
    </head>
-      <body class="nova-bg-white nova-pdf-dimensions nova-font-f-arial" id="contenido"> <!--Aplicar nova ancho pdf-->
+      <body class="nova-bg-white nova-pdf-dimensions nova-font-f-arial" id="contenido">
 
          <div class="nova-pdf-header">
             <img class="nova-header-formato" src="{% static 'images/formato/cabecera_formato.png' %}">
-               <div class="calidad-no-revision"></div>
-               <div class="calidad-vigente"></div>
+               <div class="calidad-no-revision">{{ revision }}</div>
+               <div class="calidad-vigente">{{ vigencia }}</div>
                <div class="calidad-paginado"></div>
-               <div class="calidad-codigo"></div>
+               <p class="calidad-codigo">{{ codigo }}</p>
             </img>
             <img class="nova-header-nuvoil" src="{% static 'images/logos/nuvoil.png' %}">
             <div class="margen-top"></div>
@@ -41,17 +41,16 @@
                <div class="nova-dinamic">
                   <div class="nova-font-s-16 nova-bold nova-aling-center">PLAN DE AUDITORIA INTERNA</div>
                   </br>
-                  </br>
                </div>
 
                <div class="nova-dinamic">
                   <strong>Objetivo de la Auditoría:</strong>
-                  <p>{{ auditoria.objetivo }}</p>
+                  <p class="nova-parrafo">{{ auditoria.objetivo }}</p>
                </div>
 
                <div class="nova-dinamic">
                   <strong>Alcance de la Auditoría:</strong>
-                  <p>{{ auditoria.alcance }}</p>
+                  <p class="nova-parrafo">{{ auditoria.alcance }}</p>
                </div>
 
                <div class="nova-dinamic">
@@ -91,7 +90,7 @@
 
                <div class="nova-dinamic">
                   <strong>Recursos necesarios:</strong>
-                  <p>{{ auditoria.recursos_necesarios }}</p>
+                  <p class="nova-parrafo">{{ auditoria.recursos_necesarios }}</p>
                </div>
 
                <div class="nova-dinamic">

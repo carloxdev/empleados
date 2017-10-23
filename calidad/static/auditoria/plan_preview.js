@@ -64,12 +64,12 @@ TarjetaResultados.prototype.get_TextoDinamico = function () {
 TarjetaResultados.prototype.set_NumeroPaginas = function (altura) {
 
    var total_paginas = this.$contenido.find('.calidad-paginado').size()
-   var top = 25
+   var top = 24.5
 
    this.$contenido.find('.calidad-paginado').each(function(index, element) {
 
 
-      $(element).html( (index + 1) + " de " + total_paginas).css({'top' : top + 'mm', 'left':'70mm'});
+      $(element).html( "<b>" + (index + 1) + "</b> de <b>" + total_paginas + "</b>").css({'top' : top + 'mm', 'left':'70mm'});
       top +=altura
    })
 }

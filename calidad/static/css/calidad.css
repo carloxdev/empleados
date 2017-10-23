@@ -28,6 +28,10 @@
 .nova-bold {
    font-weight: bold;
 }
+.nova-parrafo {
+   max-width: 171mm;
+   word-wrap: break-word;
+}
 .nova-aling-center {
    text-align:center;
 }
@@ -126,11 +130,32 @@
       width: 103.5mm;
       height: 19.1mm;
    }
+   .calidad-no-revision {
+      position: fixed;
+      top: 13.5mm;
+      left: 85mm;
+      font-size: 3mm;
+   }
+   .calidad-vigente {
+      position: fixed;
+      top: 19mm;
+      left: 85mm;
+      font-size: 3mm;
+   }
    .calidad-paginado {
       position: absolute;
-      /*top: 25mm; intentar con contadores de css
-      left: 70mm;*/
       font-size: 3mm;
+   }
+   .calidad-codigo {
+      position: fixed;
+      top: 14mm;
+      left: 109mm;
+      font-size: 3mm;
+      width: 51mm;
+      line-height: 3.5mm;
+      text-indent: 10mm;
+      margin-bottom: 0mm !important;
+      font-weight: 600 !important;
    }
    .nova-header-nuvoil {
       position: fixed;
@@ -211,8 +236,31 @@
       width: 103.5mm;
       height: 19.1mm;
    }
+   .calidad-no-revision {
+      position: absolute;
+      top: 13.5mm;
+      left: 85mm;
+      font-size: 3mm;
+   }
+   .calidad-vigente {
+      position: absolute;
+      top: 19mm;
+      left: 85mm;
+      font-size: 3mm;
+   }
    .calidad-paginado {
       display: none;
+   }
+   .calidad-codigo {
+      position: absolute;
+      top: 14mm;
+      left: 109mm;
+      font-size: 3mm;
+      width: 51mm;
+      line-height: 3.5mm;
+      text-indent: 10mm;
+      margin-bottom: 0mm !important;
+      font-weight: 600 !important;
    }
    .nova-header-nuvoil {
       position: absolute;

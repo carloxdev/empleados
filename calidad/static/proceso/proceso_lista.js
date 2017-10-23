@@ -106,6 +106,15 @@ PopupProceso.prototype.init_Events = function () {
    this.$id.on("hidden.bs.modal", this, this.hidden_Modal)
    this.$id.on("show.bs.modal", this, this.show_Modal)
 }
+NovaSitio.prototype.get_ConfDatePicker = function () {
+
+   return {
+
+      format: 'dd/mm/yyyy',
+      autoclose: true,
+      language: 'es'
+   }
+}
 PopupProceso.prototype.init_ErrorEvents = function () {
 
    if (this.$id_subproceso_existe.val()) {

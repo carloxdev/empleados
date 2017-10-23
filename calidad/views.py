@@ -43,6 +43,7 @@ from .models import Requisito
 from .models import HallazgoProceso
 from .models import Falla
 from .models import Subproceso
+from .models import Formato
 
 # Formularios:
 from .forms import CriterioForm
@@ -125,6 +126,7 @@ class AuditoriaPlanPreview(View):
 
         auditoria_plan = get_object_or_404(Auditoria, pk=pk)
         contratos_auditoria = AuditoriaContrato.objects.filter(id_auditoria=pk)
+        formato = get_object_or_404(Formato, tipo='plan')
 
         criterios = CalidadMethods.get_FormatoDataList(auditoria_plan.criterio.all(), "criterios", "Sin Seleccionar")
         auditores = CalidadMethods.get_FormatoDataList(auditoria_plan.auditores_designados.all(), "auditores", "Sin Seleccionar")
@@ -159,6 +161,9 @@ class AuditoriaPlanPreview(View):
 
         contexto = {
             'auditoria' : auditoria,
+            'revision' : formato.no_revision,
+            'vigencia' : CalidadMethods.get_FechaVigente(formato.vigencia_inicio),
+            'codigo' : formato.codigo,
             'elaboro': auditoria_plan.auditor_lider,
             'aprobo': auditoria_plan.aprobador,
             'compania': auditoria_plan.compania.split(":")[1],
@@ -731,6 +736,7 @@ class ProcesoCheckListPreview(View):
         auditoria = Auditoria.objects.get(pk = pk)
         procesos = ProcesoAuditoria.objects.filter(auditoria = pk)
         proceso = get_object_or_404(ProcesoAuditoria, pk = pk_pro, auditoria = pk)
+        formato = get_object_or_404(Formato, tipo='check')
 
         formulario = HallazgoProcesoForm()
         formulario_filtro = HallazgoProcesoFilterForm( request.GET )
@@ -768,6 +774,9 @@ class ProcesoCheckListPreview(View):
             'pk_pro': pk_pro,
             'auditor': proceso.auditor_nombre_completo,
             'proceso': proceso.proceso,
+            'revision' : formato.no_revision,
+            'vigencia' : CalidadMethods.get_FechaVigente(formato.vigencia_inicio),
+            'codigo' : formato.codigo,
             'folio': auditoria.folio,
             'subproceso': proceso.subproceso,
             'hallazgos': hallazgos,

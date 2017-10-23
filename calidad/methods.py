@@ -1,6 +1,7 @@
 
 # Python's Libraries
 from datetime import datetime
+from datetime import date
 
 # Django's Libraries
 from django.shortcuts import get_object_or_404
@@ -88,3 +89,8 @@ class CalidadMethods(object):
                 return _texto + '.'
 
         return _texto
+
+
+    @classmethod
+    def get_FechaVigente(self, _fecha):
+        return _fecha.strftime("%b - %y")
