@@ -12,7 +12,7 @@ Permite la solicitud de Viaticos, tomando la configuracion de JD Edwards para de
 
 ![alt text](https://github.com/carloxdev/nova/blob/master/screenshots/viatico_view.png)
 
-El portal permite la rapida consulta de la informacion guardada en el sitema Oracle EBS, permitiendo mostrar la informacion de manera ordenada y generar estadisticas con dicha informacion:
+El portal permite la rapida consulta de la informacion del sistema Oracle EBS, permitiendo mostrar la informacion de manera ordenada y generar estadisticas con dicha informacion:
 
 ![alt text](https://github.com/carloxdev/nova/blob/master/screenshots/expediente.png)
 
