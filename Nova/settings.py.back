@@ -10,7 +10,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '4cxjj7bd@r^-+eel-uwa@a_unfi2xiiuzh^b2f(tonm0=d0s(^'
+SECRET_KEY = 'xxxxxxxxx'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -92,35 +92,35 @@ WSGI_APPLICATION = 'Nova.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'novadb',
-        'USER': 'root',
-        'PASSWORD': '12345',
+        'NAME': 'xxxx',
+        'USER': 'xxxx',
+        'PASSWORD': 'xxx',
         'HOST': '',
         'PORT': '',
     },
     'jde_p': {
         'ENGINE': 'django.db.backends.oracle',
-        'NAME': '10.10.3.210:1521/PDBPDJDE91',
-        'USER': 'system',
-        'PASSWORD': 'Nuv01l2015',
+        'NAME': 'xxxxxx',
+        'USER': 'xxxxx',
+        'PASSWORD': 'xxxxxx',
     },
     'jde_d': {
         'ENGINE': 'django.db.backends.oracle',
-        'NAME': '10.10.3.218:1521/PDBDVJDE91',
-        'USER': 'system',
-        'PASSWORD': 'Nuv01l2015',
+        'NAME': 'xxxxxx',
+        'USER': 'xxxxx',
+        'PASSWORD': 'xxxxxx',
     },
     'ebs_p': {
         'ENGINE': 'django.db.backends.oracle',
-        'NAME': '10.10.3.212:1521/PROD',
-        'USER': 'APPS',
-        'PASSWORD': 'APPS',
+        'NAME': 'xxxxxx',
+        'USER': 'xxxx',
+        'PASSWORD': 'xxxx',
     },
     'ebs_d': {
         'ENGINE': 'django.db.backends.oracle',
         'NAME': '10.10.3.216/DEV',
-        'USER': 'APPS',
-        'PASSWORD': 'APPS',
+        'USER': 'xxxx',
+        'PASSWORD': 'xxxx',
     }
 }
 
